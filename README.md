@@ -8,15 +8,9 @@ HDMI。仓库名称保留了后续扩展到 16 路摄像头的目标。
 
 ## 数据通路
 
-```mermaid
-flowchart LR
-    C[8 × OV7670\n640×480 RGB565] --> R[300 MHz DVP 接收\nPCLK Recovery]
-    R --> F[HREF / VSYNC 滤波\n坏帧恢复]
-    F --> X[异步 FIFO / CDC]
-    X --> D[多通道 DMA\nDDR Framebuffer]
-    D --> M[Mosaic Reader]
-    M --> H[HDMI TX]
-```
+8 路 OV7670（640×480 RGB565）依次经过 300 MHz DVP 接收与 PCLK 恢复、
+HREF/VSYNC 滤波、异步 FIFO/CDC、多通道 DMA 和 DDR 帧缓存，最后由 mosaic
+reader 合成为 HDMI 输出。
 
 主要特性：
 
@@ -35,7 +29,6 @@ flowchart LR
 | --- | --- |
 | `rtl/video/camera/` | OV7670 前端、PCLK 恢复与摄像头 CDC |
 | `rtl/video/framebuffer/` | 多通道 DMA、帧管理和 mosaic reader |
-| `rtl/ip/` | HDMI、VPHY、AXI 等 Vivado IP 源文件 |
 | `rtl/soc/` | Rocket/Chipyard 控制 SoC 生成 RTL |
 | `xdc/` | VU13P、FMC、摄像头、DDR 和 HDMI 约束 |
 | `sim/` | PCLK、IIC、CDC、帧管理和 reader 测试平台 |
