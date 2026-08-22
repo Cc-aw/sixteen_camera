@@ -57,6 +57,9 @@
 #define OV_PCLK_REC_UNSTABLE   0x12CU
 #define OV_PCLK_SNAPSHOT_CTRL   0x130U
 #define OV_PCLK_SNAPSHOT_BASE   0x134U
+#define OV_HREF_GUARD_RECOVERED 0x1D4U
+#define OV_HREF_GUARD_FLUSH     0x1D8U
+#define OV_HREF_GUARD_STATUS    0x1DCU
 
 #define OV_CTRL_REINIT        UINT32_C(0x01)
 #define OV_CTRL_XCLK_DISABLE  UINT32_C(0x02)
@@ -426,6 +429,12 @@ void camera_video_print_status(const CameraConfig *camera)
         camera->csi_base + OV_PCLK_REC_STATUS);
     uint32_t pclk_lock_loss = mmio_read32(
         camera->csi_base + OV_PCLK_REC_LOCK_LOSS);
+    uint32_t href_guard_recovered = mmio_read32(
+        camera->csi_base + OV_HREF_GUARD_RECOVERED);
+    uint32_t href_guard_flush = mmio_read32(
+        camera->csi_base + OV_HREF_GUARD_FLUSH);
+    uint32_t href_guard_status = mmio_read32(
+        camera->csi_base + OV_HREF_GUARD_STATUS);
     uint32_t period_fp = pclk_status & UINT32_C(0x3fff);
 
     console_puts("CAM CH");
@@ -466,6 +475,12 @@ void camera_video_print_status(const CameraConfig *camera)
     console_put_u32(period_fp >> 8);
     console_putc('.');
     console_put_u32(((period_fp & UINT32_C(0xff)) * 100U) >> 8);
+    console_puts(" href(gap/pos/r/f)=");
+    console_put_u32((href_guard_status >> 5) & UINT32_C(0x3f));
+    console_putc('/');
+    console_put_u32((href_guard_status >> 11) & UINT32_C(0x7ff));
+    console_putc('/'); console_put_u32(href_guard_recovered);
+    console_putc('/'); console_put_u32(href_guard_flush);
     console_puts("\r\n");
     ov_print_sccb_status(camera);
 }

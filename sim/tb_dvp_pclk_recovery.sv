@@ -6,7 +6,7 @@ module tb_dvp_pclk_recovery;
     reg frame_boundary = 1'b0;
     reg scramble_data = 1'b0;
     reg [7:0] data = 8'd0;
-    reg [2:0] sample_offset = 3'd4;
+    reg [2:0] sample_offset = 3'd2;
     wire pixel_ce, pixel_href, pixel_vsync, locked;
     wire [7:0] pixel_data;
     wire [1:0] state;
@@ -25,7 +25,7 @@ module tb_dvp_pclk_recovery;
 
     dvp_pclk_recovery #(
         .SEARCH_VALID_EDGES(4), .ACQUIRE_EDGES(4),
-        .DEFAULT_DATA_SAMPLE_OFFSET(4)
+        .DEFAULT_DATA_SAMPLE_OFFSET(2)
     ) dut (
         .clk_300m(clk), .resetn(resetn), .diag_clear(diag_clear),
         .pclk_sample(pclk), .data_sample(data),
@@ -280,14 +280,14 @@ module tb_dvp_pclk_recovery;
             period_est_fp > (24'd13 << 8))
             $fatal(1, "failed to reacquire after period fault");
 
-        // Runtime history selection remains synthesizable for every tap; tap4
+        // Runtime history selection remains synthesizable for every tap; tap2
         // is restored as the operational default after the sweep.
         for (i = 0; i < 5; i = i + 1) begin
             sample_offset = i[2:0];
             send_cycle(2, 10);
             send_cycle(2, 10);
         end
-        sample_offset = 3'd4;
+        sample_offset = 3'd2;
 
         // Toggle DATA every 300 MHz sample to force disagreement between the
         // selected tap and both neighbours. This is diagnostic only.

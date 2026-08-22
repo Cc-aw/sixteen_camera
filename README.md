@@ -144,7 +144,7 @@ TB_DVP_PCLK_RECOVERY=PASS
 已完成并验证的重点包括：
 
 - 8 路摄像头独立、顺序 IIC 初始化；
-- 300 MHz PCLK 恢复和 DATA tap 4 采样；
+- 300 MHz PCLK 恢复和 DATA tap 2 采样；
 - HREF/VSYNC 毛刺过滤；
 - 行边界 CDC 和坏帧恢复；
 - 8 路 DDR 写入与 HDMI mosaic 显示；

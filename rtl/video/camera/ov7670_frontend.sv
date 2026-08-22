@@ -4,8 +4,10 @@
 // OV7670 clock, reset and SCCB section.  State is initialized by FPGA
 // configuration, just as the VHDL declaration initializers are.
 module ov7670_ztachip_ctrl #(
-    parameter integer STARTUP_COUNTDOWN = 18'h3ffff,
-    parameter integer POST_RESET_WAIT_CYCLES = 120000,
+    parameter integer XCLK_TO_PWDN_CYCLES = 120000,
+    parameter integer PWDN_TO_RESET_CYCLES = 120000,
+    parameter integer RESET_TO_SCCB_CYCLES = 240000,
+    parameter integer POST_RESET_WAIT_CYCLES = 240000,
     parameter integer RETRY_WAIT_CYCLES = 2400,
     parameter integer MAX_RETRIES = 3
 ) (
@@ -38,8 +40,14 @@ module ov7670_ztachip_ctrl #(
     reg [31:0] data_sr = 32'hffffffff;
     reg [15:0] sreg;
     reg [7:0] address = 8'd0;
-    reg [17:0] countdown = 18'h3ffff;
-    reg [16:0] post_reset_wait = 17'd0;
+    localparam [1:0] START_XCLK_ONLY = 2'd0;
+    localparam [1:0] START_PWDN_RELEASED = 2'd1;
+    localparam [1:0] START_RESET_RELEASED = 2'd2;
+    localparam [1:0] START_SCCB_READY = 2'd3;
+
+    reg [1:0] startup_state = START_XCLK_ONLY;
+    reg [17:0] startup_wait = 18'd0;
+    reg [17:0] post_reset_wait = 18'd0;
     reg [11:0] retry_wait = 12'd0;
     reg ready = 1'b0;
     reg scl_r = 1'b1;
@@ -61,6 +69,15 @@ module ov7670_ztachip_ctrl #(
     reg [31:0] nack_id_count = 32'd0;
     reg [31:0] nack_register_count = 32'd0;
     reg [31:0] nack_data_count = 32'd0;
+
+    initial begin
+        if (XCLK_TO_PWDN_CYCLES < 1 || XCLK_TO_PWDN_CYCLES > 262143 ||
+            PWDN_TO_RESET_CYCLES < 1 || PWDN_TO_RESET_CYCLES > 262143 ||
+            RESET_TO_SCCB_CYCLES < 1 || RESET_TO_SCCB_CYCLES > 262143 ||
+            POST_RESET_WAIT_CYCLES < 1 ||
+            POST_RESET_WAIT_CYCLES > 262143)
+            $error("OV7670 startup delays must fit the 18-bit counters");
+    end
 
     // Passive diagnostics for the write-only IIC initialization path.
     reg [31:0] ctrl_cycle_count = 32'd0;
@@ -262,9 +279,11 @@ module ov7670_ztachip_ctrl #(
     assign sda_o = data_sr[31];
     assign xclk_12m = (xclk_disable ||
                        !(channel_started || init_grant)) ? 1'b0 : sys_clk;
-    assign reset_n = (force_reset || !channel_started || failed_r ||
-                      (init_request_r && !running)) ? 1'b0 : !countdown[17];
-    assign pwdn = force_pwdn;
+    assign reset_n = (force_reset || !channel_started || failed_r) ? 1'b0 :
+                     ((startup_state == START_RESET_RELEASED) ||
+                      (startup_state == START_SCCB_READY));
+    assign pwdn = force_pwdn || !channel_started || failed_r ||
+                  (startup_state == START_XCLK_ONLY);
     assign scl = scl_r;
     assign done = finished;
     assign failed = failed_r;
@@ -291,8 +310,9 @@ module ov7670_ztachip_ctrl #(
             data_sr <= 32'hffffffff;
             sreg <= 16'h1280;
             address <= 8'd0;
-            countdown <= STARTUP_COUNTDOWN[17:0];
-            post_reset_wait <= 17'd0;
+            startup_state <= START_XCLK_ONLY;
+            startup_wait <= 18'd0;
+            post_reset_wait <= 18'd0;
             retry_wait <= 12'd0;
             ready <= 1'b0;
             scl_r <= 1'b1;
@@ -327,8 +347,9 @@ module ov7670_ztachip_ctrl #(
             data_sr <= 32'hffffffff;
             sreg <= 16'h1280;
             address <= 8'd0;
-            countdown <= STARTUP_COUNTDOWN[17:0];
-            post_reset_wait <= 17'd0;
+            startup_state <= START_XCLK_ONLY;
+            startup_wait <= 18'd0;
+            post_reset_wait <= 18'd0;
             retry_wait <= 12'd0;
             ready <= 1'b0;
             scl_r <= 1'b1;
@@ -356,18 +377,36 @@ module ov7670_ztachip_ctrl #(
                 init_request_r <= 1'b0;
                 running <= 1'b1;
                 channel_started <= 1'b1;
-                countdown <= STARTUP_COUNTDOWN[17:0];
+                startup_state <= START_XCLK_ONLY;
+                startup_wait <= XCLK_TO_PWDN_CYCLES[17:0];
                 ready <= 1'b0;
             end
 
-            if (running && countdown != 18'd0)
-                countdown <= countdown - 1'b1;
-            else if (running)
-                ready <= 1'b1;
+            if (running && !ready) begin
+                if (startup_wait != 18'd0) begin
+                    startup_wait <= startup_wait - 1'b1;
+                end else begin
+                    case (startup_state)
+                        START_XCLK_ONLY: begin
+                            startup_state <= START_PWDN_RELEASED;
+                            startup_wait <= PWDN_TO_RESET_CYCLES[17:0];
+                        end
+                        START_PWDN_RELEASED: begin
+                            startup_state <= START_RESET_RELEASED;
+                            startup_wait <= RESET_TO_SCCB_CYCLES[17:0];
+                        end
+                        START_RESET_RELEASED: begin
+                            startup_state <= START_SCCB_READY;
+                            ready <= 1'b1;
+                        end
+                        default: ready <= 1'b1;
+                    endcase
+                end
+            end
 
             sreg <= register_value(address);
 
-            if (post_reset_wait != 17'd0)
+            if (post_reset_wait != 18'd0)
                 post_reset_wait <= post_reset_wait - 1'b1;
             if (retry_wait != 12'd0)
                 retry_wait <= retry_wait - 1'b1;
@@ -376,7 +415,7 @@ module ov7670_ztachip_ctrl #(
             if (!busy) begin
                 scl_r <= 1'b1;
                 if (running && ready && !finished && !failed_r &&
-                    post_reset_wait == 17'd0 && retry_wait == 12'd0) begin
+                    post_reset_wait == 18'd0 && retry_wait == 12'd0) begin
                     if (divider == 8'h00) begin
                         data_sr <= {3'b100, 8'h42, 1'b0,
                                     sreg[15:8], 1'b0, sreg[7:0], 1'b0, 2'b01};
@@ -460,10 +499,9 @@ module ov7670_ztachip_ctrl #(
                             successful_write_count <= successful_write_count + 1'b1;
                             if (address == 8'h00) begin
                                 address <= 8'h01;
-                                // OV7670 requires at least 1 ms after a COM7
-                                // register reset.  Use the conservative 5 ms
-                                // delay used by the Linux OV7670 driver.
-                                post_reset_wait <= POST_RESET_WAIT_CYCLES[16:0];
+                                // Leave a conservative 10 ms after the COM7
+                                // software reset before continuing the table.
+                                post_reset_wait <= POST_RESET_WAIT_CYCLES[17:0];
                             end else if (address == 8'ha9) begin
                                 address <= 8'haa;
                                 finished <= 1'b1;
@@ -493,7 +531,7 @@ module ov7670_ztachip_ctrl #(
         busy_sr,
         5'd0, first_nack_valid, first_nack_phase, first_nack_write, sreg,
         address, ack_count, nack_count, ack_sample_count,
-        6'd0, countdown, divider,
+        4'd0, startup_state, startup_wait, divider,
         8'h76, sys_clk, reset_n, pwdn, ready, finished, busy, sda_in,
         sda_t, scl_r, sda_o, taken, failed_r, running, init_request_r,
         2'd0, address
@@ -593,7 +631,7 @@ module ov7670_frontend #(
     parameter integer LEFT_MARGIN = 640,
     parameter integer TOP_MARGIN = 300,
     parameter integer VSYNC_FILTER_CYCLES = 256,
-    parameter integer HREF_FILTER_CYCLES = 8,
+    parameter integer HREF_FILTER_CYCLES = 16,
     parameter integer MIN_FRAME_LINES = 470,
     parameter integer MIN_FRAME_INTERVAL_CYCLES = 200000,
     parameter integer FRAME_RESYNC_TIMEOUT_CYCLES = 2000000
@@ -638,9 +676,6 @@ module ov7670_frontend #(
     output wire pixel_resetn,
     output wire [383:0] axis_diag
 );
-    localparam integer SENSOR_X_WIDTH = (SENSOR_WIDTH <= 1) ? 1 :
-                                        $clog2(SENSOR_WIDTH);
-
     function automatic [31:0] gray_to_binary(input [31:0] gray);
         integer bit_index;
         begin
@@ -755,9 +790,9 @@ module ov7670_frontend #(
     wire [23:0] pclk_phase_error_at_loss;
     wire [15:0] pclk_interval_at_loss;
     (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg [2:0] recovery_sample_offset_sync1 = 3'd4;
+    reg [2:0] recovery_sample_offset_sync1 = 3'd2;
     (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg [2:0] recovery_sample_offset_video = 3'd4;
+    reg [2:0] recovery_sample_offset_video = 3'd2;
     reg [15:0] pclk_line_current = 16'd0;
     reg [15:0] pclk_line_last = 16'd0;
     reg [15:0] pclk_line_min = 16'hffff;
@@ -803,6 +838,17 @@ module ov7670_frontend #(
     reg [HREF_RUN_WIDTH-1:0] href_high_run = {HREF_RUN_WIDTH{1'b0}};
     reg [HREF_RUN_WIDTH-1:0] href_low_run = {HREF_RUN_WIDTH{1'b0}};
     reg href_filtered = 1'b0;
+    wire href_guard_byte_accept;
+    wire href_guard_line_start;
+    wire href_guard_last_byte;
+    wire href_guard_line_end;
+    wire href_guard_active;
+    wire href_guard_discarding;
+    wire [31:0] href_guard_recovered_count;
+    wire [31:0] href_guard_flush_count;
+    wire [5:0] href_guard_gap_last;
+    wire [5:0] href_guard_gap_max;
+    wire [10:0] href_guard_flush_position;
 
     initial begin
         if (SENSOR_WIDTH != 640 || SENSOR_HEIGHT != 480 ||
@@ -883,7 +929,7 @@ module ov7670_frontend #(
             diag_clear_pulse <= 1'b0;
             diag_clear_toggle <= 1'b0;
             probe_control <= 6'd0;
-            recovery_sample_offset <= 3'd4;
+            recovery_sample_offset <= 3'd2;
             stats_snapshot_toggle <= 1'b0;
         end else begin
             diag_clear_pulse <= 1'b0;
@@ -1186,6 +1232,21 @@ module ov7670_frontend #(
         .dest_clk(camera_axil.aclk), .dest_out(ingress_extra_gray_axil)
     );
 
+    wire [95:0] href_guard_diag_source = {
+        4'd0, href_guard_gap_max, href_guard_flush_position,
+        href_guard_gap_last, href_guard_discarding, href_guard_active, 3'd0,
+        href_guard_flush_count ^ (href_guard_flush_count >> 1),
+        href_guard_recovered_count ^ (href_guard_recovered_count >> 1)
+    };
+    wire [95:0] href_guard_diag_axil;
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(96)
+    ) u_href_guard_diag_cdc (
+        .src_clk(video_clk), .src_in(href_guard_diag_source),
+        .dest_clk(camera_axil.aclk), .dest_out(href_guard_diag_axil)
+    );
+
     wire [31:0] timeout_abort_gray_source =
         stream_timeout_abort_count ^ (stream_timeout_abort_count >> 1);
     wire [31:0] timeout_abort_gray_axil;
@@ -1249,7 +1310,7 @@ module ov7670_frontend #(
         .dest_clk(camera_axil.aclk), .dest_out(pclk_extended_axil)
     );
 
-    wire [117*32-1:0] diagnostic_words;
+    wire [120*32-1:0] diagnostic_words;
     assign diagnostic_words[0*32 +: 32] = ctrl_diag_axil[31:0];
     assign diagnostic_words[1*32 +: 32] = ctrl_diag_axil[63:32];
     assign diagnostic_words[2*32 +: 32] = ctrl_diag_axil[95:64];
@@ -1370,7 +1431,12 @@ module ov7670_frontend #(
                 pclk_snapshot_axil[snapshot_word*32 +: 32];
         end
     endgenerate
-    ov7670_axil_regs #(.WORDS(117)) u_diagnostics (
+    assign diagnostic_words[117*32 +: 32] =
+        gray_to_binary(href_guard_diag_axil[31:0]);
+    assign diagnostic_words[118*32 +: 32] =
+        gray_to_binary(href_guard_diag_axil[63:32]);
+    assign diagnostic_words[119*32 +: 32] = href_guard_diag_axil[95:64];
+    ov7670_axil_regs #(.WORDS(120)) u_diagnostics (
         .axil(camera_axil), .read_words(diagnostic_words),
         .write_pulse(control_write_pulse),
         .write_word(control_write_word), .write_data(control_write_data),
@@ -1397,8 +1463,8 @@ module ov7670_frontend #(
         if (!video_resetn) begin
             capture_enable_sync1 <= 1'b0;
             capture_enable_sync2 <= 1'b0;
-            recovery_sample_offset_sync1 <= 3'd4;
-            recovery_sample_offset_video <= 3'd4;
+            recovery_sample_offset_sync1 <= 3'd2;
+            recovery_sample_offset_video <= 3'd2;
             dvp_data_sync <= 8'd0;
             dvp_href_sync <= 1'b0;
             dvp_vsync_sync <= 1'b0;
@@ -1446,7 +1512,7 @@ module ov7670_frontend #(
         .ACQUIRE_WINDOW(4), .LOCK_WINDOW(2), .RECOVERY_WINDOW(4),
         .MAX_HOLDOVER(1),
         .PERIOD_IIR_SHIFT(3),
-        .DATA_HISTORY_DEPTH(6), .DEFAULT_DATA_SAMPLE_OFFSET(4)
+        .DATA_HISTORY_DEPTH(6), .DEFAULT_DATA_SAMPLE_OFFSET(2)
     ) u_pclk_recovery (
         .clk_300m(video_clk), .resetn(capture_resetn),
         .diag_clear(diag_clear_video),
@@ -1770,6 +1836,25 @@ module ov7670_frontend #(
     wire [7:0] href_aligned_data =
         href_data_pipe[HREF_FILTER_CYCLES*8-1 -: 8];
 
+    dvp_href_line_guard #(
+        .LINE_BYTES(SENSOR_WIDTH * 2),
+        .HOLDOVER_CYCLES(32)
+    ) u_href_line_guard (
+        .clk(video_clk), .resetn(capture_resetn), .pixel_ce(pixel_ce),
+        .frame_boundary(vsync_qualified), .href(href_filtered),
+        .diag_clear(diag_clear_video),
+        .byte_accept(href_guard_byte_accept),
+        .line_start(href_guard_line_start),
+        .line_last_byte(href_guard_last_byte),
+        .line_end(href_guard_line_end),
+        .diag_gap_recovered_count(href_guard_recovered_count),
+        .diag_flush_count(href_guard_flush_count),
+        .diag_gap_last(href_guard_gap_last),
+        .diag_gap_max(href_guard_gap_max),
+        .diag_flush_position(href_guard_flush_position),
+        .active(href_guard_active), .discarding(href_guard_discarding)
+    );
+
     function automatic [23:0] rgb565_to_rgb888(input [15:0] value);
         reg [4:0] red;
         reg [5:0] green;
@@ -1785,26 +1870,18 @@ module ov7670_frontend #(
 
     reg [7:0] first_byte;
     reg byte_phase;
-    reg href_d;
     reg frame_pending;
     reg sof_pending;
-    reg [SENSOR_X_WIDTH-1:0] sensor_x;
 
     // All outputs are pulses in the 300 MHz capture domain.  pixel_ce is the
     // only event that advances the byte/pixel state; downstream readiness is
     // observational because the physical sensor cannot be stalled.
     assign pixel_resetn = capture_resetn;
-    assign pixel_valid = capture_resetn && pixel_ce &&
-                         href_filtered && byte_phase;
+    assign pixel_valid = href_guard_byte_accept && byte_phase;
     assign pixel_data = rgb565_to_rgb888({first_byte, href_aligned_data});
     assign frame_start = pixel_valid && sof_pending;
-    assign line_last = pixel_valid &&
-                       (sensor_x == SENSOR_X_WIDTH'(SENSOR_WIDTH - 1));
-    // One PCLK pulse after the qualified HREF falling edge.  This is carried
-    // separately from line_last so an undersized line can flush the packer
-    // even though it never reached pixel 639.
-    assign line_end = capture_resetn && pixel_ce &&
-                      !href_filtered && href_d;
+    assign line_last = pixel_valid && href_guard_last_byte;
+    assign line_end = href_guard_line_end;
     wire output_fire = pixel_valid && pixel_ready;
 
     always @(posedge video_clk) begin
@@ -1912,11 +1989,11 @@ module ov7670_frontend #(
                     current_line_bytes <= 16'd1;
                 else
                     current_line_bytes <= current_line_bytes + 1'b1;
-                if (byte_phase) begin
-                    input_pixel_count <= input_pixel_count + 1'b1;
-                    if (!pixel_ready)
-                        input_overflow_count <= input_overflow_count + 1'b1;
-                end
+            end
+            if (pixel_valid) begin
+                input_pixel_count <= input_pixel_count + 1'b1;
+                if (!pixel_ready)
+                    input_overflow_count <= input_overflow_count + 1'b1;
             end
         end
     end
@@ -1940,25 +2017,19 @@ module ov7670_frontend #(
         if (!capture_resetn) begin
             first_byte <= 8'd0;
             byte_phase <= 1'b0;
-            href_d <= 1'b0;
             frame_pending <= 1'b0;
             sof_pending <= 1'b0;
-            sensor_x <= {SENSOR_X_WIDTH{1'b0}};
-        end else if (pixel_ce) begin
-            href_d <= href_filtered;
+        end else begin
             if (vsync_qualified) begin
                 frame_pending <= 1'b1;
                 sof_pending <= 1'b0;
                 byte_phase <= 1'b0;
-                sensor_x <= {SENSOR_X_WIDTH{1'b0}};
-            end else if (!href_filtered) begin
+            end else if (href_guard_line_end) begin
                 byte_phase <= 1'b0;
-                sensor_x <= {SENSOR_X_WIDTH{1'b0}};
-            end else begin
-                if (href_filtered && !href_d && frame_pending) begin
+            end else if (href_guard_byte_accept) begin
+                if (href_guard_line_start && frame_pending) begin
                     frame_pending <= 1'b0;
                     sof_pending <= 1'b1;
-                    sensor_x <= {SENSOR_X_WIDTH{1'b0}};
                 end
                 if (!byte_phase) begin
                     first_byte <= href_aligned_data;
@@ -1966,10 +2037,6 @@ module ov7670_frontend #(
                 end else begin
                     byte_phase <= 1'b0;
                     sof_pending <= 1'b0;
-                    if (sensor_x == SENSOR_X_WIDTH'(SENSOR_WIDTH - 1))
-                        sensor_x <= {SENSOR_X_WIDTH{1'b0}};
-                    else
-                        sensor_x <= sensor_x + 1'b1;
                 end
             end
         end
@@ -1998,7 +2065,6 @@ module ov7670_frontend #(
         32'd0, 32'd0, 32'd0,
         output_eol_count, output_sof_count, output_fire_count
     };
-    wire unused = &{1'b0, SENSOR_X_WIDTH, FRAME_WIDTH,
-                    FRAME_HEIGHT, LEFT_MARGIN, TOP_MARGIN, video_clk,
-                    sys_init_done};
+    wire unused = &{1'b0, FRAME_WIDTH, FRAME_HEIGHT, LEFT_MARGIN,
+                    TOP_MARGIN, video_clk, sys_init_done};
 endmodule

@@ -26,7 +26,7 @@ module dvp_pclk_recovery #(
     parameter integer HARMONIC_CONFIRM_COUNT = 4,
     parameter integer RAW_ACCEPT_WINDOW = 3,
     parameter integer DATA_HISTORY_DEPTH = 6,
-    parameter integer DEFAULT_DATA_SAMPLE_OFFSET = 4,
+    parameter integer DEFAULT_DATA_SAMPLE_OFFSET = 2,
     parameter integer FIRST_EDGE_IS_PIXEL = 1
 ) (
     input  wire clk_300m, input wire resetn, input wire diag_clear,

@@ -195,7 +195,7 @@ module camera_hdmi_subsystem (
             camera_index = camera_index + 1) begin : g_camera_frontend
             ov7670_frontend #(
                 .VSYNC_FILTER_CYCLES(256),
-                .HREF_FILTER_CYCLES(8),
+                .HREF_FILTER_CYCLES(16),
                 .MIN_FRAME_LINES(470),
                 .MIN_FRAME_INTERVAL_CYCLES(200000),
                 .FRAME_RESYNC_TIMEOUT_CYCLES(2000000)

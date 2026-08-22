@@ -60,7 +60,7 @@ static void print_help(void)
 
 int main(void)
 {
-    uint32_t sample_tap = 4U;
+    uint32_t sample_tap = 2U;
     console_init();
     console_puts("\r\n8x OV7670 -> shared DMA -> DDR -> HDMI TX\r\n");
     console_puts("CH1-CH8 RGB565 VGA in 3x3 1080p60 mosaic\r\n");

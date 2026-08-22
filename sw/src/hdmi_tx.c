@@ -40,6 +40,9 @@
 #define CAMERA_PCLKREC_HOLDREC_OFFSET  0x118U
 #define CAMERA_PCLKREC_HARMONIC_OFFSET 0x11CU
 #define CAMERA_PCLK_SNAPSHOT_BASE        0x134U
+#define CAMERA_HREF_GUARD_RECOVERED      0x1D4U
+#define CAMERA_HREF_GUARD_FLUSH          0x1D8U
+#define CAMERA_HREF_GUARD_STATUS         0x1DCU
 
 #define VPHY_RX_MMCM_CTRL       UINT32_C(0x140)
 #define VPHY_MMCM_LOCKED        UINT32_C(0x200)
@@ -86,6 +89,9 @@ typedef struct {
     uint32_t pclk_hold[LOCAL_CAMERA_COUNT];
     uint32_t pclk_hold_recovered[LOCAL_CAMERA_COUNT];
     uint32_t pclk_harmonic[LOCAL_CAMERA_COUNT];
+    uint32_t href_guard_recovered[LOCAL_CAMERA_COUNT];
+    uint32_t href_guard_flush[LOCAL_CAMERA_COUNT];
+    uint32_t href_guard_status[LOCAL_CAMERA_COUNT];
 } VideoPerfSnapshot;
 
 static XV_HdmiRxSs rx_ss;
@@ -481,6 +487,12 @@ static void video_perf_capture(VideoPerfSnapshot *snapshot)
             camera_base + CAMERA_PCLK_SNAPSHOT_BASE + 27U * 4U);
         snapshot->pclk_harmonic[index] = mmio_read32(
             camera_base + CAMERA_PCLK_SNAPSHOT_BASE + 23U * 4U);
+        snapshot->href_guard_recovered[index] = mmio_read32(
+            camera_base + CAMERA_HREF_GUARD_RECOVERED);
+        snapshot->href_guard_flush[index] = mmio_read32(
+            camera_base + CAMERA_HREF_GUARD_FLUSH);
+        snapshot->href_guard_status[index] = mmio_read32(
+            camera_base + CAMERA_HREF_GUARD_STATUS);
         for (size_t word = 0U; word < CAMERA_RX_DIAG_WORDS; ++word)
             snapshot->rx_diag[index][word] = mmio_read32(
                 camera_base + CAMERA_RX_DIAG_BASE + word * sizeof(uint32_t));
@@ -579,6 +591,17 @@ static void video_perf_print_delta(const VideoPerfSnapshot *current)
         console_puts(" period="); console_put_u32(period_fp >> 8);
         console_putc('.');
         console_put_u32(((period_fp & UINT32_C(0xff)) * 100U) >> 8);
+        uint32_t href_guard_status = current->href_guard_status[index];
+        console_puts(" href(gap/pos/r/f)=");
+        console_put_u32((href_guard_status >> 5) & UINT32_C(0x3f));
+        console_putc('/');
+        console_put_u32((href_guard_status >> 11) & UINT32_C(0x7ff));
+        console_putc('/');
+        console_put_u32(current->href_guard_recovered[index] -
+                        previous_perf.href_guard_recovered[index]);
+        console_putc('/');
+        console_put_u32(current->href_guard_flush[index] -
+                        previous_perf.href_guard_flush[index]);
         console_puts("\r\n");
     }
 

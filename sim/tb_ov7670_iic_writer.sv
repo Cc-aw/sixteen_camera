@@ -11,6 +11,9 @@ module tb_ov7670_iic_writer;
     wire success_failed;
     wire success_request;
     wire success_terminal;
+    wire success_xclk;
+    wire success_reset_n;
+    wire success_pwdn;
     wire [415:0] success_diag;
 
     // Inject one register-address NACK on table entry 2, then ACK its retry.
@@ -19,13 +22,15 @@ module tb_ov7670_iic_writer;
          u_success.busy_sr[20:19] == 2'b10) ? 1'b1 : 1'b0;
 
     ov7670_ztachip_ctrl #(
-        .STARTUP_COUNTDOWN(7), .POST_RESET_WAIT_CYCLES(5),
+        .XCLK_TO_PWDN_CYCLES(2), .PWDN_TO_RESET_CYCLES(2),
+        .RESET_TO_SCCB_CYCLES(3), .POST_RESET_WAIT_CYCLES(5),
         .RETRY_WAIT_CYCLES(3), .MAX_RETRIES(3)
     ) u_success (
         .clk_24m(clk), .sys_rstn(rstn), .sda_in(success_sda_in),
         .reinit_toggle(1'b0), .init_grant(1'b1),
         .xclk_disable(1'b0), .force_reset(1'b0), .force_pwdn(1'b0),
-        .xclk_12m(), .reset_n(), .pwdn(), .scl(success_scl), .sda_o(),
+        .xclk_12m(success_xclk), .reset_n(success_reset_n),
+        .pwdn(success_pwdn), .scl(success_scl), .sda_o(),
         .sda_t(success_sda_t), .done(success_done),
         .failed(success_failed), .init_request(success_request),
         .init_terminal(success_terminal), .capture_enable(),
@@ -37,7 +42,8 @@ module tb_ov7670_iic_writer;
     wire fail_terminal;
     wire [415:0] fail_diag;
     ov7670_ztachip_ctrl #(
-        .STARTUP_COUNTDOWN(7), .POST_RESET_WAIT_CYCLES(5),
+        .XCLK_TO_PWDN_CYCLES(2), .PWDN_TO_RESET_CYCLES(2),
+        .RESET_TO_SCCB_CYCLES(3), .POST_RESET_WAIT_CYCLES(5),
         .RETRY_WAIT_CYCLES(3), .MAX_RETRIES(3)
     ) u_fail (
         .clk_24m(clk), .sys_rstn(rstn), .sda_in(1'b1),
@@ -51,6 +57,17 @@ module tb_ov7670_iic_writer;
     initial begin
         repeat (4) @(posedge clk);
         rstn = 1'b1;
+        @(posedge clk);
+        #0.1;
+        if (!success_pwdn || success_reset_n)
+            $fatal(1, "startup must begin with PWDN=1 RESET=0");
+        wait (!success_pwdn);
+        if (success_reset_n)
+            $fatal(1, "RESET released before the PWDN wait completed");
+        wait (success_reset_n);
+        if (u_success.ready)
+            $fatal(1, "SCCB became ready without the post-RESET wait");
+        wait (u_success.ready);
         wait (success_terminal && fail_terminal);
         if (!success_done || success_failed ||
             u_success.successful_write_count != 32'd170 ||
