@@ -1,0 +1,13 @@
+#define PLUSARG_USAGE_OPTIONS "EMULATOR VERILOG PLUSARGS\n\
+       +max_core_cycles=INT\n\
+                           Kill the emulation after INT rdtime cycles. Off if 0.\n\
+                             (default=0)\n\
+\n\
+       +custom_boot_pin=INT\n\
+                           \n\
+                             (default=0)\n\
+"
+static const char * verilog_plusargs [] = {\
+                                            "max_core_cycles",\
+                                            "custom_boot_pin",\
+                                            0};

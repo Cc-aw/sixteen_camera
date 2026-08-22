@@ -1,0 +1,675 @@
+这个结果把问题进一步缩小了。现在我不再认为 CAM0 还有明显的 VSYNC 问题；更像是 CAM0 的 HREF/HS 上存在大量“很短的假行脉冲”，或者 geometry 这个调试寄存器本身存在 CDC/快照问题。前者概率更高，但这两件事应该一起排除。
+你现在看到：
+0x01F80500 = 504 行 × 1280 Byte
+0x01F30500 = 499 行 × 1280 Byte
+0x01F70002 = 503 行 × 2 Byte
+0x01F50500 = 501 行 × 1280 Byte
+0x01F30500 = 499 行 × 1280 Byte
+这里最关键的不是 499、501、504，而是这一条：
+0x01F70002
+           ^^^^
+           只有 2 Byte
+这非常像某一次 HREF 被识别成了一个只有 2 个 PCLK/Byte 左右的“假行”。
+还有一个更强的证据：CAM0 实际像素总量几乎完全正确
+你上一组 CAM0：
+frames = 698
+pixels = 214334696
+640×480 正常一帧应该：
+307200 pixel
+而实际平均：
+214334696 / 698 ≈ 307070 pixel/frame
+和正确的：
+307200 pixel/frame
+只差约 0.04%。
+这意味着：
+CAM0 每帧真正收到的有效像素数量基本就是 640×480。
+
+所以它实际上不像真的输出了：
+504 × 640
+这么多有效像素。
+更可能是：
+真正有效行：480 行
++
+HREF 短毛刺：约 19~24 次/frame
+=
+geometry 统计成 499~504 行
+而这些额外的“行”：
+长度可能是：
+0 Byte
+1 Byte
+2 Byte
+几个 Byte
+因此不会明显增加总 pixels。
+0x01F70002 几乎就是这个模型的直接证据。
+现在的系统状态可以这样理解
+之前 VS 有问题时：
+480行正常图像
+
+      ↓ VS毛刺
+
+被切成：
+1行一帧
+36行一帧
+几行一帧
+...
+所以：
+frames = 24025
+malformed = 12163
+加 VS filter 后：
+frames = 698
+PIPE camera_frames = 714
+已经完全回到正常数量级。
+所以：
+VSYNC 的大问题已经解决。
+
+现在剩下的是行级：
+一个正常 frame
+│
+├── 正常 HREF #1
+├── 正常 HREF #2
+├── ...
+├── 正常 HREF #480
+│
+├── 假 HREF 1~2 cycle
+├── 假 HREF 2~3 cycle
+├── 假 HREF ...
+└── ...
+于是 line counter：
+480
+ ↓
+499~504
+malformed=1 完全不矛盾
+这点你说得对，malformed=1 是你的正常启动现象，那么现在不要再拿它判断 CAM0。
+而且它反而说明：
+FB CH1 written=367
+malformed=1
+真正送到 framebuffer 的有效帧大部分已经是好的。
+也就是说：
+当前 geometry 暴露的是 camera frontend 更底层的行事件异常，而不是 framebuffer 已经大量收坏帧。
+
+现在第一件事：先确认 geometry 寄存器自己不是“假的”
+这个可以不占板子测试时间，直接看 RTL。
+需要检查 geometry 是不是类似：
+geometry <= {line_count, byte_count};
+然后 line_count/byte_count 在：
+cam_pclk domain
+但 CPU 从：
+sys_clk / AXI domain
+直接读取。
+如果是这种结构：
+cam_pclk domain
+
+line_count ───────┐
+byte_count ───────┼── geometry[31:0]
+                  │
+                  ▼
+             直接跨 CDC
+                  ▼
+              CPU读取
+那 geometry 可能产生 torn read。
+比如 CPU 恰好在：
+一行结束
+byte_count: 1280 → 0 → 1 → 2
+的时候读：
+line_count = 503
+byte_count = 2
+就可能看到：
+0x01F70002
+即使真实视频完全没问题。
+正确方式应该是
+在 cam_pclk 域里，只在完整 frame 结束时一次性做快照：
+if (frame_end) begin
+    geometry_snapshot <= {
+        completed_line_count,
+        completed_line_bytes
+    };
+    geometry_toggle <= ~geometry_toggle;
+end
+然后整个 snapshot 保持不变，系统域检测 toggle 后再取。
+不要 CPU 直接读取正在变化的：
+line_count
+byte_count
+这一点非常值得你先让 Codex 检查。
+如果 geometry 已经是正确快照，那么 HREF 毛刺基本坐实
+接下来我建议你一次综合把诊断和修复都做进去。
+不要再换线。
+给 CAM0 增加：
+raw_href_count
+qualified_href_count
+short_href_count
+min_href_high_width
+统计每个 HREF 高脉冲有多长
+逻辑概念：
+HREF ↑
+ │
+ ├── high_width = 1
+ ├── 2
+ ├── 3
+ ├── ...
+ │
+HREF ↓
+ │
+ ├── 如果 high_width < 8
+ │      short_href_count++
+ │
+ └── 否则
+        qualified_line_count++
+正常的一整行 HREF 高电平大约是：
+~1280 byte clocks
+而我们怀疑的毛刺可能：
+1
+2
+3
+4 个 PCLK
+所以区别非常巨大。
+我最希望看到这样的数据
+CAM0 一帧：
+raw_href_rise       = 503
+qualified_href      = 480
+short_href_pulse    = 23
+
+last_geometry_raw   = 0x01F70500
+qualified_geometry  = 0x01E00500
+如果出现这个结果：
+根因就完全确认了：CAM0 HREF 输入存在短毛刺。
+
+而且不需要示波器。
+然后怎么在 RTL 中真正过滤 HREF
+这里需要修改一下我之前的建议：
+HREF 可以过滤，但必须同步延迟 D0~D7。
+不能简单：
+HREF 延迟3周期
+DATA 不延迟
+否则会导致前几个像素丢失。
+应该是：
+cam_data ──────── 3-cycle pipeline ─────→ data_d
+                                            │
+cam_href ──────── 3-sample filter ──────────┤
+                                            ▼
+                                      DVP decoder
+比如选择 3 或 4 个 PCLK。
+不要像 VS 那样用 16。
+推荐：4-cycle HREF stable filter
+逻辑上：
+raw HREF：
+
+______████████████████████______
+
+
+filtered HREF：
+
+__________████████████████████____
+          ↑ 延迟几个PCLK
+同时 DATA：
+raw DATA  ── D0 D1 D2 D3 ...
+              ↓ 延迟同样周期
+
+data_d    ───────── D0 D1 D2 D3 ...
+那么：
+filtered HREF
++
+delayed DATA
+仍然完全对齐。
+短毛刺：
+raw HREF：
+
+________██________________
+        2 cycles
+因为不足 4 个连续 sample：
+filtered HREF：
+
+__________________________
+直接消失。
+为什么 4-cycle 足够
+你的正常行：
+~1280 byte cycles
+而异常样本已经出现：
+2 Byte line
+所以我们根本不需要很大的 filter：
+4-cycle
+就已经有巨大的区分度：
+正常：
+1280 >> 4
+
+毛刺：
+1~3 < 4
+如果后续发现还有：
+5~7 cycle
+毛刺，再升到：
+8-cycle
+但第一版我建议从 4 开始。
+不建议现在做 negedge PCLK A/B
+之前我很推荐这个测试，但根据现在的数据，优先级已经下降了。
+因为：
+每行绝大多数时候 = 1280 Byte
+每帧总pixel ≈ 307200
+malformed ≈ 1
+说明：
+PCLK ↔ DATA
+整体采样关系其实已经很好。
+如果 PCLK 边沿严重不对，更容易看到：
+1279
+1281
+1200
+随机数据长度
+像素错误
+而你现在真正明显的是：
+多出约20个“短行事件”
+所以先查：
+HREF
+效率更高。
+我现在对 CAM0 的判断
+优先级我会改成：
+1. HREF短毛刺 / 假边沿               ★★★★★
+2. geometry debug寄存器 CDC/快照问题  ★★★★☆
+3. HREF输入采样时序边缘               ★★★☆☆
+4. CAM0物理HREF线路/TXB              ★★★☆☆
+5. D0~D7 / PCLK整体采样错误           ★☆☆☆☆
+6. VSYNC问题                          ★☆☆☆☆
+CAM0 的：
+frames ≈ 正常
+pixels/frame ≈ 307200
+malformed ≈ 1
+这三个数据实际上非常好。
+所以现在千万别再重新排整个 EXTIO 引脚。新版接线先固定。
+下一次综合我建议只加入两样东西：
+① geometry 使用 frame-end 原子快照
+② HREF pulse-width 统计：
+   raw_href_count
+   qualified_href_count
+   short_href_count
+如果确认 raw≈500、qualified=480、short≈20，下一版直接上 4-cycle HREF filter + D[7:0] 等延迟 pipeline。这应该是目前板子时间利用率最高的路径。
+
+
+
+
+
+
+
+
+
+
+我打算实现4-cycle HREF stable filter和geometry debug寄存器 CDC/快照问题 还有什么建议一起实现的吗
+
+
+
+
+
+
+
+
+
+
+
+
+
+有，而且如果你这次准备重新综合一次，我建议把**“诊断 + 修复 + 可回退 A/B”**一次性都塞进去，避免浪费板子时间。
+我会一起实现这 6 项，前 4 项优先级最高：
+1. 4-cycle HREF stable filter
+2. D[7:0] 同步延迟 3 个 PCLK，与过滤后的 HREF 对齐
+3. frame-end 原子 geometry snapshot + CDC
+4. raw / filtered HREF 诊断计数
+5. filter bypass 开关，允许现场 A/B
+6. 每帧 min/max HREF pulse width + rejected pulse count
+其中第 2 点非常重要，容易写错。
+1. HREF filter 不要简单写成 &href_shift
+如果写：
+href_filtered = &href_shift;
+它会导致：
+上升沿：延迟
+下降沿：立刻掉
+于是每行会被人为缩短 3 个 PCLK。
+你应该做成真正的“stable state filter”：
+logic [3:0] href_hist;
+logic       href_filtered;
+
+always_ff @(posedge cam_pclk) begin
+    href_hist <= {href_hist[2:0], cam_href};
+
+    if (&href_hist)
+        href_filtered <= 1'b1;
+    else if (~|href_hist)
+        href_filtered <= 1'b0;
+    // 中间状态保持原值
+end
+逻辑效果：
+连续 4 个 1 → 才变成 1
+连续 4 个 0 → 才变成 0
+其他情况   → 保持
+所以：
+1~3 cycle 毛刺 → 被吞掉
+正常 1280-cycle HREF → 基本保持原长度
+2. DATA 需要延迟 3 cycle，不是 4 cycle
+假设：
+FILTER_LEN = 4
+第一次 HREF 拉高记为：
+cycle 0
+到：
+cycle 3
+已经采到了连续 4 个高电平：
+0,1,2,3
+此时 filtered HREF 才拉高。
+所以实际 filter latency 是：
+FILTER_LEN - 1 = 3 PCLK
+因此：
+logic [7:0] data_d1;
+logic [7:0] data_d2;
+logic [7:0] data_d3;
+
+always_ff @(posedge cam_pclk) begin
+    data_d1 <= cam_data;
+    data_d2 <= data_d1;
+    data_d3 <= data_d2;
+end
+最后 DVP decoder 使用：
+href_filtered
++
+data_d3
+而不是原始：
+cam_href
++
+cam_data
+结构应该是：
+cam_href ──→ 4-sample stable filter ──→ href_filtered
+                                           │
+cam_data ──→ delay1 → delay2 → delay3 ─────┘
+                                           │
+                                           ▼
+                                      DVP decoder
+这点非常重要。
+3. geometry 一定做成 frame-end snapshot
+现在不要让 CPU 直接看到正在变化的：
+line_count
+byte_count
+而是：
+camera PCLK domain
+
+line_count
+byte_count
+pixel_count
+...
+       │
+       │ filtered frame_end
+       ▼
+┌─────────────────────────┐
+│ debug_snapshot          │
+│                         │
+│ geometry                │
+│ frame_pixels            │
+│ raw_href_count          │
+│ valid_href_count        │
+│ short_href_count        │
+│ min_href_width          │
+│ max_href_width          │
+└─────────────────────────┘
+       │
+       ▼
+snapshot_toggle ^= 1
+例如：
+always_ff @(posedge cam_pclk) begin
+    if (frame_end) begin
+        dbg_geometry <= {
+            frame_line_count,
+            last_line_byte_count
+        };
+
+        dbg_frame_pixels       <= frame_pixel_count;
+        dbg_raw_href_count     <= raw_href_count;
+        dbg_valid_href_count   <= valid_href_count;
+        dbg_rejected_href      <= rejected_href_count;
+        dbg_min_href_width     <= min_href_width;
+        dbg_max_href_width     <= max_href_width;
+
+        dbg_toggle <= ~dbg_toggle;
+    end
+end
+这样每一组 debug 数据描述的都是同一个完整 frame。
+4. CDC 不要对 geometry 每一位单独打两拍
+这个常见但不正确：
+32-bit geometry
+↓
+每bit两级FF
+↓
+CPU
+因为可能得到：
+高16位属于 frame N
+低16位属于 frame N+1
+也就是 torn snapshot。
+对 debug 数据最简单的是：
+PCLK domain
+        │
+snapshot bus 保持稳定整个一帧
+        │
+toggle ────────────────┐
+                       │ 2FF sync
+                       ▼
+                   sys_clk
+                       │
+                  检测toggle变化
+                       │
+                  再等待1~2 cycle
+                       │
+                  一次性采snapshot bus
+因为 snapshot 在源域会稳定几十毫秒，而系统时钟通常几十/上百 MHz，所以这个方案作为 debug 非常合适。
+更正规可以用：
+XPM_CDC_HANDSHAKE
+或者 async FIFO，但你现在只是 debug，我认为 toggle + held snapshot bus 足够。
+5. 这次一定加 raw HREF / filtered HREF 两套计数
+这是最有诊断价值的一项。
+每帧记录：
+raw_href_rises
+filtered_href_rises
+如果最后看到：
+CAM0：
+
+raw_href_rises      = 503
+filtered_href_rises = 480
+那就基本破案了。
+说明：
+真实有效行 = 480
+额外 HREF 毛刺 = 23
+甚至比示波器还直观。
+我建议字段直接做成：
+raw_lines
+valid_lines
+rejected_lines
+其中：
+rejected_lines = raw_lines - valid_lines
+但最好还是独立计数，方便确认逻辑。
+6. 再加 HREF pulse width 统计
+这个也非常值得一起做。
+每次 raw HREF 上升：
+href_width = 1
+持续高电平：
+href_width++
+下降时：
+记录 width
+然后每帧维护：
+min_href_width
+max_href_width
+你现在最希望看到这样的结果：
+CAM0:
+
+raw lines        = 503
+filtered lines   = 480
+rejected         = 23
+
+min HREF width   = 1
+max HREF width   = 1280
+那么结论非常明确：
+正常 HREF ≈ 1280 PCLK
+异常 HREF = 1~3 PCLK
+这就证明是毛刺。
+如果反而：
+min HREF width = 1200
+那就不是短毛刺，得换思路。
+7. 建议再统计几个 width bucket
+如果 RTL 资源允许，这个非常便宜：
+href_width_1
+href_width_2
+href_width_3
+href_width_4_7
+href_width_8_31
+href_width_ge_32
+例如结果：
+width=1    : 11
+width=2    : 7
+width=3    : 4
+width=4~7  : 1
+width>=32  : 480
+一眼就能看到信号质量。
+不需要保存每个 pulse，只需要几个计数器。
+8. 一定加 filter bypass
+这个我非常推荐。
+不要做两个 bitstream：
+filter on
+filter off
+直接 RTL：
+assign href_used =
+    href_filter_enable ? href_filtered : cam_href;
+
+assign data_used =
+    href_filter_enable ? data_d3 : cam_data;
+注意：
+HREF bypass 时 DATA 也必须一起 bypass。
+
+不能：
+raw HREF + delayed DATA
+也不能：
+filtered HREF + raw DATA
+最好做一个参数或寄存器：
+href_filter_enable
+这样现场可以直接：
+0 → 原始链路
+1 → filtered链路
+马上 A/B。
+9. VSYNC 也建议同时保留 raw / filtered 计数
+你现在 VS filter 已经明显有效，所以不要动它。
+但是趁这次 debug snapshot，可以记录：
+raw_vsync_edges
+filtered_vsync_edges
+那么最终每帧的完整诊断就是：
+VS:
+raw_edges
+filtered_edges
+
+HREF:
+raw_lines
+filtered_lines
+rejected_lines
+min_width
+max_width
+
+DATA:
+frame_pixels
+last_line_bytes
+
+FRAME:
+geometry
+这套数据以后多摄像头调试也会非常有用。
+10. geometry 不要只保存“最后一行”
+这也是一个容易误导你的地方。
+例如：
+geometry = {line_count, byte_count}
+如果低 16 位只是“最后一次 HREF 的长度”，碰巧最后一个 HREF 是毛刺：
+2 byte
+就得到：
+0x01F70002
+但实际上前 480 行可能全都是正确的。
+所以建议 debug 再多保存：
+last_line_bytes
+min_line_bytes
+max_line_bytes
+例如：
+lines           = 503
+last_line_bytes = 2
+min_line_bytes  = 1
+max_line_bytes  = 1280
+就很清楚。
+经过 filter 后希望看到：
+lines           = 480
+min_line_bytes  = 1280
+max_line_bytes  = 1280
+这比单独一个 geometry 信息量高太多。
+11. 不要现在就加入 PCLK IDELAY
+这一轮我反而不建议一起上：
+IDELAYE3
+posedge/negedge切换
+PCLK相移
+原因是你现在已经有非常强的 HREF 毛刺假设。
+如果这次同时修改：
+HREF filter
++
+sampling edge
++
+IDELAY
+最后稳定了，你不知道到底是谁起作用。
+所以这轮保持：
+PCLK capture edge 不变
+物理接线不变
+XCLK不变
+VS filter不变
+只处理：
+HREF
++
+debug snapshot
+实验最干净。
+我建议这一次综合最终加入这些寄存器
+每路 Camera 都做：
+frame_count
+
+raw_vsync_count
+filtered_vsync_count
+
+raw_href_count
+filtered_href_count
+rejected_href_count
+
+min_href_high_width
+max_href_high_width
+
+min_line_bytes
+max_line_bytes
+last_line_bytes
+
+frame_pixels
+
+geometry_snapshot
+
+href_filter_enable
+其中真正关键的是：
+raw_href_count
+filtered_href_count
+rejected_href_count
+min_href_high_width
+geometry_snapshot
+最理想的下一次结果
+如果 CAM0 最后打印：
+CAM0 FRAME:
+
+raw_href       = 503
+filtered_href  = 480
+rejected_href  = 23
+
+min_raw_href_width = 1
+max_raw_href_width = 1280
+
+min_line_bytes = 1280
+max_line_bytes = 1280
+
+frame_pixels   = 307200
+
+geometry       = 0x01E00500
+那整个问题就非常漂亮地解释通了：
+杜邦线 / TXB / 输入链路
+        ↓
+产生1~3 PCLK HREF短毛刺
+        ↓
+原始frontend误认成额外line
+        ↓
+4-cycle stable filter
+        ↓
+短毛刺全部拒绝
+        ↓
+恢复480×1280
+所以，如果板子时间有限，我会把这次 bitstream 定义成一个**“诊断版 + 修复版”**，而不是单纯加 filter。这样即使 filter 没完全解决，也能直接从计数器知道下一步该查什么。

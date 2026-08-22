@@ -1,0 +1,715 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.2 (lin64) Build 4029153 Fri Oct 13 20:13:54 MDT 2023
+| Date         : Sat Aug 22 16:45:18 2026
+| Host         : tsmc184 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : report_drc -file /mnt/data/wzr/13p/ov7670/sixteen_camera/prj/drc_impl.rpt
+| Design       : top_wrapper
+| Device       : xcvu13p-fhga2104-2-i
+| Speed File   : -2
+| Design State : Fully Routed
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Report DRC
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: impl_1
+      Design limits: <entire design considered>
+           Ruledeck: default
+             Max violations: <unlimited>
+             Violations found: 124
++-------------+----------+-------------------------------------------------------------+------------+
+| Rule        | Severity | Description                                                 | Violations |
++-------------+----------+-------------------------------------------------------------+------------+
+| AVAL-201    | Warning  | IOB_and_ASYNC_REG                                           | 88         |
+| DPIP-2      | Warning  | Input pipelining                                            | 1          |
+| DPOP-3      | Warning  | PREG Output pipelining                                      | 7          |
+| DPOP-4      | Warning  | MREG Output pipelining                                      | 7          |
+| IOBUSSLRC-1 | Warning  | IO Bus SLR Crossings                                        | 9          |
+| PDCN-1569   | Warning  | LUT equation term check                                     | 3          |
+| PDRC-153    | Warning  | Gated clock check                                           | 1          |
+| PLHOLDVIO-2 | Warning  | Non-Optimal connections which could lead to hold violations | 1          |
+| REQP-1935   | Warning  | RAMB36E2_nochange_collision_advisory                        | 4          |
+| RPBF-3      | Warning  | IO port buffering is incomplete                             | 2          |
+| RTSTAT-10   | Warning  | No routable loads                                           | 1          |
++-------------+----------+-------------------------------------------------------------+------------+
+
+2. REPORT DETAILS
+-----------------
+AVAL-201#1 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#2 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#3 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#4 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#5 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#6 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#7 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#8 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#9 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#10 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#11 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#12 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#13 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#14 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#15 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#16 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#17 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#18 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#19 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#20 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#21 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#22 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#23 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#24 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#25 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#26 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#27 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#28 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#29 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#30 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#31 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#32 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#33 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#34 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#35 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#36 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#37 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#38 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#39 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#40 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#41 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#42 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#43 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#44 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#45 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#46 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#47 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#48 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#49 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#50 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#51 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#52 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#53 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#54 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#55 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#56 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#57 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#58 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#59 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#60 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#61 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#62 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#63 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#64 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#65 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#66 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#67 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#68 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#69 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#70 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#71 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#72 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#73 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#74 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#75 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#76 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#77 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#78 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#79 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#80 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#81 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#82 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#83 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#84 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#85 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#86 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#87 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+AVAL-201#88 Warning
+IOB_and_ASYNC_REG  
+u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+Related violations: <none>
+
+DPIP-2#1 Warning
+Input pipelining  
+DSP u_ddr_memory/u_video_framebuffer/u_reader/u_mosaic_reader/read_addr0 input u_ddr_memory/u_video_framebuffer/u_reader/u_mosaic_reader/read_addr0/C[47:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPOP-3#1 Warning
+PREG Output pipelining  
+DSP u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__0 output u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__0/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+Related violations: <none>
+
+DPOP-3#2 Warning
+PREG Output pipelining  
+DSP u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__2 output u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__2/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+Related violations: <none>
+
+DPOP-3#3 Warning
+PREG Output pipelining  
+DSP u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__4 output u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__4/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+Related violations: <none>
+
+DPOP-3#4 Warning
+PREG Output pipelining  
+DSP u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__5 output u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__5/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+Related violations: <none>
+
+DPOP-3#5 Warning
+PREG Output pipelining  
+DSP u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__7 output u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__7/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+Related violations: <none>
+
+DPOP-3#6 Warning
+PREG Output pipelining  
+DSP u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__8 output u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__8/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+Related violations: <none>
+
+DPOP-3#7 Warning
+PREG Output pipelining  
+DSP u_ddr_memory/u_video_framebuffer/u_reader/u_mosaic_reader/read_addr0 output u_ddr_memory/u_video_framebuffer/u_reader/u_mosaic_reader/read_addr0/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.
+Related violations: <none>
+
+DPOP-4#1 Warning
+MREG Output pipelining  
+DSP u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__0 multiplier stage u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__0/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+Related violations: <none>
+
+DPOP-4#2 Warning
+MREG Output pipelining  
+DSP u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__2 multiplier stage u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__2/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+Related violations: <none>
+
+DPOP-4#3 Warning
+MREG Output pipelining  
+DSP u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__4 multiplier stage u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__4/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+Related violations: <none>
+
+DPOP-4#4 Warning
+MREG Output pipelining  
+DSP u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__5 multiplier stage u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__5/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+Related violations: <none>
+
+DPOP-4#5 Warning
+MREG Output pipelining  
+DSP u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__7 multiplier stage u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__7/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+Related violations: <none>
+
+DPOP-4#6 Warning
+MREG Output pipelining  
+DSP u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__8 multiplier stage u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__8/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+Related violations: <none>
+
+DPOP-4#7 Warning
+MREG Output pipelining  
+DSP u_ddr_memory/u_video_framebuffer/u_reader/u_mosaic_reader/read_addr0 multiplier stage u_ddr_memory/u_video_framebuffer/u_reader/u_mosaic_reader/read_addr0/P[47:0] is not pipelined (MREG=0). Pipelining the multiplier function will improve performance and will save significant power so it is suggested whenever possible to fully pipeline this function.  If this multiplier was inferred, it is suggested to describe an additional register stage after this function.  If there is no registered adder/accumulator following the multiply function, two pipeline stages are suggested to allow both the MREG and PREG registers to be used.  If the DSP48 was instantiated in the design, it is suggested to set both the MREG and PREG attributes to 1 when performing multiply functions.
+Related violations: <none>
+
+IOBUSSLRC-1#1 Warning
+IO Bus SLR Crossings  
+Bus port cam_data spans more than one Super Logic Region (SLR).   Bits placed in SLR 3:  31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0.  
+  Bits placed in SLR 2:  63, 62, 61, 60, 59, 58, 57, 56, 55, 54, 53, 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42, 41, 40, 39, 38, 37, 36, 35, 34, 33, 32.  
+
+Related violations: <none>
+
+IOBUSSLRC-1#2 Warning
+IO Bus SLR Crossings  
+Bus port cam_href spans more than one Super Logic Region (SLR).   Bits placed in SLR 3:  3, 2, 1, 0.  
+  Bits placed in SLR 2:  7, 6, 5, 4.  
+
+Related violations: <none>
+
+IOBUSSLRC-1#3 Warning
+IO Bus SLR Crossings  
+Bus port cam_pclk spans more than one Super Logic Region (SLR).   Bits placed in SLR 3:  3, 2, 1, 0.  
+  Bits placed in SLR 2:  7, 6, 5, 4.  
+
+Related violations: <none>
+
+IOBUSSLRC-1#4 Warning
+IO Bus SLR Crossings  
+Bus port cam_pwdn spans more than one Super Logic Region (SLR).   Bits placed in SLR 3:  3, 2, 1, 0.  
+  Bits placed in SLR 2:  7, 6, 5, 4.  
+
+Related violations: <none>
+
+IOBUSSLRC-1#5 Warning
+IO Bus SLR Crossings  
+Bus port cam_rst_n spans more than one Super Logic Region (SLR).   Bits placed in SLR 3:  3, 2, 1, 0.  
+  Bits placed in SLR 2:  7, 6, 5, 4.  
+
+Related violations: <none>
+
+IOBUSSLRC-1#6 Warning
+IO Bus SLR Crossings  
+Bus port cam_scl spans more than one Super Logic Region (SLR).   Bits placed in SLR 3:  3, 2, 1, 0.  
+  Bits placed in SLR 2:  7, 6, 5, 4.  
+
+Related violations: <none>
+
+IOBUSSLRC-1#7 Warning
+IO Bus SLR Crossings  
+Bus port cam_sda spans more than one Super Logic Region (SLR).   Bits placed in SLR 3:  3, 2, 1, 0.  
+  Bits placed in SLR 2:  7, 6, 5, 4.  
+
+Related violations: <none>
+
+IOBUSSLRC-1#8 Warning
+IO Bus SLR Crossings  
+Bus port cam_vsync spans more than one Super Logic Region (SLR).   Bits placed in SLR 3:  3, 2, 1, 0.  
+  Bits placed in SLR 2:  7, 6, 5, 4.  
+
+Related violations: <none>
+
+IOBUSSLRC-1#9 Warning
+IO Bus SLR Crossings  
+Bus port cam_xclk spans more than one Super Logic Region (SLR).   Bits placed in SLR 3:  3, 2, 1, 0.  
+  Bits placed in SLR 2:  7, 6, 5, 4.  
+
+Related violations: <none>
+
+PDCN-1569#1 Warning
+LUT equation term check  
+Used physical LUT pin 'A3' of cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1 (pin dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1/I0) is not included in the LUT equation: 'O5=(A2*A1)+(A2*(~A1)*(~A4))+((~A2))'. If this cell is a user instantiated LUT in the design, please remove connectivity to the pin or change the equation and/or INIT string of the LUT to prevent this issue. If the cell is inferred or IP created LUT, please regenerate the IP and/or resynthesize the design to attempt to correct the issue.
+Related violations: <none>
+
+PDCN-1569#2 Warning
+LUT equation term check  
+Used physical LUT pin 'A5' of cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1 (pin dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1/I1) is not included in the LUT equation: 'O5=(A2*A1)+(A2*(~A1)*(~A4))+((~A2))'. If this cell is a user instantiated LUT in the design, please remove connectivity to the pin or change the equation and/or INIT string of the LUT to prevent this issue. If the cell is inferred or IP created LUT, please regenerate the IP and/or resynthesize the design to attempt to correct the issue.
+Related violations: <none>
+
+PDCN-1569#3 Warning
+LUT equation term check  
+Used physical LUT pin 'A5' of cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.id_state[0]_i_1 (pin dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.id_state[0]_i_1/I0) is not included in the LUT equation: 'O6=(A6+~A6)*((A3))'. If this cell is a user instantiated LUT in the design, please remove connectivity to the pin or change the equation and/or INIT string of the LUT to prevent this issue. If the cell is inferred or IP created LUT, please regenerate the IP and/or resynthesize the design to attempt to correct the issue.
+Related violations: <none>
+
+PDRC-153#1 Warning
+Gated clock check  
+Net u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/b0_clkdet_dru_refclk is a gated clock net sourced by a combinational pin u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/i_0/O, cell u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/i_0. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PLHOLDVIO-2#1 Warning
+Non-Optimal connections which could lead to hold violations  
+A LUT u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/i_0 is driving clock pin of 24 cells. This could lead to large hold time violations. Involved cells are:
+u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/DRUCLK_RST_INST/arststages_ff_reg[0],
+u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/DRUCLK_RST_INST/arststages_ff_reg[1],
+u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/DRUCLK_RST_INST/arststages_ff_reg[2],
+u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/DRUCLK_RUN_SYNC_INST/syncstages_ff_reg[0],
+u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/DRUCLK_RUN_SYNC_INST/syncstages_ff_reg[1],
+u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/DRUCLK_RUN_SYNC_INST/syncstages_ff_reg[2],
+u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[0],
+u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[10],
+u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[11],
+u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[12],
+u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[13],
+u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[14],
+u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[15],
+u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[16],
+u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[17]
+ (the first 15 of 24 listed)
+Related violations: <none>
+
+REQP-1935#1 Warning
+RAMB36E2_nochange_collision_advisory  
+Synchronous clocking is detected for BRAM (u_ddr_memory/u_video_framebuffer/u_reader/u_mosaic_reader/u_axi_read_fifo/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/gen_wr_a.gen_word_narrow.mem_reg_0) in SDP mode with NO_CHANGE write-mode. This is the preferred mode for best power characteristics. However, NO_CHANGE may exhibit address collisions if the same address appears on both read and write ports resulting in unknown or corrupted read data. It is suggested to confirm via simulation that an address collision never occurs and if so it is suggested to try and avoid this situation. If address collisions cannot be avoided, the write-mode may be set to READ_FIRST which guarantees that the read data is the prior contents of the memory at the cost of additional power in the design. See the FPGA Memory Resources User Guide for additional information.
+Related violations: <none>
+
+REQP-1935#2 Warning
+RAMB36E2_nochange_collision_advisory  
+Synchronous clocking is detected for BRAM (u_ddr_memory/u_video_framebuffer/u_reader/u_mosaic_reader/u_axi_read_fifo/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/gen_wr_a.gen_word_narrow.mem_reg_1) in SDP mode with NO_CHANGE write-mode. This is the preferred mode for best power characteristics. However, NO_CHANGE may exhibit address collisions if the same address appears on both read and write ports resulting in unknown or corrupted read data. It is suggested to confirm via simulation that an address collision never occurs and if so it is suggested to try and avoid this situation. If address collisions cannot be avoided, the write-mode may be set to READ_FIRST which guarantees that the read data is the prior contents of the memory at the cost of additional power in the design. See the FPGA Memory Resources User Guide for additional information.
+Related violations: <none>
+
+REQP-1935#3 Warning
+RAMB36E2_nochange_collision_advisory  
+Synchronous clocking is detected for BRAM (u_ddr_memory/u_video_framebuffer/u_reader/u_mosaic_reader/u_axi_read_fifo/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/gen_wr_a.gen_word_narrow.mem_reg_2) in SDP mode with NO_CHANGE write-mode. This is the preferred mode for best power characteristics. However, NO_CHANGE may exhibit address collisions if the same address appears on both read and write ports resulting in unknown or corrupted read data. It is suggested to confirm via simulation that an address collision never occurs and if so it is suggested to try and avoid this situation. If address collisions cannot be avoided, the write-mode may be set to READ_FIRST which guarantees that the read data is the prior contents of the memory at the cost of additional power in the design. See the FPGA Memory Resources User Guide for additional information.
+Related violations: <none>
+
+REQP-1935#4 Warning
+RAMB36E2_nochange_collision_advisory  
+Synchronous clocking is detected for BRAM (u_ddr_memory/u_video_framebuffer/u_reader/u_mosaic_reader/u_axi_read_fifo/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/gen_wr_a.gen_word_narrow.mem_reg_3) in SDP mode with NO_CHANGE write-mode. This is the preferred mode for best power characteristics. However, NO_CHANGE may exhibit address collisions if the same address appears on both read and write ports resulting in unknown or corrupted read data. It is suggested to confirm via simulation that an address collision never occurs and if so it is suggested to try and avoid this situation. If address collisions cannot be avoided, the write-mode may be set to READ_FIRST which guarantees that the read data is the prior contents of the memory at the cost of additional power in the design. See the FPGA Memory Resources User Guide for additional information.
+Related violations: <none>
+
+RPBF-3#1 Warning
+IO port buffering is incomplete  
+Device port si5338_scl1 expects both input and output buffering but the buffers are incomplete.
+Related violations: <none>
+
+RPBF-3#2 Warning
+IO port buffering is incomplete  
+Device port si5338_scl2 expects both input and output buffering but the buffers are incomplete.
+Related violations: <none>
+
+RTSTAT-10#1 Warning
+No routable loads  
+205 net(s) have no routable loads. The problem bus(es) and/or net(s) are u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_riu/LMB_CE_riu,
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_riu/LMB_UE_riu,
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_cal/u_xsdb_arbiter/Q[12],
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_cal/u_xsdb_arbiter/Q[13],
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_cal/u_xsdb_arbiter/Q[14],
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_cal/u_xsdb_arbiter/Q[15],
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_fixdly_rdy_low/SYNC[0].sync_reg[1],
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_fixdly_rdy_low/SYNC[1].sync_reg[1],
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_fixdly_rdy_upp/SYNC[0].sync_reg[1],
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_fixdly_rdy_upp/SYNC[1].sync_reg[1],
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_fixdly_rdy_upp/SYNC[2].sync_reg[1],
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_phy_rdy_low/SYNC[0].sync_reg[1],
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_phy_rdy_low/SYNC[1].sync_reg[1],
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_phy_rdy_upp/SYNC[0].sync_reg[1],
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_phy_rdy_upp/SYNC[1].sync_reg[1]
+ (the first 15 of 183 listed nets/buses).
+Related violations: <none>
+
+

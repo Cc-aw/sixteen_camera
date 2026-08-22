@@ -1,0 +1,52 @@
+# Vivado transient and generated data
+.Xil/
+**/.Xil/
+*.jou
+*.log
+*.str
+*.pb
+*.rpx
+*.dcp
+*.bit
+*.ltx
+*.wdb
+*.vcd
+*.vpd
+
+prj/*.cache/
+prj/*.gen/
+prj/*.hw/
+prj/*.ip_user_files/
+prj/*.runs/
+prj/*.sim/
+prj/backup_*/
+prj/one_ov5645_hdmi.gen/
+
+# Generated/reference copies outside the active project
+demo/
+one_ov5645_hdmi.gen/
+one_ov5645_hdmi.srcs/
+
+# Software and simulator build products
+sw/build/
+obj_dir/
+*.o
+*.d
+*.elf
+*.bin
+*.hex
+*.dump
+*.map
+
+# Local tool/cache state
+.git/
+.git-local/
+.cache/
+.agents/
+.codex/
+log/
+
+# Editor/OS files
+*~
+*.swp
+.DS_Store

@@ -1,0 +1,14 @@
+[
+	{
+		"class":"sifive.enterprise.firrtl.MarkDUTAnnotation",
+		"target":"~MyBoardFPGATestHarness|ChipTop"
+	},
+	{
+		"class": "sifive.enterprise.firrtl.TestHarnessHierarchyAnnotation",
+		"filename": "/home/wzr/chipyard/fpga/generated-src/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketDDR256MyBoardConfig/model_module_hierarchy.json"
+	},
+	{
+		"class": "sifive.enterprise.firrtl.ModuleHierarchyAnnotation",
+		"filename": "/home/wzr/chipyard/fpga/generated-src/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketDDR256MyBoardConfig/top_module_hierarchy.json"
+	}
+]
