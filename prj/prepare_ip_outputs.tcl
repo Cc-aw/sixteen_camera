@@ -1,6 +1,5 @@
 set script_dir [file dirname [file normalize [info script]]]
 open_project [file join $script_dir sixteen_camera.xpr]
-set_property ip_repo_paths [file join $script_dir ip_repo] [current_project]
 update_ip_catalog
 
 foreach core [get_ips -quiet] {

@@ -20,12 +20,9 @@ prj/*.ip_user_files/
 prj/*.runs/
 prj/*.sim/
 prj/backup_*/
-prj/one_ov5645_hdmi.gen/
 
 # Generated/reference copies outside the active project
 demo/
-one_ov5645_hdmi.gen/
-one_ov5645_hdmi.srcs/
 
 # Software and simulator build products
 sw/build/
@@ -40,7 +37,6 @@ obj_dir/
 
 # Local tool/cache state
 .git/
-.git-local/
 .cache/
 .agents/
 .codex/

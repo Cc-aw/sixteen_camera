@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x4B11E1AA355D4E90",
+      "boundary_crc": "0x4B11E1AABDDB62E6",
       "device": "xcvu13p-fhga2104-2-i",
       "gen_directory": "../../../../sixteen_camera.gen/sources_1/bd/design_1",
       "name": "design_1",
@@ -1244,10 +1244,6 @@
         "parameters": {
           "ASSOCIATED_BUSIF": {
             "value": "S00_AXI",
-            "value_src": "default"
-          },
-          "ASSOCIATED_RESET": {
-            "value": "S00_ARESETN",
             "value_src": "default"
           },
           "CLK_DOMAIN": {

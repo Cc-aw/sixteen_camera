@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2023.2 (lin64) Build 4029153 Fri Oct 13 20:13:54 MDT 2023
-| Date         : Sun Aug 23 14:34:40 2026
+| Date         : Sun Aug 23 17:48:59 2026
 | Host         : tsmc184 running 64-bit Ubuntu 22.04.5 LTS
 | Command      : report_drc -file /mnt/data/wzr/13p/ov7670/sixteen_camera/prj/drc_impl.rpt
 | Design       : top_wrapper
@@ -45,442 +45,442 @@ Table of Contents
 -----------------
 AVAL-201#1 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[0].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#2 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[0].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#3 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[0].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#4 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[0].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#5 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[0].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#6 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[0].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#7 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[0].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#8 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[0].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#9 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[0].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#10 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[0].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#11 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[0].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[0].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#12 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[1].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#13 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[1].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#14 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[1].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#15 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[1].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#16 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[1].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#17 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[1].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#18 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[1].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#19 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[1].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#20 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[1].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#21 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[1].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#22 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[1].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[1].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#23 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[2].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#24 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[2].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#25 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[2].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#26 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[2].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#27 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[2].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#28 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[2].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#29 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[2].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#30 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[2].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#31 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[2].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#32 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[2].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#33 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[2].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[2].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#34 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[3].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#35 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[3].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#36 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[3].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#37 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[3].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#38 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[3].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#39 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[3].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#40 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[3].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#41 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[3].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#42 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[3].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#43 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[3].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#44 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[3].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[3].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#45 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[4].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#46 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[4].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#47 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[4].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#48 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[4].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#49 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[4].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#50 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[4].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#51 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[4].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#52 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[4].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#53 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[4].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#54 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[4].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#55 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[4].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[4].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#56 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[5].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#57 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[5].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#58 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[5].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#59 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[5].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#60 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[5].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#61 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[5].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#62 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[5].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#63 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[5].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#64 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[5].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#65 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[5].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#66 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[5].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[5].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#67 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[6].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#68 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[6].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#69 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[6].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#70 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[6].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#71 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[6].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#72 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[6].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#73 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[6].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#74 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[6].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#75 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[6].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#76 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[6].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#77 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[6].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[6].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#78 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[7].u_camera/dvp_data_iob_reg[0] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#79 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[7].u_camera/dvp_data_iob_reg[1] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#80 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[7].u_camera/dvp_data_iob_reg[2] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#81 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[7].u_camera/dvp_data_iob_reg[3] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#82 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[7].u_camera/dvp_data_iob_reg[4] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#83 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[7].u_camera/dvp_data_iob_reg[5] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#84 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[7].u_camera/dvp_data_iob_reg[6] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#85 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[7].u_camera/dvp_data_iob_reg[7] has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#86 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[7].u_camera/dvp_href_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#87 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[7].u_camera/dvp_pclk_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 AVAL-201#88 Warning
 IOB_and_ASYNC_REG  
-u_camera_hdmi/g_camera_frontend[7].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
+u_camera_hdmi/u_camera_subsystem/g_camera_frontend[7].u_camera/dvp_vsync_iob_reg has ASYNC_REG set to TRUE and IOB set to TRUE. The first register of the input sync chain will not be placed in the same slice as the other stages which reduces MTBF.  In most cases, IOB should be set FALSE to enable ASYNC_REG.
 Related violations: <none>
 
 DPIP-2#1 Warning
@@ -623,42 +623,42 @@ Related violations: <none>
 
 PDCN-1569#1 Warning
 LUT equation term check  
-Used physical LUT pin 'A2' of cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1 (pin dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1/I1) is not included in the LUT equation: 'O5=(A5*A4)+(A5*(~A4)*(~A1))+((~A5))'. If this cell is a user instantiated LUT in the design, please remove connectivity to the pin or change the equation and/or INIT string of the LUT to prevent this issue. If the cell is inferred or IP created LUT, please regenerate the IP and/or resynthesize the design to attempt to correct the issue.
+Used physical LUT pin 'A2' of cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1 (pin dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1/I0) is not included in the LUT equation: 'O5=(A4*A5)+(A4*(~A5)*(~A1))+((~A4))'. If this cell is a user instantiated LUT in the design, please remove connectivity to the pin or change the equation and/or INIT string of the LUT to prevent this issue. If the cell is inferred or IP created LUT, please regenerate the IP and/or resynthesize the design to attempt to correct the issue.
 Related violations: <none>
 
 PDCN-1569#2 Warning
 LUT equation term check  
-Used physical LUT pin 'A3' of cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1 (pin dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1/I0) is not included in the LUT equation: 'O5=(A5*A4)+(A5*(~A4)*(~A1))+((~A5))'. If this cell is a user instantiated LUT in the design, please remove connectivity to the pin or change the equation and/or INIT string of the LUT to prevent this issue. If the cell is inferred or IP created LUT, please regenerate the IP and/or resynthesize the design to attempt to correct the issue.
+Used physical LUT pin 'A3' of cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1 (pin dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_switch/temp_curid[31]_i_1/I1) is not included in the LUT equation: 'O5=(A4*A5)+(A4*(~A5)*(~A1))+((~A4))'. If this cell is a user instantiated LUT in the design, please remove connectivity to the pin or change the equation and/or INIT string of the LUT to prevent this issue. If the cell is inferred or IP created LUT, please regenerate the IP and/or resynthesize the design to attempt to correct the issue.
 Related violations: <none>
 
 PDCN-1569#3 Warning
 LUT equation term check  
-Used physical LUT pin 'A4' of cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.id_state[0]_i_1 (pin dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.id_state[0]_i_1/I0) is not included in the LUT equation: 'O6=(A6+~A6)*((A2))'. If this cell is a user instantiated LUT in the design, please remove connectivity to the pin or change the equation and/or INIT string of the LUT to prevent this issue. If the cell is inferred or IP created LUT, please regenerate the IP and/or resynthesize the design to attempt to correct the issue.
+Used physical LUT pin 'A5' of cell dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.id_state[0]_i_1 (pin dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.id_state[0]_i_1/I0) is not included in the LUT equation: 'O6=(A6+~A6)*((A1))'. If this cell is a user instantiated LUT in the design, please remove connectivity to the pin or change the equation and/or INIT string of the LUT to prevent this issue. If the cell is inferred or IP created LUT, please regenerate the IP and/or resynthesize the design to attempt to correct the issue.
 Related violations: <none>
 
 PDRC-153#1 Warning
 Gated clock check  
-Net u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/b0_clkdet_dru_refclk is a gated clock net sourced by a combinational pin u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/i_0/O, cell u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/i_0. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Net u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/b0_clkdet_dru_refclk is a gated clock net sourced by a combinational pin u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/i_0/O, cell u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/i_0. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
 Related violations: <none>
 
 PLHOLDVIO-2#1 Warning
 Non-Optimal connections which could lead to hold violations  
-A LUT u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/i_0 is driving clock pin of 24 cells. This could lead to large hold time violations. Involved cells are:
-u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/DRUCLK_RST_INST/arststages_ff_reg[0],
-u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/DRUCLK_RST_INST/arststages_ff_reg[1],
-u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/DRUCLK_RST_INST/arststages_ff_reg[2],
-u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/DRUCLK_RUN_SYNC_INST/syncstages_ff_reg[0],
-u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/DRUCLK_RUN_SYNC_INST/syncstages_ff_reg[1],
-u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/DRUCLK_RUN_SYNC_INST/syncstages_ff_reg[2],
-u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[0],
-u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[10],
-u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[11],
-u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[12],
-u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[13],
-u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[14],
-u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[15],
-u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[16],
-u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[17]
+A LUT u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/i_0 is driving clock pin of 24 cells. This could lead to large hold time violations. Involved cells are:
+u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/clock_detector_inst/DRUCLK_RST_INST/arststages_ff_reg[0],
+u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/clock_detector_inst/DRUCLK_RST_INST/arststages_ff_reg[1],
+u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/clock_detector_inst/DRUCLK_RST_INST/arststages_ff_reg[2],
+u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/clock_detector_inst/DRUCLK_RUN_SYNC_INST/syncstages_ff_reg[0],
+u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/clock_detector_inst/DRUCLK_RUN_SYNC_INST/syncstages_ff_reg[1],
+u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/clock_detector_inst/DRUCLK_RUN_SYNC_INST/syncstages_ff_reg[2],
+u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[0],
+u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[10],
+u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[11],
+u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[12],
+u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[13],
+u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[14],
+u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[15],
+u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[16],
+u_camera_hdmi/u_hdmi/u_phy/u_vphy/inst/clock_detector_inst/druclk_freq_cnt_reg[17]
  (the first 15 of 24 listed)
 Related violations: <none>
 
@@ -694,7 +694,7 @@ Related violations: <none>
 
 RTSTAT-10#1 Warning
 No routable loads  
-205 net(s) have no routable loads. The problem bus(es) and/or net(s) are u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_riu/LMB_CE_riu,
+170 net(s) have no routable loads. The problem bus(es) and/or net(s) are u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_riu/LMB_CE_riu,
 u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_riu/LMB_UE_riu,
 u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_cal/u_xsdb_arbiter/Q[12],
 u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_cal/u_xsdb_arbiter/Q[13],
@@ -704,12 +704,12 @@ u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_fixdly_r
 u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_fixdly_rdy_low/SYNC[1].sync_reg[1],
 u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_fixdly_rdy_upp/SYNC[0].sync_reg[1],
 u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_fixdly_rdy_upp/SYNC[1].sync_reg[1],
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_fixdly_rdy_upp/SYNC[2].sync_reg[1],
 u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_phy_rdy_low/SYNC[0].sync_reg[1],
 u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_phy_rdy_low/SYNC[1].sync_reg[1],
 u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_phy_rdy_upp/SYNC[0].sync_reg[1],
-u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_phy_rdy_upp/SYNC[1].sync_reg[1],
-u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_phy_rdy_upp/SYNC[2].sync_reg[1]
- (the first 15 of 183 listed nets/buses).
+u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_phy2clb_phy_rdy_upp/SYNC[1].sync_reg[1]
+ (the first 15 of 148 listed nets/buses).
 Related violations: <none>
 
 

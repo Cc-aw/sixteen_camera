@@ -11,7 +11,6 @@ set part_name xcvu13p-fhga2104-2-i
 create_project -force $project_name $project_dir -part $part_name
 set_property target_language Verilog [current_project]
 set_property simulator_language Mixed [current_project]
-set_property ip_repo_paths [file join $root_dir ip_repo] [current_project]
 update_ip_catalog
 
 proc collect_files {root} {
@@ -30,7 +29,6 @@ set sources {}
 foreach subdir {interfaces bus control memory si5338 video} {
     set sources [concat $sources [collect_files [file join $root_dir rtl $subdir]]]
 }
-lappend sources [file join $root_dir rtl axi4_mmio_error_slave.sv]
 lappend sources [file join $root_dir rtl top_wrapper.sv]
 
 set soc_dir [file join $root_dir rtl soc \
@@ -41,6 +39,9 @@ set sources [concat $sources [collect_files $soc_dir]]
 # Only top-level IP explicitly used by the RTL is added.  Old OV5645/MIPI XCI
 # files are intentionally absent from this clean project.
 foreach ip_xci [glob -nocomplain -directory [file join $root_dir rtl ip] */*.xci] {
+    if {[file tail $ip_xci] eq "video_ctrl_bd_smartconnect_0_0.xci"} {
+        continue
+    }
     lappend sources [file normalize $ip_xci]
 }
 

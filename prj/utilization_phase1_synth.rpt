@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2023.2 (lin64) Build 4029153 Fri Oct 13 20:13:54 MDT 2023
-| Date         : Sun Aug 23 11:59:49 2026
+| Date         : Sun Aug 23 17:22:48 2026
 | Host         : tsmc184 running 64-bit Ubuntu 22.04.5 LTS
 | Command      : report_utilization -file /mnt/data/wzr/13p/ov7670/sixteen_camera/prj/utilization_phase1_synth.rpt
 | Design       : top_wrapper
@@ -35,18 +35,18 @@ Table of Contents
 +----------------------------+--------+-------+------------+-----------+-------+
 |          Site Type         |  Used  | Fixed | Prohibited | Available | Util% |
 +----------------------------+--------+-------+------------+-----------+-------+
-| CLB LUTs*                  | 108795 |     0 |          0 |   1728000 |  6.30 |
-|   LUT as Logic             |  98736 |     0 |          0 |   1728000 |  5.71 |
-|   LUT as Memory            |  10059 |     0 |          0 |    791040 |  1.27 |
-|     LUT as Distributed RAM |   8786 |     0 |            |           |       |
-|     LUT as Shift Register  |   1273 |     0 |            |           |       |
-| CLB Registers              | 187343 |    88 |          0 |   3456000 |  5.42 |
-|   Register as Flip Flop    | 187342 |    88 |          0 |   3456000 |  5.42 |
+| CLB LUTs*                  | 108069 |     0 |          0 |   1728000 |  6.25 |
+|   LUT as Logic             |  98013 |     0 |          0 |   1728000 |  5.67 |
+|   LUT as Memory            |  10056 |     0 |          0 |    791040 |  1.27 |
+|     LUT as Distributed RAM |   8784 |     0 |            |           |       |
+|     LUT as Shift Register  |   1272 |     0 |            |           |       |
+| CLB Registers              | 186370 |    88 |          0 |   3456000 |  5.39 |
+|   Register as Flip Flop    | 186369 |    88 |          0 |   3456000 |  5.39 |
 |   Register as Latch        |      0 |     0 |          0 |   3456000 |  0.00 |
 |   Register as AND/OR       |      1 |     0 |          0 |   3456000 | <0.01 |
 | CARRY8                     |   3940 |     0 |          0 |    216000 |  1.82 |
-| F7 Muxes                   |   6349 |     0 |          0 |    864000 |  0.73 |
-| F8 Muxes                   |    294 |     0 |          0 |    432000 |  0.07 |
+| F7 Muxes                   |   6237 |     0 |          0 |    864000 |  0.72 |
+| F8 Muxes                   |    244 |     0 |          0 |    432000 |  0.06 |
 | F9 Muxes                   |      0 |     0 |          0 |    216000 |  0.00 |
 +----------------------------+--------+-------+------------+-----------+-------+
 * Warning! The Final LUT count, after physical optimizations and full implementation, is typically lower. Run opt_design after synthesis, if not already completed, for a more realistic count.
@@ -66,9 +66,9 @@ Warning! LUT value is adjusted to account for LUT combining.
 | 0      |            _ |       Reset |            - |
 | 0      |          Yes |           - |            - |
 | 450    |          Yes |           - |          Set |
-| 7479   |          Yes |           - |        Reset |
-| 2876   |          Yes |         Set |            - |
-| 176537 |          Yes |       Reset |            - |
+| 7212   |          Yes |           - |        Reset |
+| 2827   |          Yes |         Set |            - |
+| 175880 |          Yes |       Reset |            - |
 +--------+--------------+-------------+--------------+
 
 
@@ -130,8 +130,8 @@ Warning! LUT value is adjusted to account for LUT combining.
 +----------------------+------+-------+------------+-----------+-------+
 |       Site Type      | Used | Fixed | Prohibited | Available | Util% |
 +----------------------+------+-------+------------+-----------+-------+
-| GLOBAL CLOCK BUFFERs |   33 |     0 |          0 |      1344 |  2.46 |
-|   BUFGCE             |   21 |     0 |          0 |       384 |  5.47 |
+| GLOBAL CLOCK BUFFERs |   34 |     0 |          0 |      1344 |  2.53 |
+|   BUFGCE             |   22 |     0 |          0 |       384 |  5.73 |
 |   BUFGCE_DIV         |    0 |     0 |          0 |        64 |  0.00 |
 |   BUFG_GT            |   12 |     0 |          0 |       768 |  1.56 |
 |   BUFGCTRL*          |    0 |     0 |          0 |       128 |  0.00 |
@@ -180,25 +180,25 @@ Warning! LUT value is adjusted to account for LUT combining.
 +------------------+--------+---------------------+
 |     Ref Name     |  Used  | Functional Category |
 +------------------+--------+---------------------+
-| FDRE             | 176537 |            Register |
-| LUT6             |  40421 |                 CLB |
-| LUT4             |  19934 |                 CLB |
-| LUT5             |  19518 |                 CLB |
-| LUT2             |  19507 |                 CLB |
-| LUT3             |  18509 |                 CLB |
-| RAMD32           |   8400 |                 CLB |
-| FDCE             |   7479 |            Register |
-| MUXF7            |   6349 |                 CLB |
-| LUT1             |   5303 |                 CLB |
+| FDRE             | 175880 |            Register |
+| LUT6             |  40241 |                 CLB |
+| LUT4             |  19757 |                 CLB |
+| LUT2             |  19438 |                 CLB |
+| LUT5             |  19278 |                 CLB |
+| LUT3             |  18439 |                 CLB |
+| RAMD32           |   8398 |                 CLB |
+| FDCE             |   7212 |            Register |
+| MUXF7            |   6237 |                 CLB |
+| LUT1             |   5056 |                 CLB |
 | CARRY8           |   3940 |                 CLB |
 | RAMD64E          |   3850 |                 CLB |
-| FDSE             |   2876 |            Register |
+| FDSE             |   2827 |            Register |
 | RAMS32           |   1452 |                 CLB |
 | SRLC32E          |    799 |                 CLB |
-| SRL16E           |    474 |                 CLB |
+| SRL16E           |    473 |                 CLB |
 | FDPE             |    450 |            Register |
 | RAMB36E2         |    329 |            BLOCKRAM |
-| MUXF8            |    294 |                 CLB |
+| MUXF8            |    244 |                 CLB |
 | IBUFCTRL         |    225 |              Others |
 | INBUF            |    215 |                 I/O |
 | RXTX_BITSLICE    |    105 |                 I/O |
@@ -206,7 +206,7 @@ Warning! LUT value is adjusted to account for LUT combining.
 | OBUFT            |     64 |                 I/O |
 | RAMB18E2         |     55 |            BLOCKRAM |
 | OBUF             |     34 |                 I/O |
-| BUFGCE           |     21 |               Clock |
+| BUFGCE           |     22 |               Clock |
 | TX_BITSLICE_TRI  |     20 |                 I/O |
 | BITSLICE_CONTROL |     20 |                 I/O |
 | DSP48E2          |     14 |          Arithmetic |
@@ -241,35 +241,35 @@ Warning! LUT value is adjusted to account for LUT combining.
 10. Instantiated Netlists
 -------------------------
 
-+--------------------------------+------+
-|            Ref Name            | Used |
-+--------------------------------+------+
-| video_ctrl_bd_smartconnect_0_0 |    1 |
-| vid_phy_controller_0           |    1 |
-| v_hdmi_tx_ss_0                 |    1 |
-| v_hdmi_rx_ss_0                 |    1 |
-| tx_refclk_ibuf                 |    1 |
-| tx_refclk_bufg                 |    1 |
-| tx_axis_reg_slice              |    1 |
-| rx_axis_reg_slice              |    1 |
-| design_1_xbar_0                |    1 |
-| design_1_proc_sys_reset_0_0    |    1 |
-| design_1_ddr4_0_0              |    1 |
-| design_1_auto_us_2             |    1 |
-| design_1_auto_us_1             |    1 |
-| design_1_auto_us_0             |    1 |
-| design_1_auto_cc_0             |    1 |
-| bd_2444_v_tc_0                 |    1 |
-| bd_2444_v_hdmi_tx_0            |    1 |
-| bd_2444_v_axi4s_vid_out_0      |    1 |
-| bd_2444_util_vector_logic_0_0  |    1 |
-| bd_2444_axi_crossbar_0         |    1 |
-| bd_2422_v_vid_in_axi4s_0       |    1 |
-| bd_2422_v_hdmi_rx_0            |    1 |
-| bd_2422_inverter_1_0           |    1 |
-| axi_iic_0                      |    1 |
-| axi_gpio_0                     |    1 |
-+--------------------------------+------+
++-------------------------------+------+
+|            Ref Name           | Used |
++-------------------------------+------+
+| vid_phy_controller_0          |    1 |
+| v_hdmi_tx_ss_0                |    1 |
+| v_hdmi_rx_ss_0                |    1 |
+| tx_refclk_ibuf                |    1 |
+| tx_refclk_bufg                |    1 |
+| tx_axis_reg_slice             |    1 |
+| rx_axis_reg_slice             |    1 |
+| design_1_xbar_0               |    1 |
+| design_1_proc_sys_reset_0_0   |    1 |
+| design_1_ddr4_0_0             |    1 |
+| design_1_auto_us_2            |    1 |
+| design_1_auto_us_1            |    1 |
+| design_1_auto_us_0            |    1 |
+| design_1_auto_cc_0            |    1 |
+| clk_wiz_ov7670                |    1 |
+| bd_2444_v_tc_0                |    1 |
+| bd_2444_v_hdmi_tx_0           |    1 |
+| bd_2444_v_axi4s_vid_out_0     |    1 |
+| bd_2444_util_vector_logic_0_0 |    1 |
+| bd_2444_axi_crossbar_0        |    1 |
+| bd_2422_v_vid_in_axi4s_0      |    1 |
+| bd_2422_v_hdmi_rx_0           |    1 |
+| bd_2422_inverter_1_0          |    1 |
+| axi_iic_0                     |    1 |
+| axi_gpio_0                    |    1 |
++-------------------------------+------+
 
 
 11. SLR Connectivity

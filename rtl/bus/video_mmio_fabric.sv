@@ -63,111 +63,151 @@ module video_mmio_fabric (
     output wire [5:0]       m_rready
 );
 
-    video_ctrl_bd_smartconnect_0_0 u_control_smartconnect (
-        .aclk(aclk), .aresetn(aresetn),
-        .S00_AXI_awid(s_awid), .S00_AXI_awaddr(s_awaddr),
-        .S00_AXI_awlen(s_awlen), .S00_AXI_awsize(s_awsize),
-        .S00_AXI_awburst(s_awburst), .S00_AXI_awlock(s_awlock),
-        .S00_AXI_awcache(s_awcache), .S00_AXI_awprot(s_awprot),
-        .S00_AXI_awqos(s_awqos), .S00_AXI_awvalid(s_awvalid),
-        .S00_AXI_awready(s_awready), .S00_AXI_wdata(s_wdata),
-        .S00_AXI_wstrb(s_wstrb), .S00_AXI_wlast(s_wlast),
-        .S00_AXI_wvalid(s_wvalid), .S00_AXI_wready(s_wready),
-        .S00_AXI_bid(s_bid), .S00_AXI_bresp(s_bresp),
-        .S00_AXI_bvalid(s_bvalid), .S00_AXI_bready(s_bready),
-        .S00_AXI_arid(s_arid), .S00_AXI_araddr(s_araddr),
-        .S00_AXI_arlen(s_arlen), .S00_AXI_arsize(s_arsize),
-        .S00_AXI_arburst(s_arburst), .S00_AXI_arlock(s_arlock),
-        .S00_AXI_arcache(s_arcache), .S00_AXI_arprot(s_arprot),
-        .S00_AXI_arqos(s_arqos), .S00_AXI_arvalid(s_arvalid),
-        .S00_AXI_arready(s_arready), .S00_AXI_rid(s_rid),
-        .S00_AXI_rdata(s_rdata), .S00_AXI_rresp(s_rresp),
-        .S00_AXI_rlast(s_rlast), .S00_AXI_rvalid(s_rvalid),
-        .S00_AXI_rready(s_rready),
+    localparam logic [2:0] SEL_ERROR = 3'd7;
 
-        .M00_AXI_awaddr(m_awaddr[0][8:0]), .M00_AXI_awprot(m_awprot[0]),
-        .M00_AXI_awvalid(m_awvalid[0]), .M00_AXI_awready(m_awready[0]),
-        .M00_AXI_wdata(m_wdata[0]), .M00_AXI_wstrb(m_wstrb[0]),
-        .M00_AXI_wvalid(m_wvalid[0]), .M00_AXI_wready(m_wready[0]),
-        .M00_AXI_bresp(m_bresp[0]), .M00_AXI_bvalid(m_bvalid[0]),
-        .M00_AXI_bready(m_bready[0]), .M00_AXI_araddr(m_araddr[0][8:0]),
-        .M00_AXI_arprot(m_arprot[0]), .M00_AXI_arvalid(m_arvalid[0]),
-        .M00_AXI_arready(m_arready[0]), .M00_AXI_rdata(m_rdata[0]),
-        .M00_AXI_rresp(m_rresp[0]), .M00_AXI_rvalid(m_rvalid[0]),
-        .M00_AXI_rready(m_rready[0]),
+    logic [30:0] awaddr_hold, araddr_hold;
+    logic [3:0]  awid_hold, arid_hold;
+    logic [2:0]  awprot_hold, arprot_hold;
+    logic [63:0] wdata_hold;
+    logic [7:0]  wstrb_hold;
+    logic [2:0]  aw_sel, ar_sel;
+    logic        aw_lane, ar_lane;
+    logic        aw_hold, w_hold, write_active, write_aw_done, write_w_done;
+    logic        ar_hold, read_active, read_ar_done;
+    logic        write_error, read_error;
 
-        .M01_AXI_awaddr(m_awaddr[1][8:0]), .M01_AXI_awprot(m_awprot[1]),
-        .M01_AXI_awvalid(m_awvalid[1]), .M01_AXI_awready(m_awready[1]),
-        .M01_AXI_wdata(m_wdata[1]), .M01_AXI_wstrb(m_wstrb[1]),
-        .M01_AXI_wvalid(m_wvalid[1]), .M01_AXI_wready(m_wready[1]),
-        .M01_AXI_bresp(m_bresp[1]), .M01_AXI_bvalid(m_bvalid[1]),
-        .M01_AXI_bready(m_bready[1]), .M01_AXI_araddr(m_araddr[1][8:0]),
-        .M01_AXI_arprot(m_arprot[1]), .M01_AXI_arvalid(m_arvalid[1]),
-        .M01_AXI_arready(m_arready[1]), .M01_AXI_rdata(m_rdata[1]),
-        .M01_AXI_rresp(m_rresp[1]), .M01_AXI_rvalid(m_rvalid[1]),
-        .M01_AXI_rready(m_rready[1]),
+    function automatic logic [2:0] decode_address(input logic [30:0] address);
+        begin
+            case (address[30:16])
+                15'h4000: decode_address = 3'd0; // GPIO
+                15'h4001: decode_address = 3'd1; // IIC
+                15'h4002: decode_address = 3'd2; // VPHY
+                15'h4003: decode_address = 3'd3; // HDMI RX
+                15'h4004,
+                15'h4005: decode_address = 3'd4; // HDMI TX + VTC
+                default: begin
+                    if ((address >= 31'h40100000) &&
+                        (address <  31'h40140000))
+                        decode_address = 3'd5; // framebuffer + cameras
+                    else
+                        decode_address = SEL_ERROR;
+                end
+            endcase
+        end
+    endfunction
 
-        .M02_AXI_awaddr(m_awaddr[2][9:0]), .M02_AXI_awprot(m_awprot[2]),
-        .M02_AXI_awvalid(m_awvalid[2]), .M02_AXI_awready(m_awready[2]),
-        .M02_AXI_wdata(m_wdata[2]), .M02_AXI_wstrb(m_wstrb[2]),
-        .M02_AXI_wvalid(m_wvalid[2]), .M02_AXI_wready(m_wready[2]),
-        .M02_AXI_bresp(m_bresp[2]), .M02_AXI_bvalid(m_bvalid[2]),
-        .M02_AXI_bready(m_bready[2]), .M02_AXI_araddr(m_araddr[2][9:0]),
-        .M02_AXI_arprot(m_arprot[2]), .M02_AXI_arvalid(m_arvalid[2]),
-        .M02_AXI_arready(m_arready[2]), .M02_AXI_rdata(m_rdata[2]),
-        .M02_AXI_rresp(m_rresp[2]), .M02_AXI_rvalid(m_rvalid[2]),
-        .M02_AXI_rready(m_rready[2]),
+    assign s_awready = !aw_hold && !write_active;
+    assign s_wready  = !w_hold && !write_active;
+    assign s_arready = !ar_hold && !read_active;
 
-        .M03_AXI_awaddr(m_awaddr[3][15:0]), .M03_AXI_awprot(m_awprot[3]),
-        .M03_AXI_awvalid(m_awvalid[3]), .M03_AXI_awready(m_awready[3]),
-        .M03_AXI_wdata(m_wdata[3]), .M03_AXI_wstrb(m_wstrb[3]),
-        .M03_AXI_wvalid(m_wvalid[3]), .M03_AXI_wready(m_wready[3]),
-        .M03_AXI_bresp(m_bresp[3]), .M03_AXI_bvalid(m_bvalid[3]),
-        .M03_AXI_bready(m_bready[3]), .M03_AXI_araddr(m_araddr[3][15:0]),
-        .M03_AXI_arprot(m_arprot[3]), .M03_AXI_arvalid(m_arvalid[3]),
-        .M03_AXI_arready(m_arready[3]), .M03_AXI_rdata(m_rdata[3]),
-        .M03_AXI_rresp(m_rresp[3]), .M03_AXI_rvalid(m_rvalid[3]),
-        .M03_AXI_rready(m_rready[3]),
+    assign s_bid    = awid_hold;
+    assign s_bvalid = write_active &&
+                      (write_error || (write_aw_done && write_w_done &&
+                                       m_bvalid[aw_sel]));
+    assign s_bresp  = write_error ? 2'b11 : m_bresp[aw_sel];
 
-        .M04_AXI_awaddr(m_awaddr[4][16:0]), .M04_AXI_awprot(m_awprot[4]),
-        .M04_AXI_awvalid(m_awvalid[4]), .M04_AXI_awready(m_awready[4]),
-        .M04_AXI_wdata(m_wdata[4]), .M04_AXI_wstrb(m_wstrb[4]),
-        .M04_AXI_wvalid(m_wvalid[4]), .M04_AXI_wready(m_wready[4]),
-        .M04_AXI_bresp(m_bresp[4]), .M04_AXI_bvalid(m_bvalid[4]),
-        .M04_AXI_bready(m_bready[4]), .M04_AXI_araddr(m_araddr[4][16:0]),
-        .M04_AXI_arprot(m_arprot[4]), .M04_AXI_arvalid(m_arvalid[4]),
-        .M04_AXI_arready(m_arready[4]), .M04_AXI_rdata(m_rdata[4]),
-        .M04_AXI_rresp(m_rresp[4]), .M04_AXI_rvalid(m_rvalid[4]),
-        .M04_AXI_rready(m_rready[4]),
-
-        .M05_AXI_awaddr(m_awaddr[5]), .M05_AXI_awprot(m_awprot[5]),
-        .M05_AXI_awvalid(m_awvalid[5]), .M05_AXI_awready(m_awready[5]),
-        .M05_AXI_wdata(m_wdata[5]), .M05_AXI_wstrb(m_wstrb[5]),
-        .M05_AXI_wvalid(m_wvalid[5]), .M05_AXI_wready(m_wready[5]),
-        .M05_AXI_bresp(m_bresp[5]), .M05_AXI_bvalid(m_bvalid[5]),
-        .M05_AXI_bready(m_bready[5]), .M05_AXI_araddr(m_araddr[5]),
-        .M05_AXI_arprot(m_arprot[5]), .M05_AXI_arvalid(m_arvalid[5]),
-        .M05_AXI_arready(m_arready[5]), .M05_AXI_rdata(m_rdata[5]),
-        .M05_AXI_rresp(m_rresp[5]), .M05_AXI_rvalid(m_rvalid[5]),
-        .M05_AXI_rready(m_rready[5])
-    );
+    assign s_rid    = arid_hold;
+    assign s_rlast  = 1'b1;
+    assign s_rvalid = read_active &&
+                      (read_error || (read_ar_done && m_rvalid[ar_sel]));
+    assign s_rresp  = read_error ? 2'b11 : m_rresp[ar_sel];
+    assign s_rdata  = read_error ? 64'b0 :
+                      (ar_lane ? {m_rdata[ar_sel], 32'b0} :
+                                 {32'b0, m_rdata[ar_sel]});
 
     genvar i;
-    generate for (i=0; i<6; i=i+1) begin : g_zero_extend
-        if (i==0 || i==1) begin
-            assign m_awaddr[i][17:9] = 0;
-            assign m_araddr[i][17:9] = 0;
-        end else if (i==2) begin
-            assign m_awaddr[i][17:10] = 0;
-            assign m_araddr[i][17:10] = 0;
-        end else if (i==3) begin
-            assign m_awaddr[i][17:16] = 0;
-            assign m_araddr[i][17:16] = 0;
-        end else if (i==4) begin
-            assign m_awaddr[i][17] = 0;
-            assign m_araddr[i][17] = 0;
+    generate
+        for (i = 0; i < 6; i = i + 1) begin : g_targets
+            assign m_awaddr[i]  = awaddr_hold[17:0];
+            assign m_awprot[i]  = awprot_hold;
+            assign m_awvalid[i] = write_active && !write_error &&
+                                  (aw_sel == i) && !write_aw_done;
+            assign m_wdata[i]   = aw_lane ? wdata_hold[63:32] :
+                                             wdata_hold[31:0];
+            assign m_wstrb[i]   = aw_lane ? wstrb_hold[7:4] :
+                                             wstrb_hold[3:0];
+            assign m_wvalid[i]  = write_active && !write_error &&
+                                  (aw_sel == i) && !write_w_done;
+            assign m_bready[i]  = write_active && !write_error &&
+                                  (aw_sel == i) && write_aw_done &&
+                                  write_w_done && s_bready;
+
+            assign m_araddr[i]  = araddr_hold[17:0];
+            assign m_arprot[i]  = arprot_hold;
+            assign m_arvalid[i] = read_active && !read_error &&
+                                  (ar_sel == i) && !read_ar_done;
+            assign m_rready[i]  = read_active && !read_error &&
+                                  (ar_sel == i) && read_ar_done && s_rready;
         end
-    end endgenerate
+    endgenerate
+
+    always_ff @(posedge aclk) begin
+        if (!aresetn) begin
+            aw_hold       <= 1'b0;
+            w_hold        <= 1'b0;
+            write_active  <= 1'b0;
+            write_aw_done <= 1'b0;
+            write_w_done  <= 1'b0;
+            write_error   <= 1'b0;
+            ar_hold       <= 1'b0;
+            read_active   <= 1'b0;
+            read_ar_done  <= 1'b0;
+            read_error    <= 1'b0;
+        end else begin
+            if (s_awvalid && s_awready) begin
+                aw_hold      <= 1'b1;
+                awaddr_hold  <= s_awaddr;
+                awid_hold    <= s_awid;
+                awprot_hold  <= s_awprot;
+                aw_sel       <= decode_address(s_awaddr);
+                aw_lane      <= s_awaddr[2];
+                write_error  <= (decode_address(s_awaddr) == SEL_ERROR) ||
+                                (s_awlen != 8'd0) || (s_awsize > 3'd2);
+            end
+            if (s_wvalid && s_wready) begin
+                w_hold     <= 1'b1;
+                wdata_hold <= s_wdata;
+                wstrb_hold <= s_wstrb;
+            end
+            if (!write_active && aw_hold && w_hold) begin
+                write_active  <= 1'b1;
+                write_aw_done <= 1'b0;
+                write_w_done  <= 1'b0;
+            end
+            if (write_active && !write_error && !write_aw_done &&
+                m_awready[aw_sel])
+                write_aw_done <= 1'b1;
+            if (write_active && !write_error && !write_w_done &&
+                m_wready[aw_sel])
+                write_w_done <= 1'b1;
+            if (s_bvalid && s_bready) begin
+                aw_hold      <= 1'b0;
+                w_hold       <= 1'b0;
+                write_active <= 1'b0;
+            end
+
+            if (s_arvalid && s_arready) begin
+                ar_hold      <= 1'b1;
+                araddr_hold  <= s_araddr;
+                arid_hold    <= s_arid;
+                arprot_hold  <= s_arprot;
+                ar_sel       <= decode_address(s_araddr);
+                ar_lane      <= s_araddr[2];
+                read_error   <= (decode_address(s_araddr) == SEL_ERROR) ||
+                                (s_arlen != 8'd0) || (s_arsize > 3'd2);
+            end
+            if (!read_active && ar_hold) begin
+                read_active  <= 1'b1;
+                read_ar_done <= 1'b0;
+            end
+            if (read_active && !read_error && !read_ar_done &&
+                m_arready[ar_sel])
+                read_ar_done <= 1'b1;
+            if (s_rvalid && s_rready) begin
+                ar_hold     <= 1'b0;
+                read_active <= 1'b0;
+            end
+        end
+    end
 
 endmodule
-
