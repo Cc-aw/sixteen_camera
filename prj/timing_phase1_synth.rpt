@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
 --------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version      : Vivado v.2023.2 (lin64) Build 4029153 Fri Oct 13 20:13:54 MDT 2023
-| Date              : Sat Aug 22 16:22:04 2026
+| Date              : Sun Aug 23 12:02:10 2026
 | Host              : tsmc184 running 64-bit Ubuntu 22.04.5 LTS
 | Command           : report_timing_summary -file /mnt/data/wzr/13p/ov7670/sixteen_camera/prj/timing_phase1_synth.rpt
 | Design            : top_wrapper
@@ -141,7 +141,7 @@ Table of Contents
 
     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
-     -0.771    -2231.782                   3840               413192       -0.571    -9855.804                 193844               410889       -0.139       -0.664                      17                198435  
+      0.281        0.000                      0               420266       -0.571   -10082.069                 199242               417963       -0.139       -0.664                      17                202806  
 
 
 Timing constraints are not met.
@@ -177,6 +177,7 @@ cam_pclk_6                                                                      
 cam_pclk_7                                                                                                                                                                                                                                                                                                                                                        {0.000 20.833}         41.667          24.000          
 cam_pclk_8                                                                                                                                                                                                                                                                                                                                                        {0.000 20.833}         41.667          24.000          
 clk_100m_p                                                                                                                                                                                                                                                                                                                                                        {0.000 5.000}          10.000          100.000         
+  mmcm_clkout                                                                                                                                                                                                                                                                                                                                                     {0.000 20.833}         41.667          24.000          
 clk_25m                                                                                                                                                                                                                                                                                                                                                           {0.000 20.000}         40.000          25.000          
 hdmi_rx_mgt_refclk                                                                                                                                                                                                                                                                                                                                                {0.000 1.684}          3.367           297.000         
   GTYE4_CHANNEL_RXOUTCLK[0]                                                                                                                                                                                                                                                                                                                                       {0.000 1.684}          3.367           297.000         
@@ -202,8 +203,6 @@ hdmi_rx_mgt_refclk                                                              
 hdmi_tx_mgt_refclk                                                                                                                                                                                                                                                                                                                                                {0.000 1.684}          3.367           297.000         
   clkout1_1                                                                                                                                                                                                                                                                                                                                                       {0.000 1.684}          3.367           297.000         
   clkout2_1                                                                                                                                                                                                                                                                                                                                                       {0.000 1.684}          3.367           297.000         
-u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_in1                                                                                                                                                                                                                                                                                                     {0.000 5.000}          10.000          100.000         
-  clk_out1_clk_wiz_ov7670                                                                                                                                                                                                                                                                                                                                         {0.000 20.833}         41.667          24.000          
 u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gtye4_top.vid_phy_controller_0_gtwrapper_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_cpll_cal_gtye4.gen_cpll_cal_inst[0].gen_inst_cpll_cal.gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_inst/gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_rx_i/gen_cal_rx_en.bufg_gt_rxoutclkmon_inst/O  {0.000 1.684}          3.367           297.000         
 u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gtye4_top.vid_phy_controller_0_gtwrapper_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_cpll_cal_gtye4.gen_cpll_cal_inst[0].gen_inst_cpll_cal.gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_inst/gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_tx_i/bufg_gt_txoutclkmon_inst/O                {0.000 1.684}          3.367           297.000         
 u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gtye4_top.vid_phy_controller_0_gtwrapper_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_cpll_cal_gtye4.gen_cpll_cal_inst[1].gen_inst_cpll_cal.gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_inst/gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_rx_i/gen_cal_rx_en.bufg_gt_rxoutclkmon_inst/O  {0.000 1.684}          3.367           297.000         
@@ -222,7 +221,7 @@ u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gt
 Clock                                                                                                                                                                                                                                                                                                                                                                 WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
 -----                                                                                                                                                                                                                                                                                                                                                                 -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
 c0_sys_clk_p                                                                                                                                                                                                                                                                                                                                                            9.019        0.000                      0                   23       -0.068       -0.898                     16                   23        1.999        0.000                       0                    20  
-  mmcm_clkout0                                                                                                                                                                                                                                                                                                                                                         -0.771    -2226.891                   3832               225777       -0.307    -4870.971                  99849               225777        0.137        0.000                       0                 83914  
+  mmcm_clkout0                                                                                                                                                                                                                                                                                                                                                          0.351        0.000                      0               232217       -0.307    -5070.616                 104204               232217        0.137        0.000                       0                 86707  
     pll_clk[0]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     -0.033       -0.131                       4                     9  
       pll_clk[0]_DIV                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                0.466        0.000                       0                    45  
     pll_clk[1]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     -0.033       -0.262                       8                     9  
@@ -235,7 +234,8 @@ c0_sys_clk_p                                                                    
   mmcm_clkout4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      2.042        0.000                       0                     2  
   mmcm_clkout5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     12.038        0.000                       0                     2  
   mmcm_clkout6                                                                                                                                                                                                                                                                                                                                                          4.114        0.000                      0                 5615       -0.098      -88.418                   1848                 5175        0.560        0.000                       0                  1744  
-clk_100m_p                                                                                                                                                                                                                                                                                                                                                              4.619        0.000                      0               121640       -0.448    -3398.133                  65377               121640        3.000        0.000                       0                 89674  
+clk_100m_p                                                                                                                                                                                                                                                                                                                                                              4.619        0.000                      0               122238       -0.448    -3454.530                  66394               122238        2.000        0.000                       0                 91213  
+  mmcm_clkout                                                                                                                                                                                                                                                                                                                                                          39.861        0.000                      0                12087       -0.074     -331.319                   6052                12087       20.291        0.000                       0                  6334  
 clk_25m                                                                                                                                                                                                                                                                                                                                                                37.607        0.000                      0                  588       -0.072      -13.208                    288                  588       19.458        0.000                       0                   285  
 hdmi_rx_mgt_refclk                                                                                                                                                                                                                                                                                                                                                      2.578        0.000                      0                   40       -0.074       -1.663                     40                   40        0.505        0.000                       0                    27  
   GTYE4_CHANNEL_RXOUTCLK[0]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         2.077        0.000                       0                     2  
@@ -257,8 +257,6 @@ hdmi_rx_mgt_refclk                                                              
 hdmi_tx_mgt_refclk                                                                                                                                                                                                                                                                                                                                                      2.578        0.000                      0                   40       -0.074       -1.663                     40                   40        0.505        0.000                       0                    27  
   clkout1_1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         2.077        0.000                       0                     2  
   clkout2_1                                                                                                                                                                                                                                                                                                                                                             0.281        0.000                      0                 9728       -0.083     -245.712                   4812                 9728        1.141        0.000                       0                  4258  
-u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_in1                                                                                                                                                                                                                                                                                                                                                                                                                                                       2.000        0.000                       0                     1  
-  clk_out1_clk_wiz_ov7670                                                                                                                                                                                                                                                                                                                                              39.671        0.000                      0                11987       -0.074     -331.955                   5962                11987       20.291        0.000                       0                  6294  
 u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gtye4_top.vid_phy_controller_0_gtwrapper_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_cpll_cal_gtye4.gen_cpll_cal_inst[0].gen_inst_cpll_cal.gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_inst/gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_rx_i/gen_cal_rx_en.bufg_gt_rxoutclkmon_inst/O        2.567        0.000                      0                   50       -0.074       -1.673                     28                   50        1.408        0.000                       0                    31  
 u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gtye4_top.vid_phy_controller_0_gtwrapper_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_cpll_cal_gtye4.gen_cpll_cal_inst[0].gen_inst_cpll_cal.gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_inst/gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_tx_i/bufg_gt_txoutclkmon_inst/O                      2.567        0.000                      0                   50       -0.074       -1.673                     28                   50        1.408        0.000                       0                    31  
 u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gtye4_top.vid_phy_controller_0_gtwrapper_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_cpll_cal_gtye4.gen_cpll_cal_inst[1].gen_inst_cpll_cal.gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_inst/gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_rx_i/gen_cal_rx_en.bufg_gt_rxoutclkmon_inst/O        2.567        0.000                      0                   50       -0.074       -1.673                     28                   50        1.408        0.000                       0                    31  
@@ -274,35 +272,34 @@ u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gt
 | -----------------
 ------------------------------------------------------------------------------------------------
 
-From Clock               To Clock                     WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints  
-----------               --------                     -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------  
-                         mmcm_clkout0                   2.763        0.000                      0                   28                                                                        
-mmcm_clkout6             mmcm_clkout0                   2.677        0.000                      0                  125                                                                        
-clk_100m_p               mmcm_clkout0                   1.226        0.000                      0                 1213       -0.443      -24.689                     56                   56  
-clkout2                  mmcm_clkout0                   3.130        0.000                      0                   21                                                                        
-clkout2_1                mmcm_clkout0                   3.130        0.000                      0                   21                                                                        
-clk_out1_clk_wiz_ov7670  mmcm_clkout0                  -0.611       -4.891                      8                    8       -0.559       -4.451                      8                    8  
-mmcm_clkout0             pll_clk[0]_DIV                 1.920        0.000                      0                  384        0.413        0.000                      0                  384  
-mmcm_clkout0             pll_clk[1]_DIV                 1.920        0.000                      0                  352        0.413        0.000                      0                  352  
-mmcm_clkout0             pll_clk[2]_DIV                 1.920        0.000                      0                  176        0.413        0.000                      0                  176  
-mmcm_clkout0             mmcm_clkout6                   2.519        0.000                      0                   36       -0.490       -0.490                      1                    1  
-mmcm_clkout0             clk_100m_p                     3.095        0.000                      0                   20                                                                        
-rxoutclk                 clk_100m_p                     3.130        0.000                      0                  281                                                                        
-clkout2                  clk_100m_p                     3.130        0.000                      0                   25                                                                        
-txoutclk                 clk_100m_p                     3.130        0.000                      0                   21                                                                        
-clkout2_1                clk_100m_p                     3.129        0.000                      0                   37                                                                        
-clk_100m_p               rxoutclk                       6.497        0.000                      0                   22                                                                        
-clkout2                  rxoutclk                       3.130        0.000                      0                   20                                                                        
-clkout2                  clkout1                        2.396        0.000                      0                    1       -0.571       -0.571                      1                    1  
-mmcm_clkout0             clkout2                        3.095        0.000                      0                   21                                                                        
-clk_100m_p               clkout2                        6.497        0.000                      0                   10                                                                        
-rxoutclk                 clkout2                        3.130        0.000                      0                  148                                                                        
-clk_100m_p               txoutclk                       6.497        0.000                      0                  262                                                                        
-clkout2_1                txoutclk                       3.130        0.000                      0                  180                                                                        
-clkout2_1                clkout1_1                      2.396        0.000                      0                    1       -0.571       -0.571                      1                    1  
-mmcm_clkout0             clkout2_1                      3.095        0.000                      0                   21                                                                        
-clk_100m_p               clkout2_1                      6.497        0.000                      0                   75                                                                        
-txoutclk                 clkout2_1                      3.130        0.000                      0                   15                                                                        
+From Clock      To Clock            WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints  
+----------      --------            -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------  
+                mmcm_clkout0          2.763        0.000                      0                   28                                                                        
+mmcm_clkout6    mmcm_clkout0          2.677        0.000                      0                  125                                                                        
+clk_100m_p      mmcm_clkout0          6.427        0.000                      0                 1157                                                                        
+clkout2         mmcm_clkout0          3.130        0.000                      0                   21                                                                        
+clkout2_1       mmcm_clkout0          3.130        0.000                      0                   21                                                                        
+mmcm_clkout0    pll_clk[0]_DIV        1.920        0.000                      0                  384        0.413        0.000                      0                  384  
+mmcm_clkout0    pll_clk[1]_DIV        1.920        0.000                      0                  352        0.413        0.000                      0                  352  
+mmcm_clkout0    pll_clk[2]_DIV        1.920        0.000                      0                  176        0.413        0.000                      0                  176  
+mmcm_clkout0    mmcm_clkout6          2.519        0.000                      0                   36       -0.490       -0.490                      1                    1  
+mmcm_clkout0    clk_100m_p            3.095        0.000                      0                   20                                                                        
+rxoutclk        clk_100m_p            3.130        0.000                      0                  281                                                                        
+clkout2         clk_100m_p            3.130        0.000                      0                   25                                                                        
+txoutclk        clk_100m_p            3.130        0.000                      0                   21                                                                        
+clkout2_1       clk_100m_p            3.129        0.000                      0                   37                                                                        
+clk_100m_p      rxoutclk              6.497        0.000                      0                   22                                                                        
+clkout2         rxoutclk              3.130        0.000                      0                   20                                                                        
+clkout2         clkout1               2.396        0.000                      0                    1       -0.571       -0.571                      1                    1  
+mmcm_clkout0    clkout2               3.095        0.000                      0                   21                                                                        
+clk_100m_p      clkout2               6.497        0.000                      0                   10                                                                        
+rxoutclk        clkout2               3.130        0.000                      0                  148                                                                        
+clk_100m_p      txoutclk              6.497        0.000                      0                  262                                                                        
+clkout2_1       txoutclk              3.130        0.000                      0                  180                                                                        
+clkout2_1       clkout1_1             2.396        0.000                      0                    1       -0.571       -0.571                      1                    1  
+mmcm_clkout0    clkout2_1             3.095        0.000                      0                   21                                                                        
+clk_100m_p      clkout2_1             6.497        0.000                      0                   75                                                                        
+txoutclk        clkout2_1             3.130        0.000                      0                   15                                                                        
 
 
 ------------------------------------------------------------------------------------------------
@@ -312,7 +309,7 @@ txoutclk                 clkout2_1                      3.130        0.000      
 
 Path Group                                                                                                                                                                                                                                                                                                                                                        From Clock                                                                                                                                                                                                                                                                                                                                                        To Clock                                                                                                                                                                                                                                                                                                                                                              WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints  
 ----------                                                                                                                                                                                                                                                                                                                                                        ----------                                                                                                                                                                                                                                                                                                                                                        --------                                                                                                                                                                                                                                                                                                                                                              -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------  
-**async_default**                                                                                                                                                                                                                                                                                                                                                 clk_100m_p                                                                                                                                                                                                                                                                                                                                                        clk_100m_p                                                                                                                                                                                                                                                                                                                                                              8.816        0.000                      0                 1980        0.025        0.000                      0                 1980  
+**async_default**                                                                                                                                                                                                                                                                                                                                                 clk_100m_p                                                                                                                                                                                                                                                                                                                                                        clk_100m_p                                                                                                                                                                                                                                                                                                                                                              8.814        0.000                      0                 1980        0.025        0.000                      0                 1980  
 **async_default**                                                                                                                                                                                                                                                                                                                                                 clkout2                                                                                                                                                                                                                                                                                                                                                           clkout2                                                                                                                                                                                                                                                                                                                                                                 2.649        0.000                      0                  534        0.084        0.000                      0                  534  
 **async_default**                                                                                                                                                                                                                                                                                                                                                 clkout2_1                                                                                                                                                                                                                                                                                                                                                         clkout2_1                                                                                                                                                                                                                                                                                                                                                               2.666        0.000                      0                  259        0.076        0.000                      0                  259  
 **async_default**                                                                                                                                                                                                                                                                                                                                                 hdmi_rx_mgt_refclk                                                                                                                                                                                                                                                                                                                                                hdmi_rx_mgt_refclk                                                                                                                                                                                                                                                                                                                                                      2.745        0.000                      0                   18        0.046        0.000                      0                   18  
@@ -504,24 +501,24 @@ High Pulse Width  Slow    MMCME4_ADV/CLKIN1  n/a            2.999         4.998 
 From Clock:  mmcm_clkout0
   To Clock:  mmcm_clkout0
 
-Setup :         3832  Failing Endpoints,  Worst Slack       -0.771ns,  Total Violation    -2226.891ns
-Hold  :        99849  Failing Endpoints,  Worst Slack       -0.307ns,  Total Violation    -4870.971ns
+Setup :            0  Failing Endpoints,  Worst Slack        0.351ns,  Total Violation        0.000ns
+Hold  :       104204  Failing Endpoints,  Worst Slack       -0.307ns,  Total Violation    -5070.616ns
 PW    :            0  Failing Endpoints,  Worst Slack        0.137ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (VIOLATED) :        -0.771ns  (required time - arrival time)
-  Source:                 u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/raw_edge_elapsed_reg[0]/C
+Slack (MET) :             0.351ns  (required time - arrival time)
+  Source:                 u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/expected_phase_fp_reg[0]/C
                             (rising edge-triggered cell FDRE clocked by mmcm_clkout0  {rise@0.000ns fall@1.666ns period=3.332ns})
-  Destination:            u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/valid_count_reg[0]/CE
+  Destination:            u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/candidate_period_at_loss_reg[0]/CE
                             (rising edge-triggered cell FDRE clocked by mmcm_clkout0  {rise@0.000ns fall@1.666ns period=3.332ns})
   Path Group:             mmcm_clkout0
   Path Type:              Setup (Max at Slow Process Corner)
   Requirement:            3.332ns  (mmcm_clkout0 rise@3.332ns - mmcm_clkout0 rise@0.000ns)
-  Data Path Delay:        3.845ns  (logic 1.144ns (29.753%)  route 2.701ns (70.247%))
-  Logic Levels:           14  (CARRY8=4 LUT2=1 LUT3=2 LUT4=2 LUT5=1 LUT6=4)
+  Data Path Delay:        2.723ns  (logic 0.923ns (33.896%)  route 1.800ns (66.104%))
+  Logic Levels:           11  (CARRY8=4 LUT1=2 LUT2=1 LUT4=1 LUT5=1 LUT6=2)
   Clock Path Skew:        -0.145ns (DCD - SCD + CPR)
     Destination Clock Delay (DCD):    8.387ns = ( 11.719 - 3.332 ) 
     Source Clock Delay      (SCD):    8.085ns
@@ -549,44 +546,38 @@ Slack (VIOLATED) :        -0.771ns  (required time - arrival time)
                                                      -0.127     3.295 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.198     3.493    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.028     3.521 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     4.565     8.085    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/ddr4_ui_clk
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/raw_edge_elapsed_reg[0]/C
+                         net (fo=86711, unplaced)     4.565     8.085    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/ddr4_ui_clk
+                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/expected_phase_fp_reg[0]/C
   -------------------------------------------------------------------    -------------------
-                         FDRE (Prop_FDRE_C_Q)         0.077     8.162 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/raw_edge_elapsed_reg[0]/Q
-                         net (fo=32, unplaced)        0.151     8.313    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/raw_edge_elapsed_reg[0]
-                         LUT4 (Prop_LUT4_I1_O)        0.090     8.403 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___16_i_1__0/O
-                         net (fo=16, unplaced)        0.185     8.588    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___16_i_1__0_n_0
-                         LUT4 (Prop_LUT4_I0_O)        0.100     8.688 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___31_i_1/O
-                         net (fo=32, unplaced)        0.245     8.933    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___31_i_1_n_0
-                         LUT3 (Prop_LUT3_I0_O)        0.038     8.971 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___28_i_1__0/O
-                         net (fo=17, unplaced)        0.230     9.201    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___28_i_1__0_n_0
-                         LUT5 (Prop_LUT5_I3_O)        0.066     9.267 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___111/O
-                         net (fo=1, unplaced)         0.163     9.430    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___111_n_0
-                         CARRY8 (Prop_CARRY8_DI[3]_CO[7])
-                                                      0.113     9.543 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___108_i_2/CO[7]
-                         net (fo=1, unplaced)         0.005     9.548    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___108_i_2_n_0
-                         CARRY8 (Prop_CARRY8_CI_CO[2])
-                                                      0.057     9.605 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___108_i_1/CO[2]
-                         net (fo=23, unplaced)        0.237     9.842    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/raw_interval_error1
-                         LUT2 (Prop_LUT2_I1_O)        0.070     9.912 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___4_i_74/O
-                         net (fo=1, unplaced)         0.260    10.172    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___4_i_74_n_0
-                         CARRY8 (Prop_CARRY8_DI[0]_CO[7])
-                                                      0.140    10.312 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___4_i_64/CO[7]
-                         net (fo=1, unplaced)         0.005    10.317    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___4_i_64_n_0
-                         CARRY8 (Prop_CARRY8_CI_O[5])
-                                                      0.116    10.433 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/candidate_period_est_fp_reg[0]_i_16/O[5]
-                         net (fo=1, unplaced)         0.153    10.586    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/raw_interval_error[13]
-                         LUT6 (Prop_LUT6_I1_O)        0.125    10.711 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___4_i_26/O
-                         net (fo=2, unplaced)         0.185    10.896    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___4_i_26_n_0
-                         LUT6 (Prop_LUT6_I5_O)        0.038    10.934 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___4_i_5/O
-                         net (fo=2, unplaced)         0.185    11.119    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___4_i_5_n_0
-                         LUT6 (Prop_LUT6_I4_O)        0.038    11.157 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___4/O
-                         net (fo=22, unplaced)        0.236    11.393    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___4_n_0
-                         LUT6 (Prop_LUT6_I5_O)        0.038    11.431 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/valid_count64[0]_i_1/O
-                         net (fo=66, unplaced)        0.261    11.692    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/valid_count64[0]_i_1_n_0
-                         LUT3 (Prop_LUT3_I0_O)        0.038    11.730 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/valid_count[0]_i_1/O
-                         net (fo=32, unplaced)        0.200    11.930    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/valid_count[0]_i_1_n_0
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/valid_count_reg[0]/CE
+                         FDRE (Prop_FDRE_C_Q)         0.077     8.162 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/expected_phase_fp_reg[0]/Q
+                         net (fo=7, unplaced)         0.162     8.324    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/expected_phase_fp[0]
+                         LUT1 (Prop_LUT1_I0_O)        0.038     8.362 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___11_i_3/O
+                         net (fo=2, unplaced)         0.244     8.606    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___11_i_3_n_0
+                         CARRY8 (Prop_CARRY8_CI_CO[7])
+                                                      0.160     8.766 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___11_i_1/CO[7]
+                         net (fo=1, unplaced)         0.005     8.771    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___11_i_1_n_0
+                         CARRY8 (Prop_CARRY8_CI_O[1])
+                                                      0.076     8.847 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___12_i_1/O[1]
+                         net (fo=4, unplaced)         0.195     9.042    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___12_i_1_n_14
+                         LUT1 (Prop_LUT1_I0_O)        0.037     9.079 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___12_i_9/O
+                         net (fo=1, unplaced)         0.023     9.102    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___12_i_9_n_0
+                         CARRY8 (Prop_CARRY8_S[1]_CO[7])
+                                                      0.197     9.299 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___12_i_2/CO[7]
+                         net (fo=1, unplaced)         0.005     9.304    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___12_i_2_n_0
+                         CARRY8 (Prop_CARRY8_CI_O[4])
+                                                      0.086     9.390 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/candidate_phase_abs_d_reg[23]_i_2/O[4]
+                         net (fo=3, unplaced)         0.140     9.530    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/candidate_phase_abs0[21]
+                         LUT5 (Prop_LUT5_I1_O)        0.100     9.630 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___9_i_11/O
+                         net (fo=1, unplaced)         0.185     9.815    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___9_i_11_n_0
+                         LUT6 (Prop_LUT6_I5_O)        0.038     9.853 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___9_i_3/O
+                         net (fo=1, unplaced)         0.185    10.038    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___9_i_3_n_0
+                         LUT6 (Prop_LUT6_I1_O)        0.038    10.076 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___9_i_1__0/O
+                         net (fo=11, unplaced)        0.220    10.296    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___9_i_1__0_n_0
+                         LUT2 (Prop_LUT2_I0_O)        0.038    10.334 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___10/O
+                         net (fo=8, unplaced)         0.213    10.547    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/i___10_n_0
+                         LUT4 (Prop_LUT4_I1_O)        0.038    10.585 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/period_at_loss[23]_i_1/O
+                         net (fo=88, unplaced)        0.223    10.808    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/period_at_loss[23]_i_1_n_0
+                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/candidate_period_at_loss_reg[0]/CE
   -------------------------------------------------------------------    -------------------
 
                          (clock mmcm_clkout0 rise edge)
@@ -605,16 +596,16 @@ Slack (VIOLATED) :        -0.771ns  (required time - arrival time)
                                                       0.630     7.100 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.176     7.276    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.024     7.300 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     4.420    11.719    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/ddr4_ui_clk
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/valid_count_reg[0]/C
+                         net (fo=86711, unplaced)     4.420    11.719    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/ddr4_ui_clk
+                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/candidate_period_at_loss_reg[0]/C
                          clock pessimism             -0.447    11.272    
                          clock uncertainty           -0.052    11.220    
-                         FDRE (Setup_FDRE_C_CE)      -0.061    11.159    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/valid_count_reg[0]
+                         FDRE (Setup_FDRE_C_CE)      -0.061    11.159    u_camera_hdmi/g_camera_frontend[0].u_camera/u_pclk_recovery/candidate_period_at_loss_reg[0]
   -------------------------------------------------------------------
                          required time                         11.159    
-                         arrival time                         -11.930    
+                         arrival time                         -10.808    
   -------------------------------------------------------------------
-                         slack                                 -0.771    
+                         slack                                  0.351    
 
 
 
@@ -655,7 +646,7 @@ Slack (VIOLATED) :        -0.307ns  (arrival time - required time)
                                                       0.230     1.760 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.118     1.878    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.017     1.895 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     2.681     4.576    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/dReg_reg[10]
+                         net (fo=86711, unplaced)     2.681     4.576    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/dReg_reg[10]
                          FDSE                                         r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/mcal_clb2phy_fifo_rden_reg[26]/C
   -------------------------------------------------------------------    -------------------
                          FDSE (Prop_FDSE_C_Q)         0.038     4.614 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/mcal_clb2phy_fifo_rden_reg[26]/Q
@@ -679,7 +670,7 @@ Slack (VIOLATED) :        -0.307ns  (arrival time - required time)
                                                      -0.295     1.521 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.132     1.653    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.019     1.672 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     3.189     4.861    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/generate_block1.u_ddr_xiphy/byte_num[4].xiphy_byte_wrapper.u_xiphy_byte_wrapper/I_BITSLICE_LOWER[0].GEN_RXTX_BITSLICE_EN.u_xiphy_bitslice_lower/div_clk
+                         net (fo=86711, unplaced)     3.189     4.861    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/generate_block1.u_ddr_xiphy/byte_num[4].xiphy_byte_wrapper.u_xiphy_byte_wrapper/I_BITSLICE_LOWER[0].GEN_RXTX_BITSLICE_EN.u_xiphy_bitslice_lower/div_clk
     BITSLICE_RX_TX_X0Y0  RXTX_BITSLICE                                r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/generate_block1.u_ddr_xiphy/byte_num[4].xiphy_byte_wrapper.u_xiphy_byte_wrapper/I_BITSLICE_LOWER[0].GEN_RXTX_BITSLICE_EN.u_xiphy_bitslice_lower/xiphy_rxtx_bitslice/FIFO_RD_CLK
                          clock pessimism              0.115     4.976    
     BITSLICE_RX_TX_X0Y0  RXTX_BITSLICE (Hold_RXTX_BITSLICE_BITSLICE_RX_TX_FIFO_RD_CLK_FIFO_RD_EN)
@@ -1170,8 +1161,8 @@ From Clock:  clk_100m_p
   To Clock:  clk_100m_p
 
 Setup :            0  Failing Endpoints,  Worst Slack        4.619ns,  Total Violation        0.000ns
-Hold  :        65377  Failing Endpoints,  Worst Slack       -0.448ns,  Total Violation    -3398.133ns
-PW    :            0  Failing Endpoints,  Worst Slack        3.000ns,  Total Violation        0.000ns
+Hold  :        66394  Failing Endpoints,  Worst Slack       -0.448ns,  Total Violation    -3454.530ns
+PW    :            0  Failing Endpoints,  Worst Slack        2.000ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
@@ -1211,7 +1202,7 @@ Slack (MET) :             4.619ns  (required time - arrival time)
                                                       0.000     0.738 r  u_control_soc/u_clk_100m_ibufds/IBUFCTRL_INST/O
                          net (fo=1, unplaced)         0.276     1.014    u_control_soc/clk_100m_ibuf
                          BUFGCE (Prop_BUFGCE_I_O)     0.028     1.042 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     4.147     5.190    u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__1/CLK
+                         net (fo=91273, unplaced)     4.147     5.190    u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__1/CLK
                          DSP_A_B_DATA                                 r  u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/_prod_T_40__1/DSP_A_B_DATA_INST/CLK
   -------------------------------------------------------------------    -------------------
                          DSP_A_B_DATA (Prop_DSP_A_B_DATA_CLK_B2_DATA[17])
@@ -1282,7 +1273,7 @@ Slack (MET) :             4.619ns  (required time - arrival time)
                                                       0.000    10.618 r  u_control_soc/u_clk_100m_ibufds/IBUFCTRL_INST/O
                          net (fo=1, unplaced)         0.247    10.865    u_control_soc/clk_100m_ibuf
                          BUFGCE (Prop_BUFGCE_I_O)     0.024    10.889 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     4.002    14.891    u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/state_reg[1]_1
+                         net (fo=91273, unplaced)     4.002    14.891    u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/state_reg[1]_1
                          FDRE                                         r  u_control_soc/u_rocket/chiptop0/system/tile_prci_domain/element_reset_domain_rockettile/core/div/remainder_reg[129]/C
                          clock pessimism              0.153    15.045    
                          clock uncertainty           -0.035    15.009    
@@ -1328,7 +1319,7 @@ Slack (VIOLATED) :        -0.448ns  (arrival time - required time)
                                                       0.000     0.618 r  u_control_soc/u_clk_100m_ibufds/IBUFCTRL_INST/O
                          net (fo=1, unplaced)         0.247     0.865    u_control_soc/clk_100m_ibuf
                          BUFGCE (Prop_BUFGCE_I_O)     0.024     0.889 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     4.002     4.891    u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gtye4_top.vid_phy_controller_0_gtwrapper_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_cpll_cal_gtye4.gen_cpll_cal_inst[0].gen_inst_cpll_cal.gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_inst/gtwizard_ultrascale_v1_7_17_gte4_drp_arb_i/drpclk_in[0]
+                         net (fo=91273, unplaced)     4.002     4.891    u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gtye4_top.vid_phy_controller_0_gtwrapper_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_cpll_cal_gtye4.gen_cpll_cal_inst[0].gen_inst_cpll_cal.gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_inst/gtwizard_ultrascale_v1_7_17_gte4_drp_arb_i/drpclk_in[0]
                          FDRE                                         r  u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gtye4_top.vid_phy_controller_0_gtwrapper_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_cpll_cal_gtye4.gen_cpll_cal_inst[0].gen_inst_cpll_cal.gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_inst/gtwizard_ultrascale_v1_7_17_gte4_drp_arb_i/DWE_O_reg/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_FDRE_C_Q)         0.058     4.949 r  u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gtye4_top.vid_phy_controller_0_gtwrapper_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_cpll_cal_gtye4.gen_cpll_cal_inst[0].gen_inst_cpll_cal.gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_inst/gtwizard_ultrascale_v1_7_17_gte4_drp_arb_i/DWE_O_reg/Q
@@ -1348,7 +1339,7 @@ Slack (VIOLATED) :        -0.448ns  (arrival time - required time)
                                                       0.000     0.738 r  u_control_soc/u_clk_100m_ibufds/IBUFCTRL_INST/O
                          net (fo=1, unplaced)         0.276     1.014    u_control_soc/clk_100m_ibuf
                          BUFGCE (Prop_BUFGCE_I_O)     0.028     1.042 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     4.163     5.205    u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gtye4_top.vid_phy_controller_0_gtwrapper_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_channel_container[5].gen_enabled_channel.gtye4_channel_wrapper_inst/channel_inst/drpclk_in[0]
+                         net (fo=91273, unplaced)     4.163     5.205    u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gtye4_top.vid_phy_controller_0_gtwrapper_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_channel_container[5].gen_enabled_channel.gtye4_channel_wrapper_inst/channel_inst/drpclk_in[0]
     GTYE4_CHANNEL_X0Y20  GTYE4_CHANNEL                                r  u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gtye4_top.vid_phy_controller_0_gtwrapper_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_channel_container[5].gen_enabled_channel.gtye4_channel_wrapper_inst/channel_inst/gtye4_channel_gen.gen_gtye4_channel_inst[0].GTYE4_CHANNEL_PRIM_INST/DRPCLK
                          clock pessimism             -0.153     5.052    
     GTYE4_CHANNEL_X0Y20  GTYE4_CHANNEL (Hold_GTYE4_CHANNEL_DRPCLK_DRPWE)
@@ -1372,8 +1363,201 @@ Sources:            { clk_100m_p }
 
 Check Type        Corner  Lib Pin              Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location  Pin
 Min Period        n/a     GTYE4_COMMON/DRPCLK  n/a            4.000         10.000      6.000                u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_common_inst/common_inst/gtye4_common_gen.GTYE4_COMMON_PRIM_INST/DRPCLK
-Low Pulse Width   Slow    MMCME4_ADV/DCLK      n/a            2.000         5.000       3.000                u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_usrclk_source_inst/rx_mmcm.rxoutclk_mmcm0_i/mmcm_adv_inst/DCLK
-High Pulse Width  Slow    MMCME4_ADV/DCLK      n/a            2.000         5.000       3.000                u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_usrclk_source_inst/rx_mmcm.rxoutclk_mmcm0_i/mmcm_adv_inst/DCLK
+Max Period        n/a     MMCME4_ADV/CLKIN1    n/a            100.000       10.000      90.000               u_camera_hdmi/u_camera_clocking/u_ov7670_mmcm/CLKIN1
+Low Pulse Width   Slow    MMCME4_ADV/CLKIN1    n/a            3.000         5.000       2.000                u_camera_hdmi/u_camera_clocking/u_ov7670_mmcm/CLKIN1
+High Pulse Width  Slow    MMCME4_ADV/CLKIN1    n/a            3.000         5.000       2.000                u_camera_hdmi/u_camera_clocking/u_ov7670_mmcm/CLKIN1
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  mmcm_clkout
+  To Clock:  mmcm_clkout
+
+Setup :            0  Failing Endpoints,  Worst Slack       39.861ns,  Total Violation        0.000ns
+Hold  :         6052  Failing Endpoints,  Worst Slack       -0.074ns,  Total Violation     -331.319ns
+PW    :            0  Failing Endpoints,  Worst Slack       20.291ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             39.861ns  (required time - arrival time)
+  Source:                 u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/post_reset_wait_reg[4]/C
+                            (rising edge-triggered cell FDRE clocked by mmcm_clkout  {rise@0.000ns fall@20.833ns period=41.667ns})
+  Destination:            u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/data_sr_reg[22]/S
+                            (rising edge-triggered cell FDSE clocked by mmcm_clkout  {rise@0.000ns fall@20.833ns period=41.667ns})
+  Path Group:             mmcm_clkout
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            41.667ns  (mmcm_clkout rise@41.667ns - mmcm_clkout rise@0.000ns)
+  Data Path Delay:        1.504ns  (logic 0.393ns (26.130%)  route 1.111ns (73.870%))
+  Logic Levels:           5  (LUT4=1 LUT5=3 LUT6=1)
+  Clock Path Skew:        -0.145ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    8.160ns = ( 49.827 - 41.667 ) 
+    Source Clock Delay      (SCD):    7.873ns
+    Clock Pessimism Removal (CPR):    -0.433ns
+  Clock Uncertainty:      0.083ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.149ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock mmcm_clkout rise edge)
+                                                      0.000     0.000 r  
+    AY24                                              0.000     0.000 r  clk_100m_p (IN)
+                         net (fo=0)                   0.000     0.000    u_control_soc/u_clk_100m_ibufds/I
+    HPIOBDIFFINBUF_X0Y106
+                         DIFFINBUF (Prop_DIFFINBUF_HPIOBDIFFINBUF_DIFF_IN_P_O)
+                                                      0.688     0.688 r  u_control_soc/u_clk_100m_ibufds/DIFFINBUF_INST/O
+                         net (fo=1, estimated)        0.050     0.738    u_control_soc/u_clk_100m_ibufds/OUT
+    AY24                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.738 r  u_control_soc/u_clk_100m_ibufds/IBUFCTRL_INST/O
+                         net (fo=1, unplaced)         0.276     1.014    u_control_soc/clk_100m_ibuf
+                         BUFGCE (Prop_BUFGCE_I_O)     0.028     1.042 r  u_control_soc/u_clk_100m_bufg/O
+                         net (fo=91273, unplaced)     4.147     5.190    u_camera_hdmi/u_camera_clocking/camera_ref_clk
+                         MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
+                                                     -0.127     5.063 r  u_camera_hdmi/u_camera_clocking/u_ov7670_mmcm/CLKOUT0
+                         net (fo=1, unplaced)         0.198     5.261    u_camera_hdmi/u_camera_clocking/mmcm_clkout
+                         BUFGCE (Prop_BUFGCE_I_O)     0.028     5.289 r  u_camera_hdmi/u_camera_clocking/u_ov7670_ctrl_bufg/O
+                         net (fo=6332, unplaced)      2.584     7.873    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/ov7670_ctrl_clk
+                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/post_reset_wait_reg[4]/C
+  -------------------------------------------------------------------    -------------------
+                         FDRE (Prop_FDRE_C_Q)         0.078     7.951 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/post_reset_wait_reg[4]/Q
+                         net (fo=3, unplaced)         0.104     8.055    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/post_reset_wait_reg_n_0_[4]
+                         LUT5 (Prop_LUT5_I0_O)        0.163     8.218 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/taken_i_9/O
+                         net (fo=1, unplaced)         0.185     8.403    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/taken_i_9_n_0
+                         LUT5 (Prop_LUT5_I0_O)        0.038     8.441 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/taken_i_8/O
+                         net (fo=1, unplaced)         0.185     8.626    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/taken_i_8_n_0
+                         LUT6 (Prop_LUT6_I5_O)        0.038     8.664 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/taken_i_5/O
+                         net (fo=5, unplaced)         0.203     8.867    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/taken_i_5_n_0
+                         LUT5 (Prop_LUT5_I3_O)        0.038     8.905 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/taken_i_2/O
+                         net (fo=17, unplaced)        0.230     9.135    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/data_sr[0]
+                         LUT4 (Prop_LUT4_I0_O)        0.038     9.173 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/data_sr[31]_i_1/O
+                         net (fo=5, unplaced)         0.204     9.377    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/data_sr[31]_i_1_n_0
+                         FDSE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/data_sr_reg[22]/S
+  -------------------------------------------------------------------    -------------------
+
+                         (clock mmcm_clkout rise edge)
+                                                     41.667    41.667 r  
+    AY24                                              0.000    41.667 r  clk_100m_p (IN)
+                         net (fo=0)                   0.000    41.667    u_control_soc/u_clk_100m_ibufds/I
+    HPIOBDIFFINBUF_X0Y106
+                         DIFFINBUF (Prop_DIFFINBUF_HPIOBDIFFINBUF_DIFF_IN_P_O)
+                                                      0.578    42.244 r  u_control_soc/u_clk_100m_ibufds/DIFFINBUF_INST/O
+                         net (fo=1, estimated)        0.040    42.284    u_control_soc/u_clk_100m_ibufds/OUT
+    AY24                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000    42.284 r  u_control_soc/u_clk_100m_ibufds/IBUFCTRL_INST/O
+                         net (fo=1, unplaced)         0.247    42.531    u_control_soc/clk_100m_ibuf
+                         BUFGCE (Prop_BUFGCE_I_O)     0.024    42.555 r  u_control_soc/u_clk_100m_bufg/O
+                         net (fo=91273, unplaced)     4.002    46.558    u_camera_hdmi/u_camera_clocking/camera_ref_clk
+                         MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
+                                                      0.630    47.188 r  u_camera_hdmi/u_camera_clocking/u_ov7670_mmcm/CLKOUT0
+                         net (fo=1, unplaced)         0.176    47.364    u_camera_hdmi/u_camera_clocking/mmcm_clkout
+                         BUFGCE (Prop_BUFGCE_I_O)     0.024    47.388 r  u_camera_hdmi/u_camera_clocking/u_ov7670_ctrl_bufg/O
+                         net (fo=6332, unplaced)      2.439    49.827    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/ov7670_ctrl_clk
+                         FDSE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/data_sr_reg[22]/C
+                         clock pessimism             -0.433    49.394    
+                         clock uncertainty           -0.083    49.312    
+                         FDSE (Setup_FDSE_C_S)       -0.074    49.238    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/data_sr_reg[22]
+  -------------------------------------------------------------------
+                         required time                         49.238    
+                         arrival time                          -9.377    
+  -------------------------------------------------------------------
+                         slack                                 39.861    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (VIOLATED) :        -0.074ns  (arrival time - required time)
+  Source:                 u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[17]/C
+                            (rising edge-triggered cell FDRE clocked by mmcm_clkout  {rise@0.000ns fall@20.833ns period=41.667ns})
+  Destination:            u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[17]/D
+                            (rising edge-triggered cell FDRE clocked by mmcm_clkout  {rise@0.000ns fall@20.833ns period=41.667ns})
+  Path Group:             mmcm_clkout
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (mmcm_clkout rise@0.000ns - mmcm_clkout rise@0.000ns)
+  Data Path Delay:        0.117ns  (logic 0.056ns (47.863%)  route 0.061ns (52.137%))
+  Logic Levels:           1  (CARRY8=1)
+  Clock Path Skew:        0.145ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    4.339ns
+    Source Clock Delay      (SCD):    4.410ns
+    Clock Pessimism Removal (CPR):    -0.216ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock mmcm_clkout rise edge)
+                                                      0.000     0.000 r  
+    AY24                                              0.000     0.000 r  clk_100m_p (IN)
+                         net (fo=0)                   0.000     0.000    u_control_soc/u_clk_100m_ibufds/I
+    HPIOBDIFFINBUF_X0Y106
+                         DIFFINBUF (Prop_DIFFINBUF_HPIOBDIFFINBUF_DIFF_IN_P_O)
+                                                      0.354     0.354 r  u_control_soc/u_clk_100m_ibufds/DIFFINBUF_INST/O
+                         net (fo=1, estimated)        0.040     0.394    u_control_soc/u_clk_100m_ibufds/OUT
+    AY24                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.394 r  u_control_soc/u_clk_100m_ibufds/IBUFCTRL_INST/O
+                         net (fo=1, unplaced)         0.116     0.510    u_control_soc/clk_100m_ibuf
+                         BUFGCE (Prop_BUFGCE_I_O)     0.017     0.527 r  u_control_soc/u_clk_100m_bufg/O
+                         net (fo=91273, unplaced)     2.404     2.931    u_camera_hdmi/u_camera_clocking/camera_ref_clk
+                         MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
+                                                      0.230     3.161 r  u_camera_hdmi/u_camera_clocking/u_ov7670_mmcm/CLKOUT0
+                         net (fo=1, unplaced)         0.118     3.279    u_camera_hdmi/u_camera_clocking/mmcm_clkout
+                         BUFGCE (Prop_BUFGCE_I_O)     0.017     3.296 r  u_camera_hdmi/u_camera_clocking/u_ov7670_ctrl_bufg/O
+                         net (fo=6332, unplaced)      1.114     4.410    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/ov7670_ctrl_clk
+                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[17]/C
+  -------------------------------------------------------------------    -------------------
+                         FDRE (Prop_FDRE_C_Q)         0.038     4.448 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[17]/Q
+                         net (fo=2, unplaced)         0.054     4.502    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/src_in[339]
+                         CARRY8 (Prop_CARRY8_S[1]_O[1])
+                                                      0.018     4.520 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[16]_i_1/O[1]
+                         net (fo=1, unplaced)         0.007     4.527    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[16]_i_1_n_14
+                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[17]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock mmcm_clkout rise edge)
+                                                      0.000     0.000 r  
+    AY24                                              0.000     0.000 r  clk_100m_p (IN)
+                         net (fo=0)                   0.000     0.000    u_control_soc/u_clk_100m_ibufds/I
+    HPIOBDIFFINBUF_X0Y106
+                         DIFFINBUF (Prop_DIFFINBUF_HPIOBDIFFINBUF_DIFF_IN_P_O)
+                                                      0.459     0.459 r  u_control_soc/u_clk_100m_ibufds/DIFFINBUF_INST/O
+                         net (fo=1, estimated)        0.050     0.509    u_control_soc/u_clk_100m_ibufds/OUT
+    AY24                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.509 r  u_control_soc/u_clk_100m_ibufds/IBUFCTRL_INST/O
+                         net (fo=1, unplaced)         0.147     0.656    u_control_soc/clk_100m_ibuf
+                         BUFGCE (Prop_BUFGCE_I_O)     0.019     0.675 r  u_control_soc/u_clk_100m_bufg/O
+                         net (fo=91273, unplaced)     2.549     3.224    u_camera_hdmi/u_camera_clocking/camera_ref_clk
+                         MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
+                                                     -0.295     2.929 r  u_camera_hdmi/u_camera_clocking/u_ov7670_mmcm/CLKOUT0
+                         net (fo=1, unplaced)         0.132     3.061    u_camera_hdmi/u_camera_clocking/mmcm_clkout
+                         BUFGCE (Prop_BUFGCE_I_O)     0.019     3.080 r  u_camera_hdmi/u_camera_clocking/u_ov7670_ctrl_bufg/O
+                         net (fo=6332, unplaced)      1.259     4.339    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/ov7670_ctrl_clk
+                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[17]/C
+                         clock pessimism              0.216     4.555    
+                         FDRE (Hold_FDRE_C_D)         0.046     4.601    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[17]
+  -------------------------------------------------------------------
+                         required time                         -4.601    
+                         arrival time                           4.527    
+  -------------------------------------------------------------------
+                         slack                                 -0.074    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         mmcm_clkout
+Waveform(ns):       { 0.000 20.833 }
+Period(ns):         41.667
+Sources:            { u_camera_hdmi/u_camera_clocking/u_ov7670_mmcm/CLKOUT0 }
+
+Check Type        Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location  Pin
+Min Period        n/a     RAMB18E2/CLKARDCLK  n/a            1.355         41.667      40.312               u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/sreg_reg/CLKARDCLK
+Low Pulse Width   Slow    RAMB18E2/CLKARDCLK  n/a            0.542         20.833      20.291               u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/sreg_reg/CLKARDCLK
+High Pulse Width  Slow    RAMB18E2/CLKARDCLK  n/a            0.542         20.833      20.291               u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/sreg_reg/CLKARDCLK
 
 
 
@@ -1434,7 +1618,7 @@ Slack (MET) :             37.607ns  (required time - arrival time)
                          LUT5 (Prop_LUT5_I2_O)        0.100     5.120 r  u_control_soc/u_si5338top/si5338_inst1/i2c_master_inst/bram_counter[8]_i_5/O
                          net (fo=3, unplaced)         0.191     5.311    u_control_soc/u_si5338top/si5338_inst1/i2c_master_inst/bram_counter[8]_i_5_n_0
                          LUT5 (Prop_LUT5_I2_O)        0.038     5.349 r  u_control_soc/u_si5338top/si5338_inst1/i2c_master_inst/bram_counter[8]_i_1/O
-                         net (fo=9, unplaced)         0.217     5.566    u_control_soc/u_si5338top/si5338_inst1/i2c_master_inst_n_23
+                         net (fo=9, unplaced)         0.217     5.566    u_control_soc/u_si5338top/si5338_inst1/i2c_master_inst_n_24
                          FDRE                                         r  u_control_soc/u_si5338top/si5338_inst1/bram_counter_reg[0]/R
   -------------------------------------------------------------------    -------------------
 
@@ -3231,187 +3415,6 @@ High Pulse Width  Slow    RAMB36E2/CLKBWRCLK  n/a            0.542         1.683
 
 
 ---------------------------------------------------------------------------------------------------
-From Clock:  u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_in1
-  To Clock:  u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_in1
-
-Setup :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
-Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
-PW    :            0  Failing Endpoints,  Worst Slack        2.000ns,  Total Violation        0.000ns
----------------------------------------------------------------------------------------------------
-
-
-Pulse Width Checks
---------------------------------------------------------------------------------------
-Clock Name:         u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_in1
-Waveform(ns):       { 0.000 5.000 }
-Period(ns):         10.000
-Sources:            { u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_in1 }
-
-Check Type        Corner  Lib Pin            Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location  Pin
-Min Period        n/a     MMCME4_ADV/CLKIN1  n/a            1.071         10.000      8.929                u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/mmcme4_adv_inst/CLKIN1
-Max Period        n/a     MMCME4_ADV/CLKIN1  n/a            100.000       10.000      90.000               u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/mmcme4_adv_inst/CLKIN1
-Low Pulse Width   Slow    MMCME4_ADV/CLKIN1  n/a            3.000         5.000       2.000                u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/mmcme4_adv_inst/CLKIN1
-High Pulse Width  Slow    MMCME4_ADV/CLKIN1  n/a            3.000         5.000       2.000                u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/mmcme4_adv_inst/CLKIN1
-
-
-
----------------------------------------------------------------------------------------------------
-From Clock:  clk_out1_clk_wiz_ov7670
-  To Clock:  clk_out1_clk_wiz_ov7670
-
-Setup :            0  Failing Endpoints,  Worst Slack       39.671ns,  Total Violation        0.000ns
-Hold  :         5962  Failing Endpoints,  Worst Slack       -0.074ns,  Total Violation     -331.955ns
-PW    :            0  Failing Endpoints,  Worst Slack       20.291ns,  Total Violation        0.000ns
----------------------------------------------------------------------------------------------------
-
-
-Max Delay Paths
---------------------------------------------------------------------------------------
-Slack (MET) :             39.671ns  (required time - arrival time)
-  Source:                 u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/divider_reg[4]/C
-                            (rising edge-triggered cell FDRE clocked by clk_out1_clk_wiz_ov7670  {rise@0.000ns fall@20.833ns period=41.667ns})
-  Destination:            u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/post_reset_wait_reg[0]/R
-                            (rising edge-triggered cell FDRE clocked by clk_out1_clk_wiz_ov7670  {rise@0.000ns fall@20.833ns period=41.667ns})
-  Path Group:             clk_out1_clk_wiz_ov7670
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            41.667ns  (clk_out1_clk_wiz_ov7670 rise@41.667ns - clk_out1_clk_wiz_ov7670 rise@0.000ns)
-  Data Path Delay:        1.691ns  (logic 0.473ns (27.972%)  route 1.218ns (72.028%))
-  Logic Levels:           5  (LUT4=2 LUT5=1 LUT6=2)
-  Clock Path Skew:        -0.145ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    7.271ns = ( 48.938 - 41.667 ) 
-    Source Clock Delay      (SCD):    6.830ns
-    Clock Pessimism Removal (CPR):    -0.586ns
-  Clock Uncertainty:      0.085ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Discrete Jitter          (DJ):    0.155ns
-    Phase Error              (PE):    0.000ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_out1_clk_wiz_ov7670 rise edge)
-                                                      0.000     0.000 r  
-                         BUFGCE                       0.000     0.000 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     4.147     4.147    u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_in1
-                         MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
-                                                     -0.127     4.020 r  u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/mmcme4_adv_inst/CLKOUT0
-                         net (fo=1, unplaced)         0.198     4.218    u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_out1_clk_wiz_ov7670
-                         BUFGCE (Prop_BUFGCE_I_O)     0.028     4.246 r  u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clkout1_buf/O
-                         net (fo=6292, unplaced)      2.584     6.830    u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/clk_out1
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/divider_reg[4]/C
-  -------------------------------------------------------------------    -------------------
-                         FDRE (Prop_FDRE_C_Q)         0.077     6.907 r  u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/divider_reg[4]/Q
-                         net (fo=5, unplaced)         0.172     7.079    u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/src_in[14]
-                         LUT6 (Prop_LUT6_I0_O)        0.150     7.229 f  u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/divider[7]_i_6__2/O
-                         net (fo=6, unplaced)         0.207     7.436    u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/divider[7]_i_6__2_n_0
-                         LUT4 (Prop_LUT4_I3_O)        0.070     7.506 r  u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/successful_write_count[0]_i_3/O
-                         net (fo=4, unplaced)         0.153     7.659    u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/successful_write_count[0]_i_3_n_0
-                         LUT5 (Prop_LUT5_I1_O)        0.100     7.759 r  u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/successful_write_count[0]_i_1/O
-                         net (fo=43, unplaced)        0.251     8.010    u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/successful_write_count[0]_i_1_n_0
-                         LUT6 (Prop_LUT6_I0_O)        0.038     8.048 r  u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/post_reset_wait[13]_i_3__2/O
-                         net (fo=9, unplaced)         0.216     8.264    u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/post_reset_wait[13]_i_3__2_n_0
-                         LUT4 (Prop_LUT4_I0_O)        0.038     8.302 r  u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/post_reset_wait[13]_i_1__2/O
-                         net (fo=10, unplaced)        0.219     8.521    u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/post_reset_wait[13]_i_1__2_n_0
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/post_reset_wait_reg[0]/R
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_out1_clk_wiz_ov7670 rise edge)
-                                                     41.667    41.667 r  
-                         BUFGCE                       0.000    41.667 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     4.002    45.669    u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_in1
-                         MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
-                                                      0.630    46.299 r  u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/mmcme4_adv_inst/CLKOUT0
-                         net (fo=1, unplaced)         0.176    46.475    u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_out1_clk_wiz_ov7670
-                         BUFGCE (Prop_BUFGCE_I_O)     0.024    46.499 r  u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clkout1_buf/O
-                         net (fo=6292, unplaced)      2.439    48.938    u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/clk_out1
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/post_reset_wait_reg[0]/C
-                         clock pessimism             -0.586    48.352    
-                         clock uncertainty           -0.085    48.267    
-                         FDRE (Setup_FDRE_C_R)       -0.074    48.193    u_camera_hdmi/g_camera_frontend[3].u_camera/u_ov7670_ctrl/post_reset_wait_reg[0]
-  -------------------------------------------------------------------
-                         required time                         48.193    
-                         arrival time                          -8.521    
-  -------------------------------------------------------------------
-                         slack                                 39.671    
-
-
-
-
-
-Min Delay Paths
---------------------------------------------------------------------------------------
-Slack (VIOLATED) :        -0.074ns  (arrival time - required time)
-  Source:                 u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[17]/C
-                            (rising edge-triggered cell FDRE clocked by clk_out1_clk_wiz_ov7670  {rise@0.000ns fall@20.833ns period=41.667ns})
-  Destination:            u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[17]/D
-                            (rising edge-triggered cell FDRE clocked by clk_out1_clk_wiz_ov7670  {rise@0.000ns fall@20.833ns period=41.667ns})
-  Path Group:             clk_out1_clk_wiz_ov7670
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (clk_out1_clk_wiz_ov7670 rise@0.000ns - clk_out1_clk_wiz_ov7670 rise@0.000ns)
-  Data Path Delay:        0.117ns  (logic 0.056ns (47.863%)  route 0.061ns (52.137%))
-  Logic Levels:           1  (CARRY8=1)
-  Clock Path Skew:        0.145ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    3.664ns
-    Source Clock Delay      (SCD):    3.883ns
-    Clock Pessimism Removal (CPR):    -0.364ns
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_out1_clk_wiz_ov7670 rise edge)
-                                                      0.000     0.000 r  
-                         BUFGCE                       0.000     0.000 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     2.404     2.404    u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_in1
-                         MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
-                                                      0.230     2.634 r  u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/mmcme4_adv_inst/CLKOUT0
-                         net (fo=1, unplaced)         0.118     2.752    u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_out1_clk_wiz_ov7670
-                         BUFGCE (Prop_BUFGCE_I_O)     0.017     2.769 r  u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clkout1_buf/O
-                         net (fo=6292, unplaced)      1.114     3.883    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/CLK
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[17]/C
-  -------------------------------------------------------------------    -------------------
-                         FDRE (Prop_FDRE_C_Q)         0.038     3.921 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[17]/Q
-                         net (fo=2, unplaced)         0.054     3.975    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/src_in[336]
-                         CARRY8 (Prop_CARRY8_S[1]_O[1])
-                                                      0.018     3.993 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[16]_i_1/O[1]
-                         net (fo=1, unplaced)         0.007     4.000    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[16]_i_1_n_14
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[17]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock clk_out1_clk_wiz_ov7670 rise edge)
-                                                      0.000     0.000 r  
-                         BUFGCE                       0.000     0.000 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     2.549     2.549    u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_in1
-                         MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
-                                                     -0.295     2.254 r  u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/mmcme4_adv_inst/CLKOUT0
-                         net (fo=1, unplaced)         0.132     2.386    u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_out1_clk_wiz_ov7670
-                         BUFGCE (Prop_BUFGCE_I_O)     0.019     2.405 r  u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clkout1_buf/O
-                         net (fo=6292, unplaced)      1.259     3.664    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/CLK
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[17]/C
-                         clock pessimism              0.364     4.028    
-                         FDRE (Hold_FDRE_C_D)         0.046     4.074    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/nack_data_count_reg[17]
-  -------------------------------------------------------------------
-                         required time                         -4.074    
-                         arrival time                           4.000    
-  -------------------------------------------------------------------
-                         slack                                 -0.074    
-
-
-
-
-
-Pulse Width Checks
---------------------------------------------------------------------------------------
-Clock Name:         clk_out1_clk_wiz_ov7670
-Waveform(ns):       { 0.000 20.833 }
-Period(ns):         41.667
-Sources:            { u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/mmcme4_adv_inst/CLKOUT0 }
-
-Check Type        Corner  Lib Pin             Reference Pin  Required(ns)  Actual(ns)  Slack(ns)  Location  Pin
-Min Period        n/a     RAMB18E2/CLKARDCLK  n/a            1.355         41.667      40.312               u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/sreg_reg/CLKARDCLK
-Low Pulse Width   Slow    RAMB18E2/CLKARDCLK  n/a            0.542         20.833      20.291               u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/sreg_reg/CLKARDCLK
-High Pulse Width  Slow    RAMB18E2/CLKARDCLK  n/a            0.542         20.833      20.291               u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/sreg_reg/CLKARDCLK
-
-
-
----------------------------------------------------------------------------------------------------
 From Clock:  u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gtye4_top.vid_phy_controller_0_gtwrapper_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_cpll_cal_gtye4.gen_cpll_cal_inst[0].gen_inst_cpll_cal.gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_inst/gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_rx_i/gen_cal_rx_en.bufg_gt_rxoutclkmon_inst/O
   To Clock:  u_camera_hdmi/u_hdmi/u_datapath/u_vphy/inst/gt_wrapper_inst/inst/gen_gtwizard_gtye4_top.vid_phy_controller_0_gtwrapper_gtwizard_gtye4_inst/gen_gtwizard_gtye4.gen_cpll_cal_gtye4.gen_cpll_cal_inst[0].gen_inst_cpll_cal.gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_inst/gtwizard_ultrascale_v1_7_17_gtye4_cpll_cal_rx_i/gen_cal_rx_en.bufg_gt_rxoutclkmon_inst/O
 
@@ -4573,156 +4576,40 @@ Slack (MET) :             2.677ns  (required time - arrival time)
 From Clock:  clk_100m_p
   To Clock:  mmcm_clkout0
 
-Setup :            0  Failing Endpoints,  Worst Slack        1.226ns,  Total Violation        0.000ns
-Hold  :           56  Failing Endpoints,  Worst Slack       -0.443ns,  Total Violation      -24.689ns
+Setup :            0  Failing Endpoints,  Worst Slack        6.427ns,  Total Violation        0.000ns
+Hold  :           NA  Failing Endpoints,  Worst Slack           NA  ,  Total Violation           NA
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             1.226ns  (required time - arrival time)
-  Source:                 u_camera_hdmi/g_camera_frontend[0].u_camera/diag_clear_toggle_reg/C
+Slack (MET) :             6.427ns  (required time - arrival time)
+  Source:                 u_camera_hdmi/u_hdmi/u_datapath/u_hdmi_rx/inst/v_hdmi_rx/inst/BRDG_CDC_INST/gen_handshake.XPM_INST/src_hsdata_ff_reg[0]/C
                             (rising edge-triggered cell FDRE clocked by clk_100m_p  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            u_camera_hdmi/g_camera_frontend[0].u_camera/diag_clear_video_sync1_reg/D
+  Destination:            u_camera_hdmi/u_hdmi/u_datapath/u_hdmi_rx/inst/v_hdmi_rx/inst/BRDG_CDC_INST/gen_handshake.XPM_INST/dest_hsdata_ff_reg[0]/D
                             (rising edge-triggered cell FDRE clocked by mmcm_clkout0  {rise@0.000ns fall@1.666ns period=3.332ns})
   Path Group:             mmcm_clkout0
   Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            2.004ns  (mmcm_clkout0 rise@3322.004ns - clk_100m_p rise@3320.000ns)
-  Data Path Delay:        0.274ns  (logic 0.077ns (28.102%)  route 0.197ns (71.898%))
+  Requirement:            6.664ns  (MaxDelay Path 6.664ns)
+  Data Path Delay:        0.262ns  (logic 0.077ns (29.389%)  route 0.185ns (70.611%))
   Logic Levels:           0  
-  Clock Path Skew:        -0.400ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    8.387ns = ( 3330.391 - 3322.004 ) 
-    Source Clock Delay      (SCD):    5.190ns = ( 3325.190 - 3320.000 ) 
-    Clock Pessimism Removal (CPR):    -3.597ns
-  Clock Uncertainty:      0.129ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Discrete Jitter          (DJ):    0.077ns
-    Phase Error              (PE):    0.077ns
-  Clock Domain Crossing:  Inter clock paths are considered valid unless explicitly excluded by timing constraints such as set_clock_groups or set_false_path.
+  Timing Exception:       MaxDelay Path 6.664ns -datapath_only
 
     Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
   -------------------------------------------------------------------    -------------------
-                         (clock clk_100m_p rise edge)
-                                                   3320.000  3320.000 r  
-    AY24                                              0.000  3320.000 r  clk_100m_p (IN)
-                         net (fo=0)                   0.000  3320.000    u_control_soc/u_clk_100m_ibufds/I
-    HPIOBDIFFINBUF_X0Y106
-                         DIFFINBUF (Prop_DIFFINBUF_HPIOBDIFFINBUF_DIFF_IN_P_O)
-                                                      0.688  3320.688 r  u_control_soc/u_clk_100m_ibufds/DIFFINBUF_INST/O
-                         net (fo=1, estimated)        0.050  3320.738    u_control_soc/u_clk_100m_ibufds/OUT
-    AY24                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
-                                                      0.000  3320.738 r  u_control_soc/u_clk_100m_ibufds/IBUFCTRL_INST/O
-                         net (fo=1, unplaced)         0.276  3321.014    u_control_soc/clk_100m_ibuf
-                         BUFGCE (Prop_BUFGCE_I_O)     0.028  3321.042 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     4.147  3325.190    u_camera_hdmi/g_camera_frontend[0].u_camera/camera_ref_clk
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/diag_clear_toggle_reg/C
-  -------------------------------------------------------------------    -------------------
-                         FDRE (Prop_FDRE_C_Q)         0.077  3325.267 r  u_camera_hdmi/g_camera_frontend[0].u_camera/diag_clear_toggle_reg/Q
-                         net (fo=4, unplaced)         0.197  3325.464    u_camera_hdmi/g_camera_frontend[0].u_camera/camera_diag_clear_toggle_0
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/diag_clear_video_sync1_reg/D
+                                                      0.000     0.000 r  u_camera_hdmi/u_hdmi/u_datapath/u_hdmi_rx/inst/v_hdmi_rx/inst/BRDG_CDC_INST/gen_handshake.XPM_INST/src_hsdata_ff_reg[0]/C
+                         FDRE (Prop_FDRE_C_Q)         0.077     0.077 r  u_camera_hdmi/u_hdmi/u_datapath/u_hdmi_rx/inst/v_hdmi_rx/inst/BRDG_CDC_INST/gen_handshake.XPM_INST/src_hsdata_ff_reg[0]/Q
+                         net (fo=1, unplaced)         0.185     0.262    u_camera_hdmi/u_hdmi/u_datapath/u_hdmi_rx/inst/v_hdmi_rx/inst/BRDG_CDC_INST/gen_handshake.XPM_INST/src_hsdata_ff[0]
+                         FDRE                                         r  u_camera_hdmi/u_hdmi/u_datapath/u_hdmi_rx/inst/v_hdmi_rx/inst/BRDG_CDC_INST/gen_handshake.XPM_INST/dest_hsdata_ff_reg[0]/D
   -------------------------------------------------------------------    -------------------
 
-                         (clock mmcm_clkout0 rise edge)
-                                                   3322.004  3322.004 r  
-    BA27                                              0.000  3322.004 r  c0_sys_clk_p (IN)
-                         net (fo=0)                   0.000  3322.004    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/I
-    HPIOBDIFFINBUF_X0Y35 DIFFINBUF (Prop_DIFFINBUF_HPIOBDIFFINBUF_DIFF_IN_P_O)
-                                                      0.388  3322.392 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/DIFFINBUF_INST/O
-                         net (fo=1, estimated)        0.040  3322.432    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/OUT
-    BA27                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
-                                                      0.000  3322.432 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/IBUFCTRL_INST/O
-                         net (fo=2, unplaced)         0.247  3322.679    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/sys_clk_in
-                         BUFGCE (Prop_BUFGCE_I_O)     0.024  3322.703 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/gen_bufg_backbone.u__bufg_backbone/O
-                         net (fo=1, unplaced)         2.439  3325.142    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clk_in
-                         MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
-                                                      0.630  3325.772 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
-                         net (fo=1, unplaced)         0.176  3325.948    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
-                         BUFGCE (Prop_BUFGCE_I_O)     0.024  3325.972 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     4.420  3330.391    u_camera_hdmi/g_camera_frontend[0].u_camera/ddr4_ui_clk
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/diag_clear_video_sync1_reg/C
-                         clock pessimism             -3.597  3326.794    
-                         clock uncertainty           -0.129  3326.664    
-                         FDRE (Setup_FDRE_C_D)        0.025  3326.689    u_camera_hdmi/g_camera_frontend[0].u_camera/diag_clear_video_sync1_reg
+                         max delay                    6.664     6.664    
+                         FDRE (Setup_FDRE_C_D)        0.025     6.689    u_camera_hdmi/u_hdmi/u_datapath/u_hdmi_rx/inst/v_hdmi_rx/inst/BRDG_CDC_INST/gen_handshake.XPM_INST/dest_hsdata_ff_reg[0]
   -------------------------------------------------------------------
-                         required time                       3326.690    
-                         arrival time                       -3325.464    
+                         required time                          6.689    
+                         arrival time                          -0.262    
   -------------------------------------------------------------------
-                         slack                                  1.226    
-
-
-
-
-
-Min Delay Paths
---------------------------------------------------------------------------------------
-Slack (VIOLATED) :        -0.443ns  (arrival time - required time)
-  Source:                 u_camera_hdmi/g_camera_frontend[0].u_camera/recovery_sample_offset_reg[0]/C
-                            (rising edge-triggered cell FDRE clocked by clk_100m_p  {rise@0.000ns fall@5.000ns period=10.000ns})
-  Destination:            u_camera_hdmi/g_camera_frontend[0].u_camera/recovery_sample_offset_sync1_reg[0]/D
-                            (rising edge-triggered cell FDRE clocked by mmcm_clkout0  {rise@0.000ns fall@1.666ns period=3.332ns})
-  Path Group:             mmcm_clkout0
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (mmcm_clkout0 rise@0.000ns - clk_100m_p rise@0.000ns)
-  Data Path Delay:        0.132ns  (logic 0.038ns (28.788%)  route 0.094ns (71.212%))
-  Logic Levels:           0  
-  Clock Path Skew:        0.400ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    4.498ns
-    Source Clock Delay      (SCD):    2.931ns
-    Clock Pessimism Removal (CPR):    1.167ns
-  Clock Uncertainty:      0.129ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Discrete Jitter          (DJ):    0.077ns
-    Phase Error              (PE):    0.077ns
-  Clock Domain Crossing:  Inter clock paths are considered valid unless explicitly excluded by timing constraints such as set_clock_groups or set_false_path.
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_100m_p rise edge)
-                                                      0.000     0.000 r  
-    AY24                                              0.000     0.000 r  clk_100m_p (IN)
-                         net (fo=0)                   0.000     0.000    u_control_soc/u_clk_100m_ibufds/I
-    HPIOBDIFFINBUF_X0Y106
-                         DIFFINBUF (Prop_DIFFINBUF_HPIOBDIFFINBUF_DIFF_IN_P_O)
-                                                      0.354     0.354 r  u_control_soc/u_clk_100m_ibufds/DIFFINBUF_INST/O
-                         net (fo=1, estimated)        0.040     0.394    u_control_soc/u_clk_100m_ibufds/OUT
-    AY24                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
-                                                      0.000     0.394 r  u_control_soc/u_clk_100m_ibufds/IBUFCTRL_INST/O
-                         net (fo=1, unplaced)         0.116     0.510    u_control_soc/clk_100m_ibuf
-                         BUFGCE (Prop_BUFGCE_I_O)     0.017     0.527 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     2.404     2.931    u_camera_hdmi/g_camera_frontend[0].u_camera/camera_ref_clk
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/recovery_sample_offset_reg[0]/C
-  -------------------------------------------------------------------    -------------------
-                         FDRE (Prop_FDRE_C_Q)         0.038     2.969 r  u_camera_hdmi/g_camera_frontend[0].u_camera/recovery_sample_offset_reg[0]/Q
-                         net (fo=1, unplaced)         0.094     3.063    u_camera_hdmi/g_camera_frontend[0].u_camera/recovery_sample_offset_reg_n_0_[0]
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/recovery_sample_offset_sync1_reg[0]/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock mmcm_clkout0 rise edge)
-                                                      0.000     0.000 r  
-    BA27                                              0.000     0.000 r  c0_sys_clk_p (IN)
-                         net (fo=0)                   0.000     0.000    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/I
-    HPIOBDIFFINBUF_X0Y35 DIFFINBUF (Prop_DIFFINBUF_HPIOBDIFFINBUF_DIFF_IN_P_O)
-                                                      0.341     0.341 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/DIFFINBUF_INST/O
-                         net (fo=1, estimated)        0.050     0.391    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/OUT
-    BA27                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
-                                                      0.000     0.391 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/IBUFCTRL_INST/O
-                         net (fo=2, unplaced)         0.147     0.538    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/sys_clk_in
-                         BUFGCE (Prop_BUFGCE_I_O)     0.019     0.557 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/gen_bufg_backbone.u__bufg_backbone/O
-                         net (fo=1, unplaced)         1.259     1.816    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clk_in
-                         MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
-                                                     -0.295     1.521 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
-                         net (fo=1, unplaced)         0.132     1.653    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
-                         BUFGCE (Prop_BUFGCE_I_O)     0.019     1.672 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     2.826     4.498    u_camera_hdmi/g_camera_frontend[0].u_camera/ddr4_ui_clk
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/recovery_sample_offset_sync1_reg[0]/C
-                         clock pessimism             -1.167     3.331    
-                         clock uncertainty            0.129     3.460    
-                         FDRE (Hold_FDRE_C_D)         0.046     3.506    u_camera_hdmi/g_camera_frontend[0].u_camera/recovery_sample_offset_sync1_reg[0]
-  -------------------------------------------------------------------
-                         required time                         -3.506    
-                         arrival time                           3.063    
-  -------------------------------------------------------------------
-                         slack                                 -0.443    
+                         slack                                  6.427    
 
 
 
@@ -4815,161 +4702,6 @@ Slack (MET) :             3.130ns  (required time - arrival time)
 
 
 ---------------------------------------------------------------------------------------------------
-From Clock:  clk_out1_clk_wiz_ov7670
-  To Clock:  mmcm_clkout0
-
-Setup :            8  Failing Endpoints,  Worst Slack       -0.611ns,  Total Violation       -4.891ns
-Hold  :            8  Failing Endpoints,  Worst Slack       -0.559ns,  Total Violation       -4.451ns
----------------------------------------------------------------------------------------------------
-
-
-Max Delay Paths
---------------------------------------------------------------------------------------
-Slack (VIOLATED) :        -0.611ns  (required time - arrival time)
-  Source:                 u_camera_hdmi/g_camera_frontend[0].u_camera/u_control_cdc/syncstages_ff_reg[1][0]/C
-                            (rising edge-triggered cell FDRE clocked by clk_out1_clk_wiz_ov7670  {rise@0.000ns fall@20.833ns period=41.667ns})
-  Destination:            u_camera_hdmi/g_camera_frontend[0].u_camera/capture_enable_sync1_reg/D
-                            (rising edge-triggered cell FDRE clocked by mmcm_clkout0  {rise@0.000ns fall@1.666ns period=3.332ns})
-  Path Group:             mmcm_clkout0
-  Path Type:              Setup (Max at Slow Process Corner)
-  Requirement:            0.349ns  (mmcm_clkout0 rise@3292.016ns - clk_out1_clk_wiz_ov7670 rise@3291.667ns)
-  Data Path Delay:        0.348ns  (logic 0.202ns (58.046%)  route 0.146ns (41.954%))
-  Logic Levels:           1  (LUT5=1)
-  Clock Path Skew:        -0.400ns (DCD - SCD + CPR)
-    Destination Clock Delay (DCD):    8.387ns = ( 3300.403 - 3292.016 ) 
-    Source Clock Delay      (SCD):    6.830ns = ( 3298.497 - 3291.667 ) 
-    Clock Pessimism Removal (CPR):    -1.957ns
-  Clock Uncertainty:      0.238ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Discrete Jitter          (DJ):    0.233ns
-    Phase Error              (PE):    0.116ns
-  Clock Domain Crossing:  Inter clock paths are considered valid unless explicitly excluded by timing constraints such as set_clock_groups or set_false_path.
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_out1_clk_wiz_ov7670 rise edge)
-                                                   3291.667  3291.667 r  
-                         BUFGCE                       0.000  3291.667 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     4.147  3295.814    u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_in1
-                         MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
-                                                     -0.127  3295.687 r  u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/mmcme4_adv_inst/CLKOUT0
-                         net (fo=1, unplaced)         0.198  3295.885    u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_out1_clk_wiz_ov7670
-                         BUFGCE (Prop_BUFGCE_I_O)     0.028  3295.913 r  u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clkout1_buf/O
-                         net (fo=6292, unplaced)      2.584  3298.497    u_camera_hdmi/g_camera_frontend[0].u_camera/u_control_cdc/dest_clk
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_control_cdc/syncstages_ff_reg[1][0]/C
-  -------------------------------------------------------------------    -------------------
-                         FDRE (Prop_FDRE_C_Q)         0.077  3298.574 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_control_cdc/syncstages_ff_reg[1][0]/Q
-                         net (fo=2, unplaced)         0.098  3298.672    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/dest_out[0]
-                         LUT5 (Prop_LUT5_I0_O)        0.125  3298.797 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/capture_enable_sync1_i_1/O
-                         net (fo=2, unplaced)         0.048  3298.845    u_camera_hdmi/g_camera_frontend[0].u_camera/hw_capture_enable
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/capture_enable_sync1_reg/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock mmcm_clkout0 rise edge)
-                                                   3292.016  3292.016 r  
-    BA27                                              0.000  3292.016 r  c0_sys_clk_p (IN)
-                         net (fo=0)                   0.000  3292.016    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/I
-    HPIOBDIFFINBUF_X0Y35 DIFFINBUF (Prop_DIFFINBUF_HPIOBDIFFINBUF_DIFF_IN_P_O)
-                                                      0.388  3292.404 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/DIFFINBUF_INST/O
-                         net (fo=1, estimated)        0.040  3292.444    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/OUT
-    BA27                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
-                                                      0.000  3292.444 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/IBUFCTRL_INST/O
-                         net (fo=2, unplaced)         0.247  3292.691    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/sys_clk_in
-                         BUFGCE (Prop_BUFGCE_I_O)     0.024  3292.715 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/gen_bufg_backbone.u__bufg_backbone/O
-                         net (fo=1, unplaced)         2.439  3295.154    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clk_in
-                         MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
-                                                      0.630  3295.784 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
-                         net (fo=1, unplaced)         0.176  3295.960    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
-                         BUFGCE (Prop_BUFGCE_I_O)     0.024  3295.984 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     4.420  3300.403    u_camera_hdmi/g_camera_frontend[0].u_camera/ddr4_ui_clk
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/capture_enable_sync1_reg/C
-                         clock pessimism             -1.957  3298.446    
-                         clock uncertainty           -0.238  3298.208    
-                         FDRE (Setup_FDRE_C_D)        0.025  3298.233    u_camera_hdmi/g_camera_frontend[0].u_camera/capture_enable_sync1_reg
-  -------------------------------------------------------------------
-                         required time                       3298.234    
-                         arrival time                       -3298.845    
-  -------------------------------------------------------------------
-                         slack                                 -0.611    
-
-
-
-
-
-Min Delay Paths
---------------------------------------------------------------------------------------
-Slack (VIOLATED) :        -0.559ns  (arrival time - required time)
-  Source:                 u_camera_hdmi/g_camera_frontend[0].u_camera/u_control_cdc/syncstages_ff_reg[1][2]/C
-                            (rising edge-triggered cell FDRE clocked by clk_out1_clk_wiz_ov7670  {rise@0.000ns fall@20.833ns period=41.667ns})
-  Destination:            u_camera_hdmi/g_camera_frontend[0].u_camera/capture_enable_sync1_reg/D
-                            (rising edge-triggered cell FDRE clocked by mmcm_clkout0  {rise@0.000ns fall@1.666ns period=3.332ns})
-  Path Group:             mmcm_clkout0
-  Path Type:              Hold (Min at Fast Process Corner)
-  Requirement:            0.000ns  (mmcm_clkout0 rise@0.000ns - clk_out1_clk_wiz_ov7670 rise@0.000ns)
-  Data Path Delay:        0.125ns  (logic 0.061ns (48.800%)  route 0.064ns (51.200%))
-  Logic Levels:           1  (LUT5=1)
-  Clock Path Skew:        0.400ns (DCD - SCD - CPR)
-    Destination Clock Delay (DCD):    4.498ns
-    Source Clock Delay      (SCD):    3.883ns
-    Clock Pessimism Removal (CPR):    0.215ns
-  Clock Uncertainty:      0.238ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
-    Total System Jitter     (TSJ):    0.071ns
-    Discrete Jitter          (DJ):    0.233ns
-    Phase Error              (PE):    0.116ns
-  Clock Domain Crossing:  Inter clock paths are considered valid unless explicitly excluded by timing constraints such as set_clock_groups or set_false_path.
-
-    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
-  -------------------------------------------------------------------    -------------------
-                         (clock clk_out1_clk_wiz_ov7670 rise edge)
-                                                      0.000     0.000 r  
-                         BUFGCE                       0.000     0.000 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     2.404     2.404    u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_in1
-                         MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
-                                                      0.230     2.634 r  u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/mmcme4_adv_inst/CLKOUT0
-                         net (fo=1, unplaced)         0.118     2.752    u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clk_out1_clk_wiz_ov7670
-                         BUFGCE (Prop_BUFGCE_I_O)     0.017     2.769 r  u_camera_hdmi/u_camera_clocking/u_ov7670_clk_wiz/inst/clkout1_buf/O
-                         net (fo=6292, unplaced)      1.114     3.883    u_camera_hdmi/g_camera_frontend[0].u_camera/u_control_cdc/dest_clk
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_control_cdc/syncstages_ff_reg[1][2]/C
-  -------------------------------------------------------------------    -------------------
-                         FDRE (Prop_FDRE_C_Q)         0.038     3.921 f  u_camera_hdmi/g_camera_frontend[0].u_camera/u_control_cdc/syncstages_ff_reg[1][2]/Q
-                         net (fo=3, unplaced)         0.048     3.969    u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/dest_out[2]
-                         LUT5 (Prop_LUT5_I3_O)        0.023     3.992 r  u_camera_hdmi/g_camera_frontend[0].u_camera/u_ov7670_ctrl/capture_enable_sync1_i_1/O
-                         net (fo=2, unplaced)         0.016     4.008    u_camera_hdmi/g_camera_frontend[0].u_camera/hw_capture_enable
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/capture_enable_sync1_reg/D
-  -------------------------------------------------------------------    -------------------
-
-                         (clock mmcm_clkout0 rise edge)
-                                                      0.000     0.000 r  
-    BA27                                              0.000     0.000 r  c0_sys_clk_p (IN)
-                         net (fo=0)                   0.000     0.000    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/I
-    HPIOBDIFFINBUF_X0Y35 DIFFINBUF (Prop_DIFFINBUF_HPIOBDIFFINBUF_DIFF_IN_P_O)
-                                                      0.341     0.341 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/DIFFINBUF_INST/O
-                         net (fo=1, estimated)        0.050     0.391    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/OUT
-    BA27                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
-                                                      0.000     0.391 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/IBUFCTRL_INST/O
-                         net (fo=2, unplaced)         0.147     0.538    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/sys_clk_in
-                         BUFGCE (Prop_BUFGCE_I_O)     0.019     0.557 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/gen_bufg_backbone.u__bufg_backbone/O
-                         net (fo=1, unplaced)         1.259     1.816    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clk_in
-                         MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
-                                                     -0.295     1.521 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
-                         net (fo=1, unplaced)         0.132     1.653    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
-                         BUFGCE (Prop_BUFGCE_I_O)     0.019     1.672 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     2.826     4.498    u_camera_hdmi/g_camera_frontend[0].u_camera/ddr4_ui_clk
-                         FDRE                                         r  u_camera_hdmi/g_camera_frontend[0].u_camera/capture_enable_sync1_reg/C
-                         clock pessimism             -0.215     4.283    
-                         clock uncertainty            0.238     4.521    
-                         FDRE (Hold_FDRE_C_D)         0.046     4.567    u_camera_hdmi/g_camera_frontend[0].u_camera/capture_enable_sync1_reg
-  -------------------------------------------------------------------
-                         required time                         -4.567    
-                         arrival time                           4.008    
-  -------------------------------------------------------------------
-                         slack                                 -0.559    
-
-
-
-
-
----------------------------------------------------------------------------------------------------
 From Clock:  mmcm_clkout0
   To Clock:  pll_clk[0]_DIV
 
@@ -5017,7 +4749,7 @@ Slack (MET) :             1.920ns  (required time - arrival time)
                                                      -0.295     1.521 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.132     1.653    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.019     1.672 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     2.826     4.498    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/u_ddr_mc_write/dReg_reg[10]
+                         net (fo=86711, unplaced)     2.826     4.498    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/u_ddr_mc_write/dReg_reg[10]
                          FDRE                                         r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/u_ddr_mc_write/oe_low_reg[2]/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_FDRE_C_Q)         0.050     4.548 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/u_ddr_mc_write/oe_low_reg[2]/Q
@@ -5041,7 +4773,7 @@ Slack (MET) :             1.920ns  (required time - arrival time)
                                                       0.230     5.092 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.118     5.210    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.017     5.227 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     2.681     7.908    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/div_clk
+                         net (fo=86711, unplaced)     2.681     7.908    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/div_clk
                          PLLE4_ADV (Prop_PLLE4_ADV_CLKIN_CLKOUTPHY)
                                                      -0.992     6.916 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/plle_loop[0].gen_plle4.PLLE4_BASE_INST_OTHER/CLKOUTPHY
                          net (fo=8, unplaced)         0.087     7.003    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/generate_block1.u_ddr_xiphy/byte_num[0].xiphy_byte_wrapper.u_xiphy_byte_wrapper/I_CONTROL[0].GEN_I_CONTROL.u_xiphy_control/pll_clk[0]
@@ -5102,7 +4834,7 @@ Slack (MET) :             0.413ns  (arrival time - required time)
                                                       0.630     3.768 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.176     3.944    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.024     3.968 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     4.420     8.387    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/rdEn[0].u_ddr_mc_rd_en_low/rsMask_reg[7][9]_0
+                         net (fo=86711, unplaced)     4.420     8.387    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/rdEn[0].u_ddr_mc_rd_en_low/rsMask_reg[7][9]_0
                          FDRE                                         r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/rdEn[0].u_ddr_mc_rd_en_low/rdEn_reg[0]/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_FDRE_C_Q)         0.058     8.445 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/rdEn[0].u_ddr_mc_rd_en_low/rdEn_reg[0]/Q
@@ -5111,24 +4843,24 @@ Slack (MET) :             0.413ns  (arrival time - required time)
   -------------------------------------------------------------------    -------------------
 
                          (clock pll_clk[0]_DIV rise edge)
-                                                      0.000     0.000 r  
-    BA27                                              0.000     0.000 r  c0_sys_clk_p (IN)
+                                                      0.000     0.000 f  
+    BA27                                              0.000     0.000 f  c0_sys_clk_p (IN)
                          net (fo=0)                   0.000     0.000    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/I
     HPIOBDIFFINBUF_X0Y35 DIFFINBUF (Prop_DIFFINBUF_HPIOBDIFFINBUF_DIFF_IN_P_O)
-                                                      0.484     0.484 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/DIFFINBUF_INST/O
+                                                      0.484     0.484 f  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/DIFFINBUF_INST/O
                          net (fo=1, estimated)        0.050     0.534    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/OUT
     BA27                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
-                                                      0.000     0.534 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/IBUFCTRL_INST/O
+                                                      0.000     0.534 f  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/IBUFCTRL_INST/O
                          net (fo=2, unplaced)         0.276     0.810    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/sys_clk_in
-                         BUFGCE (Prop_BUFGCE_I_O)     0.028     0.838 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/gen_bufg_backbone.u__bufg_backbone/O
+                         BUFGCE (Prop_BUFGCE_I_O)     0.028     0.838 f  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/gen_bufg_backbone.u__bufg_backbone/O
                          net (fo=1, unplaced)         2.584     3.422    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clk_in
                          MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
-                                                     -0.127     3.295 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
+                                                     -0.127     3.295 f  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.198     3.493    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
-                         BUFGCE (Prop_BUFGCE_I_O)     0.028     3.521 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     4.565     8.085    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/div_clk
+                         BUFGCE (Prop_BUFGCE_I_O)     0.028     3.521 f  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
+                         net (fo=86711, unplaced)     4.565     8.085    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/div_clk
                          PLLE4_ADV (Prop_PLLE4_ADV_CLKIN_CLKOUTPHY)
-                                                     -1.141     6.944 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/plle_loop[0].gen_plle4.PLLE4_BASE_INST_OTHER/CLKOUTPHY
+                                                     -1.141     6.944 f  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/plle_loop[0].gen_plle4.PLLE4_BASE_INST_OTHER/CLKOUTPHY
                          net (fo=8, unplaced)         0.146     7.090    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/generate_block1.u_ddr_xiphy/byte_num[0].xiphy_byte_wrapper.u_xiphy_byte_wrapper/I_CONTROL[0].GEN_I_CONTROL.u_xiphy_control/pll_clk[0]
                          BITSLICE_CONTROL (Prop_BITSLICE_CONTROL_PLL_CLK_RX_DIV2_CLK_Q)
                                                       0.162     7.252 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/generate_block1.u_ddr_xiphy/byte_num[0].xiphy_byte_wrapper.u_xiphy_byte_wrapper/I_CONTROL[0].GEN_I_CONTROL.u_xiphy_control/xiphy_control/RX_DIV2_CLK_Q
@@ -5196,7 +4928,7 @@ Slack (MET) :             1.920ns  (required time - arrival time)
                                                      -0.295     1.521 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.132     1.653    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.019     1.672 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     2.826     4.498    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/u_ddr_mc_write/dReg_reg[10]
+                         net (fo=86711, unplaced)     2.826     4.498    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/u_ddr_mc_write/dReg_reg[10]
                          FDRE                                         r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/u_ddr_mc_write/oe_low_reg[2]/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_FDRE_C_Q)         0.050     4.548 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/u_ddr_mc_write/oe_low_reg[2]/Q
@@ -5220,7 +4952,7 @@ Slack (MET) :             1.920ns  (required time - arrival time)
                                                       0.230     5.092 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.118     5.210    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.017     5.227 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     2.681     7.908    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/div_clk
+                         net (fo=86711, unplaced)     2.681     7.908    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/div_clk
                          PLLE4_ADV (Prop_PLLE4_ADV_CLKIN_CLKOUTPHY)
                                                      -0.992     6.916 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/plle_loop[1].gen_plle4.PLLE4_BASE_INST_OTHER/CLKOUTPHY
                          net (fo=8, unplaced)         0.087     7.003    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/generate_block1.u_ddr_xiphy/byte_num[4].xiphy_byte_wrapper.u_xiphy_byte_wrapper/I_CONTROL[0].GEN_I_CONTROL.u_xiphy_control/pll_clk[0]
@@ -5281,7 +5013,7 @@ Slack (MET) :             0.413ns  (arrival time - required time)
                                                       0.630     3.768 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.176     3.944    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.024     3.968 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     4.420     8.387    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/rdEn[2].u_ddr_mc_rd_en_low/rsMask_reg[7][9]_0
+                         net (fo=86711, unplaced)     4.420     8.387    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/rdEn[2].u_ddr_mc_rd_en_low/rsMask_reg[7][9]_0
                          FDRE                                         r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/rdEn[2].u_ddr_mc_rd_en_low/rdEn_reg[0]/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_FDRE_C_Q)         0.058     8.445 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/rdEn[2].u_ddr_mc_rd_en_low/rdEn_reg[0]/Q
@@ -5305,7 +5037,7 @@ Slack (MET) :             0.413ns  (arrival time - required time)
                                                      -0.127     3.295 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.198     3.493    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.028     3.521 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     4.565     8.085    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/div_clk
+                         net (fo=86711, unplaced)     4.565     8.085    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/div_clk
                          PLLE4_ADV (Prop_PLLE4_ADV_CLKIN_CLKOUTPHY)
                                                      -1.141     6.944 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/plle_loop[1].gen_plle4.PLLE4_BASE_INST_OTHER/CLKOUTPHY
                          net (fo=8, unplaced)         0.146     7.090    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/generate_block1.u_ddr_xiphy/byte_num[4].xiphy_byte_wrapper.u_xiphy_byte_wrapper/I_CONTROL[0].GEN_I_CONTROL.u_xiphy_control/pll_clk[0]
@@ -5375,7 +5107,7 @@ Slack (MET) :             1.920ns  (required time - arrival time)
                                                      -0.295     1.521 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.132     1.653    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.019     1.672 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     2.826     4.498    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/u_ddr_mc_write/dReg_reg[10]
+                         net (fo=86711, unplaced)     2.826     4.498    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/u_ddr_mc_write/dReg_reg[10]
                          FDRE                                         r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/u_ddr_mc_write/oe_low_reg[2]/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_FDRE_C_Q)         0.050     4.548 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/u_ddr_mc_write/oe_low_reg[2]/Q
@@ -5384,24 +5116,24 @@ Slack (MET) :             1.920ns  (required time - arrival time)
   -------------------------------------------------------------------    -------------------
 
                          (clock pll_clk[2]_DIV rise edge)
-                                                      3.332     3.332 r  
-    BA27                                              0.000     3.332 r  c0_sys_clk_p (IN)
+                                                      3.332     3.332 f  
+    BA27                                              0.000     3.332 f  c0_sys_clk_p (IN)
                          net (fo=0)                   0.000     3.332    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/I
     HPIOBDIFFINBUF_X0Y35 DIFFINBUF (Prop_DIFFINBUF_HPIOBDIFFINBUF_DIFF_IN_P_O)
-                                                      0.243     3.575 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/DIFFINBUF_INST/O
+                                                      0.243     3.575 f  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/DIFFINBUF_INST/O
                          net (fo=1, estimated)        0.040     3.615    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/OUT
     BA27                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
-                                                      0.000     3.615 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/IBUFCTRL_INST/O
+                                                      0.000     3.615 f  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/diff_input_clk.u_ibufg_sys_clk/IBUFCTRL_INST/O
                          net (fo=2, unplaced)         0.116     3.731    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/sys_clk_in
-                         BUFGCE (Prop_BUFGCE_I_O)     0.017     3.748 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/gen_bufg_backbone.u__bufg_backbone/O
+                         BUFGCE (Prop_BUFGCE_I_O)     0.017     3.748 f  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/gen_bufg_backbone.u__bufg_backbone/O
                          net (fo=1, unplaced)         1.114     4.862    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clk_in
                          MMCME4_ADV (Prop_MMCME4_ADV_CLKIN1_CLKOUT0)
-                                                      0.230     5.092 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
+                                                      0.230     5.092 f  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.118     5.210    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
-                         BUFGCE (Prop_BUFGCE_I_O)     0.017     5.227 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     2.681     7.908    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/div_clk
+                         BUFGCE (Prop_BUFGCE_I_O)     0.017     5.227 f  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
+                         net (fo=86711, unplaced)     2.681     7.908    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/div_clk
                          PLLE4_ADV (Prop_PLLE4_ADV_CLKIN_CLKOUTPHY)
-                                                     -0.992     6.916 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/plle_loop[2].gen_plle4.PLLE4_BASE_INST_OTHER/CLKOUTPHY
+                                                     -0.992     6.916 f  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/plle_loop[2].gen_plle4.PLLE4_BASE_INST_OTHER/CLKOUTPHY
                          net (fo=4, unplaced)         0.087     7.003    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/generate_block1.u_ddr_xiphy/byte_num[8].xiphy_byte_wrapper.u_xiphy_byte_wrapper/I_CONTROL[0].GEN_I_CONTROL.u_xiphy_control/pll_clk[0]
                          BITSLICE_CONTROL (Prop_BITSLICE_CONTROL_PLL_CLK_TX_DIV2_CLK_Q)
                                                       0.089     7.092 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/generate_block1.u_ddr_xiphy/byte_num[8].xiphy_byte_wrapper.u_xiphy_byte_wrapper/I_CONTROL[0].GEN_I_CONTROL.u_xiphy_control/xiphy_control/TX_DIV2_CLK_Q
@@ -5460,7 +5192,7 @@ Slack (MET) :             0.413ns  (arrival time - required time)
                                                       0.630     3.768 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.176     3.944    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.024     3.968 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     4.420     8.387    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/rdEn[6].u_ddr_mc_rd_en_low/rsMask_reg[7][12]_0
+                         net (fo=86711, unplaced)     4.420     8.387    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/rdEn[6].u_ddr_mc_rd_en_low/rsMask_reg[7][12]_0
                          FDRE                                         r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/rdEn[6].u_ddr_mc_rd_en_low/rdEn_reg[0]/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_FDRE_C_Q)         0.058     8.445 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/u_ddr_mc_pi/rdEn[6].u_ddr_mc_rd_en_low/rdEn_reg[0]/Q
@@ -5484,7 +5216,7 @@ Slack (MET) :             0.413ns  (arrival time - required time)
                                                      -0.127     3.295 f  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.198     3.493    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.028     3.521 f  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     4.565     8.085    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/div_clk
+                         net (fo=86711, unplaced)     4.565     8.085    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/div_clk
                          PLLE4_ADV (Prop_PLLE4_ADV_CLKIN_CLKOUTPHY)
                                                      -1.141     6.944 f  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/u_ddr4_phy_pll/plle_loop[2].gen_plle4.PLLE4_BASE_INST_OTHER/CLKOUTPHY
                          net (fo=4, unplaced)         0.146     7.090    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_mig_ddr4_phy/inst/generate_block1.u_ddr_xiphy/byte_num[8].xiphy_byte_wrapper.u_xiphy_byte_wrapper/I_CONTROL[0].GEN_I_CONTROL.u_xiphy_control/pll_clk[0]
@@ -5554,7 +5286,7 @@ Slack (MET) :             2.519ns  (required time - arrival time)
                                                      -0.127     6.627 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.198     6.825    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.028     6.853 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     4.565    11.417    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/dReg_reg[10]
+                         net (fo=86711, unplaced)     4.565    11.417    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/dReg_reg[10]
                          FDRE                                         r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/sample_gts_reg/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_FDRE_C_Q)         0.077    11.494 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/sample_gts_reg/Q
@@ -5632,7 +5364,7 @@ Slack (VIOLATED) :        -0.490ns  (arrival time - required time)
                                                       0.230     1.760 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.118     1.878    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.017     1.895 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     2.681     4.576    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/dReg_reg[10]
+                         net (fo=86711, unplaced)     2.681     4.576    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/dReg_reg[10]
                          FDRE                                         r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/sample_gts_reg/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_FDRE_C_Q)         0.038     4.614 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/sample_gts_reg/Q
@@ -6641,14 +6373,14 @@ Path Group:  **async_default**
 From Clock:  clk_100m_p
   To Clock:  clk_100m_p
 
-Setup :            0  Failing Endpoints,  Worst Slack        8.816ns,  Total Violation        0.000ns
+Setup :            0  Failing Endpoints,  Worst Slack        8.814ns,  Total Violation        0.000ns
 Hold  :            0  Failing Endpoints,  Worst Slack        0.025ns,  Total Violation        0.000ns
 ---------------------------------------------------------------------------------------------------
 
 
 Max Delay Paths
 --------------------------------------------------------------------------------------
-Slack (MET) :             8.816ns  (required time - arrival time)
+Slack (MET) :             8.814ns  (required time - arrival time)
   Source:                 u_control_soc/ddr_calib_sync_reg[1]/C
                             (rising edge-triggered cell FDCE clocked by clk_100m_p  {rise@0.000ns fall@5.000ns period=10.000ns})
   Destination:            u_control_soc/u_rocket/chiptop0/system/chipyard_prcictrl_domain/clock_gater/regs_0/reg_0_reg/PRE
@@ -6656,7 +6388,7 @@ Slack (MET) :             8.816ns  (required time - arrival time)
   Path Group:             **async_default**
   Path Type:              Recovery (Max at Slow Process Corner)
   Requirement:            10.000ns  (clk_100m_p rise@10.000ns - clk_100m_p rise@0.000ns)
-  Data Path Delay:        0.938ns  (logic 0.185ns (19.723%)  route 0.753ns (80.277%))
+  Data Path Delay:        0.940ns  (logic 0.185ns (19.681%)  route 0.755ns (80.319%))
   Logic Levels:           2  (LUT1=1 LUT2=1)
   Clock Path Skew:        -0.145ns (DCD - SCD + CPR)
     Destination Clock Delay (DCD):    4.891ns = ( 14.891 - 10.000 ) 
@@ -6682,15 +6414,15 @@ Slack (MET) :             8.816ns  (required time - arrival time)
                                                       0.000     0.738 r  u_control_soc/u_clk_100m_ibufds/IBUFCTRL_INST/O
                          net (fo=1, unplaced)         0.276     1.014    u_control_soc/clk_100m_ibuf
                          BUFGCE (Prop_BUFGCE_I_O)     0.028     1.042 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     4.147     5.190    u_control_soc/camera_ref_clk
+                         net (fo=91273, unplaced)     4.147     5.190    u_control_soc/camera_ref_clk
                          FDCE                                         r  u_control_soc/ddr_calib_sync_reg[1]/C
   -------------------------------------------------------------------    -------------------
                          FDCE (Prop_FDCE_C_Q)         0.077     5.267 r  u_control_soc/ddr_calib_sync_reg[1]/Q
                          net (fo=1, unplaced)         0.137     5.404    u_control_soc/ddr_calib_sync[1]
                          LUT2 (Prop_LUT2_I1_O)        0.038     5.442 r  u_control_soc/u_vphy_i_1/O
-                         net (fo=121, unplaced)       0.275     5.717    u_control_soc/s_axis_audio_aresetn
-                         LUT1 (Prop_LUT1_I0_O)        0.070     5.787 f  u_control_soc/sync_2_i_1__0/O
-                         net (fo=2174, unplaced)      0.341     6.128    u_control_soc/u_rocket/chiptop0/system/chipyard_prcictrl_domain/clock_gater/regs_0/auto_reset_setter_clock_in_member_allClocks_uncore_reset
+                         net (fo=119, unplaced)       0.274     5.716    u_control_soc/s_axis_audio_aresetn
+                         LUT1 (Prop_LUT1_I0_O)        0.070     5.786 f  u_control_soc/sync_2_i_1__0/O
+                         net (fo=2432, unplaced)      0.344     6.130    u_control_soc/u_rocket/chiptop0/system/chipyard_prcictrl_domain/clock_gater/regs_0/reg_0_reg_2
                          FDPE                                         f  u_control_soc/u_rocket/chiptop0/system/chipyard_prcictrl_domain/clock_gater/regs_0/reg_0_reg/PRE
   -------------------------------------------------------------------    -------------------
 
@@ -6706,16 +6438,16 @@ Slack (MET) :             8.816ns  (required time - arrival time)
                                                       0.000    10.618 r  u_control_soc/u_clk_100m_ibufds/IBUFCTRL_INST/O
                          net (fo=1, unplaced)         0.247    10.865    u_control_soc/clk_100m_ibuf
                          BUFGCE (Prop_BUFGCE_I_O)     0.024    10.889 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     4.002    14.891    u_control_soc/u_rocket/chiptop0/system/chipyard_prcictrl_domain/clock_gater/regs_0/reg_0_reg_1
+                         net (fo=91273, unplaced)     4.002    14.891    u_control_soc/u_rocket/chiptop0/system/chipyard_prcictrl_domain/clock_gater/regs_0/reg_0_reg_1
                          FDPE                                         r  u_control_soc/u_rocket/chiptop0/system/chipyard_prcictrl_domain/clock_gater/regs_0/reg_0_reg/C
                          clock pessimism              0.153    15.045    
                          clock uncertainty           -0.035    15.009    
                          FDPE (Recov_FDPE_C_PRE)     -0.066    14.943    u_control_soc/u_rocket/chiptop0/system/chipyard_prcictrl_domain/clock_gater/regs_0/reg_0_reg
   -------------------------------------------------------------------
                          required time                         14.943    
-                         arrival time                          -6.128    
+                         arrival time                          -6.130    
   -------------------------------------------------------------------
-                         slack                                  8.816    
+                         slack                                  8.814    
 
 
 
@@ -6752,7 +6484,7 @@ Slack (MET) :             0.025ns  (arrival time - required time)
                                                       0.000     0.394 r  u_control_soc/u_clk_100m_ibufds/IBUFCTRL_INST/O
                          net (fo=1, unplaced)         0.116     0.510    u_control_soc/clk_100m_ibuf
                          BUFGCE (Prop_BUFGCE_I_O)     0.017     0.527 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     2.404     2.931    u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/rstblk/s_aclk
+                         net (fo=91273, unplaced)     2.404     2.931    u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/rstblk/s_aclk
                          FDPE                                         r  u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/rstblk/grstd1.grst_full.grst_f.rst_d2_reg/C
   -------------------------------------------------------------------    -------------------
                          FDPE (Prop_FDPE_C_Q)         0.038     2.969 f  u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/rstblk/grstd1.grst_full.grst_f.rst_d2_reg/Q
@@ -6772,7 +6504,7 @@ Slack (MET) :             0.025ns  (arrival time - required time)
                                                       0.000     0.509 r  u_control_soc/u_clk_100m_ibufds/IBUFCTRL_INST/O
                          net (fo=1, unplaced)         0.147     0.656    u_control_soc/clk_100m_ibuf
                          BUFGCE (Prop_BUFGCE_I_O)     0.019     0.675 r  u_control_soc/u_clk_100m_bufg/O
-                         net (fo=89735, unplaced)     2.549     3.224    u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/gntv_or_sync_fifo.gl0.wr/gwas.wsts/s_aclk
+                         net (fo=91273, unplaced)     2.549     3.224    u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/gntv_or_sync_fifo.gl0.wr/gwas.wsts/s_aclk
                          FDPE                                         r  u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/gntv_or_sync_fifo.gl0.wr/gwas.wsts/ram_full_fb_i_reg/C
                          clock pessimism             -0.148     3.076    
                          FDPE (Remov_FDPE_C_PRE)     -0.020     3.056    u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/gntv_or_sync_fifo.gl0.wr/gwas.wsts/ram_full_fb_i_reg
@@ -7421,7 +7153,7 @@ Slack (MET) :             2.541ns  (required time - arrival time)
                                                      -0.127     3.295 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.198     3.493    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.028     3.521 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     4.565     8.085    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/dReg_reg[10]
+                         net (fo=86711, unplaced)     4.565     8.085    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/dReg_reg[10]
                          FDRE                                         r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/calDone_gated_reg/C
   -------------------------------------------------------------------    -------------------
                          FDRE (Prop_FDRE_C_Q)         0.077     8.162 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_mem_intfc/u_ddr_cal_top/calDone_gated_reg/Q
@@ -7447,7 +7179,7 @@ Slack (MET) :             2.541ns  (required time - arrival time)
                                                       0.630     7.100 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.176     7.276    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.024     7.300 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     4.420    11.719    u_ddr_memory/ddr4_ui_clk
+                         net (fo=86711, unplaced)     4.420    11.719    u_ddr_memory/ddr4_ui_clk
                          FDCE                                         r  u_ddr_memory/ddr_reset_sync_reg[0]/C
                          clock pessimism             -0.447    11.272    
                          clock uncertainty           -0.052    11.220    
@@ -7497,7 +7229,7 @@ Slack (MET) :             0.025ns  (arrival time - required time)
                                                       0.230     1.760 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.118     1.878    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.017     1.895 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     2.681     4.576    u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gnsckt_wrst.gic_rst.rst_rd_reg2_inst/dest_clk
+                         net (fo=86711, unplaced)     2.681     4.576    u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gnsckt_wrst.gic_rst.rst_rd_reg2_inst/dest_clk
                          FDPE                                         r  u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gnsckt_wrst.gic_rst.rst_rd_reg2_inst/arststages_ff_reg[1]/C
   -------------------------------------------------------------------    -------------------
                          FDPE (Prop_FDPE_C_Q)         0.038     4.614 f  u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gnsckt_wrst.gic_rst.rst_rd_reg2_inst/arststages_ff_reg[1]/Q
@@ -7521,7 +7253,7 @@ Slack (MET) :             0.025ns  (arrival time - required time)
                                                      -0.295     1.521 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/gen_mmcme4.u_mmcme_adv_inst/CLKOUT0
                          net (fo=1, unplaced)         0.132     1.653    u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/mmcm_clkout0
                          BUFGCE (Prop_BUFGCE_I_O)     0.019     1.672 r  u_ddr_memory/u_ddr_bd/design_1_i/ddr4_0/inst/u_ddr4_infrastructure/u_bufg_divClk/O
-                         net (fo=83918, unplaced)     2.826     4.498    u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/rstblk/m_aclk
+                         net (fo=86711, unplaced)     2.826     4.498    u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/rstblk/m_aclk
                          FDPE                                         r  u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gnsckt_wrst.gic_rst.sckt_rd_rst_ic_reg/C
                          clock pessimism              0.223     4.721    
                          FDPE (Remov_FDPE_C_PRE)     -0.020     4.701    u_ddr_memory/u_ddr_bd/design_1_i/axi_interconnect_0/s00_couplers/auto_cc/inst/gen_clock_conv.gen_async_conv.asyncfifo_axi/inst_fifo_gen/gaxi_full_lite.gread_ch.grach2.axi_rach/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gnsckt_wrst.gic_rst.sckt_rd_rst_ic_reg

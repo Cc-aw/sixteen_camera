@@ -28,6 +28,25 @@ set_property PACKAGE_PIN AT36 [get_ports si5338_sda2]
 
 create_clock -period 10.000 -name clk_100m_p [get_ports clk_100m_p]
 
+# Chipyard exposes its RISC-V JTAG TAP through Xilinx USER4 BSCAN.  The
+# generated JTAGTUNNEL contains state and edge counters clocked directly from
+# BSCANE2/INTERNAL_TCK, followed by a BUFGCE for the inner TAP.  Without a
+# clock on this root Vivado leaves the complete tunnel untimed; a harmless
+# full-design reroute can then create same-edge SHIFT-to-counter hold failures
+# and corrupt DTMCS scans.  OpenOCD normally runs this tunnel at 15 MHz.
+create_clock -name rocket_bscan_tck -period 66.667 \
+    -waveform {0.000 33.333} \
+    [get_pins -hierarchical -filter \
+        {NAME =~ */inst_jtag_tunnel/bscane2/INTERNAL_TCK}]
+
+# The Rocket debug transport crosses between JTAG TCK and the 100 MHz SoC
+# clock through generated asynchronous queues and reset synchronizers.  Keep
+# those CDC paths asynchronous while fully timing every path contained inside
+# the BSCAN/JTAG domain itself.
+set_clock_groups -asynchronous \
+    -group [get_clocks rocket_bscan_tck] \
+    -group [get_clocks clk_100m_p]
+
 set_property PACKAGE_PIN AY24 [get_ports clk_100m_p]
 set_property PACKAGE_PIN AY23 [get_ports clk_100m_n]
 set_property IOSTANDARD LVDS [get_ports clk_100m_p]
@@ -68,6 +87,19 @@ set_false_path -to [get_pins -hierarchical -filter \
     {NAME =~ *sample_sync_1_reg*/D}]
 set_false_path -to [get_pins -hierarchical -filter \
     {NAME =~ *pad_sync_1_reg*/D}]
+
+# Camera control and diagnostic requests cross into the 300 MHz capture domain
+# through explicit two-stage synchronizers.  Only their first-stage D pins are
+# asynchronous; the second stage remains normally timed so placement still
+# maximizes synchronizer resolution time.  Keep these endpoint-specific rather
+# than declaring the complete 24/100/300 MHz clock domains asynchronous.
+set_false_path -to [get_pins -hierarchical -filter \
+    {NAME =~ */capture_enable_sync1_reg/D || \
+     NAME =~ */recovery_sample_offset_sync1_reg*/D || \
+     NAME =~ */diag_clear_video_sync1_reg/D || \
+     NAME =~ */stats_snapshot_video_sync1_reg/D || \
+     NAME =~ *u_camera_cdc/diag_clear_sync1_reg/D || \
+     NAME =~ *u_camera_stream/diag_clear_sync1_reg/D}]
 
 # Each OV7670 frontend publishes a 32-bit geometry snapshot together with a
 # toggle. The source values change only once per completed frame and remain

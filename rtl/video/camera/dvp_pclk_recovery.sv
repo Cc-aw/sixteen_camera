@@ -187,6 +187,32 @@ module dvp_pclk_recovery #(
     reg half_period_candidate_d, harmonic_ratio_match_d;
     reg candidate_early_d;
     reg [FP_WIDTH-1:0] candidate_phase_abs_d;
+    // Diagnostic events are registered at the functional decision boundary.
+    // Wide counters consume these one cycle later, preventing their carry and
+    // saturation logic from feeding back into the 300 MHz recovery FSM.
+    reg diag_candidate_event, diag_valid_event, diag_glitch_event;
+    reg diag_missing_event, diag_holdover_event;
+    reg diag_holdover_recovered_event, diag_harmonic_reject_event;
+    reg diag_lock_loss_event, diag_period_range_fault_event;
+    reg diag_half_period_event, diag_too_early_event;
+    reg diag_too_late_event, diag_invalid_interval_event;
+    reg diag_phase_event;
+    reg [FP_WIDTH-1:0] diag_phase_value;
+    reg diag_interval_event;
+    reg [15:0] diag_interval_value;
+    // Candidate classification pipeline. A DVP edge is at least PERIOD_MIN
+    // 300 MHz clocks from the next one, so one registered classification
+    // stage preserves throughput while removing the raw interval arithmetic
+    // from the recovery-state critical path.
+    reg edge_event;
+    reg edge_raw_seen;
+    reg [15:0] edge_candidate_interval, edge_raw_interval;
+    reg [FP_WIDTH-1:0] edge_raw_estimator_next;
+    reg edge_raw_interval_valid;
+    reg edge_raw_near_candidate, edge_raw_near_double;
+    reg edge_search_interval_valid, edge_harmonic_interval;
+    reg edge_phase_negative, edge_in_phase_window;
+    reg [FP_WIDTH-1:0] edge_phase_abs;
 
     wire [15:0] candidate_interval =
         (accepted_edge_elapsed == 16'hffff) ? 16'hffff :
@@ -216,20 +242,30 @@ module dvp_pclk_recovery #(
         raw_estimator_next_signed[FP_WIDTH-1:0];
     wire raw_interval_valid = raw_interval >= 16'(PERIOD_MIN) &&
                               raw_interval <= 16'(PERIOD_MAX);
-    wire [FP_WIDTH-1:0] raw_interval_error =
-        (raw_interval_fp >= candidate_period_est_fp) ?
-        raw_interval_fp - candidate_period_est_fp :
-        candidate_period_est_fp - raw_interval_fp;
+    // Edge acceptance only needs whole 300 MHz clock counts. Keep Q16.8 for
+    // the IIR/phase predictor, but compare the measured interval against
+    // rounded integer bounds. This replaces a 24-bit subtract/absolute/
+    // compare chain with two short 16-bit bound checks.
+    wire [FP_WIDTH-1:0] candidate_period_rounded_fp =
+        candidate_period_est_fp +
+        FP_WIDTH'(1 << (PERIOD_FRAC_BITS - 1));
+    wire [15:0] candidate_period_cycles =
+        candidate_period_rounded_fp >> PERIOD_FRAC_BITS;
+    wire [15:0] raw_candidate_low =
+        candidate_period_cycles - 16'(RAW_ACCEPT_WINDOW);
+    wire [15:0] raw_candidate_high =
+        candidate_period_cycles + 16'(RAW_ACCEPT_WINDOW);
     wire raw_interval_near_candidate = raw_interval_valid &&
-        (raw_interval_error <= FP_WIDTH'(
-            RAW_ACCEPT_WINDOW << PERIOD_FRAC_BITS));
-    wire [FP_WIDTH-1:0] raw_double_error =
-        (raw_interval_fp >= (candidate_period_est_fp << 1)) ?
-        raw_interval_fp - (candidate_period_est_fp << 1) :
-        (candidate_period_est_fp << 1) - raw_interval_fp;
+        raw_interval >= raw_candidate_low &&
+        raw_interval <= raw_candidate_high;
+    wire [15:0] double_candidate_period_cycles =
+        candidate_period_cycles << 1;
+    wire [15:0] raw_double_low = double_candidate_period_cycles -
+        16'(RAW_ACCEPT_WINDOW + 1);
+    wire [15:0] raw_double_high = double_candidate_period_cycles +
+        16'(RAW_ACCEPT_WINDOW + 1);
     wire raw_interval_near_double =
-        (raw_double_error <= FP_WIDTH'(
-            (RAW_ACCEPT_WINDOW + 1) << PERIOD_FRAC_BITS));
+        raw_interval >= raw_double_low && raw_interval <= raw_double_high;
     wire period_current_valid = period_est_fp >=
                                 FP_WIDTH'(PERIOD_MIN << PERIOD_FRAC_BITS) &&
                                 period_est_fp <=
@@ -256,10 +292,10 @@ module dvp_pclk_recovery #(
     // to the independent raw estimator.  The phase predictor is deliberately
     // not allowed to delete such an edge: doing so makes the accepted-edge
     // estimator drift toward 2T and can collapse every following video line.
-    wire physical_edge_valid = candidate_edge && raw_edge_seen &&
-        (raw_interval_near_candidate || candidate_in_phase_window ||
+    wire physical_edge_valid = edge_event && edge_raw_seen &&
+        (edge_raw_near_candidate || edge_in_phase_window ||
          ((recovery_state == STATE_HOLDOVER) &&
-          raw_interval_near_double));
+          edge_raw_near_double));
     wire slot_has_candidate_now = slot_candidate_seen ||
                                    physical_edge_valid;
     wire phase_due = !candidate_phase_error[FP_WIDTH-1];
@@ -267,7 +303,7 @@ module dvp_pclk_recovery #(
     // declared until the wider recovery window has fully elapsed. Otherwise
     // a legitimate +3-sample edge is preceded by a synthetic HOLDOVER CE and
     // the line gains a duplicate byte.
-    wire phase_window_closed = phase_due &&
+    wire phase_window_closed = phase_due && !candidate_edge && !edge_event &&
                                candidate_phase_abs > RECOVERY_WINDOW_FP;
     wire [FP_WIDTH-1:0] twice_candidate_period =
         candidate_period_est_fp << 1;
@@ -316,27 +352,8 @@ module dvp_pclk_recovery #(
             recovery_state <= STATE_SEARCH;
             period_est_fp <= NOMINAL_PERIOD;
             last_interval <= 16'd0;
-            interval_min <= 16'hffff;
-            interval_max <= 16'd0;
-            phase_error_fp <= 24'd0;
-            phase_error_max_fp <= 24'd0;
-            candidate_count <= 32'd0;
-            valid_count <= 32'd0;
-            candidate_count64 <= 64'd0;
-            valid_count64 <= 64'd0;
-            glitch_count <= 32'd0;
-            missing_count <= 32'd0;
-            holdover_count <= 32'd0;
-            holdover_recovered_count <= 32'd0;
-            harmonic_reject_count <= 32'd0;
-            lock_loss_count <= 32'd0;
             candidate_period_est_fp <= NOMINAL_PERIOD;
             raw_candidate_interval <= 16'd0;
-            period_range_fault_count <= 32'd0;
-            half_period_candidate_count <= 32'd0;
-            too_early_count <= 32'd0;
-            too_late_count <= 32'd0;
-            invalid_interval_count <= 32'd0;
             lock_score <= 6'd0;
             recovery_confirm_count <= 4'd0;
             last_loss_reason <= 4'd0;
@@ -345,9 +362,76 @@ module dvp_pclk_recovery #(
             candidate_period_at_loss <= 24'd0;
             phase_error_at_loss <= 24'd0;
             interval_at_loss <= 16'd0;
+            diag_candidate_event <= 1'b0;
+            diag_valid_event <= 1'b0;
+            diag_glitch_event <= 1'b0;
+            diag_missing_event <= 1'b0;
+            diag_holdover_event <= 1'b0;
+            diag_holdover_recovered_event <= 1'b0;
+            diag_harmonic_reject_event <= 1'b0;
+            diag_lock_loss_event <= 1'b0;
+            diag_period_range_fault_event <= 1'b0;
+            diag_half_period_event <= 1'b0;
+            diag_too_early_event <= 1'b0;
+            diag_too_late_event <= 1'b0;
+            diag_invalid_interval_event <= 1'b0;
+            diag_phase_event <= 1'b0;
+            diag_phase_value <= {FP_WIDTH{1'b0}};
+            diag_interval_event <= 1'b0;
+            diag_interval_value <= 16'd0;
+            edge_event <= 1'b0;
+            edge_raw_seen <= 1'b0;
+            edge_candidate_interval <= 16'd0;
+            edge_raw_interval <= 16'd0;
+            edge_raw_estimator_next <= NOMINAL_PERIOD;
+            edge_raw_interval_valid <= 1'b0;
+            edge_raw_near_candidate <= 1'b0;
+            edge_raw_near_double <= 1'b0;
+            edge_search_interval_valid <= 1'b0;
+            edge_harmonic_interval <= 1'b0;
+            edge_phase_negative <= 1'b0;
+            edge_in_phase_window <= 1'b0;
+            edge_phase_abs <= {FP_WIDTH{1'b0}};
         end else begin
             recovered_edge <= 1'b0;
             loss_event <= 1'b0;
+            diag_candidate_event <= 1'b0;
+            diag_valid_event <= 1'b0;
+            diag_glitch_event <= 1'b0;
+            diag_missing_event <= 1'b0;
+            diag_holdover_event <= 1'b0;
+            diag_holdover_recovered_event <= 1'b0;
+            diag_harmonic_reject_event <= 1'b0;
+            diag_lock_loss_event <= 1'b0;
+            diag_period_range_fault_event <= 1'b0;
+            diag_half_period_event <= 1'b0;
+            diag_too_early_event <= 1'b0;
+            diag_too_late_event <= 1'b0;
+            diag_invalid_interval_event <= 1'b0;
+            diag_phase_event <= 1'b0;
+            diag_interval_event <= 1'b0;
+            edge_event <= candidate_edge;
+            if (candidate_edge) begin
+                edge_raw_seen <= raw_edge_seen;
+                edge_candidate_interval <= candidate_interval;
+                edge_raw_interval <= raw_interval;
+                edge_raw_estimator_next <= raw_estimator_next;
+                edge_raw_interval_valid <= raw_interval_valid;
+                edge_raw_near_candidate <= raw_interval_near_candidate;
+                edge_raw_near_double <= raw_interval_near_double;
+                edge_search_interval_valid <= search_interval_valid;
+                edge_harmonic_interval <= harmonic_interval;
+                edge_phase_negative <= candidate_phase_error[FP_WIDTH-1];
+                edge_in_phase_window <= candidate_in_phase_window;
+                edge_phase_abs <= candidate_phase_abs;
+            end
+            // Payloads are sampled every cycle. Registered event flags qualify
+            // them in the following diagnostic stage, avoiding a complex CE
+            // path from the recovery decision into these payload registers.
+            diag_phase_value <= edge_phase_abs;
+            diag_interval_value <=
+                (recovery_state == STATE_SEARCH) ?
+                edge_candidate_interval : edge_raw_interval;
             // Diagnostic/harmonic classification is intentionally split over
             // two pipeline boundaries. It is not part of the pixel_ce
             // decision and must not lengthen the 300 MHz recovery path.
@@ -362,10 +446,12 @@ module dvp_pclk_recovery #(
                 accepted_edge_elapsed <= accepted_edge_elapsed + 1'b1;
             if (raw_edge_seen && raw_edge_elapsed != 16'hffff)
                 raw_edge_elapsed <= raw_edge_elapsed + 1'b1;
-            if (candidate_edge && candidate_count != 32'hffffffff)
-                candidate_count <= candidate_count + 1'b1;
+            if (edge_event && edge_raw_near_candidate)
+                candidate_period_est_fp <= edge_raw_estimator_next;
+            else if (edge_event && !edge_raw_interval_valid)
+                diag_invalid_interval_event <= 1'b1;
             if (candidate_edge)
-                candidate_count64 <= candidate_count64 + 1'b1;
+                diag_candidate_event <= 1'b1;
             if (candidate_edge) begin
                 if (!raw_edge_seen) begin
                     raw_edge_seen <= 1'b1;
@@ -373,17 +459,10 @@ module dvp_pclk_recovery #(
                 end else begin
                     raw_candidate_interval <= raw_interval;
                     raw_edge_elapsed <= 16'd0;
-                    if (raw_interval_near_candidate)
-                        candidate_period_est_fp <= raw_estimator_next;
-                    else if (!raw_interval_valid &&
-                             invalid_interval_count != 32'hffff_ffff)
-                        invalid_interval_count <= invalid_interval_count + 1'b1;
                 end
             end
             if (half_period_candidate_d) begin
-                if (half_period_candidate_count != 32'hffff_ffff)
-                    half_period_candidate_count <=
-                        half_period_candidate_count + 1'b1;
+                diag_half_period_event <= 1'b1;
                 if (harmonic_ratio_match_d) begin
                     if (harmonic_confirm < HARMONIC_CONFIRM_LIMIT)
                         harmonic_confirm <= harmonic_confirm + 1'b1;
@@ -405,49 +484,40 @@ module dvp_pclk_recovery #(
                     lock_score <= 6'd0;
                     recovery_confirm_count <= 4'd0;
                     harmonic_confirm <= 4'd0;
-                    if (candidate_edge) begin
+                    if (edge_event) begin
                         if (!accepted_edge_seen) begin
                             accepted_edge_seen <= 1'b1;
                             accepted_edge_elapsed <= 16'd0;
                             search_good_count <= 8'd0;
                         end else begin
-                            last_interval <= candidate_interval;
-                            if (candidate_interval < DEAD_TIME_COUNT) begin
-                                if (glitch_count != 32'hffffffff)
-                                    glitch_count <= glitch_count + 1'b1;
-                            end else if (search_interval_valid) begin
+                            last_interval <= edge_candidate_interval;
+                            if (edge_candidate_interval < DEAD_TIME_COUNT) begin
+                                diag_glitch_event <= 1'b1;
+                            end else if (edge_search_interval_valid) begin
                                 recovered_edge <= 1'b1;
                                 accepted_edge_elapsed <= 16'd0;
-                                if (valid_count != 32'hffffffff)
-                                    valid_count <= valid_count + 1'b1;
-                                valid_count64 <= valid_count64 + 1'b1;
-                                if (candidate_interval < interval_min)
-                                    interval_min <= candidate_interval;
-                                if (candidate_interval > interval_max)
-                                    interval_max <= candidate_interval;
-                                period_est_fp <= raw_estimator_next;
+                                diag_valid_event <= 1'b1;
+                                diag_interval_event <= 1'b1;
+                                period_est_fp <= edge_raw_estimator_next;
                                 if (search_good_count ==
                                     SEARCH_EDGE_COUNT - 1'b1) begin
                                     recovery_state <= STATE_ACQUIRE;
                                     acquire_good_count <= 8'd0;
                                     acquire_anchor_pending <= 1'b0;
                                     expected_phase_fp <=
-                                        phase_now_fp + raw_estimator_next;
+                                        phase_now_fp + edge_raw_estimator_next;
                                 end else search_good_count <=
                                     search_good_count + 1'b1;
-                            end else if (candidate_interval <
+                            end else if (edge_candidate_interval <
                                          SEARCH_MIN_COUNT) begin
-                                if (glitch_count != 32'hffffffff)
-                                    glitch_count <= glitch_count + 1'b1;
+                                diag_glitch_event <= 1'b1;
                             end else begin
                                 // Late edges can re-anchor measurement but
                                 // never seed a 2x-period estimate.
                                 accepted_edge_elapsed <= 16'd0;
                                 search_good_count <= 8'd0;
-                                if (harmonic_interval &&
-                                    harmonic_reject_count != 32'hffffffff)
-                                    harmonic_reject_count <=
-                                        harmonic_reject_count + 1'b1;
+                                if (edge_harmonic_interval)
+                                    diag_harmonic_reject_event <= 1'b1;
                             end
                         end
                     end
@@ -455,7 +525,7 @@ module dvp_pclk_recovery #(
 
                 STATE_ACQUIRE: begin
                     pclk_locked <= 1'b0;
-                    if (candidate_edge && acquire_anchor_pending) begin
+                    if (edge_event && acquire_anchor_pending) begin
                         // PCLK was gated in blanking: the first real edge of
                         // the new line is a phase anchor, not a timing error.
                         if (FIRST_EDGE_IS_PIXEL != 0)
@@ -467,27 +537,18 @@ module dvp_pclk_recovery #(
                         acquire_good_count <= 8'd0;
                         lock_score <= 6'd0;
                         if (FIRST_EDGE_IS_PIXEL != 0) begin
-                            if (valid_count != 32'hffffffff)
-                                valid_count <= valid_count + 1'b1;
-                            valid_count64 <= valid_count64 + 1'b1;
+                            diag_valid_event <= 1'b1;
                         end
                     end else if (physical_edge_valid) begin
-                        phase_error_fp <= candidate_phase_abs;
-                        if (candidate_phase_abs > phase_error_max_fp)
-                            phase_error_max_fp <= candidate_phase_abs;
+                        diag_phase_event <= 1'b1;
                         recovered_edge <= 1'b1;
                         accepted_edge_elapsed <= 16'd0;
-                        if (valid_count != 32'hffffffff)
-                            valid_count <= valid_count + 1'b1;
-                        valid_count64 <= valid_count64 + 1'b1;
-                        if (raw_interval_near_candidate) begin
-                            if (raw_interval < interval_min)
-                                interval_min <= raw_interval;
-                            if (raw_interval > interval_max)
-                                interval_max <= raw_interval;
-                            period_est_fp <= raw_estimator_next;
+                        diag_valid_event <= 1'b1;
+                        if (edge_raw_near_candidate) begin
+                            diag_interval_event <= 1'b1;
+                            period_est_fp <= edge_raw_estimator_next;
                             expected_phase_fp <=
-                                phase_now_fp + raw_estimator_next;
+                                phase_now_fp + edge_raw_estimator_next;
                         end else begin
                             // A phase-consistent real edge may follow a false
                             // candidate that split its raw interval. Keep the
@@ -495,7 +556,7 @@ module dvp_pclk_recovery #(
                             expected_phase_fp <=
                                 phase_now_fp + candidate_period_est_fp;
                         end
-                        if (candidate_in_phase_window) begin
+                        if (edge_in_phase_window) begin
                             if (lock_score <= LOCK_SCORE_LIMIT - 3)
                                 lock_score <= lock_score + 3'd3;
                             else
@@ -505,11 +566,10 @@ module dvp_pclk_recovery #(
                             // never a dropped byte.
                             if (lock_score != 0)
                                 lock_score <= lock_score - 1'b1;
-                            if (candidate_phase_error[FP_WIDTH-1]) begin
-                                if (too_early_count != 32'hffffffff)
-                                    too_early_count <= too_early_count + 1'b1;
-                            end else if (too_late_count != 32'hffffffff)
-                                too_late_count <= too_late_count + 1'b1;
+                            if (edge_phase_negative) begin
+                                diag_too_early_event <= 1'b1;
+                            end else
+                                diag_too_late_event <= 1'b1;
                         end
                         if ((acquire_good_count >=
                              ACQUIRE_EDGE_COUNT - 1'b1) &&
@@ -521,26 +581,21 @@ module dvp_pclk_recovery #(
                             slot_ce_emitted <= 1'b0;
                         end else acquire_good_count <=
                             acquire_good_count + 1'b1;
-                    end else if (candidate_edge) begin
-                        if (glitch_count != 32'hffffffff)
-                            glitch_count <= glitch_count + 1'b1;
-                        if (candidate_phase_error[FP_WIDTH-1] &&
-                            too_early_count != 32'hffffffff)
-                            too_early_count <= too_early_count + 1'b1;
+                    end else if (edge_event) begin
+                        diag_glitch_event <= 1'b1;
+                        if (edge_phase_negative)
+                            diag_too_early_event <= 1'b1;
                     end else if (phase_window_closed) begin
                         recovery_state <= STATE_SEARCH;
                         search_good_count <= 8'd0;
                         accepted_edge_seen <= 1'b0;
-                        if (missing_count != 32'hffffffff)
-                            missing_count <= missing_count + 1'b1;
+                        diag_missing_event <= 1'b1;
                     end
                 end
 
                 STATE_LOCK, STATE_HOLDOVER: begin
                     if (physical_edge_valid) begin
-                        phase_error_fp <= candidate_phase_abs;
-                        if (candidate_phase_abs > phase_error_max_fp)
-                            phase_error_max_fp <= candidate_phase_abs;
+                        diag_phase_event <= 1'b1;
                         recovered_edge <= 1'b1;
                         slot_candidate_seen <= 1'b1;
                         slot_ce_emitted <= 1'b1;
@@ -549,34 +604,28 @@ module dvp_pclk_recovery #(
                         accepted_edge_seen <= 1'b1;
                         accepted_edge_elapsed <= 16'd0;
                         consecutive_missing <= 8'd0;
-                        if (valid_count != 32'hffffffff)
-                            valid_count <= valid_count + 1'b1;
-                        valid_count64 <= valid_count64 + 1'b1;
-                        if (raw_interval_near_candidate) begin
-                            period_est_fp <= raw_estimator_next;
+                        diag_valid_event <= 1'b1;
+                        if (edge_raw_near_candidate) begin
+                            period_est_fp <= edge_raw_estimator_next;
                             expected_phase_fp <=
-                                phase_now_fp + raw_estimator_next;
-                            if (raw_interval < interval_min)
-                                interval_min <= raw_interval;
-                            if (raw_interval > interval_max)
-                                interval_max <= raw_interval;
+                                phase_now_fp + edge_raw_estimator_next;
+                            diag_interval_event <= 1'b1;
                         end else begin
                             // The first real edge after one missing cycle is
                             // roughly 2T. Keep the learned T and re-anchor.
                             expected_phase_fp <=
                                 phase_now_fp + candidate_period_est_fp;
                         end
-                        if (candidate_in_phase_window) begin
+                        if (edge_in_phase_window) begin
                             if (lock_score < LOCK_SCORE_LIMIT)
                                 lock_score <= lock_score + 1'b1;
                         end else begin
                             if (lock_score != 0)
                                 lock_score <= lock_score - 1'b1;
-                            if (candidate_phase_error[FP_WIDTH-1]) begin
-                                if (too_early_count != 32'hffffffff)
-                                    too_early_count <= too_early_count + 1'b1;
-                            end else if (too_late_count != 32'hffffffff)
-                                too_late_count <= too_late_count + 1'b1;
+                            if (edge_phase_negative) begin
+                                diag_too_early_event <= 1'b1;
+                            end else
+                                diag_too_late_event <= 1'b1;
                         end
                         if (period_stable_count != 8'hff)
                             period_stable_count <= period_stable_count + 1'b1;
@@ -585,9 +634,7 @@ module dvp_pclk_recovery #(
                                 RECOVERY_CONFIRM_COUNT - 1'b1) begin
                                 recovery_state <= STATE_LOCK;
                                 recovery_confirm_count <= 4'd0;
-                                if (holdover_recovered_count != 32'hffffffff)
-                                    holdover_recovered_count <=
-                                        holdover_recovered_count + 1'b1;
+                                diag_holdover_recovered_event <= 1'b1;
                             end else begin
                                 recovery_confirm_count <=
                                     recovery_confirm_count + 1'b1;
@@ -596,11 +643,10 @@ module dvp_pclk_recovery #(
                             recovery_state <= STATE_LOCK;
                             recovery_confirm_count <= 4'd0;
                         end
-                    end else if (candidate_edge) begin
+                    end else if (edge_event) begin
                         // A candidate inconsistent with the raw period is a
                         // real glitch. It must not move phase or emit CE.
-                        if (glitch_count != 32'hffffffff)
-                            glitch_count <= glitch_count + 1'b1;
+                        diag_glitch_event <= 1'b1;
                     end else if (phase_window_closed) begin
                         expected_phase_fp <=
                             expected_phase_fp + period_est_fp;
@@ -615,8 +661,7 @@ module dvp_pclk_recovery #(
                             recovery_confirm_count <= 4'd0;
                             blanking_gap_seen <= 1'b1;
                         end else begin
-                            if (missing_count != 32'hffffffff)
-                                missing_count <= missing_count + 1'b1;
+                            diag_missing_event <= 1'b1;
                             if ((recovery_state == STATE_LOCK) &&
                                 (consecutive_missing < MAX_HOLDOVER_COUNT) &&
                                 holdover_eligible) begin
@@ -637,8 +682,7 @@ module dvp_pclk_recovery #(
                                     lock_score <= lock_score - 3'd4;
                                 else
                                     lock_score <= 6'd0;
-                                if (holdover_count != 32'hffffffff)
-                                    holdover_count <= holdover_count + 1'b1;
+                                diag_holdover_event <= 1'b1;
                             end else begin
                                 recovery_state <= STATE_SEARCH;
                                 pclk_locked <= 1'b0;
@@ -655,8 +699,7 @@ module dvp_pclk_recovery #(
                                     candidate_period_est_fp;
                                 phase_error_at_loss <= phase_error_fp;
                                 interval_at_loss <= last_interval;
-                                if (lock_loss_count != 32'hffffffff)
-                                    lock_loss_count <= lock_loss_count + 1'b1;
+                                diag_lock_loss_event <= 1'b1;
                             end
                         end
                     end
@@ -704,12 +747,9 @@ module dvp_pclk_recovery #(
                 candidate_period_at_loss <= candidate_period_est_fp;
                 phase_error_at_loss <= phase_error_fp;
                 interval_at_loss <= last_interval;
-                if (period_range_fault_count != 32'hffff_ffff)
-                    period_range_fault_count <=
-                        period_range_fault_count + 1'b1;
-                if ((pclk_locked || recovery_state == STATE_HOLDOVER) &&
-                    lock_loss_count != 32'hffff_ffff)
-                    lock_loss_count <= lock_loss_count + 1'b1;
+                diag_period_range_fault_event <= 1'b1;
+                if (pclk_locked || recovery_state == STATE_HOLDOVER)
+                    diag_lock_loss_event <= 1'b1;
             end else if ((recovery_state == STATE_LOCK) &&
                          (harmonic_confirm >=
                           HARMONIC_CONFIRM_LIMIT - 1'b1)) begin
@@ -726,31 +766,11 @@ module dvp_pclk_recovery #(
                 candidate_period_at_loss <= candidate_period_est_fp;
                 phase_error_at_loss <= phase_error_fp;
                 interval_at_loss <= last_interval;
-                if (harmonic_reject_count != 32'hffff_ffff)
-                    harmonic_reject_count <= harmonic_reject_count + 1'b1;
-                if (lock_loss_count != 32'hffff_ffff)
-                    lock_loss_count <= lock_loss_count + 1'b1;
+                diag_harmonic_reject_event <= 1'b1;
+                diag_lock_loss_event <= 1'b1;
             end
 
             if (diag_clear) begin
-                interval_min <= 16'hffff;
-                interval_max <= 16'd0;
-                phase_error_max_fp <= 24'd0;
-                candidate_count <= 32'd0;
-                valid_count <= 32'd0;
-                candidate_count64 <= 64'd0;
-                valid_count64 <= 64'd0;
-                glitch_count <= 32'd0;
-                missing_count <= 32'd0;
-                holdover_count <= 32'd0;
-                holdover_recovered_count <= 32'd0;
-                harmonic_reject_count <= 32'd0;
-                lock_loss_count <= 32'd0;
-                period_range_fault_count <= 32'd0;
-                half_period_candidate_count <= 32'd0;
-                too_early_count <= 32'd0;
-                too_late_count <= 32'd0;
-                invalid_interval_count <= 32'd0;
                 last_loss_reason <= 4'd0;
                 period_at_loss <= 24'd0;
                 candidate_period_at_loss <= 24'd0;
@@ -760,8 +780,84 @@ module dvp_pclk_recovery #(
         end
     end
 
-    // Continuous IOB-aligned bus history. Tap 4 is board-verified and samples
-    // 13.33 ns after the recovered phase.
+    // Diagnostic counters intentionally lag functional events by one clock.
+    // Their saturation/carry chains are therefore local to this block and can
+    // never become part of the edge acceptance or phase recovery decision.
+    always @(posedge clk_300m) begin
+        if (!resetn || diag_clear) begin
+            candidate_count <= 32'd0;
+            valid_count <= 32'd0;
+            candidate_count64 <= 64'd0;
+            valid_count64 <= 64'd0;
+            glitch_count <= 32'd0;
+            missing_count <= 32'd0;
+            holdover_count <= 32'd0;
+            holdover_recovered_count <= 32'd0;
+            harmonic_reject_count <= 32'd0;
+            lock_loss_count <= 32'd0;
+            period_range_fault_count <= 32'd0;
+            half_period_candidate_count <= 32'd0;
+            too_early_count <= 32'd0;
+            too_late_count <= 32'd0;
+            invalid_interval_count <= 32'd0;
+            phase_error_fp <= 24'd0;
+            phase_error_max_fp <= 24'd0;
+            interval_min <= 16'hffff;
+            interval_max <= 16'd0;
+        end else begin
+            if (diag_candidate_event) begin
+                if (candidate_count != 32'hffff_ffff)
+                    candidate_count <= candidate_count + 1'b1;
+                candidate_count64 <= candidate_count64 + 1'b1;
+            end
+            if (diag_valid_event) begin
+                if (valid_count != 32'hffff_ffff)
+                    valid_count <= valid_count + 1'b1;
+                valid_count64 <= valid_count64 + 1'b1;
+            end
+            if (diag_glitch_event && glitch_count != 32'hffff_ffff)
+                glitch_count <= glitch_count + 1'b1;
+            if (diag_missing_event && missing_count != 32'hffff_ffff)
+                missing_count <= missing_count + 1'b1;
+            if (diag_holdover_event && holdover_count != 32'hffff_ffff)
+                holdover_count <= holdover_count + 1'b1;
+            if (diag_holdover_recovered_event &&
+                holdover_recovered_count != 32'hffff_ffff)
+                holdover_recovered_count <= holdover_recovered_count + 1'b1;
+            if (diag_harmonic_reject_event &&
+                harmonic_reject_count != 32'hffff_ffff)
+                harmonic_reject_count <= harmonic_reject_count + 1'b1;
+            if (diag_lock_loss_event && lock_loss_count != 32'hffff_ffff)
+                lock_loss_count <= lock_loss_count + 1'b1;
+            if (diag_period_range_fault_event &&
+                period_range_fault_count != 32'hffff_ffff)
+                period_range_fault_count <= period_range_fault_count + 1'b1;
+            if (diag_half_period_event &&
+                half_period_candidate_count != 32'hffff_ffff)
+                half_period_candidate_count <= half_period_candidate_count + 1'b1;
+            if (diag_too_early_event && too_early_count != 32'hffff_ffff)
+                too_early_count <= too_early_count + 1'b1;
+            if (diag_too_late_event && too_late_count != 32'hffff_ffff)
+                too_late_count <= too_late_count + 1'b1;
+            if (diag_invalid_interval_event &&
+                invalid_interval_count != 32'hffff_ffff)
+                invalid_interval_count <= invalid_interval_count + 1'b1;
+            if (diag_phase_event) begin
+                phase_error_fp <= diag_phase_value;
+                if (diag_phase_value > phase_error_max_fp)
+                    phase_error_max_fp <= diag_phase_value;
+            end
+            if (diag_interval_event) begin
+                if (diag_interval_value < interval_min)
+                    interval_min <= diag_interval_value;
+                if (diag_interval_value > interval_max)
+                    interval_max <= diag_interval_value;
+            end
+        end
+    end
+
+    // Continuous IOB-aligned bus history. Tap 2 is the current board default
+    // and samples approximately 6.67 ns after the recovered phase.
     reg [7:0] data_history [0:DATA_HISTORY_DEPTH-1];
     reg href_history [0:DATA_HISTORY_DEPTH-1];
     reg vsync_history [0:DATA_HISTORY_DEPTH-1];
@@ -770,8 +866,12 @@ module dvp_pclk_recovery #(
     wire [2:0] bounded_sample_offset =
         (data_sample_offset < 3'(DATA_HISTORY_DEPTH)) ? data_sample_offset :
         3'(DEFAULT_DATA_SAMPLE_OFFSET);
+    // Classification now adds one clock between the physical candidate and
+    // recovered_edge. Select one older history entry so the software-visible
+    // tap number retains its established board-level sampling phase (tap 2).
     wire [2:0] sample_index =
-        3'(DATA_HISTORY_DEPTH - 1) - bounded_sample_offset;
+        (bounded_sample_offset == 0) ? 3'(DATA_HISTORY_DEPTH - 1) :
+        3'(DATA_HISTORY_DEPTH) - bounded_sample_offset;
     wire [2:0] sample_neighbor_early =
         (sample_index == 0) ? sample_index : sample_index - 1'b1;
     wire [2:0] sample_neighbor_late =

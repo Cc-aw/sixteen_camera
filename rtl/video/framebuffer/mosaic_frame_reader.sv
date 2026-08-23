@@ -112,8 +112,15 @@ module mosaic_frame_reader #(
     reg display_bank;
     reg [9:0] output_x;
     reg [10:0] output_y;
+    reg axis_valid_q;
+    reg [47:0] axis_data_q;
+    reg axis_user_q;
+    reg axis_last_q;
+    reg axis_frame_last_q;
 
-    wire axis_fire = m_axis.tvalid && m_axis.tready;
+    wire axis_pipeline_ready = !axis_valid_q || m_axis.tready;
+    wire axis_fire = axis_valid_q && m_axis.tready;
+    wire source_fire = output_active && axis_pipeline_ready;
     wire [1:0] output_tile = (output_x < TILE_BEATS) ? 2'd0 :
                              (output_x < TILE_BEATS*2) ? 2'd1 : 2'd2;
     wire [8:0] output_tile_x = (output_tile == 2'd0) ? output_x[8:0] :
@@ -196,17 +203,22 @@ module mosaic_frame_reader #(
         end
     endfunction
 
-    assign buffer_acquire = !frame_active && !output_active &&
+    assign buffer_acquire = !frame_active && !output_active && !axis_valid_q &&
                             (fill_state == F_IDLE) && !plan_valid &&
                             !plan_approved && !ar_pending &&
                             (desc_count == 0) && read_fifo_empty;
 
     assign m_axis.aclk = clk;
     assign m_axis.aresetn = resetn;
-    assign m_axis.tvalid = output_active;
-    assign m_axis.tdata = output_source_valid ? mosaic_pixels : 48'd0;
-    assign m_axis.tuser = output_active && (output_x == 0) && (output_y == 0);
-    assign m_axis.tlast = output_active && (output_x == OUTPUT_BEATS-1);
+    // The registered source stage breaks the distributed line-store lookup and
+    // tile-selection path before the display-reader mux and HDMI AXIS slice.
+    // It is a one-entry elastic buffer: all fields remain stable under
+    // downstream backpressure and the source advances only when this stage can
+    // accept a new beat.
+    assign m_axis.tvalid = axis_valid_q;
+    assign m_axis.tdata = axis_data_q;
+    assign m_axis.tuser = axis_user_q;
+    assign m_axis.tlast = axis_last_q;
 
     assign m_axi.aclk = clk;
     assign m_axi.aresetn = resetn;
@@ -342,6 +354,11 @@ module mosaic_frame_reader #(
             display_bank <= 1'b0;
             output_x <= 10'd0;
             output_y <= 11'd0;
+            axis_valid_q <= 1'b0;
+            axis_data_q <= 48'd0;
+            axis_user_q <= 1'b0;
+            axis_last_q <= 1'b0;
+            axis_frame_last_q <= 1'b0;
             buffer_done <= 1'b0;
             axi_error <= 1'b0;
             fifo_underflow <= 1'b0;
@@ -352,6 +369,31 @@ module mosaic_frame_reader #(
         end else begin
             buffer_done <= 1'b0;
             fifo_underflow <= 1'b0;
+
+            if (axis_pipeline_ready) begin
+                axis_valid_q <= output_active;
+                if (output_active) begin
+                    axis_data_q <= output_source_valid ? mosaic_pixels : 48'd0;
+                    axis_user_q <= (output_x == 0) && (output_y == 0);
+                    axis_last_q <= (output_x == OUTPUT_BEATS-1);
+                    axis_frame_last_q <=
+                        (output_x == OUTPUT_BEATS-1) &&
+                        (output_y == OUTPUT_HEIGHT-1);
+                end else begin
+                    axis_user_q <= 1'b0;
+                    axis_last_q <= 1'b0;
+                    axis_frame_last_q <= 1'b0;
+                end
+            end
+
+            // A buffer is complete only after the downstream accepts the
+            // registered final beat.  Completing when the source merely loads
+            // that beat makes ownership advance one cycle too early and can
+            // drop the bottom-right pixel pair under backpressure.
+            if (axis_fire && axis_frame_last_q) begin
+                frame_active <= 1'b0;
+                buffer_done <= 1'b1;
+            end
 
             if (buffer_grant && buffer_acquire) begin
                 frame_active <= 1'b1;
@@ -601,15 +643,13 @@ module mosaic_frame_reader #(
                 end
             end
 
-            if (axis_fire) begin
+            if (source_fire) begin
                 if (output_x == OUTPUT_BEATS-1) begin
                     output_x <= 10'd0;
                     bank_state[display_bank] <= BANK_FREE;
                     if (output_y == OUTPUT_HEIGHT-1) begin
                         output_y <= 11'd0;
                         output_active <= 1'b0;
-                        frame_active <= 1'b0;
-                        buffer_done <= 1'b1;
                     end else begin
                         output_y <= output_y + 1'b1;
                         if ((bank_state[!display_bank] == BANK_READY) &&

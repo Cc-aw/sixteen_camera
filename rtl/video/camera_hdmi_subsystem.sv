@@ -193,6 +193,21 @@ module camera_hdmi_subsystem (
     generate
         for (camera_index = 0; camera_index < CAMERA_COUNT;
             camera_index = camera_index + 1) begin : g_camera_frontend
+            // Replicate the 300 MHz reset at each channel boundary.  The
+            // global reset now drives only eight first-stage flops instead of
+            // every frontend register and XPM FIFO control pin across the
+            // device.  INIT supplies assertion at configuration; both reset
+            // assertion and release then propagate synchronously.
+            (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
+            reg [1:0] capture_resetn_local_sync = 2'b00;
+            wire capture_resetn_local = capture_resetn_local_sync[1];
+
+            always @(posedge capture_clk) begin
+                capture_resetn_local_sync[0] <= capture_resetn;
+                capture_resetn_local_sync[1] <=
+                    capture_resetn_local_sync[0];
+            end
+
             ov7670_frontend #(
                 .VSYNC_FILTER_CYCLES(256),
                 .HREF_FILTER_CYCLES(16),
@@ -205,7 +220,7 @@ module camera_hdmi_subsystem (
                 .init_grant(camera_init_grant[camera_index]),
                 .init_request(camera_init_request[camera_index]),
                 .init_terminal(camera_init_terminal[camera_index]),
-                .video_clk(capture_clk), .video_resetn(capture_resetn),
+                .video_clk(capture_clk), .video_resetn(capture_resetn_local),
                 .camera_axil(camera_axil[camera_index]),
                 .ov7670_pclk(cam_pclk[camera_index]),
                 .ov7670_vsync(cam_vsync[camera_index]),
@@ -260,7 +275,7 @@ module camera_hdmi_subsystem (
                 .diag_fifo_max_level(camera_cdc_fifo_max_level[camera_index]),
                 .diag_line_flush_count(
                     camera_cdc_line_flush_count[camera_index]),
-                .ddr_clk(capture_clk), .ddr_resetn(capture_resetn),
+                .ddr_clk(capture_clk), .ddr_resetn(capture_resetn_local),
                 .diag_fire_count(camera_cdc_fire_count[camera_index]),
                 .diag_sof_count(camera_cdc_sof_count[camera_index]),
                 .diag_eol_count(camera_cdc_eol_count[camera_index]),

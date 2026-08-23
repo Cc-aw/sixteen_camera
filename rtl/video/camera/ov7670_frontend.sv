@@ -1449,8 +1449,12 @@ module ov7670_frontend #(
     reg capture_enable_sync1 = 1'b0;
     (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
     reg capture_enable_sync2 = 1'b0;
-    wire capture_resetn = video_resetn && sys_rstn && sys_init_done &&
-                          capture_enable_sync2;
+    // video_resetn is already asserted until DDR calibration completes and
+    // is synchronously released in video_clk before it reaches this channel.
+    // Do not re-combine the raw system/calibration status here: doing so
+    // creates a high-fanout 300 MHz data/CE path across SLRs.  Camera capture
+    // remains disabled until the SCCB controller reports initialization OK.
+    wire capture_resetn = video_resetn && capture_enable_sync2;
 
     always @(posedge video_clk) begin
         dvp_data_iob <= ov7670_data;
