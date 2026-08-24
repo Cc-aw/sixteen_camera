@@ -5,7 +5,8 @@
 module hdmi_subsystem (
     axi4_if.slave mmio_axi,
     axis_video_if.sink display_axis,
-    axis_video_if.source capture_axis,
+    video_stream_if.source hdmi_capture_channels [8],
+    input wire hdmi_capture_enable,
     axi_lite_if.master framebuffer_axil,
     axi_lite_if.master camera_axil [8],
     input wire capture_clk,
@@ -35,7 +36,11 @@ module hdmi_subsystem (
     input wire hdmi_clkchip_lol,
     input wire hdmi_clkchip_int,
     output wire hdmi_clkchip_rst,
-    output wire [7:0] video_interrupts
+    output wire [7:0] video_interrupts,
+    output wire [31:0] hdmi_transport_frame_count,
+    output wire [31:0] hdmi_transport_malformed_count,
+    output wire [255:0] hdmi_channel_overflow_counts,
+    output wire [255:0] hdmi_channel_frame_counts
 );
     axi_lite_if #(.ADDR_WIDTH(10)) vphy_axil();
     axi_lite_if #(.ADDR_WIDTH(16)) hdmi_rx_axil();
@@ -65,7 +70,13 @@ module hdmi_subsystem (
     );
 
     hdmi_rx_subsystem u_rx (
-        .capture_axis(capture_axis), .hdmi_rx_axil(hdmi_rx_axil),
+        .capture_channels(hdmi_capture_channels),
+        .capture_enable(hdmi_capture_enable),
+        .transport_frame_count(hdmi_transport_frame_count),
+        .transport_malformed_count(hdmi_transport_malformed_count),
+        .channel_overflow_counts(hdmi_channel_overflow_counts),
+        .channel_frame_counts(hdmi_channel_frame_counts),
+        .hdmi_rx_axil(hdmi_rx_axil),
         .capture_clk(capture_clk), .capture_resetn(capture_resetn),
         .rxoutclk(rxoutclk), .rx_video_clk(rx_video_clk),
         .rx_link_data(rx_link_data), .rx_link_valid(rx_link_valid),

@@ -21,9 +21,15 @@ module ddr_memory_subsystem (
     output wire        c0_ddr4_reset_n,
     axi4_if.slave      soc_mem_axi,
     axi_lite_if.slave  framebuffer_axil,
-    video_stream_if.sink capture_channels [8],
+    video_stream_if.sink camera_capture_channels [8],
+    video_stream_if.sink hdmi_capture_channels [8],
+    output wire hdmi_capture_enable,
     input wire [479:0] camera_axis_diag,
     input wire [255:0] malformed_counts,
+    input wire [31:0] hdmi_transport_frame_count,
+    input wire [31:0] hdmi_transport_malformed_count,
+    input wire [255:0] hdmi_channel_overflow_counts,
+    input wire [255:0] hdmi_channel_frame_counts,
     axis_video_if.source video_axis,
     output wire         video_clk,
     output wire         video_resetn
@@ -49,19 +55,80 @@ module ddr_memory_subsystem (
 
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) writer_axi();
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) reader_axi();
+    video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
+        all_capture_channels [16]();
+    wire [511:0] all_malformed_counts = {
+        hdmi_channel_overflow_counts, malformed_counts
+    };
+
+    genvar capture_index;
+    generate
+        for (capture_index = 0; capture_index < 8;
+             capture_index = capture_index + 1) begin : g_capture_merge
+            assign all_capture_channels[capture_index].aclk =
+                camera_capture_channels[capture_index].aclk;
+            assign all_capture_channels[capture_index].aresetn =
+                camera_capture_channels[capture_index].aresetn;
+            assign all_capture_channels[capture_index].data =
+                camera_capture_channels[capture_index].data;
+            assign all_capture_channels[capture_index].valid =
+                camera_capture_channels[capture_index].valid;
+            assign all_capture_channels[capture_index].sof =
+                camera_capture_channels[capture_index].sof;
+            assign all_capture_channels[capture_index].eol =
+                camera_capture_channels[capture_index].eol;
+            assign all_capture_channels[capture_index].eof =
+                camera_capture_channels[capture_index].eof;
+            assign all_capture_channels[capture_index].stream_id =
+                camera_capture_channels[capture_index].stream_id;
+            assign all_capture_channels[capture_index].frame_id =
+                camera_capture_channels[capture_index].frame_id;
+            assign all_capture_channels[capture_index].error =
+                camera_capture_channels[capture_index].error;
+            assign camera_capture_channels[capture_index].ready =
+                all_capture_channels[capture_index].ready;
+
+            assign all_capture_channels[capture_index+8].aclk =
+                hdmi_capture_channels[capture_index].aclk;
+            assign all_capture_channels[capture_index+8].aresetn =
+                hdmi_capture_channels[capture_index].aresetn;
+            assign all_capture_channels[capture_index+8].data =
+                hdmi_capture_channels[capture_index].data;
+            assign all_capture_channels[capture_index+8].valid =
+                hdmi_capture_channels[capture_index].valid;
+            assign all_capture_channels[capture_index+8].sof =
+                hdmi_capture_channels[capture_index].sof;
+            assign all_capture_channels[capture_index+8].eol =
+                hdmi_capture_channels[capture_index].eol;
+            assign all_capture_channels[capture_index+8].eof =
+                hdmi_capture_channels[capture_index].eof;
+            assign all_capture_channels[capture_index+8].stream_id =
+                hdmi_capture_channels[capture_index].stream_id;
+            assign all_capture_channels[capture_index+8].frame_id =
+                hdmi_capture_channels[capture_index].frame_id;
+            assign all_capture_channels[capture_index+8].error =
+                hdmi_capture_channels[capture_index].error;
+            assign hdmi_capture_channels[capture_index].ready =
+                all_capture_channels[capture_index+8].ready;
+        end
+    endgenerate
 
     wire writer_error;
     wire reader_error;
     wire reader_underflow;
 
     multi_channel_ddr_video_pipeline #(
-        .CHANNELS(8),
+        .CHANNELS(16),
         .GLOBAL_CHANNEL_BASE(0),
-        .CAMERA_PRESENT_MASK(8'hff),
+        .CAMERA_PRESENT_MASK(16'hffff),
         .FRAME_WIDTH(640),
         .FRAME_HEIGHT(480),
         .FRAME_STRIDE_BYTES(2560),
         .DEFAULT_CHANNEL_BASES({
+            32'h2600_0000, 32'h2400_0000,
+            32'h2200_0000, 32'h2000_0000,
+            32'h1e00_0000, 32'h1c00_0000,
+            32'h1a00_0000, 32'h1800_0000,
             32'h1600_0000, 32'h1400_0000,
             32'h1200_0000, 32'h1000_0000,
             32'h0e00_0000, 32'h0c00_0000,
@@ -72,8 +139,12 @@ module ddr_memory_subsystem (
         .ddr_ui_clk(ddr_ui_clk),
         .ddr_resetn(ddr_resetn),
         .control_axil(framebuffer_axil),
-        .capture_channels(capture_channels),
-        .malformed_counts(malformed_counts),
+        .capture_channels(all_capture_channels),
+        .malformed_counts(all_malformed_counts),
+        .hdmi_capture_enable(hdmi_capture_enable),
+        .hdmi_transport_frame_count(hdmi_transport_frame_count),
+        .hdmi_transport_malformed_count(hdmi_transport_malformed_count),
+        .hdmi_channel_frame_counts(hdmi_channel_frame_counts),
         .writer_axi(writer_axi),
         .reader_axi(reader_axi),
         .display_axis(video_axis),

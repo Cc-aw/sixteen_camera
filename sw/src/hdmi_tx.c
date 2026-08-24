@@ -255,6 +255,8 @@ static void rx_connect_callback(void *ref)
         state.rx_mmcm_ready = 0U;
         state.rx_stream_up = 0U;
         state.input_valid = 0U;
+        mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_HDMI_CONTROL, 0U);
+        mmio_fence();
         vphy.HdmiRxTmdsClockRatio = 0U;
         line("RX source disconnected");
     }
@@ -290,9 +292,12 @@ static void rx_stream_up_callback(void *ref)
     XVidC_VideoStream *stream = XV_HdmiRxSs_GetVideoStream(ss);
     state.rx_stream_up = 1U;
     state.input_valid = validate_rx_stream(stream) == XST_SUCCESS;
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_HDMI_CONTROL,
+                 state.input_valid ? 1U : 0U);
+    mmio_fence();
     if (!state.input_valid)
         return;
-    line("RX stream up: 3840x2160p30 RGB -> 1920x1080p30 capture");
+    line("RX stream up: 4K30 spatial transport -> CH9-CH16");
 }
 
 static void rx_stream_down_callback(void *ref)
@@ -301,6 +306,8 @@ static void rx_stream_down_callback(void *ref)
     state.rx_mmcm_ready = 0U;
     state.rx_stream_up = 0U;
     state.input_valid = 0U;
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_HDMI_CONTROL, 0U);
+    mmio_fence();
     line("RX stream down");
 }
 
@@ -373,11 +380,15 @@ static int init_reference_clock(void)
 
 static void framebuffer_configure(void)
 {
-    static const uint32_t channel_bases[LOCAL_CAMERA_COUNT] = {
+    static const uint32_t channel_bases[VIDEO_CHANNEL_COUNT] = {
         UINT32_C(0x08000000), UINT32_C(0x0A000000),
         UINT32_C(0x0C000000), UINT32_C(0x0E000000),
         UINT32_C(0x10000000), UINT32_C(0x12000000),
-        UINT32_C(0x14000000), UINT32_C(0x16000000)
+        UINT32_C(0x14000000), UINT32_C(0x16000000),
+        UINT32_C(0x18000000), UINT32_C(0x1A000000),
+        UINT32_C(0x1C000000), UINT32_C(0x1E000000),
+        UINT32_C(0x20000000), UINT32_C(0x22000000),
+        UINT32_C(0x24000000), UINT32_C(0x26000000)
     };
 
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_CONTROL, 0U);
@@ -390,8 +401,9 @@ static void framebuffer_configure(void)
                      READER_STOP_LOCAL_CHANNEL : 0U);
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_DISPLAY_MODE,
                  FRAMEBUFFER_READER_STOP_TEST ? 1U : 0U);
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_HDMI_CONTROL, 0U);
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_BUFFER_STRIDE, 0x00800000U);
-    for (uint32_t channel = 0U; channel < LOCAL_CAMERA_COUNT; ++channel)
+    for (uint32_t channel = 0U; channel < VIDEO_CHANNEL_COUNT; ++channel)
         mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_BASE0 + channel * 4U,
                      channel_bases[channel]);
     mmio_fence();
@@ -400,14 +412,14 @@ static void framebuffer_configure(void)
 #if FRAMEBUFFER_READER_STOP_TEST
     line("framebuffer: writers enabled; DDR reader stopped on empty CH3");
 #else
-    line("framebuffer: eight VGA pools configured; 3x3 mosaic selected");
+    line("framebuffer: sixteen VGA pools configured; 4x4 mosaic selected");
 #endif
 }
 
 static uint32_t framebuffer_total_frames(void)
 {
     uint32_t total = 0U;
-    for (uint32_t channel = 0U; channel < LOCAL_CAMERA_COUNT; ++channel)
+    for (uint32_t channel = 0U; channel < VIDEO_CHANNEL_COUNT; ++channel)
         total += mmio_read32(FRAMEBUFFER_BASE +
                              FRAMEBUFFER_WRITER_COUNT(channel));
     return total;
@@ -422,12 +434,12 @@ static void framebuffer_select_first_ready(void)
     uint32_t selected = mmio_read32(FRAMEBUFFER_BASE +
                                     FRAMEBUFFER_DISPLAY_CH);
 
-    if ((selected < LOCAL_CAMERA_COUNT) &&
+    if ((selected < VIDEO_CHANNEL_COUNT) &&
         (mmio_read32(FRAMEBUFFER_BASE +
                      FRAMEBUFFER_WRITER_COUNT(selected)) != 0U))
         return;
 
-    for (uint32_t channel = 0U; channel < LOCAL_CAMERA_COUNT; ++channel) {
+    for (uint32_t channel = 0U; channel < VIDEO_CHANNEL_COUNT; ++channel) {
         if (mmio_read32(FRAMEBUFFER_BASE +
                         FRAMEBUFFER_WRITER_COUNT(channel)) == 0U)
             continue;
@@ -837,7 +849,7 @@ void hdmi_tx_print_status(void)
     console_puts(" tx_hpd="); console_put_u32(state.tx_connected);
     console_puts(" tx_phy="); console_put_u32(state.tx_phy_ready);
     console_puts(" tx_stream="); console_put_u32(state.tx_stream_up);
-    console_puts(" camera_frames=");
+    console_puts(" video_frames=");
     console_put_u32(framebuffer_total_frames());
     console_puts(" started="); console_put_u32(state.start_requested);
     console_puts(" fatal="); console_put_u32(state.fatal_error);
@@ -880,7 +892,7 @@ void hdmi_tx_print_status(void)
     console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
                                 FRAMEBUFFER_WRITER_PERF_ERRORS));
     console_puts("\r\n");
-    for (uint32_t channel = 0U; channel < LOCAL_CAMERA_COUNT; ++channel) {
+    for (uint32_t channel = 0U; channel < VIDEO_CHANNEL_COUNT; ++channel) {
         console_puts("FB CH");
         console_put_u32(LOCAL_CAMERA_GLOBAL_BASE + channel);
         console_puts(" written/drop/malformed=");
@@ -894,6 +906,16 @@ void hdmi_tx_print_status(void)
                                     FRAMEBUFFER_MALFORMED(channel)));
         console_puts("\r\n");
     }
+    console_puts("HDMI transport(total/malformed)=");
+    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
+                                FRAMEBUFFER_HDMI_TRANSPORT_FRAMES));
+    console_putc('/');
+    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
+                                FRAMEBUFFER_HDMI_TRANSPORT_MALFORMED));
+    console_puts(" capture=");
+    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
+                                FRAMEBUFFER_HDMI_CONTROL) & 1U);
+    console_puts("\r\n");
     console_puts("\r\n");
     video_perf_print_delta(&perf_snapshot);
 }

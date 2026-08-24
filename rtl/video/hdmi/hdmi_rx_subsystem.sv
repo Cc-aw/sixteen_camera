@@ -3,7 +3,12 @@
 // HDMI receive subsystem: RX protocol IP, DDC pins and the capture AXIS path.
 // GT transceivers and the shared VPHY remain in hdmi_phy_subsystem.
 module hdmi_rx_subsystem (
-    axis_video_if.source capture_axis,
+    video_stream_if.source capture_channels [8],
+    input wire capture_enable,
+    output wire [31:0] transport_frame_count,
+    output wire [31:0] transport_malformed_count,
+    output wire [255:0] channel_overflow_counts,
+    output wire [255:0] channel_frame_counts,
     axi_lite_if.slave hdmi_rx_axil,
     input wire capture_clk,
     input wire capture_resetn,
@@ -33,9 +38,6 @@ module hdmi_rx_subsystem (
         .I(rx_sda_o), .O(rx_sda_i), .T(rx_sda_t), .IO(hdmi_rx_ddc_sda)
     );
 
-    assign capture_axis.aclk = capture_clk;
-    assign capture_axis.aresetn = capture_resetn;
-
     rx_axis_reg_slice u_rx_axis_reg_slice (
         .aclk(capture_clk), .aresetn(capture_resetn),
         .s_axis_tdata(rx_video_tdata), .s_axis_tvalid(rx_video_tvalid),
@@ -54,8 +56,13 @@ module hdmi_rx_subsystem (
     assign rx_slice_axis.tlast = rx_slice_tlast;
     assign rx_slice_tready = rx_slice_axis.tready;
 
-    axis_downscale_2x2 u_downscale (
-        .s_axis(rx_slice_axis), .m_axis(capture_axis)
+    hdmi_4k_spatial_demux u_spatial_demux (
+        .s_axis(rx_slice_axis), .channels(capture_channels),
+        .capture_enable(capture_enable),
+        .transport_frame_count(transport_frame_count),
+        .transport_malformed_count(transport_malformed_count),
+        .channel_overflow_counts(channel_overflow_counts),
+        .channel_frame_counts(channel_frame_counts)
     );
 
     v_hdmi_rx_ss_0 u_hdmi_rx (

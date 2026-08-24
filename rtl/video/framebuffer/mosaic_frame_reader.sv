@@ -1,10 +1,10 @@
 `timescale 1ns/1ps
 
-// Builds a 3x3 1080p mosaic from eight native 640x480 frame buffers.  Tiles
-// preserve all 640 horizontal pixels and reduce 480 lines to 360 with a 4:3
-// nearest-neighbor mapping.  The unused bottom-right tile is black.
+// Builds a 4x4 1080p mosaic from sixteen native 640x480 frame buffers.  Each
+// 480x270 tile contains a centered 360x270 nearest-neighbor image, preserving
+// the source 4:3 aspect ratio with 60 black pixels on each side.
 module mosaic_frame_reader #(
-    parameter integer CHANNELS = 8,
+    parameter integer CHANNELS = 16,
     parameter integer SOURCE_WIDTH = 640,
     parameter integer SOURCE_HEIGHT = 480,
     parameter integer SOURCE_STRIDE_BYTES = SOURCE_WIDTH * 4,
@@ -27,12 +27,15 @@ module mosaic_frame_reader #(
     output reg                      fifo_underflow,
     output wire [31:0]              debug_status
 );
-    localparam integer TILE_WIDTH = 640;
-    localparam integer TILE_HEIGHT = 360;
+    localparam integer TILE_WIDTH = 480;
+    localparam integer TILE_HEIGHT = 270;
     localparam integer OUTPUT_WIDTH = 1920;
     localparam integer OUTPUT_HEIGHT = 1080;
     localparam integer OUTPUT_BEATS = OUTPUT_WIDTH / 2;
     localparam integer TILE_BEATS = TILE_WIDTH / 2;
+    localparam integer IMAGE_BEATS = 180;
+    localparam integer PAD_BEATS = 30;
+    localparam integer SOURCE_PAIR_BEATS = SOURCE_WIDTH / 2;
     localparam integer LINE_DDR_BEATS = SOURCE_WIDTH / 8;
     localparam integer READ_FIFO_COUNT_WIDTH = $clog2(READ_FIFO_DEPTH) + 1;
     localparam integer CREDIT_COUNT_WIDTH = READ_FIFO_COUNT_WIDTH + 1;
@@ -56,15 +59,17 @@ module mosaic_frame_reader #(
     localparam [2:0] F_TILE_DONE = 3'd4;
     localparam [2:0] F_LINE_DONE = 3'd5;
 
-    localparam integer LINE_BANK_DEPTH = TILE_BEATS / 4;
+    localparam integer LINE_BANK_DEPTH = SOURCE_PAIR_BEATS / 4;
     // A 256-bit DDR word contains four RGB pixel pairs. Packing those pairs
     // into one line entry lets the fill engine sustain one DDR beat/clock.
     (* ram_style = "distributed" *) reg [191:0] line_b0_t0 [0:LINE_BANK_DEPTH-1];
     (* ram_style = "distributed" *) reg [191:0] line_b0_t1 [0:LINE_BANK_DEPTH-1];
     (* ram_style = "distributed" *) reg [191:0] line_b0_t2 [0:LINE_BANK_DEPTH-1];
+    (* ram_style = "distributed" *) reg [191:0] line_b0_t3 [0:LINE_BANK_DEPTH-1];
     (* ram_style = "distributed" *) reg [191:0] line_b1_t0 [0:LINE_BANK_DEPTH-1];
     (* ram_style = "distributed" *) reg [191:0] line_b1_t1 [0:LINE_BANK_DEPTH-1];
     (* ram_style = "distributed" *) reg [191:0] line_b1_t2 [0:LINE_BANK_DEPTH-1];
+    (* ram_style = "distributed" *) reg [191:0] line_b1_t3 [0:LINE_BANK_DEPTH-1];
     reg [1:0] bank_state [0:1];
     reg [10:0] bank_line [0:1];
 
@@ -79,7 +84,7 @@ module mosaic_frame_reader #(
     reg [1:0] fill_tile;
     reg [10:0] fill_source_y;
     reg [10:0] next_source_y;
-    reg [1:0] source_y_phase;
+    reg [3:0] source_y_phase;
     reg fill_channel_valid;
     reg [31:0] read_addr;
     reg [8:0] issue_beat;
@@ -122,38 +127,45 @@ module mosaic_frame_reader #(
     wire axis_fire = axis_valid_q && m_axis.tready;
     wire source_fire = output_active && axis_pipeline_ready;
     wire [1:0] output_tile = (output_x < TILE_BEATS) ? 2'd0 :
-                             (output_x < TILE_BEATS*2) ? 2'd1 : 2'd2;
+                             (output_x < TILE_BEATS*2) ? 2'd1 :
+                             (output_x < TILE_BEATS*3) ? 2'd2 : 2'd3;
     wire [8:0] output_tile_x = (output_tile == 2'd0) ? output_x[8:0] :
                                (output_tile == 2'd1) ?
                                    output_x - TILE_BEATS :
-                                   output_x - TILE_BEATS*2;
-    wire [6:0] output_tile_addr = output_tile_x[8:2];
-    wire [2:0] output_channel = (output_y < TILE_HEIGHT) ?
-                                {1'b0, output_tile} :
-                                (output_y < TILE_HEIGHT*2) ?
-                                    (3'd3 + output_tile) :
-                                    (output_tile == 2'd2 ? 3'd0 :
-                                     3'd6 + output_tile);
-    wire output_layout_valid = (output_y < TILE_HEIGHT*2) ||
-                               (output_tile != 2'd2);
-    wire output_source_valid = output_layout_valid &&
+                                   (output_tile == 2'd2) ?
+                                       output_x - TILE_BEATS*2 :
+                                       output_x - TILE_BEATS*3;
+    wire output_image_valid = (output_tile_x >= PAD_BEATS) &&
+                              (output_tile_x < PAD_BEATS + IMAGE_BEATS);
+    wire [8:0] output_source_pair = output_image_valid ?
+        ((output_tile_x - PAD_BEATS) * 16) / 9 : 9'd0;
+    wire [6:0] output_tile_addr = output_source_pair[8:2];
+    wire [3:0] output_channel =
+        ((output_y < TILE_HEIGHT) ? 4'd0 :
+         (output_y < TILE_HEIGHT*2) ? 4'd4 :
+         (output_y < TILE_HEIGHT*3) ? 4'd8 : 4'd12) + output_tile;
+    wire output_source_valid = output_image_valid &&
                                frame_valid_mask[output_channel];
     reg [47:0] mosaic_pixels;
 
     always @* begin
         case ({display_bank, output_tile})
             3'b000: mosaic_pixels = line_b0_t0[output_tile_addr]
-                                      [output_tile_x[1:0]*48 +: 48];
+                                      [output_source_pair[1:0]*48 +: 48];
             3'b001: mosaic_pixels = line_b0_t1[output_tile_addr]
-                                      [output_tile_x[1:0]*48 +: 48];
+                                      [output_source_pair[1:0]*48 +: 48];
             3'b010: mosaic_pixels = line_b0_t2[output_tile_addr]
-                                      [output_tile_x[1:0]*48 +: 48];
+                                      [output_source_pair[1:0]*48 +: 48];
+            3'b011: mosaic_pixels = line_b0_t3[output_tile_addr]
+                                      [output_source_pair[1:0]*48 +: 48];
             3'b100: mosaic_pixels = line_b1_t0[output_tile_addr]
-                                      [output_tile_x[1:0]*48 +: 48];
+                                      [output_source_pair[1:0]*48 +: 48];
             3'b101: mosaic_pixels = line_b1_t1[output_tile_addr]
-                                      [output_tile_x[1:0]*48 +: 48];
-            default: mosaic_pixels = line_b1_t2[output_tile_addr]
-                                      [output_tile_x[1:0]*48 +: 48];
+                                      [output_source_pair[1:0]*48 +: 48];
+            3'b110: mosaic_pixels = line_b1_t2[output_tile_addr]
+                                      [output_source_pair[1:0]*48 +: 48];
+            default: mosaic_pixels = line_b1_t3[output_tile_addr]
+                                      [output_source_pair[1:0]*48 +: 48];
         endcase
     end
 
@@ -307,9 +319,9 @@ module mosaic_frame_reader #(
     assign read_fifo_read = (fill_state == F_READ) && !read_fifo_empty;
 
     initial begin
-        if (CHANNELS != 8 || SOURCE_WIDTH != 640 || SOURCE_HEIGHT != 480 ||
+        if (CHANNELS != 16 || SOURCE_WIDTH != 640 || SOURCE_HEIGHT != 480 ||
             SOURCE_STRIDE_BYTES < SOURCE_WIDTH*4 ||
-            LINE_DDR_BEATS != 80 || TILE_BEATS != 320 ||
+            LINE_DDR_BEATS != 80 || SOURCE_PAIR_BEATS != 320 ||
             BURST_MAX_BEATS < 1 || BURST_MAX_BEATS > 128 ||
             READ_OUTSTANDING < 1 ||
             READ_OUTSTANDING > DESCRIPTOR_DEPTH ||
@@ -331,7 +343,7 @@ module mosaic_frame_reader #(
             fill_tile <= 2'd0;
             fill_source_y <= 11'd0;
             next_source_y <= 11'd0;
-            source_y_phase <= 2'd0;
+            source_y_phase <= 4'd0;
             fill_channel_valid <= 1'b0;
             read_addr <= 32'd0;
             issue_beat <= 9'd0;
@@ -401,7 +413,7 @@ module mosaic_frame_reader #(
                 frame_valid_mask <= buffer_valid_mask;
                 next_fill_line <= 11'd0;
                 next_source_y <= 11'd0;
-                source_y_phase <= 2'd0;
+                source_y_phase <= 4'd0;
                 output_active <= 1'b0;
                 output_x <= 10'd0;
                 output_y <= 11'd0;
@@ -481,24 +493,29 @@ module mosaic_frame_reader #(
                             bank_state[0] <= BANK_FILL;
                             bank_line[0] <= next_fill_line;
                             fill_source_y <= next_source_y;
-                            if (next_fill_line < TILE_HEIGHT) begin
+                            if (next_fill_line < TILE_HEIGHT)
                                 fill_tile_row <= 2'd0;
-                            end else if (next_fill_line < TILE_HEIGHT*2) begin
+                            else if (next_fill_line < TILE_HEIGHT*2)
                                 fill_tile_row <= 2'd1;
-                            end else begin
+                            else if (next_fill_line < TILE_HEIGHT*3)
                                 fill_tile_row <= 2'd2;
-                            end
-                            // floor(line*4/3) advances by 1, 1, then 2.
-                            // Reset at each 360-line tile-row boundary.
+                            else
+                                fill_tile_row <= 2'd3;
+                            // floor(line*16/9): advance one source line plus
+                            // a 7/9 phase accumulator, then reset per tile.
                             if ((next_fill_line == TILE_HEIGHT-1) ||
-                                (next_fill_line == TILE_HEIGHT*2-1)) begin
+                                (next_fill_line == TILE_HEIGHT*2-1) ||
+                                (next_fill_line == TILE_HEIGHT*3-1)) begin
                                 next_source_y <= 11'd0;
-                                source_y_phase <= 2'd0;
+                                source_y_phase <= 4'd0;
                             end else begin
                                 next_source_y <= next_source_y +
-                                    ((source_y_phase == 2'd2) ? 11'd2 : 11'd1);
-                                source_y_phase <= (source_y_phase == 2'd2) ?
-                                                  2'd0 : source_y_phase + 1'b1;
+                                    ((source_y_phase + 4'd7 >= 4'd9) ?
+                                     11'd2 : 11'd1);
+                                source_y_phase <=
+                                    (source_y_phase + 4'd7 >= 4'd9) ?
+                                    source_y_phase - 4'd2 :
+                                    source_y_phase + 4'd7;
                             end
                             fill_tile <= 2'd0;
                             next_fill_line <= next_fill_line + 1'b1;
@@ -508,22 +525,27 @@ module mosaic_frame_reader #(
                             bank_state[1] <= BANK_FILL;
                             bank_line[1] <= next_fill_line;
                             fill_source_y <= next_source_y;
-                            if (next_fill_line < TILE_HEIGHT) begin
+                            if (next_fill_line < TILE_HEIGHT)
                                 fill_tile_row <= 2'd0;
-                            end else if (next_fill_line < TILE_HEIGHT*2) begin
+                            else if (next_fill_line < TILE_HEIGHT*2)
                                 fill_tile_row <= 2'd1;
-                            end else begin
+                            else if (next_fill_line < TILE_HEIGHT*3)
                                 fill_tile_row <= 2'd2;
-                            end
+                            else
+                                fill_tile_row <= 2'd3;
                             if ((next_fill_line == TILE_HEIGHT-1) ||
-                                (next_fill_line == TILE_HEIGHT*2-1)) begin
+                                (next_fill_line == TILE_HEIGHT*2-1) ||
+                                (next_fill_line == TILE_HEIGHT*3-1)) begin
                                 next_source_y <= 11'd0;
-                                source_y_phase <= 2'd0;
+                                source_y_phase <= 4'd0;
                             end else begin
                                 next_source_y <= next_source_y +
-                                    ((source_y_phase == 2'd2) ? 11'd2 : 11'd1);
-                                source_y_phase <= (source_y_phase == 2'd2) ?
-                                                  2'd0 : source_y_phase + 1'b1;
+                                    ((source_y_phase + 4'd7 >= 4'd9) ?
+                                     11'd2 : 11'd1);
+                                source_y_phase <=
+                                    (source_y_phase + 4'd7 >= 4'd9) ?
+                                    source_y_phase - 4'd2 :
+                                    source_y_phase + 4'd7;
                             end
                             fill_tile <= 2'd0;
                             next_fill_line <= next_fill_line + 1'b1;
@@ -538,29 +560,11 @@ module mosaic_frame_reader #(
                     pair_write_index <= 9'd0;
                     plan_valid <= 1'b0;
                     plan_approved <= 1'b0;
-                    if ((fill_tile_row == 2'd2) && (fill_tile == 2'd2)) begin
-                        fill_channel_valid <= 1'b0;
-                        fill_state <= F_TILE_DONE;
-                    end else if ((fill_tile_row == 2'd0 &&
-                                  frame_valid_mask[{1'b0, fill_tile}]) ||
-                                 (fill_tile_row == 2'd1 &&
-                                  frame_valid_mask[3'd3 + fill_tile]) ||
-                                 (fill_tile_row == 2'd2 &&
-                                  fill_tile != 2'd2 &&
-                                  frame_valid_mask[3'd6 + fill_tile])) begin
+                    if (frame_valid_mask[{fill_tile_row, fill_tile}]) begin
                         fill_channel_valid <= 1'b1;
-                        if (fill_tile_row == 2'd0)
-                            read_addr <= frame_bases[
-                                ({1'b0, fill_tile})*32 +: 32] +
-                                fill_source_y * SOURCE_STRIDE_BYTES;
-                        else if (fill_tile_row == 2'd1)
-                            read_addr <= frame_bases[
-                                (3'd3 + fill_tile)*32 +: 32] +
-                                fill_source_y * SOURCE_STRIDE_BYTES;
-                        else
-                            read_addr <= frame_bases[
-                                (3'd6 + fill_tile)*32 +: 32] +
-                                fill_source_y * SOURCE_STRIDE_BYTES;
+                        read_addr <= frame_bases[
+                            ({fill_tile_row, fill_tile})*32 +: 32] +
+                            fill_source_y * SOURCE_STRIDE_BYTES;
                         fill_state <= F_READ;
                     end else begin
                         fill_channel_valid <= 1'b0;
@@ -586,13 +590,19 @@ module mosaic_frame_reader #(
                         3'b010: line_b0_t2[pair_write_index[8:2]] <=
                             {source_pixels3, source_pixels2,
                              source_pixels1, source_pixels0};
+                        3'b011: line_b0_t3[pair_write_index[8:2]] <=
+                            {source_pixels3, source_pixels2,
+                             source_pixels1, source_pixels0};
                         3'b100: line_b1_t0[pair_write_index[8:2]] <=
                             {source_pixels3, source_pixels2,
                              source_pixels1, source_pixels0};
                         3'b101: line_b1_t1[pair_write_index[8:2]] <=
                             {source_pixels3, source_pixels2,
                              source_pixels1, source_pixels0};
-                        default: line_b1_t2[pair_write_index[8:2]] <=
+                        3'b110: line_b1_t2[pair_write_index[8:2]] <=
+                            {source_pixels3, source_pixels2,
+                             source_pixels1, source_pixels0};
+                        default: line_b1_t3[pair_write_index[8:2]] <=
                             {source_pixels3, source_pixels2,
                              source_pixels1, source_pixels0};
                     endcase
@@ -608,12 +618,12 @@ module mosaic_frame_reader #(
 
                 F_TILE_DONE: begin
                     if (fill_channel_valid &&
-                        (pair_write_index != TILE_BEATS ||
+                        (pair_write_index != SOURCE_PAIR_BEATS ||
                          issue_beat != LINE_DDR_BEATS || desc_count != 0 ||
                          plan_valid || plan_approved || ar_pending ||
                          !read_fifo_empty))
                         axi_error <= 1'b1;
-                    if (fill_tile == 2'd2)
+                    if (fill_tile == 2'd3)
                         fill_state <= F_LINE_DONE;
                     else begin
                         fill_tile <= fill_tile + 1'b1;

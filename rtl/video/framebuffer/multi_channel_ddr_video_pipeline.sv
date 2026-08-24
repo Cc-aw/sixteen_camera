@@ -1,8 +1,8 @@
 `timescale 1ns/1ps
 
-// Three-local-camera DDR capture/display pipeline.  The physical camera
-// channels are normalized before this boundary; this block only sees
-// DDR-clocked streams and therefore has no camera-clock CDC responsibility.
+// Sixteen-channel DDR capture/display pipeline. The physical inputs are
+// normalized before this boundary; this block only sees DDR-clocked streams
+// and therefore has no camera-clock CDC responsibility.
 module multi_channel_ddr_video_pipeline #(
     parameter integer CHANNELS = 3,
     parameter integer GLOBAL_CHANNEL_BASE = 4,
@@ -26,6 +26,10 @@ module multi_channel_ddr_video_pipeline #(
     axi_lite_if.slave control_axil,
     video_stream_if.sink capture_channels [CHANNELS],
     input wire [CHANNELS*32-1:0] malformed_counts,
+    output wire hdmi_capture_enable,
+    input wire [31:0] hdmi_transport_frame_count,
+    input wire [31:0] hdmi_transport_malformed_count,
+    input wire [8*32-1:0] hdmi_channel_frame_counts,
     axi4_if.master writer_axi,
     axi4_if.master reader_axi,
     axis_video_if.source display_axis,
@@ -43,8 +47,11 @@ module multi_channel_ddr_video_pipeline #(
     wire [31:0] cfg_buffers_per_channel;
     wire [CHANNELS*32-1:0] cfg_channel_bases;
     wire [31:0] cfg_buffer_stride_bytes;
-    wire [2:0] cfg_display_channel;
+    wire [CHANNEL_WIDTH-1:0] cfg_display_channel;
     wire cfg_display_mode;
+    wire cfg_hdmi_capture_enable;
+    wire hdmi_capture_enable_ddr;
+    assign hdmi_capture_enable = hdmi_capture_enable_ddr;
     wire [CHANNEL_WIDTH-1:0] local_display_channel =
         cfg_display_channel - GLOBAL_CHANNEL_BASE;
 
@@ -96,6 +103,11 @@ module multi_channel_ddr_video_pipeline #(
     wire [31:0] writer_perf_bursts_issued_cpu;
     wire [31:0] writer_perf_bursts_completed_cpu;
     wire [31:0] writer_perf_response_errors_cpu;
+    wire [31:0] hdmi_transport_frame_count_cpu;
+    wire [31:0] hdmi_transport_malformed_count_cpu;
+    wire [255:0] hdmi_channel_frame_counts_cpu;
+    wire [255:0] hdmi_channel_overflow_counts_cpu =
+        malformed_counts_cpu[8*32 +: 8*32];
 
     multi_channel_framebuffer_ctrl #(
         .CHANNELS(CHANNELS),
@@ -114,6 +126,7 @@ module multi_channel_ddr_video_pipeline #(
         .cfg_buffer_stride_bytes(cfg_buffer_stride_bytes),
         .cfg_display_channel(cfg_display_channel),
         .cfg_display_mode(cfg_display_mode),
+        .cfg_hdmi_capture_enable(cfg_hdmi_capture_enable),
         .cfg_ack_toggle(cfg_ack_toggle),
         .manager_status(manager_status_cpu),
         .writer_frame_counts(writer_frame_counts_cpu),
@@ -130,25 +143,74 @@ module multi_channel_ddr_video_pipeline #(
         .writer_perf_b_stall_cycles(writer_perf_b_stall_cycles_cpu),
         .writer_perf_bursts_issued(writer_perf_bursts_issued_cpu),
         .writer_perf_bursts_completed(writer_perf_bursts_completed_cpu),
-        .writer_perf_response_errors(writer_perf_response_errors_cpu)
+        .writer_perf_response_errors(writer_perf_response_errors_cpu),
+        .hdmi_transport_frame_count(hdmi_transport_frame_count_cpu),
+        .hdmi_transport_malformed_count(
+            hdmi_transport_malformed_count_cpu),
+        .hdmi_channel_frame_counts(hdmi_channel_frame_counts_cpu),
+        .hdmi_channel_overflow_counts(hdmi_channel_overflow_counts_cpu)
     );
 
-    // XPM CDC arrays are limited to 1024 bits. Keep the existing frame-status
-    // snapshot separate from the 256-bit DMA performance snapshot.
+    xpm_cdc_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1)
+    ) u_hdmi_enable_cdc (
+        .src_clk(control_axil.aclk), .src_in(cfg_hdmi_capture_enable),
+        .dest_clk(ddr_ui_clk), .dest_out(hdmi_capture_enable_ddr)
+    );
+
+    // XPM CDC arrays are limited to 1024 bits.  Keep the 16-channel counter
+    // vectors in independent snapshots.
     xpm_cdc_array_single #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1),
-        .WIDTH(32 + CHANNELS*96 + 128)
+        .WIDTH(160)
     ) u_status_cdc (
         .src_clk(ddr_ui_clk),
-        .src_in({manager_status, writer_frame_counts, drop_counts,
-                 malformed_counts, reader_frame_count, underflow_count,
+        .src_in({manager_status, reader_frame_count, underflow_count,
                  reader_active_base, reader_debug_status}),
         .dest_clk(control_axil.aclk),
-        .dest_out({manager_status_cpu, writer_frame_counts_cpu,
-                   drop_counts_cpu, malformed_counts_cpu,
-                   reader_frame_count_cpu, underflow_count_cpu,
+        .dest_out({manager_status_cpu, reader_frame_count_cpu,
+                   underflow_count_cpu,
                    reader_active_base_cpu, reader_debug_status_cpu})
+    );
+
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(CHANNELS*32)
+    ) u_writer_count_cdc (
+        .src_clk(ddr_ui_clk), .src_in(writer_frame_counts),
+        .dest_clk(control_axil.aclk), .dest_out(writer_frame_counts_cpu)
+    );
+
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(CHANNELS*32)
+    ) u_drop_count_cdc (
+        .src_clk(ddr_ui_clk), .src_in(drop_counts),
+        .dest_clk(control_axil.aclk), .dest_out(drop_counts_cpu)
+    );
+
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(CHANNELS*32)
+    ) u_malformed_count_cdc (
+        .src_clk(ddr_ui_clk), .src_in(malformed_counts),
+        .dest_clk(control_axil.aclk), .dest_out(malformed_counts_cpu)
+    );
+
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(320)
+    ) u_hdmi_diag_cdc (
+        .src_clk(ddr_ui_clk),
+        .src_in({hdmi_transport_frame_count,
+                 hdmi_transport_malformed_count,
+                 hdmi_channel_frame_counts}),
+        .dest_clk(control_axil.aclk),
+        .dest_out({hdmi_transport_frame_count_cpu,
+                   hdmi_transport_malformed_count_cpu,
+                   hdmi_channel_frame_counts_cpu})
     );
 
     xpm_cdc_array_single #(

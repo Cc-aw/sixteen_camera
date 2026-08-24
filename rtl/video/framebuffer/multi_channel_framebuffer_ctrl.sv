@@ -19,8 +19,10 @@ module multi_channel_framebuffer_ctrl #(
     output reg [31:0] cfg_buffers_per_channel,
     output reg [CHANNELS*32-1:0] cfg_channel_bases,
     output reg [31:0] cfg_buffer_stride_bytes,
-    output reg [2:0] cfg_display_channel,
+    output reg [((CHANNELS <= 1) ? 1 : $clog2(CHANNELS))-1:0]
+        cfg_display_channel,
     output reg cfg_display_mode,
+    output reg cfg_hdmi_capture_enable,
     input wire cfg_ack_toggle,
     input wire [31:0] manager_status,
     input wire [CHANNELS*32-1:0] writer_frame_counts,
@@ -37,7 +39,11 @@ module multi_channel_framebuffer_ctrl #(
     input wire [31:0] writer_perf_b_stall_cycles,
     input wire [31:0] writer_perf_bursts_issued,
     input wire [31:0] writer_perf_bursts_completed,
-    input wire [31:0] writer_perf_response_errors
+    input wire [31:0] writer_perf_response_errors,
+    input wire [31:0] hdmi_transport_frame_count,
+    input wire [31:0] hdmi_transport_malformed_count,
+    input wire [8*32-1:0] hdmi_channel_frame_counts,
+    input wire [8*32-1:0] hdmi_channel_overflow_counts
 );
     localparam integer CHANNEL_WIDTH = (CHANNELS <= 1) ? 1 : $clog2(CHANNELS);
     localparam [8:0] REG_CONTROL = 9'h000;
@@ -49,24 +55,29 @@ module multi_channel_framebuffer_ctrl #(
     localparam [8:0] REG_DISPLAY_CH = 9'h018;
     localparam [8:0] REG_PRESENT_MASK = 9'h01c;
     localparam [8:0] REG_CHANNEL_BASE0 = 9'h020;
-    // Reserve 0x20..0x3f for all eight local channels.
-    localparam [8:0] REG_BUFFER_STRIDE = 9'h040;
-    localparam [8:0] REG_DISPLAY_MODE = 9'h044;
+    // Reserve 0x20..0x5f for all sixteen channels.
+    localparam [8:0] REG_BUFFER_STRIDE = 9'h060;
+    localparam [8:0] REG_DISPLAY_MODE = 9'h064;
+    localparam [8:0] REG_HDMI_CONTROL = 9'h068;
     localparam [8:0] REG_WRITER0 = 9'h080;
-    localparam [8:0] REG_DROP0 = 9'h0a0;
-    localparam [8:0] REG_MALFORMED0 = 9'h0c0;
-    localparam [8:0] REG_READER_COUNT = 9'h0e0;
-    localparam [8:0] REG_UNDERFLOW = 9'h0e4;
-    localparam [8:0] REG_READER_BASE = 9'h0e8;
-    localparam [8:0] REG_READER_DEBUG = 9'h0ec;
-    localparam [8:0] REG_WRITER_PERF_CURRENT = 9'h0f0;
-    localparam [8:0] REG_WRITER_PERF_MAX = 9'h0f4;
-    localparam [8:0] REG_WRITER_PERF_AW_STALL = 9'h0f8;
-    localparam [8:0] REG_WRITER_PERF_W_STALL = 9'h0fc;
-    localparam [8:0] REG_WRITER_PERF_B_STALL = 9'h100;
-    localparam [8:0] REG_WRITER_PERF_ISSUED = 9'h104;
-    localparam [8:0] REG_WRITER_PERF_COMPLETED = 9'h108;
-    localparam [8:0] REG_WRITER_PERF_ERRORS = 9'h10c;
+    localparam [8:0] REG_DROP0 = 9'h0c0;
+    localparam [8:0] REG_MALFORMED0 = 9'h100;
+    localparam [8:0] REG_READER_COUNT = 9'h140;
+    localparam [8:0] REG_UNDERFLOW = 9'h144;
+    localparam [8:0] REG_READER_BASE = 9'h148;
+    localparam [8:0] REG_READER_DEBUG = 9'h14c;
+    localparam [8:0] REG_WRITER_PERF_CURRENT = 9'h150;
+    localparam [8:0] REG_WRITER_PERF_MAX = 9'h154;
+    localparam [8:0] REG_WRITER_PERF_AW_STALL = 9'h158;
+    localparam [8:0] REG_WRITER_PERF_W_STALL = 9'h15c;
+    localparam [8:0] REG_WRITER_PERF_B_STALL = 9'h160;
+    localparam [8:0] REG_WRITER_PERF_ISSUED = 9'h164;
+    localparam [8:0] REG_WRITER_PERF_COMPLETED = 9'h168;
+    localparam [8:0] REG_WRITER_PERF_ERRORS = 9'h16c;
+    localparam [8:0] REG_HDMI_TRANSPORT_FRAMES = 9'h170;
+    localparam [8:0] REG_HDMI_TRANSPORT_MALFORMED = 9'h174;
+    localparam [8:0] REG_HDMI_FRAME0 = 9'h180;
+    localparam [8:0] REG_HDMI_OVERFLOW0 = 9'h1a0;
 
     reg [8:0] awaddr_hold;
     reg [31:0] wdata_hold;
@@ -113,7 +124,7 @@ module multi_channel_framebuffer_ctrl #(
     endfunction
 
     function automatic display_channel_present;
-        input [2:0] global_channel;
+        input [CHANNEL_WIDTH-1:0] global_channel;
         integer local_channel;
         begin
             local_channel = global_channel - GLOBAL_CHANNEL_BASE;
@@ -126,7 +137,9 @@ module multi_channel_framebuffer_ctrl #(
     endfunction
 
     initial begin
-        if ((REG_WRITER0 + CHANNELS*4 > REG_DROP0) ||
+        if (CHANNELS > 16 ||
+            (REG_CHANNEL_BASE0 + CHANNELS*4 > REG_BUFFER_STRIDE) ||
+            (REG_WRITER0 + CHANNELS*4 > REG_DROP0) ||
             (REG_DROP0 + CHANNELS*4 > REG_MALFORMED0) ||
             (REG_MALFORMED0 + CHANNELS*4 > REG_READER_COUNT))
             $error("multi_channel_framebuffer_ctrl register ranges overlap");
@@ -151,10 +164,11 @@ module multi_channel_framebuffer_ctrl #(
             cfg_buffers_per_channel <= 32'd3;
             cfg_channel_bases <= DEFAULT_CHANNEL_BASES;
             cfg_buffer_stride_bytes <= 32'h0080_0000;
-            cfg_display_channel <= GLOBAL_CHANNEL_BASE;
+            cfg_display_channel <= CHANNEL_WIDTH'(GLOBAL_CHANNEL_BASE);
             // Zero selects the mosaic reader; one retains the full-frame
             // single-channel debug path.
             cfg_display_mode <= 1'b0;
+            cfg_hdmi_capture_enable <= 1'b0;
             awaddr_hold <= 9'd0;
             wdata_hold <= 32'd0;
             wstrb_hold <= 4'd0;
@@ -196,10 +210,13 @@ module multi_channel_framebuffer_ctrl #(
                         cfg_buffers_per_channel <= apply_wstrb(
                             cfg_buffers_per_channel, write_data, write_strb);
                     REG_DISPLAY_CH: if (write_strb[0] &&
-                                        display_channel_present(write_data[2:0]))
-                        cfg_display_channel <= write_data[2:0];
+                                        display_channel_present(
+                                            write_data[CHANNEL_WIDTH-1:0]))
+                        cfg_display_channel <= write_data[CHANNEL_WIDTH-1:0];
                     REG_DISPLAY_MODE: if (write_strb[0])
                         cfg_display_mode <= write_data[0];
+                    REG_HDMI_CONTROL: if (write_strb[0])
+                        cfg_hdmi_capture_enable <= write_data[0];
                     REG_BUFFER_STRIDE: if (!cfg_busy)
                         cfg_buffer_stride_bytes <= apply_wstrb(
                             cfg_buffer_stride_bytes, write_data, write_strb);
@@ -225,8 +242,11 @@ module multi_channel_framebuffer_ctrl #(
                     REG_HEIGHT: rdata <= cfg_height;
                     REG_STRIDE: rdata <= cfg_stride_bytes;
                     REG_SLOT_COUNT: rdata <= cfg_buffers_per_channel;
-                    REG_DISPLAY_CH: rdata <= {29'd0, cfg_display_channel};
+                    REG_DISPLAY_CH: rdata <=
+                        {{(32-CHANNEL_WIDTH){1'b0}}, cfg_display_channel};
                     REG_DISPLAY_MODE: rdata <= {31'd0, cfg_display_mode};
+                    REG_HDMI_CONTROL:
+                        rdata <= {31'd0, cfg_hdmi_capture_enable};
                     REG_PRESENT_MASK: rdata <= {{(32-CHANNELS){1'b0}},
                                                 CAMERA_PRESENT_MASK};
                     REG_BUFFER_STRIDE: rdata <= cfg_buffer_stride_bytes;
@@ -250,6 +270,10 @@ module multi_channel_framebuffer_ctrl #(
                         rdata <= writer_perf_bursts_completed;
                     REG_WRITER_PERF_ERRORS:
                         rdata <= writer_perf_response_errors;
+                    REG_HDMI_TRANSPORT_FRAMES:
+                        rdata <= hdmi_transport_frame_count;
+                    REG_HDMI_TRANSPORT_MALFORMED:
+                        rdata <= hdmi_transport_malformed_count;
                     default: begin
                         if ((axil.araddr[8:0] >= REG_WRITER0) &&
                             (axil.araddr[8:0] < REG_WRITER0 + CHANNELS*4))
@@ -264,6 +288,17 @@ module multi_channel_framebuffer_ctrl #(
                                   REG_MALFORMED0 + CHANNELS*4))
                             rdata <= malformed_counts[
                                 ((axil.araddr[8:0]-REG_MALFORMED0)>>2)*32 +: 32];
+                        else if ((axil.araddr[8:0] >= REG_HDMI_FRAME0) &&
+                                 (axil.araddr[8:0] < REG_HDMI_FRAME0 + 8*4))
+                            rdata <= hdmi_channel_frame_counts[
+                                ((axil.araddr[8:0]-REG_HDMI_FRAME0)>>2)*32
+                                +: 32];
+                        else if ((axil.araddr[8:0] >= REG_HDMI_OVERFLOW0) &&
+                                 (axil.araddr[8:0] <
+                                  REG_HDMI_OVERFLOW0 + 8*4))
+                            rdata <= hdmi_channel_overflow_counts[
+                                ((axil.araddr[8:0]-REG_HDMI_OVERFLOW0)>>2)*32
+                                +: 32];
                         else if (read_is_channel_base)
                             rdata <= cfg_channel_bases[read_channel*32 +: 32];
                         else

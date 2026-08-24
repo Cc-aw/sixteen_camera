@@ -225,7 +225,7 @@ module multi_channel_video_dma #(
     assign m_axi.rready = 1'b0;
 
     initial begin
-        if (CHANNELS < 1 || CHANNELS > 8 ||
+        if (CHANNELS < 1 || CHANNELS > 16 ||
             (FRAME_WIDTH % 8) != 0 || FRAME_HEIGHT <= 0 ||
             (FRAME_STRIDE_BYTES < FRAME_WIDTH*4) ||
             ((FRAME_STRIDE_BYTES % 32) != 0) ||

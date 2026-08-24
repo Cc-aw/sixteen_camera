@@ -118,11 +118,14 @@ module multi_channel_frame_manager #(
         writer_done[requested_channel] && writer_active[requested_channel] &&
         !writer_error[requested_channel];
     wire [CHANNELS-1:0] writer_active_vector;
+    wire [CHANNELS-1:0] latest_ready_vector;
     generate
         genvar active_ch;
         for (active_ch = 0; active_ch < CHANNELS;
              active_ch = active_ch + 1) begin : g_writer_active_vector
             assign writer_active_vector[active_ch] = writer_active[active_ch];
+            assign latest_ready_vector[active_ch] =
+                latest_ready_valid[active_ch];
         end
     endgenerate
     wire any_writer_active = |writer_active_vector;
@@ -130,21 +133,22 @@ module multi_channel_frame_manager #(
 
     always @* begin
         status = 32'd0;
-        status[2:0] = {{(3-CHANNEL_WIDTH){1'b0}}, requested_channel};
-        status[5:3] = {{(3-CHANNEL_WIDTH){1'b0}}, reader_channel};
-        status[6] = reader_active;
-        for (ch = 0; ch < CHANNELS; ch = ch + 1) begin
-            status[7+ch] = writer_active[ch];
-            status[16+ch] = latest_ready_valid[ch];
-        end
-        status[14:12] = active_buffer_count;
-        status[15] = (cfg_sync_2 != cfg_ack_toggle);
+        status[3:0] = requested_channel;
+        status[7:4] = reader_channel;
+        status[8] = reader_active;
+        status[9] = (cfg_sync_2 != cfg_ack_toggle);
+        status[12:10] = active_buffer_count;
+        status[13] = any_writer_active;
+        for (ch = 0; ch < CHANNELS; ch = ch + 1)
+            status[14+ch] = writer_active[ch];
+        status[30] = |latest_ready_vector;
+        status[31] = any_writer_response_pending;
     end
 
     initial begin
-        if (CHANNELS < 1 || CHANNELS > 8 || MAX_BUFFERS_PER_CHANNEL < 2 ||
+        if (CHANNELS < 1 || CHANNELS > 16 || MAX_BUFFERS_PER_CHANNEL < 2 ||
             MAX_BUFFERS_PER_CHANNEL > 4)
-            $error("multi_channel_frame_manager supports 1-8 channels and 2-4 slots");
+            $error("multi_channel_frame_manager supports 1-16 channels and 2-4 slots");
     end
 
     always @(posedge ui_clk) begin

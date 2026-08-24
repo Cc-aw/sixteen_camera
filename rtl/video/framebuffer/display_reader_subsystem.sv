@@ -4,7 +4,7 @@
 // reader for one complete output frame. Both engines share one read-only AXI
 // port and one AXI4-Stream output.
 module display_reader_subsystem #(
-    parameter integer CHANNELS = 8,
+    parameter integer CHANNELS = 16,
     parameter integer SOURCE_WIDTH = 640,
     parameter integer SOURCE_HEIGHT = 480,
     parameter integer SOURCE_STRIDE_BYTES = SOURCE_WIDTH * 4,

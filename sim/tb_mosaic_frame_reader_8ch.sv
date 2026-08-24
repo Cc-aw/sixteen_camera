@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module tb_mosaic_frame_reader_8ch;
+module tb_mosaic_frame_reader_16ch;
     localparam integer AR_QUEUE_DEPTH = 16;
     reg clk = 1'b0;
     reg resetn = 1'b0;
@@ -10,8 +10,8 @@ module tb_mosaic_frame_reader_8ch;
     axis_video_if #(.DATA_WIDTH(48)) axis();
     wire buffer_acquire;
     reg buffer_grant = 1'b0;
-    reg [255:0] buffer_bases = 256'd0;
-    reg [7:0] buffer_valid_mask = 8'hff;
+    reg [511:0] buffer_bases = 512'd0;
+    reg [15:0] buffer_valid_mask = 16'hffff;
     wire buffer_done;
     wire axi_error;
     wire fifo_underflow;
@@ -149,7 +149,7 @@ module tb_mosaic_frame_reader_8ch;
         axi.aclk = clk;
         axi.aresetn = resetn;
         axis.tready = 1'b1;
-        for (channel = 0; channel < 8; channel = channel + 1)
+        for (channel = 0; channel < 16; channel = channel + 1)
             buffer_bases[channel*32 +: 32] =
                 32'h1000_0000 + channel * 32'h0100_0000;
         repeat (5) @(posedge clk);
@@ -170,27 +170,36 @@ module tb_mosaic_frame_reader_8ch;
         output_line = 0;
         while (!buffer_done) begin
             if (axis.tvalid && axis.tready) begin
-                if (output_line == 0 && output_beat == 0)
-                    check_source(0, 0, 0);
-                if (output_line == 0 && output_beat == 319)
-                    check_source(0, 0, 638);
-                if (output_line == 0 && output_beat == 320)
-                    check_source(1, 0, 0);
-                if (output_line == 0 && output_beat == 640)
-                    check_source(2, 0, 0);
-                if (output_line == 3 && output_beat == 0)
-                    check_source(0, 4, 0);
-                if (output_line == 360 && output_beat == 0)
-                    check_source(3, 0, 0);
-                if (output_line == 720 && output_beat == 0)
-                    check_source(6, 0, 0);
-                if (output_line == 720 && output_beat == 320)
-                    check_source(7, 0, 0);
-                if (output_line == 720 && output_beat == 640 &&
+                if (output_line == 0 && output_beat == 0 &&
                     axis.tdata !== 48'd0)
-                    $fatal(1, "bottom-right tile is not black");
-                if (output_line == 1079 && output_beat == 0)
-                    check_source(6, 478, 0);
+                    $fatal(1, "left pillarbox is not black");
+                if (output_line == 0 && output_beat == 30)
+                    check_source(0, 0, 0);
+                if (output_line == 0 && output_beat == 209)
+                    check_source(0, 0, 636);
+                if (output_line == 0 && output_beat == 210 &&
+                    axis.tdata !== 48'd0)
+                    $fatal(1, "right pillarbox is not black");
+                if (output_line == 0 && output_beat == 270)
+                    check_source(1, 0, 0);
+                if (output_line == 0 && output_beat == 510)
+                    check_source(2, 0, 0);
+                if (output_line == 0 && output_beat == 750)
+                    check_source(3, 0, 0);
+                if (output_line == 3 && output_beat == 30)
+                    check_source(0, 5, 0);
+                if (output_line == 269 && output_beat == 30)
+                    check_source(0, 478, 0);
+                if (output_line == 270 && output_beat == 30)
+                    check_source(4, 0, 0);
+                if (output_line == 540 && output_beat == 30)
+                    check_source(8, 0, 0);
+                if (output_line == 810 && output_beat == 30)
+                    check_source(12, 0, 0);
+                if (output_line == 810 && output_beat == 750)
+                    check_source(15, 0, 0);
+                if (output_line == 1079 && output_beat == 30)
+                    check_source(12, 478, 0);
 
                 if (output_beat == 959) begin
                     if (!axis.tlast) $fatal(1, "missing TLAST");
@@ -205,7 +214,7 @@ module tb_mosaic_frame_reader_8ch;
         if (output_line != 1080)
             $fatal(1, "frame ended at line %0d", output_line);
         if (axi_error) $fatal(1, "mosaic reader AXI/scaler error");
-        $display("TB_MOSAIC_FRAME_READER_8CH=PASS");
+        $display("TB_MOSAIC_FRAME_READER_16CH=PASS");
         $finish;
     end
 endmodule

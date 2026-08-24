@@ -7,7 +7,9 @@ module camera_hdmi_subsystem (
     input wire camera_ref_clk,
     axi4_if.slave mmio_axi,
     axis_video_if.sink display_axis,
-    video_stream_if.source capture_channels [8],
+    video_stream_if.source camera_capture_channels [8],
+    video_stream_if.source hdmi_capture_channels [8],
+    input wire hdmi_capture_enable,
     axi_lite_if.master framebuffer_axil,
     input wire capture_clk,
     input wire capture_resetn,
@@ -52,14 +54,18 @@ module camera_hdmi_subsystem (
     output wire camera_pll_locked,
     output wire [479:0] camera_axis_diag,
     output wire [255:0] malformed_counts,
-    output wire [7:0] video_interrupts
+    output wire [7:0] video_interrupts,
+    output wire [31:0] hdmi_transport_frame_count,
+    output wire [31:0] hdmi_transport_malformed_count,
+    output wire [255:0] hdmi_channel_overflow_counts,
+    output wire [255:0] hdmi_channel_frame_counts
 );
     axi_lite_if #(.ADDR_WIDTH(18)) camera_axil [8]();
-    axis_video_if #(.DATA_WIDTH(48)) unused_hdmi_capture();
 
     hdmi_subsystem u_hdmi (
         .mmio_axi(mmio_axi), .display_axis(display_axis),
-        .capture_axis(unused_hdmi_capture),
+        .hdmi_capture_channels(hdmi_capture_channels),
+        .hdmi_capture_enable(hdmi_capture_enable),
         .framebuffer_axil(framebuffer_axil), .camera_axil(camera_axil),
         .capture_clk(capture_clk), .capture_resetn(capture_resetn),
         .hdmi_rx_clk_p(hdmi_rx_clk_p), .hdmi_rx_clk_n(hdmi_rx_clk_n),
@@ -79,15 +85,18 @@ module camera_hdmi_subsystem (
         .hdmi_clkchip_lol(hdmi_clkchip_lol),
         .hdmi_clkchip_int(hdmi_clkchip_int),
         .hdmi_clkchip_rst(hdmi_clkchip_rst),
-        .video_interrupts(video_interrupts)
+        .video_interrupts(video_interrupts),
+        .hdmi_transport_frame_count(hdmi_transport_frame_count),
+        .hdmi_transport_malformed_count(hdmi_transport_malformed_count),
+        .hdmi_channel_overflow_counts(hdmi_channel_overflow_counts),
+        .hdmi_channel_frame_counts(hdmi_channel_frame_counts)
     );
-    assign unused_hdmi_capture.tready = 1'b1;
 
     camera_subsystem u_camera_subsystem (
         .sys_rstn(sys_rstn), .sys_init_done(sys_init_done),
         .camera_ref_clk(camera_ref_clk), .capture_clk(capture_clk),
         .capture_resetn(capture_resetn), .camera_axil(camera_axil),
-        .capture_channels(capture_channels),
+        .capture_channels(camera_capture_channels),
         .cam_rst_n(cam_rst_n), .cam_pwdn(cam_pwdn), .cam_scl(cam_scl),
         .cam_sda(cam_sda), .cam_xclk(cam_xclk),
         .cam_xclk_pad(cam_xclk_pad), .cam_rst_n_pad(cam_rst_n_pad),

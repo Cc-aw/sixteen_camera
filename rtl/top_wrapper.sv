@@ -64,7 +64,10 @@ module top_wrapper (
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4)) soc_mem_axi();
     axi4_if #(.ADDR_WIDTH(31), .DATA_WIDTH(64), .ID_WIDTH(4)) soc_mmio_axi();
     axis_video_if #(.DATA_WIDTH(48)) ddr_video_axis();
-    video_stream_if #(.DATA_WIDTH(48)) camera_capture_channels [8]();
+    video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
+        camera_capture_channels [8]();
+    video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
+        hdmi_capture_channels [8]();
     axi_lite_if #(.ADDR_WIDTH(17)) framebuffer_axil();
     wire [7:0] video_interrupts;
     wire hdmi_tx_locked;
@@ -83,6 +86,11 @@ module top_wrapper (
     wire [7:0] ov7670_scl_pad;
     wire [479:0] camera_axis_diag;
     wire [255:0] camera_malformed_counts;
+    wire hdmi_capture_enable;
+    wire [31:0] hdmi_transport_frame_count;
+    wire [31:0] hdmi_transport_malformed_count;
+    wire [255:0] hdmi_channel_overflow_counts;
+    wire [255:0] hdmi_channel_frame_counts;
     wire camera_sys_init_done = sys_rstn && c0_init_calib_complete &&
                                 camera_pll_locked;
 
@@ -156,7 +164,13 @@ module top_wrapper (
         .c0_ddr4_reset_n(c0_ddr4_reset_n),
         .soc_mem_axi(soc_mem_axi),
         .framebuffer_axil(framebuffer_axil),
-        .capture_channels(camera_capture_channels),
+        .camera_capture_channels(camera_capture_channels),
+        .hdmi_capture_channels(hdmi_capture_channels),
+        .hdmi_capture_enable(hdmi_capture_enable),
+        .hdmi_transport_frame_count(hdmi_transport_frame_count),
+        .hdmi_transport_malformed_count(hdmi_transport_malformed_count),
+        .hdmi_channel_overflow_counts(hdmi_channel_overflow_counts),
+        .hdmi_channel_frame_counts(hdmi_channel_frame_counts),
         .camera_axis_diag(camera_axis_diag),
         .malformed_counts(camera_malformed_counts),
         .video_axis(ddr_video_axis), .video_clk(video_clk),
@@ -167,7 +181,9 @@ module top_wrapper (
         .sys_rstn(sys_rstn), .sys_init_done(camera_sys_init_done),
         .camera_ref_clk(camera_ref_clk),
         .mmio_axi(soc_mmio_axi), .display_axis(ddr_video_axis),
-        .capture_channels(camera_capture_channels),
+        .camera_capture_channels(camera_capture_channels),
+        .hdmi_capture_channels(hdmi_capture_channels),
+        .hdmi_capture_enable(hdmi_capture_enable),
         .framebuffer_axil(framebuffer_axil),
         .capture_clk(video_clk), .capture_resetn(video_resetn),
         .hdmi_rx_clk_p(hdmi_rx_clk_p), .hdmi_rx_clk_n(hdmi_rx_clk_n),
@@ -185,6 +201,10 @@ module top_wrapper (
         .hdmi_clkchip_rst(hdmi_clkchip_rst),
         .camera_axis_diag(camera_axis_diag),
         .malformed_counts(camera_malformed_counts),
+        .hdmi_transport_frame_count(hdmi_transport_frame_count),
+        .hdmi_transport_malformed_count(hdmi_transport_malformed_count),
+        .hdmi_channel_overflow_counts(hdmi_channel_overflow_counts),
+        .hdmi_channel_frame_counts(hdmi_channel_frame_counts),
         .cam_rst_n(ov7670_reset_n_drive),
         .cam_pwdn(ov7670_pwdn_drive), .cam_scl(ov7670_scl_drive),
         .cam_sda(cam_sda), .cam_xclk(ov7670_xclk_drive),

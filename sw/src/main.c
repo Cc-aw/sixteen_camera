@@ -63,7 +63,7 @@ int main(void)
     uint32_t sample_tap = 2U;
     console_init();
     console_puts("\r\n8x OV7670 -> shared DMA -> DDR -> HDMI TX\r\n");
-    console_puts("CH1-CH8 RGB565 VGA in 3x3 1080p60 mosaic\r\n");
+    console_puts("CH1-CH8 local + CH9-CH16 HDMI in 4x4 1080p60 mosaic\r\n");
     console_puts("All OV7670 initialization is hardware controlled\r\n");
     console_puts("OV7670 clock/reset/SCCB translated from ztachip camera.vhd\r\n");
     console_puts("OV7670 register table: reference RGB565/AWB/AEC/gamma configuration\r\n");
