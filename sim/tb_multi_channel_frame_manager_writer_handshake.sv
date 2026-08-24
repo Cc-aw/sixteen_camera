@@ -34,6 +34,11 @@ module tb_multi_channel_frame_manager_writer_handshake;
     wire reader_mode;
     reg reader_done = 1'b0;
     reg reader_underflow = 1'b0;
+    reg ai_snapshot_req_toggle = 1'b0;
+    wire ai_snapshot_ack_toggle;
+    reg ai_release_req_toggle = 1'b0;
+    wire ai_release_ack_toggle;
+    reg ai_release_mask = 1'b0;
 
     wire [31:0] active_width;
     wire [31:0] active_height;
@@ -75,6 +80,17 @@ module tb_multi_channel_frame_manager_writer_handshake;
         .reader_mode(reader_mode),
         .reader_done(reader_done),
         .reader_underflow(reader_underflow),
+        .ai_snapshot_req_toggle(ai_snapshot_req_toggle),
+        .ai_snapshot_ack_toggle(ai_snapshot_ack_toggle),
+        .ai_release_req_toggle(ai_release_req_toggle),
+        .ai_release_ack_toggle(ai_release_ack_toggle),
+        .ai_release_mask(ai_release_mask),
+        .ai_snapshot_active(), .ai_snapshot_valid_mask(),
+        .ai_snapshot_fresh_mask(), .ai_held_mask(),
+        .ai_snapshot_addrs(), .ai_snapshot_frame_ids(),
+        .ai_snapshot_timestamps(), .ai_snapshot_versions(),
+        .ai_snapshot_batch_id(), .ai_snapshot_count(),
+        .ai_release_count(), .ai_error_count(),
         .active_width(active_width),
         .active_height(active_height),
         .active_stride_bytes(active_stride_bytes),
@@ -108,7 +124,7 @@ module tb_multi_channel_frame_manager_writer_handshake;
             writer_acquire = 1'b0;
             @(posedge ui_clk);
             #1;
-            if (!status[7])
+            if (!status[14])
                 $fatal(1, "manager did not commit accepted grant");
         end
     endtask
@@ -143,7 +159,7 @@ module tb_multi_channel_frame_manager_writer_handshake;
         writer_acquire = 1'b0;
         @(posedge ui_clk);
         #1;
-        if (!status[7])
+        if (!status[14])
             $fatal(1, "writer did not restart after completion boundary");
         if (writer_frame_counts != 1)
             $fatal(1, "completed frame count=%0d expected 1",
@@ -166,9 +182,9 @@ module tb_multi_channel_frame_manager_writer_handshake;
         writer_acquire = 1'b0;
         @(posedge ui_clk);
         #1;
-        if (!status[7] || drop_counts != 0)
+        if (!status[14] || drop_counts != 0)
             $fatal(1, "error recovery failed active=%0d drops=%0d",
-                   status[7], drop_counts);
+                   status[14], drop_counts);
 
         $display("TB_MULTI_CHANNEL_FRAME_MANAGER_WRITER_HANDSHAKE=PASS");
         $finish;

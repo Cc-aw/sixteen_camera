@@ -1,6 +1,8 @@
 #include <stdint.h>
 
 #include "axi_iic.h"
+#include "ai_frame_snapshot.h"
+#include "ai_preprocess.h"
 #include "board_gpio.h"
 #include "camera_config.h"
 #include "camera_video.h"
@@ -55,7 +57,91 @@ static int start_present_cameras(void)
 
 static void print_help(void)
 {
-    console_puts("Commands: 1-8=display camera, s=status, t=cycle DATA tap 0-4, b=CH1 OV7670 BIST, r=restart camera/video, c=clock ID, h=help\r\n");
+    console_puts("Commands: 1-8=display, s=status, a=snapshot, p=preprocess Batch16, t=DATA tap, b=BIST, r=restart, c=clock ID, h=help\r\n");
+}
+
+static void ai_preprocess_smoke_test(void)
+{
+    static AiFrameSnapshot snapshot;
+    AiPreprocessResult result;
+    int status = ai_frame_snapshot_acquire(&snapshot);
+    if (status != 0) {
+        console_puts("AI PRE snapshot failed\r\n");
+        return;
+    }
+
+    status = ai_preprocess_run(&result);
+    int release_status = ai_frame_snapshot_release(snapshot.valid_mask);
+    if (status != 0) {
+        console_puts("AI PRE failed=");
+        console_put_u32((uint32_t)(-status));
+        console_puts(release_status == 0 ? " refs released\r\n" :
+                                           " ref release failed\r\n");
+        return;
+    }
+
+    console_puts("AI PRE arena/base batch valid/fresh=");
+    console_put_u32(result.arena);
+    console_putc('/');
+    console_put_hex32(result.tensor_base);
+    console_putc(' ');
+    console_put_hex64(result.batch_id);
+    console_putc(' ');
+    console_put_hex32(result.valid_mask);
+    console_putc('/');
+    console_put_hex32(result.fresh_mask);
+    console_puts(" cycles/readB/writeB=");
+    console_put_u32(result.cycles);
+    console_putc('/');
+    console_put_u32(result.read_beats * 32U);
+    console_putc('/');
+    console_put_u32(result.write_beats * 32U);
+    console_puts("\r\n");
+
+    // No Gemmini consumer is connected yet, so the smoke test immediately
+    // returns the finished arena to the fixed pool.
+    status = ai_preprocess_recycle(UINT32_C(1) << result.arena);
+    console_puts(status == 0 ? "AI PRE arena recycled\r\n" :
+                              "AI PRE recycle failed\r\n");
+}
+
+static void ai_snapshot_smoke_test(void)
+{
+    static AiFrameSnapshot snapshot;
+    int result = ai_frame_snapshot_acquire(&snapshot);
+    if (result != 0) {
+        console_puts("AI SNAP acquire failed=");
+        console_put_u32((uint32_t)(-result));
+        console_puts("\r\n");
+        return;
+    }
+
+    console_puts("AI SNAP batch=");
+    console_put_hex64(snapshot.batch_id);
+    console_puts(" valid/fresh=");
+    console_put_hex32(snapshot.valid_mask);
+    console_putc('/');
+    console_put_hex32(snapshot.fresh_mask);
+    console_puts("\r\n");
+
+    for (uint32_t channel = 0U; channel < VIDEO_CHANNEL_COUNT; ++channel) {
+        if ((snapshot.valid_mask & (UINT32_C(1) << channel)) == 0U)
+            continue;
+        const AiFrameMetadata *member = &snapshot.members[channel];
+        console_puts("  AI CH");
+        console_put_u32(channel + 1U);
+        console_puts(" addr/frame/ver=");
+        console_put_hex32(member->frame_addr);
+        console_putc('/');
+        console_put_hex64(member->frame_id);
+        console_putc('/');
+        console_put_hex32(member->version);
+        console_puts("\r\n");
+    }
+
+    result = ai_frame_snapshot_release(snapshot.valid_mask);
+    console_puts(result == 0 ? "AI SNAP release OK\r\n"
+                            : "AI SNAP release FAILED\r\n");
 }
 
 int main(void)
@@ -103,6 +189,12 @@ int main(void)
             hdmi_tx_print_status();
             for (size_t index = 0U; index < camera_config_count; ++index)
                 camera_video_print_status(&camera_configs[index]);
+            break;
+        case 'a':
+            ai_snapshot_smoke_test();
+            break;
+        case 'p':
+            ai_preprocess_smoke_test();
             break;
         case 't':
             sample_tap = (sample_tap + 1U) % 6U;

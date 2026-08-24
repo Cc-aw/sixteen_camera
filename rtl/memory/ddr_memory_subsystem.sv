@@ -55,6 +55,8 @@ module ddr_memory_subsystem (
 
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) writer_axi();
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) reader_axi();
+    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
+        preprocess_axi();
     video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
         all_capture_channels [16]();
     wire [511:0] all_malformed_counts = {
@@ -117,6 +119,21 @@ module ddr_memory_subsystem (
     wire reader_error;
     wire reader_underflow;
 
+    // S01 is deliberately split by AXI channel, matching demo/ai: capture is
+    // write-only and HDMI display is read-only.  Terminate the unused return
+    // channels locally so each interface still has exactly one driver.
+    assign writer_axi.arready = 1'b0;
+    assign writer_axi.rid = 3'd0;
+    assign writer_axi.rdata = 256'd0;
+    assign writer_axi.rresp = 2'b00;
+    assign writer_axi.rlast = 1'b0;
+    assign writer_axi.rvalid = 1'b0;
+    assign reader_axi.awready = 1'b0;
+    assign reader_axi.wready = 1'b0;
+    assign reader_axi.bid = 3'd0;
+    assign reader_axi.bresp = 2'b00;
+    assign reader_axi.bvalid = 1'b0;
+
     multi_channel_ddr_video_pipeline #(
         .CHANNELS(16),
         .GLOBAL_CHANNEL_BASE(0),
@@ -147,6 +164,7 @@ module ddr_memory_subsystem (
         .hdmi_channel_frame_counts(hdmi_channel_frame_counts),
         .writer_axi(writer_axi),
         .reader_axi(reader_axi),
+        .preprocess_axi(preprocess_axi),
         .display_axis(video_axis),
         .writer_error(writer_error),
         .reader_error(reader_error),
@@ -234,64 +252,64 @@ module ddr_memory_subsystem (
         .S01_AXI_bresp(writer_axi.bresp),
         .S01_AXI_bvalid(writer_axi.bvalid),
         .S01_AXI_bready(writer_axi.bready),
-        .S01_AXI_arid(writer_axi.arid),
-        .S01_AXI_araddr(writer_axi.araddr),
-        .S01_AXI_arlen(writer_axi.arlen),
-        .S01_AXI_arsize(writer_axi.arsize),
-        .S01_AXI_arburst(writer_axi.arburst),
-        .S01_AXI_arlock(writer_axi.arlock),
-        .S01_AXI_arcache(writer_axi.arcache),
-        .S01_AXI_arprot(writer_axi.arprot),
-        .S01_AXI_arqos(writer_axi.arqos),
+        .S01_AXI_arid(reader_axi.arid),
+        .S01_AXI_araddr(reader_axi.araddr),
+        .S01_AXI_arlen(reader_axi.arlen),
+        .S01_AXI_arsize(reader_axi.arsize),
+        .S01_AXI_arburst(reader_axi.arburst),
+        .S01_AXI_arlock(reader_axi.arlock),
+        .S01_AXI_arcache(reader_axi.arcache),
+        .S01_AXI_arprot(reader_axi.arprot),
+        .S01_AXI_arqos(reader_axi.arqos),
         .S01_AXI_arregion(4'h0),
-        .S01_AXI_arvalid(writer_axi.arvalid),
-        .S01_AXI_arready(writer_axi.arready),
-        .S01_AXI_rid(writer_axi.rid),
-        .S01_AXI_rdata(writer_axi.rdata),
-        .S01_AXI_rresp(writer_axi.rresp),
-        .S01_AXI_rlast(writer_axi.rlast),
-        .S01_AXI_rvalid(writer_axi.rvalid),
-        .S01_AXI_rready(writer_axi.rready),
+        .S01_AXI_arvalid(reader_axi.arvalid),
+        .S01_AXI_arready(reader_axi.arready),
+        .S01_AXI_rid(reader_axi.rid),
+        .S01_AXI_rdata(reader_axi.rdata),
+        .S01_AXI_rresp(reader_axi.rresp),
+        .S01_AXI_rlast(reader_axi.rlast),
+        .S01_AXI_rvalid(reader_axi.rvalid),
+        .S01_AXI_rready(reader_axi.rready),
 
-        .S02_AXI_awid(reader_axi.awid),
-        .S02_AXI_awaddr(reader_axi.awaddr),
-        .S02_AXI_awlen(reader_axi.awlen),
-        .S02_AXI_awsize(reader_axi.awsize),
-        .S02_AXI_awburst(reader_axi.awburst),
-        .S02_AXI_awlock(reader_axi.awlock),
-        .S02_AXI_awcache(reader_axi.awcache),
-        .S02_AXI_awprot(reader_axi.awprot),
-        .S02_AXI_awqos(reader_axi.awqos),
+        .S02_AXI_awid(preprocess_axi.awid),
+        .S02_AXI_awaddr(preprocess_axi.awaddr),
+        .S02_AXI_awlen(preprocess_axi.awlen),
+        .S02_AXI_awsize(preprocess_axi.awsize),
+        .S02_AXI_awburst(preprocess_axi.awburst),
+        .S02_AXI_awlock(preprocess_axi.awlock),
+        .S02_AXI_awcache(preprocess_axi.awcache),
+        .S02_AXI_awprot(preprocess_axi.awprot),
+        .S02_AXI_awqos(preprocess_axi.awqos),
         .S02_AXI_awregion(4'h0),
-        .S02_AXI_awvalid(reader_axi.awvalid),
-        .S02_AXI_awready(reader_axi.awready),
-        .S02_AXI_wdata(reader_axi.wdata),
-        .S02_AXI_wstrb(reader_axi.wstrb),
-        .S02_AXI_wlast(reader_axi.wlast),
-        .S02_AXI_wvalid(reader_axi.wvalid),
-        .S02_AXI_wready(reader_axi.wready),
-        .S02_AXI_bid(reader_axi.bid),
-        .S02_AXI_bresp(reader_axi.bresp),
-        .S02_AXI_bvalid(reader_axi.bvalid),
-        .S02_AXI_bready(reader_axi.bready),
-        .S02_AXI_arid(reader_axi.arid),
-        .S02_AXI_araddr(reader_axi.araddr),
-        .S02_AXI_arlen(reader_axi.arlen),
-        .S02_AXI_arsize(reader_axi.arsize),
-        .S02_AXI_arburst(reader_axi.arburst),
-        .S02_AXI_arlock(reader_axi.arlock),
-        .S02_AXI_arcache(reader_axi.arcache),
-        .S02_AXI_arprot(reader_axi.arprot),
-        .S02_AXI_arqos(reader_axi.arqos),
+        .S02_AXI_awvalid(preprocess_axi.awvalid),
+        .S02_AXI_awready(preprocess_axi.awready),
+        .S02_AXI_wdata(preprocess_axi.wdata),
+        .S02_AXI_wstrb(preprocess_axi.wstrb),
+        .S02_AXI_wlast(preprocess_axi.wlast),
+        .S02_AXI_wvalid(preprocess_axi.wvalid),
+        .S02_AXI_wready(preprocess_axi.wready),
+        .S02_AXI_bid(preprocess_axi.bid),
+        .S02_AXI_bresp(preprocess_axi.bresp),
+        .S02_AXI_bvalid(preprocess_axi.bvalid),
+        .S02_AXI_bready(preprocess_axi.bready),
+        .S02_AXI_arid(preprocess_axi.arid),
+        .S02_AXI_araddr(preprocess_axi.araddr),
+        .S02_AXI_arlen(preprocess_axi.arlen),
+        .S02_AXI_arsize(preprocess_axi.arsize),
+        .S02_AXI_arburst(preprocess_axi.arburst),
+        .S02_AXI_arlock(preprocess_axi.arlock),
+        .S02_AXI_arcache(preprocess_axi.arcache),
+        .S02_AXI_arprot(preprocess_axi.arprot),
+        .S02_AXI_arqos(preprocess_axi.arqos),
         .S02_AXI_arregion(4'h0),
-        .S02_AXI_arvalid(reader_axi.arvalid),
-        .S02_AXI_arready(reader_axi.arready),
-        .S02_AXI_rid(reader_axi.rid),
-        .S02_AXI_rdata(reader_axi.rdata),
-        .S02_AXI_rresp(reader_axi.rresp),
-        .S02_AXI_rlast(reader_axi.rlast),
-        .S02_AXI_rvalid(reader_axi.rvalid),
-        .S02_AXI_rready(reader_axi.rready),
+        .S02_AXI_arvalid(preprocess_axi.arvalid),
+        .S02_AXI_arready(preprocess_axi.arready),
+        .S02_AXI_rid(preprocess_axi.rid),
+        .S02_AXI_rdata(preprocess_axi.rdata),
+        .S02_AXI_rresp(preprocess_axi.rresp),
+        .S02_AXI_rlast(preprocess_axi.rlast),
+        .S02_AXI_rvalid(preprocess_axi.rvalid),
+        .S02_AXI_rready(preprocess_axi.rready),
 
         .ddr4_rst(~sys_rstn),
         .ddr4_ui_clk(ddr_ui_clk),

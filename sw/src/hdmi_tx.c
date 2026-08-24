@@ -916,6 +916,26 @@ void hdmi_tx_print_status(void)
     console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
                                 FRAMEBUFFER_HDMI_CONTROL) & 1U);
     console_puts("\r\n");
+    console_puts("AI snapshot(active/busy valid/fresh/held diag)=");
+    {
+        uint32_t ai_status = mmio_read32(FRAMEBUFFER_BASE +
+                                         FRAMEBUFFER_AI_STATUS);
+        console_put_u32((ai_status >> 2) & 1U);
+        console_putc('/');
+        console_put_u32(ai_status & 3U);
+    }
+    console_putc(' ');
+    console_put_hex32(mmio_read32(FRAMEBUFFER_BASE +
+                                  FRAMEBUFFER_AI_VALID_MASK));
+    console_putc('/');
+    console_put_hex32(mmio_read32(FRAMEBUFFER_BASE +
+                                  FRAMEBUFFER_AI_FRESH_MASK));
+    console_putc('/');
+    console_put_hex32(mmio_read32(FRAMEBUFFER_BASE +
+                                  FRAMEBUFFER_AI_HELD_MASK));
+    console_putc(' ');
+    console_put_hex32(mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_AI_DIAG));
+    console_puts("\r\n");
     console_puts("\r\n");
     video_perf_print_delta(&perf_snapshot);
 }

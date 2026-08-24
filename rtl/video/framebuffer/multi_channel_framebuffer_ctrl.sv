@@ -23,6 +23,50 @@ module multi_channel_framebuffer_ctrl #(
         cfg_display_channel,
     output reg cfg_display_mode,
     output reg cfg_hdmi_capture_enable,
+    output reg ai_snapshot_req_toggle,
+    output reg ai_release_req_toggle,
+    output reg [CHANNELS-1:0] ai_release_mask,
+    output reg ai_meta_req_toggle,
+    output reg [((CHANNELS <= 1) ? 1 : $clog2(CHANNELS))-1:0]
+        ai_meta_index,
+    input wire ai_snapshot_ack_toggle,
+    input wire ai_release_ack_toggle,
+    input wire ai_meta_ack_toggle,
+    input wire ai_snapshot_active,
+    input wire [CHANNELS-1:0] ai_snapshot_valid_mask,
+    input wire [CHANNELS-1:0] ai_snapshot_fresh_mask,
+    input wire [CHANNELS-1:0] ai_held_mask,
+    input wire [31:0] ai_meta_addr,
+    input wire [63:0] ai_meta_frame_id,
+    input wire [63:0] ai_meta_timestamp,
+    input wire [31:0] ai_meta_version,
+    input wire [63:0] ai_snapshot_batch_id,
+    input wire [31:0] ai_snapshot_count,
+    input wire [31:0] ai_release_count,
+    input wire [31:0] ai_error_count,
+    output reg preprocess_start_req_toggle,
+    output reg preprocess_recycle_req_toggle,
+    output reg [1:0] preprocess_recycle_mask,
+    input wire preprocess_start_ack_toggle,
+    input wire preprocess_recycle_ack_toggle,
+    input wire preprocess_busy,
+    input wire [1:0] preprocess_ready_mask,
+    input wire preprocess_active_arena,
+    input wire [4:0] preprocess_active_channel,
+    input wire [4:0] preprocess_completed_channels,
+    input wire [31:0] preprocess_active_tensor_base,
+    input wire [63:0] preprocess_arena0_batch_id,
+    input wire [63:0] preprocess_arena1_batch_id,
+    input wire [CHANNELS-1:0] preprocess_arena0_valid_mask,
+    input wire [CHANNELS-1:0] preprocess_arena1_valid_mask,
+    input wire [CHANNELS-1:0] preprocess_arena0_fresh_mask,
+    input wire [CHANNELS-1:0] preprocess_arena1_fresh_mask,
+    input wire [31:0] preprocess_last_batch_cycles,
+    input wire [31:0] preprocess_last_read_beats,
+    input wire [31:0] preprocess_last_write_beats,
+    input wire [31:0] preprocess_start_count,
+    input wire [31:0] preprocess_complete_count,
+    input wire [31:0] preprocess_error_count,
     input wire cfg_ack_toggle,
     input wire [31:0] manager_status,
     input wire [CHANNELS*32-1:0] writer_frame_counts,
@@ -78,8 +122,43 @@ module multi_channel_framebuffer_ctrl #(
     localparam [8:0] REG_HDMI_TRANSPORT_MALFORMED = 9'h174;
     localparam [8:0] REG_HDMI_FRAME0 = 9'h180;
     localparam [8:0] REG_HDMI_OVERFLOW0 = 9'h1a0;
+    localparam [8:0] REG_AI_CONTROL = 9'h1c0;
+    localparam [8:0] REG_AI_STATUS = 9'h1c4;
+    localparam [8:0] REG_AI_RELEASE_MASK = 9'h1c8;
+    localparam [8:0] REG_AI_VALID_MASK = 9'h1cc;
+    localparam [8:0] REG_AI_FRESH_MASK = 9'h1d0;
+    localparam [8:0] REG_AI_HELD_MASK = 9'h1d4;
+    localparam [8:0] REG_AI_META_INDEX = 9'h1d8;
+    localparam [8:0] REG_AI_META_ADDR = 9'h1dc;
+    localparam [8:0] REG_AI_META_FRAME_LO = 9'h1e0;
+    localparam [8:0] REG_AI_META_FRAME_HI = 9'h1e4;
+    localparam [8:0] REG_AI_META_TIME_LO = 9'h1e8;
+    localparam [8:0] REG_AI_META_TIME_HI = 9'h1ec;
+    localparam [8:0] REG_AI_META_VERSION = 9'h1f0;
+    localparam [8:0] REG_AI_BATCH_LO = 9'h1f4;
+    localparam [8:0] REG_AI_BATCH_HI = 9'h1f8;
+    localparam [9:0] REG_AI_DIAG = 10'h1fc;
+    localparam [9:0] REG_PRE_CONTROL = 10'h200;
+    localparam [9:0] REG_PRE_STATUS = 10'h204;
+    localparam [9:0] REG_PRE_RECYCLE_MASK = 10'h208;
+    localparam [9:0] REG_PRE_PROGRESS = 10'h20c;
+    localparam [9:0] REG_PRE_ACTIVE_BASE = 10'h210;
+    localparam [9:0] REG_PRE_ARENA0_BATCH_LO = 10'h220;
+    localparam [9:0] REG_PRE_ARENA0_BATCH_HI = 10'h224;
+    localparam [9:0] REG_PRE_ARENA1_BATCH_LO = 10'h228;
+    localparam [9:0] REG_PRE_ARENA1_BATCH_HI = 10'h22c;
+    localparam [9:0] REG_PRE_ARENA0_VALID = 10'h230;
+    localparam [9:0] REG_PRE_ARENA1_VALID = 10'h234;
+    localparam [9:0] REG_PRE_ARENA0_FRESH = 10'h238;
+    localparam [9:0] REG_PRE_ARENA1_FRESH = 10'h23c;
+    localparam [9:0] REG_PRE_LAST_CYCLES = 10'h240;
+    localparam [9:0] REG_PRE_LAST_READ = 10'h244;
+    localparam [9:0] REG_PRE_LAST_WRITE = 10'h248;
+    localparam [9:0] REG_PRE_START_COUNT = 10'h24c;
+    localparam [9:0] REG_PRE_COMPLETE_COUNT = 10'h250;
+    localparam [9:0] REG_PRE_ERROR_COUNT = 10'h254;
 
-    reg [8:0] awaddr_hold;
+    reg [9:0] awaddr_hold;
     reg [31:0] wdata_hold;
     reg [3:0] wstrb_hold;
     reg aw_pending;
@@ -94,20 +173,29 @@ module multi_channel_framebuffer_ctrl #(
     wire w_fire = axil.wvalid && axil.wready;
     wire write_complete = !bvalid && (aw_pending || aw_fire) &&
                           (w_pending || w_fire);
-    wire [8:0] write_addr = aw_pending ? awaddr_hold : axil.awaddr[8:0];
+    wire [9:0] write_addr = aw_pending ? awaddr_hold : axil.awaddr[9:0];
     wire [31:0] write_data = w_pending ? wdata_hold : axil.wdata;
     wire [3:0] write_strb = w_pending ? wstrb_hold : axil.wstrb;
     wire cfg_busy = (cfg_request_toggle != ack_sync_2);
+    wire ai_snapshot_busy =
+        (ai_snapshot_req_toggle != ai_snapshot_ack_toggle);
+    wire ai_release_busy =
+        (ai_release_req_toggle != ai_release_ack_toggle);
+    wire ai_meta_busy = (ai_meta_req_toggle != ai_meta_ack_toggle);
+    wire preprocess_start_busy =
+        preprocess_start_req_toggle != preprocess_start_ack_toggle;
+    wire preprocess_recycle_busy =
+        preprocess_recycle_req_toggle != preprocess_recycle_ack_toggle;
     wire write_is_channel_base = (write_addr >= REG_CHANNEL_BASE0) &&
         (write_addr < REG_CHANNEL_BASE0 + CHANNELS*4) &&
         (write_addr[1:0] == 2'b00);
-    wire read_is_channel_base = (axil.araddr[8:0] >= REG_CHANNEL_BASE0) &&
-        (axil.araddr[8:0] < REG_CHANNEL_BASE0 + CHANNELS*4) &&
+    wire read_is_channel_base = (axil.araddr[9:0] >= REG_CHANNEL_BASE0) &&
+        (axil.araddr[9:0] < REG_CHANNEL_BASE0 + CHANNELS*4) &&
         (axil.araddr[1:0] == 2'b00);
     wire [CHANNEL_WIDTH-1:0] write_channel =
         (write_addr - REG_CHANNEL_BASE0) >> 2;
     wire [CHANNEL_WIDTH-1:0] read_channel =
-        (axil.araddr[8:0] - REG_CHANNEL_BASE0) >> 2;
+        (axil.araddr[9:0] - REG_CHANNEL_BASE0) >> 2;
 
     function automatic [31:0] apply_wstrb;
         input [31:0] old_value;
@@ -169,7 +257,15 @@ module multi_channel_framebuffer_ctrl #(
             // single-channel debug path.
             cfg_display_mode <= 1'b0;
             cfg_hdmi_capture_enable <= 1'b0;
-            awaddr_hold <= 9'd0;
+            ai_snapshot_req_toggle <= 1'b0;
+            ai_release_req_toggle <= 1'b0;
+            ai_release_mask <= {CHANNELS{1'b0}};
+            ai_meta_req_toggle <= 1'b0;
+            ai_meta_index <= {CHANNEL_WIDTH{1'b0}};
+            preprocess_start_req_toggle <= 1'b0;
+            preprocess_recycle_req_toggle <= 1'b0;
+            preprocess_recycle_mask <= 2'b00;
+            awaddr_hold <= 10'd0;
             wdata_hold <= 32'd0;
             wstrb_hold <= 4'd0;
             aw_pending <= 1'b0;
@@ -184,7 +280,7 @@ module multi_channel_framebuffer_ctrl #(
             ack_sync_2 <= ack_sync_1;
 
             if (aw_fire) begin
-                awaddr_hold <= axil.awaddr[8:0];
+                awaddr_hold <= axil.awaddr[9:0];
                 aw_pending <= 1'b1;
             end
             if (w_fire) begin
@@ -217,6 +313,35 @@ module multi_channel_framebuffer_ctrl #(
                         cfg_display_mode <= write_data[0];
                     REG_HDMI_CONTROL: if (write_strb[0])
                         cfg_hdmi_capture_enable <= write_data[0];
+                    REG_AI_CONTROL: if (write_strb[0]) begin
+                        if (write_data[0] && !write_data[1] &&
+                            !ai_snapshot_busy)
+                            ai_snapshot_req_toggle <=
+                                !ai_snapshot_req_toggle;
+                        if (write_data[1] && !write_data[0] &&
+                            !ai_release_busy)
+                            ai_release_req_toggle <=
+                                !ai_release_req_toggle;
+                    end
+                    REG_AI_RELEASE_MASK: if (!ai_release_busy)
+                        ai_release_mask <= write_data[CHANNELS-1:0];
+                    REG_AI_META_INDEX: if (write_strb[0] && !ai_meta_busy &&
+                                           (write_data < CHANNELS)) begin
+                        ai_meta_index <= write_data[CHANNEL_WIDTH-1:0];
+                        ai_meta_req_toggle <= !ai_meta_req_toggle;
+                    end
+                    REG_PRE_CONTROL: if (write_strb[0]) begin
+                        if (write_data[0] && !write_data[1] &&
+                            !preprocess_start_busy)
+                            preprocess_start_req_toggle <=
+                                !preprocess_start_req_toggle;
+                        if (write_data[1] && !write_data[0] &&
+                            !preprocess_recycle_busy)
+                            preprocess_recycle_req_toggle <=
+                                !preprocess_recycle_req_toggle;
+                    end
+                    REG_PRE_RECYCLE_MASK: if (!preprocess_recycle_busy)
+                        preprocess_recycle_mask <= write_data[1:0];
                     REG_BUFFER_STRIDE: if (!cfg_busy)
                         cfg_buffer_stride_bytes <= apply_wstrb(
                             cfg_buffer_stride_bytes, write_data, write_strb);
@@ -234,7 +359,7 @@ module multi_channel_framebuffer_ctrl #(
             end
 
             if (axil.arready && axil.arvalid) begin
-                case (axil.araddr[8:0])
+                case (axil.araddr[9:0])
                     REG_CONTROL: rdata <= {29'd0, 1'b0,
                                            cfg_request_toggle, cfg_enable};
                     REG_STATUS: rdata <= {manager_status[31:1], cfg_busy};
@@ -247,6 +372,96 @@ module multi_channel_framebuffer_ctrl #(
                     REG_DISPLAY_MODE: rdata <= {31'd0, cfg_display_mode};
                     REG_HDMI_CONTROL:
                         rdata <= {31'd0, cfg_hdmi_capture_enable};
+                    REG_AI_CONTROL:
+                        rdata <= {28'd0, ai_release_busy, ai_snapshot_busy,
+                                  ai_release_req_toggle,
+                                  ai_snapshot_req_toggle};
+                    REG_AI_STATUS:
+                        rdata <= {ai_error_count[15:0], 11'd0, ai_meta_busy,
+                                  (ai_error_count != 0), ai_snapshot_active,
+                                  ai_release_busy, ai_snapshot_busy};
+                    REG_AI_RELEASE_MASK:
+                        rdata <= {{(32-CHANNELS){1'b0}}, ai_release_mask};
+                    REG_AI_VALID_MASK:
+                        rdata <= {{(32-CHANNELS){1'b0}},
+                                  ai_snapshot_valid_mask};
+                    REG_AI_FRESH_MASK:
+                        rdata <= {{(32-CHANNELS){1'b0}},
+                                  ai_snapshot_fresh_mask};
+                    REG_AI_HELD_MASK:
+                        rdata <= {{(32-CHANNELS){1'b0}}, ai_held_mask};
+                    REG_AI_META_INDEX:
+                        rdata <= {{(32-CHANNEL_WIDTH){1'b0}}, ai_meta_index};
+                    REG_AI_META_ADDR:
+                        rdata <= ai_meta_addr;
+                    REG_AI_META_FRAME_LO:
+                        rdata <= ai_meta_frame_id[31:0];
+                    REG_AI_META_FRAME_HI:
+                        rdata <= ai_meta_frame_id[63:32];
+                    REG_AI_META_TIME_LO:
+                        rdata <= ai_meta_timestamp[31:0];
+                    REG_AI_META_TIME_HI:
+                        rdata <= ai_meta_timestamp[63:32];
+                    REG_AI_META_VERSION:
+                        rdata <= ai_meta_version;
+                    REG_AI_BATCH_LO: rdata <= ai_snapshot_batch_id[31:0];
+                    REG_AI_BATCH_HI: rdata <= ai_snapshot_batch_id[63:32];
+                    REG_AI_DIAG:
+                        rdata <= {ai_error_count[7:0],
+                                  ai_release_count[11:0],
+                                  ai_snapshot_count[11:0]};
+                    REG_PRE_CONTROL:
+                        rdata <= {28'd0, preprocess_recycle_busy,
+                                  preprocess_start_busy,
+                                  preprocess_recycle_req_toggle,
+                                  preprocess_start_req_toggle};
+                    REG_PRE_STATUS:
+                        rdata <= {preprocess_error_count[15:0], 10'd0,
+                                  preprocess_active_arena,
+                                  preprocess_ready_mask,
+                                  preprocess_busy,
+                                  preprocess_recycle_busy,
+                                  preprocess_start_busy};
+                    REG_PRE_RECYCLE_MASK:
+                        rdata <= {30'd0, preprocess_recycle_mask};
+                    REG_PRE_PROGRESS:
+                        rdata <= {21'd0, preprocess_completed_channels,
+                                  preprocess_active_channel,
+                                  preprocess_active_arena};
+                    REG_PRE_ACTIVE_BASE:
+                        rdata <= preprocess_active_tensor_base;
+                    REG_PRE_ARENA0_BATCH_LO:
+                        rdata <= preprocess_arena0_batch_id[31:0];
+                    REG_PRE_ARENA0_BATCH_HI:
+                        rdata <= preprocess_arena0_batch_id[63:32];
+                    REG_PRE_ARENA1_BATCH_LO:
+                        rdata <= preprocess_arena1_batch_id[31:0];
+                    REG_PRE_ARENA1_BATCH_HI:
+                        rdata <= preprocess_arena1_batch_id[63:32];
+                    REG_PRE_ARENA0_VALID:
+                        rdata <= {{(32-CHANNELS){1'b0}},
+                                  preprocess_arena0_valid_mask};
+                    REG_PRE_ARENA1_VALID:
+                        rdata <= {{(32-CHANNELS){1'b0}},
+                                  preprocess_arena1_valid_mask};
+                    REG_PRE_ARENA0_FRESH:
+                        rdata <= {{(32-CHANNELS){1'b0}},
+                                  preprocess_arena0_fresh_mask};
+                    REG_PRE_ARENA1_FRESH:
+                        rdata <= {{(32-CHANNELS){1'b0}},
+                                  preprocess_arena1_fresh_mask};
+                    REG_PRE_LAST_CYCLES:
+                        rdata <= preprocess_last_batch_cycles;
+                    REG_PRE_LAST_READ:
+                        rdata <= preprocess_last_read_beats;
+                    REG_PRE_LAST_WRITE:
+                        rdata <= preprocess_last_write_beats;
+                    REG_PRE_START_COUNT:
+                        rdata <= preprocess_start_count;
+                    REG_PRE_COMPLETE_COUNT:
+                        rdata <= preprocess_complete_count;
+                    REG_PRE_ERROR_COUNT:
+                        rdata <= preprocess_error_count;
                     REG_PRESENT_MASK: rdata <= {{(32-CHANNELS){1'b0}},
                                                 CAMERA_PRESENT_MASK};
                     REG_BUFFER_STRIDE: rdata <= cfg_buffer_stride_bytes;
@@ -275,29 +490,29 @@ module multi_channel_framebuffer_ctrl #(
                     REG_HDMI_TRANSPORT_MALFORMED:
                         rdata <= hdmi_transport_malformed_count;
                     default: begin
-                        if ((axil.araddr[8:0] >= REG_WRITER0) &&
-                            (axil.araddr[8:0] < REG_WRITER0 + CHANNELS*4))
+                        if ((axil.araddr[9:0] >= REG_WRITER0) &&
+                            (axil.araddr[9:0] < REG_WRITER0 + CHANNELS*4))
                             rdata <= writer_frame_counts[
-                                ((axil.araddr[8:0]-REG_WRITER0)>>2)*32 +: 32];
-                        else if ((axil.araddr[8:0] >= REG_DROP0) &&
-                                 (axil.araddr[8:0] < REG_DROP0 + CHANNELS*4))
+                                ((axil.araddr[9:0]-REG_WRITER0)>>2)*32 +: 32];
+                        else if ((axil.araddr[9:0] >= REG_DROP0) &&
+                                 (axil.araddr[9:0] < REG_DROP0 + CHANNELS*4))
                             rdata <= drop_counts[
-                                ((axil.araddr[8:0]-REG_DROP0)>>2)*32 +: 32];
-                        else if ((axil.araddr[8:0] >= REG_MALFORMED0) &&
-                                 (axil.araddr[8:0] <
+                                ((axil.araddr[9:0]-REG_DROP0)>>2)*32 +: 32];
+                        else if ((axil.araddr[9:0] >= REG_MALFORMED0) &&
+                                 (axil.araddr[9:0] <
                                   REG_MALFORMED0 + CHANNELS*4))
                             rdata <= malformed_counts[
-                                ((axil.araddr[8:0]-REG_MALFORMED0)>>2)*32 +: 32];
-                        else if ((axil.araddr[8:0] >= REG_HDMI_FRAME0) &&
-                                 (axil.araddr[8:0] < REG_HDMI_FRAME0 + 8*4))
+                                ((axil.araddr[9:0]-REG_MALFORMED0)>>2)*32 +: 32];
+                        else if ((axil.araddr[9:0] >= REG_HDMI_FRAME0) &&
+                                 (axil.araddr[9:0] < REG_HDMI_FRAME0 + 8*4))
                             rdata <= hdmi_channel_frame_counts[
-                                ((axil.araddr[8:0]-REG_HDMI_FRAME0)>>2)*32
+                                ((axil.araddr[9:0]-REG_HDMI_FRAME0)>>2)*32
                                 +: 32];
-                        else if ((axil.araddr[8:0] >= REG_HDMI_OVERFLOW0) &&
-                                 (axil.araddr[8:0] <
+                        else if ((axil.araddr[9:0] >= REG_HDMI_OVERFLOW0) &&
+                                 (axil.araddr[9:0] <
                                   REG_HDMI_OVERFLOW0 + 8*4))
                             rdata <= hdmi_channel_overflow_counts[
-                                ((axil.araddr[8:0]-REG_HDMI_OVERFLOW0)>>2)*32
+                                ((axil.araddr[9:0]-REG_HDMI_OVERFLOW0)>>2)*32
                                 +: 32];
                         else if (read_is_channel_base)
                             rdata <= cfg_channel_bases[read_channel*32 +: 32];

@@ -32,6 +32,7 @@ module multi_channel_ddr_video_pipeline #(
     input wire [8*32-1:0] hdmi_channel_frame_counts,
     axi4_if.master writer_axi,
     axi4_if.master reader_axi,
+    axi4_if.master preprocess_axi,
     axis_video_if.source display_axis,
     output wire writer_error,
     output wire reader_error,
@@ -78,6 +79,112 @@ module multi_channel_ddr_video_pipeline #(
     wire reader_done;
     wire [31:0] reader_active_base;
     wire [31:0] reader_debug_status;
+
+    wire ai_snapshot_req_toggle_cpu;
+    wire ai_snapshot_req_toggle_ddr;
+    wire ai_snapshot_ack_toggle_ddr;
+    wire ai_snapshot_ack_toggle_cpu;
+    wire ai_release_req_toggle_cpu;
+    wire ai_release_req_toggle_ddr;
+    wire ai_release_ack_toggle_ddr;
+    wire ai_release_ack_toggle_cpu;
+    wire [CHANNELS-1:0] ai_release_mask_cpu;
+    wire [CHANNELS-1:0] ai_release_mask_ddr;
+    wire ai_meta_req_toggle_cpu;
+    wire ai_meta_req_toggle_ddr;
+    reg ai_meta_ack_toggle_ddr;
+    wire ai_meta_ack_toggle_cpu;
+    wire [CHANNEL_WIDTH-1:0] ai_meta_index_cpu;
+    wire [CHANNEL_WIDTH-1:0] ai_meta_index_ddr;
+    wire ai_snapshot_active_ddr;
+    wire [CHANNELS-1:0] ai_snapshot_valid_mask_ddr;
+    wire [CHANNELS-1:0] ai_snapshot_fresh_mask_ddr;
+    wire [CHANNELS-1:0] ai_held_mask_ddr;
+    wire [CHANNELS*32-1:0] ai_snapshot_addrs_ddr;
+    wire [CHANNELS*64-1:0] ai_snapshot_frame_ids_ddr;
+    wire [CHANNELS*64-1:0] ai_snapshot_timestamps_ddr;
+    wire [CHANNELS*32-1:0] ai_snapshot_versions_ddr;
+    wire [63:0] ai_snapshot_batch_id_ddr;
+    wire [31:0] ai_snapshot_count_ddr;
+    wire [31:0] ai_release_count_ddr;
+    wire [31:0] ai_error_count_ddr;
+    wire ai_snapshot_active_cpu;
+    wire [CHANNELS-1:0] ai_snapshot_valid_mask_cpu;
+    wire [CHANNELS-1:0] ai_snapshot_fresh_mask_cpu;
+    wire [CHANNELS-1:0] ai_held_mask_cpu;
+    reg [31:0] ai_meta_addr_ddr;
+    reg [63:0] ai_meta_frame_id_ddr;
+    reg [63:0] ai_meta_timestamp_ddr;
+    reg [31:0] ai_meta_version_ddr;
+    wire [31:0] ai_meta_addr_cpu;
+    wire [63:0] ai_meta_frame_id_cpu;
+    wire [63:0] ai_meta_timestamp_cpu;
+    wire [31:0] ai_meta_version_cpu;
+    reg ai_meta_req_seen_ddr;
+    reg ai_meta_select_pending_ddr;
+    reg ai_meta_ack_pending_ddr;
+    wire [63:0] ai_snapshot_batch_id_cpu;
+    wire [31:0] ai_snapshot_count_cpu;
+    wire [31:0] ai_release_count_cpu;
+    wire [31:0] ai_error_count_cpu;
+
+    wire preprocess_start_req_toggle_cpu;
+    wire preprocess_start_req_toggle_ddr;
+    wire preprocess_start_ack_toggle_ddr;
+    wire preprocess_start_ack_toggle_cpu;
+    wire preprocess_recycle_req_toggle_cpu;
+    wire preprocess_recycle_req_toggle_ddr;
+    wire preprocess_recycle_ack_toggle_ddr;
+    wire preprocess_recycle_ack_toggle_cpu;
+    wire [1:0] preprocess_recycle_mask_cpu;
+    wire [1:0] preprocess_recycle_mask_ddr;
+    reg preprocess_start_seen_ddr;
+    reg preprocess_recycle_seen_ddr;
+    reg preprocess_start_pulse_ddr;
+    reg preprocess_recycle_pulse_ddr;
+    reg preprocess_start_ack_reg_ddr;
+    reg preprocess_recycle_ack_reg_ddr;
+    reg preprocess_start_pending_ddr;
+    reg preprocess_recycle_pending_ddr;
+    wire preprocess_command_done_ddr;
+    wire preprocess_command_error_ddr;
+    wire preprocess_busy_ddr;
+    wire [1:0] preprocess_ready_mask_ddr;
+    wire preprocess_active_arena_ddr;
+    wire [4:0] preprocess_active_channel_ddr;
+    wire [4:0] preprocess_completed_channels_ddr;
+    wire [31:0] preprocess_active_tensor_base_ddr;
+    wire [63:0] preprocess_arena0_batch_id_ddr;
+    wire [63:0] preprocess_arena1_batch_id_ddr;
+    wire [CHANNELS-1:0] preprocess_arena0_valid_mask_ddr;
+    wire [CHANNELS-1:0] preprocess_arena1_valid_mask_ddr;
+    wire [CHANNELS-1:0] preprocess_arena0_fresh_mask_ddr;
+    wire [CHANNELS-1:0] preprocess_arena1_fresh_mask_ddr;
+    wire [31:0] preprocess_batch_cycles_ddr;
+    wire [31:0] preprocess_last_batch_cycles_ddr;
+    wire [31:0] preprocess_last_read_beats_ddr;
+    wire [31:0] preprocess_last_write_beats_ddr;
+    wire [31:0] preprocess_start_count_ddr;
+    wire [31:0] preprocess_complete_count_ddr;
+    wire [31:0] preprocess_error_count_ddr;
+    wire preprocess_busy_cpu;
+    wire [1:0] preprocess_ready_mask_cpu;
+    wire preprocess_active_arena_cpu;
+    wire [4:0] preprocess_active_channel_cpu;
+    wire [4:0] preprocess_completed_channels_cpu;
+    wire [31:0] preprocess_active_tensor_base_cpu;
+    wire [63:0] preprocess_arena0_batch_id_cpu;
+    wire [63:0] preprocess_arena1_batch_id_cpu;
+    wire [CHANNELS-1:0] preprocess_arena0_valid_mask_cpu;
+    wire [CHANNELS-1:0] preprocess_arena1_valid_mask_cpu;
+    wire [CHANNELS-1:0] preprocess_arena0_fresh_mask_cpu;
+    wire [CHANNELS-1:0] preprocess_arena1_fresh_mask_cpu;
+    wire [31:0] preprocess_last_batch_cycles_cpu;
+    wire [31:0] preprocess_last_read_beats_cpu;
+    wire [31:0] preprocess_last_write_beats_cpu;
+    wire [31:0] preprocess_start_count_cpu;
+    wire [31:0] preprocess_complete_count_cpu;
+    wire [31:0] preprocess_error_count_cpu;
 
     wire [31:0] manager_status_cpu;
     wire [CHANNELS*32-1:0] writer_frame_counts_cpu;
@@ -127,6 +234,49 @@ module multi_channel_ddr_video_pipeline #(
         .cfg_display_channel(cfg_display_channel),
         .cfg_display_mode(cfg_display_mode),
         .cfg_hdmi_capture_enable(cfg_hdmi_capture_enable),
+        .ai_snapshot_req_toggle(ai_snapshot_req_toggle_cpu),
+        .ai_release_req_toggle(ai_release_req_toggle_cpu),
+        .ai_release_mask(ai_release_mask_cpu),
+        .ai_meta_req_toggle(ai_meta_req_toggle_cpu),
+        .ai_meta_index(ai_meta_index_cpu),
+        .ai_snapshot_ack_toggle(ai_snapshot_ack_toggle_cpu),
+        .ai_release_ack_toggle(ai_release_ack_toggle_cpu),
+        .ai_meta_ack_toggle(ai_meta_ack_toggle_cpu),
+        .ai_snapshot_active(ai_snapshot_active_cpu),
+        .ai_snapshot_valid_mask(ai_snapshot_valid_mask_cpu),
+        .ai_snapshot_fresh_mask(ai_snapshot_fresh_mask_cpu),
+        .ai_held_mask(ai_held_mask_cpu),
+        .ai_meta_addr(ai_meta_addr_cpu),
+        .ai_meta_frame_id(ai_meta_frame_id_cpu),
+        .ai_meta_timestamp(ai_meta_timestamp_cpu),
+        .ai_meta_version(ai_meta_version_cpu),
+        .ai_snapshot_batch_id(ai_snapshot_batch_id_cpu),
+        .ai_snapshot_count(ai_snapshot_count_cpu),
+        .ai_release_count(ai_release_count_cpu),
+        .ai_error_count(ai_error_count_cpu),
+        .preprocess_start_req_toggle(preprocess_start_req_toggle_cpu),
+        .preprocess_recycle_req_toggle(preprocess_recycle_req_toggle_cpu),
+        .preprocess_recycle_mask(preprocess_recycle_mask_cpu),
+        .preprocess_start_ack_toggle(preprocess_start_ack_toggle_cpu),
+        .preprocess_recycle_ack_toggle(preprocess_recycle_ack_toggle_cpu),
+        .preprocess_busy(preprocess_busy_cpu),
+        .preprocess_ready_mask(preprocess_ready_mask_cpu),
+        .preprocess_active_arena(preprocess_active_arena_cpu),
+        .preprocess_active_channel(preprocess_active_channel_cpu),
+        .preprocess_completed_channels(preprocess_completed_channels_cpu),
+        .preprocess_active_tensor_base(preprocess_active_tensor_base_cpu),
+        .preprocess_arena0_batch_id(preprocess_arena0_batch_id_cpu),
+        .preprocess_arena1_batch_id(preprocess_arena1_batch_id_cpu),
+        .preprocess_arena0_valid_mask(preprocess_arena0_valid_mask_cpu),
+        .preprocess_arena1_valid_mask(preprocess_arena1_valid_mask_cpu),
+        .preprocess_arena0_fresh_mask(preprocess_arena0_fresh_mask_cpu),
+        .preprocess_arena1_fresh_mask(preprocess_arena1_fresh_mask_cpu),
+        .preprocess_last_batch_cycles(preprocess_last_batch_cycles_cpu),
+        .preprocess_last_read_beats(preprocess_last_read_beats_cpu),
+        .preprocess_last_write_beats(preprocess_last_write_beats_cpu),
+        .preprocess_start_count(preprocess_start_count_cpu),
+        .preprocess_complete_count(preprocess_complete_count_cpu),
+        .preprocess_error_count(preprocess_error_count_cpu),
         .cfg_ack_toggle(cfg_ack_toggle),
         .manager_status(manager_status_cpu),
         .writer_frame_counts(writer_frame_counts_cpu),
@@ -157,6 +307,269 @@ module multi_channel_ddr_video_pipeline #(
     ) u_hdmi_enable_cdc (
         .src_clk(control_axil.aclk), .src_in(cfg_hdmi_capture_enable),
         .dest_clk(ddr_ui_clk), .dest_out(hdmi_capture_enable_ddr)
+    );
+
+    xpm_cdc_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1)
+    ) u_ai_snapshot_req_cdc (
+        .src_clk(control_axil.aclk), .src_in(ai_snapshot_req_toggle_cpu),
+        .dest_clk(ddr_ui_clk), .dest_out(ai_snapshot_req_toggle_ddr)
+    );
+
+    xpm_cdc_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1)
+    ) u_ai_snapshot_ack_cdc (
+        .src_clk(ddr_ui_clk), .src_in(ai_snapshot_ack_toggle_ddr),
+        .dest_clk(control_axil.aclk), .dest_out(ai_snapshot_ack_toggle_cpu)
+    );
+
+    xpm_cdc_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1)
+    ) u_ai_release_req_cdc (
+        .src_clk(control_axil.aclk), .src_in(ai_release_req_toggle_cpu),
+        .dest_clk(ddr_ui_clk), .dest_out(ai_release_req_toggle_ddr)
+    );
+
+    xpm_cdc_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1)
+    ) u_ai_release_ack_cdc (
+        .src_clk(ddr_ui_clk), .src_in(ai_release_ack_toggle_ddr),
+        .dest_clk(control_axil.aclk), .dest_out(ai_release_ack_toggle_cpu)
+    );
+
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(CHANNELS)
+    ) u_ai_release_mask_cdc (
+        .src_clk(control_axil.aclk), .src_in(ai_release_mask_cpu),
+        .dest_clk(ddr_ui_clk), .dest_out(ai_release_mask_ddr)
+    );
+
+    xpm_cdc_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1)
+    ) u_ai_meta_req_cdc (
+        .src_clk(control_axil.aclk), .src_in(ai_meta_req_toggle_cpu),
+        .dest_clk(ddr_ui_clk), .dest_out(ai_meta_req_toggle_ddr)
+    );
+
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(CHANNEL_WIDTH)
+    ) u_ai_meta_index_cdc (
+        .src_clk(control_axil.aclk), .src_in(ai_meta_index_cpu),
+        .dest_clk(ddr_ui_clk), .dest_out(ai_meta_index_ddr)
+    );
+
+    // Indexed metadata mailbox: only one 192-bit entry crosses clock domains,
+    // instead of a timing-heavy 3072-bit copy of the complete Snapshot table.
+    always @(posedge ddr_ui_clk) begin
+        if (!ddr_resetn || !init_done) begin
+            ai_meta_ack_toggle_ddr <= 1'b0;
+            ai_meta_req_seen_ddr <= 1'b0;
+            ai_meta_select_pending_ddr <= 1'b0;
+            ai_meta_ack_pending_ddr <= 1'b0;
+            ai_meta_addr_ddr <= 32'd0;
+            ai_meta_frame_id_ddr <= 64'd0;
+            ai_meta_timestamp_ddr <= 64'd0;
+            ai_meta_version_ddr <= 32'd0;
+        end else begin
+            if (ai_meta_ack_pending_ddr) begin
+                ai_meta_ack_toggle_ddr <= ai_meta_req_seen_ddr;
+                ai_meta_ack_pending_ddr <= 1'b0;
+            end
+            if (ai_meta_select_pending_ddr) begin
+                ai_meta_addr_ddr <= ai_snapshot_addrs_ddr[
+                    ai_meta_index_ddr*32 +: 32];
+                ai_meta_frame_id_ddr <= ai_snapshot_frame_ids_ddr[
+                    ai_meta_index_ddr*64 +: 64];
+                ai_meta_timestamp_ddr <= ai_snapshot_timestamps_ddr[
+                    ai_meta_index_ddr*64 +: 64];
+                ai_meta_version_ddr <= ai_snapshot_versions_ddr[
+                    ai_meta_index_ddr*32 +: 32];
+                ai_meta_select_pending_ddr <= 1'b0;
+                ai_meta_ack_pending_ddr <= 1'b1;
+            end
+            if ((ai_meta_req_toggle_ddr != ai_meta_req_seen_ddr) &&
+                !ai_meta_select_pending_ddr && !ai_meta_ack_pending_ddr) begin
+                ai_meta_req_seen_ddr <= ai_meta_req_toggle_ddr;
+                ai_meta_select_pending_ddr <= 1'b1;
+            end
+        end
+    end
+
+    xpm_cdc_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1)
+    ) u_ai_meta_ack_cdc (
+        .src_clk(ddr_ui_clk), .src_in(ai_meta_ack_toggle_ddr),
+        .dest_clk(control_axil.aclk), .dest_out(ai_meta_ack_toggle_cpu)
+    );
+
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(192)
+    ) u_ai_meta_payload_cdc (
+        .src_clk(ddr_ui_clk),
+        .src_in({ai_meta_version_ddr, ai_meta_timestamp_ddr,
+                 ai_meta_frame_id_ddr, ai_meta_addr_ddr}),
+        .dest_clk(control_axil.aclk),
+        .dest_out({ai_meta_version_cpu, ai_meta_timestamp_cpu,
+                   ai_meta_frame_id_cpu, ai_meta_addr_cpu})
+    );
+
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(209)
+    ) u_ai_snapshot_status_cdc (
+        .src_clk(ddr_ui_clk),
+        .src_in({ai_error_count_ddr, ai_release_count_ddr,
+                 ai_snapshot_count_ddr, ai_snapshot_batch_id_ddr,
+                 ai_held_mask_ddr, ai_snapshot_fresh_mask_ddr,
+                 ai_snapshot_valid_mask_ddr, ai_snapshot_active_ddr}),
+        .dest_clk(control_axil.aclk),
+        .dest_out({ai_error_count_cpu, ai_release_count_cpu,
+                   ai_snapshot_count_cpu, ai_snapshot_batch_id_cpu,
+                   ai_held_mask_cpu, ai_snapshot_fresh_mask_cpu,
+                   ai_snapshot_valid_mask_cpu, ai_snapshot_active_cpu})
+    );
+
+    xpm_cdc_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1)
+    ) u_preprocess_start_req_cdc (
+        .src_clk(control_axil.aclk),
+        .src_in(preprocess_start_req_toggle_cpu),
+        .dest_clk(ddr_ui_clk), .dest_out(preprocess_start_req_toggle_ddr)
+    );
+
+    xpm_cdc_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1)
+    ) u_preprocess_start_ack_cdc (
+        .src_clk(ddr_ui_clk), .src_in(preprocess_start_ack_toggle_ddr),
+        .dest_clk(control_axil.aclk),
+        .dest_out(preprocess_start_ack_toggle_cpu)
+    );
+
+    xpm_cdc_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1)
+    ) u_preprocess_recycle_req_cdc (
+        .src_clk(control_axil.aclk),
+        .src_in(preprocess_recycle_req_toggle_cpu),
+        .dest_clk(ddr_ui_clk), .dest_out(preprocess_recycle_req_toggle_ddr)
+    );
+
+    xpm_cdc_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1)
+    ) u_preprocess_recycle_ack_cdc (
+        .src_clk(ddr_ui_clk), .src_in(preprocess_recycle_ack_toggle_ddr),
+        .dest_clk(control_axil.aclk),
+        .dest_out(preprocess_recycle_ack_toggle_cpu)
+    );
+
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(2)
+    ) u_preprocess_recycle_mask_cdc (
+        .src_clk(control_axil.aclk),
+        .src_in(preprocess_recycle_mask_cpu),
+        .dest_clk(ddr_ui_clk), .dest_out(preprocess_recycle_mask_ddr)
+    );
+
+    assign preprocess_start_ack_toggle_ddr = preprocess_start_ack_reg_ddr;
+    assign preprocess_recycle_ack_toggle_ddr =
+        preprocess_recycle_ack_reg_ddr;
+
+    always @(posedge ddr_ui_clk) begin
+        if (!ddr_resetn || !init_done) begin
+            preprocess_start_seen_ddr <= 1'b0;
+            preprocess_recycle_seen_ddr <= 1'b0;
+            preprocess_start_pulse_ddr <= 1'b0;
+            preprocess_recycle_pulse_ddr <= 1'b0;
+            preprocess_start_ack_reg_ddr <= 1'b0;
+            preprocess_recycle_ack_reg_ddr <= 1'b0;
+            preprocess_start_pending_ddr <= 1'b0;
+            preprocess_recycle_pending_ddr <= 1'b0;
+        end else begin
+            preprocess_start_pulse_ddr <= 1'b0;
+            preprocess_recycle_pulse_ddr <= 1'b0;
+            if (preprocess_start_req_toggle_ddr !=
+                preprocess_start_seen_ddr) begin
+                preprocess_start_seen_ddr <= preprocess_start_req_toggle_ddr;
+                preprocess_start_pulse_ddr <= 1'b1;
+                preprocess_start_pending_ddr <= 1'b1;
+            end
+            if (preprocess_recycle_req_toggle_ddr !=
+                preprocess_recycle_seen_ddr) begin
+                preprocess_recycle_seen_ddr <=
+                    preprocess_recycle_req_toggle_ddr;
+                preprocess_recycle_pulse_ddr <= 1'b1;
+                preprocess_recycle_pending_ddr <= 1'b1;
+            end
+            if (preprocess_command_done_ddr) begin
+                if (preprocess_start_pending_ddr) begin
+                    preprocess_start_ack_reg_ddr <=
+                        preprocess_start_seen_ddr;
+                    preprocess_start_pending_ddr <= 1'b0;
+                end
+                if (preprocess_recycle_pending_ddr) begin
+                    preprocess_recycle_ack_reg_ddr <=
+                        preprocess_recycle_seen_ddr;
+                    preprocess_recycle_pending_ddr <= 1'b0;
+                end
+            end
+        end
+    end
+
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(366 + 4*CHANNELS)
+    ) u_preprocess_status_cdc (
+        .src_clk(ddr_ui_clk),
+        .src_in({preprocess_error_count_ddr,
+                 preprocess_complete_count_ddr,
+                 preprocess_start_count_ddr,
+                 preprocess_last_write_beats_ddr,
+                 preprocess_last_read_beats_ddr,
+                 preprocess_last_batch_cycles_ddr,
+                 preprocess_arena1_batch_id_ddr,
+                 preprocess_arena0_batch_id_ddr,
+                 preprocess_arena1_fresh_mask_ddr,
+                 preprocess_arena0_fresh_mask_ddr,
+                 preprocess_arena1_valid_mask_ddr,
+                 preprocess_arena0_valid_mask_ddr,
+                 preprocess_active_tensor_base_ddr,
+                 preprocess_completed_channels_ddr,
+                 preprocess_active_channel_ddr,
+                 preprocess_active_arena_ddr,
+                 preprocess_ready_mask_ddr,
+                 preprocess_busy_ddr}),
+        .dest_clk(control_axil.aclk),
+        .dest_out({preprocess_error_count_cpu,
+                   preprocess_complete_count_cpu,
+                   preprocess_start_count_cpu,
+                   preprocess_last_write_beats_cpu,
+                   preprocess_last_read_beats_cpu,
+                   preprocess_last_batch_cycles_cpu,
+                   preprocess_arena1_batch_id_cpu,
+                   preprocess_arena0_batch_id_cpu,
+                   preprocess_arena1_fresh_mask_cpu,
+                   preprocess_arena0_fresh_mask_cpu,
+                   preprocess_arena1_valid_mask_cpu,
+                   preprocess_arena0_valid_mask_cpu,
+                   preprocess_active_tensor_base_cpu,
+                   preprocess_completed_channels_cpu,
+                   preprocess_active_channel_cpu,
+                   preprocess_active_arena_cpu,
+                   preprocess_ready_mask_cpu,
+                   preprocess_busy_cpu})
     );
 
     // XPM CDC arrays are limited to 1024 bits.  Keep the 16-channel counter
@@ -262,6 +675,23 @@ module multi_channel_ddr_video_pipeline #(
         .reader_bases(reader_bases),
         .reader_valid_mask(reader_valid_mask), .reader_mode(reader_mode),
         .reader_underflow(reader_underflow),
+        .ai_snapshot_req_toggle(ai_snapshot_req_toggle_ddr),
+        .ai_snapshot_ack_toggle(ai_snapshot_ack_toggle_ddr),
+        .ai_release_req_toggle(ai_release_req_toggle_ddr),
+        .ai_release_ack_toggle(ai_release_ack_toggle_ddr),
+        .ai_release_mask(ai_release_mask_ddr),
+        .ai_snapshot_active(ai_snapshot_active_ddr),
+        .ai_snapshot_valid_mask(ai_snapshot_valid_mask_ddr),
+        .ai_snapshot_fresh_mask(ai_snapshot_fresh_mask_ddr),
+        .ai_held_mask(ai_held_mask_ddr),
+        .ai_snapshot_addrs(ai_snapshot_addrs_ddr),
+        .ai_snapshot_frame_ids(ai_snapshot_frame_ids_ddr),
+        .ai_snapshot_timestamps(ai_snapshot_timestamps_ddr),
+        .ai_snapshot_versions(ai_snapshot_versions_ddr),
+        .ai_snapshot_batch_id(ai_snapshot_batch_id_ddr),
+        .ai_snapshot_count(ai_snapshot_count_ddr),
+        .ai_release_count(ai_release_count_ddr),
+        .ai_error_count(ai_error_count_ddr),
         .active_width(active_width), .active_height(active_height),
         .active_stride_bytes(active_stride_bytes),
         .writer_frame_counts(writer_frame_counts),
@@ -294,6 +724,48 @@ module multi_channel_ddr_video_pipeline #(
         .perf_response_errors(writer_perf_response_errors)
     );
 
+    batch_preprocess_engine #(
+        .CHANNELS(CHANNELS),
+        .SRC_WIDTH(FRAME_WIDTH), .SRC_HEIGHT(FRAME_HEIGHT),
+        .SRC_STRIDE_BYTES(FRAME_STRIDE_BYTES),
+        .DST_WIDTH(416), .DST_HEIGHT(416),
+        .MEMBER_BYTES(32'h0007_ec00),
+        .ARENA0_BASE(32'h3000_0000),
+        .ARENA1_BASE(32'h3080_0000)
+    ) u_batch_preprocess (
+        .clk(ddr_ui_clk), .resetn(ddr_resetn && init_done),
+        .start(preprocess_start_pulse_ddr),
+        .snapshot_active(ai_snapshot_active_ddr),
+        .snapshot_valid_mask(ai_snapshot_valid_mask_ddr),
+        .snapshot_fresh_mask(ai_snapshot_fresh_mask_ddr),
+        .snapshot_addrs(ai_snapshot_addrs_ddr),
+        .snapshot_batch_id(ai_snapshot_batch_id_ddr),
+        .recycle(preprocess_recycle_pulse_ddr),
+        .recycle_mask(preprocess_recycle_mask_ddr),
+        .command_done(preprocess_command_done_ddr),
+        .command_error(preprocess_command_error_ddr),
+        .busy(preprocess_busy_ddr),
+        .ready_mask(preprocess_ready_mask_ddr),
+        .active_arena(preprocess_active_arena_ddr),
+        .active_channel(preprocess_active_channel_ddr),
+        .completed_channels(preprocess_completed_channels_ddr),
+        .active_tensor_base(preprocess_active_tensor_base_ddr),
+        .arena0_batch_id(preprocess_arena0_batch_id_ddr),
+        .arena1_batch_id(preprocess_arena1_batch_id_ddr),
+        .arena0_valid_mask(preprocess_arena0_valid_mask_ddr),
+        .arena1_valid_mask(preprocess_arena1_valid_mask_ddr),
+        .arena0_fresh_mask(preprocess_arena0_fresh_mask_ddr),
+        .arena1_fresh_mask(preprocess_arena1_fresh_mask_ddr),
+        .batch_cycles(preprocess_batch_cycles_ddr),
+        .last_batch_cycles(preprocess_last_batch_cycles_ddr),
+        .last_read_beats(preprocess_last_read_beats_ddr),
+        .last_write_beats(preprocess_last_write_beats_ddr),
+        .start_count(preprocess_start_count_ddr),
+        .complete_count(preprocess_complete_count_ddr),
+        .error_count(preprocess_error_count_ddr),
+        .m_axi(preprocess_axi)
+    );
+
     display_reader_subsystem #(
         .CHANNELS(CHANNELS),
         .SOURCE_WIDTH(FRAME_WIDTH),
@@ -317,4 +789,6 @@ module multi_channel_ddr_video_pipeline #(
     );
 
     assign writer_error = |frame_error;
+    wire unused_preprocess_command = &{1'b0, preprocess_command_done_ddr,
+        preprocess_command_error_ddr, preprocess_batch_cycles_ddr};
 endmodule
