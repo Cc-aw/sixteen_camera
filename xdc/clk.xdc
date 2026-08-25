@@ -80,6 +80,35 @@ set_false_path -to [get_pins -hierarchical -filter \
      NAME =~ *dvp_vsync_iob_reg/D || \
      NAME =~ *dvp_pclk_iob_reg/D}]
 
+# The eight FMC camera inputs sit in two SLRs.  USER_SLR_ASSIGNMENT applies
+# only to hierarchical cells and is ignored on these leaf registers, so use
+# leaf-capable pblocks for the short, aligned crossing pipeline:
+#   CH1..4: IOB(SLR3) -> sync(SLR3) -> pipe(SLR2) -> recovery(SLR1)
+#   CH5..8: IOB(SLR2) -> sync(SLR2) -> pipe(SLR1) -> recovery(SLR1)
+# Guide the placer toward a local metastability-catching aperture and at most
+# one following SLR hop, while leaving it free to violate the regions when a
+# hard assignment would degrade overall timing.
+create_pblock pblock_dvp_sync_slr3
+resize_pblock [get_pblocks pblock_dvp_sync_slr3] -add SLR3
+set_property IS_SOFT true [get_pblocks pblock_dvp_sync_slr3]
+add_cells_to_pblock [get_pblocks pblock_dvp_sync_slr3] \
+    [get_cells -hierarchical -regexp \
+        {.*g_camera_frontend\[[0-3]\]\.u_camera/dvp_(data|href|vsync|pclk)_sync_reg.*}]
+
+create_pblock pblock_dvp_bridge_slr2
+resize_pblock [get_pblocks pblock_dvp_bridge_slr2] -add SLR2
+set_property IS_SOFT true [get_pblocks pblock_dvp_bridge_slr2]
+add_cells_to_pblock [get_pblocks pblock_dvp_bridge_slr2] \
+    [get_cells -hierarchical -regexp \
+        {.*g_camera_frontend\[[0-3]\]\.u_camera/dvp_(data|href|vsync|pclk)_pipe_reg.*|.*g_camera_frontend\[[4-7]\]\.u_camera/dvp_(data|href|vsync|pclk)_sync_reg.*}]
+
+create_pblock pblock_dvp_pipe_slr1
+resize_pblock [get_pblocks pblock_dvp_pipe_slr1] -add SLR1
+set_property IS_SOFT true [get_pblocks pblock_dvp_pipe_slr1]
+add_cells_to_pblock [get_pblocks pblock_dvp_pipe_slr1] \
+    [get_cells -hierarchical -regexp \
+        {.*g_camera_frontend\[[4-7]\]\.u_camera/dvp_(data|href|vsync|pclk)_pipe_reg.*}]
+
 # The raw DVP and output-pad probes are sampled through explicit two-stage
 # synchronizers in the 100 MHz diagnostic domain.  Time only the second stage;
 # the asynchronous source-to-first-stage arcs are CDC paths by construction.
@@ -124,11 +153,19 @@ set_false_path -to [get_pins -hierarchical -filter \
     {NAME =~ */u_video_framebuffer/u_manager/cfg_sync_1_reg/D}]
 set_false_path -to [get_pins -hierarchical -filter \
     {NAME =~ */u_video_framebuffer/u_manager/select_sync_1_reg*/D}]
-set_max_delay -datapath_only 10.000 \
-    -from [get_cells -hierarchical -filter \
-        {NAME =~ */u_video_framebuffer/u_control/cfg_*_reg*}] \
-    -to [get_cells -hierarchical -filter \
-        {NAME =~ */u_video_framebuffer/u_manager/*}]
+# Constrain only the bundled configuration payload flops.  The former
+# cell-to-cell wildcard covered essentially the complete frame manager,
+# including ordinary 300 MHz state and AI snapshot registers.  Besides
+# producing invalid-endpoint warnings, that broad exception prevented useful
+# replication/retiming on the actual critical paths.
+set_false_path \
+    -to [get_pins -hierarchical -filter \
+        {NAME =~ */u_video_framebuffer/u_manager/active_width_reg*/D || \
+         NAME =~ */u_video_framebuffer/u_manager/active_height_reg*/D || \
+         NAME =~ */u_video_framebuffer/u_manager/active_stride_bytes_reg*/D || \
+         NAME =~ */u_video_framebuffer/u_manager/active_buffer_count_reg*/D || \
+         NAME =~ */u_video_framebuffer/u_manager/active_slot_mask_reg*/D || \
+         NAME =~ */u_video_framebuffer/u_manager/active_slot_bases_reg*/D}]
 
 # OV7670 controller diagnostics are asynchronous snapshots transferred by
 # u_ctrl_diag_cdc into the AXI-Lite clock domain. Physical optimization may

@@ -746,6 +746,15 @@ module ov7670_frontend #(
     reg       dvp_vsync_sync = 1'b0;
     (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
     reg dvp_pclk_sync = 1'b0;
+    // The FMC pins and the recovery logic occupy adjacent SLRs.  Keep the
+    // metastability-catching stage beside the IOB (constrained in clk.xdc),
+    // then cross the already-synchronous, fully aligned bus through this
+    // ordinary pipeline stage.  This avoids using an inter-SLR route as the
+    // actual asynchronous sampling aperture.
+    reg [7:0] dvp_data_pipe = 8'd0;
+    reg       dvp_href_pipe = 1'b0;
+    reg       dvp_vsync_pipe = 1'b0;
+    reg       dvp_pclk_pipe = 1'b0;
 
     wire pixel_ce;
     wire [7:0] recovered_data;
@@ -1473,6 +1482,10 @@ module ov7670_frontend #(
             dvp_href_sync <= 1'b0;
             dvp_vsync_sync <= 1'b0;
             dvp_pclk_sync <= 1'b0;
+            dvp_data_pipe <= 8'd0;
+            dvp_href_pipe <= 1'b0;
+            dvp_vsync_pipe <= 1'b0;
+            dvp_pclk_pipe <= 1'b0;
         end else begin
             capture_enable_sync1 <= hw_capture_enable;
             capture_enable_sync2 <= capture_enable_sync1;
@@ -1482,6 +1495,10 @@ module ov7670_frontend #(
             dvp_href_sync <= dvp_href_iob;
             dvp_vsync_sync <= dvp_vsync_iob;
             dvp_pclk_sync <= dvp_pclk_iob;
+            dvp_data_pipe <= dvp_data_sync;
+            dvp_href_pipe <= dvp_href_sync;
+            dvp_vsync_pipe <= dvp_vsync_sync;
+            dvp_pclk_pipe <= dvp_pclk_sync;
         end
     end
 
@@ -1521,8 +1538,8 @@ module ov7670_frontend #(
         .clk_300m(video_clk), .resetn(capture_resetn),
         .diag_clear(diag_clear_video),
         .frame_boundary(pixel_ce && vsync_qualified && !diag_vsync_d),
-        .pclk_sample(dvp_pclk_sync), .data_sample(dvp_data_sync),
-        .href_sample(dvp_href_sync), .vsync_sample(dvp_vsync_sync),
+        .pclk_sample(dvp_pclk_pipe), .data_sample(dvp_data_pipe),
+        .href_sample(dvp_href_pipe), .vsync_sample(dvp_vsync_pipe),
         .data_sample_offset(recovery_sample_offset_video),
         .pixel_ce(pixel_ce), .pixel_data(recovered_data),
         .pixel_href(recovered_href), .pixel_vsync(recovered_vsync),

@@ -223,10 +223,11 @@ module multi_channel_frame_manager #(
             ai_snapshot_valid_mask <= {CHANNELS{1'b0}};
             ai_snapshot_fresh_mask <= {CHANNELS{1'b0}};
             ai_held_mask <= {CHANNELS{1'b0}};
-            ai_snapshot_addrs <= {CHANNELS*32{1'b0}};
-            ai_snapshot_frame_ids <= {CHANNELS*64{1'b0}};
-            ai_snapshot_timestamps <= {CHANNELS*64{1'b0}};
-            ai_snapshot_versions <= {CHANNELS*32{1'b0}};
+            // Snapshot payload is qualified exclusively by valid_mask and is
+            // overwritten atomically on every accepted request.  Do not add
+            // a synchronous clear to these 3072 payload bits: combining the
+            // global reset/config grant with every payload register creates
+            // a multi-SLR, several-thousand-load reset cone at 300 MHz.
             ai_snapshot_batch_id <= 64'd0;
             ai_snapshot_count <= 32'd0;
             ai_release_count <= 32'd0;

@@ -368,7 +368,7 @@ module multi_channel_ddr_video_pipeline #(
     // Indexed metadata mailbox: only one 192-bit entry crosses clock domains,
     // instead of a timing-heavy 3072-bit copy of the complete Snapshot table.
     always @(posedge ddr_ui_clk) begin
-        if (!ddr_resetn || !init_done) begin
+        if (!ddr_resetn) begin
             ai_meta_ack_toggle_ddr <= 1'b0;
             ai_meta_req_seen_ddr <= 1'b0;
             ai_meta_select_pending_ddr <= 1'b0;
@@ -488,7 +488,7 @@ module multi_channel_ddr_video_pipeline #(
         preprocess_recycle_ack_reg_ddr;
 
     always @(posedge ddr_ui_clk) begin
-        if (!ddr_resetn || !init_done) begin
+        if (!ddr_resetn) begin
             preprocess_start_seen_ddr <= 1'b0;
             preprocess_recycle_seen_ddr <= 1'b0;
             preprocess_start_pulse_ddr <= 1'b0;
@@ -655,7 +655,7 @@ module multi_channel_ddr_video_pipeline #(
     multi_channel_frame_manager #(
         .CHANNELS(CHANNELS)
     ) u_manager (
-        .ui_clk(ddr_ui_clk), .ui_resetn(ddr_resetn && init_done),
+        .ui_clk(ddr_ui_clk), .ui_resetn(ddr_resetn),
         .cfg_request_toggle(cfg_request_toggle),
         .cfg_ack_toggle(cfg_ack_toggle),
         .cfg_enable(cfg_enable),
@@ -733,7 +733,7 @@ module multi_channel_ddr_video_pipeline #(
         .ARENA0_BASE(32'h3000_0000),
         .ARENA1_BASE(32'h3080_0000)
     ) u_batch_preprocess (
-        .clk(ddr_ui_clk), .resetn(ddr_resetn && init_done),
+        .clk(ddr_ui_clk), .resetn(ddr_resetn),
         .start(preprocess_start_pulse_ddr),
         .snapshot_active(ai_snapshot_active_ddr),
         .snapshot_valid_mask(ai_snapshot_valid_mask_ddr),
@@ -775,7 +775,7 @@ module multi_channel_ddr_video_pipeline #(
         .READ_OUTSTANDING(READ_OUTSTANDING),
         .READ_DESCRIPTOR_DEPTH(READ_DESCRIPTOR_DEPTH)
     ) u_reader (
-        .clk(ddr_ui_clk), .resetn(ddr_resetn && init_done),
+        .clk(ddr_ui_clk), .resetn(ddr_resetn),
         .buffer_acquire(reader_acquire), .buffer_grant(reader_grant),
         .buffer_base(reader_base), .buffer_bases(reader_bases),
         .buffer_valid_mask(reader_valid_mask), .buffer_mode(reader_mode),

@@ -60,6 +60,23 @@ module camera_axis_cdc #(
     reg diag_clear_seen;
     wire diag_clear = (diag_clear_sync2 != diag_clear_seen);
 
+    // Register the complete camera event before the RGB pair packer.  The
+    // recovered pixel_ce in the OV7670 frontend used to feed the packer's
+    // payload, control and wide CE cones directly at 300 MHz.  Keeping the
+    // event together here both preserves byte/control alignment and gives
+    // implementation a local timing boundary before the asynchronous FIFO.
+    reg        input_valid_q;
+    reg [23:0] input_data_q;
+    reg        input_frame_start_q;
+    reg        input_line_last_q;
+    reg        input_line_end_q;
+    // Isolate the wide packer control set from the channel-wide reset and
+    // XPM busy nets.  Payload is ignored while this local run qualifier is
+    // low, so two independent copies keep fanout and placement local without
+    // changing the accepted pixel sequence.
+    (* MAX_FANOUT = 16 *) reg input_run_q = 1'b0;
+    (* MAX_FANOUT = 16 *) reg packer_run_q = 1'b0;
+
     initial begin
         if ((FRAME_WIDTH & 1) != 0)
             $error("camera_axis_cdc requires an even FRAME_WIDTH");
@@ -75,36 +92,63 @@ module camera_axis_cdc #(
             ddr_resetn_cam_sync <= {ddr_resetn_cam_sync[1:0], 1'b1};
     end
 
+    always @(posedge camera_clk or negedge camera_resetn) begin
+        if (!camera_resetn) begin
+            input_run_q <= 1'b0;
+            packer_run_q <= 1'b0;
+        end else begin
+            input_run_q <= !fifo_reset && !fifo_wr_rst_busy;
+            packer_run_q <= !fifo_reset && !fifo_wr_rst_busy;
+        end
+    end
+
     always @(posedge camera_clk) begin
-        if (!camera_resetn || fifo_reset || fifo_wr_rst_busy) begin
-            first_pixel <= 24'd0;
+        if (!input_run_q) begin
+            input_valid_q <= 1'b0;
+            input_frame_start_q <= 1'b0;
+            input_line_last_q <= 1'b0;
+            input_line_end_q <= 1'b0;
+        end else begin
+            // The physical sensor cannot be stalled.  Match the previous
+            // behavior by dropping an event when pixel_ready is low, while
+            // retaining the independent line-end recovery pulse.
+            input_valid_q <= pixel_valid && pixel_ready;
+            input_frame_start_q <= frame_start;
+            input_line_last_q <= line_last;
+            input_line_end_q <= line_end;
+            if (pixel_valid && pixel_ready)
+                input_data_q <= pixel_data;
+        end
+    end
+
+    always @(posedge camera_clk) begin
+        if (!packer_run_q) begin
             first_user <= 1'b0;
             have_first <= 1'b0;
             pixel_x <= {X_WIDTH{1'b0}};
-            fifo_din <= 50'd0;
             fifo_wr_en <= 1'b0;
         end else begin
             fifo_wr_en <= 1'b0;
-            if (line_end) begin
+            if (input_line_end_q) begin
                 // Never carry an orphan pixel or a short-line position into
                 // the next physical HREF interval.
                 have_first <= 1'b0;
                 first_user <= 1'b0;
                 pixel_x <= {X_WIDTH{1'b0}};
-            end else if (pixel_valid && pixel_ready) begin
-                if (frame_start) begin
-                    first_pixel <= pixel_data;
+            end else if (input_valid_q) begin
+                if (input_frame_start_q) begin
+                    first_pixel <= input_data_q;
                     first_user <= 1'b1;
                     have_first <= 1'b1;
                     pixel_x <= {{(X_WIDTH-1){1'b0}}, 1'b1};
                 end else begin
                     if (!have_first) begin
-                        first_pixel <= pixel_data;
+                        first_pixel <= input_data_q;
                         first_user <= 1'b0;
                         have_first <= 1'b1;
                     end else begin
-                        fifo_din <= {line_last, first_user,
-                                     pixel_data, first_pixel};
+                        fifo_din <= {input_line_last_q, first_user,
+                                     input_data_q, first_pixel};
                         fifo_wr_en <= !fifo_full && !fifo_wr_rst_busy;
                         have_first <= 1'b0;
                         first_user <= 1'b0;

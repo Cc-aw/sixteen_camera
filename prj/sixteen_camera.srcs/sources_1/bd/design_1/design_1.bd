@@ -25,7 +25,9 @@
         "s02_couplers": {
           "auto_us": ""
         },
-        "m00_couplers": {}
+        "m00_couplers": {
+          "m00_regslice": ""
+        }
       }
     },
     "interface_ports": {
@@ -1363,6 +1365,9 @@
           "ENABLE_ADVANCED_OPTIONS": {
             "value": "1"
           },
+          "M00_HAS_REGSLICE": {
+            "value": "1"
+          },
           "NUM_MI": {
             "value": "1"
           },
@@ -1923,11 +1928,49 @@
                 "direction": "I"
               }
             },
+            "components": {
+              "m00_regslice": {
+                "vlnv": "xilinx.com:ip:axi_register_slice:2.1",
+                "ip_revision": "29",
+                "xci_name": "design_1_m00_regslice_0",
+                "xci_path": "ip/design_1_m00_regslice_0/design_1_m00_regslice_0.xci",
+                "inst_hier_path": "axi_interconnect_0/m00_couplers/m00_regslice",
+                "interface_ports": {
+                  "S_AXI": {
+                    "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+                    "mode": "Slave",
+                    "bridges": [
+                      "M_AXI"
+                    ]
+                  }
+                }
+              }
+            },
             "interface_nets": {
-              "m00_couplers_to_m00_couplers": {
+              "m00_couplers_to_m00_regslice": {
                 "interface_ports": [
                   "S_AXI",
+                  "m00_regslice/S_AXI"
+                ]
+              },
+              "m00_regslice_to_m00_couplers": {
+                "interface_ports": [
+                  "m00_regslice/M_AXI",
                   "M_AXI"
+                ]
+              }
+            },
+            "nets": {
+              "M_ACLK_1": {
+                "ports": [
+                  "M_ACLK",
+                  "m00_regslice/aclk"
+                ]
+              },
+              "M_ARESETN_1": {
+                "ports": [
+                  "M_ARESETN",
+                  "m00_regslice/aresetn"
                 ]
               }
             }

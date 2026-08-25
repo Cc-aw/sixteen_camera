@@ -336,6 +336,7 @@ proc create_root_design { parentCell } {
     CONFIG.ENABLE_ADVANCED_OPTIONS {1} \
     CONFIG.NUM_MI {1} \
     CONFIG.NUM_SI {3} \
+    CONFIG.M00_HAS_REGSLICE {1} \
     CONFIG.S01_ARB_PRIORITY {15} \
     CONFIG.S02_ARB_PRIORITY {14} \
   ] $axi_interconnect_0
@@ -379,5 +380,4 @@ proc create_root_design { parentCell } {
 ##################################################################
 
 create_root_design ""
-
 

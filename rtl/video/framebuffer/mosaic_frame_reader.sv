@@ -117,15 +117,43 @@ module mosaic_frame_reader #(
     reg display_bank;
     reg [9:0] output_x;
     reg [10:0] output_y;
+    reg [8:0] output_source_pair_q;
+    reg [3:0] output_source_phase_q;
     reg axis_valid_q;
     reg [47:0] axis_data_q;
     reg axis_user_q;
     reg axis_last_q;
     reg axis_frame_last_q;
 
+    // Local elastic source stage.  The line-RAM address/mux calculation used
+    // to drive the external AXIS register directly, producing a long path
+    // across the crowded DDR SLR.  This stage stays beside the line stores;
+    // the existing axis_* registers become the second elastic stage.
+    reg source_valid_q;
+    reg [47:0] source_data_q;
+    reg source_user_q;
+    reg source_last_q;
+    reg source_frame_last_q;
+
+    // Address/selection stage ahead of the distributed line memories.  The
+    // 16/9 coordinate conversion and tile decode are intentionally separated
+    // from the RAM read and 8:1 bank/tile mux; otherwise output_x traverses
+    // both in one 300 MHz cycle.
+    reg request_valid_q;
+    reg request_bank_q;
+    reg [1:0] request_tile_q;
+    reg [6:0] request_addr_q;
+    reg [1:0] request_pair_q;
+    reg request_source_valid_q;
+    reg request_user_q;
+    reg request_last_q;
+    reg request_frame_last_q;
+
     wire axis_pipeline_ready = !axis_valid_q || m_axis.tready;
     wire axis_fire = axis_valid_q && m_axis.tready;
-    wire source_fire = output_active && axis_pipeline_ready;
+    wire source_pipeline_ready = !source_valid_q || axis_pipeline_ready;
+    wire request_pipeline_ready = !request_valid_q || source_pipeline_ready;
+    wire request_fire = output_active && request_pipeline_ready;
     wire [1:0] output_tile = (output_x < TILE_BEATS) ? 2'd0 :
                              (output_x < TILE_BEATS*2) ? 2'd1 :
                              (output_x < TILE_BEATS*3) ? 2'd2 : 2'd3;
@@ -137,9 +165,11 @@ module mosaic_frame_reader #(
                                        output_x - TILE_BEATS*3;
     wire output_image_valid = (output_tile_x >= PAD_BEATS) &&
                               (output_tile_x < PAD_BEATS + IMAGE_BEATS);
-    wire [8:0] output_source_pair = output_image_valid ?
-        ((output_tile_x - PAD_BEATS) * 16) / 9 : 9'd0;
-    wire [6:0] output_tile_addr = output_source_pair[8:2];
+    // Generate floor(image_x*16/9) incrementally.  Each image beat advances
+    // one source pair plus a 7/9 phase carry.  This removes the multiplier and
+    // divider from the 300 MHz output_x-to-line-memory-address path.
+    wire [8:0] output_source_pair = output_source_pair_q;
+    wire [6:0] output_tile_addr = output_source_pair_q[8:2];
     wire [3:0] output_channel =
         ((output_y < TILE_HEIGHT) ? 4'd0 :
          (output_y < TILE_HEIGHT*2) ? 4'd4 :
@@ -149,23 +179,23 @@ module mosaic_frame_reader #(
     reg [47:0] mosaic_pixels;
 
     always @* begin
-        case ({display_bank, output_tile})
-            3'b000: mosaic_pixels = line_b0_t0[output_tile_addr]
-                                      [output_source_pair[1:0]*48 +: 48];
-            3'b001: mosaic_pixels = line_b0_t1[output_tile_addr]
-                                      [output_source_pair[1:0]*48 +: 48];
-            3'b010: mosaic_pixels = line_b0_t2[output_tile_addr]
-                                      [output_source_pair[1:0]*48 +: 48];
-            3'b011: mosaic_pixels = line_b0_t3[output_tile_addr]
-                                      [output_source_pair[1:0]*48 +: 48];
-            3'b100: mosaic_pixels = line_b1_t0[output_tile_addr]
-                                      [output_source_pair[1:0]*48 +: 48];
-            3'b101: mosaic_pixels = line_b1_t1[output_tile_addr]
-                                      [output_source_pair[1:0]*48 +: 48];
-            3'b110: mosaic_pixels = line_b1_t2[output_tile_addr]
-                                      [output_source_pair[1:0]*48 +: 48];
-            default: mosaic_pixels = line_b1_t3[output_tile_addr]
-                                      [output_source_pair[1:0]*48 +: 48];
+        case ({request_bank_q, request_tile_q})
+            3'b000: mosaic_pixels = line_b0_t0[request_addr_q]
+                                      [request_pair_q*48 +: 48];
+            3'b001: mosaic_pixels = line_b0_t1[request_addr_q]
+                                      [request_pair_q*48 +: 48];
+            3'b010: mosaic_pixels = line_b0_t2[request_addr_q]
+                                      [request_pair_q*48 +: 48];
+            3'b011: mosaic_pixels = line_b0_t3[request_addr_q]
+                                      [request_pair_q*48 +: 48];
+            3'b100: mosaic_pixels = line_b1_t0[request_addr_q]
+                                      [request_pair_q*48 +: 48];
+            3'b101: mosaic_pixels = line_b1_t1[request_addr_q]
+                                      [request_pair_q*48 +: 48];
+            3'b110: mosaic_pixels = line_b1_t2[request_addr_q]
+                                      [request_pair_q*48 +: 48];
+            default: mosaic_pixels = line_b1_t3[request_addr_q]
+                                      [request_pair_q*48 +: 48];
         endcase
     end
 
@@ -366,11 +396,27 @@ module mosaic_frame_reader #(
             display_bank <= 1'b0;
             output_x <= 10'd0;
             output_y <= 11'd0;
+            output_source_pair_q <= 9'd0;
+            output_source_phase_q <= 4'd0;
             axis_valid_q <= 1'b0;
             axis_data_q <= 48'd0;
             axis_user_q <= 1'b0;
             axis_last_q <= 1'b0;
             axis_frame_last_q <= 1'b0;
+            source_valid_q <= 1'b0;
+            source_data_q <= 48'd0;
+            source_user_q <= 1'b0;
+            source_last_q <= 1'b0;
+            source_frame_last_q <= 1'b0;
+            request_valid_q <= 1'b0;
+            request_bank_q <= 1'b0;
+            request_tile_q <= 2'd0;
+            request_addr_q <= 7'd0;
+            request_pair_q <= 2'd0;
+            request_source_valid_q <= 1'b0;
+            request_user_q <= 1'b0;
+            request_last_q <= 1'b0;
+            request_frame_last_q <= 1'b0;
             buffer_done <= 1'b0;
             axi_error <= 1'b0;
             fifo_underflow <= 1'b0;
@@ -383,18 +429,52 @@ module mosaic_frame_reader #(
             fifo_underflow <= 1'b0;
 
             if (axis_pipeline_ready) begin
-                axis_valid_q <= output_active;
-                if (output_active) begin
-                    axis_data_q <= output_source_valid ? mosaic_pixels : 48'd0;
-                    axis_user_q <= (output_x == 0) && (output_y == 0);
-                    axis_last_q <= (output_x == OUTPUT_BEATS-1);
-                    axis_frame_last_q <=
-                        (output_x == OUTPUT_BEATS-1) &&
-                        (output_y == OUTPUT_HEIGHT-1);
+                axis_valid_q <= source_valid_q;
+                if (source_valid_q) begin
+                    axis_data_q <= source_data_q;
+                    axis_user_q <= source_user_q;
+                    axis_last_q <= source_last_q;
+                    axis_frame_last_q <= source_frame_last_q;
                 end else begin
                     axis_user_q <= 1'b0;
                     axis_last_q <= 1'b0;
                     axis_frame_last_q <= 1'b0;
+                end
+            end
+
+            if (source_pipeline_ready) begin
+                source_valid_q <= request_valid_q;
+                if (request_valid_q) begin
+                    source_data_q <= request_source_valid_q ?
+                                     mosaic_pixels : 48'd0;
+                    source_user_q <= request_user_q;
+                    source_last_q <= request_last_q;
+                    source_frame_last_q <= request_frame_last_q;
+                end else begin
+                    source_user_q <= 1'b0;
+                    source_last_q <= 1'b0;
+                    source_frame_last_q <= 1'b0;
+                end
+            end
+
+            if (request_pipeline_ready) begin
+                request_valid_q <= output_active;
+                if (output_active) begin
+                    request_bank_q <= display_bank;
+                    request_tile_q <= output_tile;
+                    request_addr_q <= output_tile_addr;
+                    request_pair_q <= output_source_pair[1:0];
+                    request_source_valid_q <= output_source_valid;
+                    request_user_q <= (output_x == 0) && (output_y == 0);
+                    request_last_q <= (output_x == OUTPUT_BEATS-1);
+                    request_frame_last_q <=
+                        (output_x == OUTPUT_BEATS-1) &&
+                        (output_y == OUTPUT_HEIGHT-1);
+                end else begin
+                    request_source_valid_q <= 1'b0;
+                    request_user_q <= 1'b0;
+                    request_last_q <= 1'b0;
+                    request_frame_last_q <= 1'b0;
                 end
             end
 
@@ -417,6 +497,8 @@ module mosaic_frame_reader #(
                 output_active <= 1'b0;
                 output_x <= 10'd0;
                 output_y <= 11'd0;
+                output_source_pair_q <= 9'd0;
+                output_source_phase_q <= 4'd0;
                 fill_state <= F_IDLE;
                 bank_state[0] <= BANK_FREE;
                 bank_state[1] <= BANK_FREE;
@@ -653,7 +735,23 @@ module mosaic_frame_reader #(
                 end
             end
 
-            if (source_fire) begin
+            if (request_fire) begin
+                // Horizontal 16/9 nearest-neighbour phase accumulator.  It is
+                // held through the left/right pads and restarted for every
+                // 480-pixel tile.
+                if (output_tile_x == TILE_BEATS-1) begin
+                    output_source_pair_q <= 9'd0;
+                    output_source_phase_q <= 4'd0;
+                end else if (output_image_valid) begin
+                    output_source_pair_q <= output_source_pair_q +
+                        ((output_source_phase_q + 4'd7 >= 4'd9) ?
+                         9'd2 : 9'd1);
+                    output_source_phase_q <=
+                        (output_source_phase_q + 4'd7 >= 4'd9) ?
+                        output_source_phase_q - 4'd2 :
+                        output_source_phase_q + 4'd7;
+                end
+
                 if (output_x == OUTPUT_BEATS-1) begin
                     output_x <= 10'd0;
                     bank_state[display_bank] <= BANK_FREE;

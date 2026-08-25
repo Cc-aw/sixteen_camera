@@ -1,0 +1,16 @@
+CH1 dst_cells=50 dst_pins=100
+CH1 cdc_slack=-0.118 start=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[0].capture_resetn_local_sync_reg[1]/C end=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[0].u_camera_cdc/fifo_din_reg[14]/CE
+CH2 dst_cells=50 dst_pins=100
+CH2 cdc_slack=0.677 start=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[1].capture_resetn_local_sync_reg[1]/C end=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[1].u_camera_cdc/first_pixel_reg[21]/CE
+CH3 dst_cells=50 dst_pins=100
+CH3 cdc_slack=0.323 start=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[2].u_camera_cdc/u_fifo/gnuram_async_fifo.xpm_fifo_base_inst/xpm_fifo_rst_inst/gen_rst_ic.wr_rst_busy_ic_reg/C end=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[2].u_camera_cdc/fifo_din_reg[14]/CE
+CH4 dst_cells=50 dst_pins=100
+CH4 cdc_slack=0.735 start=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[3].capture_resetn_local_sync_reg[1]/C end=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[3].u_camera_cdc/fifo_din_reg[12]/CE
+CH5 dst_cells=50 dst_pins=100
+CH5 cdc_slack=-0.114 start=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[4].capture_resetn_local_sync_reg[1]/C end=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[4].u_camera_cdc/fifo_din_reg[13]/CE
+CH6 dst_cells=50 dst_pins=100
+CH6 cdc_slack=0.409 start=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[5].capture_resetn_local_sync_reg[1]/C end=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[5].u_camera_cdc/fifo_din_reg[45]/CE
+CH7 dst_cells=50 dst_pins=100
+CH7 cdc_slack=0.612 start=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[6].capture_resetn_local_sync_reg[1]/C end=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[6].u_camera_cdc/first_pixel_reg[5]/CE
+CH8 dst_cells=50 dst_pins=100
+CH8 cdc_slack=-0.335 start=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[7].capture_resetn_local_sync_reg[1]/C end=u_camera_hdmi/u_camera_subsystem/g_camera_frontend[7].u_camera_cdc/first_pixel_reg[11]/CE
