@@ -88,7 +88,85 @@ CH8~CH15 写入 DDR；模式不匹配或 RX 断开时自动关闭 HDMI 捕获。
 工程中的脚本默认使用本机 `/mnt/data/Vivado/Vivado/2023.2` 和 Chipyard 工具链
 路径；在其他环境中使用时需要调整对应路径或通过软件脚本的环境变量覆盖。
 
+## 从空 Vivado 工程一键创建
+
+根目录的 [`setup_vivado.tcl`](setup_vivado.tcl) 用于把仓库中的生产版 RTL、
+Rocket SoC collateral、独立 IP、Block Design 和约束一次性加入当前打开的
+Vivado 工程。脚本根据自身位置寻找仓库文件，不依赖仓库目录名，也不要求新工程
+名为 `sixteen_camera`。
+
+### 1. 创建空工程
+
+使用 Vivado 2023.2 创建一个 RTL Project，工程名称和保存位置可自行选择：
+
+- 不要在向导中添加 RTL、IP 或约束文件；
+- FPGA Part 选择 `xcvu13p-fhga2104-2-i`；
+- 创建完成后保持该工程处于打开状态。
+
+脚本只配置当前已经打开的工程，不会自行创建、打开或关闭 `.xpr` 文件。器件或
+Vivado 版本不匹配时脚本会输出 `ENV_WARN`，但会继续执行，建议在综合前先修正。
+
+### 2. 执行一键配置
+
+在 Vivado 的 **Tcl Console** 中执行：
+
+```tcl
+source /path/to/repository/setup_vivado.tcl
+```
+
+例如本机仓库位于 `/mnt/data/work/camera_project`：
+
+```tcl
+source /mnt/data/work/camera_project/setup_vivado.tcl
+```
+
+脚本将自动完成：
+
+1. 加入 `rtl/` 下当前生产版手写 RTL；
+2. 加入当前选定的 Rocket SoC `gen-collateral`；
+3. 注册并生成工程使用的 10 个 XCI IP；
+4. 通过 `prj/create_design_1.tcl` 创建或复用 `design_1` Block Design；
+5. 校验 BD、生成输出文件和顶层 wrapper；
+6. 加入当前有效的 6 个 XDC 约束；
+7. 将综合与仿真顶层设置为 `top_wrapper` 并更新编译顺序。
+
+IP 和 BD 输出生成可能需要几分钟。完成后检查 Tcl Console 末尾：
+
+```text
+BD_STATUS=OK
+WRAPPER_STATUS=OK
+TOP_STATUS=OK
+PROJECT_SETUP=PASS
+```
+
+然后保存工程：
+
+```tcl
+save_project
+```
+
+`setup_vivado.tcl` 可以重复执行，已经加入的文件会计入 `*_EXISTING`，不会重复
+注册。单个 RTL、IP 或约束加入失败不会中断后续步骤；此时最终状态为
+`PROJECT_SETUP=PARTIAL`，具体原因位于 `FAILURE_DETAILS_BEGIN/END` 之间。若输出
+`SETUP_ERROR: no Vivado project is open`，需要先创建或打开一个工程再执行脚本。
+
+### 3. 综合并生成比特流
+
+一键配置通过后，可在 Flow Navigator 中依次运行 Synthesis、Implementation 和
+Generate Bitstream，也可以在 Tcl Console 中执行：
+
+```tcl
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+puts [get_property STATUS [get_runs impl_1]]
+```
+
+新工程的 bitstream 位于该工程自己的
+`<project-name>.runs/impl_1/top_wrapper.bit`，与仓库目录名和工程名称无关。
+
 ## 生成比特流
+
+若直接使用仓库自带的 `prj/sixteen_camera.xpr`，可运行：
 
 ```bash
 cd prj
