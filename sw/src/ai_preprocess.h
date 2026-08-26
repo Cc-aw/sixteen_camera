@@ -14,6 +14,13 @@ typedef struct {
     uint32_t write_beats;
 } AiPreprocessResult;
 
+/*
+ * Non-blocking interface used by the Batch runtime.  poll() returns 0 while
+ * the hardware is running, 1 when result has been filled, or a negative error
+ * code.  The existing blocking helper remains available for diagnostics.
+ */
+int ai_preprocess_start(void);
+int ai_preprocess_poll(AiPreprocessResult *result);
 int ai_preprocess_run(AiPreprocessResult *result);
 int ai_preprocess_recycle(uint32_t arena_mask);
 

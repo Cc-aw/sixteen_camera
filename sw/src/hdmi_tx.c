@@ -395,14 +395,14 @@ static void framebuffer_configure(void)
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_WIDTH, 640U);
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_HEIGHT, 480U);
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_STRIDE, 2560U);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_COUNT, 3U);
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_COUNT, 5U);
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_DISPLAY_CH,
                  FRAMEBUFFER_READER_STOP_TEST ?
                      READER_STOP_LOCAL_CHANNEL : 0U);
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_DISPLAY_MODE,
                  FRAMEBUFFER_READER_STOP_TEST ? 1U : 0U);
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_HDMI_CONTROL, 0U);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_BUFFER_STRIDE, 0x00800000U);
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_BUFFER_STRIDE, 0x00400000U);
     for (uint32_t channel = 0U; channel < VIDEO_CHANNEL_COUNT; ++channel)
         mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_BASE0 + channel * 4U,
                      channel_bases[channel]);
@@ -412,7 +412,7 @@ static void framebuffer_configure(void)
 #if FRAMEBUFFER_READER_STOP_TEST
     line("framebuffer: writers enabled; DDR reader stopped on empty CH3");
 #else
-    line("framebuffer: sixteen VGA pools configured; 4x4 mosaic selected");
+    line("framebuffer: sixteen VGA five-buffer pools; 4x4 mosaic selected");
 #endif
 }
 

@@ -249,9 +249,9 @@ module multi_channel_framebuffer_ctrl #(
             cfg_width <= 32'd640;
             cfg_height <= 32'd480;
             cfg_stride_bytes <= 32'd2560;
-            cfg_buffers_per_channel <= 32'd3;
+            cfg_buffers_per_channel <= 32'd5;
             cfg_channel_bases <= DEFAULT_CHANNEL_BASES;
-            cfg_buffer_stride_bytes <= 32'h0080_0000;
+            cfg_buffer_stride_bytes <= 32'h0040_0000;
             cfg_display_channel <= CHANNEL_WIDTH'(GLOBAL_CHANNEL_BASE);
             // Zero selects the mosaic reader; one retains the full-frame
             // single-channel debug path.

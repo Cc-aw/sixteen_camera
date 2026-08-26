@@ -38,7 +38,8 @@ LDFLAGS := $(ARCH_FLAGS) -nostdlib -nostartfiles -static -Wl,--gc-sections \
 
 LOCAL_SOURCES := src/main.c src/console.c src/runtime.c src/hdmi_tx.c \
 	src/xilinx_config.c src/board_gpio.c src/camera_video.c \
-	src/camera_config.c src/ai_frame_snapshot.c src/ai_preprocess.c
+	src/camera_config.c src/ai_frame_snapshot.c src/ai_preprocess.c \
+	src/ai_batch_runtime.c src/ai_model_backend_stub.c
 BOARD_SOURCES := $(REFERENCE_SW)/src/axi_iic.c \
 	$(REFERENCE_SW)/src/clock_chip.c
 VENDOR_SOURCES := \

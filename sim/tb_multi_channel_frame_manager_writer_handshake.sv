@@ -13,7 +13,7 @@ module tb_multi_channel_frame_manager_writer_handshake;
     reg [31:0] cfg_width = 32'd640;
     reg [31:0] cfg_height = 32'd480;
     reg [31:0] cfg_stride_bytes = 32'd2560;
-    reg [31:0] cfg_buffers_per_channel = 32'd4;
+    reg [31:0] cfg_buffers_per_channel = 32'd5;
     reg [31:0] cfg_channel_bases = 32'h1000_0000;
     reg [31:0] cfg_buffer_stride_bytes = 32'h0020_0000;
     reg cfg_display_channel = 1'b0;
@@ -51,7 +51,7 @@ module tb_multi_channel_frame_manager_writer_handshake;
 
     multi_channel_frame_manager #(
         .CHANNELS(CHANNELS),
-        .MAX_BUFFERS_PER_CHANNEL(4)
+        .MAX_BUFFERS_PER_CHANNEL(5)
     ) dut (
         .ui_clk(ui_clk),
         .ui_resetn(ui_resetn),

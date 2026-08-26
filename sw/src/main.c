@@ -1,6 +1,7 @@
 #include <stdint.h>
 
 #include "axi_iic.h"
+#include "ai_batch_runtime.h"
 #include "ai_frame_snapshot.h"
 #include "ai_preprocess.h"
 #include "board_gpio.h"
@@ -57,7 +58,7 @@ static int start_present_cameras(void)
 
 static void print_help(void)
 {
-    console_puts("Commands: 1-8=display, s=status, a=snapshot, p=preprocess Batch16, t=DATA tap, b=BIST, r=restart, c=clock ID, h=help\r\n");
+    console_puts("Commands: 1-8=display, s=status, a=snapshot, p=preprocess, i=AI input runtime, t=DATA tap, b=BIST, r=restart, c=clock ID, h=help\r\n");
 }
 
 static void ai_preprocess_smoke_test(void)
@@ -168,10 +169,12 @@ int main(void)
         console_puts("Video pipeline initialization failed; press r to retry\r\n");
     if (start_present_cameras() != 0)
         console_puts("Camera initialization failed; press r to retry\r\n");
+    ai_batch_runtime_init();
     print_help();
 
     for (;;) {
         hdmi_tx_poll();
+        ai_batch_runtime_poll();
         int command = console_getc_nonblock();
         switch (command) {
         case '1':
@@ -187,14 +190,27 @@ int main(void)
             break;
         case 's':
             hdmi_tx_print_status();
+            ai_batch_runtime_print_status();
             for (size_t index = 0U; index < camera_config_count; ++index)
                 camera_video_print_status(&camera_configs[index]);
             break;
         case 'a':
-            ai_snapshot_smoke_test();
+            if (ai_batch_runtime_is_idle() != 0U)
+                ai_snapshot_smoke_test();
+            else
+                console_puts("AI runtime busy; disable and wait for drain\r\n");
             break;
         case 'p':
-            ai_preprocess_smoke_test();
+            if (ai_batch_runtime_is_idle() != 0U)
+                ai_preprocess_smoke_test();
+            else
+                console_puts("AI runtime busy; disable and wait for drain\r\n");
+            break;
+        case 'i':
+            ai_batch_runtime_set_enabled(!ai_batch_runtime_is_enabled());
+            console_puts(ai_batch_runtime_is_enabled() != 0U ?
+                         "AI input runtime enabled\r\n" :
+                         "AI input runtime draining\r\n");
             break;
         case 't':
             sample_tap = (sample_tap + 1U) % 6U;

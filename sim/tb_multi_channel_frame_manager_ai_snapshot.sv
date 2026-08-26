@@ -14,7 +14,7 @@ module tb_multi_channel_frame_manager_ai_snapshot;
     reg [31:0] cfg_width = 32'd640;
     reg [31:0] cfg_height = 32'd480;
     reg [31:0] cfg_stride_bytes = 32'd2560;
-    reg [31:0] cfg_buffers_per_channel = 32'd3;
+    reg [31:0] cfg_buffers_per_channel = 32'd5;
     reg [CHANNELS*32-1:0] cfg_channel_bases;
     reg [31:0] cfg_buffer_stride_bytes = SLOT_STRIDE;
     reg [3:0] cfg_display_channel = 4'd0;
@@ -65,11 +65,12 @@ module tb_multi_channel_frame_manager_ai_snapshot;
 
     reg [CHANNELS*32-1:0] first_frame_addrs;
     integer ch;
+    integer slot;
     integer timeout;
 
     multi_channel_frame_manager #(
         .CHANNELS(CHANNELS),
-        .MAX_BUFFERS_PER_CHANNEL(4)
+        .MAX_BUFFERS_PER_CHANNEL(5)
     ) dut (
         .ui_clk(ui_clk), .ui_resetn(ui_resetn),
         .cfg_request_toggle(cfg_request_toggle),
@@ -185,7 +186,7 @@ module tb_multi_channel_frame_manager_ai_snapshot;
     initial begin
         for (ch = 0; ch < CHANNELS; ch = ch + 1)
             cfg_channel_bases[ch*32 +: 32] =
-                32'h1000_0000 + ch * 32'h0080_0000;
+                32'h1000_0000 + ch * 32'h0100_0000;
 
         repeat (4) @(posedge ui_clk);
         ui_resetn = 1'b1;
@@ -193,6 +194,18 @@ module tb_multi_channel_frame_manager_ai_snapshot;
         cfg_request_toggle = ~cfg_request_toggle;
         wait (cfg_ack_toggle == cfg_request_toggle);
         @(posedge ui_clk); #1;
+
+        if (status[12:10] != 3'd5)
+            $fatal(1, "five-buffer configuration inactive status=%08x",
+                   status);
+        for (ch = 0; ch < CHANNELS; ch = ch + 1)
+            for (slot = 0; slot < 5; slot = slot + 1)
+                if (dut.active_slot_bases[ch][slot] !=
+                    cfg_channel_bases[ch*32 +: 32] + slot * SLOT_STRIDE)
+                    $fatal(1, "CH%0d slot%0d address=%08x expected=%08x",
+                           ch, slot, dut.active_slot_bases[ch][slot],
+                           cfg_channel_bases[ch*32 +: 32] +
+                           slot * SLOT_STRIDE);
 
         capture_all(1);
         request_snapshot();

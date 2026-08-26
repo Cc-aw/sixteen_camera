@@ -7,7 +7,7 @@
 // the current display.
 module multi_channel_frame_manager #(
     parameter integer CHANNELS = 3,
-    parameter integer MAX_BUFFERS_PER_CHANNEL = 4
+    parameter integer MAX_BUFFERS_PER_CHANNEL = 5
 ) (
     input  wire                              ui_clk,
     input  wire                              ui_resetn,
@@ -248,8 +248,8 @@ module multi_channel_frame_manager #(
 
     initial begin
         if (CHANNELS < 1 || CHANNELS > 16 || MAX_BUFFERS_PER_CHANNEL < 2 ||
-            MAX_BUFFERS_PER_CHANNEL > 4)
-            $error("multi_channel_frame_manager supports 1-16 channels and 2-4 slots");
+            MAX_BUFFERS_PER_CHANNEL > 5)
+            $error("multi_channel_frame_manager supports 1-16 channels and 2-5 slots");
     end
 
     always @(posedge ui_clk) begin
@@ -368,9 +368,10 @@ module multi_channel_frame_manager #(
                 begin
                     active_buffer_count <= cfg_buffers_per_channel[2:0];
                     case (cfg_buffers_per_channel[2:0])
-                        3'd2: active_slot_mask <= 4'b0011;
-                        3'd3: active_slot_mask <= 4'b0111;
-                        3'd4: active_slot_mask <= 4'b1111;
+                        3'd2: active_slot_mask <= 5'b0_0011;
+                        3'd3: active_slot_mask <= 5'b0_0111;
+                        3'd4: active_slot_mask <= 5'b0_1111;
+                        3'd5: active_slot_mask <= 5'b1_1111;
                         default: active_slot_mask <=
                             {MAX_BUFFERS_PER_CHANNEL{1'b0}};
                     endcase
@@ -407,10 +408,15 @@ module multi_channel_frame_manager #(
                                 2: active_slot_bases[ch][slot] <=
                                     cfg_channel_bases[ch*32 +: 32] +
                                     {cfg_buffer_stride_bytes[30:0], 1'b0};
-                                default: active_slot_bases[ch][slot] <=
+                                3: active_slot_bases[ch][slot] <=
                                     cfg_channel_bases[ch*32 +: 32] +
                                     cfg_buffer_stride_bytes +
                                     {cfg_buffer_stride_bytes[30:0], 1'b0};
+                                4: active_slot_bases[ch][slot] <=
+                                    cfg_channel_bases[ch*32 +: 32] +
+                                    {cfg_buffer_stride_bytes[29:0], 2'b00};
+                                default: active_slot_bases[ch][slot] <=
+                                    32'd0;
                             endcase
                         end
                 end
