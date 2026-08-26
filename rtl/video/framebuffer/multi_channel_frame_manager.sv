@@ -117,6 +117,8 @@ module multi_channel_frame_manager #(
     reg [63:0] timestamp_counter;
     reg ai_snapshot_req_seen;
     reg ai_snapshot_ack_pending;
+    reg ai_snapshot_capture_pending;
+    reg [CHANNELS-1:0] ai_snapshot_capture_mask;
     reg ai_release_req_seen;
     reg ai_release_ack_pending;
 
@@ -170,6 +172,65 @@ module multi_channel_frame_manager #(
     endgenerate
     wire any_writer_active = |writer_active_vector;
     wire any_writer_response_pending = |writer_grant || |writer_drop;
+
+    // Slot metadata has no reset/config-clear requirement: latest_valid is
+    // the ownership/validity bit and every field is overwritten before a slot
+    // is published.  Keep these writes in fixed per-channel processes so the
+    // synthesizer cannot fold the global configuration branch and unrelated
+    // channels into one very high-fanout CE network.
+    generate
+        genvar metadata_ch;
+        for (metadata_ch = 0; metadata_ch < CHANNELS;
+             metadata_ch = metadata_ch + 1) begin : g_slot_metadata_write
+            always @(posedge ui_clk) begin
+                if (writer_done[metadata_ch] &&
+                    writer_active[metadata_ch] &&
+                    !writer_error[metadata_ch]) begin
+                    slot_frame_id[metadata_ch]
+                                 [writer_index[metadata_ch]] <=
+                        channel_frame_id[metadata_ch] + 1'b1;
+                    slot_timestamp[metadata_ch]
+                                  [writer_index[metadata_ch]] <=
+                        timestamp_counter;
+                    slot_version[metadata_ch]
+                                [writer_index[metadata_ch]] <=
+                        channel_frame_id[metadata_ch][31:0] + 1'b1;
+                end
+            end
+        end
+    endgenerate
+
+    // Capture the Batch payload one cycle after the ownership snapshot.  The
+    // per-channel mask is both the validity qualifier and a local write
+    // enable, avoiding one global configuration/idle cone on all 3072 payload
+    // bits.  The acknowledgement is returned only after this capture edge.
+    generate
+        genvar snapshot_ch;
+        for (snapshot_ch = 0; snapshot_ch < CHANNELS;
+             snapshot_ch = snapshot_ch + 1) begin : g_snapshot_payload_write
+            always @(posedge ui_clk) begin
+                if (!ui_resetn) begin
+                    last_snapshot_frame_id[snapshot_ch] <= 64'd0;
+                end else if (ai_snapshot_capture_mask[snapshot_ch]) begin
+                    ai_snapshot_addrs[snapshot_ch*32 +: 32] <=
+                        slot_address(snapshot_ch,
+                                     ai_snapshot_slot[snapshot_ch]);
+                    ai_snapshot_frame_ids[snapshot_ch*64 +: 64] <=
+                        slot_frame_id[snapshot_ch]
+                                     [ai_snapshot_slot[snapshot_ch]];
+                    ai_snapshot_timestamps[snapshot_ch*64 +: 64] <=
+                        slot_timestamp[snapshot_ch]
+                                      [ai_snapshot_slot[snapshot_ch]];
+                    ai_snapshot_versions[snapshot_ch*32 +: 32] <=
+                        slot_version[snapshot_ch]
+                                    [ai_snapshot_slot[snapshot_ch]];
+                    last_snapshot_frame_id[snapshot_ch] <=
+                        slot_frame_id[snapshot_ch]
+                                     [ai_snapshot_slot[snapshot_ch]];
+                end
+            end
+        end
+    endgenerate
 
     always @* begin
         status = 32'd0;
@@ -235,6 +296,8 @@ module multi_channel_frame_manager #(
             timestamp_counter <= 64'd0;
             ai_snapshot_req_seen <= 1'b0;
             ai_snapshot_ack_pending <= 1'b0;
+            ai_snapshot_capture_pending <= 1'b0;
+            ai_snapshot_capture_mask <= {CHANNELS{1'b0}};
             ai_release_req_seen <= 1'b0;
             ai_release_ack_pending <= 1'b0;
             reader_active <= 1'b0;
@@ -249,7 +312,6 @@ module multi_channel_frame_manager #(
                 latest_valid[ch] <= 1'b0;
                 latest_index[ch] <= {SLOT_WIDTH{1'b0}};
                 channel_frame_id[ch] <= 64'd0;
-                last_snapshot_frame_id[ch] <= 64'd0;
                 ai_snapshot_slot[ch] <= {SLOT_WIDTH{1'b0}};
                 for (slot = 0; slot < MAX_BUFFERS_PER_CHANNEL;
                      slot = slot + 1)
@@ -257,9 +319,10 @@ module multi_channel_frame_manager #(
                         buffer_state[ch][slot] <= BUFFER_FREE;
                         active_slot_bases[ch][slot] <= 32'd0;
                         ai_ref[ch][slot] <= 1'b0;
-                        slot_frame_id[ch][slot] <= 64'd0;
-                        slot_timestamp[ch][slot] <= 64'd0;
-                        slot_version[ch][slot] <= 32'd0;
+                        // Slot metadata is qualified by latest_valid and is
+                        // overwritten when a complete frame is published.
+                        // Leaving it resetless avoids a 10240-bit synchronous
+                        // clear network in the 300 MHz DDR clock domain.
                     end
             end
         end else begin
@@ -269,6 +332,11 @@ module multi_channel_frame_manager #(
             if (ai_snapshot_ack_pending) begin
                 ai_snapshot_ack_toggle <= ai_snapshot_req_seen;
                 ai_snapshot_ack_pending <= 1'b0;
+            end
+            if (ai_snapshot_capture_pending) begin
+                ai_snapshot_capture_pending <= 1'b0;
+                ai_snapshot_capture_mask <= {CHANNELS{1'b0}};
+                ai_snapshot_ack_pending <= 1'b1;
             end
             if (ai_release_ack_pending) begin
                 ai_release_ack_toggle <= ai_release_req_seen;
@@ -318,8 +386,9 @@ module multi_channel_frame_manager #(
                     latest_ready_valid[ch] <= 1'b0;
                     latest_valid[ch] <= 1'b0;
                     latest_index[ch] <= {SLOT_WIDTH{1'b0}};
-                    channel_frame_id[ch] <= 64'd0;
-                    last_snapshot_frame_id[ch] <= 64'd0;
+                    // Frame IDs remain monotonic across a configuration
+                    // update.  All slot metadata is invalidated below by
+                    // latest_valid, so no bulk metadata clear is required.
                     ai_snapshot_slot[ch] <= {SLOT_WIDTH{1'b0}};
                     display_index[ch] <= {SLOT_WIDTH{1'b0}};
                     reader_valid_mask[ch] <= 1'b0;
@@ -329,9 +398,6 @@ module multi_channel_frame_manager #(
                         begin
                             buffer_state[ch][slot] <= BUFFER_FREE;
                             ai_ref[ch][slot] <= 1'b0;
-                            slot_frame_id[ch][slot] <= 64'd0;
-                            slot_timestamp[ch][slot] <= 64'd0;
-                            slot_version[ch][slot] <= 32'd0;
                             case (slot)
                                 0: active_slot_bases[ch][slot] <=
                                     cfg_channel_bases[ch*32 +: 32];
@@ -387,12 +453,6 @@ module multi_channel_frame_manager #(
                             latest_valid[ch] <= 1'b1;
                             latest_index[ch] <= writer_index[ch];
                             channel_frame_id[ch] <= channel_frame_id[ch] + 1'b1;
-                            slot_frame_id[ch][writer_index[ch]] <=
-                                channel_frame_id[ch] + 1'b1;
-                            slot_timestamp[ch][writer_index[ch]] <=
-                                timestamp_counter;
-                            slot_version[ch][writer_index[ch]] <=
-                                slot_version[ch][writer_index[ch]] + 1'b1;
                             writer_frame_counts[ch*32 +: 32] <=
                                 writer_frame_counts[ch*32 +: 32] + 1'b1;
                         end
@@ -507,9 +567,9 @@ module multi_channel_frame_manager #(
                 // the first one have been released.
                 if (ai_snapshot_req_toggle != ai_snapshot_req_seen) begin
                     ai_snapshot_req_seen <= ai_snapshot_req_toggle;
-                    ai_snapshot_ack_pending <= 1'b1;
                     if (ai_snapshot_active || (|ai_held_mask)) begin
                         ai_error_count <= ai_error_count + 1'b1;
+                        ai_snapshot_ack_pending <= 1'b1;
                     end else begin
                         // An empty table is acknowledged but does not create
                         // an unreleasable zero-member Batch.
@@ -519,30 +579,17 @@ module multi_channel_frame_manager #(
                         ai_held_mask <= {CHANNELS{1'b0}};
                         ai_snapshot_batch_id <= ai_snapshot_batch_id + 1'b1;
                         ai_snapshot_count <= ai_snapshot_count + 1'b1;
+                        ai_snapshot_capture_pending <= 1'b1;
+                        ai_snapshot_capture_mask <= latest_valid_vector;
                         for (ch = 0; ch < CHANNELS; ch = ch + 1) begin
                             if (latest_valid[ch]) begin
                                 ai_ref[ch][latest_index[ch]] <= 1'b1;
                                 ai_snapshot_slot[ch] <= latest_index[ch];
                                 ai_snapshot_valid_mask[ch] <= 1'b1;
                                 ai_held_mask[ch] <= 1'b1;
-                                ai_snapshot_addrs[ch*32 +: 32] <=
-                                    slot_address(ch, latest_index[ch]);
-                                ai_snapshot_frame_ids[ch*64 +: 64] <=
-                                    slot_frame_id[ch][latest_index[ch]];
-                                ai_snapshot_timestamps[ch*64 +: 64] <=
-                                    slot_timestamp[ch][latest_index[ch]];
-                                ai_snapshot_versions[ch*32 +: 32] <=
-                                    slot_version[ch][latest_index[ch]];
                                 if (slot_frame_id[ch][latest_index[ch]] !=
                                     last_snapshot_frame_id[ch])
                                     ai_snapshot_fresh_mask[ch] <= 1'b1;
-                                last_snapshot_frame_id[ch] <=
-                                    slot_frame_id[ch][latest_index[ch]];
-                            end else begin
-                                ai_snapshot_addrs[ch*32 +: 32] <= 32'd0;
-                                ai_snapshot_frame_ids[ch*64 +: 64] <= 64'd0;
-                                ai_snapshot_timestamps[ch*64 +: 64] <= 64'd0;
-                                ai_snapshot_versions[ch*32 +: 32] <= 32'd0;
                             end
                         end
                     end

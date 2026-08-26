@@ -65,49 +65,75 @@ module hdmi_4k_spatial_demux #(
              channel_index = channel_index + 1) begin : g_outputs
             wire selected = crop_valid &&
                             (crop_channel == channel_index[2:0]);
+            reg stage_valid;
+            reg [47:0] stage_data;
+            reg stage_sof;
+            reg stage_eol;
+            reg stage_eof;
+            reg [31:0] stage_frame_id;
+            reg stage_error;
+            wire stage_ready = !stage_valid ||
+                               channels[channel_index].ready;
+            wire stage_load = selected && stage_ready;
+            wire stage_overflow = selected && !stage_ready;
+
             assign channels[channel_index].aclk = s_axis.aclk;
             assign channels[channel_index].aresetn = s_axis.aresetn;
-            // Only present a transfer when the downstream FIFO can take it.
-            // A full FIFO therefore drops this transport beat locally rather
-            // than violating ready/valid stability or blocking HDMI RX.
-            assign channels[channel_index].valid =
-                selected && channels[channel_index].ready;
-            assign channels[channel_index].data = s_axis.tdata;
-            assign channels[channel_index].sof = selected &&
-                (source_x == 0) && (source_y == 0);
-            assign channels[channel_index].eol = selected &&
-                (source_x == IMAGE_LAST_X);
-            assign channels[channel_index].eof = selected &&
-                (source_x == IMAGE_LAST_X) &&
-                (source_y == IMAGE_LAST_Y);
+            // One elastic beat breaks the HDMI RX/demux path before the
+            // channel packer and BRAM write enable.  It can retire the old
+            // beat and accept its replacement on the same clock, preserving
+            // full-rate operation.  HDMI itself remains unbackpressured.
+            assign channels[channel_index].valid = stage_valid;
+            assign channels[channel_index].data = stage_data;
+            assign channels[channel_index].sof = stage_sof;
+            assign channels[channel_index].eol = stage_eol;
+            assign channels[channel_index].eof = stage_eof;
             assign channels[channel_index].stream_id =
                 4'(GLOBAL_CHANNEL_BASE + channel_index);
-            assign channels[channel_index].frame_id = transport_epoch;
+            assign channels[channel_index].frame_id = stage_frame_id;
             assign channels[channel_index].error =
-                geometry_error || (!start_beat &&
-                    (transport_bad || channel_bad[channel_index]));
+                stage_error || channel_bad[channel_index];
 
             always @(posedge s_axis.aclk) begin
                 if (!s_axis.aresetn) begin
+                    stage_valid <= 1'b0;
+                    stage_data <= 48'd0;
+                    stage_sof <= 1'b0;
+                    stage_eol <= 1'b0;
+                    stage_eof <= 1'b0;
+                    stage_frame_id <= 32'd0;
+                    stage_error <= 1'b0;
                     channel_bad[channel_index] <= 1'b0;
                     channel_overflow_counts[channel_index*32 +: 32] <= 32'd0;
                     channel_frame_counts[channel_index*32 +: 32] <= 32'd0;
-                end else if (input_fire) begin
-                    if (s_axis.tuser || !capture_enable)
+                end else begin
+                    if (stage_ready) begin
+                        stage_valid <= selected;
+                        if (selected) begin
+                            stage_data <= s_axis.tdata;
+                            stage_sof <= (source_x == 0) && (source_y == 0);
+                            stage_eol <= (source_x == IMAGE_LAST_X);
+                            stage_eof <= (source_x == IMAGE_LAST_X) &&
+                                         (source_y == IMAGE_LAST_Y);
+                            stage_frame_id <= transport_epoch;
+                            stage_error <= geometry_error ||
+                                (!start_beat &&
+                                 (transport_bad ||
+                                  channel_bad[channel_index]));
+                        end
+                    end
+
+                    if (input_fire && (s_axis.tuser || !capture_enable))
                         channel_bad[channel_index] <= 1'b0;
-                    if (crop_valid &&
-                        (crop_channel == channel_index[2:0]) &&
-                        !channels[channel_index].ready) begin
+                    if (stage_overflow) begin
                         channel_bad[channel_index] <= 1'b1;
                         channel_overflow_counts[channel_index*32 +: 32] <=
                             channel_overflow_counts[
                                 channel_index*32 +: 32] + 1'b1;
                     end
-                    if (crop_valid &&
-                        (crop_channel == channel_index[2:0]) &&
+                    if (stage_load &&
                         (source_x == IMAGE_LAST_X) &&
-                        (source_y == IMAGE_LAST_Y) &&
-                        channels[channel_index].ready)
+                        (source_y == IMAGE_LAST_Y))
                         channel_frame_counts[channel_index*32 +: 32] <=
                             channel_frame_counts[
                                 channel_index*32 +: 32] + 1'b1;

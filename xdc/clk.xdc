@@ -80,6 +80,22 @@ set_false_path -to [get_pins -hierarchical -filter \
      NAME =~ *dvp_vsync_iob_reg/D || \
      NAME =~ *dvp_pclk_iob_reg/D}]
 
+# The second sampling stage must remain physically close to the input IOB.
+# This datapath-only budget expresses that requirement without hard-locking a
+# complete SLR pblock; the following aligned pipe stage is free to absorb the
+# SLR crossing selected by the placer.
+set_max_delay 1.500 -datapath_only \
+    -from [get_pins -hierarchical -filter \
+        {NAME =~ *dvp_data_iob_reg*/C || \
+         NAME =~ *dvp_href_iob_reg/C || \
+         NAME =~ *dvp_vsync_iob_reg/C || \
+         NAME =~ *dvp_pclk_iob_reg/C}] \
+    -to [get_pins -hierarchical -filter \
+        {NAME =~ *dvp_data_sync_reg*/D || \
+         NAME =~ *dvp_href_sync_reg/D || \
+         NAME =~ *dvp_vsync_sync_reg/D || \
+         NAME =~ *dvp_pclk_sync_reg/D}]
+
 # The eight FMC camera inputs sit in two SLRs.  USER_SLR_ASSIGNMENT applies
 # only to hierarchical cells and is ignored on these leaf registers, so use
 # leaf-capable pblocks for the short, aligned crossing pipeline:
@@ -152,20 +168,18 @@ set_false_path \
 set_false_path -to [get_pins -hierarchical -filter \
     {NAME =~ */u_video_framebuffer/u_manager/cfg_sync_1_reg/D}]
 set_false_path -to [get_pins -hierarchical -filter \
-    {NAME =~ */u_video_framebuffer/u_manager/select_sync_1_reg*/D}]
-# Constrain only the bundled configuration payload flops.  The former
-# cell-to-cell wildcard covered essentially the complete frame manager,
-# including ordinary 300 MHz state and AI snapshot registers.  Besides
-# producing invalid-endpoint warnings, that broad exception prevented useful
-# replication/retiming on the actual critical paths.
+    {NAME =~ */u_video_framebuffer/u_manager/select_sync_1_reg*/D || \
+     NAME =~ */u_video_framebuffer/u_manager/mode_sync_1_reg/D}]
+# Constrain only paths launched by the 100 MHz bundled configuration source
+# and captured by the active configuration registers.  Some validation terms
+# are implemented on FDRE R/S/CE pins rather than D, so naming only D pins
+# leaves false inter-clock setup checks behind.  The source-qualified cell
+# endpoints cover every implementation choice without excluding any ordinary
+# 300 MHz path within the frame manager.
 set_false_path \
-    -to [get_pins -hierarchical -filter \
-        {NAME =~ */u_video_framebuffer/u_manager/active_width_reg*/D || \
-         NAME =~ */u_video_framebuffer/u_manager/active_height_reg*/D || \
-         NAME =~ */u_video_framebuffer/u_manager/active_stride_bytes_reg*/D || \
-         NAME =~ */u_video_framebuffer/u_manager/active_buffer_count_reg*/D || \
-         NAME =~ */u_video_framebuffer/u_manager/active_slot_mask_reg*/D || \
-         NAME =~ */u_video_framebuffer/u_manager/active_slot_bases_reg*/D}]
+    -from [get_clocks clk_100m_p] \
+    -to [get_pins -hierarchical -regexp \
+        {.*u_video_framebuffer/u_manager/active_(width|height|stride_bytes|buffer_count|slot_mask|slot_bases)_reg.*/(D|R|S|CE)}]
 
 # OV7670 controller diagnostics are asynchronous snapshots transferred by
 # u_ctrl_diag_cdc into the AXI-Lite clock domain. Physical optimization may
