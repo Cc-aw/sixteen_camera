@@ -798,10 +798,10 @@ module ov7670_frontend #(
     wire [23:0] pclk_candidate_period_at_loss;
     wire [23:0] pclk_phase_error_at_loss;
     wire [15:0] pclk_interval_at_loss;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg [2:0] recovery_sample_offset_sync1 = 3'd2;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg [2:0] recovery_sample_offset_video = 3'd2;
+    // Board-qualified sampling tap. Keep this fixed at tap 2; runtime tap
+    // switching is intentionally disabled to remove a high-fanout 300 MHz
+    // control path from the PCLK recovery datapath.
+    localparam logic [2:0] FIXED_SAMPLE_OFFSET = 3'd2;
     reg [15:0] pclk_line_current = 16'd0;
     reg [15:0] pclk_line_last = 16'd0;
     reg [15:0] pclk_line_min = 16'hffff;
@@ -887,7 +887,6 @@ module ov7670_frontend #(
     reg reinit_toggle;
     reg diag_clear_pulse;
     reg [5:0] probe_control;
-    reg [2:0] recovery_sample_offset;
     reg stats_snapshot_toggle;
     wire [3:0] control_24m;
     wire control_write_pulse;
@@ -938,7 +937,6 @@ module ov7670_frontend #(
             diag_clear_pulse <= 1'b0;
             diag_clear_toggle <= 1'b0;
             probe_control <= 6'd0;
-            recovery_sample_offset <= 3'd2;
             stats_snapshot_toggle <= 1'b0;
         end else begin
             diag_clear_pulse <= 1'b0;
@@ -951,8 +949,8 @@ module ov7670_frontend #(
                     diag_clear_pulse <= 1'b1;
                 if (control_write_data[7])
                     diag_clear_toggle <= !diag_clear_toggle;
-                if (control_write_data[10:8] <= 3'd5)
-                    recovery_sample_offset <= control_write_data[10:8];
+                // control_write_data[10:8] is retained as a reserved,
+                // read-compatible field; sampling remains fixed at tap 2.
             end
             if (control_write_pulse && control_write_word == 16'd30 &&
                 control_write_strb[0])
@@ -1277,7 +1275,7 @@ module ov7670_frontend #(
                                      (pclk_missing_count >> 1);
     wire [31:0] pclk_recovery_status = {
         pclk_recovery_locked, pclk_recovery_state,
-        recovery_sample_offset_video,
+        FIXED_SAMPLE_OFFSET,
         pclk_holdover_count[5:0], pclk_last_interval[5:0],
         pclk_period_est_fp[13:0]
     };
@@ -1476,8 +1474,6 @@ module ov7670_frontend #(
         if (!video_resetn) begin
             capture_enable_sync1 <= 1'b0;
             capture_enable_sync2 <= 1'b0;
-            recovery_sample_offset_sync1 <= 3'd2;
-            recovery_sample_offset_video <= 3'd2;
             dvp_data_sync <= 8'd0;
             dvp_href_sync <= 1'b0;
             dvp_vsync_sync <= 1'b0;
@@ -1489,8 +1485,6 @@ module ov7670_frontend #(
         end else begin
             capture_enable_sync1 <= hw_capture_enable;
             capture_enable_sync2 <= capture_enable_sync1;
-            recovery_sample_offset_sync1 <= recovery_sample_offset;
-            recovery_sample_offset_video <= recovery_sample_offset_sync1;
             dvp_data_sync <= dvp_data_iob;
             dvp_href_sync <= dvp_href_iob;
             dvp_vsync_sync <= dvp_vsync_iob;
@@ -1540,7 +1534,7 @@ module ov7670_frontend #(
         .frame_boundary(pixel_ce && vsync_qualified && !diag_vsync_d),
         .pclk_sample(dvp_pclk_pipe), .data_sample(dvp_data_pipe),
         .href_sample(dvp_href_pipe), .vsync_sample(dvp_vsync_pipe),
-        .data_sample_offset(recovery_sample_offset_video),
+        .data_sample_offset(FIXED_SAMPLE_OFFSET),
         .pixel_ce(pixel_ce), .pixel_data(recovered_data),
         .pixel_href(recovered_href), .pixel_vsync(recovered_vsync),
         .pclk_locked(pclk_recovery_locked),
@@ -1644,7 +1638,7 @@ module ov7670_frontend #(
     assign pclk_snapshot_live[8*32 +: 32] = {
         8'd0, pclk_last_loss_reason, pclk_recovery_confirm_count,
         pclk_lock_score, pclk_recovery_state, pclk_recovery_locked,
-        recovery_sample_offset_video, 4'd0};
+        FIXED_SAMPLE_OFFSET, 4'd0};
     assign pclk_snapshot_live[9*32 +: 32] =
         {16'd0, pclk_raw_candidate_interval};
     assign pclk_snapshot_live[10*32 +: 32] = pclk_period_range_fault_count;

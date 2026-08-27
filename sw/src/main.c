@@ -58,7 +58,7 @@ static int start_present_cameras(void)
 
 static void print_help(void)
 {
-    console_puts("Commands: 1-8=display, s=status, a=snapshot, p=preprocess, i=AI input runtime, t=DATA tap, b=BIST, r=restart, c=clock ID, h=help\r\n");
+    console_puts("Commands: 1-8=display, s=status, a=snapshot, p=preprocess, i=AI input runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
 }
 
 static void ai_preprocess_smoke_test(void)
@@ -147,7 +147,6 @@ static void ai_snapshot_smoke_test(void)
 
 int main(void)
 {
-    uint32_t sample_tap = 2U;
     console_init();
     console_puts("\r\n8x OV7670 -> shared DMA -> DDR -> HDMI TX\r\n");
     console_puts("CH1-CH8 local + CH9-CH16 HDMI in 4x4 1080p60 mosaic\r\n");
@@ -211,14 +210,6 @@ int main(void)
             console_puts(ai_batch_runtime_is_enabled() != 0U ?
                          "AI input runtime enabled\r\n" :
                          "AI input runtime draining\r\n");
-            break;
-        case 't':
-            sample_tap = (sample_tap + 1U) % 6U;
-            for (size_t index = 0U; index < camera_config_count; ++index)
-                camera_video_set_sample_tap(&camera_configs[index], sample_tap);
-            console_puts("[camera] DATA sample tap=");
-            console_put_u32(sample_tap);
-            console_puts("\r\n");
             break;
         case 'r':
             hdmi_tx_restart();

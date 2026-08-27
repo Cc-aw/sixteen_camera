@@ -46,6 +46,15 @@
 
 #define VPHY_RX_MMCM_CTRL       UINT32_C(0x140)
 #define VPHY_MMCM_LOCKED        UINT32_C(0x200)
+#define VPHY_REF_CLK_SEL        UINT32_C(0x010)
+#define VPHY_PLL_LOCK_STATUS    UINT32_C(0x018)
+#define VPHY_TX_INIT            UINT32_C(0x01C)
+#define VPHY_TX_INIT_STATUS     UINT32_C(0x020)
+#define VPHY_TX_STATUS          UINT32_C(0x078)
+#define VPHY_INTR_MASK          UINT32_C(0x118)
+#define VPHY_INTR_STATUS        UINT32_C(0x11C)
+#define VPHY_TX_MMCM_CTRL       UINT32_C(0x120)
+#define VPHY_CLKDET_STATUS      UINT32_C(0x204)
 #define HDMI_RX_PIO_IN          UINT32_C(0x064)
 #define HDMI_RX_PIO_IN_EVENT    UINT32_C(0x068)
 #define HDMI_RX_VTD_CONTROL     UINT32_C(0x0C4)
@@ -67,6 +76,9 @@ typedef struct {
     uint32_t underflows;
     uint32_t overflows;
     uint32_t rx_overflows;
+    uint32_t tx_init_events;
+    uint32_t tx_ready_events;
+    uint32_t vphy_intr_seen;
 } HdmiTxState;
 
 typedef struct {
@@ -314,6 +326,7 @@ static void rx_stream_down_callback(void *ref)
 static void vphy_tx_init_callback(void *ref)
 {
     (void)ref;
+    ++state.tx_init_events;
     state.tx_phy_ready = 0U;
     state.tx_stream_up = 0U;
     state.start_requested = 0U;
@@ -325,6 +338,7 @@ static void vphy_tx_init_callback(void *ref)
 static void vphy_tx_ready_callback(void *ref)
 {
     (void)ref;
+    ++state.tx_ready_events;
     if (!state.tx_phy_ready)
         line("VPHY TX ready");
     state.tx_phy_ready = 1U;
@@ -728,6 +742,9 @@ void hdmi_tx_poll(void)
         return;
     next_poll_cycle = now + POLL_CYCLES;
 
+    /* The driver clears handled interrupts, so retain a sticky diagnostic
+     * copy before dispatching it. */
+    state.vphy_intr_seen |= mmio_read32(VPHY_BASE + VPHY_INTR_STATUS);
     XVphy_InterruptHandler(&vphy);
     XV_HdmiRxSS_HdmiRxIntrHandler(&rx_ss);
     XV_HdmiTxSS_HdmiTxIntrHandler(&tx_ss);
@@ -843,6 +860,10 @@ void hdmi_tx_print_status(void)
                            (reader_debug & 0x3FFU);
     uint32_t reader_x = display_mode == 0U ?
                         (reader_debug & 0x3FFU) : 0U;
+    uint32_t vphy_pll_type = (uint32_t)XVphy_GetPllType(
+        &vphy, 0U, XVPHY_DIR_TX, XVPHY_CHANNEL_ID_CH1);
+    uint32_t vphy_ref_measured = XVphy_ClkDetGetRefClkFreqHz(
+        &vphy, XVPHY_DIR_TX);
 
     console_puts("PIPE init="); console_put_u32(state.initialized);
     console_puts(" clock="); console_put_u32(state.clock_ok);
@@ -853,6 +874,27 @@ void hdmi_tx_print_status(void)
     console_put_u32(framebuffer_total_frames());
     console_puts(" started="); console_put_u32(state.start_requested);
     console_puts(" fatal="); console_put_u32(state.fatal_error);
+    console_puts("\r\nVPHY TX evt(init/ready)=");
+    console_put_u32(state.tx_init_events);
+    console_putc('/'); console_put_u32(state.tx_ready_events);
+    console_puts(" fsm=");
+    console_put_u32((uint32_t)vphy.Quads[0].Ch1.TxState);
+    console_puts(" pll(type/lock)="); console_put_u32(vphy_pll_type);
+    console_putc('/');
+    console_put_hex32(mmio_read32(VPHY_BASE + VPHY_PLL_LOCK_STATUS));
+    console_puts(" ref(cfg/meas)="); console_put_u32(vphy.HdmiTxRefClkHz);
+    console_putc('/'); console_put_u32(vphy_ref_measured);
+    console_puts("\r\nVPHY RAW ref/init/initst/txst/mmcm/clkdet=");
+    console_put_hex32(mmio_read32(VPHY_BASE + VPHY_REF_CLK_SEL));
+    console_putc('/'); console_put_hex32(mmio_read32(VPHY_BASE + VPHY_TX_INIT));
+    console_putc('/'); console_put_hex32(mmio_read32(VPHY_BASE + VPHY_TX_INIT_STATUS));
+    console_putc('/'); console_put_hex32(mmio_read32(VPHY_BASE + VPHY_TX_STATUS));
+    console_putc('/'); console_put_hex32(mmio_read32(VPHY_BASE + VPHY_TX_MMCM_CTRL));
+    console_putc('/'); console_put_hex32(mmio_read32(VPHY_BASE + VPHY_CLKDET_STATUS));
+    console_puts(" intr(now/seen/mask)=");
+    console_put_hex32(mmio_read32(VPHY_BASE + VPHY_INTR_STATUS));
+    console_putc('/'); console_put_hex32(state.vphy_intr_seen);
+    console_putc('/'); console_put_hex32(mmio_read32(VPHY_BASE + VPHY_INTR_MASK));
     console_puts("\r\nFB ch=");
     console_put_u32(display_channel);
     console_puts(" displayed="); console_put_u32(displayed);

@@ -336,10 +336,26 @@ proc create_root_design { parentCell } {
     CONFIG.ENABLE_ADVANCED_OPTIONS {1} \
     CONFIG.NUM_MI {1} \
     CONFIG.NUM_SI {3} \
-    CONFIG.M00_HAS_REGSLICE {1} \
+    CONFIG.M00_HAS_REGSLICE {0} \
     CONFIG.S01_ARB_PRIORITY {15} \
     CONFIG.S02_ARB_PRIORITY {14} \
   ] $axi_interconnect_0
+
+  # Fully register all AXI channels immediately before the DDR MIG. Keeping
+  # this as an explicit IP gives the placer a clean pipeline boundary at the
+  # SLR crossing instead of relying on the interconnect's internal coupler.
+  set m00_full_regslice [ create_bd_cell -type ip \
+    -vlnv xilinx.com:ip:axi_register_slice:2.1 m00_full_regslice ]
+  set_property -dict [list \
+    CONFIG.ADDR_WIDTH {32} \
+    CONFIG.DATA_WIDTH {512} \
+    CONFIG.ID_WIDTH {4} \
+    CONFIG.REG_AW {7} \
+    CONFIG.REG_W  {7} \
+    CONFIG.REG_B  {7} \
+    CONFIG.REG_AR {7} \
+    CONFIG.REG_R  {7} \
+  ] $m00_full_regslice
 
 
   # Create interface connections
@@ -347,17 +363,22 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net S00_AXI_1 [get_bd_intf_ports S00_AXI] [get_bd_intf_pins axi_interconnect_0/S00_AXI]
   connect_bd_intf_net -intf_net S01_AXI_0_1 [get_bd_intf_ports S01_AXI] [get_bd_intf_pins axi_interconnect_0/S01_AXI]
   connect_bd_intf_net -intf_net S02_AXI_0_1 [get_bd_intf_ports S02_AXI] [get_bd_intf_pins axi_interconnect_0/S02_AXI]
-  connect_bd_intf_net -intf_net axi_interconnect_0_M00_AXI [get_bd_intf_pins axi_interconnect_0/M00_AXI] [get_bd_intf_pins ddr4_0/C0_DDR4_S_AXI]
+  connect_bd_intf_net -intf_net axi_interconnect_0_M00_AXI \
+    [get_bd_intf_pins axi_interconnect_0/M00_AXI] \
+    [get_bd_intf_pins m00_full_regslice/S_AXI]
+  connect_bd_intf_net -intf_net m00_full_regslice_M_AXI \
+    [get_bd_intf_pins m00_full_regslice/M_AXI] \
+    [get_bd_intf_pins ddr4_0/C0_DDR4_S_AXI]
   connect_bd_intf_net -intf_net ddr4_0_C0_DDR4 [get_bd_intf_ports C0_DDR4] [get_bd_intf_pins ddr4_0/C0_DDR4]
 
   # Create port connections
   connect_bd_net -net S00_ACLK_0_1 [get_bd_ports S00_ACLK] [get_bd_pins axi_interconnect_0/S00_ACLK]
   connect_bd_net -net S00_ARESETN_0_1 [get_bd_ports S00_ARESETN] [get_bd_pins axi_interconnect_0/S00_ARESETN]
   connect_bd_net -net ddr4_0_addn_ui_clkout1 [get_bd_pins ddr4_0/addn_ui_clkout1] [get_bd_ports soc_clk_100m]
-  connect_bd_net -net ddr4_0_c0_ddr4_ui_clk [get_bd_pins ddr4_0/c0_ddr4_ui_clk] [get_bd_ports ddr4_ui_clk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/S01_ACLK] [get_bd_pins axi_interconnect_0/S02_ACLK]
+  connect_bd_net -net ddr4_0_c0_ddr4_ui_clk [get_bd_pins ddr4_0/c0_ddr4_ui_clk] [get_bd_ports ddr4_ui_clk] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins axi_interconnect_0/ACLK] [get_bd_pins axi_interconnect_0/M00_ACLK] [get_bd_pins axi_interconnect_0/S01_ACLK] [get_bd_pins axi_interconnect_0/S02_ACLK] [get_bd_pins m00_full_regslice/aclk]
   connect_bd_net -net ddr4_0_c0_ddr4_ui_clk_sync_rst [get_bd_pins ddr4_0/c0_ddr4_ui_clk_sync_rst] [get_bd_pins proc_sys_reset_0/ext_reset_in]
   connect_bd_net -net ddr4_0_c0_init_calib_complete [get_bd_pins ddr4_0/c0_init_calib_complete] [get_bd_ports init_calib_complete]
-  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_ports peripheral_aresetn] [get_bd_pins ddr4_0/c0_ddr4_aresetn] [get_bd_pins axi_interconnect_0/ARESETN] [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins axi_interconnect_0/S01_ARESETN] [get_bd_pins axi_interconnect_0/S02_ARESETN]
+  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_ports peripheral_aresetn] [get_bd_pins ddr4_0/c0_ddr4_aresetn] [get_bd_pins axi_interconnect_0/ARESETN] [get_bd_pins axi_interconnect_0/M00_ARESETN] [get_bd_pins axi_interconnect_0/S01_ARESETN] [get_bd_pins axi_interconnect_0/S02_ARESETN] [get_bd_pins m00_full_regslice/aresetn]
   connect_bd_net -net sys_rst_0_1 [get_bd_ports ddr4_rst] [get_bd_pins ddr4_0/sys_rst]
 
   # Create address segments
@@ -380,4 +401,3 @@ proc create_root_design { parentCell } {
 ##################################################################
 
 create_root_design ""
-

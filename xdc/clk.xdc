@@ -70,6 +70,17 @@ set_false_path -to [get_pins -hierarchical -filter \
 set_false_path -to [get_pins -hierarchical -filter \
     {NAME =~ *u_camera_cdc/ddr_resetn_cam_sync_reg*/CLR}]
 
+# DDR UI reset is an asynchronous-assert/synchronous-release reset generated
+# by ddr_reset_sync. Its synchronized Q fans out to reset pins across the
+# video/DDR subsystem (including registers in other SLRs). Do not time reset
+# distribution as a data path; the synchronizer clock path remains constrained
+# and reset release is still synchronous to mmcm_clkout0.
+set_false_path -from [get_pins {u_ddr_memory/ddr_reset_sync_reg[2]/Q}]
+
+# MIG calibration asserts the reset synchronizer asynchronously. The CLR pin
+# intentionally has no recovery requirement against the calibration clock.
+set_false_path -to [get_pins {u_ddr_memory/ddr_reset_sync_reg[0]/CLR}]
+
 # The functional oversampling receiver treats every DVP signal, including
 # PCLK, as asynchronous data into a 300 MHz IOB register.  Only the pad to the
 # first IOB stage is excluded; all IOB-to-second-stage and 300 MHz functional
@@ -95,6 +106,31 @@ set_max_delay 1.500 -datapath_only \
          NAME =~ *dvp_href_sync_reg/D || \
          NAME =~ *dvp_vsync_sync_reg/D || \
          NAME =~ *dvp_pclk_sync_reg/D}]
+
+# DVP IOB outputs feed the first metastability-catching synchronizer stage.
+# These are asynchronous CDC endpoints; do not time arbitrary SLR routing as
+# a same-cycle synchronous data path. The following synchronizer stages remain
+# fully timed for metastability resolution.
+set_false_path -to [get_pins -hierarchical -filter \
+    {NAME =~ *dvp_data_sync_reg*/D || \
+     NAME =~ *dvp_href_sync_reg*/D || \
+     NAME =~ *dvp_vsync_sync_reg*/D || \
+     NAME =~ *dvp_pclk_sync_reg*/D}]
+
+# Also qualify the launch pins explicitly. Vivado can report the IOB clock pin
+# as the launch point for an IOB-to-sync timing arc; the endpoint-only rule
+# above is not sufficient when a datapath max-delay exception is present.
+set_false_path \
+    -from [get_pins -hierarchical -filter \
+        {NAME =~ *dvp_data_iob_reg*/C || NAME =~ *dvp_data_iob_reg*/Q || \
+         NAME =~ *dvp_href_iob_reg/C || NAME =~ *dvp_href_iob_reg/Q || \
+         NAME =~ *dvp_vsync_iob_reg/C || NAME =~ *dvp_vsync_iob_reg/Q || \
+         NAME =~ *dvp_pclk_iob_reg/C || NAME =~ *dvp_pclk_iob_reg/Q}] \
+    -to [get_pins -hierarchical -filter \
+        {NAME =~ *dvp_data_sync_reg*/D || \
+         NAME =~ *dvp_href_sync_reg*/D || \
+         NAME =~ *dvp_vsync_sync_reg*/D || \
+         NAME =~ *dvp_pclk_sync_reg*/D}]
 
 # The eight FMC camera inputs sit in two SLRs.  USER_SLR_ASSIGNMENT applies
 # only to hierarchical cells and is ignored on these leaf registers, so use

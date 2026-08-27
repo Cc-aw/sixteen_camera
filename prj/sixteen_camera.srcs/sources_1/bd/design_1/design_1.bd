@@ -25,10 +25,9 @@
         "s02_couplers": {
           "auto_us": ""
         },
-        "m00_couplers": {
-          "m00_regslice": ""
-        }
-      }
+        "m00_couplers": {}
+      },
+      "m00_full_regslice": ""
     },
     "interface_ports": {
       "C0_SYS_CLK": {
@@ -1366,7 +1365,7 @@
             "value": "1"
           },
           "M00_HAS_REGSLICE": {
-            "value": "1"
+            "value": "0"
           },
           "NUM_MI": {
             "value": "1"
@@ -1928,49 +1927,11 @@
                 "direction": "I"
               }
             },
-            "components": {
-              "m00_regslice": {
-                "vlnv": "xilinx.com:ip:axi_register_slice:2.1",
-                "ip_revision": "29",
-                "xci_name": "design_1_m00_regslice_0",
-                "xci_path": "ip/design_1_m00_regslice_0/design_1_m00_regslice_0.xci",
-                "inst_hier_path": "axi_interconnect_0/m00_couplers/m00_regslice",
-                "interface_ports": {
-                  "S_AXI": {
-                    "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
-                    "mode": "Slave",
-                    "bridges": [
-                      "M_AXI"
-                    ]
-                  }
-                }
-              }
-            },
             "interface_nets": {
-              "m00_couplers_to_m00_regslice": {
+              "m00_couplers_to_m00_couplers": {
                 "interface_ports": [
                   "S_AXI",
-                  "m00_regslice/S_AXI"
-                ]
-              },
-              "m00_regslice_to_m00_couplers": {
-                "interface_ports": [
-                  "m00_regslice/M_AXI",
                   "M_AXI"
-                ]
-              }
-            },
-            "nets": {
-              "M_ACLK_1": {
-                "ports": [
-                  "M_ACLK",
-                  "m00_regslice/aclk"
-                ]
-              },
-              "M_ARESETN_1": {
-                "ports": [
-                  "M_ARESETN",
-                  "m00_regslice/aresetn"
                 ]
               }
             }
@@ -2096,6 +2057,48 @@
             ]
           }
         }
+      },
+      "m00_full_regslice": {
+        "vlnv": "xilinx.com:ip:axi_register_slice:2.1",
+        "ip_revision": "29",
+        "xci_name": "design_1_m00_full_regslice_0",
+        "xci_path": "ip/design_1_m00_full_regslice_0/design_1_m00_full_regslice_0.xci",
+        "inst_hier_path": "m00_full_regslice",
+        "parameters": {
+          "ADDR_WIDTH": {
+            "value": "32"
+          },
+          "DATA_WIDTH": {
+            "value": "512"
+          },
+          "ID_WIDTH": {
+            "value": "4"
+          },
+          "REG_AR": {
+            "value": "7"
+          },
+          "REG_AW": {
+            "value": "7"
+          },
+          "REG_B": {
+            "value": "7"
+          },
+          "REG_R": {
+            "value": "7"
+          },
+          "REG_W": {
+            "value": "7"
+          }
+        },
+        "interface_ports": {
+          "S_AXI": {
+            "vlnv": "xilinx.com:interface:aximm_rtl:1.0",
+            "mode": "Slave",
+            "bridges": [
+              "M_AXI"
+            ]
+          }
+        }
       }
     },
     "interface_nets": {
@@ -2123,16 +2126,22 @@
           "axi_interconnect_0/S02_AXI"
         ]
       },
-      "axi_interconnect_0_M00_AXI": {
+      "axi_interconnect_0_M00_AXI1": {
         "interface_ports": [
           "axi_interconnect_0/M00_AXI",
-          "ddr4_0/C0_DDR4_S_AXI"
+          "m00_full_regslice/S_AXI"
         ]
       },
       "ddr4_0_C0_DDR4": {
         "interface_ports": [
           "C0_DDR4",
           "ddr4_0/C0_DDR4"
+        ]
+      },
+      "m00_full_regslice_M_AXI1": {
+        "interface_ports": [
+          "m00_full_regslice/M_AXI",
+          "ddr4_0/C0_DDR4_S_AXI"
         ]
       }
     },
@@ -2163,7 +2172,8 @@
           "axi_interconnect_0/ACLK",
           "axi_interconnect_0/M00_ACLK",
           "axi_interconnect_0/S01_ACLK",
-          "axi_interconnect_0/S02_ACLK"
+          "axi_interconnect_0/S02_ACLK",
+          "m00_full_regslice/aclk"
         ]
       },
       "ddr4_0_c0_ddr4_ui_clk_sync_rst": {
@@ -2186,7 +2196,8 @@
           "axi_interconnect_0/ARESETN",
           "axi_interconnect_0/M00_ARESETN",
           "axi_interconnect_0/S01_ARESETN",
-          "axi_interconnect_0/S02_ARESETN"
+          "axi_interconnect_0/S02_ARESETN",
+          "m00_full_regslice/aresetn"
         ]
       },
       "sys_rst_0_1": {
