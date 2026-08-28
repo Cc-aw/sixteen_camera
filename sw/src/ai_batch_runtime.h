@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 
+#include "ai_detection.h"
 #include "ai_frame_snapshot.h"
 
 typedef enum {
@@ -19,6 +20,8 @@ typedef struct {
     uint64_t batch_id;
     uint16_t valid_mask;
     uint16_t fresh_mask;
+    uint16_t dispatched_mask;
+    uint16_t completed_mask;
     AiFrameMetadata members[VIDEO_CHANNEL_COUNT];
     uint64_t admit_cycle;
     uint64_t preprocess_end_cycle;
@@ -38,6 +41,10 @@ typedef struct {
     uint32_t snapshot_count;
     uint32_t preprocess_count;
     uint32_t consumed_count;
+    uint32_t completed_job_count;
+    uint32_t postprocess_count;
+    uint32_t result_publish_count;
+    uint32_t stale_result_count;
     uint32_t error_count;
     uint32_t release_retry_count;
     uint32_t recycle_error_count;
@@ -56,5 +63,6 @@ void ai_batch_runtime_poll(void);
 void ai_batch_runtime_print_status(void);
 void ai_batch_runtime_get_status(AiBatchRuntimeStatus *status);
 const AiBatchContext *ai_batch_runtime_context(uint32_t arena);
+const AiDetectionResult *ai_batch_runtime_latest_result(uint32_t stream_id);
 
 #endif

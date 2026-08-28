@@ -1,6 +1,12 @@
 set script_dir [file dirname [file normalize [info script]]]
 open_project [file join $script_dir sixteen_camera.xpr]
 
+# Keep the project source set synchronized with the repository before every
+# clean build.  This is required for newly added RTL (for example the AI
+# detection overlay) which is not present in the checked-in .xpr file yet.
+source [file join $script_dir .. setup_vivado.tcl]
+update_compile_order -fileset sources_1
+
 set synth_run [get_runs synth_1]
 # Force a clean top-level synthesis.  Vivado 2023.2 can crash while applying a
 # stale auto-incremental DCP after RTL changes (observed after the CDC fix).

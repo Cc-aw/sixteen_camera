@@ -67,6 +67,11 @@ module multi_channel_framebuffer_ctrl #(
     input wire [31:0] preprocess_start_count,
     input wire [31:0] preprocess_complete_count,
     input wire [31:0] preprocess_error_count,
+    output reg overlay_commit_toggle,
+    output reg [3:0] overlay_stream,
+    output reg [3:0] overlay_count,
+    output reg [8*64-1:0] overlay_boxes,
+    input wire overlay_commit_ack_toggle,
     input wire cfg_ack_toggle,
     input wire [31:0] manager_status,
     input wire [CHANNELS*32-1:0] writer_frame_counts,
@@ -157,6 +162,13 @@ module multi_channel_framebuffer_ctrl #(
     localparam [9:0] REG_PRE_START_COUNT = 10'h24c;
     localparam [9:0] REG_PRE_COMPLETE_COUNT = 10'h250;
     localparam [9:0] REG_PRE_ERROR_COUNT = 10'h254;
+    localparam [9:0] REG_OVERLAY_CONTROL = 10'h260;
+    localparam [9:0] REG_OVERLAY_STREAM = 10'h264;
+    localparam [9:0] REG_OVERLAY_COUNT = 10'h268;
+    localparam [9:0] REG_OVERLAY_BOX_INDEX = 10'h26c;
+    localparam [9:0] REG_OVERLAY_BOX_XY0 = 10'h270;
+    localparam [9:0] REG_OVERLAY_BOX_XY1 = 10'h274;
+    localparam [9:0] REG_OVERLAY_BOX_CLASS = 10'h278;
 
     reg [9:0] awaddr_hold;
     reg [31:0] wdata_hold;
@@ -166,6 +178,7 @@ module multi_channel_framebuffer_ctrl #(
     reg bvalid;
     reg [31:0] rdata;
     reg rvalid;
+    reg [2:0] overlay_box_index;
     (* ASYNC_REG = "TRUE" *) reg ack_sync_1;
     (* ASYNC_REG = "TRUE" *) reg ack_sync_2;
 
@@ -186,6 +199,8 @@ module multi_channel_framebuffer_ctrl #(
         preprocess_start_req_toggle != preprocess_start_ack_toggle;
     wire preprocess_recycle_busy =
         preprocess_recycle_req_toggle != preprocess_recycle_ack_toggle;
+    wire overlay_commit_busy =
+        overlay_commit_toggle != overlay_commit_ack_toggle;
     wire write_is_channel_base = (write_addr >= REG_CHANNEL_BASE0) &&
         (write_addr < REG_CHANNEL_BASE0 + CHANNELS*4) &&
         (write_addr[1:0] == 2'b00);
@@ -265,6 +280,11 @@ module multi_channel_framebuffer_ctrl #(
             preprocess_start_req_toggle <= 1'b0;
             preprocess_recycle_req_toggle <= 1'b0;
             preprocess_recycle_mask <= 2'b00;
+            overlay_commit_toggle <= 1'b0;
+            overlay_stream <= 4'd0;
+            overlay_count <= 4'd0;
+            overlay_boxes <= 512'd0;
+            overlay_box_index <= 3'd0;
             awaddr_hold <= 10'd0;
             wdata_hold <= 32'd0;
             wstrb_hold <= 4'd0;
@@ -342,6 +362,37 @@ module multi_channel_framebuffer_ctrl #(
                     end
                     REG_PRE_RECYCLE_MASK: if (!preprocess_recycle_busy)
                         preprocess_recycle_mask <= write_data[1:0];
+                    REG_OVERLAY_CONTROL: if (write_strb[0] &&
+                                                write_data[0] &&
+                                                !overlay_commit_busy &&
+                                                overlay_stream < CHANNELS &&
+                                                overlay_count <= 8)
+                        overlay_commit_toggle <= !overlay_commit_toggle;
+                    REG_OVERLAY_STREAM: if (write_strb[0] &&
+                                               !overlay_commit_busy &&
+                                               write_data < CHANNELS)
+                        overlay_stream <= write_data[3:0];
+                    REG_OVERLAY_COUNT: if (write_strb[0] &&
+                                              !overlay_commit_busy &&
+                                              write_data <= 8)
+                        overlay_count <= write_data[3:0];
+                    REG_OVERLAY_BOX_INDEX: if (write_strb[0] &&
+                                                  !overlay_commit_busy &&
+                                                  write_data < 8)
+                        overlay_box_index <= write_data[2:0];
+                    REG_OVERLAY_BOX_XY0: if (!overlay_commit_busy)
+                        overlay_boxes[overlay_box_index*64 +: 32] <=
+                            apply_wstrb(
+                                overlay_boxes[overlay_box_index*64 +: 32],
+                                write_data, write_strb);
+                    REG_OVERLAY_BOX_XY1: if (!overlay_commit_busy)
+                        overlay_boxes[overlay_box_index*64 + 32 +: 32] <=
+                            apply_wstrb(
+                                overlay_boxes[overlay_box_index*64 + 32 +: 32],
+                                write_data, write_strb);
+                    REG_OVERLAY_BOX_CLASS: if (!overlay_commit_busy)
+                        overlay_boxes[overlay_box_index*64 + 44 +: 8] <=
+                            write_data[7:0];
                     REG_BUFFER_STRIDE: if (!cfg_busy)
                         cfg_buffer_stride_bytes <= apply_wstrb(
                             cfg_buffer_stride_bytes, write_data, write_strb);
@@ -462,6 +513,21 @@ module multi_channel_framebuffer_ctrl #(
                         rdata <= preprocess_complete_count;
                     REG_PRE_ERROR_COUNT:
                         rdata <= preprocess_error_count;
+                    REG_OVERLAY_CONTROL:
+                        rdata <= {30'd0, overlay_commit_busy,
+                                  overlay_commit_toggle};
+                    REG_OVERLAY_STREAM: rdata <= {28'd0, overlay_stream};
+                    REG_OVERLAY_COUNT: rdata <= {28'd0, overlay_count};
+                    REG_OVERLAY_BOX_INDEX:
+                        rdata <= {29'd0, overlay_box_index};
+                    REG_OVERLAY_BOX_XY0:
+                        rdata <= overlay_boxes[overlay_box_index*64 +: 32];
+                    REG_OVERLAY_BOX_XY1:
+                        rdata <= overlay_boxes[
+                            overlay_box_index*64 + 32 +: 32];
+                    REG_OVERLAY_BOX_CLASS:
+                        rdata <= {24'd0, overlay_boxes[
+                            overlay_box_index*64 + 44 +: 8]};
                     REG_PRESENT_MASK: rdata <= {{(32-CHANNELS){1'b0}},
                                                 CAMERA_PRESENT_MASK};
                     REG_BUFFER_STRIDE: rdata <= cfg_buffer_stride_bytes;

@@ -24,6 +24,10 @@ module display_reader_subsystem #(
     input  wire [31:0]              frame_width,
     input  wire [31:0]              frame_height,
     input  wire [31:0]              frame_stride_bytes,
+    input  wire                     overlay_commit,
+    input  wire [3:0]               overlay_stream,
+    input  wire [3:0]               overlay_count,
+    input  wire [8*64-1:0]          overlay_boxes,
     axi4_if.master                  m_axi,
     axis_video_if.source            m_axis,
     output wire                     axi_error,
@@ -117,14 +121,30 @@ module display_reader_subsystem #(
         .debug_status(mosaic_debug_status)
     );
 
+    wire [47:0] selected_tdata = active_mosaic ? mosaic_axis.tdata :
+                                               full_axis.tdata;
+    wire selected_tvalid = active_mosaic ? mosaic_axis.tvalid :
+                                           full_axis.tvalid;
+    wire selected_tuser = active_mosaic ? mosaic_axis.tuser : full_axis.tuser;
+    wire selected_tlast = active_mosaic ? mosaic_axis.tlast : full_axis.tlast;
+    wire selected_tready;
+
+    assign mosaic_axis.tready = active_mosaic ? selected_tready : 1'b0;
+    assign full_axis.tready = active_mosaic ? 1'b0 : selected_tready;
+
     assign m_axis.aclk = clk;
     assign m_axis.aresetn = resetn;
-    assign m_axis.tdata = active_mosaic ? mosaic_axis.tdata : full_axis.tdata;
-    assign m_axis.tvalid = active_mosaic ? mosaic_axis.tvalid : full_axis.tvalid;
-    assign m_axis.tuser = active_mosaic ? mosaic_axis.tuser : full_axis.tuser;
-    assign m_axis.tlast = active_mosaic ? mosaic_axis.tlast : full_axis.tlast;
-    assign mosaic_axis.tready = active_mosaic ? m_axis.tready : 1'b0;
-    assign full_axis.tready = active_mosaic ? 1'b0 : m_axis.tready;
+
+    detection_overlay u_detection_overlay (
+        .clk(clk), .resetn(resetn), .enable(active_mosaic),
+        .cfg_commit(overlay_commit), .cfg_stream(overlay_stream),
+        .cfg_count(overlay_count), .cfg_boxes(overlay_boxes),
+        .s_tdata(selected_tdata), .s_tvalid(selected_tvalid),
+        .s_tready(selected_tready), .s_tuser(selected_tuser),
+        .s_tlast(selected_tlast), .m_tdata(m_axis.tdata),
+        .m_tvalid(m_axis.tvalid), .m_tready(m_axis.tready),
+        .m_tuser(m_axis.tuser), .m_tlast(m_axis.tlast)
+    );
 
     assign m_axi.aclk = clk;
     assign m_axi.aresetn = resetn;

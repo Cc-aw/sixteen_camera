@@ -89,6 +89,12 @@ void console_put_hex32(uint32_t value) { (void)value; }
 void console_put_hex64(uint64_t value) { (void)value; }
 void console_put_u32(uint32_t value) { (void)value; }
 
+int ai_overlay_try_submit(const AiDetectionResult *result)
+{
+    assert(result != 0);
+    return 1;
+}
+
 int main(void)
 {
     AiBatchRuntimeStatus status;
@@ -116,6 +122,11 @@ int main(void)
     assert(status.snapshot_count >= 2U);
     assert(status.preprocess_count >= 2U);
     assert(status.consumed_count >= 2U);
+    assert(status.completed_job_count >= 16U);
+    assert(status.postprocess_count == status.completed_job_count);
+    assert(status.result_publish_count >= 8U);
+    assert(ai_batch_runtime_latest_result(3U) != 0);
+    assert(ai_batch_runtime_latest_result(3U)->count == 1U);
     assert(status.release_retry_count == 1U);
     assert(status.error_count == 0U);
 

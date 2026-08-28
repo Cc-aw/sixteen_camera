@@ -185,6 +185,18 @@ module multi_channel_ddr_video_pipeline #(
     wire [31:0] preprocess_start_count_cpu;
     wire [31:0] preprocess_complete_count_cpu;
     wire [31:0] preprocess_error_count_cpu;
+    wire overlay_commit_toggle_cpu;
+    wire overlay_commit_toggle_ddr;
+    reg overlay_commit_seen_ddr;
+    reg overlay_commit_pulse_ddr;
+    reg overlay_commit_ack_toggle_ddr;
+    wire overlay_commit_ack_toggle_cpu;
+    wire [3:0] overlay_stream_cpu;
+    wire [3:0] overlay_stream_ddr;
+    wire [3:0] overlay_count_cpu;
+    wire [3:0] overlay_count_ddr;
+    wire [511:0] overlay_boxes_cpu;
+    wire [511:0] overlay_boxes_ddr;
 
     wire [31:0] manager_status_cpu;
     wire [CHANNELS*32-1:0] writer_frame_counts_cpu;
@@ -277,6 +289,11 @@ module multi_channel_ddr_video_pipeline #(
         .preprocess_start_count(preprocess_start_count_cpu),
         .preprocess_complete_count(preprocess_complete_count_cpu),
         .preprocess_error_count(preprocess_error_count_cpu),
+        .overlay_commit_toggle(overlay_commit_toggle_cpu),
+        .overlay_stream(overlay_stream_cpu),
+        .overlay_count(overlay_count_cpu),
+        .overlay_boxes(overlay_boxes_cpu),
+        .overlay_commit_ack_toggle(overlay_commit_ack_toggle_cpu),
         .cfg_ack_toggle(cfg_ack_toggle),
         .manager_status(manager_status_cpu),
         .writer_frame_counts(writer_frame_counts_cpu),
@@ -572,6 +589,50 @@ module multi_channel_ddr_video_pipeline #(
                    preprocess_busy_cpu})
     );
 
+    xpm_cdc_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1)
+    ) u_overlay_commit_req_cdc (
+        .src_clk(control_axil.aclk), .src_in(overlay_commit_toggle_cpu),
+        .dest_clk(ddr_ui_clk), .dest_out(overlay_commit_toggle_ddr)
+    );
+
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(520)
+    ) u_overlay_payload_cdc (
+        .src_clk(control_axil.aclk),
+        .src_in({overlay_stream_cpu, overlay_count_cpu, overlay_boxes_cpu}),
+        .dest_clk(ddr_ui_clk),
+        .dest_out({overlay_stream_ddr, overlay_count_ddr,
+                   overlay_boxes_ddr})
+    );
+
+    always @(posedge ddr_ui_clk) begin
+        if (!ddr_resetn) begin
+            overlay_commit_seen_ddr <= 1'b0;
+            overlay_commit_pulse_ddr <= 1'b0;
+            overlay_commit_ack_toggle_ddr <= 1'b0;
+        end else begin
+            overlay_commit_pulse_ddr <= 1'b0;
+            if (overlay_commit_pulse_ddr)
+                overlay_commit_ack_toggle_ddr <= overlay_commit_seen_ddr;
+            if (overlay_commit_toggle_ddr != overlay_commit_seen_ddr) begin
+                overlay_commit_seen_ddr <= overlay_commit_toggle_ddr;
+                overlay_commit_pulse_ddr <= 1'b1;
+            end
+        end
+    end
+
+    xpm_cdc_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1)
+    ) u_overlay_commit_ack_cdc (
+        .src_clk(ddr_ui_clk), .src_in(overlay_commit_ack_toggle_ddr),
+        .dest_clk(control_axil.aclk),
+        .dest_out(overlay_commit_ack_toggle_cpu)
+    );
+
     // XPM CDC arrays are limited to 1024 bits.  Keep the 16-channel counter
     // vectors in independent snapshots.
     xpm_cdc_array_single #(
@@ -782,6 +843,10 @@ module multi_channel_ddr_video_pipeline #(
         .buffer_done(reader_done),
         .frame_width(active_width), .frame_height(active_height),
         .frame_stride_bytes(active_stride_bytes), .m_axi(reader_axi),
+        .overlay_commit(overlay_commit_pulse_ddr),
+        .overlay_stream(overlay_stream_ddr),
+        .overlay_count(overlay_count_ddr),
+        .overlay_boxes(overlay_boxes_ddr),
         .m_axis(display_axis), .axi_error(reader_error),
         .fifo_underflow(reader_underflow),
         .debug_active_base(reader_active_base),

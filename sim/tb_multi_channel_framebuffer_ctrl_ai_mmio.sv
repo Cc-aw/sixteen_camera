@@ -45,6 +45,11 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
     wire [1:0] preprocess_recycle_mask;
     reg preprocess_start_ack_toggle = 1'b0;
     reg preprocess_recycle_ack_toggle = 1'b0;
+    wire overlay_commit_toggle;
+    wire [3:0] overlay_stream;
+    wire [3:0] overlay_count;
+    wire [511:0] overlay_boxes;
+    reg overlay_commit_ack_toggle = 1'b0;
     multi_channel_framebuffer_ctrl #(
         .CHANNELS(CHANNELS), .GLOBAL_CHANNEL_BASE(1),
         .CAMERA_PRESENT_MASK(16'hffff),
@@ -100,6 +105,10 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
         .preprocess_start_count(32'd4),
         .preprocess_complete_count(32'd3),
         .preprocess_error_count(32'd1),
+        .overlay_commit_toggle(overlay_commit_toggle),
+        .overlay_stream(overlay_stream), .overlay_count(overlay_count),
+        .overlay_boxes(overlay_boxes),
+        .overlay_commit_ack_toggle(overlay_commit_ack_toggle),
         .cfg_ack_toggle(cfg_request_toggle), .manager_status(32'd0),
         .writer_frame_counts({CHANNELS{32'd0}}),
         .drop_counts({CHANNELS{32'd0}}),
@@ -242,6 +251,28 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
         axi_read(16'h0240, value);
         if (value != 1234)
             $fatal(1, "preprocess cycles=%0d", value);
+
+        axi_write(16'h0264, 32'd15);
+        axi_write(16'h0268, 32'd1);
+        axi_write(16'h026c, 32'd0);
+        axi_write(16'h0270, 32'h0020_000a);
+        axi_write(16'h0274, 32'h0000_1234);
+        axi_write(16'h0278, 32'd7);
+        axi_write(16'h0260, 32'd1);
+        if (overlay_stream != 15 || overlay_count != 1 ||
+            overlay_commit_toggle != 1'b1)
+            $fatal(1, "overlay commit mailbox missing");
+        if (overlay_boxes[31:0] != 32'h0020_000a ||
+            overlay_boxes[63:32] != 32'h0000_7234)
+            $fatal(1, "overlay payload=%016x", overlay_boxes[63:0]);
+        axi_read(16'h0260, value);
+        if (value[1] != 1'b1)
+            $fatal(1, "overlay busy bit missing");
+        overlay_commit_ack_toggle = overlay_commit_toggle;
+        repeat (2) @(posedge clk);
+        axi_read(16'h0260, value);
+        if (value[1] != 1'b0)
+            $fatal(1, "overlay busy bit did not clear");
 
         $display("TB_MULTI_CHANNEL_FRAMEBUFFER_CTRL_AI_MMIO=PASS");
         $finish;

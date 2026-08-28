@@ -3,23 +3,19 @@
 
 #include <stdint.h>
 
-typedef struct {
-    uint64_t batch_id;
-    uint32_t input_tensor_base;
-    uint32_t input_tensor_bytes;
-    uint16_t valid_mask;
-    uint16_t fresh_mask;
-    uint32_t batch_size;
-} AiModelRequest;
+#include "ai_model_abi.h"
+
+#define AI_MODEL_WORKER_COUNT 3U
 
 /*
- * Stable boundary for the future fixed-model Gemmini executor.  submit()
- * accepts one READY Batch; poll() returns 0 while running, 1 on completion,
- * or a negative error code.
+ * Stable boundary implemented by the future Gemmini executor. A worker owns
+ * its output arena until poll() reports completion. poll() returns zero while
+ * running, one on completion, or a negative backend error.
  */
 void ai_model_backend_init(void);
-int ai_model_backend_submit(const AiModelRequest *request);
-int ai_model_backend_poll(void);
-void ai_model_backend_abort(void);
+int ai_model_backend_submit(const AiModelFrameRequest *request);
+int ai_model_backend_poll(uint32_t worker_id,
+                          AiModelFrameCompletion *completion);
+int ai_model_backend_abort(uint32_t worker_id);
 
 #endif
