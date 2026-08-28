@@ -19,6 +19,7 @@ typedef struct {
  * the hardware is running, 1 when result has been filled, or a negative error
  * code.  The existing blocking helper remains available for diagnostics.
  */
+void ai_preprocess_init(void);
 int ai_preprocess_start(void);
 int ai_preprocess_poll(AiPreprocessResult *result);
 int ai_preprocess_run(AiPreprocessResult *result);

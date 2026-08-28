@@ -235,7 +235,7 @@ static void dispatch_jobs(void)
                 .frame_id = context->members[channel].frame_id,
                 .timestamp = context->members[channel].timestamp,
                 .input_addr = context->tensor_base +
-                              (uint32_t)channel * TENSOR_MEMBER_BYTES,
+                              (uint32_t)channel * TENSOR_MEMBER_STRIDE,
                 .input_bytes = TENSOR_MEMBER_BYTES,
                 .output_addr = AI_MODEL_OUTPUT0_PHYS_BASE +
                     worker_id * AI_MODEL_OUTPUT_ARENA_BYTES,
@@ -288,6 +288,7 @@ static void recycle_completed_contexts(void)
 
 void ai_batch_runtime_init(void)
 {
+    ai_preprocess_init();
     runtime.pending_valid = 0U;
     runtime.pending_admit_cycle = 0U;
     runtime.release_pending_mask = 0U;

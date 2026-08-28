@@ -8,8 +8,9 @@ module frame_preprocess_accel #(
     parameter integer SRC_WIDTH = 640,
     parameter integer SRC_HEIGHT = 480,
     parameter integer SRC_STRIDE_BYTES = SRC_WIDTH * 4,
-    parameter integer DST_WIDTH = 416,
-    parameter integer DST_HEIGHT = 416,
+    // The fixed YOLOv5nu contract is 640x480 (6300 anchors).
+    parameter integer DST_WIDTH = 640,
+    parameter integer DST_HEIGHT = 480,
     parameter integer MAX_BURST_BEATS = 64
 ) (
     input  wire        clk,

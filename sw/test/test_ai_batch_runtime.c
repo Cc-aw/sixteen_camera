@@ -49,6 +49,11 @@ int ai_preprocess_start(void)
     return 0;
 }
 
+void ai_preprocess_init(void)
+{
+    preprocess_active = 0U;
+}
+
 int ai_preprocess_poll(AiPreprocessResult *result)
 {
     assert(preprocess_active != 0U);

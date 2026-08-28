@@ -16,6 +16,10 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
     wire [31:0] cfg_buffers_per_channel;
     wire [CHANNELS*32-1:0] cfg_channel_bases;
     wire [31:0] cfg_buffer_stride_bytes;
+    wire [31:0] preprocess_arena0_base;
+    wire [31:0] preprocess_arena1_base;
+    wire [31:0] preprocess_member_stride;
+    wire [31:0] preprocess_member_bytes;
     wire [3:0] cfg_display_channel;
     wire cfg_display_mode;
     wire cfg_hdmi_capture_enable;
@@ -24,6 +28,7 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
     wire [CHANNELS-1:0] ai_release_mask;
     wire ai_meta_req_toggle;
     wire [3:0] ai_meta_index;
+    reg preprocess_busy = 1'b1;
 
     reg ai_snapshot_ack_toggle = 1'b0;
     reg ai_release_ack_toggle = 1'b0;
@@ -62,6 +67,10 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
         .cfg_buffers_per_channel(cfg_buffers_per_channel),
         .cfg_channel_bases(cfg_channel_bases),
         .cfg_buffer_stride_bytes(cfg_buffer_stride_bytes),
+        .preprocess_arena0_base(preprocess_arena0_base),
+        .preprocess_arena1_base(preprocess_arena1_base),
+        .preprocess_member_stride(preprocess_member_stride),
+        .preprocess_member_bytes(preprocess_member_bytes),
         .cfg_display_channel(cfg_display_channel),
         .cfg_display_mode(cfg_display_mode),
         .cfg_hdmi_capture_enable(cfg_hdmi_capture_enable),
@@ -88,7 +97,7 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
         .preprocess_recycle_mask(preprocess_recycle_mask),
         .preprocess_start_ack_toggle(preprocess_start_ack_toggle),
         .preprocess_recycle_ack_toggle(preprocess_recycle_ack_toggle),
-        .preprocess_busy(1'b1), .preprocess_ready_mask(2'b01),
+        .preprocess_busy(preprocess_busy), .preprocess_ready_mask(2'b01),
         .preprocess_active_arena(1'b0),
         .preprocess_active_channel(5'd7),
         .preprocess_completed_channels(5'd7),
@@ -251,6 +260,25 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
         axi_read(16'h0240, value);
         if (value != 1234)
             $fatal(1, "preprocess cycles=%0d", value);
+
+        preprocess_busy = 1'b0;
+
+        axi_write(16'h0280, 32'h3400_0000);
+        axi_write(16'h0284, 32'h3500_0000);
+        axi_write(16'h0288, 32'h0010_0000);
+        axi_write(16'h028c, 32'h000e_1000);
+        axi_read(16'h0280, value);
+        if (value != 32'h3400_0000 || preprocess_arena0_base != value)
+            $fatal(1, "preprocess arena0 config=%08x", value);
+        axi_read(16'h0284, value);
+        if (value != 32'h3500_0000 || preprocess_arena1_base != value)
+            $fatal(1, "preprocess arena1 config=%08x", value);
+        axi_read(16'h0288, value);
+        if (value != 32'h0010_0000 || preprocess_member_stride != value)
+            $fatal(1, "preprocess stride config=%08x", value);
+        axi_read(16'h028c, value);
+        if (value != 32'h000e_1000 || preprocess_member_bytes != value)
+            $fatal(1, "preprocess bytes config=%08x", value);
 
         axi_write(16'h0264, 32'd15);
         axi_write(16'h0268, 32'd1);

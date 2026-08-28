@@ -17,6 +17,9 @@ module tb_batch_preprocess_engine;
     reg start = 1'b0;
     reg recycle = 1'b0;
     reg [1:0] recycle_mask = 2'b00;
+    reg [31:0] arena0_base_cfg = ARENA0_BASE;
+    reg [31:0] arena1_base_cfg = ARENA1_BASE;
+    reg [31:0] member_stride_cfg = MEMBER_BYTES;
     reg snapshot_active = 1'b1;
     reg [CHANNELS-1:0] snapshot_valid_mask = 4'b0101;
     reg [CHANNELS-1:0] snapshot_fresh_mask = 4'b0001;
@@ -59,6 +62,9 @@ module tb_batch_preprocess_engine;
         .snapshot_addrs(snapshot_addrs),
         .snapshot_batch_id(snapshot_batch_id),
         .recycle(recycle), .recycle_mask(recycle_mask),
+        .arena0_base_cfg(arena0_base_cfg),
+        .arena1_base_cfg(arena1_base_cfg),
+        .member_stride_cfg(member_stride_cfg),
         .command_done(command_done), .command_error(command_error),
         .busy(busy), .ready_mask(ready_mask),
         .active_arena(active_arena), .active_channel(active_channel),

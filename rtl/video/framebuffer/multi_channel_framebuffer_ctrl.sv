@@ -19,6 +19,10 @@ module multi_channel_framebuffer_ctrl #(
     output reg [31:0] cfg_buffers_per_channel,
     output reg [CHANNELS*32-1:0] cfg_channel_bases,
     output reg [31:0] cfg_buffer_stride_bytes,
+    output reg [31:0] preprocess_arena0_base,
+    output reg [31:0] preprocess_arena1_base,
+    output reg [31:0] preprocess_member_stride,
+    output reg [31:0] preprocess_member_bytes,
     output reg [((CHANNELS <= 1) ? 1 : $clog2(CHANNELS))-1:0]
         cfg_display_channel,
     output reg cfg_display_mode,
@@ -162,6 +166,10 @@ module multi_channel_framebuffer_ctrl #(
     localparam [9:0] REG_PRE_START_COUNT = 10'h24c;
     localparam [9:0] REG_PRE_COMPLETE_COUNT = 10'h250;
     localparam [9:0] REG_PRE_ERROR_COUNT = 10'h254;
+    localparam [9:0] REG_PRE_ARENA0_BASE = 10'h280;
+    localparam [9:0] REG_PRE_ARENA1_BASE = 10'h284;
+    localparam [9:0] REG_PRE_MEMBER_STRIDE = 10'h288;
+    localparam [9:0] REG_PRE_MEMBER_BYTES = 10'h28c;
     localparam [9:0] REG_OVERLAY_CONTROL = 10'h260;
     localparam [9:0] REG_OVERLAY_STREAM = 10'h264;
     localparam [9:0] REG_OVERLAY_COUNT = 10'h268;
@@ -267,6 +275,10 @@ module multi_channel_framebuffer_ctrl #(
             cfg_buffers_per_channel <= 32'd5;
             cfg_channel_bases <= DEFAULT_CHANNEL_BASES;
             cfg_buffer_stride_bytes <= 32'h0040_0000;
+            preprocess_arena0_base <= 32'h3000_0000;
+            preprocess_arena1_base <= 32'h3100_0000;
+            preprocess_member_stride <= 32'h000e_1000;
+            preprocess_member_bytes <= 32'h000e_1000;
             cfg_display_channel <= CHANNEL_WIDTH'(GLOBAL_CHANNEL_BASE);
             // Zero selects the mosaic reader; one retains the full-frame
             // single-channel debug path.
@@ -362,6 +374,22 @@ module multi_channel_framebuffer_ctrl #(
                     end
                     REG_PRE_RECYCLE_MASK: if (!preprocess_recycle_busy)
                         preprocess_recycle_mask <= write_data[1:0];
+                    REG_PRE_ARENA0_BASE: if (!preprocess_busy &&
+                                              !preprocess_start_busy)
+                        preprocess_arena0_base <= apply_wstrb(
+                            preprocess_arena0_base, write_data, write_strb);
+                    REG_PRE_ARENA1_BASE: if (!preprocess_busy &&
+                                              !preprocess_start_busy)
+                        preprocess_arena1_base <= apply_wstrb(
+                            preprocess_arena1_base, write_data, write_strb);
+                    REG_PRE_MEMBER_STRIDE: if (!preprocess_busy &&
+                                                !preprocess_start_busy)
+                        preprocess_member_stride <= apply_wstrb(
+                            preprocess_member_stride, write_data, write_strb);
+                    REG_PRE_MEMBER_BYTES: if (!preprocess_busy &&
+                                               !preprocess_start_busy)
+                        preprocess_member_bytes <= apply_wstrb(
+                            preprocess_member_bytes, write_data, write_strb);
                     REG_OVERLAY_CONTROL: if (write_strb[0] &&
                                                 write_data[0] &&
                                                 !overlay_commit_busy &&
@@ -513,6 +541,10 @@ module multi_channel_framebuffer_ctrl #(
                         rdata <= preprocess_complete_count;
                     REG_PRE_ERROR_COUNT:
                         rdata <= preprocess_error_count;
+                    REG_PRE_ARENA0_BASE: rdata <= preprocess_arena0_base;
+                    REG_PRE_ARENA1_BASE: rdata <= preprocess_arena1_base;
+                    REG_PRE_MEMBER_STRIDE: rdata <= preprocess_member_stride;
+                    REG_PRE_MEMBER_BYTES: rdata <= preprocess_member_bytes;
                     REG_OVERLAY_CONTROL:
                         rdata <= {30'd0, overlay_commit_busy,
                                   overlay_commit_toggle};

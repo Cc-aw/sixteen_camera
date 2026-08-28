@@ -48,6 +48,14 @@ module multi_channel_ddr_video_pipeline #(
     wire [31:0] cfg_buffers_per_channel;
     wire [CHANNELS*32-1:0] cfg_channel_bases;
     wire [31:0] cfg_buffer_stride_bytes;
+    wire [31:0] preprocess_arena0_base_cpu;
+    wire [31:0] preprocess_arena1_base_cpu;
+    wire [31:0] preprocess_member_stride_cpu;
+    wire [31:0] preprocess_member_bytes_cpu;
+    wire [31:0] preprocess_arena0_base_ddr;
+    wire [31:0] preprocess_arena1_base_ddr;
+    wire [31:0] preprocess_member_stride_ddr;
+    wire [31:0] preprocess_member_bytes_ddr;
     wire [CHANNEL_WIDTH-1:0] cfg_display_channel;
     wire cfg_display_mode;
     wire cfg_hdmi_capture_enable;
@@ -243,6 +251,10 @@ module multi_channel_ddr_video_pipeline #(
         .cfg_buffers_per_channel(cfg_buffers_per_channel),
         .cfg_channel_bases(cfg_channel_bases),
         .cfg_buffer_stride_bytes(cfg_buffer_stride_bytes),
+        .preprocess_arena0_base(preprocess_arena0_base_cpu),
+        .preprocess_arena1_base(preprocess_arena1_base_cpu),
+        .preprocess_member_stride(preprocess_member_stride_cpu),
+        .preprocess_member_bytes(preprocess_member_bytes_cpu),
         .cfg_display_channel(cfg_display_channel),
         .cfg_display_mode(cfg_display_mode),
         .cfg_hdmi_capture_enable(cfg_hdmi_capture_enable),
@@ -356,6 +368,22 @@ module multi_channel_ddr_video_pipeline #(
     ) u_ai_release_ack_cdc (
         .src_clk(ddr_ui_clk), .src_in(ai_release_ack_toggle_ddr),
         .dest_clk(control_axil.aclk), .dest_out(ai_release_ack_toggle_cpu)
+    );
+
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(128)
+    ) u_preprocess_config_cdc (
+        .src_clk(control_axil.aclk),
+        .src_in({preprocess_arena0_base_cpu,
+                 preprocess_arena1_base_cpu,
+                 preprocess_member_stride_cpu,
+                 preprocess_member_bytes_cpu}),
+        .dest_clk(ddr_ui_clk),
+        .dest_out({preprocess_arena0_base_ddr,
+                   preprocess_arena1_base_ddr,
+                   preprocess_member_stride_ddr,
+                   preprocess_member_bytes_ddr})
     );
 
     xpm_cdc_array_single #(
@@ -789,10 +817,10 @@ module multi_channel_ddr_video_pipeline #(
         .CHANNELS(CHANNELS),
         .SRC_WIDTH(FRAME_WIDTH), .SRC_HEIGHT(FRAME_HEIGHT),
         .SRC_STRIDE_BYTES(FRAME_STRIDE_BYTES),
-        .DST_WIDTH(416), .DST_HEIGHT(416),
-        .MEMBER_BYTES(32'h0007_ec00),
+        .DST_WIDTH(640), .DST_HEIGHT(480),
+        .MEMBER_BYTES(640 * 480 * 3),
         .ARENA0_BASE(32'h3000_0000),
-        .ARENA1_BASE(32'h3080_0000)
+        .ARENA1_BASE(32'h3100_0000)
     ) u_batch_preprocess (
         .clk(ddr_ui_clk), .resetn(ddr_resetn),
         .start(preprocess_start_pulse_ddr),
@@ -803,6 +831,9 @@ module multi_channel_ddr_video_pipeline #(
         .snapshot_batch_id(ai_snapshot_batch_id_ddr),
         .recycle(preprocess_recycle_pulse_ddr),
         .recycle_mask(preprocess_recycle_mask_ddr),
+        .arena0_base_cfg(preprocess_arena0_base_ddr),
+        .arena1_base_cfg(preprocess_arena1_base_ddr),
+        .member_stride_cfg(preprocess_member_stride_ddr),
         .command_done(preprocess_command_done_ddr),
         .command_error(preprocess_command_error_ddr),
         .busy(preprocess_busy_ddr),

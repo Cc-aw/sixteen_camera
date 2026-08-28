@@ -15,6 +15,19 @@ typedef struct {
 
 static AiPreprocessCommand command;
 
+static void ai_preprocess_configure_memory(void)
+{
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_ARENA0_BASE,
+                 TENSOR_ARENA0_PHYS_BASE);
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_ARENA1_BASE,
+                 TENSOR_ARENA1_PHYS_BASE);
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_MEMBER_STRIDE,
+                 TENSOR_MEMBER_STRIDE);
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_MEMBER_BYTES,
+                 TENSOR_MEMBER_BYTES);
+    mmio_fence();
+}
+
 static uint64_t read_pair(uint32_t low_offset, uint32_t high_offset)
 {
     uint32_t low = mmio_read32(FRAMEBUFFER_BASE + low_offset);
@@ -44,6 +57,12 @@ int ai_preprocess_start(void)
                  FRAMEBUFFER_PRE_CONTROL_START);
     mmio_fence();
     return 0;
+}
+
+void ai_preprocess_init(void)
+{
+    command.active = 0U;
+    ai_preprocess_configure_memory();
 }
 
 int ai_preprocess_poll(AiPreprocessResult *result)
@@ -79,8 +98,8 @@ int ai_preprocess_poll(AiPreprocessResult *result)
         return -6;
 
     result->arena = (new_ready & 1U) != 0U ? 0U : 1U;
-    result->tensor_base = result->arena == 0U ? TENSOR_ARENA0_PHYS_BASE :
-                                               TENSOR_ARENA1_PHYS_BASE;
+    result->tensor_base = mmio_read32(FRAMEBUFFER_BASE +
+                                      FRAMEBUFFER_PRE_ACTIVE_BASE);
     if (result->arena == 0U) {
         result->batch_id = read_pair(FRAMEBUFFER_PRE_ARENA0_BATCH_LO,
                                      FRAMEBUFFER_PRE_ARENA0_BATCH_HI);
