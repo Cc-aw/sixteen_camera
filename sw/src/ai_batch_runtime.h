@@ -31,9 +31,20 @@ typedef struct {
     uint32_t preprocess_cycles;
     uint32_t preprocess_read_bytes;
     uint32_t preprocess_write_bytes;
+    uint32_t snapshot_released;
     int32_t error;
     AiBatchState state;
 } AiBatchContext;
+
+typedef struct {
+    uint64_t last_frame_id;
+    uint64_t last_service_cycle;
+    uint32_t dispatched_count;
+    uint32_t completed_count;
+    uint32_t superseded_count;
+    uint32_t inflight_count;
+    uint32_t last_frame_valid;
+} AiStreamRuntimeStatus;
 
 typedef struct {
     uint32_t enabled;
@@ -48,6 +59,10 @@ typedef struct {
     uint32_t error_count;
     uint32_t release_retry_count;
     uint32_t recycle_error_count;
+    uint32_t snapshot_release_count;
+    uint64_t snapshot_hold_cycles;
+    uint64_t max_snapshot_hold_cycles;
+    uint32_t arena_wait_count;
     int32_t last_error;
     uint64_t last_batch_id;
     uint32_t last_valid_mask;
@@ -64,5 +79,7 @@ void ai_batch_runtime_print_status(void);
 void ai_batch_runtime_get_status(AiBatchRuntimeStatus *status);
 const AiBatchContext *ai_batch_runtime_context(uint32_t arena);
 const AiDetectionResult *ai_batch_runtime_latest_result(uint32_t stream_id);
+int ai_batch_runtime_get_stream_status(uint32_t stream_id,
+                                       AiStreamRuntimeStatus *status);
 
 #endif

@@ -264,6 +264,7 @@ int ai_postprocess_yolov5nu(const void *tensor,
                             uint32_t stream_id,
                             uint64_t frame_id,
                             uint64_t timestamp,
+                            uint32_t version,
                             AiPostprocessWorkspace *workspace,
                             AiDetectionResult *result)
 {
@@ -278,6 +279,7 @@ int ai_postprocess_yolov5nu(const void *tensor,
     result->stream_id = stream_id;
     result->frame_id = frame_id;
     result->timestamp = timestamp;
+    result->version = version;
     result->count = 0U;
 
     for (uint32_t anchor = 0U; anchor < desc->anchors; ++anchor) {

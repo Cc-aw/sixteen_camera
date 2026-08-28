@@ -40,6 +40,7 @@ int ai_postprocess_yolov5nu(const void *tensor,
                             uint32_t stream_id,
                             uint64_t frame_id,
                             uint64_t timestamp,
+                            uint32_t version,
                             AiPostprocessWorkspace *workspace,
                             AiDetectionResult *result);
 

@@ -23,6 +23,7 @@ typedef struct {
     uint64_t timestamp;
     uint32_t stream_id;
     uint32_t worker_id;
+    uint32_t version;
     uint32_t count;
     AiDetection detections[AI_MAX_DETECTIONS];
 } AiDetectionResult;

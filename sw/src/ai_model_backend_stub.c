@@ -78,6 +78,9 @@ int ai_model_backend_poll(uint32_t worker_id,
     prepare_stub_output(worker_id, worker->request.stream_id);
     completion->job_id = worker->request.job_id;
     completion->worker_id = worker_id;
+    completion->stream_id = worker->request.stream_id;
+    completion->frame_id = worker->request.frame_id;
+    completion->version = worker->request.version;
     completion->status = 0;
     completion->compute_cycles = 0U;
     completion->output_addr = (uintptr_t)stub_output_pointer(worker_id);

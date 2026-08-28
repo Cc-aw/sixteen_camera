@@ -44,6 +44,7 @@ typedef struct {
     uint32_t stream_id;
     uint64_t frame_id;
     uint64_t timestamp;
+    uint32_t version;
     uintptr_t input_addr;
     uint32_t input_bytes;
     uintptr_t output_addr;
@@ -53,6 +54,9 @@ typedef struct {
 typedef struct {
     uint64_t job_id;
     uint32_t worker_id;
+    uint32_t stream_id;
+    uint64_t frame_id;
+    uint32_t version;
     int32_t status;
     uint64_t compute_cycles;
     uintptr_t output_addr;

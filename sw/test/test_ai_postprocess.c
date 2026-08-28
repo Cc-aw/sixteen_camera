@@ -62,10 +62,12 @@ static void test_nms_and_metadata(void)
 
     assert(ai_postprocess_yolov5nu(tensor, &desc,
         &ai_postprocess_default_config, 11U, 1U, 5U, 99U, 1234U,
+        7U,
         &workspace, &result) == 0);
     assert(result.job_id == 11U && result.worker_id == 1U);
     assert(result.stream_id == 5U && result.frame_id == 99U);
     assert(result.timestamp == 1234U);
+    assert(result.version == 7U);
     assert(result.count == 2U);
     assert(result.detections[0].class_id == 2U);
     assert(result.detections[0].x_min == 80);
@@ -84,7 +86,7 @@ static void test_top_k(void)
     set_detection(11U, 1U, 150, 50, 10, 10, 50000);
     set_detection(12U, 1U, 250, 50, 10, 10, 60000);
     assert(ai_postprocess_yolov5nu(tensor, &desc, &config,
-        12U, 0U, 0U, 1U, 2U, &workspace, &result) == 0);
+        12U, 0U, 0U, 1U, 2U, 3U, &workspace, &result) == 0);
     assert(result.count == 2U);
     assert(result.detections[0].score_q15 == 30000U);
     assert(result.detections[1].score_q15 == 25000U);

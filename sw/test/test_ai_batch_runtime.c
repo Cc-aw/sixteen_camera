@@ -133,13 +133,24 @@ int main(void)
     assert(ai_batch_runtime_latest_result(3U) != 0);
     assert(ai_batch_runtime_latest_result(3U)->count == 1U);
     assert(status.release_retry_count == 1U);
+    assert(status.snapshot_release_count >= 2U);
+    assert(status.snapshot_hold_cycles != 0U);
     assert(status.error_count == 0U);
-
     ai_batch_runtime_set_enabled(0U);
     for (uint32_t iteration = 0U; iteration < 20U; ++iteration)
         ai_batch_runtime_poll();
     assert(ai_batch_runtime_is_idle() != 0U);
     assert(ready_mask == 0U);
+    for (uint32_t stream = 0U; stream < 8U; ++stream) {
+        AiStreamRuntimeStatus stream_status;
+        assert(ai_batch_runtime_get_stream_status(stream,
+                                                  &stream_status) == 0);
+        assert(stream_status.dispatched_count != 0U);
+        assert(stream_status.completed_count ==
+               stream_status.dispatched_count);
+        assert(stream_status.inflight_count == 0U);
+        assert(stream_status.last_frame_id != 0U);
+    }
 
     puts("TEST_AI_BATCH_RUNTIME=PASS");
     return 0;
