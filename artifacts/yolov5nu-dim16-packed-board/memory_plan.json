@@ -1,0 +1,4428 @@
+{
+  "version": 1,
+  "kind": "gemcc-memory-plan",
+  "workspace_bytes": 31800256,
+  "alignment": 64,
+  "buffers": [
+    {
+      "name": "/model.24/Add_output_0",
+      "space": "host",
+      "nbytes": 8,
+      "alignment": 64,
+      "birth": -1,
+      "death": -1,
+      "ddr_offset": null,
+      "note": "control/shape, not a DDR activation"
+    },
+    {
+      "name": "/model.24/Div_output_0",
+      "space": "host",
+      "nbytes": 8,
+      "alignment": 64,
+      "birth": -1,
+      "death": -1,
+      "ddr_offset": null,
+      "note": "control/shape, not a DDR activation"
+    },
+    {
+      "name": "/model.24/Gather_output_0",
+      "space": "host",
+      "nbytes": 8,
+      "alignment": 64,
+      "birth": -1,
+      "death": -1,
+      "ddr_offset": null,
+      "note": "control/shape, not a DDR activation"
+    },
+    {
+      "name": "/model.24/Mul_1_output_0",
+      "space": "host",
+      "nbytes": 8,
+      "alignment": 64,
+      "birth": -1,
+      "death": -1,
+      "ddr_offset": null,
+      "note": "control/shape, not a DDR activation"
+    },
+    {
+      "name": "/model.24/Mul_output_0",
+      "space": "host",
+      "nbytes": 8,
+      "alignment": 64,
+      "birth": -1,
+      "death": -1,
+      "ddr_offset": null,
+      "note": "control/shape, not a DDR activation"
+    },
+    {
+      "name": "/model.24/Shape_output_0",
+      "space": "host",
+      "nbytes": 24,
+      "alignment": 64,
+      "birth": -1,
+      "death": -1,
+      "ddr_offset": null,
+      "note": "control/shape, not a DDR activation"
+    },
+    {
+      "name": "model.0.conv.bias",
+      "space": "constants",
+      "nbytes": 64,
+      "alignment": 64,
+      "birth": -1,
+      "death": 0,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.0.conv.weight",
+      "space": "constants",
+      "nbytes": 6912,
+      "alignment": 64,
+      "birth": -1,
+      "death": 0,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.1.conv.bias",
+      "space": "constants",
+      "nbytes": 128,
+      "alignment": 64,
+      "birth": -1,
+      "death": 3,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.1.conv.weight",
+      "space": "constants",
+      "nbytes": 18432,
+      "alignment": 64,
+      "birth": -1,
+      "death": 3,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.10.conv.bias",
+      "space": "constants",
+      "nbytes": 512,
+      "alignment": 64,
+      "birth": -1,
+      "death": 114,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.10.conv.weight",
+      "space": "constants",
+      "nbytes": 131072,
+      "alignment": 64,
+      "birth": -1,
+      "death": 114,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.13.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 120,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.13.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 65536,
+      "alignment": 64,
+      "birth": -1,
+      "death": 120,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.13.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 129,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.13.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 65536,
+      "alignment": 64,
+      "birth": -1,
+      "death": 129,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.13.cv3.conv.bias",
+      "space": "constants",
+      "nbytes": 512,
+      "alignment": 64,
+      "birth": -1,
+      "death": 133,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.13.cv3.conv.weight",
+      "space": "constants",
+      "nbytes": 65536,
+      "alignment": 64,
+      "birth": -1,
+      "death": 133,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.13.m.0.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 123,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.13.m.0.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 16384,
+      "alignment": 64,
+      "birth": -1,
+      "death": 123,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.13.m.0.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 126,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.13.m.0.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 147456,
+      "alignment": 64,
+      "birth": -1,
+      "death": 126,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.14.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 136,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.14.conv.weight",
+      "space": "constants",
+      "nbytes": 32768,
+      "alignment": 64,
+      "birth": -1,
+      "death": 136,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.17.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 128,
+      "alignment": 64,
+      "birth": -1,
+      "death": 142,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.17.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 16384,
+      "alignment": 64,
+      "birth": -1,
+      "death": 142,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.17.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 128,
+      "alignment": 64,
+      "birth": -1,
+      "death": 151,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.17.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 16384,
+      "alignment": 64,
+      "birth": -1,
+      "death": 151,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.17.cv3.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 155,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.17.cv3.conv.weight",
+      "space": "constants",
+      "nbytes": 16384,
+      "alignment": 64,
+      "birth": -1,
+      "death": 155,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.17.m.0.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 128,
+      "alignment": 64,
+      "birth": -1,
+      "death": 145,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.17.m.0.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 4096,
+      "alignment": 64,
+      "birth": -1,
+      "death": 145,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.17.m.0.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 128,
+      "alignment": 64,
+      "birth": -1,
+      "death": 148,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.17.m.0.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 36864,
+      "alignment": 64,
+      "birth": -1,
+      "death": 148,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.18.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 158,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.18.conv.weight",
+      "space": "constants",
+      "nbytes": 147456,
+      "alignment": 64,
+      "birth": -1,
+      "death": 158,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.2.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 64,
+      "alignment": 64,
+      "birth": -1,
+      "death": 6,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.2.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 2048,
+      "alignment": 64,
+      "birth": -1,
+      "death": 6,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.2.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 64,
+      "alignment": 64,
+      "birth": -1,
+      "death": 16,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.2.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 2048,
+      "alignment": 64,
+      "birth": -1,
+      "death": 16,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.2.cv3.conv.bias",
+      "space": "constants",
+      "nbytes": 128,
+      "alignment": 64,
+      "birth": -1,
+      "death": 20,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.2.cv3.conv.weight",
+      "space": "constants",
+      "nbytes": 4096,
+      "alignment": 64,
+      "birth": -1,
+      "death": 20,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.2.m.0.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 64,
+      "alignment": 64,
+      "birth": -1,
+      "death": 9,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.2.m.0.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 1024,
+      "alignment": 64,
+      "birth": -1,
+      "death": 9,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.2.m.0.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 64,
+      "alignment": 64,
+      "birth": -1,
+      "death": 12,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.2.m.0.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 9216,
+      "alignment": 64,
+      "birth": -1,
+      "death": 12,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.20.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 162,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.20.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 32768,
+      "alignment": 64,
+      "birth": -1,
+      "death": 162,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.20.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 171,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.20.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 32768,
+      "alignment": 64,
+      "birth": -1,
+      "death": 171,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.20.cv3.conv.bias",
+      "space": "constants",
+      "nbytes": 512,
+      "alignment": 64,
+      "birth": -1,
+      "death": 175,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.20.cv3.conv.weight",
+      "space": "constants",
+      "nbytes": 65536,
+      "alignment": 64,
+      "birth": -1,
+      "death": 175,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.20.m.0.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 165,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.20.m.0.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 16384,
+      "alignment": 64,
+      "birth": -1,
+      "death": 165,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.20.m.0.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 168,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.20.m.0.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 147456,
+      "alignment": 64,
+      "birth": -1,
+      "death": 168,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.21.conv.bias",
+      "space": "constants",
+      "nbytes": 512,
+      "alignment": 64,
+      "birth": -1,
+      "death": 178,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.21.conv.weight",
+      "space": "constants",
+      "nbytes": 589824,
+      "alignment": 64,
+      "birth": -1,
+      "death": 178,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.23.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 512,
+      "alignment": 64,
+      "birth": -1,
+      "death": 182,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.23.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 131072,
+      "alignment": 64,
+      "birth": -1,
+      "death": 182,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.23.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 512,
+      "alignment": 64,
+      "birth": -1,
+      "death": 191,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.23.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 131072,
+      "alignment": 64,
+      "birth": -1,
+      "death": 191,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.23.cv3.conv.bias",
+      "space": "constants",
+      "nbytes": 1024,
+      "alignment": 64,
+      "birth": -1,
+      "death": 195,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.23.cv3.conv.weight",
+      "space": "constants",
+      "nbytes": 262144,
+      "alignment": 64,
+      "birth": -1,
+      "death": 195,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.23.m.0.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 512,
+      "alignment": 64,
+      "birth": -1,
+      "death": 185,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.23.m.0.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 65536,
+      "alignment": 64,
+      "birth": -1,
+      "death": 185,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.23.m.0.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 512,
+      "alignment": 64,
+      "birth": -1,
+      "death": 188,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.23.m.0.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 589824,
+      "alignment": 64,
+      "birth": -1,
+      "death": 188,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.0.0.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 198,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.0.0.conv.weight",
+      "space": "constants",
+      "nbytes": 147456,
+      "alignment": 64,
+      "birth": -1,
+      "death": 198,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.0.1.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 201,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.0.1.conv.weight",
+      "space": "constants",
+      "nbytes": 147456,
+      "alignment": 64,
+      "birth": -1,
+      "death": 201,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.0.2.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 204,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.0.2.weight",
+      "space": "constants",
+      "nbytes": 16384,
+      "alignment": 64,
+      "birth": -1,
+      "death": 204,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.1.0.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 209,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.1.0.conv.weight",
+      "space": "constants",
+      "nbytes": 294912,
+      "alignment": 64,
+      "birth": -1,
+      "death": 209,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.1.1.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 212,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.1.1.conv.weight",
+      "space": "constants",
+      "nbytes": 147456,
+      "alignment": 64,
+      "birth": -1,
+      "death": 212,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.1.2.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 215,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.1.2.weight",
+      "space": "constants",
+      "nbytes": 16384,
+      "alignment": 64,
+      "birth": -1,
+      "death": 215,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.2.0.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 217,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.2.0.conv.weight",
+      "space": "constants",
+      "nbytes": 589824,
+      "alignment": 64,
+      "birth": -1,
+      "death": 217,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.2.1.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 220,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.2.1.conv.weight",
+      "space": "constants",
+      "nbytes": 147456,
+      "alignment": 64,
+      "birth": -1,
+      "death": 220,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.2.2.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 223,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv2.2.2.weight",
+      "space": "constants",
+      "nbytes": 16384,
+      "alignment": 64,
+      "birth": -1,
+      "death": 223,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.0.0.conv.bias",
+      "space": "constants",
+      "nbytes": 320,
+      "alignment": 64,
+      "birth": -1,
+      "death": 226,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.0.0.conv.weight",
+      "space": "constants",
+      "nbytes": 184320,
+      "alignment": 64,
+      "birth": -1,
+      "death": 226,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.0.1.conv.bias",
+      "space": "constants",
+      "nbytes": 320,
+      "alignment": 64,
+      "birth": -1,
+      "death": 229,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.0.1.conv.weight",
+      "space": "constants",
+      "nbytes": 230400,
+      "alignment": 64,
+      "birth": -1,
+      "death": 229,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.0.2.bias",
+      "space": "constants",
+      "nbytes": 320,
+      "alignment": 64,
+      "birth": -1,
+      "death": 232,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.0.2.weight",
+      "space": "constants",
+      "nbytes": 25600,
+      "alignment": 64,
+      "birth": -1,
+      "death": 232,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.1.0.conv.bias",
+      "space": "constants",
+      "nbytes": 320,
+      "alignment": 64,
+      "birth": -1,
+      "death": 237,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.1.0.conv.weight",
+      "space": "constants",
+      "nbytes": 368640,
+      "alignment": 64,
+      "birth": -1,
+      "death": 237,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.1.1.conv.bias",
+      "space": "constants",
+      "nbytes": 320,
+      "alignment": 64,
+      "birth": -1,
+      "death": 240,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.1.1.conv.weight",
+      "space": "constants",
+      "nbytes": 230400,
+      "alignment": 64,
+      "birth": -1,
+      "death": 240,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.1.2.bias",
+      "space": "constants",
+      "nbytes": 320,
+      "alignment": 64,
+      "birth": -1,
+      "death": 243,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.1.2.weight",
+      "space": "constants",
+      "nbytes": 25600,
+      "alignment": 64,
+      "birth": -1,
+      "death": 243,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.2.0.conv.bias",
+      "space": "constants",
+      "nbytes": 320,
+      "alignment": 64,
+      "birth": -1,
+      "death": 245,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.2.0.conv.weight",
+      "space": "constants",
+      "nbytes": 737280,
+      "alignment": 64,
+      "birth": -1,
+      "death": 245,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.2.1.conv.bias",
+      "space": "constants",
+      "nbytes": 320,
+      "alignment": 64,
+      "birth": -1,
+      "death": 248,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.2.1.conv.weight",
+      "space": "constants",
+      "nbytes": 230400,
+      "alignment": 64,
+      "birth": -1,
+      "death": 248,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.2.2.bias",
+      "space": "constants",
+      "nbytes": 320,
+      "alignment": 64,
+      "birth": -1,
+      "death": 251,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.cv3.2.2.weight",
+      "space": "constants",
+      "nbytes": 25600,
+      "alignment": 64,
+      "birth": -1,
+      "death": 251,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.24.dfl.conv.weight",
+      "space": "constants",
+      "nbytes": 64,
+      "alignment": 64,
+      "birth": -1,
+      "death": 258,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.3.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 23,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.3.conv.weight",
+      "space": "constants",
+      "nbytes": 73728,
+      "alignment": 64,
+      "birth": -1,
+      "death": 23,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.4.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 128,
+      "alignment": 64,
+      "birth": -1,
+      "death": 26,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.4.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 8192,
+      "alignment": 64,
+      "birth": -1,
+      "death": 26,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.4.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 128,
+      "alignment": 64,
+      "birth": -1,
+      "death": 43,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.4.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 8192,
+      "alignment": 64,
+      "birth": -1,
+      "death": 43,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.4.cv3.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 47,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.4.cv3.conv.weight",
+      "space": "constants",
+      "nbytes": 16384,
+      "alignment": 64,
+      "birth": -1,
+      "death": 47,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.4.m.0.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 128,
+      "alignment": 64,
+      "birth": -1,
+      "death": 29,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.4.m.0.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 4096,
+      "alignment": 64,
+      "birth": -1,
+      "death": 29,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.4.m.0.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 128,
+      "alignment": 64,
+      "birth": -1,
+      "death": 32,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.4.m.0.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 36864,
+      "alignment": 64,
+      "birth": -1,
+      "death": 32,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.4.m.1.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 128,
+      "alignment": 64,
+      "birth": -1,
+      "death": 36,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.4.m.1.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 4096,
+      "alignment": 64,
+      "birth": -1,
+      "death": 36,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.4.m.1.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 128,
+      "alignment": 64,
+      "birth": -1,
+      "death": 39,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.4.m.1.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 36864,
+      "alignment": 64,
+      "birth": -1,
+      "death": 39,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.5.conv.bias",
+      "space": "constants",
+      "nbytes": 512,
+      "alignment": 64,
+      "birth": -1,
+      "death": 50,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.5.conv.weight",
+      "space": "constants",
+      "nbytes": 294912,
+      "alignment": 64,
+      "birth": -1,
+      "death": 50,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 53,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 32768,
+      "alignment": 64,
+      "birth": -1,
+      "death": 53,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 77,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 32768,
+      "alignment": 64,
+      "birth": -1,
+      "death": 77,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.cv3.conv.bias",
+      "space": "constants",
+      "nbytes": 512,
+      "alignment": 64,
+      "birth": -1,
+      "death": 81,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.cv3.conv.weight",
+      "space": "constants",
+      "nbytes": 65536,
+      "alignment": 64,
+      "birth": -1,
+      "death": 81,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.m.0.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 56,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.m.0.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 16384,
+      "alignment": 64,
+      "birth": -1,
+      "death": 56,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.m.0.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 59,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.m.0.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 147456,
+      "alignment": 64,
+      "birth": -1,
+      "death": 59,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.m.1.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 63,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.m.1.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 16384,
+      "alignment": 64,
+      "birth": -1,
+      "death": 63,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.m.1.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 66,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.m.1.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 147456,
+      "alignment": 64,
+      "birth": -1,
+      "death": 66,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.m.2.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 70,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.m.2.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 16384,
+      "alignment": 64,
+      "birth": -1,
+      "death": 70,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.m.2.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 256,
+      "alignment": 64,
+      "birth": -1,
+      "death": 73,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.6.m.2.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 147456,
+      "alignment": 64,
+      "birth": -1,
+      "death": 73,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.7.conv.bias",
+      "space": "constants",
+      "nbytes": 1024,
+      "alignment": 64,
+      "birth": -1,
+      "death": 84,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.7.conv.weight",
+      "space": "constants",
+      "nbytes": 1179648,
+      "alignment": 64,
+      "birth": -1,
+      "death": 84,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.8.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 512,
+      "alignment": 64,
+      "birth": -1,
+      "death": 87,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.8.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 131072,
+      "alignment": 64,
+      "birth": -1,
+      "death": 87,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.8.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 512,
+      "alignment": 64,
+      "birth": -1,
+      "death": 97,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.8.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 131072,
+      "alignment": 64,
+      "birth": -1,
+      "death": 97,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.8.cv3.conv.bias",
+      "space": "constants",
+      "nbytes": 1024,
+      "alignment": 64,
+      "birth": -1,
+      "death": 101,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.8.cv3.conv.weight",
+      "space": "constants",
+      "nbytes": 262144,
+      "alignment": 64,
+      "birth": -1,
+      "death": 101,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.8.m.0.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 512,
+      "alignment": 64,
+      "birth": -1,
+      "death": 90,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.8.m.0.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 65536,
+      "alignment": 64,
+      "birth": -1,
+      "death": 90,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.8.m.0.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 512,
+      "alignment": 64,
+      "birth": -1,
+      "death": 93,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.8.m.0.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 589824,
+      "alignment": 64,
+      "birth": -1,
+      "death": 93,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.9.cv1.conv.bias",
+      "space": "constants",
+      "nbytes": 512,
+      "alignment": 64,
+      "birth": -1,
+      "death": 104,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.9.cv1.conv.weight",
+      "space": "constants",
+      "nbytes": 131072,
+      "alignment": 64,
+      "birth": -1,
+      "death": 104,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.9.cv2.conv.bias",
+      "space": "constants",
+      "nbytes": 1024,
+      "alignment": 64,
+      "birth": -1,
+      "death": 111,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "model.9.cv2.conv.weight",
+      "space": "constants",
+      "nbytes": 524288,
+      "alignment": 64,
+      "birth": -1,
+      "death": 111,
+      "ddr_offset": null,
+      "note": "packed in constants.bin"
+    },
+    {
+      "name": "/model.24/Constant_10_output_0",
+      "space": "ddr",
+      "nbytes": 8,
+      "alignment": 64,
+      "birth": -1,
+      "death": -1,
+      "ddr_offset": 0,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Constant_11_output_0",
+      "space": "ddr",
+      "nbytes": 8,
+      "alignment": 64,
+      "birth": -1,
+      "death": -1,
+      "ddr_offset": 64,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Constant_8_output_0",
+      "space": "ddr",
+      "nbytes": 8,
+      "alignment": 64,
+      "birth": -1,
+      "death": -1,
+      "ddr_offset": 128,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Constant_9_output_0",
+      "space": "ddr",
+      "nbytes": 8,
+      "alignment": 64,
+      "birth": -1,
+      "death": -1,
+      "ddr_offset": 192,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "images",
+      "space": "ddr",
+      "nbytes": 921600,
+      "alignment": 64,
+      "birth": -1,
+      "death": 0,
+      "ddr_offset": 256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.0/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 4915200,
+      "alignment": 64,
+      "birth": 0,
+      "death": 2,
+      "ddr_offset": 921856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.0/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 4915200,
+      "alignment": 64,
+      "birth": 1,
+      "death": 2,
+      "ddr_offset": 5837056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.0/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 2,
+      "death": 3,
+      "ddr_offset": 10752256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 2457600,
+      "alignment": 64,
+      "birth": 3,
+      "death": 5,
+      "ddr_offset": 921856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 2457600,
+      "alignment": 64,
+      "birth": 4,
+      "death": 5,
+      "ddr_offset": 3379456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 5,
+      "death": 16,
+      "ddr_offset": 256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 6,
+      "death": 8,
+      "ddr_offset": 5837056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 7,
+      "death": 8,
+      "ddr_offset": 7065856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 8,
+      "death": 15,
+      "ddr_offset": 614656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/m/m.0/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 9,
+      "death": 11,
+      "ddr_offset": 8294656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/m/m.0/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 10,
+      "death": 11,
+      "ddr_offset": 9523456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/m/m.0/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 11,
+      "death": 12,
+      "ddr_offset": 10752256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/m/m.0/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 12,
+      "death": 14,
+      "ddr_offset": 921856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/m/m.0/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 13,
+      "death": 14,
+      "ddr_offset": 2150656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/m/m.0/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 14,
+      "death": 15,
+      "ddr_offset": 11059456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/m/m.0/Add_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 15,
+      "death": 19,
+      "ddr_offset": 11366656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 16,
+      "death": 18,
+      "ddr_offset": 3379456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 17,
+      "death": 18,
+      "ddr_offset": 4608256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 18,
+      "death": 19,
+      "ddr_offset": 11673856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/Concat_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 19,
+      "death": 20,
+      "ddr_offset": 5837056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/cv3/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 2457600,
+      "alignment": 64,
+      "birth": 20,
+      "death": 22,
+      "ddr_offset": 11981056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/cv3/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 2457600,
+      "alignment": 64,
+      "birth": 21,
+      "death": 22,
+      "ddr_offset": 14438656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.2/cv3/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 22,
+      "death": 23,
+      "ddr_offset": 6451456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.3/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 23,
+      "death": 25,
+      "ddr_offset": 7065856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.3/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 24,
+      "death": 25,
+      "ddr_offset": 8294656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.3/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 25,
+      "death": 43,
+      "ddr_offset": 9523456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 26,
+      "death": 28,
+      "ddr_offset": 9830656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 27,
+      "death": 28,
+      "ddr_offset": 921856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 28,
+      "death": 35,
+      "ddr_offset": 10445056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/m/m.0/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 29,
+      "death": 31,
+      "ddr_offset": 1536256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/m/m.0/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 30,
+      "death": 31,
+      "ddr_offset": 2150656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/m/m.0/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 31,
+      "death": 32,
+      "ddr_offset": 10598656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/m/m.0/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 32,
+      "death": 34,
+      "ddr_offset": 2765056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/m/m.0/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 33,
+      "death": 34,
+      "ddr_offset": 256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/m/m.0/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 34,
+      "death": 35,
+      "ddr_offset": 10752256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/m/m.0/Add_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 35,
+      "death": 42,
+      "ddr_offset": 10905856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/m/m.1/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 36,
+      "death": 38,
+      "ddr_offset": 3379456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/m/m.1/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 37,
+      "death": 38,
+      "ddr_offset": 3993856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/m/m.1/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 38,
+      "death": 39,
+      "ddr_offset": 614656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/m/m.1/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 39,
+      "death": 41,
+      "ddr_offset": 4608256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/m/m.1/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 40,
+      "death": 41,
+      "ddr_offset": 5222656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/m/m.1/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 41,
+      "death": 42,
+      "ddr_offset": 768256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/m/m.1/Add_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 42,
+      "death": 46,
+      "ddr_offset": 11059456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 43,
+      "death": 45,
+      "ddr_offset": 5837056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 44,
+      "death": 45,
+      "ddr_offset": 11981056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 45,
+      "death": 46,
+      "ddr_offset": 11213056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/Concat_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 46,
+      "death": 47,
+      "ddr_offset": 11366656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/cv3/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 47,
+      "death": 49,
+      "ddr_offset": 12595456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/cv3/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 48,
+      "death": 49,
+      "ddr_offset": 14438656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.4/cv3/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 49,
+      "death": 141,
+      "ddr_offset": 11673856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.5/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 50,
+      "death": 52,
+      "ddr_offset": 13824256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.5/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 51,
+      "death": 52,
+      "ddr_offset": 15667456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.5/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 52,
+      "death": 77,
+      "ddr_offset": 16281856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 53,
+      "death": 55,
+      "ddr_offset": 16435456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 54,
+      "death": 55,
+      "ddr_offset": 6451456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 55,
+      "death": 62,
+      "ddr_offset": 16742656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.0/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 56,
+      "death": 58,
+      "ddr_offset": 6758656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.0/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 57,
+      "death": 58,
+      "ddr_offset": 7065856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.0/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 58,
+      "death": 59,
+      "ddr_offset": 16819456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.0/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 59,
+      "death": 61,
+      "ddr_offset": 7373056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.0/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 60,
+      "death": 61,
+      "ddr_offset": 7680256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.0/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 61,
+      "death": 62,
+      "ddr_offset": 7987456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.0/Add_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 62,
+      "death": 69,
+      "ddr_offset": 8064256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.1/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 63,
+      "death": 65,
+      "ddr_offset": 8294656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.1/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 64,
+      "death": 65,
+      "ddr_offset": 8601856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.1/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 65,
+      "death": 66,
+      "ddr_offset": 8141056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.1/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 66,
+      "death": 68,
+      "ddr_offset": 8909056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.1/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 67,
+      "death": 68,
+      "ddr_offset": 9216256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.1/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 68,
+      "death": 69,
+      "ddr_offset": 8217856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.1/Add_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 69,
+      "death": 76,
+      "ddr_offset": 9830656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.2/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 70,
+      "death": 72,
+      "ddr_offset": 9907456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.2/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 71,
+      "death": 72,
+      "ddr_offset": 921856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.2/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 72,
+      "death": 73,
+      "ddr_offset": 10214656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.2/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 73,
+      "death": 75,
+      "ddr_offset": 1229056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.2/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 74,
+      "death": 75,
+      "ddr_offset": 1536256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.2/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 75,
+      "death": 76,
+      "ddr_offset": 10291456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/m/m.2/Add_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 76,
+      "death": 80,
+      "ddr_offset": 10368256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 77,
+      "death": 79,
+      "ddr_offset": 1843456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 78,
+      "death": 79,
+      "ddr_offset": 2150656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 79,
+      "death": 80,
+      "ddr_offset": 2457856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/Concat_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 80,
+      "death": 81,
+      "ddr_offset": 2534656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/cv3/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 81,
+      "death": 83,
+      "ddr_offset": 2765056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/cv3/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 82,
+      "death": 83,
+      "ddr_offset": 256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.6/cv3/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 83,
+      "death": 119,
+      "ddr_offset": 10598656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.7/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 84,
+      "death": 86,
+      "ddr_offset": 3379456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.7/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 85,
+      "death": 86,
+      "ddr_offset": 3686656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.7/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 86,
+      "death": 97,
+      "ddr_offset": 2688256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 87,
+      "death": 89,
+      "ddr_offset": 10445056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 88,
+      "death": 89,
+      "ddr_offset": 10752256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 38400,
+      "alignment": 64,
+      "birth": 89,
+      "death": 96,
+      "ddr_offset": 3993856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/m/m.0/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 90,
+      "death": 92,
+      "ddr_offset": 4032256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/m/m.0/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 91,
+      "death": 92,
+      "ddr_offset": 4185856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/m/m.0/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 38400,
+      "alignment": 64,
+      "birth": 92,
+      "death": 93,
+      "ddr_offset": 4339456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/m/m.0/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 93,
+      "death": 95,
+      "ddr_offset": 4377856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/m/m.0/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 94,
+      "death": 95,
+      "ddr_offset": 614656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/m/m.0/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 38400,
+      "alignment": 64,
+      "birth": 95,
+      "death": 96,
+      "ddr_offset": 4531456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/m/m.0/Add_output_0",
+      "space": "ddr",
+      "nbytes": 38400,
+      "alignment": 64,
+      "birth": 96,
+      "death": 100,
+      "ddr_offset": 4569856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 97,
+      "death": 99,
+      "ddr_offset": 4608256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 98,
+      "death": 99,
+      "ddr_offset": 4761856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 38400,
+      "alignment": 64,
+      "birth": 99,
+      "death": 100,
+      "ddr_offset": 4915456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/Concat_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 100,
+      "death": 101,
+      "ddr_offset": 4953856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/cv3/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 101,
+      "death": 103,
+      "ddr_offset": 5222656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/cv3/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 102,
+      "death": 103,
+      "ddr_offset": 5529856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.8/cv3/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 103,
+      "death": 104,
+      "ddr_offset": 5030656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.9/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 104,
+      "death": 106,
+      "ddr_offset": 10905856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.9/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 105,
+      "death": 106,
+      "ddr_offset": 768256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.9/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 38400,
+      "alignment": 64,
+      "birth": 106,
+      "death": 110,
+      "ddr_offset": 5107456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.9/m/MaxPool_output_0",
+      "space": "ddr",
+      "nbytes": 38400,
+      "alignment": 64,
+      "birth": 107,
+      "death": 110,
+      "ddr_offset": 5145856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.9/m_1/MaxPool_output_0",
+      "space": "ddr",
+      "nbytes": 38400,
+      "alignment": 64,
+      "birth": 108,
+      "death": 110,
+      "ddr_offset": 5184256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.9/m_2/MaxPool_output_0",
+      "space": "ddr",
+      "nbytes": 38400,
+      "alignment": 64,
+      "birth": 109,
+      "death": 110,
+      "ddr_offset": 9523456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.9/Concat_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 110,
+      "death": 111,
+      "ddr_offset": 9561856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.9/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 111,
+      "death": 113,
+      "ddr_offset": 5837056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.9/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 112,
+      "death": 113,
+      "ddr_offset": 6144256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.9/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 113,
+      "death": 114,
+      "ddr_offset": 9715456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.10/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 114,
+      "death": 116,
+      "ddr_offset": 11981056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.10/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 115,
+      "death": 116,
+      "ddr_offset": 12134656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.10/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 38400,
+      "alignment": 64,
+      "birth": 116,
+      "death": 181,
+      "ddr_offset": 9792256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.11/Constant_output_0",
+      "space": "ddr",
+      "nbytes": 16,
+      "alignment": 64,
+      "birth": 117,
+      "death": 118,
+      "ddr_offset": 0,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.11/Resize_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 118,
+      "death": 119,
+      "ddr_offset": 12288256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.12/Concat_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 119,
+      "death": 129,
+      "ddr_offset": 11366656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 120,
+      "death": 122,
+      "ddr_offset": 12595456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 121,
+      "death": 122,
+      "ddr_offset": 12902656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 122,
+      "death": 123,
+      "ddr_offset": 12441856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/m/m.0/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 123,
+      "death": 125,
+      "ddr_offset": 13209856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/m/m.0/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 124,
+      "death": 125,
+      "ddr_offset": 13517056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/m/m.0/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 125,
+      "death": 126,
+      "ddr_offset": 12518656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/m/m.0/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 126,
+      "death": 128,
+      "ddr_offset": 14438656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/m/m.0/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 127,
+      "death": 128,
+      "ddr_offset": 14745856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/m/m.0/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 128,
+      "death": 132,
+      "ddr_offset": 11059456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 129,
+      "death": 131,
+      "ddr_offset": 15053056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 130,
+      "death": 131,
+      "ddr_offset": 15360256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 131,
+      "death": 132,
+      "ddr_offset": 11136256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/Concat_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 132,
+      "death": 133,
+      "ddr_offset": 11213056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/cv3/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 133,
+      "death": 135,
+      "ddr_offset": 13824256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/cv3/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 134,
+      "death": 135,
+      "ddr_offset": 15667456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.13/cv3/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 135,
+      "death": 136,
+      "ddr_offset": 16435456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.14/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 136,
+      "death": 138,
+      "ddr_offset": 6451456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.14/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 137,
+      "death": 138,
+      "ddr_offset": 6758656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.14/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 138,
+      "death": 161,
+      "ddr_offset": 16589056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.15/Constant_output_0",
+      "space": "ddr",
+      "nbytes": 16,
+      "alignment": 64,
+      "birth": 139,
+      "death": 140,
+      "ddr_offset": 64,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.15/Resize_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 140,
+      "death": 141,
+      "ddr_offset": 7065856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.16/Concat_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 141,
+      "death": 151,
+      "ddr_offset": 2765056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 142,
+      "death": 144,
+      "ddr_offset": 256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 143,
+      "death": 144,
+      "ddr_offset": 13824256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 144,
+      "death": 145,
+      "ddr_offset": 7373056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/m/m.0/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 145,
+      "death": 147,
+      "ddr_offset": 15667456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/m/m.0/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 146,
+      "death": 147,
+      "ddr_offset": 256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/m/m.0/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 147,
+      "death": 148,
+      "ddr_offset": 7526656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/m/m.0/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 148,
+      "death": 150,
+      "ddr_offset": 13824256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/m/m.0/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 149,
+      "death": 150,
+      "ddr_offset": 15667456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/m/m.0/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 150,
+      "death": 154,
+      "ddr_offset": 7680256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 151,
+      "death": 153,
+      "ddr_offset": 256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 152,
+      "death": 153,
+      "ddr_offset": 13824256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 153,
+      "death": 154,
+      "ddr_offset": 7833856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/Concat_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 154,
+      "death": 155,
+      "ddr_offset": 8294656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/cv3/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 155,
+      "death": 157,
+      "ddr_offset": 16896256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/cv3/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 156,
+      "death": 157,
+      "ddr_offset": 18125056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.17/cv3/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 157,
+      "death": 226,
+      "ddr_offset": 8601856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.18/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 158,
+      "death": 160,
+      "ddr_offset": 8909056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.18/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 159,
+      "death": 160,
+      "ddr_offset": 9216256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.18/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 160,
+      "death": 161,
+      "ddr_offset": 16665856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.19/Concat_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 161,
+      "death": 171,
+      "ddr_offset": 9907456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 162,
+      "death": 164,
+      "ddr_offset": 921856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 163,
+      "death": 164,
+      "ddr_offset": 1229056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 164,
+      "death": 165,
+      "ddr_offset": 16819456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/m/m.0/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 165,
+      "death": 167,
+      "ddr_offset": 1536256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/m/m.0/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 166,
+      "death": 167,
+      "ddr_offset": 1843456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/m/m.0/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 167,
+      "death": 168,
+      "ddr_offset": 16742656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/m/m.0/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 168,
+      "death": 170,
+      "ddr_offset": 2150656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/m/m.0/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 169,
+      "death": 170,
+      "ddr_offset": 3379456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/m/m.0/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 170,
+      "death": 174,
+      "ddr_offset": 7987456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 171,
+      "death": 173,
+      "ddr_offset": 3686656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 172,
+      "death": 173,
+      "ddr_offset": 5222656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 173,
+      "death": 174,
+      "ddr_offset": 8141056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/Concat_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 174,
+      "death": 175,
+      "ddr_offset": 10061056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/cv3/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 175,
+      "death": 177,
+      "ddr_offset": 15667456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/cv3/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 614400,
+      "alignment": 64,
+      "birth": 176,
+      "death": 177,
+      "ddr_offset": 2765056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.20/cv3/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 177,
+      "death": 237,
+      "ddr_offset": 16281856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.21/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 178,
+      "death": 180,
+      "ddr_offset": 2534656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.21/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 179,
+      "death": 180,
+      "ddr_offset": 10445056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.21/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 38400,
+      "alignment": 64,
+      "birth": 180,
+      "death": 181,
+      "ddr_offset": 8064256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.22/Concat_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 181,
+      "death": 191,
+      "ddr_offset": 8217856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 182,
+      "death": 184,
+      "ddr_offset": 10752256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 183,
+      "death": 184,
+      "ddr_offset": 4032256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 38400,
+      "alignment": 64,
+      "birth": 184,
+      "death": 185,
+      "ddr_offset": 8102656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/m/m.0/cv1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 185,
+      "death": 187,
+      "ddr_offset": 4185856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/m/m.0/cv1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 186,
+      "death": 187,
+      "ddr_offset": 4377856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/m/m.0/cv1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 38400,
+      "alignment": 64,
+      "birth": 187,
+      "death": 188,
+      "ddr_offset": 10214656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/m/m.0/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 188,
+      "death": 190,
+      "ddr_offset": 614656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/m/m.0/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 189,
+      "death": 190,
+      "ddr_offset": 4608256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/m/m.0/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 38400,
+      "alignment": 64,
+      "birth": 190,
+      "death": 194,
+      "ddr_offset": 10253056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/cv2/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 191,
+      "death": 193,
+      "ddr_offset": 4761856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/cv2/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 153600,
+      "alignment": 64,
+      "birth": 192,
+      "death": 193,
+      "ddr_offset": 5529856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/cv2/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 38400,
+      "alignment": 64,
+      "birth": 193,
+      "death": 194,
+      "ddr_offset": 9830656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/Concat_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 194,
+      "death": 195,
+      "ddr_offset": 10291456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/cv3/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 195,
+      "death": 197,
+      "ddr_offset": 5837056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/cv3/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 196,
+      "death": 197,
+      "ddr_offset": 6144256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.23/cv3/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 197,
+      "death": 245,
+      "ddr_offset": 10368256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.0/cv2.0.0/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 198,
+      "death": 200,
+      "ddr_offset": 16896256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.0/cv2.0.0/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 199,
+      "death": 200,
+      "ddr_offset": 18125056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.0/cv2.0.0/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 200,
+      "death": 201,
+      "ddr_offset": 12595456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.0/cv2.0.1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 201,
+      "death": 203,
+      "ddr_offset": 16896256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.0/cv2.0.1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 202,
+      "death": 203,
+      "ddr_offset": 18125056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.0/cv2.0.1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 203,
+      "death": 204,
+      "ddr_offset": 12902656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.0/cv2.0.2/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 204,
+      "death": 208,
+      "ddr_offset": 16896256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Constant_output_0",
+      "space": "ddr",
+      "nbytes": 24,
+      "alignment": 64,
+      "birth": 205,
+      "death": 208,
+      "ddr_offset": 128,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Constant_1_output_0",
+      "space": "ddr",
+      "nbytes": 24,
+      "alignment": 64,
+      "birth": 206,
+      "death": 216,
+      "ddr_offset": 192,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Constant_2_output_0",
+      "space": "ddr",
+      "nbytes": 24,
+      "alignment": 64,
+      "birth": 207,
+      "death": 224,
+      "ddr_offset": 9869056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Reshape_output_0",
+      "space": "ddr",
+      "nbytes": 1228800,
+      "alignment": 64,
+      "birth": 208,
+      "death": 225,
+      "ddr_offset": 18125056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.1/cv2.1.0/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 209,
+      "death": 211,
+      "ddr_offset": 13209856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.1/cv2.1.0/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 210,
+      "death": 211,
+      "ddr_offset": 13517056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.1/cv2.1.0/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 211,
+      "death": 212,
+      "ddr_offset": 2457856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.1/cv2.1.1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 212,
+      "death": 214,
+      "ddr_offset": 14438656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.1/cv2.1.1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 213,
+      "death": 214,
+      "ddr_offset": 14745856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.1/cv2.1.1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 214,
+      "death": 215,
+      "ddr_offset": 2688256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.1/cv2.1.2/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 215,
+      "death": 216,
+      "ddr_offset": 11366656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Reshape_1_output_0",
+      "space": "ddr",
+      "nbytes": 307200,
+      "alignment": 64,
+      "birth": 216,
+      "death": 225,
+      "ddr_offset": 15053056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.2/cv2.2.0/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 217,
+      "death": 219,
+      "ddr_offset": 4953856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.2/cv2.2.0/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 218,
+      "death": 219,
+      "ddr_offset": 5683456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.2/cv2.2.0/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 19200,
+      "alignment": 64,
+      "birth": 219,
+      "death": 220,
+      "ddr_offset": 9869120,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.2/cv2.2.1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 220,
+      "death": 222,
+      "ddr_offset": 5760256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.2/cv2.2.1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 221,
+      "death": 222,
+      "ddr_offset": 5030656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.2/cv2.2.1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 19200,
+      "alignment": 64,
+      "birth": 222,
+      "death": 223,
+      "ddr_offset": 4339456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv2.2/cv2.2.2/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 223,
+      "death": 224,
+      "ddr_offset": 10905856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Reshape_2_output_0",
+      "space": "ddr",
+      "nbytes": 76800,
+      "alignment": 64,
+      "birth": 224,
+      "death": 225,
+      "ddr_offset": 10982656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Concat_output_0",
+      "space": "ddr",
+      "nbytes": 1612800,
+      "alignment": 64,
+      "birth": 225,
+      "death": 255,
+      "ddr_offset": 19353856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.0/cv3.0.0/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 1536000,
+      "alignment": 64,
+      "birth": 226,
+      "death": 228,
+      "ddr_offset": 20966656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.0/cv3.0.0/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 1536000,
+      "alignment": 64,
+      "birth": 227,
+      "death": 228,
+      "ddr_offset": 22502656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.0/cv3.0.0/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 384000,
+      "alignment": 64,
+      "birth": 228,
+      "death": 229,
+      "ddr_offset": 256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.0/cv3.0.1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 1536000,
+      "alignment": 64,
+      "birth": 229,
+      "death": 231,
+      "ddr_offset": 20966656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.0/cv3.0.1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 1536000,
+      "alignment": 64,
+      "birth": 230,
+      "death": 231,
+      "ddr_offset": 22502656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.0/cv3.0.1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 384000,
+      "alignment": 64,
+      "birth": 231,
+      "death": 232,
+      "ddr_offset": 13824256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.0/cv3.0.2/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 1536000,
+      "alignment": 64,
+      "birth": 232,
+      "death": 236,
+      "ddr_offset": 20966656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Constant_3_output_0",
+      "space": "ddr",
+      "nbytes": 24,
+      "alignment": 64,
+      "birth": 233,
+      "death": 236,
+      "ddr_offset": 9888320,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Constant_4_output_0",
+      "space": "ddr",
+      "nbytes": 24,
+      "alignment": 64,
+      "birth": 234,
+      "death": 244,
+      "ddr_offset": 9888384,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Constant_5_output_0",
+      "space": "ddr",
+      "nbytes": 24,
+      "alignment": 64,
+      "birth": 235,
+      "death": 252,
+      "ddr_offset": 9888448,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Reshape_3_output_0",
+      "space": "ddr",
+      "nbytes": 1536000,
+      "alignment": 64,
+      "birth": 236,
+      "death": 253,
+      "ddr_offset": 22502656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.1/cv3.1.0/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 384000,
+      "alignment": 64,
+      "birth": 237,
+      "death": 239,
+      "ddr_offset": 15667456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.1/cv3.1.0/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 384000,
+      "alignment": 64,
+      "birth": 238,
+      "death": 239,
+      "ddr_offset": 2765056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.1/cv3.1.0/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 96000,
+      "alignment": 64,
+      "birth": 239,
+      "death": 240,
+      "ddr_offset": 768256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.1/cv3.1.1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 384000,
+      "alignment": 64,
+      "birth": 240,
+      "death": 242,
+      "ddr_offset": 16896256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.1/cv3.1.1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 384000,
+      "alignment": 64,
+      "birth": 241,
+      "death": 242,
+      "ddr_offset": 17280256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.1/cv3.1.1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 96000,
+      "alignment": 64,
+      "birth": 242,
+      "death": 243,
+      "ddr_offset": 9561856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.1/cv3.1.2/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 384000,
+      "alignment": 64,
+      "birth": 243,
+      "death": 244,
+      "ddr_offset": 17664256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Reshape_4_output_0",
+      "space": "ddr",
+      "nbytes": 384000,
+      "alignment": 64,
+      "birth": 244,
+      "death": 253,
+      "ddr_offset": 18125056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.2/cv3.2.0/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 96000,
+      "alignment": 64,
+      "birth": 245,
+      "death": 247,
+      "ddr_offset": 11981056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.2/cv3.2.0/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 96000,
+      "alignment": 64,
+      "birth": 246,
+      "death": 247,
+      "ddr_offset": 12134656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.2/cv3.2.0/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 24000,
+      "alignment": 64,
+      "birth": 247,
+      "death": 248,
+      "ddr_offset": 3993856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.2/cv3.2.1/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 96000,
+      "alignment": 64,
+      "birth": 248,
+      "death": 250,
+      "ddr_offset": 10598656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.2/cv3.2.1/act/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 96000,
+      "alignment": 64,
+      "birth": 249,
+      "death": 250,
+      "ddr_offset": 12288256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.2/cv3.2.1/act/Mul_output_0",
+      "space": "ddr",
+      "nbytes": 24000,
+      "alignment": 64,
+      "birth": 250,
+      "death": 251,
+      "ddr_offset": 4531456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/cv3.2/cv3.2.2/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 96000,
+      "alignment": 64,
+      "birth": 251,
+      "death": 252,
+      "ddr_offset": 15360256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Reshape_5_output_0",
+      "space": "ddr",
+      "nbytes": 96000,
+      "alignment": 64,
+      "birth": 252,
+      "death": 253,
+      "ddr_offset": 15456256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Concat_1_output_0",
+      "space": "ddr",
+      "nbytes": 2016000,
+      "alignment": 64,
+      "birth": 253,
+      "death": 276,
+      "ddr_offset": 24038656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/dfl/Constant_output_0",
+      "space": "ddr",
+      "nbytes": 32,
+      "alignment": 64,
+      "birth": 254,
+      "death": 255,
+      "ddr_offset": 9888512,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/dfl/Reshape_output_0",
+      "space": "ddr",
+      "nbytes": 1612800,
+      "alignment": 64,
+      "birth": 255,
+      "death": 256,
+      "ddr_offset": 26054656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/dfl/Transpose_output_0",
+      "space": "ddr",
+      "nbytes": 1612800,
+      "alignment": 64,
+      "birth": 256,
+      "death": 257,
+      "ddr_offset": 19353856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/dfl/Softmax_output_0",
+      "space": "ddr",
+      "nbytes": 1612800,
+      "alignment": 64,
+      "birth": 257,
+      "death": 258,
+      "ddr_offset": 26054656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/dfl/conv/Conv_output_0",
+      "space": "ddr",
+      "nbytes": 100800,
+      "alignment": 64,
+      "birth": 258,
+      "death": 260,
+      "ddr_offset": 15552256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/dfl/Constant_1_output_0",
+      "space": "ddr",
+      "nbytes": 24,
+      "alignment": 64,
+      "birth": 259,
+      "death": 260,
+      "ddr_offset": 9888576,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/dfl/Reshape_1_output_0",
+      "space": "ddr",
+      "nbytes": 100800,
+      "alignment": 64,
+      "birth": 260,
+      "death": 264,
+      "ddr_offset": 11213056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Constant_6_output_0",
+      "space": "ddr",
+      "nbytes": 8,
+      "alignment": 64,
+      "birth": 261,
+      "death": 261,
+      "ddr_offset": 9888640,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Constant_7_output_0",
+      "space": "ddr",
+      "nbytes": 8,
+      "alignment": 64,
+      "birth": 262,
+      "death": 262,
+      "ddr_offset": 9888704,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Slice_output_0",
+      "space": "ddr",
+      "nbytes": 50400,
+      "alignment": 64,
+      "birth": 263,
+      "death": 266,
+      "ddr_offset": 864256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Slice_1_output_0",
+      "space": "ddr",
+      "nbytes": 50400,
+      "alignment": 64,
+      "birth": 264,
+      "death": 268,
+      "ddr_offset": 9657856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Constant_12_output_0",
+      "space": "ddr",
+      "nbytes": 50400,
+      "alignment": 64,
+      "birth": 265,
+      "death": 266,
+      "ddr_offset": 9715456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Sub_output_0",
+      "space": "ddr",
+      "nbytes": 50400,
+      "alignment": 64,
+      "birth": 266,
+      "death": 272,
+      "ddr_offset": 12077056,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Constant_13_output_0",
+      "space": "ddr",
+      "nbytes": 50400,
+      "alignment": 64,
+      "birth": 267,
+      "death": 268,
+      "ddr_offset": 12230656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Add_1_output_0",
+      "space": "ddr",
+      "nbytes": 50400,
+      "alignment": 64,
+      "birth": 268,
+      "death": 272,
+      "ddr_offset": 10694656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Add_2_output_0",
+      "space": "ddr",
+      "nbytes": 50400,
+      "alignment": 64,
+      "birth": 269,
+      "death": 271,
+      "ddr_offset": 12384256,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Constant_14_output_0",
+      "space": "ddr",
+      "nbytes": 4,
+      "alignment": 64,
+      "birth": 270,
+      "death": 271,
+      "ddr_offset": 9888768,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Div_1_output_0",
+      "space": "ddr",
+      "nbytes": 50400,
+      "alignment": 64,
+      "birth": 271,
+      "death": 273,
+      "ddr_offset": 12441856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Sub_1_output_0",
+      "space": "ddr",
+      "nbytes": 50400,
+      "alignment": 64,
+      "birth": 272,
+      "death": 273,
+      "ddr_offset": 12518656,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Concat_2_output_0",
+      "space": "ddr",
+      "nbytes": 100800,
+      "alignment": 64,
+      "birth": 273,
+      "death": 275,
+      "ddr_offset": 16435456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Constant_15_output_0",
+      "space": "ddr",
+      "nbytes": 25200,
+      "alignment": 64,
+      "birth": 274,
+      "death": 275,
+      "ddr_offset": 4569856,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Mul_2_output_0",
+      "space": "ddr",
+      "nbytes": 100800,
+      "alignment": 64,
+      "birth": 275,
+      "death": 277,
+      "ddr_offset": 6451456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "/model.24/Sigmoid_output_0",
+      "space": "ddr",
+      "nbytes": 2016000,
+      "alignment": 64,
+      "birth": 276,
+      "death": 277,
+      "ddr_offset": 27667456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "output0",
+      "space": "ddr",
+      "nbytes": 2116800,
+      "alignment": 64,
+      "birth": 277,
+      "death": 278,
+      "ddr_offset": 29683456,
+      "note": "activation/workspace"
+    },
+    {
+      "name": "gemmini_scratchpad",
+      "space": "scratchpad",
+      "nbytes": 0,
+      "alignment": 64,
+      "birth": -1,
+      "death": 278,
+      "ddr_offset": null,
+      "note": "on-chip; not a DDR strategy"
+    },
+    {
+      "name": "gemmini_accumulator",
+      "space": "accumulator",
+      "nbytes": 0,
+      "alignment": 64,
+      "birth": -1,
+      "death": 278,
+      "ddr_offset": null,
+      "note": "on-chip; not a DDR strategy"
+    }
+  ]
+}

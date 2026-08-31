@@ -64,6 +64,11 @@ module video_mmio_fabric (
 );
 
     localparam logic [2:0] SEL_ERROR = 3'd7;
+    // Taihang's CPU-visible AXI aperture is rooted at 0x10040000, while the
+    // existing peripheral decode is rooted at 0x40000000. Normalize the
+    // aperture before decode and before forwarding the peripheral offset.
+    localparam logic [30:0] EXT_MMIO_BASE = 31'h10040000;
+    localparam logic [30:0] VIDEO_MMIO_BASE = 31'h40000000;
 
     logic [30:0] awaddr_hold, araddr_hold;
     logic [3:0]  awid_hold, arid_hold;
@@ -75,6 +80,16 @@ module video_mmio_fabric (
     logic        aw_hold, w_hold, write_active, write_aw_done, write_w_done;
     logic        ar_hold, read_active, read_ar_done;
     logic        write_error, read_error;
+
+    function automatic logic [30:0] normalize_address(input logic [30:0] address);
+        begin
+            if ((address >= EXT_MMIO_BASE) &&
+                (address < (EXT_MMIO_BASE + 31'h00200000)))
+                normalize_address = address - EXT_MMIO_BASE + VIDEO_MMIO_BASE;
+            else
+                normalize_address = address;
+        end
+    endfunction
 
     function automatic logic [2:0] decode_address(input logic [30:0] address);
         begin
@@ -156,12 +171,12 @@ module video_mmio_fabric (
         end else begin
             if (s_awvalid && s_awready) begin
                 aw_hold      <= 1'b1;
-                awaddr_hold  <= s_awaddr;
+                awaddr_hold  <= normalize_address(s_awaddr);
                 awid_hold    <= s_awid;
                 awprot_hold  <= s_awprot;
-                aw_sel       <= decode_address(s_awaddr);
+                aw_sel       <= decode_address(normalize_address(s_awaddr));
                 aw_lane      <= s_awaddr[2];
-                write_error  <= (decode_address(s_awaddr) == SEL_ERROR) ||
+                write_error  <= (decode_address(normalize_address(s_awaddr)) == SEL_ERROR) ||
                                 (s_awlen != 8'd0) || (s_awsize > 3'd2);
             end
             if (s_wvalid && s_wready) begin
@@ -188,12 +203,12 @@ module video_mmio_fabric (
 
             if (s_arvalid && s_arready) begin
                 ar_hold      <= 1'b1;
-                araddr_hold  <= s_araddr;
+                araddr_hold  <= normalize_address(s_araddr);
                 arid_hold    <= s_arid;
                 arprot_hold  <= s_arprot;
-                ar_sel       <= decode_address(s_araddr);
+                ar_sel       <= decode_address(normalize_address(s_araddr));
                 ar_lane      <= s_araddr[2];
-                read_error   <= (decode_address(s_araddr) == SEL_ERROR) ||
+                read_error   <= (decode_address(normalize_address(s_araddr)) == SEL_ERROR) ||
                                 (s_arlen != 8'd0) || (s_arsize > 3'd2);
             end
             if (!read_active && ar_hold) begin

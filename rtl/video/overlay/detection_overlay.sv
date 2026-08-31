@@ -42,6 +42,20 @@ module detection_overlay #(
 
     reg [10:0] input_x;
     reg [10:0] input_y;
+    reg [47:0] stage0_data;
+    reg [10:0] stage0_x;
+    reg [10:0] stage0_y;
+    reg [3:0] stage0_stream;
+    reg stage0_valid;
+    reg stage0_user;
+    reg stage0_last;
+    reg [47:0] stage1_data;
+    reg [BOXES_PER_STREAM-1:0] stage1_hits0;
+    reg [BOXES_PER_STREAM-1:0] stage1_hits1;
+    reg [7:0] stage1_class [0:BOXES_PER_STREAM-1];
+    reg stage1_valid;
+    reg stage1_user;
+    reg stage1_last;
     reg [47:0] output_data;
     reg output_valid;
     reg output_user;
@@ -83,59 +97,59 @@ module detection_overlay #(
     endfunction
 
     wire output_ready = !output_valid || m_tready;
-    assign s_tready = output_ready;
+    wire stage1_ready = !stage1_valid || output_ready;
+    wire stage0_ready = !stage0_valid || stage1_ready;
+    assign s_tready = stage0_ready;
     assign m_tdata = output_data;
     assign m_tvalid = output_valid;
     assign m_tuser = output_user;
     assign m_tlast = output_last;
 
     reg [47:0] decorated_data;
-    reg hit0;
-    reg hit1;
-    reg [23:0] color0;
-    reg [23:0] color1;
-    reg [10:0] effective_x;
-    reg [10:0] effective_y;
-    reg [3:0] effective_stream;
+    reg selected_hit0;
+    reg selected_hit1;
+    reg [3:0] incoming_stream;
     integer selected_index;
 
     always @* begin
-        effective_x = s_tuser ? 11'd0 : input_x;
-        effective_y = s_tuser ? 11'd0 : input_y;
-        effective_stream = (effective_y / 270) * 4 +
-                           (effective_x / 480);
-        decorated_data = s_tdata;
-        hit0 = 1'b0;
-        hit1 = 1'b0;
-        color0 = 24'd0;
-        color1 = 24'd0;
+        if ((s_tuser ? 11'd0 : input_y) >= 11'd810)
+            incoming_stream = 4'd12;
+        else if ((s_tuser ? 11'd0 : input_y) >= 11'd540)
+            incoming_stream = 4'd8;
+        else if ((s_tuser ? 11'd0 : input_y) >= 11'd270)
+            incoming_stream = 4'd4;
+        else
+            incoming_stream = 4'd0;
+        if ((s_tuser ? 11'd0 : input_x) >= 11'd1440)
+            incoming_stream = incoming_stream + 4'd3;
+        else if ((s_tuser ? 11'd0 : input_x) >= 11'd960)
+            incoming_stream = incoming_stream + 4'd2;
+        else if ((s_tuser ? 11'd0 : input_x) >= 11'd480)
+            incoming_stream = incoming_stream + 4'd1;
+    end
+
+    always @* begin
+        decorated_data = stage1_data;
+        selected_hit0 = 1'b0;
+        selected_hit1 = 1'b0;
         for (box = 0; box < BOXES_PER_STREAM; box = box + 1) begin
-            selected_index = effective_stream * BOXES_PER_STREAM + box;
-            if (enable && box < active_count[effective_stream]) begin
-                if (!hit0 && pixel_hits_box(effective_x, effective_y,
-                    active_x_min[selected_index], active_y_min[selected_index],
-                    active_x_max[selected_index], active_y_max[selected_index])) begin
-                    hit0 = 1'b1;
-                    color0 = class_color(active_class[selected_index]);
-                end
-                if (!hit1 && pixel_hits_box(effective_x + 1'b1, effective_y,
-                    active_x_min[selected_index], active_y_min[selected_index],
-                    active_x_max[selected_index], active_y_max[selected_index])) begin
-                    hit1 = 1'b1;
-                    color1 = class_color(active_class[selected_index]);
-                end
+            if (!selected_hit0 && stage1_hits0[box]) begin
+                selected_hit0 = 1'b1;
+                decorated_data[23:0] = class_color(stage1_class[box]);
+            end
+            if (!selected_hit1 && stage1_hits1[box]) begin
+                selected_hit1 = 1'b1;
+                decorated_data[47:24] = class_color(stage1_class[box]);
             end
         end
-        if (hit0)
-            decorated_data[23:0] = color0;
-        if (hit1)
-            decorated_data[47:24] = color1;
     end
 
     always @(posedge clk) begin
         if (!resetn) begin
             input_x <= 11'd0;
             input_y <= 11'd0;
+            stage0_valid <= 1'b0;
+            stage1_valid <= 1'b0;
             output_data <= 48'd0;
             output_valid <= 1'b0;
             output_user <= 1'b0;
@@ -177,7 +191,7 @@ module detection_overlay #(
             end
 
             if (s_tvalid && s_tready && s_tlast &&
-                effective_y == FRAME_HEIGHT-1) begin
+                (s_tuser ? 11'd0 : input_y) == FRAME_HEIGHT-1) begin
                 for (stream = 0; stream < STREAMS; stream = stream + 1) begin
                     if (pending_streams[stream]) begin
                         active_count[stream] <= shadow_count[stream];
@@ -200,25 +214,66 @@ module detection_overlay #(
             end
 
             if (output_ready) begin
-                output_valid <= s_tvalid;
-                if (s_tvalid) begin
+                output_valid <= stage1_valid;
+                if (stage1_valid) begin
                     output_data <= decorated_data;
-                    output_user <= s_tuser;
-                    output_last <= s_tlast;
+                    output_user <= stage1_user;
+                    output_last <= stage1_last;
                 end else begin
                     output_user <= 1'b0;
                     output_last <= 1'b0;
                 end
             end
 
+            if (stage1_ready) begin
+                stage1_valid <= stage0_valid;
+                if (stage0_valid) begin
+                    stage1_data <= stage0_data;
+                    stage1_user <= stage0_user;
+                    stage1_last <= stage0_last;
+                    for (box = 0; box < BOXES_PER_STREAM; box = box + 1) begin
+                        selected_index = stage0_stream * BOXES_PER_STREAM + box;
+                        stage1_hits0[box] <= enable &&
+                            box < active_count[stage0_stream] &&
+                            pixel_hits_box(stage0_x, stage0_y,
+                                active_x_min[selected_index], active_y_min[selected_index],
+                                active_x_max[selected_index], active_y_max[selected_index]);
+                        stage1_hits1[box] <= enable &&
+                            box < active_count[stage0_stream] &&
+                            pixel_hits_box(stage0_x + 1'b1, stage0_y,
+                                active_x_min[selected_index], active_y_min[selected_index],
+                                active_x_max[selected_index], active_y_max[selected_index]);
+                        stage1_class[box] <= active_class[selected_index];
+                    end
+                end else begin
+                    stage1_user <= 1'b0;
+                    stage1_last <= 1'b0;
+                end
+            end
+
+            if (stage0_ready) begin
+                stage0_valid <= s_tvalid;
+                if (s_tvalid) begin
+                    stage0_data <= s_tdata;
+                    stage0_x <= s_tuser ? 11'd0 : input_x;
+                    stage0_y <= s_tuser ? 11'd0 : input_y;
+                    stage0_stream <= incoming_stream;
+                    stage0_user <= s_tuser;
+                    stage0_last <= s_tlast;
+                end else begin
+                    stage0_user <= 1'b0;
+                    stage0_last <= 1'b0;
+                end
+            end
+
             if (s_tvalid && s_tready) begin
                 if (s_tlast) begin
                     input_x <= 11'd0;
-                    input_y <= effective_y == FRAME_HEIGHT-1 ?
-                               11'd0 : effective_y + 1'b1;
+                    input_y <= (s_tuser ? 11'd0 : input_y) == FRAME_HEIGHT-1 ?
+                               11'd0 : (s_tuser ? 11'd0 : input_y) + 1'b1;
                 end else begin
-        input_x <= effective_x + 2'd2;
-                    input_y <= effective_y;
+                    input_x <= (s_tuser ? 11'd0 : input_x) + 2'd2;
+                    input_y <= s_tuser ? 11'd0 : input_y;
                 end
             end
         end

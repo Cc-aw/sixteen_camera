@@ -248,7 +248,7 @@ foreach path [lsort -unique $sc_rtl_files] {
 # The selected Rocket configuration is generated as one collateral unit.  All
 # Verilog/SystemVerilog/memory files in this one directory belong together.
 set sc_soc_dir [file join $sc_repo_root rtl soc \
-    chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig \
+    tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV1Gemmini16x16PackedFullOps256BitConfig \
     gen-collateral]
 set sc_soc_files [::sixteen_camera_setup::collect_hdl_files $sc_soc_dir]
 if {[llength $sc_soc_files] == 0} {

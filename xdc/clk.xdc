@@ -42,17 +42,27 @@ create_clock -name rocket_bscan_tck -period 66.667 \
 # The Rocket debug transport crosses between JTAG TCK and the 100 MHz SoC
 # clock through generated asynchronous queues and reset synchronizers.  Keep
 # those CDC paths asynchronous while fully timing every path contained inside
-# the BSCAN/JTAG domain itself.
-set_clock_groups -asynchronous \
-    -group [get_clocks rocket_bscan_tck] \
-    -group [get_clocks clk_100m_p]
+# the BSCAN/JTAG domain itself.  soc_mmio_axi\.aclk is retained in the lookup
+# for compatibility with checkpoints built with the former clock divider; the
+# direct-clock design normally contains only clk_100m_p.
+set sc_rocket_jtag_clocks [get_clocks -quiet rocket_bscan_tck]
+set sc_soc_clocks [get_clocks -quiet -include_generated_clocks \
+    {clk_100m_p soc_mmio_axi\.aclk}]
+if {([llength $sc_rocket_jtag_clocks] != 0) &&
+    ([llength $sc_soc_clocks] != 0)} {
+    set_clock_groups -asynchronous \
+        -group $sc_rocket_jtag_clocks \
+        -group $sc_soc_clocks
+} else {
+    puts "CRITICAL WARNING: Rocket JTAG/SoC clock groups were not found"
+}
 
 set_property PACKAGE_PIN AY24 [get_ports clk_100m_p]
 set_property PACKAGE_PIN AY23 [get_ports clk_100m_n]
 set_property IOSTANDARD LVDS [get_ports clk_100m_p]
 set_property IOSTANDARD LVDS [get_ports clk_100m_n]
 
-# Rocket UART, 115200 baud at the configured 100 MHz SoC clock.
+# Rocket UART, 115200 baud at the 100 MHz SoC clock.
 set_property PACKAGE_PIN AJ31 [get_ports uart_rxd]
 set_property PACKAGE_PIN AL31 [get_ports uart_txd]
 set_property IOSTANDARD LVCMOS18 [get_ports {uart_rxd uart_txd}]

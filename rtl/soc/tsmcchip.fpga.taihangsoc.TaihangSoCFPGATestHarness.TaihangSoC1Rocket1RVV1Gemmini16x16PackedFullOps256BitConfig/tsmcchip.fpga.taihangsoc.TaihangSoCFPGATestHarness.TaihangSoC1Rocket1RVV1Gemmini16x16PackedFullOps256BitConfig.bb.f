@@ -1,0 +1,4 @@
+/home/wzr/chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV1Gemmini16x16PackedFullOps256BitConfig/gen-collateral/GemminiDualSIntDSPMac.sv
+/home/wzr/chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV1Gemmini16x16PackedFullOps256BitConfig/gen-collateral/GenericDigitalInIOCell.v
+/home/wzr/chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV1Gemmini16x16PackedFullOps256BitConfig/gen-collateral/GenericDigitalOutIOCell.v
+/home/wzr/chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV1Gemmini16x16PackedFullOps256BitConfig/gen-collateral/plusarg_reader.v

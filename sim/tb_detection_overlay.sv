@@ -50,6 +50,7 @@ module tb_detection_overlay;
     endtask
 
     integer y;
+    integer wait_cycles;
     initial begin
         repeat (4) @(posedge clk);
         resetn = 1'b1;
@@ -68,12 +69,17 @@ module tb_detection_overlay;
         for (y = 0; y < 1080; y = y + 1)
             send_beat(48'h112233_445566, y == 0, 1'b1);
 
-        @(posedge clk);
+        // Drain the three-stage pipeline before testing a stalled output.
+        repeat (4) @(posedge clk);
         m_tready = 1'b0;
         send_beat(48'h112233_445566, 1'b1, 1'b0);
-        #1;
+        wait_cycles = 0;
+        while (!m_tvalid && wait_cycles < 8) begin
+            @(posedge clk); #1;
+            wait_cycles = wait_cycles + 1;
+        end
         if (!m_tvalid)
-            $fatal(1, "overlay output missing");
+            $fatal(1, "overlay output missing after pipeline latency");
         if (m_tdata != 48'h00ff00_00ff00)
             $fatal(1, "box border not drawn: %012x", m_tdata);
 

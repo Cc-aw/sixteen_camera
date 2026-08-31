@@ -36,8 +36,9 @@ ASFLAGS := $(ARCH_FLAGS) -g3
 LDFLAGS := $(ARCH_FLAGS) -nostdlib -nostartfiles -static -Wl,--gc-sections \
 	-Wl,-Map,$(TARGET).map -T linker.ld
 
-LOCAL_SOURCES := src/main.c src/console.c src/runtime.c src/hdmi_tx.c \
+LOCAL_SOURCES := src/main.c src/console.c src/runtime.c src/board_runtime.c src/ai_runtime_bridge.c src/hdmi_tx.c \
 	src/xilinx_config.c src/board_gpio.c src/camera_video.c \
+	src/video_service.c \
 	src/camera_config.c src/ai_frame_snapshot.c src/ai_preprocess.c \
 	src/ai_batch_runtime.c src/ai_model_backend_stub.c \
 	src/ai_postprocess_scalar.c src/ai_result_manager.c src/ai_display_map.c \

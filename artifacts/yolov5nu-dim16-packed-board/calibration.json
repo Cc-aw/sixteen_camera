@@ -1,0 +1,2454 @@
+{
+  "model": "/home/edgeai/edge-ai-lab/models/yolov5nu.onnx",
+  "input": {
+    "name": "images",
+    "channels": 3,
+    "height": 480,
+    "width": 640,
+    "scale": 0.007874015748031496
+  },
+  "quantization": {
+    "method": "Symmetric INT8, per-tensor, max(|x|)/127, post-activation calibration",
+    "activation": "scale = max(|post_activation|) / 127",
+    "weight": "scale = max(|weight|) / 127",
+    "gemmini_rescale": "gemmini_scale = (in_scale * wt_scale) / out_scale, approx 2^(-shift)"
+  },
+  "calibration_files": 5,
+  "tensor_scales": {
+    "images": {
+      "scale": 0.007874015748031496,
+      "absmax": 1.0,
+      "source": "calibration"
+    },
+    "/model.0/act/Mul_output_0": {
+      "scale": 0.19204630814199372,
+      "absmax": 24.389881134033203,
+      "source": "calibration"
+    },
+    "/model.1/act/Mul_output_0": {
+      "scale": 0.8714803260142409,
+      "absmax": 110.6780014038086,
+      "source": "calibration"
+    },
+    "/model.2/cv1/act/Mul_output_0": {
+      "scale": 0.05715651774969627,
+      "absmax": 7.258877754211426,
+      "source": "calibration"
+    },
+    "/model.2/m/m.0/cv1/act/Mul_output_0": {
+      "scale": 0.11203090036947896,
+      "absmax": 14.227924346923828,
+      "source": "calibration"
+    },
+    "/model.2/Concat_output_0": {
+      "scale": 0.18456502599040353,
+      "absmax": 23.43975830078125,
+      "source": "calibration"
+    },
+    "/model.2/cv3/act/Mul_output_0": {
+      "scale": 0.13663957250399852,
+      "absmax": 17.353225708007812,
+      "source": "calibration"
+    },
+    "/model.3/act/Mul_output_0": {
+      "scale": 0.06747223260834462,
+      "absmax": 8.568973541259766,
+      "source": "calibration"
+    },
+    "/model.4/cv1/act/Mul_output_0": {
+      "scale": 0.0242534190651,
+      "absmax": 3.0801842212677,
+      "source": "calibration"
+    },
+    "/model.4/m/m.0/cv1/act/Mul_output_0": {
+      "scale": 0.03470892418087937,
+      "absmax": 4.40803337097168,
+      "source": "calibration"
+    },
+    "/model.4/m/m.0/Add_output_0": {
+      "scale": 0.047970035883385366,
+      "absmax": 6.092194557189941,
+      "source": "calibration"
+    },
+    "/model.4/m/m.1/cv1/act/Mul_output_0": {
+      "scale": 0.03996645184013787,
+      "absmax": 5.07573938369751,
+      "source": "calibration"
+    },
+    "/model.4/Concat_output_0": {
+      "scale": 0.09712454277699388,
+      "absmax": 12.334816932678223,
+      "source": "calibration"
+    },
+    "/model.4/cv3/act/Mul_output_0": {
+      "scale": 0.06235132442684624,
+      "absmax": 7.918618202209473,
+      "source": "calibration"
+    },
+    "/model.5/act/Mul_output_0": {
+      "scale": 0.05026260511143001,
+      "absmax": 6.383350849151611,
+      "source": "calibration"
+    },
+    "/model.6/cv1/act/Mul_output_0": {
+      "scale": 0.012650946932514822,
+      "absmax": 1.6066702604293823,
+      "source": "calibration"
+    },
+    "/model.6/m/m.0/cv1/act/Mul_output_0": {
+      "scale": 0.044144615413635735,
+      "absmax": 5.606366157531738,
+      "source": "calibration"
+    },
+    "/model.6/m/m.0/Add_output_0": {
+      "scale": 0.02307355310034564,
+      "absmax": 2.9303412437438965,
+      "source": "calibration"
+    },
+    "/model.6/m/m.1/cv1/act/Mul_output_0": {
+      "scale": 0.0492897671977366,
+      "absmax": 6.259800434112549,
+      "source": "calibration"
+    },
+    "/model.6/m/m.1/Add_output_0": {
+      "scale": 0.05816180687251053,
+      "absmax": 7.386549472808838,
+      "source": "calibration"
+    },
+    "/model.6/m/m.2/cv1/act/Mul_output_0": {
+      "scale": 0.04281847495732345,
+      "absmax": 5.437946319580078,
+      "source": "calibration"
+    },
+    "/model.6/Concat_output_0": {
+      "scale": 0.10765553271676612,
+      "absmax": 13.672252655029297,
+      "source": "calibration"
+    },
+    "/model.6/cv3/act/Mul_output_0": {
+      "scale": 0.09169613845705048,
+      "absmax": 11.64540958404541,
+      "source": "calibration"
+    },
+    "/model.7/act/Mul_output_0": {
+      "scale": 0.0879371522918461,
+      "absmax": 11.168018341064453,
+      "source": "calibration"
+    },
+    "/model.8/cv1/act/Mul_output_0": {
+      "scale": 0.0489920931538259,
+      "absmax": 6.221995830535889,
+      "source": "calibration"
+    },
+    "/model.8/m/m.0/cv1/act/Mul_output_0": {
+      "scale": 0.1061687920037217,
+      "absmax": 13.483436584472656,
+      "source": "calibration"
+    },
+    "/model.8/Concat_output_0": {
+      "scale": 0.10537094206321897,
+      "absmax": 13.382109642028809,
+      "source": "calibration"
+    },
+    "/model.8/cv3/act/Mul_output_0": {
+      "scale": 0.0699907888577679,
+      "absmax": 8.888830184936523,
+      "source": "calibration"
+    },
+    "/model.9/cv1/act/Mul_output_0": {
+      "scale": 0.05652391628956231,
+      "absmax": 7.178537368774414,
+      "source": "calibration"
+    },
+    "/model.9/cv2/act/Mul_output_0": {
+      "scale": 0.049343202996441696,
+      "absmax": 6.266586780548096,
+      "source": "calibration"
+    },
+    "/model.10/act/Mul_output_0": {
+      "scale": 0.06608397566427396,
+      "absmax": 8.392664909362793,
+      "source": "calibration"
+    },
+    "/model.13/cv1/act/Mul_output_0": {
+      "scale": 0.03519905646016279,
+      "absmax": 4.470280170440674,
+      "source": "calibration"
+    },
+    "/model.13/m/m.0/cv1/act/Mul_output_0": {
+      "scale": 0.042852183965247446,
+      "absmax": 5.442227363586426,
+      "source": "calibration"
+    },
+    "/model.13/Concat_output_0": {
+      "scale": 0.042406112190306655,
+      "absmax": 5.385576248168945,
+      "source": "calibration"
+    },
+    "/model.13/cv3/act/Mul_output_0": {
+      "scale": 0.048190477326160344,
+      "absmax": 6.120190620422363,
+      "source": "calibration"
+    },
+    "/model.14/act/Mul_output_0": {
+      "scale": 0.03807964475136104,
+      "absmax": 4.836114883422852,
+      "source": "calibration"
+    },
+    "/model.17/cv1/act/Mul_output_0": {
+      "scale": 0.030597602288554033,
+      "absmax": 3.8858954906463623,
+      "source": "calibration"
+    },
+    "/model.17/m/m.0/cv1/act/Mul_output_0": {
+      "scale": 0.03664356517040823,
+      "absmax": 4.653732776641846,
+      "source": "calibration"
+    },
+    "/model.17/Concat_output_0": {
+      "scale": 0.0312555793702133,
+      "absmax": 3.96945858001709,
+      "source": "calibration"
+    },
+    "/model.17/cv3/act/Mul_output_0": {
+      "scale": 0.0291072289774737,
+      "absmax": 3.69661808013916,
+      "source": "calibration"
+    },
+    "/model.19/Concat_output_0": {
+      "scale": 0.049181596500667064,
+      "absmax": 6.246062755584717,
+      "source": "calibration"
+    },
+    "/model.20/cv1/act/Mul_output_0": {
+      "scale": 0.05197433411605715,
+      "absmax": 6.600740432739258,
+      "source": "calibration"
+    },
+    "/model.20/m/m.0/cv1/act/Mul_output_0": {
+      "scale": 0.04376610433022807,
+      "absmax": 5.558295249938965,
+      "source": "calibration"
+    },
+    "/model.20/Concat_output_0": {
+      "scale": 0.053124807012362746,
+      "absmax": 6.746850490570068,
+      "source": "calibration"
+    },
+    "/model.20/cv3/act/Mul_output_0": {
+      "scale": 0.056225078312430794,
+      "absmax": 7.140584945678711,
+      "source": "calibration"
+    },
+    "/model.22/Concat_output_0": {
+      "scale": 0.06608397566427396,
+      "absmax": 8.392664909362793,
+      "source": "calibration"
+    },
+    "/model.23/cv1/act/Mul_output_0": {
+      "scale": 0.07125961123489019,
+      "absmax": 9.049970626831055,
+      "source": "calibration"
+    },
+    "/model.23/m/m.0/cv1/act/Mul_output_0": {
+      "scale": 0.07090804332823265,
+      "absmax": 9.005321502685547,
+      "source": "calibration"
+    },
+    "/model.23/Concat_output_0": {
+      "scale": 0.06890861631378414,
+      "absmax": 8.751394271850586,
+      "source": "calibration"
+    },
+    "/model.23/cv3/act/Mul_output_0": {
+      "scale": 0.060120811612587276,
+      "absmax": 7.635343074798584,
+      "source": "calibration"
+    },
+    "/model.24/cv2.0/cv2.0.0/act/Mul_output_0": {
+      "scale": 0.037794800255242296,
+      "absmax": 4.7999396324157715,
+      "source": "calibration"
+    },
+    "/model.24/cv2.0/cv2.0.1/act/Mul_output_0": {
+      "scale": 0.2705114770123339,
+      "absmax": 34.354957580566406,
+      "source": "calibration"
+    },
+    "/model.24/cv2.0/cv2.0.2/Conv_output_0": {
+      "scale": 0.13584465867891085,
+      "absmax": 17.25227165222168,
+      "source": "calibration"
+    },
+    "/model.24/cv2.1/cv2.1.0/act/Mul_output_0": {
+      "scale": 0.0502288510480265,
+      "absmax": 6.379064083099365,
+      "source": "calibration"
+    },
+    "/model.24/cv2.1/cv2.1.1/act/Mul_output_0": {
+      "scale": 0.17937837435504583,
+      "absmax": 22.78105354309082,
+      "source": "calibration"
+    },
+    "/model.24/cv2.1/cv2.1.2/Conv_output_0": {
+      "scale": 0.09541489007904774,
+      "absmax": 12.117691040039062,
+      "source": "calibration"
+    },
+    "/model.24/cv2.2/cv2.2.0/act/Mul_output_0": {
+      "scale": 0.06705765461358498,
+      "absmax": 8.516322135925293,
+      "source": "calibration"
+    },
+    "/model.24/cv2.2/cv2.2.1/act/Mul_output_0": {
+      "scale": 0.20414646779458354,
+      "absmax": 25.92660140991211,
+      "source": "calibration"
+    },
+    "/model.24/cv2.2/cv2.2.2/Conv_output_0": {
+      "scale": 0.10407453822338675,
+      "absmax": 13.217466354370117,
+      "source": "calibration"
+    },
+    "/model.24/cv3.0/cv3.0.0/act/Mul_output_0": {
+      "scale": 0.04275020839661125,
+      "absmax": 5.429276466369629,
+      "source": "calibration"
+    },
+    "/model.24/cv3.0/cv3.0.1/act/Mul_output_0": {
+      "scale": 0.2541717168853039,
+      "absmax": 32.279808044433594,
+      "source": "calibration"
+    },
+    "/model.24/cv3.0/cv3.0.2/Conv_output_0": {
+      "scale": 0.21188829076571727,
+      "absmax": 26.909812927246094,
+      "source": "calibration"
+    },
+    "/model.24/cv3.1/cv3.1.0/act/Mul_output_0": {
+      "scale": 0.05404057840662679,
+      "absmax": 6.863153457641602,
+      "source": "calibration"
+    },
+    "/model.24/cv3.1/cv3.1.1/act/Mul_output_0": {
+      "scale": 0.5951460590512734,
+      "absmax": 75.58354949951172,
+      "source": "calibration"
+    },
+    "/model.24/cv3.1/cv3.1.2/Conv_output_0": {
+      "scale": 0.3146975659948634,
+      "absmax": 39.966590881347656,
+      "source": "calibration"
+    },
+    "/model.24/cv3.2/cv3.2.0/act/Mul_output_0": {
+      "scale": 0.05814084856528935,
+      "absmax": 7.383887767791748,
+      "source": "calibration"
+    },
+    "/model.24/cv3.2/cv3.2.1/act/Mul_output_0": {
+      "scale": 0.48437136552465243,
+      "absmax": 61.51516342163086,
+      "source": "calibration"
+    },
+    "/model.24/cv3.2/cv3.2.2/Conv_output_0": {
+      "scale": 0.4065703744963398,
+      "absmax": 51.634437561035156,
+      "source": "calibration"
+    },
+    "/model.24/dfl/conv/Conv_output_0": {
+      "scale": 0.10316214974470965,
+      "absmax": 13.101593017578125,
+      "source": "calibration"
+    },
+    "/model.0/conv/Conv_output_0": {
+      "scale": 0.19204630814199372,
+      "absmax": 24.389881134033203,
+      "source": "calibration"
+    },
+    "/model.0/act/Sigmoid_output_0": {
+      "scale": 0.007874015748031496,
+      "absmax": 1.0,
+      "source": "calibration"
+    },
+    "/model.1/conv/Conv_output_0": {
+      "scale": 0.8714803260142409,
+      "absmax": 110.6780014038086,
+      "source": "calibration"
+    },
+    "/model.1/act/Sigmoid_output_0": {
+      "scale": 0.007874015748031496,
+      "absmax": 1.0,
+      "source": "calibration"
+    },
+    "/model.2/cv1/conv/Conv_output_0": {
+      "scale": 0.30100121085099346,
+      "absmax": 38.22715377807617,
+      "source": "calibration"
+    },
+    "/model.2/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007868504899693287,
+      "absmax": 0.9993001222610474,
+      "source": "calibration"
+    },
+    "/model.2/m/m.0/cv1/conv/Conv_output_0": {
+      "scale": 0.16220522302342213,
+      "absmax": 20.60006332397461,
+      "source": "calibration"
+    },
+    "/model.2/m/m.0/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007874010116096557,
+      "absmax": 0.9999992847442627,
+      "source": "calibration"
+    },
+    "/model.2/m/m.0/cv2/conv/Conv_output_0": {
+      "scale": 0.216002456785187,
+      "absmax": 27.43231201171875,
+      "source": "calibration"
+    },
+    "/model.2/m/m.0/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007874015748031496,
+      "absmax": 1.0,
+      "source": "calibration"
+    },
+    "/model.2/m/m.0/cv2/act/Mul_output_0": {
+      "scale": 0.15229114021841936,
+      "absmax": 19.340974807739258,
+      "source": "calibration"
+    },
+    "/model.2/m/m.0/Add_output_0": {
+      "scale": 0.16455746447946143,
+      "absmax": 20.8987979888916,
+      "source": "calibration"
+    },
+    "/model.2/cv2/conv/Conv_output_0": {
+      "scale": 0.42856189397376354,
+      "absmax": 54.42736053466797,
+      "source": "calibration"
+    },
+    "/model.2/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007874015748031496,
+      "absmax": 1.0,
+      "source": "calibration"
+    },
+    "/model.2/cv2/act/Mul_output_0": {
+      "scale": 0.18456502599040353,
+      "absmax": 23.43975830078125,
+      "source": "calibration"
+    },
+    "/model.2/cv3/conv/Conv_output_0": {
+      "scale": 0.1540426719845749,
+      "absmax": 19.563419342041016,
+      "source": "calibration"
+    },
+    "/model.2/cv3/act/Sigmoid_output_0": {
+      "scale": 0.007874015278703584,
+      "absmax": 0.9999999403953552,
+      "source": "calibration"
+    },
+    "/model.3/conv/Conv_output_0": {
+      "scale": 0.08463149183378445,
+      "absmax": 10.748199462890625,
+      "source": "calibration"
+    },
+    "/model.3/act/Sigmoid_output_0": {
+      "scale": 0.00787252234661673,
+      "absmax": 0.9998103380203247,
+      "source": "calibration"
+    },
+    "/model.4/cv1/conv/Conv_output_0": {
+      "scale": 0.06363102019302488,
+      "absmax": 8.08113956451416,
+      "source": "calibration"
+    },
+    "/model.4/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007567132082511121,
+      "absmax": 0.9610257744789124,
+      "source": "calibration"
+    },
+    "/model.4/m/m.0/cv1/conv/Conv_output_0": {
+      "scale": 0.054045542018620045,
+      "absmax": 6.863783836364746,
+      "source": "calibration"
+    },
+    "/model.4/m/m.0/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007783929194052388,
+      "absmax": 0.9885590076446533,
+      "source": "calibration"
+    },
+    "/model.4/m/m.0/cv2/conv/Conv_output_0": {
+      "scale": 0.04509548878106545,
+      "absmax": 5.7271270751953125,
+      "source": "calibration"
+    },
+    "/model.4/m/m.0/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007816938903388075,
+      "absmax": 0.9927512407302856,
+      "source": "calibration"
+    },
+    "/model.4/m/m.0/cv2/act/Mul_output_0": {
+      "scale": 0.03845655261062261,
+      "absmax": 4.883982181549072,
+      "source": "calibration"
+    },
+    "/model.4/m/m.1/cv1/conv/Conv_output_0": {
+      "scale": 0.06168727424201064,
+      "absmax": 7.834283828735352,
+      "source": "calibration"
+    },
+    "/model.4/m/m.1/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007826607058367392,
+      "absmax": 0.9939790964126587,
+      "source": "calibration"
+    },
+    "/model.4/m/m.1/cv2/conv/Conv_output_0": {
+      "scale": 0.09590703859103947,
+      "absmax": 12.180193901062012,
+      "source": "calibration"
+    },
+    "/model.4/m/m.1/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007871874674098698,
+      "absmax": 0.9997280836105347,
+      "source": "calibration"
+    },
+    "/model.4/m/m.1/cv2/act/Mul_output_0": {
+      "scale": 0.06462743714099795,
+      "absmax": 8.207684516906738,
+      "source": "calibration"
+    },
+    "/model.4/m/m.1/Add_output_0": {
+      "scale": 0.07995309604434517,
+      "absmax": 10.154043197631836,
+      "source": "calibration"
+    },
+    "/model.4/cv2/conv/Conv_output_0": {
+      "scale": 0.10868931567575049,
+      "absmax": 13.803543090820312,
+      "source": "calibration"
+    },
+    "/model.4/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007873981017766036,
+      "absmax": 0.9999955892562866,
+      "source": "calibration"
+    },
+    "/model.4/cv2/act/Mul_output_0": {
+      "scale": 0.09712454277699388,
+      "absmax": 12.334816932678223,
+      "source": "calibration"
+    },
+    "/model.4/cv3/conv/Conv_output_0": {
+      "scale": 0.062373949786809484,
+      "absmax": 7.921491622924805,
+      "source": "calibration"
+    },
+    "/model.4/cv3/act/Sigmoid_output_0": {
+      "scale": 0.007871159418361393,
+      "absmax": 0.999637246131897,
+      "source": "calibration"
+    },
+    "/model.5/conv/Conv_output_0": {
+      "scale": 0.10190210567684624,
+      "absmax": 12.941567420959473,
+      "source": "calibration"
+    },
+    "/model.5/act/Sigmoid_output_0": {
+      "scale": 0.007860875505162037,
+      "absmax": 0.9983311891555786,
+      "source": "calibration"
+    },
+    "/model.6/cv1/conv/Conv_output_0": {
+      "scale": 0.03884602719404566,
+      "absmax": 4.933445453643799,
+      "source": "calibration"
+    },
+    "/model.6/cv1/act/Sigmoid_output_0": {
+      "scale": 0.006810999761416217,
+      "absmax": 0.8649969696998596,
+      "source": "calibration"
+    },
+    "/model.6/m/m.0/cv1/conv/Conv_output_0": {
+      "scale": 0.05414526105865719,
+      "absmax": 6.876448154449463,
+      "source": "calibration"
+    },
+    "/model.6/m/m.0/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007845764085063784,
+      "absmax": 0.9964120388031006,
+      "source": "calibration"
+    },
+    "/model.6/m/m.0/cv2/conv/Conv_output_0": {
+      "scale": 0.03565189406627745,
+      "absmax": 4.527790546417236,
+      "source": "calibration"
+    },
+    "/model.6/m/m.0/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007418333076116607,
+      "absmax": 0.9421283006668091,
+      "source": "calibration"
+    },
+    "/model.6/m/m.0/cv2/act/Mul_output_0": {
+      "scale": 0.02069650672552154,
+      "absmax": 2.6284563541412354,
+      "source": "calibration"
+    },
+    "/model.6/m/m.1/cv1/conv/Conv_output_0": {
+      "scale": 0.04938288185540147,
+      "absmax": 6.271625995635986,
+      "source": "calibration"
+    },
+    "/model.6/m/m.1/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007859169028875396,
+      "absmax": 0.9981144666671753,
+      "source": "calibration"
+    },
+    "/model.6/m/m.1/cv2/conv/Conv_output_0": {
+      "scale": 0.05877709951926404,
+      "absmax": 7.464691638946533,
+      "source": "calibration"
+    },
+    "/model.6/m/m.1/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007869506914784588,
+      "absmax": 0.9994273781776428,
+      "source": "calibration"
+    },
+    "/model.6/m/m.1/cv2/act/Mul_output_0": {
+      "scale": 0.058743443076066146,
+      "absmax": 7.4604172706604,
+      "source": "calibration"
+    },
+    "/model.6/m/m.2/cv1/conv/Conv_output_0": {
+      "scale": 0.05086427223025344,
+      "absmax": 6.4597625732421875,
+      "source": "calibration"
+    },
+    "/model.6/m/m.2/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007840700036897434,
+      "absmax": 0.9957689046859741,
+      "source": "calibration"
+    },
+    "/model.6/m/m.2/cv2/conv/Conv_output_0": {
+      "scale": 0.11576829745074896,
+      "absmax": 14.702573776245117,
+      "source": "calibration"
+    },
+    "/model.6/m/m.2/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007873575987778311,
+      "absmax": 0.9999441504478455,
+      "source": "calibration"
+    },
+    "/model.6/m/m.2/cv2/act/Mul_output_0": {
+      "scale": 0.07710195526363343,
+      "absmax": 9.791948318481445,
+      "source": "calibration"
+    },
+    "/model.6/m/m.2/Add_output_0": {
+      "scale": 0.07487151378721703,
+      "absmax": 9.508682250976562,
+      "source": "calibration"
+    },
+    "/model.6/cv2/conv/Conv_output_0": {
+      "scale": 0.10765566037395807,
+      "absmax": 13.672268867492676,
+      "source": "calibration"
+    },
+    "/model.6/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007874006361473264,
+      "absmax": 0.9999988079071045,
+      "source": "calibration"
+    },
+    "/model.6/cv2/act/Mul_output_0": {
+      "scale": 0.10765553271676612,
+      "absmax": 13.672252655029297,
+      "source": "calibration"
+    },
+    "/model.6/cv3/conv/Conv_output_0": {
+      "scale": 0.09169694194643516,
+      "absmax": 11.645511627197266,
+      "source": "calibration"
+    },
+    "/model.6/cv3/act/Sigmoid_output_0": {
+      "scale": 0.007873946756828488,
+      "absmax": 0.999991238117218,
+      "source": "calibration"
+    },
+    "/model.7/conv/Conv_output_0": {
+      "scale": 0.08793839882677934,
+      "absmax": 11.168176651000977,
+      "source": "calibration"
+    },
+    "/model.7/act/Sigmoid_output_0": {
+      "scale": 0.00787390404798853,
+      "absmax": 0.9999858140945435,
+      "source": "calibration"
+    },
+    "/model.8/cv1/conv/Conv_output_0": {
+      "scale": 0.04908817771851547,
+      "absmax": 6.234198570251465,
+      "source": "calibration"
+    },
+    "/model.8/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007858603488741896,
+      "absmax": 0.998042643070221,
+      "source": "calibration"
+    },
+    "/model.8/m/m.0/cv1/conv/Conv_output_0": {
+      "scale": 0.10616894218865341,
+      "absmax": 13.483455657958984,
+      "source": "calibration"
+    },
+    "/model.8/m/m.0/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007874004484161617,
+      "absmax": 0.9999985694885254,
+      "source": "calibration"
+    },
+    "/model.8/m/m.0/cv2/conv/Conv_output_0": {
+      "scale": 0.10712530481533741,
+      "absmax": 13.604913711547852,
+      "source": "calibration"
+    },
+    "/model.8/m/m.0/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007874005892145352,
+      "absmax": 0.9999987483024597,
+      "source": "calibration"
+    },
+    "/model.8/m/m.0/cv2/act/Mul_output_0": {
+      "scale": 0.10712516964889887,
+      "absmax": 13.604896545410156,
+      "source": "calibration"
+    },
+    "/model.8/m/m.0/Add_output_0": {
+      "scale": 0.10537094206321897,
+      "absmax": 13.382109642028809,
+      "source": "calibration"
+    },
+    "/model.8/cv2/conv/Conv_output_0": {
+      "scale": 0.07525600223090705,
+      "absmax": 9.557512283325195,
+      "source": "calibration"
+    },
+    "/model.8/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007872877627845824,
+      "absmax": 0.9998554587364197,
+      "source": "calibration"
+    },
+    "/model.8/cv2/act/Mul_output_0": {
+      "scale": 0.06961381716991034,
+      "absmax": 8.840954780578613,
+      "source": "calibration"
+    },
+    "/model.8/cv3/conv/Conv_output_0": {
+      "scale": 0.08836641837292769,
+      "absmax": 11.222535133361816,
+      "source": "calibration"
+    },
+    "/model.8/cv3/act/Sigmoid_output_0": {
+      "scale": 0.00787293160055566,
+      "absmax": 0.9998623132705688,
+      "source": "calibration"
+    },
+    "/model.9/cv1/conv/Conv_output_0": {
+      "scale": 0.05656679784219096,
+      "absmax": 7.183983325958252,
+      "source": "calibration"
+    },
+    "/model.9/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007868046835651548,
+      "absmax": 0.9992419481277466,
+      "source": "calibration"
+    },
+    "/model.9/m/MaxPool_output_0": {
+      "scale": 0.05652391628956231,
+      "absmax": 7.178537368774414,
+      "source": "calibration"
+    },
+    "/model.9/m_1/MaxPool_output_0": {
+      "scale": 0.05652391628956231,
+      "absmax": 7.178537368774414,
+      "source": "calibration"
+    },
+    "/model.9/m_2/MaxPool_output_0": {
+      "scale": 0.05652391628956231,
+      "absmax": 7.178537368774414,
+      "source": "calibration"
+    },
+    "/model.9/Concat_output_0": {
+      "scale": 0.05652391628956231,
+      "absmax": 7.178537368774414,
+      "source": "calibration"
+    },
+    "/model.9/cv2/conv/Conv_output_0": {
+      "scale": 0.054499915265661524,
+      "absmax": 6.921489238739014,
+      "source": "calibration"
+    },
+    "/model.9/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007859268057064748,
+      "absmax": 0.9981270432472229,
+      "source": "calibration"
+    },
+    "/model.10/conv/Conv_output_0": {
+      "scale": 0.06609891155573326,
+      "absmax": 8.394561767578125,
+      "source": "calibration"
+    },
+    "/model.10/act/Sigmoid_output_0": {
+      "scale": 0.007872236525918555,
+      "absmax": 0.9997740387916565,
+      "source": "calibration"
+    },
+    "/model.11/Constant_output_0": {
+      "scale": 0.015748031496062992,
+      "absmax": 2.0,
+      "source": "calibration"
+    },
+    "/model.11/Resize_output_0": {
+      "scale": 0.06608397566427396,
+      "absmax": 8.392664909362793,
+      "source": "calibration"
+    },
+    "/model.12/Concat_output_0": {
+      "scale": 0.09169613845705048,
+      "absmax": 11.64540958404541,
+      "source": "calibration"
+    },
+    "/model.13/cv1/conv/Conv_output_0": {
+      "scale": 0.052573842326487145,
+      "absmax": 6.676877975463867,
+      "source": "calibration"
+    },
+    "/model.13/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007789115267475759,
+      "absmax": 0.9892176389694214,
+      "source": "calibration"
+    },
+    "/model.13/m/m.0/cv1/conv/Conv_output_0": {
+      "scale": 0.049148187862606496,
+      "absmax": 6.241819858551025,
+      "source": "calibration"
+    },
+    "/model.13/m/m.0/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007840839427287184,
+      "absmax": 0.9957866072654724,
+      "source": "calibration"
+    },
+    "/model.13/m/m.0/cv2/conv/Conv_output_0": {
+      "scale": 0.04259579951368918,
+      "absmax": 5.409666538238525,
+      "source": "calibration"
+    },
+    "/model.13/m/m.0/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007838951321098749,
+      "absmax": 0.995546817779541,
+      "source": "calibration"
+    },
+    "/model.13/m/m.0/cv2/act/Mul_output_0": {
+      "scale": 0.042406112190306655,
+      "absmax": 5.385576248168945,
+      "source": "calibration"
+    },
+    "/model.13/cv2/conv/Conv_output_0": {
+      "scale": 0.06681225994440514,
+      "absmax": 8.485157012939453,
+      "source": "calibration"
+    },
+    "/model.13/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007715251502089613,
+      "absmax": 0.9798369407653809,
+      "source": "calibration"
+    },
+    "/model.13/cv2/act/Mul_output_0": {
+      "scale": 0.029962451439204178,
+      "absmax": 3.8052313327789307,
+      "source": "calibration"
+    },
+    "/model.13/cv3/conv/Conv_output_0": {
+      "scale": 0.0648814298975186,
+      "absmax": 8.239941596984863,
+      "source": "calibration"
+    },
+    "/model.13/cv3/act/Sigmoid_output_0": {
+      "scale": 0.00785697351290485,
+      "absmax": 0.997835636138916,
+      "source": "calibration"
+    },
+    "/model.14/conv/Conv_output_0": {
+      "scale": 0.039877151879738636,
+      "absmax": 5.064398288726807,
+      "source": "calibration"
+    },
+    "/model.14/act/Sigmoid_output_0": {
+      "scale": 0.007814240267896276,
+      "absmax": 0.9924085140228271,
+      "source": "calibration"
+    },
+    "/model.15/Constant_output_0": {
+      "scale": 0.015748031496062992,
+      "absmax": 2.0,
+      "source": "calibration"
+    },
+    "/model.15/Resize_output_0": {
+      "scale": 0.03807964475136104,
+      "absmax": 4.836114883422852,
+      "source": "calibration"
+    },
+    "/model.16/Concat_output_0": {
+      "scale": 0.06235132442684624,
+      "absmax": 7.918618202209473,
+      "source": "calibration"
+    },
+    "/model.17/cv1/conv/Conv_output_0": {
+      "scale": 0.04864489938330462,
+      "absmax": 6.1779022216796875,
+      "source": "calibration"
+    },
+    "/model.17/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007726716713642511,
+      "absmax": 0.9812930226325989,
+      "source": "calibration"
+    },
+    "/model.17/m/m.0/cv1/conv/Conv_output_0": {
+      "scale": 0.04549190190833385,
+      "absmax": 5.777471542358398,
+      "source": "calibration"
+    },
+    "/model.17/m/m.0/cv1/act/Sigmoid_output_0": {
+      "scale": 0.0078027783416387605,
+      "absmax": 0.9909528493881226,
+      "source": "calibration"
+    },
+    "/model.17/m/m.0/cv2/conv/Conv_output_0": {
+      "scale": 0.044360479970616616,
+      "absmax": 5.6337809562683105,
+      "source": "calibration"
+    },
+    "/model.17/m/m.0/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007737763284698246,
+      "absmax": 0.9826959371566772,
+      "source": "calibration"
+    },
+    "/model.17/m/m.0/cv2/act/Mul_output_0": {
+      "scale": 0.0312555793702133,
+      "absmax": 3.96945858001709,
+      "source": "calibration"
+    },
+    "/model.17/cv2/conv/Conv_output_0": {
+      "scale": 0.02667513794786348,
+      "absmax": 3.387742519378662,
+      "source": "calibration"
+    },
+    "/model.17/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007616687008715052,
+      "absmax": 0.9673192501068115,
+      "source": "calibration"
+    },
+    "/model.17/cv2/act/Mul_output_0": {
+      "scale": 0.025803374493215965,
+      "absmax": 3.2770285606384277,
+      "source": "calibration"
+    },
+    "/model.17/cv3/conv/Conv_output_0": {
+      "scale": 0.05588702704962783,
+      "absmax": 7.097652435302734,
+      "source": "calibration"
+    },
+    "/model.17/cv3/act/Sigmoid_output_0": {
+      "scale": 0.007698474906560943,
+      "absmax": 0.9777063131332397,
+      "source": "calibration"
+    },
+    "/model.18/conv/Conv_output_0": {
+      "scale": 0.05334832724623793,
+      "absmax": 6.775237560272217,
+      "source": "calibration"
+    },
+    "/model.18/act/Sigmoid_output_0": {
+      "scale": 0.007858965340561755,
+      "absmax": 0.9980885982513428,
+      "source": "calibration"
+    },
+    "/model.18/act/Mul_output_0": {
+      "scale": 0.049181596500667064,
+      "absmax": 6.246062755584717,
+      "source": "calibration"
+    },
+    "/model.20/cv1/conv/Conv_output_0": {
+      "scale": 0.0594301636763445,
+      "absmax": 7.547630786895752,
+      "source": "calibration"
+    },
+    "/model.20/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007863420670426736,
+      "absmax": 0.9986544251441956,
+      "source": "calibration"
+    },
+    "/model.20/m/m.0/cv1/conv/Conv_output_0": {
+      "scale": 0.0543042768643597,
+      "absmax": 6.896643161773682,
+      "source": "calibration"
+    },
+    "/model.20/m/m.0/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007844400687480536,
+      "absmax": 0.9962388873100281,
+      "source": "calibration"
+    },
+    "/model.20/m/m.0/cv2/conv/Conv_output_0": {
+      "scale": 0.05885537215105192,
+      "absmax": 7.474632263183594,
+      "source": "calibration"
+    },
+    "/model.20/m/m.0/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007864850712573434,
+      "absmax": 0.9988360404968262,
+      "source": "calibration"
+    },
+    "/model.20/m/m.0/cv2/act/Mul_output_0": {
+      "scale": 0.053124807012362746,
+      "absmax": 6.746850490570068,
+      "source": "calibration"
+    },
+    "/model.20/cv2/conv/Conv_output_0": {
+      "scale": 0.039773107513668034,
+      "absmax": 5.05118465423584,
+      "source": "calibration"
+    },
+    "/model.20/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007657149645287221,
+      "absmax": 0.972458004951477,
+      "source": "calibration"
+    },
+    "/model.20/cv2/act/Mul_output_0": {
+      "scale": 0.027290958119189645,
+      "absmax": 3.465951681137085,
+      "source": "calibration"
+    },
+    "/model.20/cv3/conv/Conv_output_0": {
+      "scale": 0.0832387143232691,
+      "absmax": 10.571316719055176,
+      "source": "calibration"
+    },
+    "/model.20/cv3/act/Sigmoid_output_0": {
+      "scale": 0.007867816864974855,
+      "absmax": 0.9992127418518066,
+      "source": "calibration"
+    },
+    "/model.21/conv/Conv_output_0": {
+      "scale": 0.09056719832532988,
+      "absmax": 11.502034187316895,
+      "source": "calibration"
+    },
+    "/model.21/act/Sigmoid_output_0": {
+      "scale": 0.00786935344455749,
+      "absmax": 0.9994078874588013,
+      "source": "calibration"
+    },
+    "/model.21/act/Mul_output_0": {
+      "scale": 0.05847956439641517,
+      "absmax": 7.426904678344727,
+      "source": "calibration"
+    },
+    "/model.23/cv1/conv/Conv_output_0": {
+      "scale": 0.09374094384861743,
+      "absmax": 11.905099868774414,
+      "source": "calibration"
+    },
+    "/model.23/cv1/act/Sigmoid_output_0": {
+      "scale": 0.007873092580029346,
+      "absmax": 0.9998827576637268,
+      "source": "calibration"
+    },
+    "/model.23/m/m.0/cv1/conv/Conv_output_0": {
+      "scale": 0.08223264799343319,
+      "absmax": 10.443546295166016,
+      "source": "calibration"
+    },
+    "/model.23/m/m.0/cv1/act/Sigmoid_output_0": {
+      "scale": 0.0078730503405173,
+      "absmax": 0.999877393245697,
+      "source": "calibration"
+    },
+    "/model.23/m/m.0/cv2/conv/Conv_output_0": {
+      "scale": 0.07799647173543614,
+      "absmax": 9.90555191040039,
+      "source": "calibration"
+    },
+    "/model.23/m/m.0/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007872771559737798,
+      "absmax": 0.9998419880867004,
+      "source": "calibration"
+    },
+    "/model.23/m/m.0/cv2/act/Mul_output_0": {
+      "scale": 0.06890861631378414,
+      "absmax": 8.751394271850586,
+      "source": "calibration"
+    },
+    "/model.23/cv2/conv/Conv_output_0": {
+      "scale": 0.06383179491899145,
+      "absmax": 8.106637954711914,
+      "source": "calibration"
+    },
+    "/model.23/cv2/act/Sigmoid_output_0": {
+      "scale": 0.007859775400537205,
+      "absmax": 0.9981914758682251,
+      "source": "calibration"
+    },
+    "/model.23/cv2/act/Mul_output_0": {
+      "scale": 0.049622494404710185,
+      "absmax": 6.302056789398193,
+      "source": "calibration"
+    },
+    "/model.23/cv3/conv/Conv_output_0": {
+      "scale": 0.13542305953859343,
+      "absmax": 17.198728561401367,
+      "source": "calibration"
+    },
+    "/model.23/cv3/act/Sigmoid_output_0": {
+      "scale": 0.007870228271784746,
+      "absmax": 0.9995189905166626,
+      "source": "calibration"
+    },
+    "/model.24/cv2.0/cv2.0.0/conv/Conv_output_0": {
+      "scale": 0.08108642157607192,
+      "absmax": 10.297975540161133,
+      "source": "calibration"
+    },
+    "/model.24/cv2.0/cv2.0.0/act/Sigmoid_output_0": {
+      "scale": 0.00781211984439159,
+      "absmax": 0.9921392202377319,
+      "source": "calibration"
+    },
+    "/model.24/cv2.0/cv2.0.1/conv/Conv_output_0": {
+      "scale": 0.2705114770123339,
+      "absmax": 34.354957580566406,
+      "source": "calibration"
+    },
+    "/model.24/cv2.0/cv2.0.1/act/Sigmoid_output_0": {
+      "scale": 0.007874015748031496,
+      "absmax": 1.0,
+      "source": "calibration"
+    },
+    "/model.24/Constant_output_0": {
+      "scale": 0.5039370078740157,
+      "absmax": 64.0,
+      "source": "calibration"
+    },
+    "/model.24/Constant_1_output_0": {
+      "scale": 0.5039370078740157,
+      "absmax": 64.0,
+      "source": "calibration"
+    },
+    "/model.24/Constant_2_output_0": {
+      "scale": 0.5039370078740157,
+      "absmax": 64.0,
+      "source": "calibration"
+    },
+    "/model.24/Reshape_output_0": {
+      "scale": 0.13584465867891085,
+      "absmax": 17.25227165222168,
+      "source": "calibration"
+    },
+    "/model.24/cv2.1/cv2.1.0/conv/Conv_output_0": {
+      "scale": 0.08509193630669061,
+      "absmax": 10.806675910949707,
+      "source": "calibration"
+    },
+    "/model.24/cv2.1/cv2.1.0/act/Sigmoid_output_0": {
+      "scale": 0.007860820593796378,
+      "absmax": 0.9983242154121399,
+      "source": "calibration"
+    },
+    "/model.24/cv2.1/cv2.1.1/conv/Conv_output_0": {
+      "scale": 0.17937837435504583,
+      "absmax": 22.78105354309082,
+      "source": "calibration"
+    },
+    "/model.24/cv2.1/cv2.1.1/act/Sigmoid_output_0": {
+      "scale": 0.007874015748031496,
+      "absmax": 1.0,
+      "source": "calibration"
+    },
+    "/model.24/Reshape_1_output_0": {
+      "scale": 0.09541489007904774,
+      "absmax": 12.117691040039062,
+      "source": "calibration"
+    },
+    "/model.24/cv2.2/cv2.2.0/conv/Conv_output_0": {
+      "scale": 0.1200692860160287,
+      "absmax": 15.248799324035645,
+      "source": "calibration"
+    },
+    "/model.24/cv2.2/cv2.2.0/act/Sigmoid_output_0": {
+      "scale": 0.007872442560871756,
+      "absmax": 0.9998002052307129,
+      "source": "calibration"
+    },
+    "/model.24/cv2.2/cv2.2.1/conv/Conv_output_0": {
+      "scale": 0.20414646779458354,
+      "absmax": 25.92660140991211,
+      "source": "calibration"
+    },
+    "/model.24/cv2.2/cv2.2.1/act/Sigmoid_output_0": {
+      "scale": 0.007874015748031496,
+      "absmax": 1.0,
+      "source": "calibration"
+    },
+    "/model.24/Reshape_2_output_0": {
+      "scale": 0.10407453822338675,
+      "absmax": 13.217466354370117,
+      "source": "calibration"
+    },
+    "/model.24/Concat_output_0": {
+      "scale": 0.13584465867891085,
+      "absmax": 17.25227165222168,
+      "source": "calibration"
+    },
+    "/model.24/cv3.0/cv3.0.0/conv/Conv_output_0": {
+      "scale": 0.0663229349091297,
+      "absmax": 8.423012733459473,
+      "source": "calibration"
+    },
+    "/model.24/cv3.0/cv3.0.0/act/Sigmoid_output_0": {
+      "scale": 0.007840416562838817,
+      "absmax": 0.9957329034805298,
+      "source": "calibration"
+    },
+    "/model.24/cv3.0/cv3.0.1/conv/Conv_output_0": {
+      "scale": 0.2541717168853039,
+      "absmax": 32.279808044433594,
+      "source": "calibration"
+    },
+    "/model.24/cv3.0/cv3.0.1/act/Sigmoid_output_0": {
+      "scale": 0.007874015748031496,
+      "absmax": 1.0,
+      "source": "calibration"
+    },
+    "/model.24/Constant_3_output_0": {
+      "scale": 0.6299212598425197,
+      "absmax": 80.0,
+      "source": "calibration"
+    },
+    "/model.24/Constant_4_output_0": {
+      "scale": 0.6299212598425197,
+      "absmax": 80.0,
+      "source": "calibration"
+    },
+    "/model.24/Constant_5_output_0": {
+      "scale": 0.6299212598425197,
+      "absmax": 80.0,
+      "source": "calibration"
+    },
+    "/model.24/Reshape_3_output_0": {
+      "scale": 0.21188829076571727,
+      "absmax": 26.909812927246094,
+      "source": "calibration"
+    },
+    "/model.24/cv3.1/cv3.1.0/conv/Conv_output_0": {
+      "scale": 0.07132895161786418,
+      "absmax": 9.05877685546875,
+      "source": "calibration"
+    },
+    "/model.24/cv3.1/cv3.1.0/act/Sigmoid_output_0": {
+      "scale": 0.007865849442369356,
+      "absmax": 0.9989628791809082,
+      "source": "calibration"
+    },
+    "/model.24/cv3.1/cv3.1.1/conv/Conv_output_0": {
+      "scale": 0.5951460590512734,
+      "absmax": 75.58354949951172,
+      "source": "calibration"
+    },
+    "/model.24/cv3.1/cv3.1.1/act/Sigmoid_output_0": {
+      "scale": 0.007874015748031496,
+      "absmax": 1.0,
+      "source": "calibration"
+    },
+    "/model.24/Reshape_4_output_0": {
+      "scale": 0.3146975659948634,
+      "absmax": 39.966590881347656,
+      "source": "calibration"
+    },
+    "/model.24/cv3.2/cv3.2.0/conv/Conv_output_0": {
+      "scale": 0.08445153273935394,
+      "absmax": 10.72534465789795,
+      "source": "calibration"
+    },
+    "/model.24/cv3.2/cv3.2.0/act/Sigmoid_output_0": {
+      "scale": 0.007869149756243848,
+      "absmax": 0.9993820190429688,
+      "source": "calibration"
+    },
+    "/model.24/cv3.2/cv3.2.1/conv/Conv_output_0": {
+      "scale": 0.48437136552465243,
+      "absmax": 61.51516342163086,
+      "source": "calibration"
+    },
+    "/model.24/cv3.2/cv3.2.1/act/Sigmoid_output_0": {
+      "scale": 0.007874015748031496,
+      "absmax": 1.0,
+      "source": "calibration"
+    },
+    "/model.24/Reshape_5_output_0": {
+      "scale": 0.4065703744963398,
+      "absmax": 51.634437561035156,
+      "source": "calibration"
+    },
+    "/model.24/Concat_1_output_0": {
+      "scale": 0.4065703744963398,
+      "absmax": 51.634437561035156,
+      "source": "calibration"
+    },
+    "/model.24/dfl/Constant_output_0": {
+      "scale": 49.60629921259842,
+      "absmax": 6300.0,
+      "source": "calibration"
+    },
+    "/model.24/dfl/Reshape_output_0": {
+      "scale": 0.13584465867891085,
+      "absmax": 17.25227165222168,
+      "source": "calibration"
+    },
+    "/model.24/dfl/Transpose_output_0": {
+      "scale": 0.13584465867891085,
+      "absmax": 17.25227165222168,
+      "source": "calibration"
+    },
+    "/model.24/dfl/Softmax_output_0": {
+      "scale": 0.0075090654253021,
+      "absmax": 0.9536513090133667,
+      "source": "calibration"
+    },
+    "/model.24/dfl/Constant_1_output_0": {
+      "scale": 49.60629921259842,
+      "absmax": 6300.0,
+      "source": "calibration"
+    },
+    "/model.24/dfl/Reshape_1_output_0": {
+      "scale": 0.10316214974470965,
+      "absmax": 13.101593017578125,
+      "source": "calibration"
+    },
+    "/model.24/Shape_output_0": {
+      "scale": 49.60629921259842,
+      "absmax": 6300.0,
+      "source": "calibration"
+    },
+    "/model.24/Constant_6_output_0": {
+      "scale": 0.007874015748031496,
+      "absmax": 1.0,
+      "source": "calibration"
+    },
+    "/model.24/Gather_output_0": {
+      "scale": 0.031496062992125984,
+      "absmax": 4.0,
+      "source": "calibration"
+    },
+    "/model.24/Constant_7_output_0": {
+      "scale": 1.0,
+      "absmax": 0.0,
+      "source": "calibration"
+    },
+    "/model.24/Constant_8_output_0": {
+      "scale": 0.007874015748031496,
+      "absmax": 1.0,
+      "source": "calibration"
+    },
+    "/model.24/Add_output_0": {
+      "scale": 0.03937007874015748,
+      "absmax": 5.0,
+      "source": "calibration"
+    },
+    "/model.24/Constant_9_output_0": {
+      "scale": 0.015748031496062992,
+      "absmax": 2.0,
+      "source": "calibration"
+    },
+    "/model.24/Div_output_0": {
+      "scale": 0.015748031496062992,
+      "absmax": 2.0,
+      "source": "calibration"
+    },
+    "/model.24/Constant_10_output_0": {
+      "scale": 0.007874015748031496,
+      "absmax": 1.0,
+      "source": "calibration"
+    },
+    "/model.24/Mul_output_0": {
+      "scale": 0.015748031496062992,
+      "absmax": 2.0,
+      "source": "calibration"
+    },
+    "/model.24/Slice_output_0": {
+      "scale": 0.0940765470970334,
+      "absmax": 11.947721481323242,
+      "source": "calibration"
+    },
+    "/model.24/Constant_11_output_0": {
+      "scale": 0.015748031496062992,
+      "absmax": 2.0,
+      "source": "calibration"
+    },
+    "/model.24/Mul_1_output_0": {
+      "scale": 0.031496062992125984,
+      "absmax": 4.0,
+      "source": "calibration"
+    },
+    "/model.24/Slice_1_output_0": {
+      "scale": 0.10316214974470965,
+      "absmax": 13.101593017578125,
+      "source": "calibration"
+    },
+    "/model.24/Constant_12_output_0": {
+      "scale": 0.6259842519685039,
+      "absmax": 79.5,
+      "source": "calibration"
+    },
+    "/model.24/Sub_output_0": {
+      "scale": 0.6241688165139025,
+      "absmax": 79.26943969726562,
+      "source": "calibration"
+    },
+    "/model.24/Constant_13_output_0": {
+      "scale": 0.6259842519685039,
+      "absmax": 79.5,
+      "source": "calibration"
+    },
+    "/model.24/Add_1_output_0": {
+      "scale": 0.6469739778773991,
+      "absmax": 82.16569519042969,
+      "source": "calibration"
+    },
+    "/model.24/Add_2_output_0": {
+      "scale": 1.2538202240711123,
+      "absmax": 159.23516845703125,
+      "source": "calibration"
+    },
+    "/model.24/Constant_14_output_0": {
+      "scale": 0.015748031496062992,
+      "absmax": 2.0,
+      "source": "calibration"
+    },
+    "/model.24/Div_1_output_0": {
+      "scale": 0.6269101120355561,
+      "absmax": 79.61758422851562,
+      "source": "calibration"
+    },
+    "/model.24/Sub_1_output_0": {
+      "scale": 0.18402867054376076,
+      "absmax": 23.371641159057617,
+      "source": "calibration"
+    },
+    "/model.24/Concat_2_output_0": {
+      "scale": 0.6269101120355561,
+      "absmax": 79.61758422851562,
+      "source": "calibration"
+    },
+    "/model.24/Constant_15_output_0": {
+      "scale": 0.25196850393700787,
+      "absmax": 32.0,
+      "source": "calibration"
+    },
+    "/model.24/Mul_2_output_0": {
+      "scale": 5.015280896284449,
+      "absmax": 636.940673828125,
+      "source": "calibration"
+    },
+    "/model.24/Sigmoid_output_0": {
+      "scale": 0.0070520578406927156,
+      "absmax": 0.8956113457679749,
+      "source": "calibration"
+    },
+    "output0": {
+      "scale": 5.015280896284449,
+      "absmax": 636.940673828125,
+      "source": "calibration"
+    }
+  },
+  "layers": [
+    {
+      "idx": 0,
+      "name": "/model.0/conv/Conv",
+      "input_scale": 0.007874015748031496,
+      "weight_scale": 0.07026070872629721,
+      "output_scale": 0.19204630814199372,
+      "gemmini_scale": 0.0028807319043575278,
+      "gemmini_shift": 8,
+      "gemmini_shift_scale": 0.00390625,
+      "shift_relative_error": 0.3559922025688077,
+      "act_absmax": 24.389881134033203,
+      "weight_absmax": 8.923110008239746
+    },
+    {
+      "idx": 1,
+      "name": "/model.1/conv/Conv",
+      "input_scale": 0.19204630814199372,
+      "weight_scale": 0.025879446915754185,
+      "output_scale": 0.8714803260142409,
+      "gemmini_scale": 0.005702999928475817,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.36989305593205,
+      "act_absmax": 110.6780014038086,
+      "weight_absmax": 3.2866897583007812
+    },
+    {
+      "idx": 2,
+      "name": "/model.2/cv1/conv/Conv",
+      "input_scale": 0.8714803260142409,
+      "weight_scale": 0.0031209442559189684,
+      "output_scale": 0.05715651774969627,
+      "gemmini_scale": 0.04758585065541345,
+      "gemmini_shift": 4,
+      "gemmini_shift_scale": 0.0625,
+      "shift_relative_error": 0.31341562962876,
+      "act_absmax": 7.258877754211426,
+      "weight_absmax": 0.396359920501709
+    },
+    {
+      "idx": 3,
+      "name": "/model.2/m/m.0/cv1/conv/Conv",
+      "input_scale": 0.05715651774969627,
+      "weight_scale": 0.035373282244824986,
+      "output_scale": 0.11203090036947896,
+      "gemmini_scale": 0.01804692837264893,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.1342016947504202,
+      "act_absmax": 14.227924346923828,
+      "weight_absmax": 4.492406845092773
+    },
+    {
+      "idx": 4,
+      "name": "/model.2/m/m.0/cv2/conv/Conv",
+      "input_scale": 0.11203090036947896,
+      "weight_scale": 0.011349316657058836,
+      "output_scale": 0.18456502599040353,
+      "gemmini_scale": 0.006889030881369349,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.13404920583649507,
+      "act_absmax": 23.43975830078125,
+      "weight_absmax": 1.4413632154464722
+    },
+    {
+      "idx": 5,
+      "name": "/model.2/cv2/conv/Conv",
+      "input_scale": 0.8714803260142409,
+      "weight_scale": 0.007918300591115876,
+      "output_scale": 0.18456502599040353,
+      "gemmini_scale": 0.037388682626052994,
+      "gemmini_shift": 5,
+      "gemmini_shift_scale": 0.03125,
+      "shift_relative_error": 0.164185582237537,
+      "act_absmax": 23.43975830078125,
+      "weight_absmax": 1.0056241750717163
+    },
+    {
+      "idx": 6,
+      "name": "/model.2/cv3/conv/Conv",
+      "input_scale": 0.18456502599040353,
+      "weight_scale": 0.006283368651322493,
+      "output_scale": 0.13663957250399852,
+      "gemmini_scale": 0.008487219896744672,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.07949834044048575,
+      "act_absmax": 17.353225708007812,
+      "weight_absmax": 0.7979878187179565
+    },
+    {
+      "idx": 7,
+      "name": "/model.3/conv/Conv",
+      "input_scale": 0.13663957250399852,
+      "weight_scale": 0.0037244218071614665,
+      "output_scale": 0.06747223260834462,
+      "gemmini_scale": 0.007542412395172083,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.03580918023002841,
+      "act_absmax": 8.568973541259766,
+      "weight_absmax": 0.4730015695095062
+    },
+    {
+      "idx": 8,
+      "name": "/model.4/cv1/conv/Conv",
+      "input_scale": 0.06747223260834462,
+      "weight_scale": 0.005449953511005311,
+      "output_scale": 0.0242534190651,
+      "gemmini_scale": 0.015161595567709234,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.030564357835643156,
+      "act_absmax": 3.0801842212677,
+      "weight_absmax": 0.6921440958976746
+    },
+    {
+      "idx": 9,
+      "name": "/model.4/m/m.0/cv1/conv/Conv",
+      "input_scale": 0.0242534190651,
+      "weight_scale": 0.02117775932071716,
+      "output_scale": 0.03470892418087937,
+      "gemmini_scale": 0.014798299970015595,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.055864527118619695,
+      "act_absmax": 4.40803337097168,
+      "weight_absmax": 2.689575433731079
+    },
+    {
+      "idx": 10,
+      "name": "/model.4/m/m.0/cv2/conv/Conv",
+      "input_scale": 0.03470892418087937,
+      "weight_scale": 0.006342410571931854,
+      "output_scale": 0.047970035883385366,
+      "gemmini_scale": 0.0045890782362628234,
+      "gemmini_shift": 8,
+      "gemmini_shift_scale": 0.00390625,
+      "shift_relative_error": 0.14879420247559205,
+      "act_absmax": 6.092194557189941,
+      "weight_absmax": 0.8054861426353455
+    },
+    {
+      "idx": 11,
+      "name": "/model.4/m/m.1/cv1/conv/Conv",
+      "input_scale": 0.047970035883385366,
+      "weight_scale": 0.013553702925133892,
+      "output_scale": 0.03996645184013787,
+      "gemmini_scale": 0.016267934373360052,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.039521574073528666,
+      "act_absmax": 5.07573938369751,
+      "weight_absmax": 1.7213202714920044
+    },
+    {
+      "idx": 12,
+      "name": "/model.4/m/m.1/cv2/conv/Conv",
+      "input_scale": 0.03996645184013787,
+      "weight_scale": 0.009257830972746602,
+      "output_scale": 0.09712454277699388,
+      "gemmini_scale": 0.0038095690866310795,
+      "gemmini_shift": 8,
+      "gemmini_shift_scale": 0.00390625,
+      "shift_relative_error": 0.025378438130496905,
+      "act_absmax": 12.334816932678223,
+      "weight_absmax": 1.1757445335388184
+    },
+    {
+      "idx": 13,
+      "name": "/model.4/cv2/conv/Conv",
+      "input_scale": 0.06747223260834462,
+      "weight_scale": 0.01730579654062827,
+      "output_scale": 0.09712454277699388,
+      "gemmini_scale": 0.012022303490715043,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.2996677393868287,
+      "act_absmax": 12.334816932678223,
+      "weight_absmax": 2.19783616065979
+    },
+    {
+      "idx": 14,
+      "name": "/model.4/cv3/conv/Conv",
+      "input_scale": 0.09712454277699388,
+      "weight_scale": 0.009637748162577472,
+      "output_scale": 0.06235132442684624,
+      "gemmini_scale": 0.015012702493407106,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.04078529544309474,
+      "act_absmax": 7.918618202209473,
+      "weight_absmax": 1.2239940166473389
+    },
+    {
+      "idx": 15,
+      "name": "/model.5/conv/Conv",
+      "input_scale": 0.06235132442684624,
+      "weight_scale": 0.009881940413647749,
+      "output_scale": 0.05026260511143001,
+      "gemmini_scale": 0.012258657730376918,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.2746093694484426,
+      "act_absmax": 6.383350849151611,
+      "weight_absmax": 1.2550064325332642
+    },
+    {
+      "idx": 16,
+      "name": "/model.6/cv1/conv/Conv",
+      "input_scale": 0.05026260511143001,
+      "weight_scale": 0.00476613992781151,
+      "output_scale": 0.012650946932514822,
+      "gemmini_scale": 0.01893602197332028,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.1748530910021815,
+      "act_absmax": 1.6066702604293823,
+      "weight_absmax": 0.6052997708320618
+    },
+    {
+      "idx": 17,
+      "name": "/model.6/m/m.0/cv1/conv/Conv",
+      "input_scale": 0.012650946932514822,
+      "weight_scale": 0.05069750312745102,
+      "output_scale": 0.044144615413635735,
+      "gemmini_scale": 0.014528870977054097,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.07544488657632478,
+      "act_absmax": 5.606366157531738,
+      "weight_absmax": 6.438582897186279
+    },
+    {
+      "idx": 18,
+      "name": "/model.6/m/m.0/cv2/conv/Conv",
+      "input_scale": 0.044144615413635735,
+      "weight_scale": 0.0031772706452317125,
+      "output_scale": 0.02307355310034564,
+      "gemmini_scale": 0.006078794630753558,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.28520545183009793,
+      "act_absmax": 2.9303412437438965,
+      "weight_absmax": 0.4035133719444275
+    },
+    {
+      "idx": 19,
+      "name": "/model.6/m/m.1/cv1/conv/Conv",
+      "input_scale": 0.02307355310034564,
+      "weight_scale": 0.014335939264672947,
+      "output_scale": 0.0492897671977366,
+      "gemmini_scale": 0.006710947822897221,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.16414256319269396,
+      "act_absmax": 6.259800434112549,
+      "weight_absmax": 1.8206642866134644
+    },
+    {
+      "idx": 20,
+      "name": "/model.6/m/m.1/cv2/conv/Conv",
+      "input_scale": 0.0492897671977366,
+      "weight_scale": 0.008608720433993602,
+      "output_scale": 0.05816180687251053,
+      "gemmini_scale": 0.0072955406456344666,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.07085963597158129,
+      "act_absmax": 7.386549472808838,
+      "weight_absmax": 1.0933074951171875
+    },
+    {
+      "idx": 21,
+      "name": "/model.6/m/m.2/cv1/conv/Conv",
+      "input_scale": 0.05816180687251053,
+      "weight_scale": 0.009089207086037464,
+      "output_scale": 0.04281847495732345,
+      "gemmini_scale": 0.012346182522597025,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.2655733844369955,
+      "act_absmax": 5.437946319580078,
+      "weight_absmax": 1.1543292999267578
+    },
+    {
+      "idx": 22,
+      "name": "/model.6/m/m.2/cv2/conv/Conv",
+      "input_scale": 0.04281847495732345,
+      "weight_scale": 0.01081690262621782,
+      "output_scale": 0.10765553271676612,
+      "gemmini_scale": 0.004302270979746697,
+      "gemmini_shift": 8,
+      "gemmini_shift_scale": 0.00390625,
+      "shift_relative_error": 0.09204928783217037,
+      "act_absmax": 13.672252655029297,
+      "weight_absmax": 1.373746633529663
+    },
+    {
+      "idx": 23,
+      "name": "/model.6/cv2/conv/Conv",
+      "input_scale": 0.05026260511143001,
+      "weight_scale": 0.01814631402023195,
+      "output_scale": 0.10765553271676612,
+      "gemmini_scale": 0.008472216827225624,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.07786826525799152,
+      "act_absmax": 13.672252655029297,
+      "weight_absmax": 2.304581880569458
+    },
+    {
+      "idx": 24,
+      "name": "/model.6/cv3/conv/Conv",
+      "input_scale": 0.10765553271676612,
+      "weight_scale": 0.005288178057182492,
+      "output_scale": 0.09169613845705048,
+      "gemmini_scale": 0.006208567071924729,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.2583418862185269,
+      "act_absmax": 11.64540958404541,
+      "weight_absmax": 0.6715986132621765
+    },
+    {
+      "idx": 25,
+      "name": "/model.7/conv/Conv",
+      "input_scale": 0.09169613845705048,
+      "weight_scale": 0.004408762210936059,
+      "output_scale": 0.0879371522918461,
+      "gemmini_scale": 0.004597220396409063,
+      "gemmini_shift": 8,
+      "gemmini_shift_scale": 0.00390625,
+      "shift_relative_error": 0.15030177734110528,
+      "act_absmax": 11.168018341064453,
+      "weight_absmax": 0.5599128007888794
+    },
+    {
+      "idx": 26,
+      "name": "/model.8/cv1/conv/Conv",
+      "input_scale": 0.0879371522918461,
+      "weight_scale": 0.00398786893979771,
+      "output_scale": 0.0489920931538259,
+      "gemmini_scale": 0.007157927243031634,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.09144724928653115,
+      "act_absmax": 6.221995830535889,
+      "weight_absmax": 0.5064593553543091
+    },
+    {
+      "idx": 27,
+      "name": "/model.8/m/m.0/cv1/conv/Conv",
+      "input_scale": 0.0489920931538259,
+      "weight_scale": 0.028035828447717383,
+      "output_scale": 0.1061687920037217,
+      "gemmini_scale": 0.012937266149803263,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.20775129915972312,
+      "act_absmax": 13.483436584472656,
+      "weight_absmax": 3.5605502128601074
+    },
+    {
+      "idx": 28,
+      "name": "/model.8/m/m.0/cv2/conv/Conv",
+      "input_scale": 0.1061687920037217,
+      "weight_scale": 0.0036977700830444576,
+      "output_scale": 0.10537094206321897,
+      "gemmini_scale": 0.003725768937216035,
+      "gemmini_shift": 8,
+      "gemmini_shift_scale": 0.00390625,
+      "shift_relative_error": 0.04844129247554027,
+      "act_absmax": 13.382109642028809,
+      "weight_absmax": 0.4696168005466461
+    },
+    {
+      "idx": 29,
+      "name": "/model.8/cv2/conv/Conv",
+      "input_scale": 0.0879371522918461,
+      "weight_scale": 0.014637284391508328,
+      "output_scale": 0.10537094206321897,
+      "gemmini_scale": 0.01221552243409646,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.279110253720043,
+      "act_absmax": 13.382109642028809,
+      "weight_absmax": 1.8589351177215576
+    },
+    {
+      "idx": 30,
+      "name": "/model.8/cv3/conv/Conv",
+      "input_scale": 0.10537094206321897,
+      "weight_scale": 0.007241068393226684,
+      "output_scale": 0.0699907888577679,
+      "gemmini_scale": 0.010901408750929,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.28334950294068817,
+      "act_absmax": 8.888830184936523,
+      "weight_absmax": 0.9196156859397888
+    },
+    {
+      "idx": 31,
+      "name": "/model.9/cv1/conv/Conv",
+      "input_scale": 0.0699907888577679,
+      "weight_scale": 0.005017073605004258,
+      "output_scale": 0.05652391628956231,
+      "gemmini_scale": 0.006212395786110391,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.25756636714407427,
+      "act_absmax": 7.178537368774414,
+      "weight_absmax": 0.6371683478355408
+    },
+    {
+      "idx": 32,
+      "name": "/model.9/cv2/conv/Conv",
+      "input_scale": 0.05652391628956231,
+      "weight_scale": 0.007434803669846903,
+      "output_scale": 0.049343202996441696,
+      "gemmini_scale": 0.008516760054957564,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.0826910762324011,
+      "act_absmax": 6.266586780548096,
+      "weight_absmax": 0.9442200660705566
+    },
+    {
+      "idx": 33,
+      "name": "/model.10/conv/Conv",
+      "input_scale": 0.049343202996441696,
+      "weight_scale": 0.012834439127463994,
+      "output_scale": 0.06608397566427396,
+      "gemmini_scale": 0.009583145215554846,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.1847666059239956,
+      "act_absmax": 8.392664909362793,
+      "weight_absmax": 1.6299737691879272
+    },
+    {
+      "idx": 34,
+      "name": "/model.13/cv1/conv/Conv",
+      "input_scale": 0.09169613845705048,
+      "weight_scale": 0.009757578842283234,
+      "output_scale": 0.03519905646016279,
+      "gemmini_scale": 0.025419212629753878,
+      "gemmini_shift": 5,
+      "gemmini_shift_scale": 0.03125,
+      "shift_relative_error": 0.22938505040164098,
+      "act_absmax": 4.470280170440674,
+      "weight_absmax": 1.2392125129699707
+    },
+    {
+      "idx": 35,
+      "name": "/model.13/m/m.0/cv1/conv/Conv",
+      "input_scale": 0.03519905646016279,
+      "weight_scale": 0.009769037013917457,
+      "output_scale": 0.042852183965247446,
+      "gemmini_scale": 0.0080243491368647,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.026400787559385106,
+      "act_absmax": 5.442227363586426,
+      "weight_absmax": 1.240667700767517
+    },
+    {
+      "idx": 36,
+      "name": "/model.13/m/m.0/cv2/conv/Conv",
+      "input_scale": 0.042852183965247446,
+      "weight_scale": 0.003922232962030125,
+      "output_scale": 0.042406112190306655,
+      "gemmini_scale": 0.00396349110451799,
+      "gemmini_shift": 8,
+      "gemmini_shift_scale": 0.00390625,
+      "shift_relative_error": 0.01444209233943806,
+      "act_absmax": 5.385576248168945,
+      "weight_absmax": 0.4981235861778259
+    },
+    {
+      "idx": 37,
+      "name": "/model.13/cv2/conv/Conv",
+      "input_scale": 0.09169613845705048,
+      "weight_scale": 0.004969856401128093,
+      "output_scale": 0.042406112190306655,
+      "gemmini_scale": 0.010746484813895995,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.27301809519166087,
+      "act_absmax": 5.385576248168945,
+      "weight_absmax": 0.6311717629432678
+    },
+    {
+      "idx": 38,
+      "name": "/model.13/cv3/conv/Conv",
+      "input_scale": 0.042406112190306655,
+      "weight_scale": 0.010420619972108856,
+      "output_scale": 0.048190477326160344,
+      "gemmini_scale": 0.009169819519299774,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.14802030906311903,
+      "act_absmax": 6.120190620422363,
+      "weight_absmax": 1.3234187364578247
+    },
+    {
+      "idx": 39,
+      "name": "/model.14/conv/Conv",
+      "input_scale": 0.048190477326160344,
+      "weight_scale": 0.004530144958045539,
+      "output_scale": 0.03807964475136104,
+      "gemmini_scale": 0.005732980160669968,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.36272929280240435,
+      "act_absmax": 4.836114883422852,
+      "weight_absmax": 0.5753284096717834
+    },
+    {
+      "idx": 40,
+      "name": "/model.17/cv1/conv/Conv",
+      "input_scale": 0.06235132442684624,
+      "weight_scale": 0.0040931213559128165,
+      "output_scale": 0.030597602288554033,
+      "gemmini_scale": 0.008340899890591833,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.06335046548009109,
+      "act_absmax": 3.8858954906463623,
+      "weight_absmax": 0.5198264122009277
+    },
+    {
+      "idx": 41,
+      "name": "/model.17/m/m.0/cv1/conv/Conv",
+      "input_scale": 0.030597602288554033,
+      "weight_scale": 0.021362291546318475,
+      "output_scale": 0.03664356517040823,
+      "gemmini_scale": 0.017837644827044287,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.12404355218967122,
+      "act_absmax": 4.653732776641846,
+      "weight_absmax": 2.7130110263824463
+    },
+    {
+      "idx": 42,
+      "name": "/model.17/m/m.0/cv2/conv/Conv",
+      "input_scale": 0.03664356517040823,
+      "weight_scale": 0.006667978181613712,
+      "output_scale": 0.0312555793702133,
+      "gemmini_scale": 0.007817436053854687,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.0006314159553953688,
+      "act_absmax": 3.96945858001709,
+      "weight_absmax": 0.8468332290649414
+    },
+    {
+      "idx": 43,
+      "name": "/model.17/cv2/conv/Conv",
+      "input_scale": 0.06235132442684624,
+      "weight_scale": 0.004781837069143461,
+      "output_scale": 0.0312555793702133,
+      "gemmini_scale": 0.009539220851513807,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.18101277645121178,
+      "act_absmax": 3.96945858001709,
+      "weight_absmax": 0.6072933077812195
+    },
+    {
+      "idx": 44,
+      "name": "/model.17/cv3/conv/Conv",
+      "input_scale": 0.0312555793702133,
+      "weight_scale": 0.012466823960852436,
+      "output_scale": 0.0291072289774737,
+      "gemmini_scale": 0.013386977032559826,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.16717911459748167,
+      "act_absmax": 3.69661808013916,
+      "weight_absmax": 1.5832866430282593
+    },
+    {
+      "idx": 45,
+      "name": "/model.18/conv/Conv",
+      "input_scale": 0.0291072289774737,
+      "weight_scale": 0.0057242076227984095,
+      "output_scale": 0.049181596500667064,
+      "gemmini_scale": 0.0033877676579517676,
+      "gemmini_shift": 8,
+      "gemmini_shift_scale": 0.00390625,
+      "shift_relative_error": 0.15304542530573215,
+      "act_absmax": 6.246062755584717,
+      "weight_absmax": 0.726974368095398
+    },
+    {
+      "idx": 46,
+      "name": "/model.20/cv1/conv/Conv",
+      "input_scale": 0.049181596500667064,
+      "weight_scale": 0.009191446416959988,
+      "output_scale": 0.05197433411605715,
+      "gemmini_scale": 0.008697562299249739,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.10175981140440753,
+      "act_absmax": 6.600740432739258,
+      "weight_absmax": 1.1673136949539185
+    },
+    {
+      "idx": 47,
+      "name": "/model.20/m/m.0/cv1/conv/Conv",
+      "input_scale": 0.05197433411605715,
+      "weight_scale": 0.006719113804223969,
+      "output_scale": 0.04376610433022807,
+      "gemmini_scale": 0.007979267772831006,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.020900134896943978,
+      "act_absmax": 5.558295249938965,
+      "weight_absmax": 0.8533274531364441
+    },
+    {
+      "idx": 48,
+      "name": "/model.20/m/m.0/cv2/conv/Conv",
+      "input_scale": 0.04376610433022807,
+      "weight_scale": 0.006101250648498535,
+      "output_scale": 0.053124807012362746,
+      "gemmini_scale": 0.0050264271522891014,
+      "gemmini_shift": 8,
+      "gemmini_shift_scale": 0.00390625,
+      "shift_relative_error": 0.22285753246795947,
+      "act_absmax": 6.746850490570068,
+      "weight_absmax": 0.774858832359314
+    },
+    {
+      "idx": 49,
+      "name": "/model.20/cv2/conv/Conv",
+      "input_scale": 0.049181596500667064,
+      "weight_scale": 0.00949634717205378,
+      "output_scale": 0.053124807012362746,
+      "gemmini_scale": 0.008791476922212875,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.1113552285781875,
+      "act_absmax": 6.746850490570068,
+      "weight_absmax": 1.20603609085083
+    },
+    {
+      "idx": 50,
+      "name": "/model.20/cv3/conv/Conv",
+      "input_scale": 0.053124807012362746,
+      "weight_scale": 0.01151382735395056,
+      "output_scale": 0.056225078312430794,
+      "gemmini_scale": 0.01087895071934569,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.28187008089784976,
+      "act_absmax": 7.140584945678711,
+      "weight_absmax": 1.4622560739517212
+    },
+    {
+      "idx": 51,
+      "name": "/model.21/conv/Conv",
+      "input_scale": 0.056225078312430794,
+      "weight_scale": 0.005734497637260617,
+      "output_scale": 0.06608397566427396,
+      "gemmini_scale": 0.00487898277148804,
+      "gemmini_shift": 8,
+      "gemmini_shift_scale": 0.00390625,
+      "shift_relative_error": 0.19937204475747025,
+      "act_absmax": 8.392664909362793,
+      "weight_absmax": 0.7282811999320984
+    },
+    {
+      "idx": 52,
+      "name": "/model.23/cv1/conv/Conv",
+      "input_scale": 0.06608397566427396,
+      "weight_scale": 0.013503304616672786,
+      "output_scale": 0.07125961123489019,
+      "gemmini_scale": 0.01252255012638307,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.24774904810167622,
+      "act_absmax": 9.049970626831055,
+      "weight_absmax": 1.7149196863174438
+    },
+    {
+      "idx": 53,
+      "name": "/model.23/m/m.0/cv1/conv/Conv",
+      "input_scale": 0.07125961123489019,
+      "weight_scale": 0.009684735395776944,
+      "output_scale": 0.07090804332823265,
+      "gemmini_scale": 0.009732753109844507,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.1972980397398764,
+      "act_absmax": 9.005321502685547,
+      "weight_absmax": 1.2299613952636719
+    },
+    {
+      "idx": 54,
+      "name": "/model.23/m/m.0/cv2/conv/Conv",
+      "input_scale": 0.07090804332823265,
+      "weight_scale": 0.004595607753813736,
+      "output_scale": 0.06890861631378414,
+      "gemmini_scale": 0.0047289522146710386,
+      "gemmini_shift": 8,
+      "gemmini_shift_scale": 0.00390625,
+      "shift_relative_error": 0.17397135291803079,
+      "act_absmax": 8.751394271850586,
+      "weight_absmax": 0.5836421847343445
+    },
+    {
+      "idx": 55,
+      "name": "/model.23/cv2/conv/Conv",
+      "input_scale": 0.06608397566427396,
+      "weight_scale": 0.006351250363147165,
+      "output_scale": 0.06890861631378414,
+      "gemmini_scale": 0.006090905562879087,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.2826499966791702,
+      "act_absmax": 8.751394271850586,
+      "weight_absmax": 0.8066087961196899
+    },
+    {
+      "idx": 56,
+      "name": "/model.23/cv3/conv/Conv",
+      "input_scale": 0.06890861631378414,
+      "weight_scale": 0.01585375981068048,
+      "output_scale": 0.060120811612587276,
+      "gemmini_scale": 0.0181710895548913,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.14011760534226983,
+      "act_absmax": 7.635343074798584,
+      "weight_absmax": 2.013427495956421
+    },
+    {
+      "idx": 57,
+      "name": "/model.24/cv2.0/cv2.0.0/conv/Conv",
+      "input_scale": 0.0291072289774737,
+      "weight_scale": 0.012854471920043464,
+      "output_scale": 0.037794800255242296,
+      "gemmini_scale": 0.009899723110967198,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.21083651406925838,
+      "act_absmax": 4.7999396324157715,
+      "weight_absmax": 1.63251793384552
+    },
+    {
+      "idx": 58,
+      "name": "/model.24/cv2.0/cv2.0.1/conv/Conv",
+      "input_scale": 0.037794800255242296,
+      "weight_scale": 0.04375976652610959,
+      "output_scale": 0.2705114770123339,
+      "gemmini_scale": 0.0061139425703366414,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.27781704033406285,
+      "act_absmax": 34.354957580566406,
+      "weight_absmax": 5.557490348815918
+    },
+    {
+      "idx": 59,
+      "name": "/model.24/cv2.0/cv2.0.2/Conv",
+      "input_scale": 0.2705114770123339,
+      "weight_scale": 0.0027278389517716535,
+      "output_scale": 0.13584465867891085,
+      "gemmini_scale": 0.005432026191325574,
+      "gemmini_shift": 8,
+      "gemmini_shift_scale": 0.00390625,
+      "shift_relative_error": 0.28088527882323033,
+      "act_absmax": 17.25227165222168,
+      "weight_absmax": 0.346435546875
+    },
+    {
+      "idx": 60,
+      "name": "/model.24/cv2.1/cv2.1.0/conv/Conv",
+      "input_scale": 0.056225078312430794,
+      "weight_scale": 0.013712204347445271,
+      "output_scale": 0.0502288510480265,
+      "gemmini_scale": 0.015349141921124151,
+      "gemmini_shift": 6,
+      "gemmini_shift_scale": 0.015625,
+      "shift_relative_error": 0.01797221501328365,
+      "act_absmax": 6.379064083099365,
+      "weight_absmax": 1.7414499521255493
+    },
+    {
+      "idx": 61,
+      "name": "/model.24/cv2.1/cv2.1.1/conv/Conv",
+      "input_scale": 0.0502288510480265,
+      "weight_scale": 0.02797277518144743,
+      "output_scale": 0.17937837435504583,
+      "gemmini_scale": 0.007832830256382197,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.00259551856950204,
+      "act_absmax": 22.78105354309082,
+      "weight_absmax": 3.5525424480438232
+    },
+    {
+      "idx": 62,
+      "name": "/model.24/cv2.1/cv2.1.2/Conv",
+      "input_scale": 0.17937837435504583,
+      "weight_scale": 0.003095011072834646,
+      "output_scale": 0.09541489007904774,
+      "gemmini_scale": 0.005818568300985312,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.34268424737353986,
+      "act_absmax": 12.117691040039062,
+      "weight_absmax": 0.39306640625
+    },
+    {
+      "idx": 63,
+      "name": "/model.24/cv2.2/cv2.2.0/conv/Conv",
+      "input_scale": 0.060120811612587276,
+      "weight_scale": 0.008963665624303141,
+      "output_scale": 0.06705765461358498,
+      "gemmini_scale": 0.008036410689612444,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.02786202675055702,
+      "act_absmax": 8.516322135925293,
+      "weight_absmax": 1.138385534286499
+    },
+    {
+      "idx": 64,
+      "name": "/model.24/cv2.2/cv2.2.1/conv/Conv",
+      "input_scale": 0.06705765461358498,
+      "weight_scale": 0.0180330445447306,
+      "output_scale": 0.20414646779458354,
+      "gemmini_scale": 0.005923461158920044,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.3189079476338395,
+      "act_absmax": 25.92660140991211,
+      "weight_absmax": 2.290196657180786
+    },
+    {
+      "idx": 65,
+      "name": "/model.24/cv2.2/cv2.2.2/Conv",
+      "input_scale": 0.20414646779458354,
+      "weight_scale": 0.0030623308316929136,
+      "output_scale": 0.10407453822338675,
+      "gemmini_scale": 0.006006887305775968,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.3005904060307294,
+      "act_absmax": 13.217466354370117,
+      "weight_absmax": 0.388916015625
+    },
+    {
+      "idx": 66,
+      "name": "/model.24/cv3.0/cv3.0.0/conv/Conv",
+      "input_scale": 0.0291072289774737,
+      "weight_scale": 0.010529917994822105,
+      "output_scale": 0.04275020839661125,
+      "gemmini_scale": 0.007169479300447184,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.08968861929941116,
+      "act_absmax": 5.429276466369629,
+      "weight_absmax": 1.3372995853424072
+    },
+    {
+      "idx": 67,
+      "name": "/model.24/cv3.0/cv3.0.1/conv/Conv",
+      "input_scale": 0.04275020839661125,
+      "weight_scale": 0.03791179807167354,
+      "output_scale": 0.2541717168853039,
+      "gemmini_scale": 0.006376544519253703,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.22519335925758707,
+      "act_absmax": 32.279808044433594,
+      "weight_absmax": 4.814798355102539
+    },
+    {
+      "idx": 68,
+      "name": "/model.24/cv3.0/cv3.0.2/Conv",
+      "input_scale": 0.2541717168853039,
+      "weight_scale": 0.0021069143700787403,
+      "output_scale": 0.21188829076571727,
+      "gemmini_scale": 0.0025273602464675536,
+      "gemmini_shift": 9,
+      "gemmini_shift_scale": 0.001953125,
+      "shift_relative_error": 0.22720751711994835,
+      "act_absmax": 26.909812927246094,
+      "weight_absmax": 0.267578125
+    },
+    {
+      "idx": 69,
+      "name": "/model.24/cv3.1/cv3.1.0/conv/Conv",
+      "input_scale": 0.056225078312430794,
+      "weight_scale": 0.0067338375594672255,
+      "output_scale": 0.05404057840662679,
+      "gemmini_scale": 0.0070060416688250155,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.11510898297443836,
+      "act_absmax": 6.863153457641602,
+      "weight_absmax": 0.8551973700523376
+    },
+    {
+      "idx": 70,
+      "name": "/model.24/cv3.1/cv3.1.1/conv/Conv",
+      "input_scale": 0.05404057840662679,
+      "weight_scale": 0.0755120224840059,
+      "output_scale": 0.5951460590512734,
+      "gemmini_scale": 0.006856658646442153,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.13940337456551416,
+      "act_absmax": 75.58354949951172,
+      "weight_absmax": 9.59002685546875
+    },
+    {
+      "idx": 71,
+      "name": "/model.24/cv3.1/cv3.1.2/Conv",
+      "input_scale": 0.5951460590512734,
+      "weight_scale": 0.002583661417322835,
+      "output_scale": 0.3146975659948634,
+      "gemmini_scale": 0.004886138555223559,
+      "gemmini_shift": 8,
+      "gemmini_shift_scale": 0.00390625,
+      "shift_relative_error": 0.2005445699397948,
+      "act_absmax": 39.966590881347656,
+      "weight_absmax": 0.328125
+    },
+    {
+      "idx": 72,
+      "name": "/model.24/cv3.2/cv3.2.0/conv/Conv",
+      "input_scale": 0.060120811612587276,
+      "weight_scale": 0.0076116018407926785,
+      "output_scale": 0.05814084856528935,
+      "gemmini_scale": 0.00787081185831746,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.0074086205295124325,
+      "act_absmax": 7.383887767791748,
+      "weight_absmax": 0.9666734337806702
+    },
+    {
+      "idx": 73,
+      "name": "/model.24/cv3.2/cv3.2.1/conv/Conv",
+      "input_scale": 0.05814084856528935,
+      "weight_scale": 0.05266795946857122,
+      "output_scale": 0.48437136552465243,
+      "gemmini_scale": 0.006321925847924934,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.23577849344188712,
+      "act_absmax": 61.51516342163086,
+      "weight_absmax": 6.688830852508545
+    },
+    {
+      "idx": 74,
+      "name": "/model.24/cv3.2/cv3.2.2/Conv",
+      "input_scale": 0.48437136552465243,
+      "weight_scale": 0.0036255843996062993,
+      "output_scale": 0.4065703744963398,
+      "gemmini_scale": 0.004319373413858982,
+      "gemmini_shift": 8,
+      "gemmini_shift_scale": 0.00390625,
+      "shift_relative_error": 0.09564429241830534,
+      "act_absmax": 51.634437561035156,
+      "weight_absmax": 0.46044921875
+    },
+    {
+      "idx": 75,
+      "name": "/model.24/dfl/conv/Conv",
+      "input_scale": 0.0075090654253021,
+      "weight_scale": 0.11811023622047244,
+      "output_scale": 0.10316214974470965,
+      "gemmini_scale": 0.008597121069812672,
+      "gemmini_shift": 7,
+      "gemmini_shift_scale": 0.0078125,
+      "shift_relative_error": 0.091265560114971,
+      "act_absmax": 13.101593017578125,
+      "weight_absmax": 15.0
+    }
+  ]
+}

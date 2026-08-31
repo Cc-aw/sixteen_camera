@@ -1,0 +1,53 @@
+{
+  "manifest_version": 1,
+  "kind": "gemcc-deployment",
+  "status": "complete",
+  "deployable": true,
+  "hardware_profile_id": "xcvu13p-dim16-packed-quicktest",
+  "quant_mode": "int8",
+  "quantization_profile": "quantization_profile.json",
+  "ir_stages": {
+    "tosa": "model.tosa.mlir",
+    "linalg": "model.linalg.mlir",
+    "bufferized": "model.bufferized.mlir",
+    "device": "model.device.mlir"
+  },
+  "artifacts": {
+    "model_graph": "model_graph.json",
+    "quantization_plan": "quantization_plan.json",
+    "device_plan": "device_plan.json",
+    "memory_plan": "memory_plan.json",
+    "object": "forward.o",
+    "model_abi": "model_abi.h",
+    "forward_args": "forward_args.json",
+    "forward_constants": "forward_constants.bin"
+  },
+  "tuning_cache": "/home/edgeai/edge-ai-lab/ai-compiler/configs/tuning-cache-dim16-packed.yaml",
+  "quantization": {
+    "profile_file": "quantization_profile.json",
+    "calibration_file": "calibration.json",
+    "instance": "int8",
+    "inter_layer": "int8",
+    "scheme": "symmetric-per-tensor-int8",
+    "consumed_by": "frontend"
+  },
+  "correctness": {
+    "checksum": null,
+    "note": "Spike and board must match. Cycles are board-only."
+  },
+  "runtime": {
+    "abi": "model-forward-v1",
+    "abi_version": 2,
+    "entry": "gemcc_model_forward",
+    "product_entry": "forward",
+    "constants_mode": "linked",
+    "quant_profile_version": "0",
+    "workspace_bytes": 31800256,
+    "workspace_alignment": 64,
+    "model_id": "main_graph",
+    "model_hash": "ee82cf0a12081810b04a77f7556b00f92a62d48319a949fa392701ec9a9eb6a6",
+    "constants_hash": "41508fd10fef7870df9c7e46f2fe24680b42a639c4b7fae785e696a1f43cf73e",
+    "constants_bytes": 27021120,
+    "constants_file_hash": "41508fd10fef7870df9c7e46f2fe24680b42a639c4b7fae785e696a1f43cf73e"
+  }
+}

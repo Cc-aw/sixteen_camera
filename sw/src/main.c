@@ -1,61 +1,18 @@
 #include <stdint.h>
 
-#include "axi_iic.h"
 #include "ai_batch_runtime.h"
 #include "ai_frame_snapshot.h"
 #include "ai_preprocess.h"
-#include "board_gpio.h"
+#include "ai_runtime_bridge.h"
 #include "camera_config.h"
 #include "camera_video.h"
 #include "clock_chip.h"
 #include "console.h"
 #include "hdmi_tx.h"
+#include "video_service.h"
 #include "mmio.h"
 #include "platform.h"
 #include "sleep.h"
-#define OV7670_CTRL_DONE UINT32_C(0x00080000)
-#define OV7670_CTRL_FAILED UINT32_C(0x00001000)
-
-static int camera_start(const CameraConfig *camera)
-{
-    if (camera == 0 || !camera->present)
-        return -1;
-
-    uint32_t ctrl_status = 0U;
-    for (unsigned int timeout = 0U; timeout < 2000U; ++timeout) {
-        ctrl_status = mmio_read32(camera->csi_base);
-        if ((ctrl_status & (OV7670_CTRL_DONE | OV7670_CTRL_FAILED)) != 0U)
-            break;
-        usleep(100UL);
-    }
-    console_puts("OV7670 CH");
-    console_put_u32(camera->global_channel);
-    console_puts(" RTL status=");
-    console_put_hex32(ctrl_status);
-    if ((ctrl_status & OV7670_CTRL_FAILED) != 0U)
-        console_puts(" FAILED\r\n");
-    else
-        console_puts((ctrl_status & OV7670_CTRL_DONE) != 0U
-                     ? " DONE\r\n" : " TIMEOUT\r\n");
-    if ((ctrl_status & OV7670_CTRL_DONE) == 0U)
-        return -1;
-    console_puts("OV7670 CH");
-    console_put_u32(camera->global_channel);
-    console_puts(" RGB565 640x480 parallel stream started\r\n");
-    return 0;
-}
-
-static int start_present_cameras(void)
-{
-    int result = 0;
-    for (size_t index = 0U; index < camera_config_count; ++index) {
-        if (camera_configs[index].present &&
-            camera_start(&camera_configs[index]) != 0)
-            result = -1;
-    }
-    return result;
-}
-
 static void print_help(void)
 {
     console_puts("Commands: 1-8=display, s=status, a=snapshot, p=preprocess, i=AI input runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
@@ -156,23 +113,17 @@ int main(void)
     console_puts("OV7670 firmware revision: V13-8CH-BASIC\r\n");
     console_puts("Camera output: ai/ stream2native path, no DDR backpressure into CSI\r\n");
     console_puts("Camera diagnostics: OV7670 clock/reset/SCCB ACK/input geometry and pipeline counters\r\n");
-    console_puts("Camera MMIO: 0x40110000 + (camera-1)*0x4000\r\n");
+    console_puts("Camera MMIO: 0x10150000 + (camera-1)*0x4000\r\n");
 
-    board_gpio_init_safe();
-    usleep(10000UL);
-    board_clock_release_reset();
-    usleep(10000UL);
-    axi_iic_init();
-
-    if (hdmi_tx_init() != 0)
+    if (video_service_init() != 0)
         console_puts("Video pipeline initialization failed; press r to retry\r\n");
-    if (start_present_cameras() != 0)
-        console_puts("Camera initialization failed; press r to retry\r\n");
     ai_batch_runtime_init();
+    if (ai_runtime_bridge_init() != 0)
+        console_puts("AI runtime initialization failed\r\n");
     print_help();
 
     for (;;) {
-        hdmi_tx_poll();
+        video_service_poll();
         ai_batch_runtime_poll();
         int command = console_getc_nonblock();
         switch (command) {
@@ -213,7 +164,7 @@ int main(void)
             break;
         case 'r':
             hdmi_tx_restart();
-            (void)start_present_cameras();
+            (void)video_service_init();
             break;
         case 'b': {
             const CameraConfig *ov7670 = camera_config_by_channel(1U);

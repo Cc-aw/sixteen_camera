@@ -1,0 +1,32 @@
+{
+  "profile_version": "0",
+  "kind": "gemcc-quantization-profile",
+  "instance": "int8",
+  "pipeline": "gemcc-onnx",
+  "inter_layer": "int8",
+  "conv": {
+    "elem": "i8",
+    "weight": "i8",
+    "acc": "i32",
+    "scale": "symmetric-per-tensor",
+    "qmax": 127,
+    "zero_point": 0
+  },
+  "rounding": {
+    "method": "numpy-round-then-clip",
+    "clip": [
+      -127,
+      127
+    ],
+    "note": "frontend quantize_weights uses np.round then clip; MLIR matches that intent"
+  },
+  "int8_rewrite": true,
+  "calibration_file": "calibration.json",
+  "consumed_by": "frontend",
+  "limits": [
+    "calibration.json is the scale dump; this profile is the contract wrapper",
+    "tensor_scales records measured edge scales; missing edges remain unmeasured",
+    "not a QDQ graph; scales are baked into layer functions at emit time",
+    "runtime/session does not read this file"
+  ]
+}
