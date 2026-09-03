@@ -1,5 +1,7 @@
 #include "ai_model_backend.h"
 
+#include <string.h>
+
 #include "platform.h"
 
 typedef struct {
@@ -103,4 +105,12 @@ int ai_model_backend_abort(uint32_t worker_id)
         return -1;
     workers[worker_id].running = 0U;
     return 0;
+}
+
+uint32_t ai_model_backend_stage(void) { return 0U; }
+uint64_t ai_model_backend_elapsed_cycles(void) { return 0U; }
+void ai_model_backend_get_pe_stats(AiModelPeStats *stats)
+{
+    if (stats != 0)
+        memset(stats, 0, sizeof(*stats));
 }

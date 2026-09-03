@@ -20,6 +20,7 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
     wire [31:0] preprocess_arena1_base;
     wire [31:0] preprocess_member_stride;
     wire [31:0] preprocess_member_bytes;
+    wire preprocess_format_640x480;
     wire [3:0] cfg_display_channel;
     wire cfg_display_mode;
     wire cfg_hdmi_capture_enable;
@@ -71,6 +72,7 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
         .preprocess_arena1_base(preprocess_arena1_base),
         .preprocess_member_stride(preprocess_member_stride),
         .preprocess_member_bytes(preprocess_member_bytes),
+        .preprocess_format_640x480(preprocess_format_640x480),
         .cfg_display_channel(cfg_display_channel),
         .cfg_display_mode(cfg_display_mode),
         .cfg_hdmi_capture_enable(cfg_hdmi_capture_enable),
@@ -263,10 +265,21 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
 
         preprocess_busy = 1'b0;
 
+        axi_read(16'h0288, value);
+        if (value != 32'h0007_ec00 || preprocess_member_stride != value)
+            $fatal(1, "default preprocess stride=%08x", value);
+        axi_read(16'h028c, value);
+        if (value != 32'h0007_ec00 || preprocess_member_bytes != value)
+            $fatal(1, "default preprocess bytes=%08x", value);
+        axi_read(16'h0290, value);
+        if (value != 0 || preprocess_format_640x480 != 1'b0)
+            $fatal(1, "default preprocess format=%08x", value);
+
         axi_write(16'h0280, 32'h3400_0000);
         axi_write(16'h0284, 32'h3500_0000);
-        axi_write(16'h0288, 32'h0010_0000);
+        axi_write(16'h0288, 32'h000e_1000);
         axi_write(16'h028c, 32'h000e_1000);
+        axi_write(16'h0290, 32'h1);
         axi_read(16'h0280, value);
         if (value != 32'h3400_0000 || preprocess_arena0_base != value)
             $fatal(1, "preprocess arena0 config=%08x", value);
@@ -274,11 +287,14 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
         if (value != 32'h3500_0000 || preprocess_arena1_base != value)
             $fatal(1, "preprocess arena1 config=%08x", value);
         axi_read(16'h0288, value);
-        if (value != 32'h0010_0000 || preprocess_member_stride != value)
+        if (value != 32'h000e_1000 || preprocess_member_stride != value)
             $fatal(1, "preprocess stride config=%08x", value);
         axi_read(16'h028c, value);
         if (value != 32'h000e_1000 || preprocess_member_bytes != value)
             $fatal(1, "preprocess bytes config=%08x", value);
+        axi_read(16'h0290, value);
+        if (value != 1 || preprocess_format_640x480 != 1'b1)
+            $fatal(1, "preprocess format config=%08x", value);
 
         axi_write(16'h0264, 32'd15);
         axi_write(16'h0268, 32'd1);

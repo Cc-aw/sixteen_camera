@@ -22,5 +22,6 @@ typedef struct {
 
 int ai_frame_snapshot_acquire(AiFrameSnapshot *snapshot);
 int ai_frame_snapshot_release(uint16_t release_mask);
+uint16_t ai_frame_snapshot_available_mask(void);
 
 #endif

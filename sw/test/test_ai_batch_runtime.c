@@ -13,6 +13,7 @@ static uint32_t preprocess_polls;
 static uint32_t next_arena;
 static uint32_t ready_mask;
 static uint32_t release_fail_once = 1U;
+static AiPreprocessFormat preprocess_format = AI_PREPROCESS_FORMAT_416X416;
 
 int ai_frame_snapshot_acquire(AiFrameSnapshot *snapshot)
 {
@@ -41,6 +42,11 @@ int ai_frame_snapshot_release(uint16_t release_mask)
     return 0;
 }
 
+uint16_t ai_frame_snapshot_available_mask(void)
+{
+    return UINT16_C(0x00ff);
+}
+
 int ai_preprocess_start(void)
 {
     assert(preprocess_active == 0U);
@@ -52,6 +58,12 @@ int ai_preprocess_start(void)
 void ai_preprocess_init(void)
 {
     preprocess_active = 0U;
+    preprocess_format = AI_PREPROCESS_FORMAT_416X416;
+}
+
+AiPreprocessFormat ai_preprocess_get_format(void)
+{
+    return preprocess_format;
 }
 
 int ai_preprocess_poll(AiPreprocessResult *result)
@@ -103,6 +115,15 @@ int ai_overlay_try_submit(const AiDetectionResult *result)
 int main(void)
 {
     AiBatchRuntimeStatus status;
+
+    ai_batch_runtime_init();
+    assert(ai_batch_runtime_is_idle() != 0U);
+    preprocess_format = AI_PREPROCESS_FORMAT_640X480;
+    ai_batch_runtime_set_enabled(1U);
+    assert(ai_batch_runtime_is_enabled() == 0U);
+    ai_batch_runtime_get_status(&status);
+    assert(status.error_count == 1U);
+    assert(status.last_error == -12);
 
     ai_batch_runtime_init();
     assert(ai_batch_runtime_is_idle() != 0U);

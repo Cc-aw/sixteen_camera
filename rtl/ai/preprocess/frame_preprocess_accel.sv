@@ -8,9 +8,9 @@ module frame_preprocess_accel #(
     parameter integer SRC_WIDTH = 640,
     parameter integer SRC_HEIGHT = 480,
     parameter integer SRC_STRIDE_BYTES = SRC_WIDTH * 4,
-    // The fixed YOLOv5nu contract is 640x480 (6300 anchors).
-    parameter integer DST_WIDTH = 640,
-    parameter integer DST_HEIGHT = 480,
+    // Default format.  A runtime format input may select 640x480.
+    parameter integer DST_WIDTH = 416,
+    parameter integer DST_HEIGHT = 416,
     parameter integer MAX_BURST_BEATS = 64
 ) (
     input  wire        clk,
@@ -19,6 +19,7 @@ module frame_preprocess_accel #(
     input  wire        source_valid,
     input  wire [31:0] source_addr,
     input  wire [31:0] dest_addr,
+    input  wire        format_640x480,
     output reg         busy,
     output reg         done,
     output reg         error,
@@ -30,6 +31,7 @@ module frame_preprocess_accel #(
     localparam integer SRC_ROW_BEATS = SRC_WIDTH / 8;
     localparam integer DST_ROW_BYTES = DST_WIDTH * 3;
     localparam integer DST_ROW_BEATS = DST_ROW_BYTES / 32;
+    localparam integer MAX_DST_ROW_BEATS = 60;
     localparam integer X_BASE_STEP = SRC_WIDTH / DST_WIDTH;
     localparam integer X_STEP_REMAINDER = SRC_WIDTH % DST_WIDTH;
     localparam integer Y_BASE_STEP = SRC_HEIGHT / DST_HEIGHT;
@@ -54,6 +56,7 @@ module frame_preprocess_accel #(
     reg [15:0] output_y;
     reg [15:0] source_y;
     reg [15:0] y_remainder;
+    reg format_640x480_q;
 
     reg [31:0] read_addr;
     reg [15:0] row_read_remaining;
@@ -72,7 +75,7 @@ module frame_preprocess_accel #(
     reg [255:0] pack_data;
     reg [5:0] pack_bytes;
     reg [5:0] row_word_count;
-    (* ram_style = "block" *) reg [255:0] row_buffer [0:DST_ROW_BEATS-1];
+    (* ram_style = "block" *) reg [255:0] row_buffer [0:MAX_DST_ROW_BEATS-1];
 
     reg [31:0] write_addr;
     reg [6:0] row_write_remaining;
@@ -121,6 +124,17 @@ module frame_preprocess_accel #(
         end
     endfunction
 
+    wire [15:0] dst_width_active = format_640x480_q ? 16'd640 : DST_WIDTH;
+    wire [15:0] dst_height_active = format_640x480_q ? 16'd480 : DST_HEIGHT;
+    wire [31:0] dst_row_bytes_active = format_640x480_q ? 32'd1920 : DST_ROW_BYTES;
+    wire [6:0] dst_row_beats_active = format_640x480_q ? 7'd60 : DST_ROW_BEATS;
+    wire [15:0] x_base_step_active = format_640x480_q ? 16'd1 : X_BASE_STEP;
+    wire [15:0] x_step_remainder_active =
+        format_640x480_q ? 16'd0 : X_STEP_REMAINDER;
+    wire [15:0] y_base_step_active = format_640x480_q ? 16'd1 : Y_BASE_STEP;
+    wire [15:0] y_step_remainder_active =
+        format_640x480_q ? 16'd0 : Y_STEP_REMAINDER;
+
     wire [31:0] selected_source_pixel = select_lane(input_word, target_x[2:0]);
     // Existing video words use bit lanes {R,B,G}; pack little-endian RGB.
     wire [23:0] quantized_pixel = {
@@ -128,11 +142,11 @@ module frame_preprocess_accel #(
         1'b0, selected_source_pixel[7:1],
         1'b0, selected_source_pixel[23:17]
     };
-    wire x_step_long = x_remainder + X_STEP_REMAINDER >= DST_WIDTH;
-    wire [15:0] next_target_x = target_x + X_BASE_STEP + x_step_long;
+    wire x_step_long = x_remainder + x_step_remainder_active >= dst_width_active;
+    wire [15:0] next_target_x = target_x + x_base_step_active + x_step_long;
     wire [15:0] next_x_remainder = x_step_long ?
-        x_remainder + X_STEP_REMAINDER - DST_WIDTH :
-        x_remainder + X_STEP_REMAINDER;
+        x_remainder + x_step_remainder_active - dst_width_active :
+        x_remainder + x_step_remainder_active;
     wire [279:0] shifted_pixel =
         {256'd0, quantized_pixel} << (pack_bytes * 8);
     wire [279:0] combined_pack = {24'd0, pack_data} | shifted_pixel;
@@ -141,7 +155,7 @@ module frame_preprocess_accel #(
                             (target_x[15:3] == input_beat_x) &&
                             pack_emits_word;
 
-    wire y_step_long = y_remainder + Y_STEP_REMAINDER >= DST_HEIGHT;
+    wire y_step_long = y_remainder + y_step_remainder_active >= dst_height_active;
     wire ar_fire = m_axi.arvalid && m_axi.arready;
     wire r_fire = m_axi.rvalid && m_axi.rready;
     wire aw_fire = m_axi.awvalid && m_axi.awready;
@@ -183,7 +197,7 @@ module frame_preprocess_accel #(
             DST_HEIGHT <= 0 || SRC_WIDTH < DST_WIDTH ||
             SRC_HEIGHT < DST_HEIGHT || (SRC_WIDTH % 8) != 0 ||
             (SRC_STRIDE_BYTES % 32) != 0 || (DST_ROW_BYTES % 32) != 0 ||
-            DST_ROW_BEATS > 64 || MAX_BURST_BEATS < 1 ||
+            DST_ROW_BEATS > MAX_DST_ROW_BEATS || MAX_BURST_BEATS < 1 ||
             MAX_BURST_BEATS > 128)
             $error("frame_preprocess_accel parameters are invalid");
     end
@@ -197,6 +211,7 @@ module frame_preprocess_accel #(
             output_y <= 16'd0;
             source_y <= 16'd0;
             y_remainder <= 16'd0;
+            format_640x480_q <= 1'b0;
             read_addr <= 32'd0;
             row_read_remaining <= 16'd0;
             read_burst_beats <= 9'd0;
@@ -243,6 +258,7 @@ module frame_preprocess_accel #(
                         output_y <= 16'd0;
                         source_y <= 16'd0;
                         y_remainder <= 16'd0;
+                        format_640x480_q <= format_640x480;
                         error <= 1'b0;
                         cycles <= 32'd0;
                         read_beats <= 32'd0;
@@ -258,8 +274,8 @@ module frame_preprocess_accel #(
                 end
 
                 ST_ROW_PREP: begin
-                    write_addr <= dest_base + output_y * DST_ROW_BYTES;
-                    row_write_remaining <= DST_ROW_BEATS;
+                    write_addr <= dest_base + output_y * dst_row_bytes_active;
+                    row_write_remaining <= dst_row_beats_active;
                     row_write_index <= 6'd0;
                     row_buffer_rd_addr <= 6'd0;
                     if (!source_valid_q) begin
@@ -328,10 +344,10 @@ module frame_preprocess_accel #(
                             pack_bytes <= pack_bytes + 6'd3;
                         end
 
-                        if (output_x + 1'b1 == DST_WIDTH) begin
+                        if (output_x + 1'b1 == dst_width_active) begin
                             input_word_valid <= 1'b0;
                             if (!pack_emits_word ||
-                                row_word_count + 1'b1 != DST_ROW_BEATS)
+                                row_word_count + 1'b1 != dst_row_beats_active)
                                 error <= 1'b1;
                             state <= ST_WR_PREP;
                         end else if (next_target_x[15:3] != input_beat_x) begin
@@ -396,18 +412,18 @@ module frame_preprocess_accel #(
                         row_write_remaining <= row_write_remaining -
                                                write_burst_beats;
                         if (row_write_remaining == write_burst_beats) begin
-                            if (output_y + 1'b1 == DST_HEIGHT) begin
+                            if (output_y + 1'b1 == dst_height_active) begin
                                 busy <= 1'b0;
                                 done <= 1'b1;
                                 state <= ST_IDLE;
                             end else begin
                                 output_y <= output_y + 1'b1;
-                                source_y <= source_y + Y_BASE_STEP +
+                                source_y <= source_y + y_base_step_active +
                                             y_step_long;
                                 y_remainder <= y_step_long ?
-                                    y_remainder + Y_STEP_REMAINDER -
-                                    DST_HEIGHT :
-                                    y_remainder + Y_STEP_REMAINDER;
+                                    y_remainder + y_step_remainder_active -
+                                    dst_height_active :
+                                    y_remainder + y_step_remainder_active;
                                 state <= ST_ROW_PREP;
                             end
                         end else begin

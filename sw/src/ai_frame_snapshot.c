@@ -94,3 +94,9 @@ int ai_frame_snapshot_release(uint16_t release_mask)
         return -4;
     return 0;
 }
+
+uint16_t ai_frame_snapshot_available_mask(void)
+{
+    return (uint16_t)mmio_read32(FRAMEBUFFER_BASE +
+                                 FRAMEBUFFER_AI_VALID_MASK);
+}

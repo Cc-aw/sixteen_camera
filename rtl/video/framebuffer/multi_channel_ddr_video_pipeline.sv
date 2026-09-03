@@ -52,10 +52,12 @@ module multi_channel_ddr_video_pipeline #(
     wire [31:0] preprocess_arena1_base_cpu;
     wire [31:0] preprocess_member_stride_cpu;
     wire [31:0] preprocess_member_bytes_cpu;
+    wire        preprocess_format_640x480_cpu;
     wire [31:0] preprocess_arena0_base_ddr;
     wire [31:0] preprocess_arena1_base_ddr;
     wire [31:0] preprocess_member_stride_ddr;
     wire [31:0] preprocess_member_bytes_ddr;
+    wire        preprocess_format_640x480_ddr;
     wire [CHANNEL_WIDTH-1:0] cfg_display_channel;
     wire cfg_display_mode;
     wire cfg_hdmi_capture_enable;
@@ -255,6 +257,7 @@ module multi_channel_ddr_video_pipeline #(
         .preprocess_arena1_base(preprocess_arena1_base_cpu),
         .preprocess_member_stride(preprocess_member_stride_cpu),
         .preprocess_member_bytes(preprocess_member_bytes_cpu),
+        .preprocess_format_640x480(preprocess_format_640x480_cpu),
         .cfg_display_channel(cfg_display_channel),
         .cfg_display_mode(cfg_display_mode),
         .cfg_hdmi_capture_enable(cfg_hdmi_capture_enable),
@@ -372,18 +375,20 @@ module multi_channel_ddr_video_pipeline #(
 
     xpm_cdc_array_single #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(1), .WIDTH(128)
+        .SRC_INPUT_REG(1), .WIDTH(129)
     ) u_preprocess_config_cdc (
         .src_clk(control_axil.aclk),
         .src_in({preprocess_arena0_base_cpu,
                  preprocess_arena1_base_cpu,
                  preprocess_member_stride_cpu,
-                 preprocess_member_bytes_cpu}),
+                 preprocess_member_bytes_cpu,
+                 preprocess_format_640x480_cpu}),
         .dest_clk(ddr_ui_clk),
         .dest_out({preprocess_arena0_base_ddr,
                    preprocess_arena1_base_ddr,
                    preprocess_member_stride_ddr,
-                   preprocess_member_bytes_ddr})
+                   preprocess_member_bytes_ddr,
+                   preprocess_format_640x480_ddr})
     );
 
     xpm_cdc_array_single #(
@@ -817,8 +822,8 @@ module multi_channel_ddr_video_pipeline #(
         .CHANNELS(CHANNELS),
         .SRC_WIDTH(FRAME_WIDTH), .SRC_HEIGHT(FRAME_HEIGHT),
         .SRC_STRIDE_BYTES(FRAME_STRIDE_BYTES),
-        .DST_WIDTH(640), .DST_HEIGHT(480),
-        .MEMBER_BYTES(640 * 480 * 3),
+        .DST_WIDTH(416), .DST_HEIGHT(416),
+        .MEMBER_BYTES(416 * 416 * 3),
         .ARENA0_BASE(32'h3000_0000),
         .ARENA1_BASE(32'h3100_0000)
     ) u_batch_preprocess (
@@ -834,6 +839,8 @@ module multi_channel_ddr_video_pipeline #(
         .arena0_base_cfg(preprocess_arena0_base_ddr),
         .arena1_base_cfg(preprocess_arena1_base_ddr),
         .member_stride_cfg(preprocess_member_stride_ddr),
+        .format_640x480_cfg(preprocess_format_640x480_ddr),
+        .member_bytes_cfg(preprocess_member_bytes_ddr),
         .command_done(preprocess_command_done_ddr),
         .command_error(preprocess_command_error_ddr),
         .busy(preprocess_busy_ddr),

@@ -15,7 +15,7 @@
 #include "sleep.h"
 static void print_help(void)
 {
-    console_puts("Commands: 1-8=display, s=status, a=snapshot, p=preprocess, i=AI input runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
+    console_puts("Commands: s=status, a=snapshot, p=preprocess, f=preprocess format, i=AI input runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
 }
 
 static void ai_preprocess_smoke_test(void)
@@ -104,6 +104,7 @@ static void ai_snapshot_smoke_test(void)
 
 int main(void)
 {
+    int video_status;
     console_init();
     console_puts("\r\n8x OV7670 -> shared DMA -> DDR -> HDMI TX\r\n");
     console_puts("CH1-CH8 local + CH9-CH16 HDMI in 4x4 1080p60 mosaic\r\n");
@@ -115,7 +116,8 @@ int main(void)
     console_puts("Camera diagnostics: OV7670 clock/reset/SCCB ACK/input geometry and pipeline counters\r\n");
     console_puts("Camera MMIO: 0x10150000 + (camera-1)*0x4000\r\n");
 
-    if (video_service_init() != 0)
+    video_status = video_service_init();
+    if (video_status != 0)
         console_puts("Video pipeline initialization failed; press r to retry\r\n");
     ai_batch_runtime_init();
     if (ai_runtime_bridge_init() != 0)
@@ -127,22 +129,8 @@ int main(void)
         ai_batch_runtime_poll();
         int command = console_getc_nonblock();
         switch (command) {
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-            if (hdmi_tx_select_camera((unsigned)(command - '0')) != 0)
-                console_puts("[video] display channel selection failed\r\n");
-            break;
         case 's':
-            hdmi_tx_print_status();
             ai_batch_runtime_print_status();
-            for (size_t index = 0U; index < camera_config_count; ++index)
-                camera_video_print_status(&camera_configs[index]);
             break;
         case 'a':
             if (ai_batch_runtime_is_idle() != 0U)
@@ -157,14 +145,45 @@ int main(void)
                 console_puts("AI runtime busy; disable and wait for drain\r\n");
             break;
         case 'i':
+            if (ai_batch_runtime_is_enabled() == 0U &&
+                ai_preprocess_get_format() != AI_PREPROCESS_FORMAT_416X416) {
+                console_puts("AI runtime currently requires 416x416; select format 0 first\r\n");
+                break;
+            }
             ai_batch_runtime_set_enabled(!ai_batch_runtime_is_enabled());
             console_puts(ai_batch_runtime_is_enabled() != 0U ?
                          "AI input runtime enabled\r\n" :
                          "AI input runtime draining\r\n");
             break;
+        case 'f': {
+            if (ai_batch_runtime_is_enabled() != 0U ||
+                ai_batch_runtime_is_idle() == 0U) {
+                console_puts("AI runtime busy; disable and wait for drain\r\n");
+                break;
+            }
+            AiPreprocessFormat next = ai_preprocess_get_format() ==
+                                      AI_PREPROCESS_FORMAT_416X416 ?
+                                      AI_PREPROCESS_FORMAT_640X480 :
+                                      AI_PREPROCESS_FORMAT_416X416;
+            int format_status = ai_preprocess_set_format(next);
+            if (format_status == 0) {
+                console_puts(next == AI_PREPROCESS_FORMAT_416X416 ?
+                             "AI preprocess format 416x416\r\n" :
+                             "AI preprocess format 640x480\r\n");
+            } else {
+                console_puts("AI preprocess format change failed=");
+                console_put_u32((uint32_t)(-format_status));
+                console_puts("\r\n");
+            }
+            break;
+        }
         case 'r':
             hdmi_tx_restart();
-            (void)video_service_init();
+            video_status = video_service_init();
+            if (video_status != 0)
+                console_puts("Video pipeline initialization failed; press r to retry\r\n");
+            else
+                console_puts("Video pipeline ready\r\n");
             break;
         case 'b': {
             const CameraConfig *ov7670 = camera_config_by_channel(1U);

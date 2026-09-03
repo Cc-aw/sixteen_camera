@@ -38,23 +38,23 @@ int ai_display_map_mosaic(const AiDetectionResult *result,
         const AiDetection *source = &result->detections[index];
         AiOverlayBox *destination = &overlay->boxes[index];
         uint32_t x_min = clamp_coordinate(source->x_min,
-                                          AI_YOLOV5NU_INPUT_WIDTH);
+                                          AI_TINYYOLOV2_INPUT_WIDTH);
         uint32_t y_min = clamp_coordinate(source->y_min,
-                                          AI_YOLOV5NU_INPUT_HEIGHT);
+                                          AI_TINYYOLOV2_INPUT_HEIGHT);
         uint32_t x_max = clamp_coordinate(source->x_max,
-                                          AI_YOLOV5NU_INPUT_WIDTH);
+                                          AI_TINYYOLOV2_INPUT_WIDTH);
         uint32_t y_max = clamp_coordinate(source->y_max,
-                                          AI_YOLOV5NU_INPUT_HEIGHT);
+                                          AI_TINYYOLOV2_INPUT_HEIGHT);
         destination->x_min = (uint16_t)(x_origin +
-            x_min * MOSAIC_IMAGE_WIDTH / AI_YOLOV5NU_INPUT_WIDTH);
+            x_min * MOSAIC_IMAGE_WIDTH / AI_TINYYOLOV2_INPUT_WIDTH);
         destination->y_min = (uint16_t)(y_origin +
-            y_min * MOSAIC_TILE_HEIGHT / AI_YOLOV5NU_INPUT_HEIGHT);
+            y_min * MOSAIC_TILE_HEIGHT / AI_TINYYOLOV2_INPUT_HEIGHT);
         destination->x_max = (uint16_t)(x_origin +
-            (x_max * MOSAIC_IMAGE_WIDTH + AI_YOLOV5NU_INPUT_WIDTH - 1U) /
-            AI_YOLOV5NU_INPUT_WIDTH);
+            (x_max * MOSAIC_IMAGE_WIDTH + AI_TINYYOLOV2_INPUT_WIDTH - 1U) /
+            AI_TINYYOLOV2_INPUT_WIDTH);
         destination->y_max = (uint16_t)(y_origin +
-            (y_max * MOSAIC_TILE_HEIGHT + AI_YOLOV5NU_INPUT_HEIGHT - 1U) /
-            AI_YOLOV5NU_INPUT_HEIGHT);
+            (y_max * MOSAIC_TILE_HEIGHT + AI_TINYYOLOV2_INPUT_HEIGHT - 1U) /
+            AI_TINYYOLOV2_INPUT_HEIGHT);
         destination->score_q15 = source->score_q15;
         destination->class_id = source->class_id;
         destination->reserved = 0U;

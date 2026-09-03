@@ -38,6 +38,7 @@ typedef struct {
     AiStreamRuntimeStatus streams[VIDEO_CHANNEL_COUNT];
     AiBatchRuntimeStatus status;
 } AiBatchRuntime;
+static uint32_t ai_trace_stage;
 
 static AiBatchRuntime runtime;
 
@@ -170,12 +171,20 @@ static void progress_workers(void)
 
         AiDetectionResult result;
         context->state = AI_BATCH_POSTPROCESS;
-        int post_status = ai_postprocess_yolov5nu(
-            (const void *)completion.output_addr, &completion.output_desc,
-            &ai_postprocess_default_config, worker->job_id, worker_id,
-            member->stream_id, member->frame_id, member->timestamp,
-            member->version,
-            &runtime.postprocess_workspace, &result);
+        int post_status;
+        if (completion.output_desc.dtype == AI_TENSOR_DTYPE_CUSTOM) {
+            const AiDetectionResult *backend_result =
+                (const AiDetectionResult *)completion.output_addr;
+            result = *backend_result;
+            post_status = 0;
+        } else {
+            post_status = ai_postprocess_yolov5nu(
+                (const void *)completion.output_addr, &completion.output_desc,
+                &ai_postprocess_default_config, worker->job_id, worker_id,
+                member->stream_id, member->frame_id, member->timestamp,
+                member->version,
+                &runtime.postprocess_workspace, &result);
+        }
         if (post_status == 0) {
             int publish_status =
                 ai_result_manager_publish(&runtime.result_manager, &result);
@@ -375,6 +384,7 @@ static void recycle_completed_contexts(void)
 
 void ai_batch_runtime_init(void)
 {
+    ai_trace_stage = 0U;
     ai_preprocess_init();
     runtime.pending_valid = 0U;
     runtime.pending_admit_cycle = 0U;
@@ -420,7 +430,16 @@ void ai_batch_runtime_init(void)
 
 void ai_batch_runtime_set_enabled(uint32_t enabled)
 {
+    if (enabled != 0U &&
+        ai_preprocess_get_format() != AI_PREPROCESS_FORMAT_416X416) {
+        runtime.status.enabled = 0U;
+        runtime.status.error_count++;
+        runtime.status.last_error = -12;
+        return;
+    }
     runtime.status.enabled = enabled != 0U ? 1U : 0U;
+    if (runtime.status.enabled == 0U)
+        ai_trace_stage = 0U;
 }
 
 uint32_t ai_batch_runtime_is_enabled(void)
@@ -474,6 +493,10 @@ void ai_batch_runtime_poll(void)
         context->admit_cycle = runtime.pending_admit_cycle;
         retain_batch_context(context, &runtime.pending_snapshot, &result);
         runtime.status.preprocess_count++;
+        if (ai_trace_stage == 2U) {
+            console_puts("AI TRACE PREPROCESS_DONE\r\n");
+            ai_trace_stage = 3U;
+        }
         runtime.release_pending_mask = runtime.pending_snapshot.valid_mask;
         runtime.pending_valid = 0U;
         runtime.status.phase = AI_RUNTIME_RELEASE;
@@ -482,6 +505,12 @@ void ai_batch_runtime_poll(void)
 
     if (runtime.status.enabled == 0U)
         return;
+    if (ai_preprocess_get_format() != AI_PREPROCESS_FORMAT_416X416) {
+        runtime.status.enabled = 0U;
+        runtime.status.error_count++;
+        runtime.status.last_error = -12;
+        return;
+    }
     if (runtime.contexts[0].state != AI_BATCH_FREE &&
         runtime.contexts[1].state != AI_BATCH_FREE) {
         runtime.status.arena_wait_count++;
@@ -489,12 +518,36 @@ void ai_batch_runtime_poll(void)
     }
 
     runtime.pending_admit_cycle = read_cycle();
+    if (ai_trace_stage == 0U) {
+        console_puts("AI TRACE SNAPSHOT_BEGIN\r\n");
+        ai_trace_stage = 1U;
+    }
     int snapshot_status = ai_frame_snapshot_acquire(&runtime.pending_snapshot);
     if (snapshot_status != 0) {
         runtime.status.error_count++;
+        if (ai_trace_stage == 1U) {
+            console_puts("AI TRACE SNAPSHOT_ERROR=");
+            console_put_u32((uint32_t)(-snapshot_status));
+#ifndef AI_MODEL_BACKEND_HOST_TEST
+            console_puts(" status=");
+            console_put_hex32(mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_AI_STATUS));
+            console_puts(" valid=");
+            console_put_hex32(mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_AI_VALID_MASK));
+            console_puts(" present=");
+            console_put_hex32(mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRESENT_MASK));
+            console_puts(" ch1_frames=");
+            console_put_u32(mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_WRITER_COUNT(0U)));
+#endif
+            console_puts("\r\n");
+            ai_trace_stage = 4U;
+        }
         return;
     }
     runtime.pending_valid = 1U;
+    if (ai_trace_stage == 1U) {
+        console_puts("AI TRACE SNAPSHOT_DONE\r\nAI TRACE PREPROCESS_BEGIN\r\n");
+        ai_trace_stage = 2U;
+    }
     runtime.status.snapshot_count++;
     if (ai_preprocess_start() != 0) {
         record_error(-9);
@@ -542,7 +595,31 @@ void ai_batch_runtime_print_status(void)
     console_put_u32((uint32_t)runtime.status.max_snapshot_hold_cycles);
     console_putc('/');
     console_put_u32(runtime.status.arena_wait_count);
+    console_puts(" backend(stage/cycles)=");
+    console_put_u32(ai_model_backend_stage());
+    console_putc('/');
+    console_put_u32((uint32_t)ai_model_backend_elapsed_cycles());
+    console_puts(" pre_fmt=");
+    console_puts(ai_preprocess_get_format() == AI_PREPROCESS_FORMAT_416X416 ?
+                 "416x416" : "640x480");
     console_puts("\r\n");
+    AiModelPeStats pe_stats;
+    ai_model_backend_get_pe_stats(&pe_stats);
+    if (pe_stats.valid != 0U) {
+        console_puts("AI PE layer=");
+        console_put_u32(pe_stats.layer_index);
+        console_puts(" util_est_permille=");
+        console_put_u32(pe_stats.pe_util_permille);
+        console_puts(" macs=");
+        console_put_hex64(pe_stats.macs);
+        console_puts(" exe/load/store=");
+        console_put_u32(pe_stats.exe_active_cycles);
+        console_putc('/');
+        console_put_u32(pe_stats.load_active_cycles);
+        console_putc('/');
+        console_put_u32(pe_stats.store_active_cycles);
+        console_puts("\r\n");
+    }
     for (uint32_t stream = 0U; stream < VIDEO_CHANNEL_COUNT; ++stream) {
         const AiStreamRuntimeStatus *status = &runtime.streams[stream];
         if (status->dispatched_count == 0U &&

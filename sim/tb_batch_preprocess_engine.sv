@@ -20,6 +20,8 @@ module tb_batch_preprocess_engine;
     reg [31:0] arena0_base_cfg = ARENA0_BASE;
     reg [31:0] arena1_base_cfg = ARENA1_BASE;
     reg [31:0] member_stride_cfg = MEMBER_BYTES;
+    reg format_640x480_cfg = 1'b0;
+    reg [31:0] member_bytes_cfg = MEMBER_BYTES;
     reg snapshot_active = 1'b1;
     reg [CHANNELS-1:0] snapshot_valid_mask = 4'b0101;
     reg [CHANNELS-1:0] snapshot_fresh_mask = 4'b0001;
@@ -65,6 +67,8 @@ module tb_batch_preprocess_engine;
         .arena0_base_cfg(arena0_base_cfg),
         .arena1_base_cfg(arena1_base_cfg),
         .member_stride_cfg(member_stride_cfg),
+        .format_640x480_cfg(format_640x480_cfg),
+        .member_bytes_cfg(member_bytes_cfg),
         .command_done(command_done), .command_error(command_error),
         .busy(busy), .ready_mask(ready_mask),
         .active_arena(active_arena), .active_channel(active_channel),
@@ -232,6 +236,16 @@ module tb_batch_preprocess_engine;
         recycle = 1'b0;
         if (!command_done || command_error || ready_mask != 2'b10)
             $fatal(1, "recycle failed");
+
+        member_bytes_cfg = 32'd921600;
+        member_stride_cfg = 32'd921600;
+        format_640x480_cfg = 1'b0;
+        @(negedge clk);
+        start = 1'b1;
+        @(posedge clk); #1;
+        start = 1'b0;
+        if (!command_done || !command_error || error_count != 2)
+            $fatal(1, "mismatched format size was not rejected");
 
         $display("TB_BATCH_PREPROCESS_ENGINE=PASS cycles=%0d",
                  last_batch_cycles);

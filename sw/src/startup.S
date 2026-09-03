@@ -23,6 +23,9 @@ _start:
     addi t0, t0, 8
     j 1b
 2:
+    /* Generated GemCC kernels use floating-point and vector registers. */
+    li t0, (3 << 13) | (3 << 9)       /* mstatus.FS=Dirty, VS=Dirty */
+    csrs mstatus, t0
     call main
 3:
     wfi

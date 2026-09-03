@@ -10,11 +10,21 @@
 #define AI_YOLOV5NU_INPUT_WIDTH 640U
 #define AI_YOLOV5NU_INPUT_HEIGHT 480U
 
+/* Temporary board model contract: TinyYOLOv2 consumes NHWC RGB INT8. */
+#define AI_TINYYOLOV2_INPUT_WIDTH 416U
+#define AI_TINYYOLOV2_INPUT_HEIGHT 416U
+#define AI_TINYYOLOV2_INPUT_CHANNELS 3U
+#define AI_TINYYOLOV2_INPUT_BYTES (AI_TINYYOLOV2_INPUT_WIDTH * \
+                                   AI_TINYYOLOV2_INPUT_HEIGHT * \
+                                   AI_TINYYOLOV2_INPUT_CHANNELS)
+
 typedef enum {
     AI_TENSOR_DTYPE_F32 = 0,
     AI_TENSOR_DTYPE_I8,
     AI_TENSOR_DTYPE_I16,
-    AI_TENSOR_DTYPE_Q16_16
+    AI_TENSOR_DTYPE_Q16_16,
+    /* output_addr points at an AiDetectionResult owned by the backend */
+    AI_TENSOR_DTYPE_CUSTOM
 } AiTensorDType;
 
 typedef enum {

@@ -1,13 +1,17 @@
 `timescale 1ns/1ps
 
 module tb_frame_preprocess_accel;
-    localparam integer SRC_WIDTH = 72;
-    localparam integer SRC_HEIGHT = 7;
-    localparam integer DST_WIDTH = 32;
-    localparam integer DST_HEIGHT = 4;
-    localparam [31:0] SOURCE_BASE = 32'h0000_1000;
-    localparam [31:0] DEST_BASE = 32'h0000_4000;
-    localparam [31:0] ZERO_BASE = 32'h0000_5000;
+    localparam integer SRC_WIDTH = 640;
+    localparam integer SRC_HEIGHT = 480;
+    localparam integer DST_WIDTH = 416;
+    localparam integer DST_HEIGHT = 416;
+    localparam integer DST_416_BYTES = DST_WIDTH*DST_HEIGHT*3;
+    localparam integer DST_640_BYTES = SRC_WIDTH*SRC_HEIGHT*3;
+    localparam [31:0] SOURCE_BASE = 32'h0040_0000;
+    localparam [31:0] DEST_416_BASE = 32'h0000_0000;
+    localparam [31:0] DEST_640_BASE = 32'h0010_0000;
+    localparam [31:0] ZERO_BASE = 32'h0020_0000;
+    localparam integer OUTPUT_MEM_BYTES = ZERO_BASE + DST_416_BYTES;
 
     reg clk = 1'b0;
     reg resetn = 1'b0;
@@ -16,7 +20,8 @@ module tb_frame_preprocess_accel;
     reg start = 1'b0;
     reg source_valid = 1'b1;
     reg [31:0] source_addr = SOURCE_BASE;
-    reg [31:0] dest_addr = DEST_BASE;
+    reg [31:0] dest_addr = DEST_416_BASE;
+    reg format_640x480 = 1'b0;
     wire busy;
     wire done;
     wire error;
@@ -32,7 +37,8 @@ module tb_frame_preprocess_accel;
     ) dut (
         .clk(clk), .resetn(resetn), .start(start),
         .source_valid(source_valid), .source_addr(source_addr),
-        .dest_addr(dest_addr), .busy(busy), .done(done), .error(error),
+        .dest_addr(dest_addr), .format_640x480(format_640x480),
+        .busy(busy), .done(done), .error(error),
         .cycles(cycles), .read_beats(read_beats),
         .write_beats(write_beats), .m_axi(axi)
     );
@@ -47,7 +53,7 @@ module tb_frame_preprocess_accel;
     reg [31:0] write_addr;
     reg [8:0] write_left;
     reg bvalid;
-    reg [7:0] output_mem [0:24575];
+    reg [7:0] output_mem [0:OUTPUT_MEM_BYTES-1];
     integer index;
     integer lane;
     integer row;
@@ -75,6 +81,14 @@ module tb_frame_preprocess_accel;
                 make_source_word[word_lane*32 +: 32] =
                     {8'd0, red, blue, green};
             end
+        end
+    endfunction
+
+    function automatic [7:0] quantized_component(input integer value);
+        reg [7:0] component;
+        begin
+            component = value[7:0];
+            quantized_component = {1'b0, component[7:1]};
         end
     endfunction
 
@@ -148,9 +162,11 @@ module tb_frame_preprocess_accel;
         end
     end
 
-    task automatic run_transaction(input valid_source,
+    task automatic run_transaction(input format_640,
+                                   input valid_source,
                                    input [31:0] destination);
         begin
+            format_640x480 = format_640;
             source_valid = valid_source;
             dest_addr = destination;
             start = 1'b1;
@@ -160,7 +176,7 @@ module tb_frame_preprocess_accel;
             while (!done) begin
                 @(posedge clk); #1;
                 timeout = timeout + 1;
-                if (timeout > 20000)
+                if (timeout > 2000000)
                     $fatal(1, "preprocess timeout state=%0d", dut.state);
             end
             if (error)
@@ -168,35 +184,53 @@ module tb_frame_preprocess_accel;
         end
     endtask
 
+    task automatic check_pixels(input integer width,
+                                input integer height,
+                                input [31:0] base);
+        begin
+            for (row = 0; row < height; row = row + 1)
+                for (pixel_x = 0; pixel_x < width; pixel_x = pixel_x + 1) begin
+                    source_x = (pixel_x * SRC_WIDTH) / width;
+                    source_y = (row * SRC_HEIGHT) / height;
+                    byte_addr = base + (row*width + pixel_x)*3;
+                    if (output_mem[byte_addr] != quantized_component(source_x) ||
+                        output_mem[byte_addr+1] != quantized_component(source_y) ||
+                        output_mem[byte_addr+2] !=
+                            quantized_component(source_x+source_y))
+                        $fatal(1,
+                            "mode %0dx%0d pixel %0d,%0d got=%0d/%0d/%0d expected=%0d/%0d/%0d",
+                            width, height, pixel_x, row,
+                            output_mem[byte_addr], output_mem[byte_addr+1],
+                            output_mem[byte_addr+2],
+                            quantized_component(source_x),
+                            quantized_component(source_y),
+                            quantized_component(source_x+source_y));
+                end
+        end
+    endtask
+
     initial begin
-        for (index = 0; index < 24576; index = index + 1)
+        for (index = 0; index < OUTPUT_MEM_BYTES; index = index + 1)
             output_mem[index] = 8'ha5;
         repeat (4) @(posedge clk);
         resetn = 1'b1;
         repeat (2) @(posedge clk);
 
-        run_transaction(1'b1, DEST_BASE);
+        run_transaction(1'b0, 1'b1, DEST_416_BASE);
         if (read_beats != DST_HEIGHT * (SRC_WIDTH/8) ||
             write_beats != DST_HEIGHT * (DST_WIDTH*3/32))
-            $fatal(1, "beat counts read/write=%0d/%0d", read_beats,
+            $fatal(1, "416 beat counts read/write=%0d/%0d", read_beats,
                    write_beats);
-        for (row = 0; row < DST_HEIGHT; row = row + 1)
-            for (pixel_x = 0; pixel_x < DST_WIDTH; pixel_x = pixel_x + 1) begin
-                source_x = (pixel_x * SRC_WIDTH) / DST_WIDTH;
-                source_y = (row * SRC_HEIGHT) / DST_HEIGHT;
-                byte_addr = DEST_BASE + (row*DST_WIDTH + pixel_x)*3;
-                if (output_mem[byte_addr] != (source_x >> 1) ||
-                    output_mem[byte_addr+1] != (source_y >> 1) ||
-                    output_mem[byte_addr+2] != ((source_x+source_y) >> 1))
-                    $fatal(1,
-                        "pixel %0d,%0d got=%0d/%0d/%0d expected=%0d/%0d/%0d",
-                        pixel_x, row, output_mem[byte_addr],
-                        output_mem[byte_addr+1], output_mem[byte_addr+2],
-                        source_x>>1, source_y>>1,
-                        (source_x+source_y)>>1);
-            end
+        check_pixels(DST_WIDTH, DST_HEIGHT, DEST_416_BASE);
 
-        run_transaction(1'b0, ZERO_BASE);
+        run_transaction(1'b1, 1'b1, DEST_640_BASE);
+        if (read_beats != SRC_HEIGHT * (SRC_WIDTH/8) ||
+            write_beats != SRC_HEIGHT * (SRC_WIDTH*3/32))
+            $fatal(1, "640 beat counts read/write=%0d/%0d", read_beats,
+                   write_beats);
+        check_pixels(SRC_WIDTH, SRC_HEIGHT, DEST_640_BASE);
+
+        run_transaction(1'b0, 1'b0, ZERO_BASE);
         if (read_beats != 0 || write_beats != DST_HEIGHT*(DST_WIDTH*3/32))
             $fatal(1, "zero-fill beat counts read/write=%0d/%0d", read_beats,
                    write_beats);
@@ -205,7 +239,8 @@ module tb_frame_preprocess_accel;
                 $fatal(1, "zero-fill byte %0d=%0d", index,
                        output_mem[ZERO_BASE+index]);
 
-        $display("TB_FRAME_PREPROCESS_ACCEL=PASS cycles=%0d", cycles);
+        $display("TB_FRAME_PREPROCESS_ACCEL=PASS modes=416x416,640x480 cycles=%0d",
+                 cycles);
         $finish;
     end
 endmodule

@@ -430,6 +430,11 @@ static void framebuffer_configure(void)
 #endif
 }
 
+void hdmi_tx_framebuffer_init(void)
+{
+    framebuffer_configure();
+}
+
 static uint32_t framebuffer_total_frames(void)
 {
     uint32_t total = 0U;

@@ -14,12 +14,19 @@ typedef struct {
     uint32_t write_beats;
 } AiPreprocessResult;
 
+typedef enum {
+    AI_PREPROCESS_FORMAT_416X416 = 0,
+    AI_PREPROCESS_FORMAT_640X480 = 1
+} AiPreprocessFormat;
+
 /*
  * Non-blocking interface used by the Batch runtime.  poll() returns 0 while
  * the hardware is running, 1 when result has been filled, or a negative error
  * code.  The existing blocking helper remains available for diagnostics.
  */
 void ai_preprocess_init(void);
+int ai_preprocess_set_format(AiPreprocessFormat format);
+AiPreprocessFormat ai_preprocess_get_format(void);
 int ai_preprocess_start(void);
 int ai_preprocess_poll(AiPreprocessResult *result);
 int ai_preprocess_run(AiPreprocessResult *result);

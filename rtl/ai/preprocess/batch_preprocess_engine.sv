@@ -9,9 +9,9 @@ module batch_preprocess_engine #(
     parameter integer SRC_WIDTH = 640,
     parameter integer SRC_HEIGHT = 480,
     parameter integer SRC_STRIDE_BYTES = SRC_WIDTH * 4,
-    // Keep this equal to the fixed model input contract (640x480x3 INT8).
-    parameter integer DST_WIDTH = 640,
-    parameter integer DST_HEIGHT = 480,
+    // Default format.  The runtime format input may select 640x480x3.
+    parameter integer DST_WIDTH = 416,
+    parameter integer DST_HEIGHT = 416,
     parameter integer MEMBER_BYTES = DST_WIDTH * DST_HEIGHT * 3,
     parameter [31:0] ARENA0_BASE = 32'h3000_0000,
     parameter [31:0] ARENA1_BASE = 32'h3100_0000
@@ -29,6 +29,8 @@ module batch_preprocess_engine #(
     input  wire [31:0]              arena0_base_cfg,
     input  wire [31:0]              arena1_base_cfg,
     input  wire [31:0]              member_stride_cfg,
+    input  wire                     format_640x480_cfg,
+    input  wire [31:0]              member_bytes_cfg,
     output reg                      command_done,
     output reg                      command_error,
     output reg                      busy,
@@ -60,6 +62,7 @@ module batch_preprocess_engine #(
     reg [CHANNELS-1:0] snapshot_fresh_q;
     reg [63:0] snapshot_batch_id_q;
     reg [31:0] member_stride_q;
+    reg format_640x480_q;
     reg arena_preference;
     reg accel_start;
     wire accel_busy;
@@ -83,6 +86,8 @@ module batch_preprocess_engine #(
         active_channel_index*32 +: 32];
     wire [31:0] active_dest_addr = active_tensor_base +
         active_channel * member_stride_q;
+    wire [31:0] expected_member_bytes = format_640x480_cfg ?
+        32'd921600 : MEMBER_BYTES;
 
     initial begin
         if (CHANNELS < 1 || CHANNELS > 16 ||
@@ -99,6 +104,7 @@ module batch_preprocess_engine #(
         .clk(clk), .resetn(resetn), .start(accel_start),
         .source_valid(active_source_valid),
         .source_addr(active_source_addr), .dest_addr(active_dest_addr),
+        .format_640x480(format_640x480_q),
         .busy(accel_busy), .done(accel_done), .error(accel_error),
         .cycles(accel_cycles), .read_beats(accel_read_beats),
         .write_beats(accel_write_beats), .m_axi(m_axi)
@@ -111,6 +117,7 @@ module batch_preprocess_engine #(
             snapshot_fresh_q <= {CHANNELS{1'b0}};
             snapshot_batch_id_q <= 64'd0;
             member_stride_q <= MEMBER_BYTES;
+            format_640x480_q <= 1'b0;
             arena_preference <= 1'b0;
             accel_start <= 1'b0;
             command_done <= 1'b0;
@@ -156,7 +163,12 @@ module batch_preprocess_engine #(
             if (start) begin
                 start_count <= start_count + 1'b1;
                 if (busy || !snapshot_active ||
-                    (!free_arena0 && !free_arena1)) begin
+                    (!free_arena0 && !free_arena1) ||
+                    arena0_base_cfg[4:0] != 0 || arena1_base_cfg[4:0] != 0 ||
+                    member_stride_cfg[4:0] != 0 ||
+                    member_bytes_cfg[4:0] != 0 ||
+                    member_stride_cfg != member_bytes_cfg ||
+                    member_bytes_cfg != expected_member_bytes) begin
                     command_done <= 1'b1;
                     command_error <= 1'b1;
                     error_count <= error_count + 1'b1;
@@ -166,6 +178,7 @@ module batch_preprocess_engine #(
                     snapshot_fresh_q <= snapshot_fresh_mask;
                     snapshot_batch_id_q <= snapshot_batch_id;
                     member_stride_q <= member_stride_cfg;
+                    format_640x480_q <= format_640x480_cfg;
                     active_arena <= selected_arena;
                     active_tensor_base <= selected_arena_base;
                     arena_preference <= !selected_arena;

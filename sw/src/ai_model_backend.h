@@ -5,7 +5,18 @@
 
 #include "ai_model_abi.h"
 
-#define AI_MODEL_WORKER_COUNT 3U
+#define AI_MODEL_WORKER_COUNT 1U
+
+typedef struct {
+    uint32_t valid;
+    uint32_t layer_index;
+    uint64_t macs;
+    uint64_t cycles;
+    uint32_t load_active_cycles;
+    uint32_t exe_active_cycles;
+    uint32_t store_active_cycles;
+    uint32_t pe_util_permille;
+} AiModelPeStats;
 
 /*
  * Stable boundary implemented by the future Gemmini executor. A worker owns
@@ -17,5 +28,10 @@ int ai_model_backend_submit(const AiModelFrameRequest *request);
 int ai_model_backend_poll(uint32_t worker_id,
                           AiModelFrameCompletion *completion);
 int ai_model_backend_abort(uint32_t worker_id);
+
+/* Diagnostic state for the synchronous model invocation. */
+uint32_t ai_model_backend_stage(void);
+uint64_t ai_model_backend_elapsed_cycles(void);
+void ai_model_backend_get_pe_stats(AiModelPeStats *stats);
 
 #endif

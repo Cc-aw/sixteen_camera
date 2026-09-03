@@ -14,18 +14,54 @@ typedef struct {
 } AiPreprocessCommand;
 
 static AiPreprocessCommand command;
+static AiPreprocessFormat current_format = AI_PREPROCESS_FORMAT_416X416;
 
-static void ai_preprocess_configure_memory(void)
+static int ai_preprocess_configure_memory(AiPreprocessFormat format)
 {
+    uint32_t member_bytes;
+
+    if (format != AI_PREPROCESS_FORMAT_416X416 &&
+        format != AI_PREPROCESS_FORMAT_640X480)
+        return -1;
+    member_bytes = format == AI_PREPROCESS_FORMAT_640X480 ?
+                   AI_PREPROCESS_640X480_BYTES : AI_PREPROCESS_416X416_BYTES;
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_ARENA0_BASE,
                  TENSOR_ARENA0_PHYS_BASE);
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_ARENA1_BASE,
                  TENSOR_ARENA1_PHYS_BASE);
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_MEMBER_STRIDE,
-                 TENSOR_MEMBER_STRIDE);
+                 member_bytes);
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_MEMBER_BYTES,
-                 TENSOR_MEMBER_BYTES);
+                 member_bytes);
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_FORMAT,
+                 format == AI_PREPROCESS_FORMAT_640X480 ?
+                 FRAMEBUFFER_PRE_FORMAT_640X480 :
+                 FRAMEBUFFER_PRE_FORMAT_416X416);
     mmio_fence();
+    current_format = format;
+    return 0;
+}
+
+int ai_preprocess_set_format(AiPreprocessFormat format)
+{
+    uint32_t status;
+
+    if (format != AI_PREPROCESS_FORMAT_416X416 &&
+        format != AI_PREPROCESS_FORMAT_640X480)
+        return -1;
+    status = mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_STATUS);
+    if (command.active != 0U ||
+        (status & (FRAMEBUFFER_PRE_STATUS_START_BUSY |
+                   FRAMEBUFFER_PRE_STATUS_RECYCLE_BUSY |
+                   FRAMEBUFFER_PRE_STATUS_ENGINE_BUSY |
+                   FRAMEBUFFER_PRE_STATUS_READY_MASK)) != 0U)
+        return -2;
+    return ai_preprocess_configure_memory(format);
+}
+
+AiPreprocessFormat ai_preprocess_get_format(void)
+{
+    return current_format;
 }
 
 static uint64_t read_pair(uint32_t low_offset, uint32_t high_offset)
@@ -62,7 +98,8 @@ int ai_preprocess_start(void)
 void ai_preprocess_init(void)
 {
     command.active = 0U;
-    ai_preprocess_configure_memory();
+    current_format = AI_PREPROCESS_FORMAT_416X416;
+    (void)ai_preprocess_configure_memory(AI_PREPROCESS_FORMAT_416X416);
 }
 
 int ai_preprocess_poll(AiPreprocessResult *result)

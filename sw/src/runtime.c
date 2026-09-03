@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include <stdint.h>
+#include <stdarg.h>
 
 #include "console.h"
 #include "mmio.h"
@@ -38,6 +39,15 @@ int memcmp(const void *left, const void *right, size_t count)
     return 0;
 }
 
+int strcmp(const char *left, const char *right)
+{
+    while (*left != '\0' && *left == *right) {
+        ++left;
+        ++right;
+    }
+    return (unsigned char)*left - (unsigned char)*right;
+}
+
 void usleep(unsigned long useconds)
 {
     uint64_t cycles = (SOC_CLOCK_HZ * useconds) / UINT64_C(1000000);
@@ -56,6 +66,49 @@ int xil_printf(const char *format, ...)
 {
     (void)format;
     return 0;
+}
+
+/* newlib's libm uses this hook even in the freestanding image. */
+int *__errno(void)
+{
+    static int error;
+    return &error;
+}
+
+/* Minimal heap used by generated Gemmini code.  The model workspace wraps
+ * allocations after initialization; these symbols cover setup-time libc
+ * calls without requiring a full hosted libc/sbrk implementation. */
+extern unsigned char _end[];
+extern unsigned char __stack_bottom[];
+static unsigned char *heap_cursor;
+
+void *malloc(size_t bytes)
+{
+    if (heap_cursor == NULL)
+        heap_cursor = _end;
+    bytes = (bytes + 15U) & ~(size_t)15U;
+    if (bytes == 0U || heap_cursor + bytes > __stack_bottom)
+        return NULL;
+    void *result = heap_cursor;
+    heap_cursor += bytes;
+    return result;
+}
+
+void free(void *ptr)
+{
+    (void)ptr;
+}
+
+int printf(const char *format, ...)
+{
+    (void)format;
+    return 0;
+}
+
+__attribute__((noreturn)) void exit(int status)
+{
+    (void)status;
+    for (;;) cpu_wfi();
 }
 
 __attribute__((noreturn))

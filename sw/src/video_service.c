@@ -54,6 +54,8 @@ int video_service_init(void)
     board_clock_release_reset();
     usleep(10000UL);
     axi_iic_init();
+    /* Frame capture/AI must work even when no HDMI sink is connected. */
+    hdmi_tx_framebuffer_init();
     int result = hdmi_tx_init();
     if (video_service_start_cameras() != 0)
         result = -1;
