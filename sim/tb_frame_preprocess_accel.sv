@@ -28,7 +28,8 @@ module tb_frame_preprocess_accel;
     wire [31:0] cycles;
     wire [31:0] read_beats;
     wire [31:0] write_beats;
-    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) axi();
+    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) read_axi();
+    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) write_axi();
 
     frame_preprocess_accel #(
         .SRC_WIDTH(SRC_WIDTH), .SRC_HEIGHT(SRC_HEIGHT),
@@ -40,7 +41,8 @@ module tb_frame_preprocess_accel;
         .dest_addr(dest_addr), .format_640x480(format_640x480),
         .busy(busy), .done(done), .error(error),
         .cycles(cycles), .read_beats(read_beats),
-        .write_beats(write_beats), .m_axi(axi)
+        .write_beats(write_beats), .m_read_axi(read_axi),
+        .m_write_axi(write_axi)
     );
 
     reg read_active;
@@ -92,17 +94,29 @@ module tb_frame_preprocess_accel;
         end
     endfunction
 
-    assign axi.arready = !read_active;
-    assign axi.rid = 3'd0;
-    assign axi.rdata = rdata;
-    assign axi.rresp = 2'b00;
-    assign axi.rlast = rlast;
-    assign axi.rvalid = rvalid;
-    assign axi.awready = !write_active && !bvalid;
-    assign axi.wready = write_active;
-    assign axi.bid = 3'd0;
-    assign axi.bresp = 2'b00;
-    assign axi.bvalid = bvalid;
+    // Reads model the DDR S02 port; writes model the coherent FBus path.
+    assign read_axi.arready = !read_active;
+    assign read_axi.rid = 3'd0;
+    assign read_axi.rdata = rdata;
+    assign read_axi.rresp = 2'b00;
+    assign read_axi.rlast = rlast;
+    assign read_axi.rvalid = rvalid;
+    assign read_axi.awready = 1'b0;
+    assign read_axi.wready = 1'b0;
+    assign read_axi.bid = 3'd0;
+    assign read_axi.bresp = 2'b00;
+    assign read_axi.bvalid = 1'b0;
+    assign write_axi.arready = 1'b0;
+    assign write_axi.rid = 3'd0;
+    assign write_axi.rdata = 256'd0;
+    assign write_axi.rresp = 2'b00;
+    assign write_axi.rlast = 1'b0;
+    assign write_axi.rvalid = 1'b0;
+    assign write_axi.awready = !write_active && !bvalid;
+    assign write_axi.wready = write_active;
+    assign write_axi.bid = 3'd0;
+    assign write_axi.bresp = 2'b00;
+    assign write_axi.bvalid = bvalid;
 
     always @(posedge clk) begin
         if (!resetn) begin
@@ -117,17 +131,17 @@ module tb_frame_preprocess_accel;
             write_left <= 9'd0;
             bvalid <= 1'b0;
         end else begin
-            if (axi.arvalid && axi.arready) begin
+            if (read_axi.arvalid && read_axi.arready) begin
                 read_active <= 1'b1;
-                read_addr <= axi.araddr;
-                read_left <= {1'b0, axi.arlen} + 1'b1;
+                read_addr <= read_axi.araddr;
+                read_left <= {1'b0, read_axi.arlen} + 1'b1;
             end
             if (read_active && !rvalid) begin
                 rdata <= make_source_word(read_addr);
                 rvalid <= 1'b1;
                 rlast <= read_left == 1;
             end
-            if (rvalid && axi.rready) begin
+            if (rvalid && read_axi.rready) begin
                 rvalid <= 1'b0;
                 rlast <= 1'b0;
                 read_addr <= read_addr + 32;
@@ -136,28 +150,28 @@ module tb_frame_preprocess_accel;
                     read_active <= 1'b0;
             end
 
-            if (axi.awvalid && axi.awready) begin
+            if (write_axi.awvalid && write_axi.awready) begin
                 write_active <= 1'b1;
-                write_addr <= axi.awaddr;
-                write_left <= {1'b0, axi.awlen} + 1'b1;
+                write_addr <= write_axi.awaddr;
+                write_left <= {1'b0, write_axi.awlen} + 1'b1;
             end
-            if (axi.wvalid && axi.wready) begin
+            if (write_axi.wvalid && write_axi.wready) begin
                 for (lane = 0; lane < 32; lane = lane + 1)
-                    if (axi.wstrb[lane])
+                    if (write_axi.wstrb[lane])
                         output_mem[write_addr + lane] <=
-                            axi.wdata[lane*8 +: 8];
+                            write_axi.wdata[lane*8 +: 8];
                 write_addr <= write_addr + 32;
                 write_left <= write_left - 1'b1;
                 if (write_left == 1) begin
-                    if (!axi.wlast)
+                    if (!write_axi.wlast)
                         $fatal(1, "missing WLAST");
                     write_active <= 1'b0;
                     bvalid <= 1'b1;
-                end else if (axi.wlast) begin
+                end else if (write_axi.wlast) begin
                     $fatal(1, "early WLAST");
                 end
             end
-            if (bvalid && axi.bready)
+            if (bvalid && write_axi.bready)
                 bvalid <= 1'b0;
         end
     end

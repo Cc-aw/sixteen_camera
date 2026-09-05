@@ -33,6 +33,13 @@ module tb_video_mmio_fabric_map;
     endtask
 
     initial begin
+        // The RVV bridge restores the CPU-visible 0x40000000 base before
+        // reaching this fabric, so canonical addresses decode directly.
+        check_map(31'h40000000, 31'h40000000, 3'd0, 18'h00000);
+        check_map(31'h40010040, 31'h40010040, 3'd1, 18'h10040);
+        check_map(31'h40111000, 31'h40111000, 3'd5, 18'h11000);
+
+        // Former Taihang addresses remain compatibility aliases.
         check_map(31'h10040000, 31'h40000000, 3'd0, 18'h00000);
         check_map(31'h10050000, 31'h40010000, 3'd1, 18'h10000);
         check_map(31'h10060000, 31'h40020000, 3'd2, 18'h20000);

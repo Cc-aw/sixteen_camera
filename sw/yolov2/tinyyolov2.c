@@ -5,7 +5,6 @@
 
 #if TINYYOLOV2_GEMMINI_POOL
 #define GEMMINI_POOL_RUNTIME_DISPATCH 1
-extern unsigned gemmini_pool_active_worker;
 #endif
 #include "include/gemmini.h"
 #include "include/gemmini_nn.h"
@@ -13,12 +12,6 @@ extern unsigned gemmini_pool_active_worker;
 #include "tinyyolov2_params.h"
 #include "tinyyolov2_runtime.h"
 #include "tinyyolov2_worker_pool.h"
-
-/* The board runtime uses read_cycle(); the reference Gemmini test helpers
- * expose the same CSR as read_cycles(). */
-static inline uint64_t read_cycle(void) {
-  return read_cycles();
-}
 
 #if TINYYOLOV2_INPUT_H != TINYYOLOV2_INPUT_HEIGHT || \
     TINYYOLOV2_INPUT_W != TINYYOLOV2_INPUT_WIDTH || \
@@ -29,36 +22,59 @@ static inline uint64_t read_cycle(void) {
 static elem_t tinyyolov2_buf0[TINYYOLOV2_MAX_BUFFER_ELEMS] row_align(1);
 static elem_t tinyyolov2_buf1[TINYYOLOV2_MAX_BUFFER_ELEMS] row_align(1);
 
-/* Flush64 is the Taihang L2 cache-maintenance register. Gemmini DMA and the
- * camera preprocess engine are not coherent with Rocket's private caches. */
-#define TINYYOLOV2_L2_FLUSH64 ((uintptr_t)0x02010200UL)
-#define TINYYOLOV2_CACHE_LINE_BYTES 64U
-
-static inline void tinyyolov2_cache_line_flush(uintptr_t address) {
-  __asm__ volatile ("fence rw, rw" : : : "memory");
-  *(volatile uint64_t *)TINYYOLOV2_L2_FLUSH64 =
-      (uint64_t)(address & ~(uintptr_t)(TINYYOLOV2_CACHE_LINE_BYTES - 1U));
-  __asm__ volatile ("fence rw, rw" : : : "memory");
-}
-
-static void tinyyolov2_cache_range_flush(const void *base, size_t bytes) {
-  uintptr_t address = (uintptr_t)base &
-      ~(uintptr_t)(TINYYOLOV2_CACHE_LINE_BYTES - 1U);
-  const uintptr_t end = ((uintptr_t)base + bytes +
-      TINYYOLOV2_CACHE_LINE_BYTES - 1U) &
-      ~(uintptr_t)(TINYYOLOV2_CACHE_LINE_BYTES - 1U);
-
-  while (address < end) {
-    tinyyolov2_cache_line_flush(address);
-    address += TINYYOLOV2_CACHE_LINE_BYTES;
-  }
-}
-
 #if TINYYOLOV2_GEMMINI_POOL
 unsigned gemmini_pool_active_worker;
 volatile uint32_t tinyyolov2_worker_last_load[2];
 volatile uint32_t tinyyolov2_worker_last_exec[2];
 volatile uint32_t tinyyolov2_worker_last_store[2];
+volatile uint32_t tinyyolov2_worker_last_rdma_active[2];
+volatile uint32_t tinyyolov2_worker_last_rdma_tl_wait[2];
+volatile uint32_t tinyyolov2_worker_last_wdma_active[2];
+volatile uint32_t tinyyolov2_worker_last_wdma_tl_wait[2];
+volatile uint32_t tinyyolov2_worker_last_exe_q_block[2];
+volatile uint64_t tinyyolov2_worker_last_cpu_post[2];
+volatile uint64_t tinyyolov2_worker_last_cpu_submit[2];
+volatile uint64_t tinyyolov2_worker_last_cpu_decode[2];
+volatile uint64_t tinyyolov2_worker_last_cpu_poll_gap[2];
+volatile uint64_t tinyyolov2_worker_last_cpu_boundary[2];
+
+static inline uint64_t worker_read_cycles(void) {
+  uint64_t value;
+  __asm__ volatile("rdcycle %0" : "=r"(value));
+  return value;
+}
+
+static inline uint32_t worker_counter_access(unsigned worker_id,
+                                              uint32_t config_reg) {
+  uint32_t value;
+  uint32_t placeholder = 0;
+  if (worker_id == 0u) {
+    ROCC_INSTRUCTION(3, value, config_reg, placeholder, k_COUNTER);
+  } else {
+    ROCC_INSTRUCTION(2, value, config_reg, placeholder, k_COUNTER);
+  }
+  return value;
+}
+
+static inline void worker_counter_configure(unsigned worker_id,
+                                            unsigned index,
+                                            unsigned counter_code) {
+  unsigned non_incremental = counter_code > INCREMENTAL_COUNTERS;
+  if (non_incremental)
+    counter_code -= INCREMENTAL_COUNTERS;
+  uint32_t config_reg = (index & 0x7u) << 4 | 0x8u |
+      (counter_code & 0x3fu) << 12 | non_incremental << 31;
+  (void)worker_counter_access(worker_id, config_reg);
+}
+
+static inline void worker_counter_reset(unsigned worker_id) {
+  (void)worker_counter_access(worker_id, 0x1u);
+}
+
+static inline uint32_t worker_counter_read(unsigned worker_id,
+                                           unsigned index) {
+  return worker_counter_access(worker_id, (index & 0x7u) << 4);
+}
 
 static elem_t tinyyolov2_worker1_buf0[TINYYOLOV2_MAX_BUFFER_ELEMS]
     row_align(1);
@@ -80,6 +96,14 @@ struct tinyyolov2_worker_context {
   elem_t *output;
   elem_t *buf0;
   elem_t *buf1;
+  uint64_t cpu_post_cycles;
+  uint64_t cpu_submit_cycles;
+  uint64_t cpu_decode_cycles;
+  uint64_t cpu_poll_gap_cycles;
+  uint64_t cpu_boundary_cycles;
+  uint64_t last_busy_cycle;
+  uint64_t busy_clear_cycle;
+  int busy_seen;
 };
 
 static struct tinyyolov2_worker_context
@@ -288,8 +312,6 @@ static int tinyyolov2_decode_offsets[1001];
 static uint8_t tinyyolov2_candidate_suppressed[
     TINYYOLOV2_GRID_SIZE * TINYYOLOV2_GRID_SIZE * TINYYOLOV2_ANCHOR_COUNT];
 static int tinyyolov2_diagnostics_enabled = 1;
-static tinyyolov2_layer_begin_fn tinyyolov2_layer_begin_callback;
-static tinyyolov2_layer_metrics_fn tinyyolov2_layer_metrics_callback;
 
 static const float tinyyolov2_anchors[TINYYOLOV2_ANCHOR_COUNT][2] = {
   {1.08f, 1.19f},
@@ -630,16 +652,6 @@ void tinyyolov2_set_diagnostics(int enabled) {
   tinyyolov2_diagnostics_enabled = enabled != 0;
 }
 
-void tinyyolov2_set_layer_begin_callback(
-    tinyyolov2_layer_begin_fn callback) {
-  tinyyolov2_layer_begin_callback = callback;
-}
-
-void tinyyolov2_set_layer_metrics_callback(
-    tinyyolov2_layer_metrics_fn callback) {
-  tinyyolov2_layer_metrics_callback = callback;
-}
-
 #if TINYYOLOV2_PRINT_STATS
 struct OutputStats {
   int32_t checksum;
@@ -672,10 +684,10 @@ static void print_output_stats(const char *name, struct OutputStats stats, int e
 }
 #endif
 
-static int run_tinyyolov2_conv(int layer_index,
-                               const struct TinyYoloLayerDesc *layer,
-                               const elem_t *input,
-                               elem_t *output) {
+static void run_tinyyolov2_conv(int layer_index,
+                                const struct TinyYoloLayerDesc *layer,
+                                const elem_t *input,
+                                elem_t *output) {
   const struct ConvParams *p = layer->params;
 
 #if TINYYOLOV2_LOOPCONV5
@@ -692,7 +704,7 @@ static int run_tinyyolov2_conv(int layer_index,
       layer->act, p->output_scale,
       p->pool_size, p->pool_stride, p->pool_padding,
       WS);
-    return 1;
+    return;
   }
 #endif
 
@@ -717,7 +729,7 @@ static int run_tinyyolov2_conv(int layer_index,
       layer->act, p->output_scale,
       p->pool_size, p->pool_stride, p->pool_padding,
       WS);
-    return 1;
+    return;
   }
 #endif
 
@@ -733,7 +745,7 @@ static int run_tinyyolov2_conv(int layer_index,
       false, false, false, false,
       0,
       WS);
-    return 1;
+    return;
   }
 #endif
 
@@ -746,10 +758,15 @@ static int run_tinyyolov2_conv(int layer_index,
     layer->act, p->output_scale,
     p->pool_size, p->pool_stride, p->pool_padding,
     WS);
-  return 1;
 }
 
 #if TINYYOLOV2_GEMMINI_POOL
+static inline uint64_t read_gemmini0_busy(void) {
+  uint64_t value;
+  __asm__ volatile ("csrr %0, 0x7c2" : "=r" (value) : : "memory");
+  return value & 1u;
+}
+
 static inline uint64_t read_gemmini1_busy(void) {
   uint64_t value;
   __asm__ volatile ("csrr %0, 0x7c3" : "=r" (value) : : "memory");
@@ -788,9 +805,14 @@ void tinyyolov2_worker_pool_init(void) {
      pipeline and are unnecessary after the worker is initialized. */
   for (unsigned worker = 0; worker < TINYYOLOV2_WORKER_COUNT; ++worker) {
     gemmini_pool_active_worker = worker;
-    counter_configure(0, LOAD_ACTIVE_CYCLE);
-    counter_configure(1, EXE_ACTIVE_CYCLE);
-    counter_configure(2, STORE_ACTIVE_CYCLE);
+    worker_counter_configure(worker, 0, LOAD_ACTIVE_CYCLE);
+    worker_counter_configure(worker, 1, EXE_ACTIVE_CYCLE);
+    worker_counter_configure(worker, 2, STORE_ACTIVE_CYCLE);
+    worker_counter_configure(worker, 3, RDMA_ACTIVE_CYCLE);
+    worker_counter_configure(worker, 4, RDMA_TL_WAIT_CYCLES);
+    worker_counter_configure(worker, 5, WDMA_ACTIVE_CYCLE);
+    worker_counter_configure(worker, 6, WDMA_TL_WAIT_CYCLES);
+    worker_counter_configure(worker, 7, EXE_CONTROL_Q_BLOCK_CYCLE);
     gemmini_flush(0);
   }
   tinyyolov2_workers[0] = (struct tinyyolov2_worker_context) {
@@ -827,10 +849,20 @@ int tinyyolov2_worker_start(unsigned worker_id, const int8_t *input,
   worker->input_name = input_name;
   worker->input = (const elem_t *)input;
   worker->output = worker->buf0;
+  worker->cpu_post_cycles = 0;
+  worker->cpu_submit_cycles = 0;
+  worker->cpu_decode_cycles = 0;
+  worker->cpu_poll_gap_cycles = 0;
+  worker->cpu_boundary_cycles = 0;
+  worker->last_busy_cycle = worker_read_cycles();
+  worker->busy_clear_cycle = 0;
+  worker->busy_seen = 0;
 
   gemmini_pool_active_worker = worker_id;
-  counter_reset();
+  worker_counter_reset(worker_id);
+  uint64_t submit_start = worker_read_cycles();
   worker_submit_layer(worker);
+  worker->cpu_submit_cycles += worker_read_cycles() - submit_start;
   return 1;
 }
 
@@ -851,16 +883,39 @@ int tinyyolov2_worker_poll(unsigned worker_id,
     worker->poll_armed = 1;
     return TINYYOLOV2_WORKER_RUNNING;
   }
-  if (tinyyolov2_worker_busy(worker_id))
+  uint64_t poll_cycle = worker_read_cycles();
+  if (tinyyolov2_worker_busy(worker_id)) {
+    worker->last_busy_cycle = poll_cycle;
+    worker->busy_seen = 1;
     return TINYYOLOV2_WORKER_RUNNING;
+  }
+  if (worker->busy_seen) {
+    worker->cpu_poll_gap_cycles += poll_cycle - worker->last_busy_cycle;
+    worker->busy_seen = 0;
+  }
+  worker->busy_clear_cycle = poll_cycle;
 
-  /* Snapshot Gemmini activity accumulated by all layers of this job. */
-  gemmini_pool_active_worker = worker_id;
-  tinyyolov2_worker_last_load[worker_id] = counter_read(0);
-  tinyyolov2_worker_last_exec[worker_id] = counter_read(1);
-  tinyyolov2_worker_last_store[worker_id] = counter_read(2);
+  /* Read cumulative hardware counters once, at the final layer, to avoid
+     injecting counter RoCC commands into every layer boundary. */
+  if (worker->layer_index == TINYYOLOV2_LAYER_COUNT - 1) {
+    gemmini_pool_active_worker = worker_id;
+    tinyyolov2_worker_last_load[worker_id] = worker_counter_read(worker_id, 0);
+    tinyyolov2_worker_last_exec[worker_id] = worker_counter_read(worker_id, 1);
+    tinyyolov2_worker_last_store[worker_id] = worker_counter_read(worker_id, 2);
+    tinyyolov2_worker_last_rdma_active[worker_id] =
+        worker_counter_read(worker_id, 3);
+    tinyyolov2_worker_last_rdma_tl_wait[worker_id] =
+        worker_counter_read(worker_id, 4);
+    tinyyolov2_worker_last_wdma_active[worker_id] =
+        worker_counter_read(worker_id, 5);
+    tinyyolov2_worker_last_wdma_tl_wait[worker_id] =
+        worker_counter_read(worker_id, 6);
+    tinyyolov2_worker_last_exe_q_block[worker_id] =
+        worker_counter_read(worker_id, 7);
+  }
 
   layer = &tinyyolov2_layers[worker->layer_index];
+  uint64_t post_start = worker_read_cycles();
   if (layer->leaky)
     apply_leaky_relu_int8(worker->output, layer->pooled_elems);
 
@@ -875,15 +930,21 @@ int tinyyolov2_worker_poll(unsigned worker_id,
 #endif
     worker->output = pool_output;
   }
+  worker->cpu_post_cycles += worker_read_cycles() - post_start;
 
   worker->input = worker->output;
   worker->layer_index++;
   if (worker->layer_index < TINYYOLOV2_LAYER_COUNT) {
     worker->output = worker_other_buffer(worker, worker->output);
+    uint64_t boundary_start = worker_read_cycles();
+    worker->cpu_boundary_cycles += boundary_start - worker->busy_clear_cycle;
+    uint64_t submit_start = boundary_start;
     worker_submit_layer(worker);
+    worker->cpu_submit_cycles += worker_read_cycles() - submit_start;
     return TINYYOLOV2_WORKER_RUNNING;
   }
 
+  uint64_t decode_start = worker_read_cycles();
   if (collect_result) {
     compute_tinyyolov2_detections(worker->input,
                                   &tinyyolov2_detection_summary);
@@ -891,6 +952,12 @@ int tinyyolov2_worker_poll(unsigned worker_id,
   } else {
     result->count = 0;
   }
+  worker->cpu_decode_cycles += worker_read_cycles() - decode_start;
+  tinyyolov2_worker_last_cpu_post[worker_id] = worker->cpu_post_cycles;
+  tinyyolov2_worker_last_cpu_submit[worker_id] = worker->cpu_submit_cycles;
+  tinyyolov2_worker_last_cpu_decode[worker_id] = worker->cpu_decode_cycles;
+  tinyyolov2_worker_last_cpu_poll_gap[worker_id] = worker->cpu_poll_gap_cycles;
+  tinyyolov2_worker_last_cpu_boundary[worker_id] = worker->cpu_boundary_cycles;
   worker->state = TINYYOLOV2_WORKER_IDLE;
   return TINYYOLOV2_WORKER_DONE;
 }
@@ -961,11 +1028,6 @@ int tinyyolov2_run_detect(const int8_t *input_data, const char *input_name,
 
   const elem_t *input = (const elem_t *)input_data;
   elem_t *output = tinyyolov2_buf0;
-
-  /* The first tensor is written by the non-coherent preprocess DMA. Later
-   * layer inputs have already crossed a Gemmini/CPU ownership boundary. */
-  tinyyolov2_cache_range_flush(
-      input, (size_t)TINYYOLOV2_INPUT_ELEMS * sizeof(elem_t));
   uint64_t total_cycles = 0;
   uint64_t total_conv_cycles = 0;
   uint64_t total_post_cycles = 0;
@@ -980,53 +1042,26 @@ int tinyyolov2_run_detect(const int8_t *input_data, const char *input_name,
     const struct TinyYoloLayerDesc *layer = &tinyyolov2_layers[i];
     const struct ConvParams *p = layer->params;
 
-    if (tinyyolov2_layer_begin_callback != NULL)
-      tinyyolov2_layer_begin_callback((unsigned)i,
-          (uint32_t)p->in_row_dim, (uint32_t)p->in_col_dim,
-          (uint32_t)p->in_channels, (uint32_t)p->out_row_dim,
-          (uint32_t)p->out_col_dim, (uint32_t)p->out_channels);
-    /* The destination may contain dirty CPU postprocessing data from an
-     * earlier ping-pong use, so release it before Gemmini writes it. */
-    tinyyolov2_cache_range_flush(
-        output, (size_t)layer->pooled_elems * sizeof(elem_t));
     counter_reset();
-    uint64_t start = read_cycle();
-    if (!run_tinyyolov2_conv(i, layer, input, output))
-      return 0;
-    /* Let the native LoopConv/tiled-matmul schedule run without CPU
-     * intervention, then wait once at the layer boundary before touching
-     * its output. */
+    uint64_t start = read_cycles();
+    run_tinyyolov2_conv(i, layer, input, output);
     gemmini_fence();
-    tinyyolov2_cache_range_flush(
-        output, (size_t)layer->pooled_elems * sizeof(elem_t));
-    uint64_t conv_end = read_cycle();
+    uint64_t conv_end = read_cycles();
     uint64_t conv_cycles = conv_end - start;
     uint32_t load_active = counter_read(0);
     uint32_t exec_active = counter_read(1);
     uint32_t store_active = counter_read(2);
-    uint64_t macs = (uint64_t)p->batch_size * (uint64_t)p->out_row_dim *
-        (uint64_t)p->out_col_dim * (uint64_t)p->out_channels *
-        (uint64_t)p->kernel_size * (uint64_t)p->kernel_size *
-        (uint64_t)p->in_channels;
-    if (i == 8 && TINYYOLOV2_CONV8_MATMUL)
-      macs = (uint64_t)p->I * (uint64_t)p->J * (uint64_t)p->K;
-    if (tinyyolov2_layer_metrics_callback != NULL)
-      tinyyolov2_layer_metrics_callback((unsigned)i, macs, conv_cycles,
-          load_active, exec_active, store_active,
-          (uint32_t)layer->pooled_elems);
     uint64_t leaky_cycles = 0;
     uint64_t pool_cycles = 0;
     uint64_t stats_cycles = 0;
 
     if (layer->leaky) {
-      uint64_t leaky_start = read_cycle();
+      uint64_t leaky_start = read_cycles();
       apply_leaky_relu_int8(output, layer->pooled_elems);
-      tinyyolov2_cache_range_flush(
-          output, (size_t)layer->pooled_elems * sizeof(elem_t));
-      leaky_cycles = read_cycle() - leaky_start;
+      leaky_cycles = read_cycles() - leaky_start;
     }
     if (layer->post_pool_2x2_stride1_same_upper) {
-      uint64_t pool_start = read_cycle();
+      uint64_t pool_start = read_cycles();
       elem_t *pool_output = (output == tinyyolov2_buf0) ? tinyyolov2_buf1 : tinyyolov2_buf0;
 #if TINYYOLOV2_RVV_POOL
       maxpool2x2_stride1_same_upper_rvv(
@@ -1035,20 +1070,18 @@ int tinyyolov2_run_detect(const int8_t *input_data, const char *input_name,
       maxpool2x2_stride1_same_upper(output, pool_output, layer->out_dim, layer->out_channels);
 #endif
       output = pool_output;
-      tinyyolov2_cache_range_flush(
-          output, (size_t)layer->pooled_elems * sizeof(elem_t));
-      pool_cycles = read_cycle() - pool_start;
+      pool_cycles = read_cycles() - pool_start;
     }
-    uint64_t end = read_cycle();
+    uint64_t end = read_cycles();
     uint64_t layer_cycles = end - start;
     uint64_t post_cycles = layer_cycles - conv_cycles;
 
 #if TINYYOLOV2_PRINT_STATS
     struct OutputStats layer_stats = {0, 0, 0, 0};
     if (tinyyolov2_diagnostics_enabled) {
-      uint64_t stats_start = read_cycle();
+      uint64_t stats_start = read_cycles();
       layer_stats = compute_output_stats(output, layer->pooled_elems);
-      stats_cycles = read_cycle() - stats_start;
+      stats_cycles = read_cycles() - stats_start;
     }
 #endif
 
@@ -1077,12 +1110,10 @@ int tinyyolov2_run_detect(const int8_t *input_data, const char *input_name,
   }
 
   const elem_t *final_output = input;
-  tinyyolov2_cache_range_flush(
-      final_output, (size_t)TINYYOLOV2_OUTPUT_ELEMS * sizeof(elem_t));
 #if TINYYOLOV2_PRINT_STATS
-  uint64_t final_stats_start = read_cycle();
+  uint64_t final_stats_start = read_cycles();
   struct OutputStats final_stats = compute_output_stats(final_output, TINYYOLOV2_OUTPUT_ELEMS);
-  uint64_t final_stats_cycles = read_cycle() - final_stats_start;
+  uint64_t final_stats_cycles = read_cycles() - final_stats_start;
   total_stats_cycles += final_stats_cycles;
 #endif
   if (tinyyolov2_diagnostics_enabled) {
@@ -1109,12 +1140,12 @@ int tinyyolov2_run_detect(const int8_t *input_data, const char *input_name,
 #endif
   struct tinyyolov2_result local_result;
   struct tinyyolov2_result *selected = result != NULL ? result : &local_result;
-  uint64_t decode_start = read_cycle();
+  uint64_t decode_start = read_cycles();
   compute_tinyyolov2_detections(final_output, &tinyyolov2_detection_summary);
-  uint64_t decode_candidate_cycles = read_cycle() - decode_start;
-  uint64_t nms_start = read_cycle();
+  uint64_t decode_candidate_cycles = read_cycles() - decode_start;
+  uint64_t nms_start = read_cycles();
   select_tinyyolov2_detections(&tinyyolov2_detection_summary, selected);
-  uint64_t nms_cycles = read_cycle() - nms_start;
+  uint64_t nms_cycles = read_cycles() - nms_start;
   uint64_t decode_compute_cycles = decode_candidate_cycles + nms_cycles;
   if (tinyyolov2_diagnostics_enabled) {
     print_tinyyolov2_detections(&tinyyolov2_detection_summary, input_name);

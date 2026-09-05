@@ -6,19 +6,20 @@ OPENOCD_BIN="${OPENOCD_BIN:-/home/wzr/riscv-openocd/src/openocd}"
 OPENOCD_CFG="${OPENOCD_CFG:-/home/wzr/chipyard/fpga/src/main/resources/myboard/openocd-bscan.cfg}"
 GDB_BIN="${GDB_BIN:-/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gdb}"
 GDB_PYTHONHOME="${GDB_PYTHONHOME:-/home/wzr/chipyard/.conda-env}"
-ELF_FILE="${ELF_FILE:-$SCRIPT_DIR/build/hdmi_tx_test.elf}"
+ELF_FILE="${ELF_FILE:-$SCRIPT_DIR/build/hdmi_tx_test_legacy_soc.elf}"
 GDB_COMMANDS="$SCRIPT_DIR/openocd/load-ov5645-hdmi.gdb"
 OPENOCD_LOG="$SCRIPT_DIR/build/openocd.log"
 OPENOCD_PID=""
-BUILD_FIRMWARE=1
+BUILD_FIRMWARE=0
 CHECK_ONLY=0
 
 usage()
 {
     cat <<EOF
-用法: $0 [--no-build] [--check]
+用法: $0 [--build|--no-build] [--check]
 
-  --no-build  使用已有 ELF，不执行 make
+  --build     下载前执行 make（仅在固件源码与当前 SoC 匹配时使用）
+  --no-build  使用已有 ELF，不执行 make（默认）
   --check     只检查工具、配置和 ELF，不连接开发板
 
 可通过 OPENOCD_BIN、OPENOCD_CFG、GDB_BIN、GDB_PYTHONHOME 和 ELF_FILE
@@ -28,6 +29,9 @@ EOF
 
 while (($# != 0)); do
     case "$1" in
+    --build)
+        BUILD_FIRMWARE=1
+        ;;
     --no-build)
         BUILD_FIRMWARE=0
         ;;
@@ -68,6 +72,20 @@ else
     echo "[1/4] 使用已有固件。"
 fi
 [[ -r "$ELF_FILE" ]] || { echo "ELF 不存在: $ELF_FILE" >&2; exit 1; }
+
+# SmallRocketVideoDDR256MyBoardConfig has no F/D extension.  Reject a stale
+# lp64d ELF before opening JTAG so GDB does not fail with "bfd requires flen".
+READELF_BIN="${GDB_BIN%gdb}readelf"
+if [[ -x "$READELF_BIN" ]]; then
+    ELF_FLAGS="$($READELF_BIN -h "$ELF_FILE" 2>/dev/null | sed -n 's/.*Flags:[[:space:]]*//p; s/.*标志：[[:space:]]*//p')"
+    if [[ "$ELF_FLAGS" == *"double-float ABI"* ||
+          "$ELF_FLAGS" == *"single-float ABI"* ]]; then
+        echo "ELF 与当前无 FPU 的 Rocket 不兼容: $ELF_FILE" >&2
+        echo "检测到硬浮点 ABI: $ELF_FLAGS" >&2
+        echo "请使用 rv64imac/lp64（soft-float）固件。" >&2
+        exit 1
+    fi
+fi
 
 if ((CHECK_ONLY)); then
     echo "DOWNLOAD_SW_CHECK=PASS"

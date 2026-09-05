@@ -10,9 +10,7 @@
 #include "console.h"
 #include "hdmi_tx.h"
 #include "video_service.h"
-#include "mmio.h"
-#include "platform.h"
-#include "sleep.h"
+
 static void print_help(void)
 {
     console_puts("Commands: s=status, a=snapshot, p=preprocess, f=preprocess format, i=AI input runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
@@ -56,8 +54,6 @@ static void ai_preprocess_smoke_test(void)
     console_put_u32(result.write_beats * 32U);
     console_puts("\r\n");
 
-    // No Gemmini consumer is connected yet, so the smoke test immediately
-    // returns the finished arena to the fixed pool.
     status = ai_preprocess_recycle(UINT32_C(1) << result.arena);
     console_puts(status == 0 ? "AI PRE arena recycled\r\n" :
                               "AI PRE recycle failed\r\n");
@@ -98,8 +94,8 @@ static void ai_snapshot_smoke_test(void)
     }
 
     result = ai_frame_snapshot_release(snapshot.valid_mask);
-    console_puts(result == 0 ? "AI SNAP release OK\r\n"
-                            : "AI SNAP release FAILED\r\n");
+    console_puts(result == 0 ? "AI SNAP release OK\r\n" :
+                            "AI SNAP release FAILED\r\n");
 }
 
 int main(void)
@@ -109,12 +105,6 @@ int main(void)
     console_puts("\r\n8x OV7670 -> shared DMA -> DDR -> HDMI TX\r\n");
     console_puts("CH1-CH8 local + CH9-CH16 HDMI in 4x4 1080p60 mosaic\r\n");
     console_puts("All OV7670 initialization is hardware controlled\r\n");
-    console_puts("OV7670 clock/reset/SCCB translated from ztachip camera.vhd\r\n");
-    console_puts("OV7670 register table: reference RGB565/AWB/AEC/gamma configuration\r\n");
-    console_puts("OV7670 firmware revision: V13-8CH-BASIC\r\n");
-    console_puts("Camera output: ai/ stream2native path, no DDR backpressure into CSI\r\n");
-    console_puts("Camera diagnostics: OV7670 clock/reset/SCCB ACK/input geometry and pipeline counters\r\n");
-    console_puts("Camera MMIO: 0x10150000 + (camera-1)*0x4000\r\n");
 
     video_status = video_service_init();
     if (video_status != 0)

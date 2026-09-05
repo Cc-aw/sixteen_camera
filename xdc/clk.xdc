@@ -42,20 +42,12 @@ create_clock -name rocket_bscan_tck -period 66.667 \
 # The Rocket debug transport crosses between JTAG TCK and the 100 MHz SoC
 # clock through generated asynchronous queues and reset synchronizers.  Keep
 # those CDC paths asynchronous while fully timing every path contained inside
-# the BSCAN/JTAG domain itself.  soc_mmio_axi\.aclk is retained in the lookup
-# for compatibility with checkpoints built with the former clock divider; the
-# direct-clock design normally contains only clk_100m_p.
-set sc_rocket_jtag_clocks [get_clocks -quiet rocket_bscan_tck]
-set sc_soc_clocks [get_clocks -quiet -include_generated_clocks \
-    {clk_100m_p soc_mmio_axi\.aclk}]
-if {([llength $sc_rocket_jtag_clocks] != 0) &&
-    ([llength $sc_soc_clocks] != 0)} {
-    set_clock_groups -asynchronous \
-        -group $sc_rocket_jtag_clocks \
-        -group $sc_soc_clocks
-} else {
-    puts "CRITICAL WARNING: Rocket JTAG/SoC clock groups were not found"
-}
+# the BSCAN/JTAG domain itself.  Include clocks derived from clk_100m_p so the
+# constraint remains correct if the SoC clock is divided again later.  Keep
+# this as a direct XDC command: Vivado does not support Tcl "if" in XDC files.
+set_clock_groups -asynchronous \
+    -group [get_clocks -include_generated_clocks clk_100m_p] \
+    -group [get_clocks -include_generated_clocks rocket_bscan_tck]
 
 set_property PACKAGE_PIN AY24 [get_ports clk_100m_p]
 set_property PACKAGE_PIN AY23 [get_ports clk_100m_n]
@@ -81,11 +73,9 @@ set_false_path -to [get_pins -hierarchical -filter \
     {NAME =~ *u_camera_cdc/ddr_resetn_cam_sync_reg*/CLR}]
 
 # DDR UI reset is an asynchronous-assert/synchronous-release reset generated
-# by ddr_reset_sync. Its synchronized Q fans out to reset pins across the
-# video/DDR subsystem (including registers in other SLRs). Do not time reset
-# distribution as a data path; the synchronizer clock path remains constrained
-# and reset release is still synchronous to mmcm_clkout0.
-set_false_path -from [get_pins {u_ddr_memory/ddr_reset_sync_reg[2]/Q}]
+# by ddr_reset_sync. The synchronizer clock and recovery/removal checks remain
+# constrained; the old Q-origin exception was not a valid timing startpoint in
+# this netlist and caused a misleading XDC critical warning.
 
 # MIG calibration asserts the reset synchronizer asynchronously. The CLR pin
 # intentionally has no recovery requirement against the calibration clock.

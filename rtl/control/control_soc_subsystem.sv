@@ -43,9 +43,7 @@ module control_soc_subsystem (
         .O(ref_clk_100m_int)
     );
 
-    // Keep the Rocket, Gemmini and AXI control domain at the board 100 MHz
-    // clock. Timing closure is handled with pipelining/physical optimization;
-    // dividing this clock would also invalidate the original video ABI timing.
+    // Keep the Rocket and AXI control domain at the board 100 MHz clock.
     assign soc_clk = ref_clk_100m_int;
 
     always @(posedge soc_clk or negedge sys_rstn) begin
@@ -61,8 +59,7 @@ module control_soc_subsystem (
     assign mem_axi.aresetn = soc_resetn;
     assign mmio_axi.aclk = soc_clk;
     assign mmio_axi.aresetn = soc_resetn;
-
-    TaihangSoCFPGATestHarness u_rocket (
+    MyBoardFPGATestHarness u_rocket (
         .clock(soc_clk),
         .reset(~soc_resetn),
         .uart_txd(uart_txd),
@@ -142,8 +139,7 @@ module control_soc_subsystem (
         .axi4_mmio_r_bits_id(mmio_axi.rid),
         .axi4_mmio_r_bits_data(mmio_axi.rdata),
         .axi4_mmio_r_bits_resp(mmio_axi.rresp),
-        .axi4_mmio_r_bits_last(mmio_axi.rlast)
-        // The Taihang harness has no external interrupt bundle. Video IRQs
-        // remain handled by the control-side logic.
+        .axi4_mmio_r_bits_last(mmio_axi.rlast),
+        .ext_interrupts(video_interrupts)
     );
 endmodule

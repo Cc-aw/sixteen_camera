@@ -247,9 +247,43 @@ foreach path [lsort -unique $sc_rtl_files] {
 
 # The selected Rocket configuration is generated as one collateral unit.  All
 # Verilog/SystemVerilog/memory files in this one directory belong together.
-set sc_soc_dir [file join $sc_repo_root rtl soc \
-    tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV1Gemmini16x16PackedFullOps256BitConfig \
-    gen-collateral]
+# Keep this aligned with control_soc_subsystem, which instantiates the video
+# Rocket MyBoardFPGATestHarness used by the non-Gemmini timing baseline.
+set sc_soc_config \
+    chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig
+set sc_soc_dir [file normalize [file join $sc_repo_root rtl soc \
+    $sc_soc_config gen-collateral]]
+
+# The checked-in project can retain source entries from an earlier SoC switch.
+# Keeping two generated Chipyard collateral trees in one source set silently
+# overwrites common module definitions and makes the selected debug/JTAG
+# implementation ambiguous.  Remove only stale project entries; the generated
+# files on disk remain untouched.
+set sc_soc_root [file normalize [file join $sc_repo_root rtl soc]]
+set sc_soc_marker "/rtl/soc/"
+set sc_selected_soc_marker "/rtl/soc/${sc_soc_config}/"
+set sc_stale_soc_files {}
+foreach sc_file [get_files -quiet -of_objects [get_filesets sources_1]] {
+    if {[catch {set sc_file_name [file normalize [get_property NAME $sc_file]]}]} {
+        continue
+    }
+    # Match both repository-linked sources and copies below a Vivado imports
+    # directory. Imported files do not begin with sc_soc_root.
+    if {[string first $sc_soc_marker $sc_file_name] >= 0 && \
+        [string first $sc_selected_soc_marker $sc_file_name] < 0} {
+        lappend sc_stale_soc_files $sc_file
+    }
+}
+if {[llength $sc_stale_soc_files] != 0} {
+    if {[catch {
+        remove_files -fileset sources_1 $sc_stale_soc_files
+    } message]} {
+        puts "SOC_WARN: could not remove stale collateral: $message"
+    } else {
+        puts "SOC_REMOVED_STALE=[llength $sc_stale_soc_files]"
+    }
+}
+
 set sc_soc_files [::sixteen_camera_setup::collect_hdl_files $sc_soc_dir]
 if {[llength $sc_soc_files] == 0} {
     ::sixteen_camera_setup::record_failure SOC $sc_soc_dir \
