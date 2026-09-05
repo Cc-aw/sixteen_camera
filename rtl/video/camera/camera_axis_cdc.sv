@@ -8,6 +8,7 @@ module camera_axis_cdc #(
 ) (
     input  wire         camera_clk,
     input  wire         camera_resetn,
+    input  wire         camera_enable,
     input  wire         pixel_valid,
     output wire         pixel_ready,
     input  wire [23:0]  pixel_data,
@@ -46,7 +47,12 @@ module camera_axis_cdc #(
     // this prevents DDR calibration/reset signals from directly driving
     // camera-domain data registers and the XPM reset network.
     (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg [2:0] ddr_resetn_cam_sync;
-    wire fifo_reset = !(camera_resetn && ddr_resetn_cam_sync[2]);
+    // XPM reset is synchronous to wr_clk.  Generate it only from a local
+    // register and stretch release for four clocks, so a run-time disable
+    // flushes queued beats without putting combinational enable logic on an
+    // asynchronous reset pin.
+    reg [3:0] fifo_reset_pipe = 4'hf;
+    wire fifo_reset = |fifo_reset_pipe;
     // In FWFT mode, dout is valid whenever the FIFO is non-empty.  Do not
     // gate reads with XPM's optional data_valid output: the proven reference
     // design leaves that port unused, and synthesized hardware can otherwise
@@ -92,8 +98,17 @@ module camera_axis_cdc #(
             ddr_resetn_cam_sync <= {ddr_resetn_cam_sync[1:0], 1'b1};
     end
 
-    always @(posedge camera_clk or negedge camera_resetn) begin
-        if (!camera_resetn) begin
+    always @(posedge camera_clk) begin
+        if (!camera_resetn || !camera_enable || !ddr_resetn_cam_sync[2])
+            fifo_reset_pipe <= 4'hf;
+        else
+            fifo_reset_pipe <= {fifo_reset_pipe[2:0], 1'b0};
+    end
+
+    // Run-time enable is deliberately synchronous.  It flushes a possible
+    // half-pixel pair without ever entering an asynchronous CLR network.
+    always @(posedge camera_clk) begin
+        if (!camera_resetn || !camera_enable) begin
             input_run_q <= 1'b0;
             packer_run_q <= 1'b0;
         end else begin
@@ -166,7 +181,8 @@ module camera_axis_cdc #(
     // Camera-domain backpressure telemetry. These counters observe the
     // producer-side FIFO directly, before the asynchronous clock crossing.
     always @(posedge camera_clk) begin
-        if (!camera_resetn || fifo_reset || fifo_wr_rst_busy) begin
+        if (!camera_resetn || !camera_enable || fifo_reset ||
+            fifo_wr_rst_busy) begin
             diag_fifo_full_stall_count <= 32'd0;
             diag_ready_low_count <= 32'd0;
             diag_fifo_max_level <= 32'd0;
@@ -248,8 +264,9 @@ module camera_axis_cdc #(
     // Only release the ISP when both sides of the asynchronous FIFO have left
     // reset.  The DDR-side consumer is faster than this packed camera stream,
     // so full is not expected during normal operation.
-    assign pixel_ready = camera_resetn && !fifo_reset &&
-                         !fifo_wr_rst_busy && (!have_first || !fifo_full);
+    assign pixel_ready = camera_resetn && camera_enable && input_run_q &&
+                         packer_run_q && !fifo_reset && !fifo_wr_rst_busy &&
+                         (!have_first || !fifo_full);
 
     always @(posedge ddr_clk) begin
         if (!ddr_resetn) begin

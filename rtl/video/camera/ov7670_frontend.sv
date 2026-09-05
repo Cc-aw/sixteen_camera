@@ -674,6 +674,7 @@ module ov7670_frontend #(
     output wire line_last,
     output wire line_end,
     output wire pixel_resetn,
+    output wire pixel_enable,
     output wire [383:0] axis_diag
 );
     function automatic [31:0] gray_to_binary(input [31:0] gray);
@@ -1891,7 +1892,12 @@ module ov7670_frontend #(
     // All outputs are pulses in the 300 MHz capture domain.  pixel_ce is the
     // only event that advances the byte/pixel state; downstream readiness is
     // observational because the physical sensor cannot be stalled.
-    assign pixel_resetn = capture_resetn;
+    // Keep the domain reset independent of the run-time capture control.
+    // capture_enable_sync2 is a synchronous transaction qualifier; exposing
+    // its AND with reset as an asynchronous reset caused a LUT to drive the
+    // CLR pins in every camera_axis_cdc instance.
+    assign pixel_resetn = video_resetn;
+    assign pixel_enable = capture_enable_sync2;
     assign pixel_valid = href_guard_byte_accept && byte_phase;
     assign pixel_data = rgb565_to_rgb888({first_byte, href_aligned_data});
     assign frame_start = pixel_valid && sof_pending;

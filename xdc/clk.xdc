@@ -95,42 +95,22 @@ set_false_path -to [get_pins -hierarchical -filter \
 # This datapath-only budget expresses that requirement without hard-locking a
 # complete SLR pblock; the following aligned pipe stage is free to absorb the
 # SLR crossing selected by the placer.
+set dvp_iob_cells [get_cells -hierarchical -filter \
+    {NAME =~ *dvp_data_iob_reg* || \
+     NAME =~ *dvp_href_iob_reg || \
+     NAME =~ *dvp_vsync_iob_reg || \
+     NAME =~ *dvp_pclk_iob_reg}]
+set dvp_sync_cells [get_cells -hierarchical -filter \
+    {NAME =~ *dvp_data_sync_reg* || \
+     NAME =~ *dvp_href_sync_reg || \
+     NAME =~ *dvp_vsync_sync_reg || \
+     NAME =~ *dvp_pclk_sync_reg}]
 set_max_delay 1.500 -datapath_only \
-    -from [get_pins -hierarchical -filter \
-        {NAME =~ *dvp_data_iob_reg*/C || \
-         NAME =~ *dvp_href_iob_reg/C || \
-         NAME =~ *dvp_vsync_iob_reg/C || \
-         NAME =~ *dvp_pclk_iob_reg/C}] \
-    -to [get_pins -hierarchical -filter \
-        {NAME =~ *dvp_data_sync_reg*/D || \
-         NAME =~ *dvp_href_sync_reg/D || \
-         NAME =~ *dvp_vsync_sync_reg/D || \
-         NAME =~ *dvp_pclk_sync_reg/D}]
-
-# DVP IOB outputs feed the first metastability-catching synchronizer stage.
-# These are asynchronous CDC endpoints; do not time arbitrary SLR routing as
-# a same-cycle synchronous data path. The following synchronizer stages remain
-# fully timed for metastability resolution.
-set_false_path -to [get_pins -hierarchical -filter \
-    {NAME =~ *dvp_data_sync_reg*/D || \
-     NAME =~ *dvp_href_sync_reg*/D || \
-     NAME =~ *dvp_vsync_sync_reg*/D || \
-     NAME =~ *dvp_pclk_sync_reg*/D}]
-
-# Also qualify the launch pins explicitly. Vivado can report the IOB clock pin
-# as the launch point for an IOB-to-sync timing arc; the endpoint-only rule
-# above is not sufficient when a datapath max-delay exception is present.
-set_false_path \
-    -from [get_pins -hierarchical -filter \
-        {NAME =~ *dvp_data_iob_reg*/C || NAME =~ *dvp_data_iob_reg*/Q || \
-         NAME =~ *dvp_href_iob_reg/C || NAME =~ *dvp_href_iob_reg/Q || \
-         NAME =~ *dvp_vsync_iob_reg/C || NAME =~ *dvp_vsync_iob_reg/Q || \
-         NAME =~ *dvp_pclk_iob_reg/C || NAME =~ *dvp_pclk_iob_reg/Q}] \
-    -to [get_pins -hierarchical -filter \
-        {NAME =~ *dvp_data_sync_reg*/D || \
-         NAME =~ *dvp_href_sync_reg*/D || \
-         NAME =~ *dvp_vsync_sync_reg*/D || \
-         NAME =~ *dvp_pclk_sync_reg*/D}]
+    -from $dvp_iob_cells -to $dvp_sync_cells
+set_min_delay 0.000 -datapath_only \
+    -from $dvp_iob_cells -to $dvp_sync_cells
+unset dvp_iob_cells
+unset dvp_sync_cells
 
 # The eight FMC camera inputs sit in two SLRs.  USER_SLR_ASSIGNMENT applies
 # only to hierarchical cells and is ignored on these leaf registers, so use
@@ -222,6 +202,7 @@ set_false_path \
 # replicate and rename the XPM stages, so constrain the source clock and the
 # diagnostic readback endpoints instead of depending on generated cell names.
 set_false_path \
-    -from [get_clocks clk_out1_clk_wiz_ov7670] \
+    -from [get_clocks -of_objects [get_pins \
+        u_camera_hdmi/u_camera_subsystem/u_camera_clocking/u_ov7670_clk_wiz/inst/mmcme4_adv_inst/CLKOUT0]] \
     -to [get_pins -hierarchical -filter \
         {NAME =~ */u_diagnostics/rdata_reg*/D}]

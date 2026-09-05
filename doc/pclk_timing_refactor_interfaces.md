@@ -22,6 +22,13 @@
 - disable 发生在行中、帧中或半像素时，当前帧作废并清空局部拼接状态；重新 enable 后只从完整 SOF 发布。
 - FIFO 任一侧处于 reset busy 时不产生读写握手；跨域 reset 的释放分别在各目的时钟域同步。
 
+### P1 已实现边界
+
+- `ov7670_frontend.pixel_resetn` 现在只表达 `video_resetn` 域级复位；新增 `pixel_enable` 单独表达已同步的运行时采集使能。
+- `camera_axis_cdc.camera_enable` 只在 `camera_clk` 上同步清除输入寄存器和两像素 packer 状态，不再进入异步敏感表。
+- disable、camera reset 或已同步的 DDR reset 会装载四拍本地 `fifo_reset_pipe`，冲洗 FIFO 中可能属于旧帧的 beat；重新使能后等待本地 run qualifier 和 FIFO reset-busy 均释放才拉高 `pixel_ready`。
+- P1 仍保持 `camera_clk == ddr_clk == MIG UI clock` 的现状；真正 capture→video 异步事件边界属于 P3，不能把本阶段结构误称为最终 CDC。
+
 ## DDR 帧事务
 
 - 16 个 capture client：channel 0..7 为 OV7670，8..15 为 HDMI demux。

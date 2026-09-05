@@ -46,6 +46,7 @@ module camera_subsystem (
     wire [7:0] camera_reset_n;
     wire [7:0] camera_pwdn;
     wire [7:0] ov7670_pixel_resetn;
+    wire [7:0] ov7670_pixel_enable;
     wire [7:0] camera_init_request;
     wire [7:0] camera_init_terminal;
     wire [7:0] camera_init_grant;
@@ -132,6 +133,7 @@ module camera_subsystem (
                 .line_last(camera_line_last[camera_index]),
                 .line_end(camera_line_end[camera_index]),
                 .pixel_resetn(ov7670_pixel_resetn[camera_index]),
+                .pixel_enable(ov7670_pixel_enable[camera_index]),
                 .axis_diag(camera_axis_diag_cam[camera_index])
             );
 
@@ -140,6 +142,7 @@ module camera_subsystem (
             ) u_camera_cdc (
                 .camera_clk(capture_clk),
                 .camera_resetn(ov7670_pixel_resetn[camera_index]),
+                .camera_enable(ov7670_pixel_enable[camera_index]),
                 .pixel_valid(camera_pixel_valid[camera_index]),
                 .pixel_ready(camera_pixel_ready[camera_index]),
                 .pixel_data(camera_pixel_data[camera_index]),

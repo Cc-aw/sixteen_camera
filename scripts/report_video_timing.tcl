@@ -9,6 +9,35 @@ proc usage {} {
     puts "Usage: report_video_timing.tcl -dcp <routed.dcp> -out_dir <directory>"
 }
 
+# Timing paths can start or end at a design port as well as a cell pin.  Keep
+# the exporter total over both cases so newly constrained I/O paths cannot
+# terminate an otherwise complete stage report.
+proc path_endpoint_object {path pin_property port_property} {
+    set object [get_property -quiet $pin_property $path]
+    if {[llength $object] == 0} {
+        set object [get_property -quiet $port_property $path]
+    }
+    return $object
+}
+
+proc object_name_or_empty {object} {
+    if {[llength $object] == 0} {
+        return ""
+    }
+    return [get_property -quiet NAME $object]
+}
+
+proc slr_name_or_empty {object} {
+    if {[llength $object] == 0} {
+        return ""
+    }
+    set cells [get_cells -quiet -of_objects $object]
+    if {[llength $cells] == 0} {
+        return ""
+    }
+    return [get_property -quiet NAME [get_slrs -quiet -of_objects $cells]]
+}
+
 set dcp_path ""
 set out_dir ""
 for {set i 0} {$i < [llength $argv]} {incr i} {
@@ -62,6 +91,34 @@ report_utilization -hierarchical -hierarchical_depth 5 -file \
 report_design_analysis -congestion -file \
     [file join $out_dir congestion.rpt]
 
+# Keep a named audit artifact for the DVP IOB sampling aperture.  The global
+# exception coverage report identifies this as the 88-cell 1.5 ns rule, while
+# these reports retain the concrete endpoints and both max/min path delays.
+set dvp_iob_cells [get_cells -hierarchical -filter \
+    {NAME =~ *dvp_data_iob_reg* || \
+     NAME =~ *dvp_href_iob_reg || \
+     NAME =~ *dvp_vsync_iob_reg || \
+     NAME =~ *dvp_pclk_iob_reg}]
+set dvp_sync_cells [get_cells -hierarchical -filter \
+    {NAME =~ *dvp_data_sync_reg* || \
+     NAME =~ *dvp_href_sync_reg || \
+     NAME =~ *dvp_vsync_sync_reg || \
+     NAME =~ *dvp_pclk_sync_reg}]
+set dvp_iob_q_pins [get_pins -of_objects $dvp_iob_cells -filter \
+    {REF_PIN_NAME == Q}]
+set dvp_sync_d_pins [get_pins -of_objects $dvp_sync_cells -filter \
+    {REF_PIN_NAME == D}]
+report_timing -delay_type max -max_paths 200 -unique_pins \
+    -from $dvp_iob_q_pins -to $dvp_sync_d_pins -file \
+    [file join $out_dir dvp_iob_to_sync_max.rpt]
+report_timing -delay_type min -max_paths 200 -unique_pins \
+    -from $dvp_iob_q_pins -to $dvp_sync_d_pins -file \
+    [file join $out_dir dvp_iob_to_sync_min.rpt]
+unset dvp_iob_q_pins
+unset dvp_sync_d_pins
+unset dvp_iob_cells
+unset dvp_sync_cells
+
 # One worst setup path per endpoint.  A generous max_paths is intentional: the
 # exporter checks its count against the timing summary instead of silently
 # treating a truncated list as complete.
@@ -71,25 +128,27 @@ set table_path [file join $out_dir negative_endpoints.tsv]
 set table [open $table_path w]
 puts $table "slack\trequirement\tdatapath_delay\tlogic_levels\tstartpoint\tendpoint\tendpoint_pin_type\tstart_clock\tend_clock\tstart_slr\tend_slr"
 foreach path $failing_paths {
-    set start_pin [get_property STARTPOINT_PIN $path]
-    set end_pin [get_property ENDPOINT_PIN $path]
+    set start_pin [path_endpoint_object $path STARTPOINT_PIN STARTPOINT_PORT]
+    set end_pin [path_endpoint_object $path ENDPOINT_PIN ENDPOINT_PORT]
     set start_clock [get_property STARTPOINT_CLOCK $path]
     set end_clock [get_property ENDPOINT_CLOCK $path]
-    set endpoint_pin_type [get_property -quiet REF_PIN_NAME $end_pin]
-    set start_cell [get_cells -quiet -of_objects $start_pin]
-    set end_cell [get_cells -quiet -of_objects $end_pin]
-    set start_slr [get_property -quiet NAME [get_slrs -quiet -of_objects $start_cell]]
-    set end_slr [get_property -quiet NAME [get_slrs -quiet -of_objects $end_cell]]
+    if {[get_property -quiet CLASS $end_pin] eq "port"} {
+        set endpoint_pin_type "PORT"
+    } else {
+        set endpoint_pin_type [get_property -quiet REF_PIN_NAME $end_pin]
+    }
+    set start_slr [slr_name_or_empty $start_pin]
+    set end_slr [slr_name_or_empty $end_pin]
     puts $table [join [list \
         [get_property SLACK $path] \
         [get_property REQUIREMENT $path] \
         [get_property DATAPATH_DELAY $path] \
         [get_property LOGIC_LEVELS $path] \
-        [get_property NAME $start_pin] \
-        [get_property NAME $end_pin] \
+        [object_name_or_empty $start_pin] \
+        [object_name_or_empty $end_pin] \
         $endpoint_pin_type \
-        [get_property NAME $start_clock] \
-        [get_property NAME $end_clock] \
+        [object_name_or_empty $start_clock] \
+        [object_name_or_empty $end_clock] \
         $start_slr \
         $end_slr] "\t"]
 }

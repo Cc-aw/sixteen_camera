@@ -3,6 +3,7 @@
 module tb_camera_axis_cdc_line_boundary;
     reg clk = 1'b0;
     reg resetn = 1'b0;
+    reg camera_enable = 1'b1;
     reg pixel_valid = 1'b0;
     wire pixel_ready;
     reg [23:0] pixel_data = 24'd0;
@@ -20,6 +21,7 @@ module tb_camera_axis_cdc_line_boundary;
 
     camera_axis_cdc #(.FRAME_WIDTH(4), .FIFO_DEPTH(16)) dut (
         .camera_clk(clk), .camera_resetn(resetn),
+        .camera_enable(camera_enable),
         .pixel_valid(pixel_valid), .pixel_ready(pixel_ready),
         .pixel_data(pixel_data), .frame_start(frame_start),
         .line_last(line_last), .line_end(line_end),
@@ -100,11 +102,24 @@ module tb_camera_axis_cdc_line_boundary;
         end_line();
         wait_outputs(5);
 
+        // Disable in the middle of a pair.  Re-enable must synchronously
+        // flush the orphan so it can never be joined to the next line.
+        send_pixel(24'h000030, 1'b0, 1'b0);
+        @(negedge clk); camera_enable = 1'b0;
+        repeat (3) @(posedge clk);
+        @(negedge clk); camera_enable = 1'b1;
+        repeat (3) @(posedge clk);
+        send_pixel(24'h000040, 1'b0, 1'b0);
+        send_pixel(24'h000041, 1'b0, 1'b1);
+        end_line();
+        wait_outputs(6);
+
         if (captured[0] != {24'h000002,24'h000001} ||
             captured[1] != {24'h000004,24'h000003} || !captured_last[1] ||
             captured[2] != {24'h000009,24'h000008} || captured_last[2] ||
             captured[3] != {24'h000021,24'h000020} ||
-            captured[4] != {24'h000023,24'h000022} || !captured_last[4])
+            captured[4] != {24'h000023,24'h000022} || !captured_last[4] ||
+            captured[5] != {24'h000041,24'h000040} || !captured_last[5])
             $fatal(1, "line packing/cross-line isolation failed");
         if (line_flush_count != 1)
             $fatal(1, "line_flush_count=%0d expected 1", line_flush_count);
