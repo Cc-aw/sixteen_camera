@@ -1,8 +1,8 @@
 `timescale 1ns/1ps
 
-// Sixteen-channel DDR capture/display pipeline. The physical inputs are
-// normalized before this boundary; this block only sees DDR-clocked streams
-// and therefore has no camera-clock CDC responsibility.
+// Sixteen-channel capture/display pipeline. In P4 its frame ownership,
+// writer/reader planning, overlay and preprocess engines all run in the
+// 150 MHz video domain. The parent owns the queued AXI boundary to MIG UI.
 module multi_channel_ddr_video_pipeline #(
     parameter integer CHANNELS = 3,
     parameter integer GLOBAL_CHANNEL_BASE = 4,
@@ -21,8 +21,8 @@ module multi_channel_ddr_video_pipeline #(
     parameter integer READ_DESCRIPTOR_DEPTH = 8
 ) (
     input wire init_done,
-    input wire ddr_ui_clk,
-    input wire ddr_resetn,
+    input wire video_clk,
+    input wire video_resetn,
     axi_lite_if.slave control_axil,
     video_stream_if.sink capture_channels [CHANNELS],
     input wire [CHANNELS*32-1:0] malformed_counts,
@@ -339,7 +339,7 @@ module multi_channel_ddr_video_pipeline #(
         .SRC_INPUT_REG(1)
     ) u_hdmi_enable_cdc (
         .src_clk(control_axil.aclk), .src_in(cfg_hdmi_capture_enable),
-        .dest_clk(ddr_ui_clk), .dest_out(hdmi_capture_enable_ddr)
+        .dest_clk(video_clk), .dest_out(hdmi_capture_enable_ddr)
     );
 
     xpm_cdc_single #(
@@ -347,14 +347,14 @@ module multi_channel_ddr_video_pipeline #(
         .SRC_INPUT_REG(1)
     ) u_ai_snapshot_req_cdc (
         .src_clk(control_axil.aclk), .src_in(ai_snapshot_req_toggle_cpu),
-        .dest_clk(ddr_ui_clk), .dest_out(ai_snapshot_req_toggle_ddr)
+        .dest_clk(video_clk), .dest_out(ai_snapshot_req_toggle_ddr)
     );
 
     xpm_cdc_single #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1)
     ) u_ai_snapshot_ack_cdc (
-        .src_clk(ddr_ui_clk), .src_in(ai_snapshot_ack_toggle_ddr),
+        .src_clk(video_clk), .src_in(ai_snapshot_ack_toggle_ddr),
         .dest_clk(control_axil.aclk), .dest_out(ai_snapshot_ack_toggle_cpu)
     );
 
@@ -363,14 +363,14 @@ module multi_channel_ddr_video_pipeline #(
         .SRC_INPUT_REG(1)
     ) u_ai_release_req_cdc (
         .src_clk(control_axil.aclk), .src_in(ai_release_req_toggle_cpu),
-        .dest_clk(ddr_ui_clk), .dest_out(ai_release_req_toggle_ddr)
+        .dest_clk(video_clk), .dest_out(ai_release_req_toggle_ddr)
     );
 
     xpm_cdc_single #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1)
     ) u_ai_release_ack_cdc (
-        .src_clk(ddr_ui_clk), .src_in(ai_release_ack_toggle_ddr),
+        .src_clk(video_clk), .src_in(ai_release_ack_toggle_ddr),
         .dest_clk(control_axil.aclk), .dest_out(ai_release_ack_toggle_cpu)
     );
 
@@ -384,7 +384,7 @@ module multi_channel_ddr_video_pipeline #(
                  preprocess_member_stride_cpu,
                  preprocess_member_bytes_cpu,
                  preprocess_format_640x480_cpu}),
-        .dest_clk(ddr_ui_clk),
+        .dest_clk(video_clk),
         .dest_out({preprocess_arena0_base_ddr,
                    preprocess_arena1_base_ddr,
                    preprocess_member_stride_ddr,
@@ -397,7 +397,7 @@ module multi_channel_ddr_video_pipeline #(
         .SRC_INPUT_REG(1), .WIDTH(CHANNELS)
     ) u_ai_release_mask_cdc (
         .src_clk(control_axil.aclk), .src_in(ai_release_mask_cpu),
-        .dest_clk(ddr_ui_clk), .dest_out(ai_release_mask_ddr)
+        .dest_clk(video_clk), .dest_out(ai_release_mask_ddr)
     );
 
     xpm_cdc_single #(
@@ -405,7 +405,7 @@ module multi_channel_ddr_video_pipeline #(
         .SRC_INPUT_REG(1)
     ) u_ai_meta_req_cdc (
         .src_clk(control_axil.aclk), .src_in(ai_meta_req_toggle_cpu),
-        .dest_clk(ddr_ui_clk), .dest_out(ai_meta_req_toggle_ddr)
+        .dest_clk(video_clk), .dest_out(ai_meta_req_toggle_ddr)
     );
 
     xpm_cdc_array_single #(
@@ -413,13 +413,13 @@ module multi_channel_ddr_video_pipeline #(
         .SRC_INPUT_REG(1), .WIDTH(CHANNEL_WIDTH)
     ) u_ai_meta_index_cdc (
         .src_clk(control_axil.aclk), .src_in(ai_meta_index_cpu),
-        .dest_clk(ddr_ui_clk), .dest_out(ai_meta_index_ddr)
+        .dest_clk(video_clk), .dest_out(ai_meta_index_ddr)
     );
 
     // Indexed metadata mailbox: only one 192-bit entry crosses clock domains,
     // instead of a timing-heavy 3072-bit copy of the complete Snapshot table.
-    always @(posedge ddr_ui_clk) begin
-        if (!ddr_resetn) begin
+    always @(posedge video_clk) begin
+        if (!video_resetn) begin
             ai_meta_ack_toggle_ddr <= 1'b0;
             ai_meta_req_seen_ddr <= 1'b0;
             ai_meta_select_pending_ddr <= 1'b0;
@@ -457,7 +457,7 @@ module multi_channel_ddr_video_pipeline #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1)
     ) u_ai_meta_ack_cdc (
-        .src_clk(ddr_ui_clk), .src_in(ai_meta_ack_toggle_ddr),
+        .src_clk(video_clk), .src_in(ai_meta_ack_toggle_ddr),
         .dest_clk(control_axil.aclk), .dest_out(ai_meta_ack_toggle_cpu)
     );
 
@@ -465,7 +465,7 @@ module multi_channel_ddr_video_pipeline #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1), .WIDTH(192)
     ) u_ai_meta_payload_cdc (
-        .src_clk(ddr_ui_clk),
+        .src_clk(video_clk),
         .src_in({ai_meta_version_ddr, ai_meta_timestamp_ddr,
                  ai_meta_frame_id_ddr, ai_meta_addr_ddr}),
         .dest_clk(control_axil.aclk),
@@ -477,7 +477,7 @@ module multi_channel_ddr_video_pipeline #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1), .WIDTH(209)
     ) u_ai_snapshot_status_cdc (
-        .src_clk(ddr_ui_clk),
+        .src_clk(video_clk),
         .src_in({ai_error_count_ddr, ai_release_count_ddr,
                  ai_snapshot_count_ddr, ai_snapshot_batch_id_ddr,
                  ai_held_mask_ddr, ai_snapshot_fresh_mask_ddr,
@@ -495,14 +495,14 @@ module multi_channel_ddr_video_pipeline #(
     ) u_preprocess_start_req_cdc (
         .src_clk(control_axil.aclk),
         .src_in(preprocess_start_req_toggle_cpu),
-        .dest_clk(ddr_ui_clk), .dest_out(preprocess_start_req_toggle_ddr)
+        .dest_clk(video_clk), .dest_out(preprocess_start_req_toggle_ddr)
     );
 
     xpm_cdc_single #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1)
     ) u_preprocess_start_ack_cdc (
-        .src_clk(ddr_ui_clk), .src_in(preprocess_start_ack_toggle_ddr),
+        .src_clk(video_clk), .src_in(preprocess_start_ack_toggle_ddr),
         .dest_clk(control_axil.aclk),
         .dest_out(preprocess_start_ack_toggle_cpu)
     );
@@ -513,14 +513,14 @@ module multi_channel_ddr_video_pipeline #(
     ) u_preprocess_recycle_req_cdc (
         .src_clk(control_axil.aclk),
         .src_in(preprocess_recycle_req_toggle_cpu),
-        .dest_clk(ddr_ui_clk), .dest_out(preprocess_recycle_req_toggle_ddr)
+        .dest_clk(video_clk), .dest_out(preprocess_recycle_req_toggle_ddr)
     );
 
     xpm_cdc_single #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1)
     ) u_preprocess_recycle_ack_cdc (
-        .src_clk(ddr_ui_clk), .src_in(preprocess_recycle_ack_toggle_ddr),
+        .src_clk(video_clk), .src_in(preprocess_recycle_ack_toggle_ddr),
         .dest_clk(control_axil.aclk),
         .dest_out(preprocess_recycle_ack_toggle_cpu)
     );
@@ -531,15 +531,15 @@ module multi_channel_ddr_video_pipeline #(
     ) u_preprocess_recycle_mask_cdc (
         .src_clk(control_axil.aclk),
         .src_in(preprocess_recycle_mask_cpu),
-        .dest_clk(ddr_ui_clk), .dest_out(preprocess_recycle_mask_ddr)
+        .dest_clk(video_clk), .dest_out(preprocess_recycle_mask_ddr)
     );
 
     assign preprocess_start_ack_toggle_ddr = preprocess_start_ack_reg_ddr;
     assign preprocess_recycle_ack_toggle_ddr =
         preprocess_recycle_ack_reg_ddr;
 
-    always @(posedge ddr_ui_clk) begin
-        if (!ddr_resetn) begin
+    always @(posedge video_clk) begin
+        if (!video_resetn) begin
             preprocess_start_seen_ddr <= 1'b0;
             preprocess_recycle_seen_ddr <= 1'b0;
             preprocess_start_pulse_ddr <= 1'b0;
@@ -583,7 +583,7 @@ module multi_channel_ddr_video_pipeline #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1), .WIDTH(366 + 4*CHANNELS)
     ) u_preprocess_status_cdc (
-        .src_clk(ddr_ui_clk),
+        .src_clk(video_clk),
         .src_in({preprocess_error_count_ddr,
                  preprocess_complete_count_ddr,
                  preprocess_start_count_ddr,
@@ -628,7 +628,7 @@ module multi_channel_ddr_video_pipeline #(
         .SRC_INPUT_REG(1)
     ) u_overlay_commit_req_cdc (
         .src_clk(control_axil.aclk), .src_in(overlay_commit_toggle_cpu),
-        .dest_clk(ddr_ui_clk), .dest_out(overlay_commit_toggle_ddr)
+        .dest_clk(video_clk), .dest_out(overlay_commit_toggle_ddr)
     );
 
     xpm_cdc_array_single #(
@@ -637,13 +637,13 @@ module multi_channel_ddr_video_pipeline #(
     ) u_overlay_payload_cdc (
         .src_clk(control_axil.aclk),
         .src_in({overlay_stream_cpu, overlay_count_cpu, overlay_boxes_cpu}),
-        .dest_clk(ddr_ui_clk),
+        .dest_clk(video_clk),
         .dest_out({overlay_stream_ddr, overlay_count_ddr,
                    overlay_boxes_ddr})
     );
 
-    always @(posedge ddr_ui_clk) begin
-        if (!ddr_resetn) begin
+    always @(posedge video_clk) begin
+        if (!video_resetn) begin
             overlay_commit_seen_ddr <= 1'b0;
             overlay_commit_pulse_ddr <= 1'b0;
             overlay_commit_ack_toggle_ddr <= 1'b0;
@@ -662,7 +662,7 @@ module multi_channel_ddr_video_pipeline #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1)
     ) u_overlay_commit_ack_cdc (
-        .src_clk(ddr_ui_clk), .src_in(overlay_commit_ack_toggle_ddr),
+        .src_clk(video_clk), .src_in(overlay_commit_ack_toggle_ddr),
         .dest_clk(control_axil.aclk),
         .dest_out(overlay_commit_ack_toggle_cpu)
     );
@@ -674,7 +674,7 @@ module multi_channel_ddr_video_pipeline #(
         .SRC_INPUT_REG(1),
         .WIDTH(160)
     ) u_status_cdc (
-        .src_clk(ddr_ui_clk),
+        .src_clk(video_clk),
         .src_in({manager_status, reader_frame_count, underflow_count,
                  reader_active_base, reader_debug_status}),
         .dest_clk(control_axil.aclk),
@@ -687,7 +687,7 @@ module multi_channel_ddr_video_pipeline #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1), .WIDTH(CHANNELS*32)
     ) u_writer_count_cdc (
-        .src_clk(ddr_ui_clk), .src_in(writer_frame_counts),
+        .src_clk(video_clk), .src_in(writer_frame_counts),
         .dest_clk(control_axil.aclk), .dest_out(writer_frame_counts_cpu)
     );
 
@@ -695,7 +695,7 @@ module multi_channel_ddr_video_pipeline #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1), .WIDTH(CHANNELS*32)
     ) u_drop_count_cdc (
-        .src_clk(ddr_ui_clk), .src_in(drop_counts),
+        .src_clk(video_clk), .src_in(drop_counts),
         .dest_clk(control_axil.aclk), .dest_out(drop_counts_cpu)
     );
 
@@ -703,7 +703,7 @@ module multi_channel_ddr_video_pipeline #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1), .WIDTH(CHANNELS*32)
     ) u_malformed_count_cdc (
-        .src_clk(ddr_ui_clk), .src_in(malformed_counts),
+        .src_clk(video_clk), .src_in(malformed_counts),
         .dest_clk(control_axil.aclk), .dest_out(malformed_counts_cpu)
     );
 
@@ -711,7 +711,7 @@ module multi_channel_ddr_video_pipeline #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1), .WIDTH(320)
     ) u_hdmi_diag_cdc (
-        .src_clk(ddr_ui_clk),
+        .src_clk(video_clk),
         .src_in({hdmi_transport_frame_count,
                  hdmi_transport_malformed_count,
                  hdmi_channel_frame_counts}),
@@ -725,7 +725,7 @@ module multi_channel_ddr_video_pipeline #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1), .WIDTH(256)
     ) u_writer_perf_cdc (
-        .src_clk(ddr_ui_clk),
+        .src_clk(video_clk),
         .src_in({
                  {16'd0, writer_perf_outstanding_current},
                  {16'd0, writer_perf_outstanding_max},
@@ -750,7 +750,7 @@ module multi_channel_ddr_video_pipeline #(
     multi_channel_frame_manager #(
         .CHANNELS(CHANNELS)
     ) u_manager (
-        .ui_clk(ddr_ui_clk), .ui_resetn(ddr_resetn),
+        .ui_clk(video_clk), .ui_resetn(video_resetn),
         .cfg_request_toggle(cfg_request_toggle),
         .cfg_ack_toggle(cfg_ack_toggle),
         .cfg_enable(cfg_enable),
@@ -828,7 +828,7 @@ module multi_channel_ddr_video_pipeline #(
         .ARENA0_BASE(32'h3000_0000),
         .ARENA1_BASE(32'h3100_0000)
     ) u_batch_preprocess (
-        .clk(ddr_ui_clk), .resetn(ddr_resetn),
+        .clk(video_clk), .resetn(video_resetn),
         .start(preprocess_start_pulse_ddr),
         .snapshot_active(ai_snapshot_active_ddr),
         .snapshot_valid_mask(ai_snapshot_valid_mask_ddr),
@@ -876,7 +876,7 @@ module multi_channel_ddr_video_pipeline #(
         .READ_OUTSTANDING(READ_OUTSTANDING),
         .READ_DESCRIPTOR_DEPTH(READ_DESCRIPTOR_DEPTH)
     ) u_reader (
-        .clk(ddr_ui_clk), .resetn(ddr_resetn),
+        .clk(video_clk), .resetn(video_resetn),
         .buffer_acquire(reader_acquire), .buffer_grant(reader_grant),
         .buffer_base(reader_base), .buffer_bases(reader_bases),
         .buffer_valid_mask(reader_valid_mask), .buffer_mode(reader_mode),

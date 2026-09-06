@@ -35,8 +35,6 @@ module camera_subsystem (
     localparam integer CAMERA_COUNT = 8;
 
     axis_video_if #(.DATA_WIDTH(48)) camera_axis_from_cdc [CAMERA_COUNT]();
-    video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
-        camera_video_channels [CAMERA_COUNT]();
     wire ov7670_ctrl_clk;
     wire [7:0] camera_pixel_valid;
     wire [7:0] camera_pixel_ready;
@@ -86,6 +84,7 @@ module camera_subsystem (
     wire [31:0] camera_timeout_abort_count [CAMERA_COUNT];
     wire [31:0] camera_pad_error_count [CAMERA_COUNT];
     wire [31:0] camera_event_overflow_count [CAMERA_COUNT];
+    wire [31:0] camera_event_overflow_video [CAMERA_COUNT];
     wire [255:0] camera_stream_diag [CAMERA_COUNT];
     wire [7:0] camera_diag_clear_toggle;
 
@@ -228,6 +227,16 @@ module camera_subsystem (
                 .line_end(camera_line_end[camera_index])
             );
 
+            xpm_cdc_array_single #(
+                .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+                .SRC_INPUT_REG(1), .WIDTH(32)
+            ) u_event_overflow_diag_cdc (
+                .src_clk(capture_clk),
+                .src_in(camera_event_overflow_count[camera_index]),
+                .dest_clk(video_clk),
+                .dest_out(camera_event_overflow_video[camera_index])
+            );
+
             camera_axis_cdc #(
                 .FRAME_WIDTH(640), .FIFO_DEPTH(16384)
             ) u_camera_cdc (
@@ -258,21 +267,15 @@ module camera_subsystem (
                 .STREAM_ID(camera_index), .STREAM_ID_WIDTH(4)
             ) u_camera_stream (
                 .s_axis(camera_axis_from_cdc[camera_index]),
-                .m_stream(camera_video_channels[camera_index]),
+                .m_stream(capture_channels[camera_index]),
                 .diag_clear_toggle(camera_diag_clear_toggle[camera_index]),
                 .malformed_frame_count(camera_malformed_count[camera_index]),
                 .diag_counts(camera_stream_diag[camera_index]),
                 .timeout_abort_count(camera_timeout_abort_count[camera_index])
             );
 
-            video_stream_cdc #(.FIFO_DEPTH(1024)) u_writer_bridge (
-                .s_stream(camera_video_channels[camera_index]),
-                .m_clk(capture_clk), .m_resetn(capture_resetn_local),
-                .m_stream(capture_channels[camera_index])
-            );
-
             assign camera_pad_error_count[camera_index] =
-                camera_event_overflow_count[camera_index];
+                camera_event_overflow_video[camera_index];
             assign malformed_counts[camera_index*32 +: 32] =
                 camera_malformed_count[camera_index] +
                 camera_pad_error_count[camera_index];

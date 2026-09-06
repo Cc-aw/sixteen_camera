@@ -73,17 +73,55 @@ module ddr_memory_subsystem (
     end
     assign video_resetn = video_reset_sync[2];
 
-    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) writer_axi();
-    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) reader_axi();
+    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) writer_video_axi();
+    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) reader_video_axi();
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
-        preprocess_read_axi();
+        preprocess_read_video_axi();
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
-        preprocess_write_axi();
+        preprocess_write_video_axi();
+    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) writer_ui_axi();
+    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) reader_ui_axi();
+    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
+        preprocess_read_ui_axi();
+    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
+        preprocess_write_ui_axi();
     video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
         all_capture_channels [16]();
-    wire [511:0] all_malformed_counts = {
-        hdmi_channel_overflow_counts, malformed_counts
+    video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
+        hdmi_video_channels [8]();
+    wire [575:0] hdmi_stats_capture = {
+        hdmi_transport_frame_count, hdmi_transport_malformed_count,
+        hdmi_channel_frame_counts, hdmi_channel_overflow_counts
     };
+    wire [575:0] hdmi_stats_video;
+    wire [31:0] hdmi_transport_frame_count_video = hdmi_stats_video[575:544];
+    wire [31:0] hdmi_transport_malformed_count_video =
+        hdmi_stats_video[543:512];
+    wire [255:0] hdmi_channel_frame_counts_video = hdmi_stats_video[511:256];
+    wire [255:0] hdmi_channel_overflow_counts_video = hdmi_stats_video[255:0];
+    wire [511:0] all_malformed_counts = {
+        hdmi_channel_overflow_counts_video, malformed_counts
+    };
+    wire hdmi_capture_enable_video;
+    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg [1:0]
+        hdmi_capture_enable_sync = 2'b00;
+
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(576)
+    ) u_hdmi_stats_to_video (
+        .src_clk(capture_clk), .src_in(hdmi_stats_capture),
+        .dest_clk(video_clk), .dest_out(hdmi_stats_video)
+    );
+
+    always @(posedge capture_clk) begin
+        if (!capture_resetn)
+            hdmi_capture_enable_sync <= 2'b00;
+        else
+            hdmi_capture_enable_sync <=
+                {hdmi_capture_enable_sync[0], hdmi_capture_enable_video};
+    end
+    assign hdmi_capture_enable = hdmi_capture_enable_sync[1];
 
     genvar capture_index;
     generate
@@ -112,27 +150,33 @@ module ddr_memory_subsystem (
             assign camera_capture_channels[capture_index].ready =
                 all_capture_channels[capture_index].ready;
 
+            video_stream_cdc #(.FIFO_DEPTH(1024)) u_hdmi_stream_cdc (
+                .s_stream(hdmi_capture_channels[capture_index]),
+                .m_clk(video_clk), .m_resetn(video_resetn),
+                .m_stream(hdmi_video_channels[capture_index])
+            );
+
             assign all_capture_channels[capture_index+8].aclk =
-                hdmi_capture_channels[capture_index].aclk;
+                hdmi_video_channels[capture_index].aclk;
             assign all_capture_channels[capture_index+8].aresetn =
-                hdmi_capture_channels[capture_index].aresetn;
+                hdmi_video_channels[capture_index].aresetn;
             assign all_capture_channels[capture_index+8].data =
-                hdmi_capture_channels[capture_index].data;
+                hdmi_video_channels[capture_index].data;
             assign all_capture_channels[capture_index+8].valid =
-                hdmi_capture_channels[capture_index].valid;
+                hdmi_video_channels[capture_index].valid;
             assign all_capture_channels[capture_index+8].sof =
-                hdmi_capture_channels[capture_index].sof;
+                hdmi_video_channels[capture_index].sof;
             assign all_capture_channels[capture_index+8].eol =
-                hdmi_capture_channels[capture_index].eol;
+                hdmi_video_channels[capture_index].eol;
             assign all_capture_channels[capture_index+8].eof =
-                hdmi_capture_channels[capture_index].eof;
+                hdmi_video_channels[capture_index].eof;
             assign all_capture_channels[capture_index+8].stream_id =
-                hdmi_capture_channels[capture_index].stream_id;
+                hdmi_video_channels[capture_index].stream_id;
             assign all_capture_channels[capture_index+8].frame_id =
-                hdmi_capture_channels[capture_index].frame_id;
+                hdmi_video_channels[capture_index].frame_id;
             assign all_capture_channels[capture_index+8].error =
-                hdmi_capture_channels[capture_index].error;
-            assign hdmi_capture_channels[capture_index].ready =
+                hdmi_video_channels[capture_index].error;
+            assign hdmi_video_channels[capture_index].ready =
                 all_capture_channels[capture_index+8].ready;
         end
     endgenerate
@@ -141,20 +185,37 @@ module ddr_memory_subsystem (
     wire reader_error;
     wire reader_underflow;
 
+    axi4_ui_write_cdc u_writer_ui_cdc (
+        .s_axi(writer_video_axi), .ui_clk(ddr_ui_clk),
+        .ui_resetn(ddr_resetn), .m_axi(writer_ui_axi)
+    );
+    axi4_ui_read_cdc u_reader_ui_cdc (
+        .s_axi(reader_video_axi), .ui_clk(ddr_ui_clk),
+        .ui_resetn(ddr_resetn), .m_axi(reader_ui_axi)
+    );
+    axi4_ui_read_cdc u_preprocess_read_ui_cdc (
+        .s_axi(preprocess_read_video_axi), .ui_clk(ddr_ui_clk),
+        .ui_resetn(ddr_resetn), .m_axi(preprocess_read_ui_axi)
+    );
+    axi4_ui_write_cdc u_preprocess_write_ui_cdc (
+        .s_axi(preprocess_write_video_axi), .ui_clk(ddr_ui_clk),
+        .ui_resetn(ddr_resetn), .m_axi(preprocess_write_ui_axi)
+    );
+
     // S01 is deliberately split by AXI channel, matching demo/ai: capture is
     // write-only and HDMI display is read-only.  Terminate the unused return
     // channels locally so each interface still has exactly one driver.
-    assign writer_axi.arready = 1'b0;
-    assign writer_axi.rid = 3'd0;
-    assign writer_axi.rdata = 256'd0;
-    assign writer_axi.rresp = 2'b00;
-    assign writer_axi.rlast = 1'b0;
-    assign writer_axi.rvalid = 1'b0;
-    assign reader_axi.awready = 1'b0;
-    assign reader_axi.wready = 1'b0;
-    assign reader_axi.bid = 3'd0;
-    assign reader_axi.bresp = 2'b00;
-    assign reader_axi.bvalid = 1'b0;
+    assign writer_ui_axi.arready = 1'b0;
+    assign writer_ui_axi.rid = 3'd0;
+    assign writer_ui_axi.rdata = 256'd0;
+    assign writer_ui_axi.rresp = 2'b00;
+    assign writer_ui_axi.rlast = 1'b0;
+    assign writer_ui_axi.rvalid = 1'b0;
+    assign reader_ui_axi.awready = 1'b0;
+    assign reader_ui_axi.wready = 1'b0;
+    assign reader_ui_axi.bid = 3'd0;
+    assign reader_ui_axi.bresp = 2'b00;
+    assign reader_ui_axi.bvalid = 1'b0;
 
     multi_channel_ddr_video_pipeline #(
         .CHANNELS(16),
@@ -175,19 +236,20 @@ module ddr_memory_subsystem (
         })
     ) u_video_framebuffer (
         .init_done(c0_init_calib_complete),
-        .ddr_ui_clk(ddr_ui_clk),
-        .ddr_resetn(ddr_resetn),
+        .video_clk(video_clk),
+        .video_resetn(video_resetn),
         .control_axil(framebuffer_axil),
         .capture_channels(all_capture_channels),
         .malformed_counts(all_malformed_counts),
-        .hdmi_capture_enable(hdmi_capture_enable),
-        .hdmi_transport_frame_count(hdmi_transport_frame_count),
-        .hdmi_transport_malformed_count(hdmi_transport_malformed_count),
-        .hdmi_channel_frame_counts(hdmi_channel_frame_counts),
-        .writer_axi(writer_axi),
-        .reader_axi(reader_axi),
-        .preprocess_read_axi(preprocess_read_axi),
-        .preprocess_write_axi(preprocess_write_axi),
+        .hdmi_capture_enable(hdmi_capture_enable_video),
+        .hdmi_transport_frame_count(hdmi_transport_frame_count_video),
+        .hdmi_transport_malformed_count(
+            hdmi_transport_malformed_count_video),
+        .hdmi_channel_frame_counts(hdmi_channel_frame_counts_video),
+        .writer_axi(writer_video_axi),
+        .reader_axi(reader_video_axi),
+        .preprocess_read_axi(preprocess_read_video_axi),
+        .preprocess_write_axi(preprocess_write_video_axi),
         .display_axis(video_axis),
         .writer_error(writer_error),
         .reader_error(reader_error),
@@ -254,87 +316,87 @@ module ddr_memory_subsystem (
         .S00_AXI_rvalid(soc_mem_axi.rvalid),
         .S00_AXI_rready(soc_mem_axi.rready),
 
-        .S01_AXI_awid(writer_axi.awid),
-        .S01_AXI_awaddr(writer_axi.awaddr),
-        .S01_AXI_awlen(writer_axi.awlen),
-        .S01_AXI_awsize(writer_axi.awsize),
-        .S01_AXI_awburst(writer_axi.awburst),
-        .S01_AXI_awlock(writer_axi.awlock),
-        .S01_AXI_awcache(writer_axi.awcache),
-        .S01_AXI_awprot(writer_axi.awprot),
-        .S01_AXI_awqos(writer_axi.awqos),
+        .S01_AXI_awid(writer_ui_axi.awid),
+        .S01_AXI_awaddr(writer_ui_axi.awaddr),
+        .S01_AXI_awlen(writer_ui_axi.awlen),
+        .S01_AXI_awsize(writer_ui_axi.awsize),
+        .S01_AXI_awburst(writer_ui_axi.awburst),
+        .S01_AXI_awlock(writer_ui_axi.awlock),
+        .S01_AXI_awcache(writer_ui_axi.awcache),
+        .S01_AXI_awprot(writer_ui_axi.awprot),
+        .S01_AXI_awqos(writer_ui_axi.awqos),
         .S01_AXI_awregion(4'h0),
-        .S01_AXI_awvalid(writer_axi.awvalid),
-        .S01_AXI_awready(writer_axi.awready),
-        .S01_AXI_wdata(writer_axi.wdata),
-        .S01_AXI_wstrb(writer_axi.wstrb),
-        .S01_AXI_wlast(writer_axi.wlast),
-        .S01_AXI_wvalid(writer_axi.wvalid),
-        .S01_AXI_wready(writer_axi.wready),
-        .S01_AXI_bid(writer_axi.bid),
-        .S01_AXI_bresp(writer_axi.bresp),
-        .S01_AXI_bvalid(writer_axi.bvalid),
-        .S01_AXI_bready(writer_axi.bready),
-        .S01_AXI_arid(reader_axi.arid),
-        .S01_AXI_araddr(reader_axi.araddr),
-        .S01_AXI_arlen(reader_axi.arlen),
-        .S01_AXI_arsize(reader_axi.arsize),
-        .S01_AXI_arburst(reader_axi.arburst),
-        .S01_AXI_arlock(reader_axi.arlock),
-        .S01_AXI_arcache(reader_axi.arcache),
-        .S01_AXI_arprot(reader_axi.arprot),
-        .S01_AXI_arqos(reader_axi.arqos),
+        .S01_AXI_awvalid(writer_ui_axi.awvalid),
+        .S01_AXI_awready(writer_ui_axi.awready),
+        .S01_AXI_wdata(writer_ui_axi.wdata),
+        .S01_AXI_wstrb(writer_ui_axi.wstrb),
+        .S01_AXI_wlast(writer_ui_axi.wlast),
+        .S01_AXI_wvalid(writer_ui_axi.wvalid),
+        .S01_AXI_wready(writer_ui_axi.wready),
+        .S01_AXI_bid(writer_ui_axi.bid),
+        .S01_AXI_bresp(writer_ui_axi.bresp),
+        .S01_AXI_bvalid(writer_ui_axi.bvalid),
+        .S01_AXI_bready(writer_ui_axi.bready),
+        .S01_AXI_arid(reader_ui_axi.arid),
+        .S01_AXI_araddr(reader_ui_axi.araddr),
+        .S01_AXI_arlen(reader_ui_axi.arlen),
+        .S01_AXI_arsize(reader_ui_axi.arsize),
+        .S01_AXI_arburst(reader_ui_axi.arburst),
+        .S01_AXI_arlock(reader_ui_axi.arlock),
+        .S01_AXI_arcache(reader_ui_axi.arcache),
+        .S01_AXI_arprot(reader_ui_axi.arprot),
+        .S01_AXI_arqos(reader_ui_axi.arqos),
         .S01_AXI_arregion(4'h0),
-        .S01_AXI_arvalid(reader_axi.arvalid),
-        .S01_AXI_arready(reader_axi.arready),
-        .S01_AXI_rid(reader_axi.rid),
-        .S01_AXI_rdata(reader_axi.rdata),
-        .S01_AXI_rresp(reader_axi.rresp),
-        .S01_AXI_rlast(reader_axi.rlast),
-        .S01_AXI_rvalid(reader_axi.rvalid),
-        .S01_AXI_rready(reader_axi.rready),
+        .S01_AXI_arvalid(reader_ui_axi.arvalid),
+        .S01_AXI_arready(reader_ui_axi.arready),
+        .S01_AXI_rid(reader_ui_axi.rid),
+        .S01_AXI_rdata(reader_ui_axi.rdata),
+        .S01_AXI_rresp(reader_ui_axi.rresp),
+        .S01_AXI_rlast(reader_ui_axi.rlast),
+        .S01_AXI_rvalid(reader_ui_axi.rvalid),
+        .S01_AXI_rready(reader_ui_axi.rready),
 
         // Preprocess reads and writes share DDR S02. The accelerator exposes
         // separate AXI interfaces so the independent channels remain clear.
-        .S02_AXI_awid(preprocess_write_axi.awid),
-        .S02_AXI_awaddr(preprocess_write_axi.awaddr),
-        .S02_AXI_awlen(preprocess_write_axi.awlen),
-        .S02_AXI_awsize(preprocess_write_axi.awsize),
-        .S02_AXI_awburst(preprocess_write_axi.awburst),
-        .S02_AXI_awlock(preprocess_write_axi.awlock),
-        .S02_AXI_awcache(preprocess_write_axi.awcache),
-        .S02_AXI_awprot(preprocess_write_axi.awprot),
-        .S02_AXI_awqos(preprocess_write_axi.awqos),
+        .S02_AXI_awid(preprocess_write_ui_axi.awid),
+        .S02_AXI_awaddr(preprocess_write_ui_axi.awaddr),
+        .S02_AXI_awlen(preprocess_write_ui_axi.awlen),
+        .S02_AXI_awsize(preprocess_write_ui_axi.awsize),
+        .S02_AXI_awburst(preprocess_write_ui_axi.awburst),
+        .S02_AXI_awlock(preprocess_write_ui_axi.awlock),
+        .S02_AXI_awcache(preprocess_write_ui_axi.awcache),
+        .S02_AXI_awprot(preprocess_write_ui_axi.awprot),
+        .S02_AXI_awqos(preprocess_write_ui_axi.awqos),
         .S02_AXI_awregion(4'h0),
-        .S02_AXI_awvalid(preprocess_write_axi.awvalid),
-        .S02_AXI_awready(preprocess_write_axi.awready),
-        .S02_AXI_wdata(preprocess_write_axi.wdata),
-        .S02_AXI_wstrb(preprocess_write_axi.wstrb),
-        .S02_AXI_wlast(preprocess_write_axi.wlast),
-        .S02_AXI_wvalid(preprocess_write_axi.wvalid),
-        .S02_AXI_wready(preprocess_write_axi.wready),
-        .S02_AXI_bid(preprocess_write_axi.bid),
-        .S02_AXI_bresp(preprocess_write_axi.bresp),
-        .S02_AXI_bvalid(preprocess_write_axi.bvalid),
-        .S02_AXI_bready(preprocess_write_axi.bready),
-        .S02_AXI_arid(preprocess_read_axi.arid),
-        .S02_AXI_araddr(preprocess_read_axi.araddr),
-        .S02_AXI_arlen(preprocess_read_axi.arlen),
-        .S02_AXI_arsize(preprocess_read_axi.arsize),
-        .S02_AXI_arburst(preprocess_read_axi.arburst),
-        .S02_AXI_arlock(preprocess_read_axi.arlock),
-        .S02_AXI_arcache(preprocess_read_axi.arcache),
-        .S02_AXI_arprot(preprocess_read_axi.arprot),
-        .S02_AXI_arqos(preprocess_read_axi.arqos),
+        .S02_AXI_awvalid(preprocess_write_ui_axi.awvalid),
+        .S02_AXI_awready(preprocess_write_ui_axi.awready),
+        .S02_AXI_wdata(preprocess_write_ui_axi.wdata),
+        .S02_AXI_wstrb(preprocess_write_ui_axi.wstrb),
+        .S02_AXI_wlast(preprocess_write_ui_axi.wlast),
+        .S02_AXI_wvalid(preprocess_write_ui_axi.wvalid),
+        .S02_AXI_wready(preprocess_write_ui_axi.wready),
+        .S02_AXI_bid(preprocess_write_ui_axi.bid),
+        .S02_AXI_bresp(preprocess_write_ui_axi.bresp),
+        .S02_AXI_bvalid(preprocess_write_ui_axi.bvalid),
+        .S02_AXI_bready(preprocess_write_ui_axi.bready),
+        .S02_AXI_arid(preprocess_read_ui_axi.arid),
+        .S02_AXI_araddr(preprocess_read_ui_axi.araddr),
+        .S02_AXI_arlen(preprocess_read_ui_axi.arlen),
+        .S02_AXI_arsize(preprocess_read_ui_axi.arsize),
+        .S02_AXI_arburst(preprocess_read_ui_axi.arburst),
+        .S02_AXI_arlock(preprocess_read_ui_axi.arlock),
+        .S02_AXI_arcache(preprocess_read_ui_axi.arcache),
+        .S02_AXI_arprot(preprocess_read_ui_axi.arprot),
+        .S02_AXI_arqos(preprocess_read_ui_axi.arqos),
         .S02_AXI_arregion(4'h0),
-        .S02_AXI_arvalid(preprocess_read_axi.arvalid),
-        .S02_AXI_arready(preprocess_read_axi.arready),
-        .S02_AXI_rid(preprocess_read_axi.rid),
-        .S02_AXI_rdata(preprocess_read_axi.rdata),
-        .S02_AXI_rresp(preprocess_read_axi.rresp),
-        .S02_AXI_rlast(preprocess_read_axi.rlast),
-        .S02_AXI_rvalid(preprocess_read_axi.rvalid),
-        .S02_AXI_rready(preprocess_read_axi.rready),
+        .S02_AXI_arvalid(preprocess_read_ui_axi.arvalid),
+        .S02_AXI_arready(preprocess_read_ui_axi.arready),
+        .S02_AXI_rid(preprocess_read_ui_axi.rid),
+        .S02_AXI_rdata(preprocess_read_ui_axi.rdata),
+        .S02_AXI_rresp(preprocess_read_ui_axi.rresp),
+        .S02_AXI_rlast(preprocess_read_ui_axi.rlast),
+        .S02_AXI_rvalid(preprocess_read_ui_axi.rvalid),
+        .S02_AXI_rready(preprocess_read_ui_axi.rready),
 
         .ddr4_rst(~sys_rstn),
         .ddr4_ui_clk(ddr_ui_clk),

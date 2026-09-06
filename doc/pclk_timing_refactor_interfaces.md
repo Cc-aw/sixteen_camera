@@ -63,3 +63,13 @@
 | diagnostic snapshot | counter snapshot/toggle | Gray 或 bundled req/ack | 不反压数据面、连续 clear/snapshot |
 
 P3 新增 crossing 位于每路 `g_camera_frontend[*].u_event_bridge` 和 `g_camera_frontend[*].u_writer_bridge`。综合级 CDC、clock interaction 和层次资源报告保存在 `reports/video_timing_refactor/P3/synth/`；300/150 时钟仍按真实 2:1 关系计时，没有用 clock group 或扩大 false path 隔离。
+
+### P4 已实现 DDR/UI 边界
+
+- P3 临时的八路 `u_writer_bridge` 已删除。camera stream 原生进入 video 域 pipeline；八路 HDMI demux stream 分别通过 88-bit `video_stream_cdc` 从 capture/UI 域进入 video 域，数据和全部帧 sideband 保持原子顺序。
+- `multi_channel_ddr_video_pipeline` 的 frame manager、writer、display reader/overlay、batch preprocess 及其事务状态统一在 `camera_video_clk`。内部历史 `_ddr` 后缀仅是兼容命名，不再表示这些寄存器仍运行于 UI 时钟。
+- S01 在 UI 侧仍是一个 256-bit、ID3 AXI slave：write-only bridge 提供独立 AW(32)、W(512)、B(32) async FIFO；read-only bridge 提供 AR(32)、R(512) FIFO。S02 用同样的 read/write bridge 对承载 preprocess。括号内为生产 FIFO 深度，未改变 AXI ID、burst 或 MIG/BD 接口宽度。
+- 各 channel FIFO 单独保序。AW 与 W 允许独立承压但不会在各自序列内重排；B/R 携带 ID/response/last 返回。FIFO 输出遵守 ready/valid stalled 稳定性，FIFO reset 由两域 reset 协调后才允许握手。
+- writer 仍以最终 burst 的 B handshake 作为 frame 完成安全边界；错误响应或帧数据错误在同一边界产生 `frame_error`。manager 只在收到 done/error 后释放 WRITING 所有权，因此在途写响应期间不会把该槽分给下一帧。
+- reader 原有 `used + reserved_not_yet_returned <= capacity` 规则不变，在发出 AR 前为 burst 全部返回拍预留本地 FIFO；UI→video R FIFO 是额外吸收容量，不作为超发依据。display、preprocess、AI 的 held mask 仍阻止 writer 复用相同槽。
+- capture/UI 时钟与 video 时钟仍按真实 2:1 关系约束；本阶段没有添加 `set_clock_groups`、false path 或 multicycle。综合级证据在 `reports/video_timing_refactor/P4/synth/`。

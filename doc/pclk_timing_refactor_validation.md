@@ -31,10 +31,10 @@ python3 scripts/summarize_video_timing.py <report-dir>
 | disable/enable/reset/半像素 | 部分覆盖 | 通过（含半像素 disable→enable） | 通过（含 FIFO 冲洗、无旧 beat 泄漏） | 通过（fault/overflow 后丢弃并按完整帧恢复） | 未执行 | 未执行 |
 | 随机 AXIS 背压/满空 | 基础用例通过 | 基础用例通过；随机压力留给 P2 | 通过（随机背压、近满、稳定性、顺序和无气泡排空） | 通过（事件 FIFO 强制溢出；临时 stream CDC 随机反压） | 未执行 | 未执行 |
 | 新旧前端逐帧等价 | 不适用 | 不适用 | 不适用 | 定向参考等价通过；真实双前端长帧逐拍对比未执行 | 未执行 | 未执行 |
-| DDR AW/W/B、AR/R 随机停顿 | 部分既有用例 | 未执行 | 未执行 | 未执行 | 未执行 | 未执行 |
+| DDR AW/W/B、AR/R 随机停顿 | 部分既有用例 | 未执行 | 未执行 | 未执行 | 通过（24 写 + 12×4 拍读，五通道随机停顿/延迟） | 未执行 |
 | 16 路 + HDMI + preprocess 压力 | 未执行 | 未执行 | 未执行 | 未执行 | 未执行 | 未执行 |
 | routed setup/hold/pulse/CDC | 已执行，时序失败 | 已执行，setup 失败、hold/pulse 通过 | 未执行 | 未执行 | 未执行 | 未执行 |
-| 板级压力/重启/异常恢复 | 未执行 | 未执行 | 基础点亮通过；压力/重启/异常未执行 | 未执行 | 未执行 | 未执行 |
+| 板级压力/重启/异常恢复 | 未执行 | 未执行 | 基础点亮通过；压力/重启/异常未执行 | 基础点亮通过；压力/重启/异常未执行 | 未执行 | 未执行 |
 
 表中“未执行”不能解释为通过；后续只有实际运行命令并保存输出后才更新。
 
@@ -66,4 +66,14 @@ python3 scripts/summarize_video_timing.py <report-dir>
 - clean top-level synthesis：最终实际使用 `prj/build_synthesis.tcl` 执行，通过；`SYNTH_STATUS=synth_design Complete!`、`SYNTH_PROGRESS=100%`、`SYNTHESIS_BUILD=PASS`，综合器最终为 0 error、0 critical warning。
 - 综合级报告：实际执行 `report_cdc -details`、`report_clock_interaction`、`report_methodology` 和层次资源报告。`camera_video_clk` 为 6.664 ns，capture `mmcm_clkout0` 为 3.332 ns；双向 clock interaction 均保留为 timed/partial-false-path（XPM 内部例外），未使用 clock group 隐藏边界。全设计 CDC 报告仍含既有 SoC/MIG/HDMI/诊断 crossing 告警，不能表述为 CDC clean。
 - placement、route、P3 bitstream、routed setup/hold/pulse/CDC：按用户要求未执行。
-- P3 板测：未执行。
+- P3 板测：用户随后完成 bitstream 和下板，反馈基础 HDMI 正常点亮；压力、重启、异常恢复和端到端性能测量未执行。
+
+## P4（截至综合）
+
+- `run_video_refactor_tests.sh`：最终 RTL/测试修改后实际重新执行，通过，输出 `VIDEO_REFACTOR_TESTS=PASS`。
+- 新增 `tb_axi4_ui_cdc_mixed`：实际执行，通过；150/300 等效时钟下并发 24 个单拍写事务与 12 个四拍读事务，随机控制 AW/W/AR 接收、B/R 产生以及 video 侧 B/R 消费，检查完整 AXI 属性、ID、数据、strobe、response、last 和每通道顺序；输出 `TB_AXI4_UI_CDC_MIXED=PASS writes=24 read_beats=48`。
+- 新增 `tb_multi_channel_video_dma_completion`：实际执行，通过；首帧最终 B 被延迟期间保持 channel active、禁止重新 acquire 且无完成脉冲，B 到达后才发布 done；下一错误帧也等待最终 B 后才发布 error；输出 `TB_MULTI_CHANNEL_VIDEO_DMA_COMPLETION=PASS`。
+- 既有 `tb_multi_channel_frame_manager_writer_handshake` 和 `tb_multi_channel_frame_manager_ai_snapshot`：实际重新执行，通过；分别覆盖 done/error 与下一 acquire 的同拍处理，以及 display/preprocess/AI 持有 buffer 时的所有权。
+- clean top-level synthesis：实际使用 `prj/build_synthesis.tcl` 执行，通过；`SYNTH_STATUS=synth_design Complete!`、`SYNTH_PROGRESS=100%`、`SYNTHESIS_BUILD=PASS`，最终 0 error、0 critical warning。资源估算为 90,274 LUT、180,082 FF、411 BRAM tile、0 URAM、15 DSP。
+- 综合级报告：实际执行 `report_clocks`、`report_clock_interaction`、`report_cdc -details`、`report_methodology`、层次资源和时钟归属查询，保存在 `reports/video_timing_refactor/P4/synth/`。writer/reader/manager/preprocess 的 46,211 个层次寄存器全部由 6.664 ns `camera_video_clk` 驱动；四个 AXI bridge 明确同时含 video/UI 两域寄存器。300/150 两方向未被 clock group 隔离。
+- P4 placement、route、bitstream、routed setup/hold/pulse/CDC：按用户要求未执行。完整 16 capture client + HDMI + preprocess 同时压力、最大 DDR 服务空窗、真实帧率和板测：未执行。

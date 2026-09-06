@@ -51,6 +51,20 @@ run_verilator tb_video_stream_cdc \
     rtl/video/camera/video_stream_cdc.sv \
     sim/tb_video_stream_cdc.sv
 
+run_verilator tb_axi4_ui_cdc_mixed \
+    rtl/interfaces/axi4_if.sv \
+    rtl/bus/cdc_payload_fifo.sv \
+    rtl/bus/axi4_ui_write_cdc.sv \
+    rtl/bus/axi4_ui_read_cdc.sv \
+    sim/tb_axi4_ui_cdc_mixed.sv
+
+run_verilator tb_multi_channel_video_dma_completion \
+    rtl/interfaces/axi4_if.sv \
+    rtl/interfaces/video_stream_if.sv \
+    rtl/video/framebuffer/channel_write_fifo.sv \
+    rtl/video/framebuffer/multi_channel_video_dma.sv \
+    sim/tb_multi_channel_video_dma_completion.sv
+
 run_verilator tb_camera_axis_to_stream_recovery \
     rtl/interfaces/axis_video_if.sv \
     rtl/interfaces/video_stream_if.sv \
