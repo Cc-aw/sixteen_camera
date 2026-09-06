@@ -73,3 +73,11 @@ P3 新增 crossing 位于每路 `g_camera_frontend[*].u_event_bridge` 和 `g_cam
 - writer 仍以最终 burst 的 B handshake 作为 frame 完成安全边界；错误响应或帧数据错误在同一边界产生 `frame_error`。manager 只在收到 done/error 后释放 WRITING 所有权，因此在途写响应期间不会把该槽分给下一帧。
 - reader 原有 `used + reserved_not_yet_returned <= capacity` 规则不变，在发出 AR 前为 burst 全部返回拍预留本地 FIFO；UI→video R FIFO 是额外吸收容量，不作为超发依据。display、preprocess、AI 的 held mask 仍阻止 writer 复用相同槽。
 - capture/UI 时钟与 video 时钟仍按真实 2:1 关系约束；本阶段没有添加 `set_clock_groups`、false path 或 multicycle。综合级证据在 `reports/video_timing_refactor/P4/synth/`。
+
+### P5 已实现局部复位、payload 和物理边界
+
+- 每路 `capture_resetn_local_sync` 采用 capture 域异步断言、两级同步释放。外部 DDR reset 的释放不再作为第一级寄存器的同步 D 数据跨 SLR 传播；第二级继续只由本域时钟释放。
+- `capture_enable_sync1/2` 仍是有 reset 的运行时控制状态。DVP `sync/pipe` 是连续采样 payload/alignment 寄存器，声明初值覆盖配置启动，恢复 FSM 在 reset/disable 时忽略它们，因此不再用运行时 reset 驱动这 176 个物理 reset pin。
+- `pclk_snapshot_video` 仅在 snapshot toggle 请求到达时原子锁存 40 个诊断字；ack 只在锁存后返回。reset 后软件必须发起新请求才可读取有效 snapshot，这与原 req/ack 使用方式一致；shadow payload 不再因 reset 被 1,280-bit 清零，避免高扇出控制网，但寄存器映射和 snapshot 数据格式不变。
+- metastability sync 只使用 soft pblock 引导到实际 IOB 所在 clock region；capture recovery/event producer 按 P4 真实布局引导到 SLR2（CH0–3）或 SLR1（CH4–7）。soft 约束允许 placer 在全局时序/拥塞需要时调整，不构成新的功能接口或硬分区。
+- IOB→sync 仍受 1.5 ns `set_max_delay -datapath_only` 约束；P5 没有新增或扩大 false path、clock group 或 multicycle。是否满足只能以 P5 routed report 为准。

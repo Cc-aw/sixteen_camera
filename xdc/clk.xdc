@@ -112,24 +112,50 @@ set_max_delay 1.500 -datapath_only \
 # The eight FMC camera inputs sit in two SLRs.  USER_SLR_ASSIGNMENT applies
 # only to hierarchical cells and is ignored on these leaf registers, so use
 # leaf-capable pblocks for the short, aligned crossing pipeline:
-#   CH1..4: IOB(SLR3) -> sync(SLR3) -> pipe(SLR2) -> recovery(SLR1)
+#   CH1..4: IOB(SLR3) -> sync(SLR3) -> pipe/recovery/event(SLR2)
 #   CH5..8: IOB(SLR2) -> sync(SLR2) -> pipe(SLR1) -> recovery(SLR1)
 # Guide the placer toward a local metastability-catching aperture and at most
 # one following SLR hop, while leaving it free to violate the regions when a
 # hard assignment would degrade overall timing.
-create_pblock pblock_dvp_sync_slr3
-resize_pblock [get_pblocks pblock_dvp_sync_slr3] -add SLR3
-set_property IS_SOFT true [get_pblocks pblock_dvp_sync_slr3]
-add_cells_to_pblock [get_pblocks pblock_dvp_sync_slr3] \
+# The P4 routed inventory shows each input pair sharing one physical clock
+# region. Guide the metastability-catching registers to that exact region,
+# instead of allowing an SLR-wide pblock to place them a region away from the
+# corresponding BITSLICE. These remain soft placement guides; the 1.5 ns
+# datapath constraint above is the actual acceptance criterion.
+create_pblock pblock_dvp_sync_ch01
+resize_pblock [get_pblocks pblock_dvp_sync_ch01] -add CLOCKREGION_X4Y13
+set_property IS_SOFT true [get_pblocks pblock_dvp_sync_ch01]
+add_cells_to_pblock [get_pblocks pblock_dvp_sync_ch01] \
     [get_cells -hierarchical -regexp \
-        {.*g_camera_frontend\[[0-3]\]\.u_camera/dvp_(data|href|vsync|pclk)_sync_reg.*}]
+        {.*g_camera_frontend\[[0-1]\]\.u_camera/dvp_(data|href|vsync|pclk)_sync_reg.*}]
+
+create_pblock pblock_dvp_sync_ch23
+resize_pblock [get_pblocks pblock_dvp_sync_ch23] -add CLOCKREGION_X4Y12
+set_property IS_SOFT true [get_pblocks pblock_dvp_sync_ch23]
+add_cells_to_pblock [get_pblocks pblock_dvp_sync_ch23] \
+    [get_cells -hierarchical -regexp \
+        {.*g_camera_frontend\[[2-3]\]\.u_camera/dvp_(data|href|vsync|pclk)_sync_reg.*}]
+
+create_pblock pblock_dvp_sync_ch45
+resize_pblock [get_pblocks pblock_dvp_sync_ch45] -add CLOCKREGION_X4Y9
+set_property IS_SOFT true [get_pblocks pblock_dvp_sync_ch45]
+add_cells_to_pblock [get_pblocks pblock_dvp_sync_ch45] \
+    [get_cells -hierarchical -regexp \
+        {.*g_camera_frontend\[[4-5]\]\.u_camera/dvp_(data|href|vsync|pclk)_sync_reg.*}]
+
+create_pblock pblock_dvp_sync_ch67
+resize_pblock [get_pblocks pblock_dvp_sync_ch67] -add CLOCKREGION_X4Y8
+set_property IS_SOFT true [get_pblocks pblock_dvp_sync_ch67]
+add_cells_to_pblock [get_pblocks pblock_dvp_sync_ch67] \
+    [get_cells -hierarchical -regexp \
+        {.*g_camera_frontend\[[6-7]\]\.u_camera/dvp_(data|href|vsync|pclk)_sync_reg.*}]
 
 create_pblock pblock_dvp_bridge_slr2
 resize_pblock [get_pblocks pblock_dvp_bridge_slr2] -add SLR2
 set_property IS_SOFT true [get_pblocks pblock_dvp_bridge_slr2]
 add_cells_to_pblock [get_pblocks pblock_dvp_bridge_slr2] \
     [get_cells -hierarchical -regexp \
-        {.*g_camera_frontend\[[0-3]\]\.u_camera/dvp_(data|href|vsync|pclk)_pipe_reg.*|.*g_camera_frontend\[[4-7]\]\.u_camera/dvp_(data|href|vsync|pclk)_sync_reg.*}]
+        {.*g_camera_frontend\[[0-3]\]\.u_camera/dvp_(data|href|vsync|pclk)_pipe_reg.*}]
 
 create_pblock pblock_dvp_pipe_slr1
 resize_pblock [get_pblocks pblock_dvp_pipe_slr1] -add SLR1
@@ -137,6 +163,23 @@ set_property IS_SOFT true [get_pblocks pblock_dvp_pipe_slr1]
 add_cells_to_pblock [get_pblocks pblock_dvp_pipe_slr1] \
     [get_cells -hierarchical -regexp \
         {.*g_camera_frontend\[[4-7]\]\.u_camera/dvp_(data|href|vsync|pclk)_pipe_reg.*}]
+
+# Preserve the routed P4 locality of the high-speed recovery/event producers.
+# Only these tightly coupled capture-side blocks are guided; the large 150 MHz
+# buffers and video processing remain free for the placer to balance globally.
+create_pblock pblock_camera_capture_slr2
+resize_pblock [get_pblocks pblock_camera_capture_slr2] -add SLR2
+set_property IS_SOFT true [get_pblocks pblock_camera_capture_slr2]
+add_cells_to_pblock [get_pblocks pblock_camera_capture_slr2] \
+    [get_cells -hierarchical -regexp \
+        {.*g_camera_frontend\[[0-3]\]\.(u_camera/u_pclk_recovery|u_event_bridge)(/.*)?}]
+
+create_pblock pblock_camera_capture_slr1
+resize_pblock [get_pblocks pblock_camera_capture_slr1] -add SLR1
+set_property IS_SOFT true [get_pblocks pblock_camera_capture_slr1]
+add_cells_to_pblock [get_pblocks pblock_camera_capture_slr1] \
+    [get_cells -hierarchical -regexp \
+        {.*g_camera_frontend\[[4-7]\]\.(u_camera/u_pclk_recovery|u_event_bridge)(/.*)?}]
 
 # The raw DVP and output-pad probes are sampled through explicit two-stage
 # synchronizers in the 100 MHz diagnostic domain.  Time only the second stage;

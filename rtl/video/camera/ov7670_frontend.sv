@@ -1491,26 +1491,25 @@ module ov7670_frontend #(
         if (!video_resetn) begin
             capture_enable_sync1 <= 1'b0;
             capture_enable_sync2 <= 1'b0;
-            dvp_data_sync <= 8'd0;
-            dvp_href_sync <= 1'b0;
-            dvp_vsync_sync <= 1'b0;
-            dvp_pclk_sync <= 1'b0;
-            dvp_data_pipe <= 8'd0;
-            dvp_href_pipe <= 1'b0;
-            dvp_vsync_pipe <= 1'b0;
-            dvp_pclk_pipe <= 1'b0;
         end else begin
             capture_enable_sync1 <= hw_capture_enable;
             capture_enable_sync2 <= capture_enable_sync1;
-            dvp_data_sync <= dvp_data_iob;
-            dvp_href_sync <= dvp_href_iob;
-            dvp_vsync_sync <= dvp_vsync_iob;
-            dvp_pclk_sync <= dvp_pclk_iob;
-            dvp_data_pipe <= dvp_data_sync;
-            dvp_href_pipe <= dvp_href_sync;
-            dvp_vsync_pipe <= dvp_vsync_sync;
-            dvp_pclk_pipe <= dvp_pclk_sync;
         end
+    end
+
+    // These are payload/alignment stages, not state. They are ignored while
+    // the recovery FSM is reset, and their declaration initializers cover
+    // configuration startup. Keeping reset off them avoids routing the local
+    // run/reset control back across the deliberate SLR pipeline.
+    always @(posedge video_clk) begin
+        dvp_data_sync <= dvp_data_iob;
+        dvp_href_sync <= dvp_href_iob;
+        dvp_vsync_sync <= dvp_vsync_iob;
+        dvp_pclk_sync <= dvp_pclk_iob;
+        dvp_data_pipe <= dvp_data_sync;
+        dvp_href_pipe <= dvp_href_sync;
+        dvp_vsync_pipe <= dvp_vsync_sync;
+        dvp_pclk_pipe <= dvp_pclk_sync;
     end
 
     wire diag_clear_video =
@@ -1709,7 +1708,6 @@ module ov7670_frontend #(
             stats_snapshot_video_sync2 <= 1'b0;
             stats_snapshot_video_seen <= 1'b0;
             stats_snapshot_ack_video <= 1'b0;
-            pclk_snapshot_video <= {40*32{1'b0}};
         end else begin
             stats_snapshot_video_sync1 <= stats_snapshot_toggle;
             stats_snapshot_video_sync2 <= stats_snapshot_video_sync1;

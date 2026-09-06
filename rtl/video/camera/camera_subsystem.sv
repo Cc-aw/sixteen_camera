@@ -110,9 +110,16 @@ module camera_subsystem (
             (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
             reg [1:0] pixel_enable_video_sync = 2'b00;
 
-            always @(posedge capture_clk) begin
-                capture_resetn_local_sync[0] <= capture_resetn;
-                capture_resetn_local_sync[1] <= capture_resetn_local_sync[0];
+            // Treat the domain reset as an asynchronous assertion and only
+            // release it through the two local capture-clock stages. This
+            // removes a same-cycle reset-data route from the DDR SLR into
+            // every camera region while retaining deterministic assertion.
+            always @(posedge capture_clk or negedge capture_resetn) begin
+                if (!capture_resetn)
+                    capture_resetn_local_sync <= 2'b00;
+                else
+                    capture_resetn_local_sync <=
+                        {capture_resetn_local_sync[0], 1'b1};
             end
 
             always @(posedge video_clk) begin

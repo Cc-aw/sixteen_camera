@@ -1,6 +1,6 @@
 # PCLK/视频时序重构工程清单
 
-更新日期：2026-09-05（Asia/Shanghai）  
+更新日期：2026-09-06（Asia/Shanghai）
 目标器件：`xcvu13p-fhga2104-2-i`  
 工具：Vivado 2023.2  
 基线提交：`c128c3ebec1fc8872eee8a0519add5c8e79ad53a`（`恢复到无gemmini状态`）
@@ -80,6 +80,10 @@ P0 关键事实：当前没有独立 150 MHz video backbone；`ddr_memory_subsys
 P3 实际文件落点：`rtl/memory/ddr_memory_subsystem.sv` 产生 capture/video 两个时钟与各自 reset；`rtl/video/camera/dvp_event_bridge.sv`、`camera_pixel_assembler.sv`、`video_stream_cdc.sv` 构成 300→150 前端和 P4 前临时 150→300 回程；`camera_subsystem.sv`、`camera_hdmi_subsystem.sv`、`top_wrapper.sv` 传递新边界；`xdc/clk.xdc` 声明 `/2` generated clock。MIG 配置和非 Gemmini SoC collateral 未改变。
 
 P4 实际文件落点：`multi_channel_ddr_video_pipeline.sv` 将 manager/writer/reader/preprocess 高层状态迁到 video 域；`ddr_memory_subsystem.sv` 删除 camera 临时回程并为 HDMI capture 增加 300→150 stream bridge；`cdc_payload_fifo.sv`、`axi4_ui_write_cdc.sv`、`axi4_ui_read_cdc.sv` 在真实 S01/S02 的 256-bit、ID3 AXI UI 边界提供独立有序队列。MIG、BD AXI 位宽/outstanding 配置、SoC、地址空间和软件寄存器语义均未改变。
+
+P5 真实物理输入来自 P4 routed DCP，而不是沿用最初报告的布局推断。CH0/1 IOB 位于 SLR3 `CLOCKREGION_X4Y13`，CH2/3 位于 SLR3 `X4Y12`，CH4/5 位于 SLR2 `X4Y9`，CH6/7 位于 SLR2 `X4Y8`；P4 中 CH0–3 recovery/event producer 已在 SLR2，CH4–7 已在 SLR1。因此 `xdc/clk.xdc` 的 P5 soft pblock 按四个输入对约束 sync aperture，并保持上述 producer 分组，不再把所有 recovery 错误地描述为集中在 SLR1。综合结构核验中四组 sync pblock 各命中 22 个 cells，SLR2/SLR1 producer pblock 各命中 8 个层次实例。
+
+P4 routed 的 22 个失败端点由 4 条 DDR reset→local reset D 路径、11 条 snapshot reset、2 条 DVP payload reset、3 条 IOB→sync 1.5 ns 路径和 2 条 recovery CE 路径构成。P5 将前三类控制扇出从结构上移除，并细化物理引导；后两类仍需 P5 route 验证，没有扩大例外。P4 routed 清单保存在 `reports/video_timing_refactor/P4/routed/`，P5 综合结构证据保存在 `reports/video_timing_refactor/P5/synth/`。
 
 ## P0 未执行项
 

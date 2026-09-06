@@ -1,17 +1,17 @@
 # PCLK/视频时序重构阶段结果
 
-实施状态：P0、P1 完成；P2 已完成 RTL、功能回归、用户侧 bitstream 和基础点亮，但 routed setup 仍未收敛；P3 已完成 RTL、功能回归、综合、用户侧 bitstream 和基础点亮；P4 已完成 RTL、功能回归、综合及综合级 CDC/时钟/资源核验，布局布线、bitstream 和板测未执行；P5～P6 未开始。
+实施状态：P0、P1 完成；P2 已完成 RTL、功能回归、用户侧 bitstream 和基础点亮，但 routed setup 仍未收敛；P3 已完成 RTL、功能回归、综合、用户侧 bitstream 和基础点亮；P4 已完成 RTL、功能回归、综合、用户侧布局布线、bitstream 和基础点亮，但 routed setup 尚有 22 个失败端点；P5 已完成 RTL、功能回归、综合及结构核验，布局布线、bitstream 和板测未执行；P6 未开始。
 
 ## Timing 对比
 
 | 指标 | 原报告/历史 DCP | 本轮核验基线 | P1 | P2 | P3 | P4 | P5/P6 |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| WNS / ns | -1.291 | -1.291 | -0.698 | -0.693 | 未执行 | 未执行 | 未执行 |
-| TNS / ns | -6258.903 | -6258.903 | -2949.667 | -1185.536 | 未执行 | 未执行 | 未执行 |
-| setup 失败端点 | 20,800 | 20,800 | 11,779 | 8,181 | 未执行 | 未执行 | 未执行 |
-| WHS / ns | +0.003 | +0.003 | +0.010 | +0.003 | 未执行 | 未执行 | 未执行 |
-| WPWS / ns | +0.039 | +0.039 | +0.039 | +0.039 | 未执行 | 未执行 | 未执行 |
-| PCLK 相关 LUTAR-1 | 8 | 8（总计 30） | 0（总计 22） | 未执行 | 未执行 | 未执行 | 未执行 |
+| WNS / ns | -1.291 | -1.291 | -0.698 | -0.693 | 未执行 | -0.182 | 未执行 |
+| TNS / ns | -6258.903 | -6258.903 | -2949.667 | -1185.536 | 未执行 | -1.579 | 未执行 |
+| setup 失败端点 | 20,800 | 20,800 | 11,779 | 8,181 | 未执行 | 22 | 未执行 |
+| WHS / ns | +0.003 | +0.003 | +0.010 | +0.003 | 未执行 | +0.009 | 未执行 |
+| WPWS / ns | +0.039 | +0.039 | +0.039 | +0.039 | 未执行 | +0.039 | 未执行 |
+| PCLK 相关 LUTAR-1 | 8 | 8（总计 30） | 0（总计 22） | 未执行 | 未执行 | routed 总计 22；PCLK 相关 0 | 综合总计 15；PCLK 相关 0 |
 | reader 失败端点 | 6,668 | 6,668 | 5,808 | 未执行 | 未执行 | 未执行 | 未执行 |
 | camera FIFO 失败端点 | 1,153 | 1,153 | 420 | 未执行 | 未执行 | 未执行 | 未执行 |
 
@@ -19,13 +19,13 @@
 
 | 指标 | P0 | P1 | P2 | P3 | P4 | P5/P6 |
 |---|---|---|---|---|---|---|
-| 既有自检查回归 | 通过 | 通过 | 通过（含 P2 随机背压用例） | 通过（含事件桥/assembler 和临时 writer CDC） | 通过（含混合 AXI CDC 随机压力、延迟 B/帧发布测试） | 未执行 |
-| LUT/FF/BRAM/URAM/DSP | 122,305 / 223,485 / 424.5 / 0 / 18 | 121,740 / 223,525 / 424.5 / 0 / 18 | 综合估算 84,740 / 169,406 / 374 / 0 / 15 | 综合估算 88,996 / 175,305 / 394 / 0 / 15；实现未执行 | 综合估算 90,274 / 180,082 / 411 / 0 / 15；实现未执行 | 未执行 |
-| 300 MHz 自定义逻辑 | 已纳入层次/SLR 报告；独立精确计数待 P3 对比 | 仍是主要失败域；待 P3 迁移 | camera FIFO 已为同钟同步结构 | 每路 capture frontend 约 4,091 LUT/12,361 FF；像素 assembler + camera FIFO + stream 已在 150 MHz，约 359 LUT/912 FF/22 BRAM | writer/reader/manager/preprocess 分别有 6,506/18,085/19,682/1,938 个寄存器全部在 150 MHz；300 MHz 侧仅保留 AXI 队列端及 capture | 未执行 |
+| 既有自检查回归 | 通过 | 通过 | 通过（含 P2 随机背压用例） | 通过（含事件桥/assembler 和临时 writer CDC） | 通过（含混合 AXI CDC 随机压力、延迟 B/帧发布测试） | P5 通过；P6 未执行 |
+| LUT/FF/BRAM/URAM/DSP | 122,305 / 223,485 / 424.5 / 0 / 18 | 121,740 / 223,525 / 424.5 / 0 / 18 | 综合估算 84,740 / 169,406 / 374 / 0 / 15 | 综合估算 88,996 / 175,305 / 394 / 0 / 15；实现未执行 | 综合估算 90,274 / 180,082 / 411 / 0 / 15 | P5 综合估算 90,261 / 180,082 / 411 / 0 / 15；P6 未执行 |
+| 300 MHz 自定义逻辑 | 已纳入层次/SLR 报告；独立精确计数待 P3 对比 | 仍是主要失败域；待 P3 迁移 | camera FIFO 已为同钟同步结构 | 每路 capture frontend 约 4,091 LUT/12,361 FF；像素 assembler + camera FIFO + stream 已在 150 MHz，约 359 LUT/912 FF/22 BRAM | writer/reader/manager/preprocess 分别有 6,506/18,085/19,682/1,938 个寄存器全部在 150 MHz；300 MHz 侧仅保留 AXI 队列端及 capture | P5 去除 8,832 个 snapshot 物理 reset 连接和 176 个 DVP payload reset 连接；P6 未执行 |
 | 最大 FIFO 占用/服务空窗 | 未测 | 未执行 | 小深度测试 FIFO 达 8/8；全深度服务空窗未测 | 8-deep 事件测试 FIFO 强制溢出并恢复；综合深度 1024，板级服务空窗未测 | AXI 测试采用 command 16/data 32/response 16；生产深度 command 32/data 512/response 32；全系统最大服务空窗仍未测 | 未执行 |
 | 输入/写入/显示有效帧率 | 未测 | 未执行 | 未执行 | 未执行 | 未执行 | 未执行 |
 | 丢帧/错误帧发布数量 | 未测 | 未执行 | 未执行 | 未执行 | 未执行 | 未执行 |
-| 板测 | 未执行 | 未执行 | 基础 HDMI 点亮通过（用户反馈）；压力未执行 | 基础 HDMI 点亮通过（用户反馈）；压力未执行 | 未执行 | 未执行 |
+| 板测 | 未执行 | 未执行 | 基础 HDMI 点亮通过（用户反馈）；压力未执行 | 基础 HDMI 点亮通过（用户反馈）；压力未执行 | 基础 HDMI 点亮通过（用户反馈）；压力未执行 | P5/P6 未执行 |
 
 ## 报告位置
 
@@ -37,7 +37,9 @@
 - P2 用户侧 routed timing：`prj/timing_summary.rpt`，生成于 2026-09-06 15:05:57 +0800。用户报告 bitstream 成功及基础 HDMI 点亮正常；bitstream 文件未纳入 Git/本阶段报告清单。
 - P3 综合 DCP：`prj/sixteen_camera.runs/synth_1/top_wrapper.dcp`，生成于 2026-09-06 15:56:09 +0800，SHA-256 `758f8fd97e438211acdad10196e615cc6ed71f93c47fd5b436365256be10a05d`。综合级报告位于 `reports/video_timing_refactor/P3/synth/`；P3 routed DCP、时序报告和 bitstream 未执行。
 - P3 后续由用户完成 bitstream 和下板，用户反馈基础 HDMI 正常点亮；该 routed/bitstream 构建不是本次代理执行，未保存 P3 routed timing 分类，压力、重启及异常恢复未执行。
-- P4 综合 DCP：`prj/sixteen_camera.runs/synth_1/top_wrapper.dcp`，生成于 2026-09-06 17:00:16 +0800，SHA-256 `cdde073837a2e37bf0f7c8952d40ede85129b20ff283b1a5babb2203b3588c8a`。综合级报告位于 `reports/video_timing_refactor/P4/synth/`；P4 placement、route、bitstream 和板测未执行。
+- P4 综合 DCP：生成于 2026-09-06 17:00:16 +0800，SHA-256 `cdde073837a2e37bf0f7c8952d40ede85129b20ff283b1a5babb2203b3588c8a`。综合级报告位于 `reports/video_timing_refactor/P4/synth/`。
+- P4 用户侧 routed DCP：生成于 2026-09-06 17:39:47 +0800，SHA-256 `ed78c97beab253f2aca43ec45c39d5f05182fb2d24b0b5d46d382005be22efff`；bitstream 生成于 17:40:36，SHA-256 `a8fc6c389456eaf90a239d1f94ffbc3c9da707bb2701f35789e7c5057af938d2`。完整 routed 报告归档于 `reports/video_timing_refactor/P4/routed/`。用户随后反馈基础 HDMI 正常点亮。P5 clean synthesis 重置了 `impl_1`，因此上述 DCP/bitstream 当前不再位于 run 目录，仍由归档报告、时间和哈希关联。
+- P5 综合 DCP：`prj/sixteen_camera.runs/synth_1/top_wrapper.dcp`，生成于 2026-09-06 18:20:00 +0800，SHA-256 `b50894944857b3cd68a22ecf1816c6e205809e09c8e9b1c8448342bc0f9278be`。综合级报告位于 `reports/video_timing_refactor/P5/synth/`；P5 placement、route、bitstream 和板测未执行。
 
 ## P1 结论
 
@@ -62,15 +64,24 @@
 - 300/150 clock interaction 保持真实计时；仅沿用 XPM/复位同步器内部合法例外，没有添加 clock group 或扩大 false path。全设计综合 CDC 仍报告既有问题（含 CDC-10/11/13），需要 P5/既有 IP 分项审计，不能宣称 CDC clean。
 - P3 的 bitstream 和基础板级点亮随后由用户完成并通过；压力/重启/异常板测及可归档的 routed timing 分类仍未执行，不能据此宣称物理时序已经签核。
 
-## P4 结论（截至综合）
+## P4 结论
 
 - frame manager、capture writer、display reader/overlay 和 batch preprocess 高层逻辑整体迁入 150 MHz video 域；P3 的八路 camera 150→300 临时回程 FIFO 已删除。八路 HDMI capture stream 使用 300→150 完整 stream FIFO 后与 camera stream 在同一 video 域汇合。
 - 根据真实的 256-bit、ID3 S01/S02 AXI 接口，在 video↔MIG UI 边界增加四条专用队列桥：writer AW/W/B、reader AR/R、preprocess read AR/R、preprocess write AW/W/B。各 AXI channel 独立保序，地址、ID、burst 属性、payload、strobe、last 和 response 原子跨域；没有修改 MIG/BD 参数或非 Gemmini SoC。
 - 混合 CDC 测试并发发送 24 次写和 12 个四拍读 burst，在 AW/W/B/AR/R 随机停顿及延迟返回下通过，未发现顺序、ID、last 或数据错配。新增 writer 定向测试证明最终 B 返回前不产生 `frame_done/frame_error`、不重新申请同一通道 buffer，并在延迟 B 后分别正确发布完整帧或错误帧。
 - 既有 frame-manager writer handshake 和 AI snapshot 用例继续通过，覆盖 error/done 与下一次 acquire 同拍以及 reader/preprocess 持有槽位时的所有权。生产 reader 仍在发 AR 前为整个 burst 预留本地返回 FIFO 空间；新增 UI response FIFO 只增加吸收能力，不替代该预约不变量。
 - clean synthesis 实际通过，0 error、0 critical warning。综合层次证明高层四模块的寄存器全部属于 `camera_video_clk`；四个 UI bridge 才跨 `camera_video_clk`/`mmcm_clkout0`。两时钟方向仍为真实 timed/partial-false-path，没有添加 clock group 或扩大 false path。
-- 全设计综合 CDC 仍含既有 CDC-10/11/13 等问题，留到 P5 分类清理，不能宣称 CDC clean。生产深度下的最大 DDR 服务空窗、端到端帧率和完整 16-client+HDMI+preprocess 并发压力尚未测量；P4 placement、route、bitstream 和板测均未执行。
+- 用户完成 P4 布局布线和 bitstream，并反馈基础 HDMI 正常点亮。routed 结果为 WNS -0.182 ns、TNS -1.579 ns、22 个 setup 失败端点，WHS +0.009 ns、THS 0、WPWS +0.039 ns、TPWS 0；bitstream 成功不等于 setup 签核。
+- 22 个端点全部属于 300 MHz capture 时钟对：4 条跨 SLR reset release 数据路径、11 条 snapshot 宽 reset 路径、2 条 local reset 到 DVP payload reset、3 条仍真实违反 1.5 ns 的 IOB→sync 路径，以及 2 条 recovery CE 路径。这些真实残余成为 P5 的直接输入，没有通过扩大 false path 隐藏。
+- 全设计综合 CDC 仍含既有 CDC-10/11/13 等问题，不能宣称 CDC clean。生产深度下的最大 DDR 服务空窗、端到端帧率和完整 16-client+HDMI+preprocess 并发压力尚未测量。
+
+## P5 结论（截至综合）
+
+- 每路 capture reset 改为本域异步断言、两级同步释放，消除 DDR SLR 到 camera local reset 第一级的同步 D 路径。DVP sync/pipe 和 1,280-bit snapshot shadow 被明确视为 payload：运行时由状态/请求协议限定有效性，不再挂本地 reset 大扇出；综合结构核验显示 8,832 个 snapshot 寄存器 reset pin 和 176 个 DVP payload reset pin 全部接常量地，而非控制网。
+- 根据 P4 routed 物理清单，把 CH0/1、CH2/3、CH4/5、CH6/7 的 metastability sync 软引导到各自 IOB 所在 `CLOCKREGION_X4Y13/X4Y12/X4Y9/X4Y8`；CH0–3 recovery/event 软引导到 SLR2，CH4–7 到 SLR1。综合网表分别命中 22/22/22/22 个 sync cells，旧 SLR pblock 归属冲突已消除。
+- 保留 1.5 ns IOB→sync `set_max_delay -datapath_only`，未增加 clock group、false path 或 multicycle。P4 剩余 3 条 IOB 违例和 recovery CE 路径是否消除只能由 P5 route 判断，当前不提前宣称通过。
+- 全量视频自检查实际通过；clean synthesis 为 100%、0 error、0 critical warning。综合网表方法学报告仍有与 P4 相同的 265 个 MIG 内部 `TIMING-17`，CDC 汇总仍含 CDC-10=2242、CDC-11=16、CDC-13=1，不能宣称全设计 CDC clean。诊断专用开关/关闭等价测试、placement、route、bitstream、routed hold/拥塞和板测均未执行。
 
 ## 回滚索引
 
-每个 P 阶段使用独立 Git commit。P0/P1/P2/P3 回滚点分别为 `ffe513c`、`32e8779`、`ed19ee7`、`9e4f9f0`；P4 回滚点见本阶段提交。不会提交 routed DCP、bitstream、综合报告或 Vivado 临时目录，大文件由路径、mtime 和 SHA-256 关联。
+每个 P 阶段使用独立 Git commit。P0/P1/P2/P3/P4 回滚点分别为 `ffe513c`、`32e8779`、`ed19ee7`、`9e4f9f0`、`09cfaed`；P5 回滚点见本阶段提交。不会提交 routed DCP、bitstream、综合报告或 Vivado 临时目录，大文件由路径、mtime 和 SHA-256 关联。
