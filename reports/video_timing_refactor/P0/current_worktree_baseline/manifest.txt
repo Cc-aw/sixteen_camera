@@ -1,0 +1,25 @@
+generated_at=2026-09-05T18:05:19+0800
+vivado=2023.2
+part=xcvu13p-fhga2104-2-i
+design=checkpoint_top_wrapper_routed
+dcp=/mnt/data/wzr/13p/ov7670/sixteen_camera/prj/sixteen_camera.runs/impl_1/top_wrapper_routed.dcp
+dcp_mtime=2026-09-05T18:00:30+0800
+negative_endpoint_rows=20800
+git_head=c128c3ebec1fc8872eee8a0519add5c8e79ad53a
+git_dirty=true
+git_status_begin
+ M prj/drc_impl.rpt
+ M prj/sixteen_camera.xpr
+ M prj/timing_summary.rpt
+ M prj/utilization_impl.rpt
+?? doc/pclk_timing_refactor_interfaces.md
+?? doc/pclk_timing_refactor_inventory.md
+?? doc/pclk_timing_refactor_results.md
+?? doc/pclk_timing_refactor_validation.md
+?? reports/
+?? scripts/inventory_vivado.tcl
+?? scripts/report_video_timing.tcl
+?? scripts/run_video_refactor_tests.sh
+?? scripts/summarize_video_timing.py
+git_status_end
+dcp_sha256=0f2eff178e50a04467e7348b51116d5084c65a87ef7331065981addc526f7b15

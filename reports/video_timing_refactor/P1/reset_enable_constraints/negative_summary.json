@@ -1,0 +1,97 @@
+{
+  "categories": {
+    "batch_preprocess": {
+      "count": 30,
+      "tns_ns": -4.637999999999999,
+      "wns_ns": -0.619
+    },
+    "camera_axis_cdc": {
+      "count": 420,
+      "tns_ns": -64.04299999999998,
+      "wns_ns": -0.596
+    },
+    "camera_stream": {
+      "count": 100,
+      "tns_ns": -7.639000000000002,
+      "wns_ns": -0.131
+    },
+    "ddr_frame_reader": {
+      "count": 5808,
+      "tns_ns": -1973.441999999999,
+      "wns_ns": -0.698
+    },
+    "ddr_video_writer": {
+      "count": 207,
+      "tns_ns": -36.378999999999955,
+      "wns_ns": -0.557
+    },
+    "frame_manager": {
+      "count": 182,
+      "tns_ns": -17.29000000000002,
+      "wns_ns": -0.397
+    },
+    "mig_ddr_ip": {
+      "count": 1805,
+      "tns_ns": -349.28800000000075,
+      "wns_ns": -0.645
+    },
+    "other": {
+      "count": 27,
+      "tns_ns": -1.7809999999999997,
+      "wns_ns": -0.21
+    },
+    "pclk_recovery_frontend": {
+      "count": 3200,
+      "tns_ns": -495.13799999999884,
+      "wns_ns": -0.696
+    }
+  },
+  "clock_pairs": {
+    "mmcm_clkout0->mmcm_clkout0": 11779
+  },
+  "complete_rows": 11779,
+  "endpoint_pins": {
+    "ADDRARDADDR[3]": 1,
+    "ADDRBWRADDR[14]": 1,
+    "A[10]": 1,
+    "A[14]": 1,
+    "A[15]": 1,
+    "A[9]": 1,
+    "CE": 7870,
+    "D": 892,
+    "DINADIN[11]": 1,
+    "DINADIN[12]": 1,
+    "DINADIN[14]": 2,
+    "DINADIN[15]": 1,
+    "DINADIN[22]": 1,
+    "DINADIN[30]": 1,
+    "DINADIN[4]": 1,
+    "DINBDIN[14]": 1,
+    "DINBDIN[22]": 2,
+    "DINBDIN[27]": 1,
+    "ENARDEN": 3,
+    "ENBWREN": 163,
+    "I": 479,
+    "R": 2204,
+    "REGCEB": 121,
+    "S": 14,
+    "WADR3": 8,
+    "WEA[0]": 4,
+    "WEA[1]": 2,
+    "WEA[2]": 1
+  },
+  "slr_pairs": {
+    "SLR0->SLR0": 24,
+    "SLR0->SLR1": 2,
+    "SLR1->SLR0": 1398,
+    "SLR1->SLR1": 9943,
+    "SLR1->SLR2": 7,
+    "SLR1->SLR3": 37,
+    "SLR2->SLR1": 315,
+    "SLR2->SLR2": 12,
+    "SLR3->SLR2": 17,
+    "SLR3->SLR3": 24
+  },
+  "tns_ns_from_rounded_rows": -2949.638,
+  "wns_ns": -0.698
+}

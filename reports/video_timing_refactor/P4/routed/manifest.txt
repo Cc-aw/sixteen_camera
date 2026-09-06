@@ -1,0 +1,17 @@
+generated_at=2026-09-06T17:53:43+0800
+vivado=2023.2
+part=xcvu13p-fhga2104-2-i
+design=checkpoint_top_wrapper_routed
+dcp=/mnt/data/wzr/13p/ov7670/sixteen_camera/prj/sixteen_camera.runs/impl_1/top_wrapper_routed.dcp
+dcp_mtime=2026-09-06T17:39:47+0800
+negative_endpoint_rows=22
+git_head=09cfaedeeaf9fb93d86ba00930d362cdc104e1b7
+git_dirty=true
+git_status_begin
+ M prj/drc_impl.rpt
+ M prj/sixteen_camera.xpr
+ M prj/timing_summary.rpt
+ M prj/utilization_impl.rpt
+?? reports/
+git_status_end
+dcp_sha256=ed78c97beab253f2aca43ec45c39d5f05182fb2d24b0b5d46d382005be22efff

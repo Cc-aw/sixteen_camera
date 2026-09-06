@@ -1,0 +1,32 @@
+{
+  "categories": {
+    "other": {
+      "count": 4,
+      "tns_ns": -0.528,
+      "wns_ns": -0.182
+    },
+    "pclk_recovery_frontend": {
+      "count": 18,
+      "tns_ns": -1.0479999999999996,
+      "wns_ns": -0.138
+    }
+  },
+  "clock_pairs": {
+    "mmcm_clkout0->mmcm_clkout0": 22
+  },
+  "complete_rows": 22,
+  "endpoint_pins": {
+    "CE": 2,
+    "D": 7,
+    "R": 13
+  },
+  "slr_pairs": {
+    "SLR1->SLR1": 2,
+    "SLR1->SLR2": 4,
+    "SLR2->SLR2": 11,
+    "SLR2->SLR3": 2,
+    "SLR3->SLR3": 3
+  },
+  "tns_ns_from_rounded_rows": -1.576,
+  "wns_ns": -0.182
+}

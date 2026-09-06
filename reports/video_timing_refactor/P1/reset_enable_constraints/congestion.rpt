@@ -1,0 +1,95 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.2 (lin64) Build 4029153 Fri Oct 13 20:13:54 MDT 2023
+| Date         : Sat Sep  5 20:56:53 2026
+| Host         : tsmc184 running 64-bit Ubuntu 22.04.5 LTS
+| Command      : report_design_analysis -congestion -file /mnt/data/wzr/13p/ov7670/sixteen_camera/reports/video_timing_refactor/P1/reset_enable_constraints/congestion.rpt
+| Design       : top_wrapper
+| Device       : xcvu13p
+| Design State : Routed
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Report Design Analysis
+
+Table of Contents
+-----------------
+1. Placer Final Level Congestion Reporting
+2. Router Initial Congestion
+3. SLR Net Crossing Reporting
+
+1. Placer Final Level Congestion Reporting
+------------------------------------------
+
++-----------+------+-------+--------+---------------+---------------+-----+--------+------+------+------+------+-----+-------+-----+------------+
+| Direction | Type | Level | Window | Combined LUTs | Avg LUT Input | LUT | LUTRAM | Flop | MUXF | RAMB | URAM | DSP | CARRY | SRL | Cell Names |
++-----------+------+-------+--------+---------------+---------------+-----+--------+------+------+------+------+-----+-------+-----+------------+
+* No congestion windows are found above level 5
+
+
+2. Router Initial Congestion
+----------------------------
+
++-----------+--------+-------+-------------------------------+---------------+---------------+-----+--------+------+------+------+------+-----+-------+-----+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Direction |  Type  | Level |             Window            | Combined LUTs | Avg LUT Input | LUT | LUTRAM | Flop | MUXF | RAMB | URAM | DSP | CARRY | SRL |                                                                                            Cell Names                                                                                           |                                                                                                                                      Sub Windows                                                                                                                                      |
++-----------+--------+-------+-------------------------------+---------------+---------------+-----+--------+------+------+------+------+-----+-------+-----+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| North     | Global |     5 | (CLEM_X20Y287,CLEL_R_X35Y318) |            0% |         6.013 | 31% |     0% |  60% |  10% |  83% |   0% |  0% |    8% |  0% | u_ddr_memory/u_video_framebuffer/u_reader/u_detection_overlay(96%),u_ddr_memory/u_video_framebuffer/u_reader(1%),u_control_soc/u_rocket/chiptop0/system(0%)                                     | (CLEM_X20Y303,CLEL_R_X35Y318), (CLEM_X20Y287,CLEL_R_X35Y302)                                                                                                                                                                                                                          |
+| North     | Long   |     5 | (CLEM_X22Y290,CLEM_X37Y329)   |            2% |         5.032 | 35% |     8% |  49% |   6% | 100% |   0% |  3% |    5% |  0% | u_ddr_memory/u_video_framebuffer/u_reader/u_detection_overlay(77%),u_ddr_memory/u_video_framebuffer/u_reader(7%),u_camera_hdmi/u_hdmi/u_tx/u_hdmi_tx/inst/v_hdmi_tx/inst/SYS_INST/CORE_INST(7%) | (CLEM_X22Y322,CLEL_R_X29Y329), (CLEM_X22Y314,CLEL_R_X29Y321), (CLEM_X22Y306,CLEL_R_X29Y313), (CLEM_X22Y298,CLEL_R_X29Y305), (CLEM_X22Y290,CLEL_R_X29Y297), (CLEM_X30Y322,CLEL_R_X37Y329), (CLEM_X30Y314,CLEL_R_X37Y321), (CLEM_X30Y306,CLEL_R_X37Y313), (CLEM_X30Y298,CLEL_R_X37Y305) |
+| North     | Long   |     5 | (CLEM_X22Y298,CLEM_X37Y329)   |            2% |         4.895 | 33% |     8% |  45% |   3% | 100% |   0% |  4% |    6% |  0% | u_ddr_memory/u_video_framebuffer/u_reader/u_detection_overlay(73%),u_ddr_memory/u_video_framebuffer/u_reader(9%),u_camera_hdmi/u_hdmi/u_tx/u_hdmi_tx/inst/v_hdmi_tx/inst/SYS_INST/CORE_INST(9%) | (CLEM_X22Y314,CLEL_R_X37Y329), (CLEM_X22Y298,CLEL_R_X37Y313)                                                                                                                                                                                                                          |
+| West      | Short  |     5 | (CLEM_X18Y278,CLEM_X33Y309)   |            0% |         6.158 | 37% |     0% |  67% |  13% |  33% |   0% |  0% |   12% |  0% | u_ddr_memory/u_video_framebuffer/u_reader/u_detection_overlay(98%),u_control_soc/u_rocket/chiptop0/system(0%),u_ddr_memory/u_video_framebuffer(0%)                                              | (CLEM_X18Y294,CLEM_X33Y309), (CLEM_X18Y278,CLEM_X33Y293)                                                                                                                                                                                                                              |
++-----------+--------+-------+-------------------------------+---------------+---------------+-----+--------+------+------+------+------+-----+-------+-----+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
+3. SLR Net Crossing Reporting
+-----------------------------
+
++----------------------------------+-----------------------------+-------------+-------------+-------------+-------------+-------------+-------------+
+|            Cell Names            | Number of Nets crossing SLR | 0 - 1 Cuts  | 0 - 2 Cuts  | 0 - 3 Cuts  | 1 - 2 Cuts  | 1 - 3 Cuts  | 2 - 3 Cuts  |
++----------------------------------+-----------------------------+-------------+-------------+-------------+-------------+-------------+-------------+
+| c0_init_calib_complete_OBUF_inst | 1                           | 1           | 0           | 0           | 0           | 0           | 0           |
+| dbg_hub                          | 5                           | 5           | 0           | 0           | 0           | 0           | 0           |
+| g_ov7670_io[0].u_pwdn_iobuf      | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[0].u_reset_n_iobuf   | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[0].u_scl_iobuf       | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[0].u_xclk_iobuf      | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[1].u_pwdn_iobuf      | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[1].u_reset_n_iobuf   | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[1].u_scl_iobuf       | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[1].u_xclk_iobuf      | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[2].u_pwdn_iobuf      | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[2].u_reset_n_iobuf   | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[2].u_scl_iobuf       | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[2].u_xclk_iobuf      | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[3].u_pwdn_iobuf      | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[3].u_reset_n_iobuf   | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[3].u_scl_iobuf       | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[3].u_xclk_iobuf      | 1                           | 0           | 0           | 0           | 0           | 1           | 0           |
+| g_ov7670_io[4].u_pwdn_iobuf      | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| g_ov7670_io[4].u_reset_n_iobuf   | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| g_ov7670_io[4].u_scl_iobuf       | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| g_ov7670_io[4].u_xclk_iobuf      | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| g_ov7670_io[5].u_pwdn_iobuf      | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| g_ov7670_io[5].u_reset_n_iobuf   | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| g_ov7670_io[5].u_scl_iobuf       | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| g_ov7670_io[5].u_xclk_iobuf      | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| g_ov7670_io[6].u_pwdn_iobuf      | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| g_ov7670_io[6].u_reset_n_iobuf   | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| g_ov7670_io[6].u_scl_iobuf       | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| g_ov7670_io[6].u_xclk_iobuf      | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| g_ov7670_io[7].u_pwdn_iobuf      | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| g_ov7670_io[7].u_reset_n_iobuf   | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| g_ov7670_io[7].u_scl_iobuf       | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| g_ov7670_io[7].u_xclk_iobuf      | 1                           | 0           | 0           | 0           | 1           | 0           | 0           |
+| si5338_scl1_OBUF_inst            | 1                           | 1           | 0           | 0           | 0           | 0           | 0           |
+| si5338_scl2_OBUF_inst            | 1                           | 1           | 0           | 0           | 0           | 0           | 0           |
+| si5338_sda1_IOBUF_inst           | 2                           | 2           | 0           | 0           | 0           | 0           | 0           |
+| si5338_sda2_IOBUF_inst           | 2                           | 2           | 0           | 0           | 0           | 0           | 0           |
+| u_camera_hdmi                    | 299                         | 1           | 0           | 0           | 183         | 48          | 67          |
+| u_camera_hdmi/u_camera_subsystem | 8                           | 0           | 0           | 0           | 4           | 4           | 0           |
+| u_control_soc                    | 4                           | 4           | 0           | 0           | 0           | 0           | 0           |
+| u_ddr_memory                     | 16                          | 14          | 0           | 0           | 1           | 1           | 0           |
+| u_ddr_memory/u_ddr_bd            | 1085                        | 1085        | 0           | 0           | 0           | 0           | 0           |
+| u_ddr_memory/u_ddr_bd/design_1_i | 176                         | 176         | 0           | 0           | 0           | 0           | 0           |
+| uart_txd_OBUF_inst               | 1                           | 1           | 0           | 0           | 0           | 0           | 0           |
++----------------------------------+-----------------------------+-------------+-------------+-------------+-------------+-------------+-------------+
+
+

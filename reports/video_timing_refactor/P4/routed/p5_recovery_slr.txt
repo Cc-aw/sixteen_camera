@@ -1,0 +1,16 @@
+CH0 u_pclk_recovery total=2856 SLR2 2853
+CH0 u_href_guard total=0 
+CH1 u_pclk_recovery total=2857 SLR2 2854
+CH1 u_href_guard total=0 
+CH2 u_pclk_recovery total=2856 SLR2 2853
+CH2 u_href_guard total=0 
+CH3 u_pclk_recovery total=2856 SLR2 2853
+CH3 u_href_guard total=0 
+CH4 u_pclk_recovery total=2856 SLR1 2853
+CH4 u_href_guard total=0 
+CH5 u_pclk_recovery total=2856 SLR1 2853
+CH5 u_href_guard total=0 
+CH6 u_pclk_recovery total=2856 SLR1 2853
+CH6 u_href_guard total=0 
+CH7 u_pclk_recovery total=2856 SLR1 2853
+CH7 u_href_guard total=0 

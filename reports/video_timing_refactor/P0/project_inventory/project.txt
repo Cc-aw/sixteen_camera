@@ -1,0 +1,12 @@
+generated_at=2026-09-05T17:25:13+0800
+vivado=2023.2
+project=sixteen_camera
+part=xcvu13p-fhga2104-2-i
+source_top=top_wrapper
+simulation_top=top_wrapper
+synth_1.status=synth_design Complete!
+synth_1.strategy=Vivado Synthesis Defaults
+synth_1.part=xcvu13p-fhga2104-2-i
+impl_1.status=write_bitstream Complete!
+impl_1.strategy=Vivado Implementation Defaults
+impl_1.part=xcvu13p-fhga2104-2-i

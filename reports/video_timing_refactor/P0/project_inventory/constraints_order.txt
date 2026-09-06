@@ -1,0 +1,6 @@
+NORMAL	1	1	/mnt/data/wzr/13p/ov7670/sixteen_camera/xdc/clk.xdc
+NORMAL	1	1	/mnt/data/wzr/13p/ov7670/sixteen_camera/xdc/ddr.xdc
+NORMAL	1	1	/mnt/data/wzr/13p/ov7670/sixteen_camera/xdc/hdmi_tx.xdc
+NORMAL	1	1	/mnt/data/wzr/13p/ov7670/sixteen_camera/xdc/mipi.xdc
+NORMAL	1	1	/mnt/data/wzr/13p/ov7670/sixteen_camera/xdc/camera_sccb.xdc
+NORMAL	1	1	/mnt/data/wzr/13p/ov7670/sixteen_camera/xdc/vu13p_ov7670_8ch_fmc1_fmc2_j2_cam3_legacy_v3.xdc

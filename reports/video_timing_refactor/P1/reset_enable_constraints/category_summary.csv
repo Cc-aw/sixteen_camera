@@ -1,0 +1,10 @@
+category,failed_endpoints,wns_ns,rounded_tns_ns
+batch_preprocess,30,-0.619,-4.637999999999999
+camera_axis_cdc,420,-0.596,-64.04299999999998
+camera_stream,100,-0.131,-7.639000000000002
+ddr_frame_reader,5808,-0.698,-1973.441999999999
+ddr_video_writer,207,-0.557,-36.378999999999955
+frame_manager,182,-0.397,-17.29000000000002
+mig_ddr_ip,1805,-0.645,-349.28800000000075
+other,27,-0.21,-1.7809999999999997
+pclk_recovery_frontend,3200,-0.696,-495.13799999999884

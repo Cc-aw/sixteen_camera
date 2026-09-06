@@ -173,205 +173,7 @@
           <Proxy FileSetName="design_1_xbar_0"/>
         </CompFileExtendedInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/imports/rtl/si5338/si5338_1.mif">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../rtl/si5338/si5338_1.mif"/>
-          <Attr Name="ImportTime" Val="1787130334"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/imports/rtl/si5338/si5338_2.mif">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../rtl/si5338/si5338_2.mif"/>
-          <Attr Name="ImportTime" Val="1787130334"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PGENDIR/sources_1/bd/design_1/hdl/design_1_wrapper.v">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/rockettile_icache_data_arrays_0_0.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a28d256s5k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a21d64s4k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a14d64s4k1z4u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a21d64s4k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_CLINT.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a29d64s4k1z4u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PeripheryBus_cbus.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ChipTop.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x77.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue1_AXI4BundleW.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x109.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/FixedClockBroadcast_7.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_64x8.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/SynchronizerShiftReg_w1_d3.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBroadcastTracker.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncCrossingSource_n1x2.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x115.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetRegVec_w1_i1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleB_a33d64s2k2z4c.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncQueueSink_DebugInternalBundle.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/BundleBridgeNexus_UInt1_1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a33d64s2k2z4c.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleD_a33d256s3k2z3c.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLError_1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLUART.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/GenericDigitalInIOCell.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -385,364 +187,21 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue1_TLBundleA_a14d64s4k1z4u.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig.top.mems.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/RVCExpander.sv">
+      <File Path="$PGENDIR/sources_1/bd/design_1/hdl/design_1_wrapper.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue1_AXI4BundleARW_1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLError.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/UARTRx.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TileClockGater.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x125.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_cbus_to_clint.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLWidthWidget8_2.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x73.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PeripheryBus_pbus.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/HellaCacheArbiter.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue1_BundleMap.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncCrossingSource_n1x8.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PLICClockSinkDomain.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a33d8s1k2z4u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a28d64s4k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue8_AXI4BundleR.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a29d64s4k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue1_AXI4BundleW_1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_bootrom.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CLINT.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetRegVec_w2_i0.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x103.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a28d256s5k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ScratchpadBank.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/rockettile_icache_data_arrays_1_0.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a29d64s4k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a14d64s4k1z4u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLWidthWidget1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a28d256s5k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AXI4Buffer.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_sbus_i2_o3_a33d64s3k2z4c.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLDebugModule.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_pbus_to_bootaddressreg.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetRegVec_w1_i0.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a12d64s8k1z2u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncCrossingSource_n1x1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ClockGroupAggregator_allClocks.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncValidSync.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x6.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/JtagTapController.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_AXI4BundleB.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/mem.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_cbus_out_i1_o7_a29d64s4k1z4u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBroadcastData.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a33d64s1k2z4u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ClockCrossingReg_w55.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a33d64s2k2z4c.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetSynchronizerShiftReg_w1_d3_i0_1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/MulDiv.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleB_a33d256s3k2z3c.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/plusarg_reader.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -756,147 +215,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBroadcastTracker_3.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PlusArgTimeout.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a12d64s8k1z2u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PLICFanIn.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/UARTTx.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/GenericDigitalInIOCell.v">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_AXI4BundleR.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ChipyardPRCICtrlClockSinkDomain.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ITLB.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_cbus_in_i2_o1_a29d64s4k1z4u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_prcibus_i1_o2_a21d64s4k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ProbePicker.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/FixedClockBroadcast_2.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_pbus_out_i1_o2_a29d64s4k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLAtomicAutomata_cbus.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PMPChecker_s2.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/SystemBus.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/JtagStateMachine.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleE_a33d64s2k2z4c.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AXI4UserYanker_1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x116.sv">
+      <File Path="$PPRDIR/../rtl/si5338/si5338top.v">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -910,217 +229,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TilePRCIDomain.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x10.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_cbus_to_debug.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x79.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/FixedClockBroadcast_3.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncCrossingSource_n1x1_Registered.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ClockGroupCombiner.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/rockettile_icache_tag_array_0.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CaptureChain_JTAGIdcodeBundle.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ResetCatchAndSync_d3.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ShiftQueue.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CoherenceManagerWrapper.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x60.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a13d64s4k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a29d64s4k1z4u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ClockGroupResetSynchronizer.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/InferredResetSynchronizerPrimitiveShiftReg_d3_i0.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x124.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x97.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_PLIC.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_cbus_to_plic.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x288.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x80.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AXI4IdIndexer_1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLRAM_ScratchpadBank.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a14d64s4k1z4u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLUARTClockSinkDomain.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncAsyncCrossingSink_n1x1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_BundleMap.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetRegVec_w8_i0.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x71.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AXI4Buffer.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -1134,315 +243,35 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a33d64s1k2z4u.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AXI4IdIndexer.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Frontend.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AXI4IdIndexer_1.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLDebugModuleOuter.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AXI4UserYanker.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntXbar_i3_o1.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AXI4UserYanker_1.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_Debug.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue1_RegMapperInput_i23_m8.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/MemoryBus.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBusBypass.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/bootromClockSinkDomain.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBroadcastTracker_2.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleD_a33d64s1k2z4u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue1_AXI4BundleARW.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x101.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ErrorDeviceWrapper.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetSynchronizerPrimitiveShiftReg_d3_i0_MyBoardFPGATestHarness_UNIQUIFIED.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a29d64s4k1z4u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_TileClockGater.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a28d256s5k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBusBypassBar.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_sbus_to_bus_named_coh.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ICache.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ClockCrossingReg_w43.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLDebugModuleInner.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_AXI4BundleW.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLAsyncCrossingSource_a9d32s1k1z2u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IBuf.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Rocket.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBroadcastTracker_1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a26d64s4k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x272.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncQueueSource_DebugInternalBundle.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_MasterXbar_RocketTile_i2_o1_a33d64s2k2z4c.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PMPChecker_s3.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_cbus_to_prci_ctrl.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_pbus_to_device_named_uart_0.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetSynchronizerShiftReg_w1_d3_i0_MyBoardFPGATestHarness_UNIQUIFIED.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ClockCrossingReg_w15.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_dmixbar_i1_o2_a9d32s1k1z2u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_8x78.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleC_a33d64s2k2z4c.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue64_UInt8.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PTW.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncSyncCrossingSink_n1x2.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/SynchronizerShiftReg_w8_d3.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/BankBinder.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Arbiter2_Valid_PTWReq.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -1456,147 +285,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_cbus_to_bootrom.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a12d64s4k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ClockGroupAsyncResetCoercer.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/rf_31x64.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/rockettile_dcache_data_arrays_0.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_fbus_from_debug_sb.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/BroadcastFilter.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLDebugModuleOuterAsync.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetSynchronizerPrimitiveShiftReg_d3_i0.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_ScratchpadBank.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a12d64s8k1z2u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_UART.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_TileResetSetter.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncAsyncCrossingSink_n1x8.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/LevelGateway.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x41.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntXbar_i2_o1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_sink_2x2.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/JtagBypassChain.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/OptimizationBarrier_TLBEntryData.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ResetCatchAndSync_d3_MyBoardFPGATestHarness_UNIQUIFIED.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncQueueSink_DebugInternalBundle.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -1617,266 +306,7 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig.top.mems.v">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/RocketALU.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/FixedClockBroadcast_5.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CaptureUpdateChain_UInt5_To_UInt5.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CaptureUpdateChain_DMIAccessCapture_To_DMIAccessUpdate.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/DigitalTop.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CLINTClockSinkDomain.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/DebugTransportModuleJTAG.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/DMIToTL.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLROM.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/rockettile_dcache_tag_array_0.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Arbiter2_Valid_PTWReq.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a21d64s4k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a33d64s2k2z4c_1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/NonSyncResetSynchronizerPrimitiveShiftReg_d3.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBroadcast.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLToAXI4_1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLAtomicAutomata_pbus.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/JTAGTUNNEL.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_sbus_to_port_named_mmio_port_axi4.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/SBToTL.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncQueueSource_TLBundleD_a9d32s1k1z2u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AXI4IdIndexer.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLToAXI4.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_mbus_i1_o2_a33d256s5k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a21d64s4k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a33d64s1k2z4u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AXI4UserYanker.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncSyncCrossingSink_n1x1.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a29d64s4k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLPLIC.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CaptureUpdateChain_DTMInfo_To_DTMInfo.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x82.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_AXI4BundleAR.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CSRFile.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/DCacheDataArray.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/RocketTile.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/plusarg_reader.v">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncQueueSource_DebugInternalBundle.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -1890,91 +320,49 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TileResetSetter.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncQueueSource_TLBundleD_a9d32s1k1z2u.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_BootAddrReg.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetRegVec_w1_i0.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ResetSynchronizerShiftReg_w1_d3_i0.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetRegVec_w1_i1.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_mbus_to_memory_controller_port_named_axi4.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetRegVec_w2_i0.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_AXI4BundleAW.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetRegVec_w8_i0.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLDebugModuleInnerAsync.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetSynchronizerPrimitiveShiftReg_d3_i0.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a29d64s4k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x331.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PMAChecker.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/MyBoardFPGATestHarness.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLAsyncCrossingSink_a9d32s1k1z2u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a17d64s4k1z3u.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/BreakpointUnit.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetSynchronizerPrimitiveShiftReg_d3_i0_MyBoardFPGATestHarness_UNIQUIFIED.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -1988,6 +376,174 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetSynchronizerShiftReg_w1_d3_i0_1.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncResetSynchronizerShiftReg_w1_d3_i0_MyBoardFPGATestHarness_UNIQUIFIED.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/AsyncValidSync.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/BankBinder.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/BreakpointUnit.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/BroadcastFilter.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/BundleBridgeNexus_UInt1_1.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CLINT.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CLINTClockSinkDomain.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CSRFile.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CaptureChain_JTAGIdcodeBundle.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CaptureUpdateChain_DMIAccessCapture_To_DMIAccessUpdate.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CaptureUpdateChain_DTMInfo_To_DTMInfo.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CaptureUpdateChain_UInt5_To_UInt5.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ChipTop.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ChipyardPRCICtrlClockSinkDomain.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ClockCrossingReg_w15.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ClockCrossingReg_w43.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ClockCrossingReg_w55.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ClockGroupAggregator_allClocks.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ClockGroupAsyncResetCoercer.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ClockGroupCombiner.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ClockGroupResetSynchronizer.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/CoherenceManagerWrapper.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/DCache.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -1995,182 +551,1211 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/hdmi/hdmi_rx_subsystem.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/DCacheDataArray.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/framebuffer/multi_channel_frame_manager.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/DMIToTL.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/overlay/detection_overlay.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/DebugTransportModuleJTAG.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/camera/camera_axis_to_stream.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/DigitalTop.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/framebuffer/channel_write_fifo.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ErrorDeviceWrapper.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/camera/camera_subsystem.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/FixedClockBroadcast_2.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/framebuffer/ddr_frame_reader.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/FixedClockBroadcast_3.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/camera/ov7670_frontend.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/FixedClockBroadcast_5.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/framebuffer/multi_channel_video_dma.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/FixedClockBroadcast_7.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/hdmi/hdmi_4k_spatial_demux.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Frontend.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/camera/camera_axis_cdc.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/HellaCacheArbiter.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/camera/dvp_pclk_recovery.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IBuf.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/framebuffer/mosaic_frame_reader.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ICache.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/framebuffer/display_reader_subsystem.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ITLB.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/camera/camera_clocking.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/InferredResetSynchronizerPrimitiveShiftReg_d3_i0.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/hdmi/hdmi_subsystem.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncAsyncCrossingSink_n1x1.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/framebuffer/multi_channel_ddr_video_pipeline.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncAsyncCrossingSink_n1x8.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/framebuffer/multi_channel_framebuffer_ctrl.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncCrossingSource_n1x1.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/camera_hdmi_subsystem.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncCrossingSource_n1x1_Registered.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/hdmi/hdmi_tx_subsystem.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncCrossingSource_n1x2.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/camera/dvp_href_line_guard.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncCrossingSource_n1x8.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/camera/ov7670_init_scheduler.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncSyncCrossingSink_n1x1.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/hdmi/hdmi_phy_subsystem.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntSyncSyncCrossingSink_n1x2.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/video/video_control_subsystem.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntXbar_i2_o1.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/control/control_soc_subsystem.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/IntXbar_i3_o1.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/interfaces/axi_lite_if.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/JTAGTUNNEL.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/JtagBypassChain.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/JtagStateMachine.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/JtagTapController.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/LevelGateway.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/MemoryBus.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/MulDiv.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/MyBoardFPGATestHarness.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/NonSyncResetSynchronizerPrimitiveShiftReg_d3.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/OptimizationBarrier_TLBEntryData.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PLICClockSinkDomain.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PLICFanIn.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PMAChecker.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PMPChecker_s2.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PMPChecker_s3.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PTW.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PeripheryBus_cbus.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PeripheryBus_pbus.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/PlusArgTimeout.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ProbePicker.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue1_AXI4BundleARW.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue1_AXI4BundleARW_1.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue1_AXI4BundleW.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue1_AXI4BundleW_1.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue1_BundleMap.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue1_RegMapperInput_i23_m8.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue1_TLBundleA_a14d64s4k1z4u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_AXI4BundleAR.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_AXI4BundleAW.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_AXI4BundleB.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_AXI4BundleR.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_AXI4BundleW.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_BundleMap.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBroadcastData.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a12d64s8k1z2u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a14d64s4k1z4u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a21d64s4k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a28d256s5k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a29d64s4k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a29d64s4k1z4u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a33d64s1k2z4u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleA_a33d64s2k2z4c.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleB_a33d64s2k2z4c.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleC_a33d64s2k2z4c.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a12d64s8k1z2u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a14d64s4k1z4u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a21d64s4k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a28d256s5k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a29d64s4k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a29d64s4k1z4u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a33d64s1k2z4u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a33d64s2k2z4c.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleD_a33d8s1k2z4u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue2_TLBundleE_a33d64s2k2z4c.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue64_UInt8.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Queue8_AXI4BundleR.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/RVCExpander.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a12d64s4k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a13d64s4k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a17d64s4k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a21d64s4k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a26d64s4k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a28d256s5k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a28d64s4k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleA_a29d64s4k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleB_a33d256s3k2z3c.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleD_a33d256s3k2z3c.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Repeater_TLBundleD_a33d64s1k2z4u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ResetCatchAndSync_d3.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ResetCatchAndSync_d3_MyBoardFPGATestHarness_UNIQUIFIED.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ResetSynchronizerShiftReg_w1_d3_i0.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/Rocket.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/RocketALU.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/RocketTile.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/SBToTL.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ScratchpadBank.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ShiftQueue.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/SynchronizerShiftReg_w1_d3.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/SynchronizerShiftReg_w8_d3.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/SystemBus.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLAsyncCrossingSink_a9d32s1k1z2u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLAsyncCrossingSource_a9d32s1k1z2u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLAtomicAutomata_cbus.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLAtomicAutomata_pbus.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBroadcast.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBroadcastTracker.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBroadcastTracker_1.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBroadcastTracker_2.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBroadcastTracker_3.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a12d64s8k1z2u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a14d64s4k1z4u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a21d64s4k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a28d256s5k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a29d64s4k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a29d64s4k1z4u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a33d64s1k2z4u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBuffer_a33d64s2k2z4c_1.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBusBypass.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLBusBypassBar.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLDebugModule.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLDebugModuleInner.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLDebugModuleInnerAsync.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLDebugModuleOuter.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLDebugModuleOuterAsync.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLError.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLError_1.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_BootAddrReg.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_CLINT.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_Debug.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_PLIC.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_ScratchpadBank.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_TileClockGater.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_TileResetSetter.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_UART.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLFragmenter_bootrom.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_cbus_to_bootrom.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_cbus_to_clint.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_cbus_to_debug.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_cbus_to_plic.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_cbus_to_prci_ctrl.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_fbus_from_debug_sb.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_mbus_to_memory_controller_port_named_axi4.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_pbus_to_bootaddressreg.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_pbus_to_device_named_uart_0.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_sbus_to_bus_named_coh.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLInterconnectCoupler_sbus_to_port_named_mmio_port_axi4.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLPLIC.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLRAM_ScratchpadBank.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLROM.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLToAXI4.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLToAXI4_1.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLUART.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLUARTClockSinkDomain.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLWidthWidget1.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLWidthWidget8_2.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_MasterXbar_RocketTile_i2_o1_a33d64s2k2z4c.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_cbus_in_i2_o1_a29d64s4k1z4u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_cbus_out_i1_o7_a29d64s4k1z4u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_dmixbar_i1_o2_a9d32s1k1z2u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_mbus_i1_o2_a33d256s5k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_pbus_out_i1_o2_a29d64s4k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_prcibus_i1_o2_a21d64s4k1z3u.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TLXbar_sbus_i2_o3_a33d64s3k2z4c.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TileClockGater.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TilePRCIDomain.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/TileResetSetter.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/UARTRx.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/UARTTx.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -2184,14 +1769,28 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/interfaces/axis_video_if.sv">
+      <File Path="$PPRDIR/../rtl/bus/axi4_ui_read_cdc.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/interfaces/video_stream_if.sv">
+      <File Path="$PPRDIR/../rtl/bus/axi4_ui_write_cdc.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/interfaces/axi_lite_if.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/interfaces/axis_video_if.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -2205,7 +1804,77 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/ai/preprocess/frame_preprocess_accel.sv">
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/bootromClockSinkDomain.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/camera/camera_axis_cdc.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/camera/camera_axis_to_stream.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/camera/camera_clocking.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/camera_hdmi_subsystem.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/camera/camera_pixel_assembler.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/camera/camera_subsystem.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/bus/cdc_payload_fifo.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/framebuffer/channel_write_fifo.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/control/control_soc_subsystem.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/framebuffer/ddr_frame_reader.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -2213,6 +1882,356 @@
         </FileInfo>
       </File>
       <File Path="$PPRDIR/../rtl/memory/ddr_memory_subsystem.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/overlay/detection_overlay.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/framebuffer/display_reader_subsystem.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/camera/dvp_event_bridge.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/camera/dvp_href_line_guard.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/camera/dvp_pclk_recovery.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/ai/preprocess/frame_preprocess_accel.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/hdmi/hdmi_4k_spatial_demux.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/hdmi/hdmi_phy_subsystem.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/hdmi/hdmi_rx_subsystem.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/hdmi/hdmi_subsystem.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/hdmi/hdmi_tx_subsystem.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/mem.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/framebuffer/mosaic_frame_reader.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/framebuffer/multi_channel_ddr_video_pipeline.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/framebuffer/multi_channel_frame_manager.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/framebuffer/multi_channel_framebuffer_ctrl.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/framebuffer/multi_channel_video_dma.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/camera/ov7670_frontend.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/camera/ov7670_init_scheduler.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x10.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x101.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x103.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x109.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x115.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x116.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x124.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x125.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x272.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x288.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x331.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x41.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x6.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x60.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x71.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x73.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x77.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x79.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x80.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x82.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_2x97.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_64x8.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_8x78.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/ram_sink_2x2.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/rf_31x64.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/rockettile_dcache_data_arrays_0.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/rockettile_dcache_tag_array_0.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/rockettile_icache_data_arrays_0_0.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/rockettile_icache_data_arrays_1_0.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/gen-collateral/rockettile_icache_tag_array_0.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/video/video_control_subsystem.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
@@ -2233,17 +2252,52 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/bus/async_fifo.sv">
+      <File Path="$PPRDIR/../rtl/video/camera/video_stream_cdc.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PPRDIR/../rtl/bus/axi4_write_cdc.sv">
+      <File Path="$PPRDIR/../rtl/interfaces/video_stream_if.sv">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/si5338/i2c_master.vhd">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/si5338/si5338.vhd">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PPRDIR/../rtl/top_wrapper.sv">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/imports/rtl/si5338/si5338_1.mif">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../rtl/si5338/si5338_1.mif"/>
+          <Attr Name="ImportTime" Val="1787130334"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/imports/rtl/si5338/si5338_2.mif">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../rtl/si5338/si5338_2.mif"/>
+          <Attr Name="ImportTime" Val="1787130334"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
@@ -2256,32 +2310,6 @@
       <File Path="$PPRDIR/../rtl/si5338/si5338_1.mif">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/si5338/si5338top.v">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/si5338/si5338.vhd">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/si5338/i2c_master.vhd">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PPRDIR/../rtl/top_wrapper.sv">
-        <FileInfo>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>

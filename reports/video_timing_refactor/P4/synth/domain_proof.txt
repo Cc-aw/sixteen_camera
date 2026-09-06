@@ -1,0 +1,20 @@
+PATTERN u_ddr_memory/u_video_framebuffer/u_writer/* REGISTERS 6506
+  CLOCK camera_video_clk REGISTERS 6506
+PATTERN u_ddr_memory/u_video_framebuffer/u_reader/* REGISTERS 18085
+  CLOCK camera_video_clk REGISTERS 18085
+PATTERN u_ddr_memory/u_video_framebuffer/u_manager/* REGISTERS 19682
+  CLOCK camera_video_clk REGISTERS 19682
+PATTERN u_ddr_memory/u_video_framebuffer/u_batch_preprocess/* REGISTERS 1938
+  CLOCK camera_video_clk REGISTERS 1938
+PATTERN u_ddr_memory/u_writer_ui_cdc/* REGISTERS 852
+  CLOCK camera_video_clk REGISTERS 267
+  CLOCK mmcm_clkout0 REGISTERS 585
+PATTERN u_ddr_memory/u_reader_ui_cdc/* REGISTERS 444
+  CLOCK camera_video_clk REGISTERS 196
+  CLOCK mmcm_clkout0 REGISTERS 248
+PATTERN u_ddr_memory/u_preprocess_read_ui_cdc/* REGISTERS 444
+  CLOCK camera_video_clk REGISTERS 196
+  CLOCK mmcm_clkout0 REGISTERS 248
+PATTERN u_ddr_memory/u_preprocess_write_ui_cdc/* REGISTERS 852
+  CLOCK camera_video_clk REGISTERS 267
+  CLOCK mmcm_clkout0 REGISTERS 585
