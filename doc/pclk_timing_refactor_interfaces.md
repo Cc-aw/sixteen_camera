@@ -36,6 +36,14 @@
 - FIFO RAM read enable 仅由本地 `empty`、reset-busy、reset 和 skid-slot 状态决定；`m_axis.tready` 只消费已寄存的 AXIS 输出，不得被重新接回 RAM enable 组合锥。
 - `m_axis.tvalid && !m_axis.tready` 时 data/sof/eol 保持稳定；持续 ready 且已有数据时允许每个 `camera_clk` 发送一个 beat。
 
+### P3 已实现边界
+
+- MIG UI 的 3.332 ns 时钟继续作为 `capture_clk`；新增 `BUFGCE_DIV` `/2` 输出形成 6.664 ns 的 `video_clk`。`video_resetn` 在该域异步断言、三级同步释放。HDMI 和尚未迁移的 DDR writer 仍使用 `capture_clk`。
+- `ov7670_frontend` 只在 capture 域完成 DVP 输入同步、PCLK 恢复、VSYNC/HREF 过滤和行保护，并发布 14-bit 有序字节/控制事件；RGB565 拼接、RGB888 扩展、两像素 packer、本地 camera FIFO 和 stream 封装已迁到 video 域。
+- `dvp_event_bridge` 是每路 capture→video 的真实 `xpm_fifo_async` 边界，深度 1024。物理 DVP 不可反压；FIFO 满或恢复故障后进入 drop-until-frame，独立 toggle/ack fault 通道通知 video 域，只允许在后续完整 frame boundary 处发布 resync。
+- `camera_pixel_assembler` 在 fault/resync 后丢弃半像素和未完成帧；fault 与数据事件同拍时 fault 优先，不能泄漏一个旧像素。独立 `line_end` 事件仍能在无 pixel-valid 时传播。
+- P4 尚未迁移 DDR writer，因此 P3 使用深度 1024 的 `video_stream_cdc` 将完整 88-bit stream 从 video 域送回 capture/UI 域；数据及 `sof/eol/eof/stream_id/frame_id/error` 原子跨越并在反压时保持稳定。P4 完成 writer 边界迁移后删除该临时桥。
+
 ## DDR 帧事务
 
 - 16 个 capture client：channel 0..7 为 OV7670，8..15 为 HDMI demux。
@@ -54,4 +62,4 @@
 | video→DDR UI | AXI command/write/read response | AXI clock converter/显式队列 | 返回预留、关联、abort/drain |
 | diagnostic snapshot | counter snapshot/toggle | Gray 或 bundled req/ack | 不反压数据面、连续 clear/snapshot |
 
-具体新增 crossing 在实现阶段补充实例名、时钟 pin 和报告定位。
+P3 新增 crossing 位于每路 `g_camera_frontend[*].u_event_bridge` 和 `g_camera_frontend[*].u_writer_bridge`。综合级 CDC、clock interaction 和层次资源报告保存在 `reports/video_timing_refactor/P3/synth/`；300/150 时钟仍按真实 2:1 关系计时，没有用 clock group 或扩大 false path 隔离。

@@ -73,6 +73,8 @@ module top_wrapper (
     wire hdmi_tx_locked;
     wire video_clk;
     wire video_resetn;
+    wire capture_clk;
+    wire capture_resetn;
     wire camera_ref_clk;
     wire camera_pll_locked;
     wire [7:0] ov7670_pclk_ibuf;
@@ -173,8 +175,9 @@ module top_wrapper (
         .hdmi_channel_frame_counts(hdmi_channel_frame_counts),
         .camera_axis_diag(camera_axis_diag),
         .malformed_counts(camera_malformed_counts),
-        .video_axis(ddr_video_axis), .video_clk(video_clk),
-        .video_resetn(video_resetn)
+        .video_axis(ddr_video_axis),
+        .capture_clk(capture_clk), .capture_resetn(capture_resetn),
+        .video_clk(video_clk), .video_resetn(video_resetn)
     );
 
     camera_hdmi_subsystem u_camera_hdmi (
@@ -185,7 +188,8 @@ module top_wrapper (
         .hdmi_capture_channels(hdmi_capture_channels),
         .hdmi_capture_enable(hdmi_capture_enable),
         .framebuffer_axil(framebuffer_axil),
-        .capture_clk(video_clk), .capture_resetn(video_resetn),
+        .capture_clk(capture_clk), .capture_resetn(capture_resetn),
+        .video_clk(video_clk), .video_resetn(video_resetn),
         .hdmi_rx_clk_p(hdmi_rx_clk_p), .hdmi_rx_clk_n(hdmi_rx_clk_n),
         .hdmi_rx_data_p(hdmi_rx_data_p), .hdmi_rx_data_n(hdmi_rx_data_n),
         .hdmi_ref_clk_p(hdmi_ref_clk_p), .hdmi_ref_clk_n(hdmi_ref_clk_n),

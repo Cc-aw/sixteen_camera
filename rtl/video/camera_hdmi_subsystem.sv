@@ -13,6 +13,8 @@ module camera_hdmi_subsystem (
     axi_lite_if.master framebuffer_axil,
     input wire capture_clk,
     input wire capture_resetn,
+    input wire video_clk,
+    input wire video_resetn,
 
     output wire [7:0] cam_rst_n,
     output wire [7:0] cam_pwdn,
@@ -95,7 +97,9 @@ module camera_hdmi_subsystem (
     camera_subsystem u_camera_subsystem (
         .sys_rstn(sys_rstn), .sys_init_done(sys_init_done),
         .camera_ref_clk(camera_ref_clk), .capture_clk(capture_clk),
-        .capture_resetn(capture_resetn), .camera_axil(camera_axil),
+        .capture_resetn(capture_resetn),
+        .video_clk(video_clk), .video_resetn(video_resetn),
+        .camera_axil(camera_axil),
         .capture_channels(camera_capture_channels),
         .cam_rst_n(cam_rst_n), .cam_pwdn(cam_pwdn), .cam_scl(cam_scl),
         .cam_sda(cam_sda), .cam_xclk(cam_xclk),

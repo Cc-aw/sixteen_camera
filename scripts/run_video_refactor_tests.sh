@@ -41,6 +41,16 @@ run_verilator tb_camera_axis_cdc_backpressure \
     rtl/video/camera/camera_axis_cdc.sv \
     sim/tb_camera_axis_cdc_backpressure.sv
 
+run_verilator tb_dvp_event_bridge_assembler \
+    rtl/video/camera/dvp_event_bridge.sv \
+    rtl/video/camera/camera_pixel_assembler.sv \
+    sim/tb_dvp_event_bridge_assembler.sv
+
+run_verilator tb_video_stream_cdc \
+    rtl/interfaces/video_stream_if.sv \
+    rtl/video/camera/video_stream_cdc.sv \
+    sim/tb_video_stream_cdc.sv
+
 run_verilator tb_camera_axis_to_stream_recovery \
     rtl/interfaces/axis_video_if.sv \
     rtl/interfaces/video_stream_if.sv \

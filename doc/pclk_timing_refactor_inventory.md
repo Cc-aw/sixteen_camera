@@ -77,6 +77,8 @@ P0 关键事实：当前没有独立 150 MHz video backbone；`ddr_memory_subsys
 | P5 | 前端/reader 的局部化层次、SLR 引导、diagnostic snapshot 路径、XDC |
 | P6 | 全量回归、routed report、结果与回滚文档 |
 
+P3 实际文件落点：`rtl/memory/ddr_memory_subsystem.sv` 产生 capture/video 两个时钟与各自 reset；`rtl/video/camera/dvp_event_bridge.sv`、`camera_pixel_assembler.sv`、`video_stream_cdc.sv` 构成 300→150 前端和 P4 前临时 150→300 回程；`camera_subsystem.sv`、`camera_hdmi_subsystem.sv`、`top_wrapper.sv` 传递新边界；`xdc/clk.xdc` 声明 `/2` generated clock。MIG 配置和非 Gemmini SoC collateral 未改变。
+
 ## P0 未执行项
 
 - 板级摄像头/HDMI/DDR 压力测试：未执行。

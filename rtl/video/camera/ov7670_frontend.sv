@@ -644,6 +644,7 @@ module ov7670_frontend #(
     output wire init_terminal,
     input wire video_clk,
     input wire video_resetn,
+    input wire pixel_clk,
     axi_lite_if.slave camera_axil,
 
     input wire ov7670_pclk,
@@ -660,8 +661,8 @@ module ov7670_frontend #(
     input wire cam_pwdn_pad,
     input wire cam_scl_pad,
 
-    output wire pixel_valid,
-    input wire pixel_ready,
+    output wire event_valid,
+    input wire event_ready,
     input wire [31:0] diag_fifo_full_stall_count,
     input wire [31:0] diag_ready_low_count,
     input wire [31:0] diag_fifo_max_level,
@@ -669,10 +670,13 @@ module ov7670_frontend #(
     input wire [255:0] stream_diag_counts,
     input wire [31:0] stream_timeout_abort_count,
     output reg diag_clear_toggle,
-    output wire [23:0] pixel_data,
-    output wire frame_start,
-    output wire line_last,
-    output wire line_end,
+    output wire [7:0] event_data,
+    output wire event_byte_valid,
+    output wire event_line_start,
+    output wire event_line_last,
+    output wire event_line_end,
+    output wire event_frame_boundary,
+    output wire event_fault,
     output wire pixel_resetn,
     output wire pixel_enable,
     output wire [383:0] axis_diag
@@ -692,6 +696,7 @@ module ov7670_frontend #(
     reg [31:0] input_line_count = 32'd0;
     reg [31:0] input_byte_count = 32'd0;
     reg [31:0] input_pixel_count = 32'd0;
+    reg        input_byte_phase = 1'b0;
     reg [31:0] input_overflow_count = 32'd0;
     reg [15:0] current_line_bytes = 16'd0;
     reg [15:0] last_line_bytes = 16'd0;
@@ -1028,7 +1033,7 @@ module ov7670_frontend #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1), .WIDTH(96)
     ) u_cdc_diag_cdc (
-        .src_clk(video_clk), .src_in(cdc_diag_source),
+        .src_clk(pixel_clk), .src_in(cdc_diag_source),
         .dest_clk(camera_axil.aclk), .dest_out(cdc_diag_axil)
     );
 
@@ -1223,22 +1228,33 @@ module ov7670_frontend #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1), .WIDTH(256)
     ) u_stream_diag_cdc (
-        .src_clk(video_clk), .src_in(stream_diag_gray_source),
+        .src_clk(pixel_clk), .src_in(stream_diag_gray_source),
         .dest_clk(camera_axil.aclk), .dest_out(stream_diag_gray_axil)
     );
 
-    wire [63:0] ingress_extra_gray_source = {
-        rejected_vsync_count ^ (rejected_vsync_count >> 1),
-        diag_line_flush_count ^ (diag_line_flush_count >> 1)
-    };
+    wire [31:0] rejected_vsync_gray_source =
+        rejected_vsync_count ^ (rejected_vsync_count >> 1);
+    wire [31:0] line_flush_gray_source =
+        diag_line_flush_count ^ (diag_line_flush_count >> 1);
+    wire [31:0] rejected_vsync_gray_axil;
+    wire [31:0] line_flush_gray_axil;
     wire [63:0] ingress_extra_gray_axil;
     xpm_cdc_array_single #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(1), .WIDTH(64)
-    ) u_ingress_extra_diag_cdc (
-        .src_clk(video_clk), .src_in(ingress_extra_gray_source),
-        .dest_clk(camera_axil.aclk), .dest_out(ingress_extra_gray_axil)
+        .SRC_INPUT_REG(1), .WIDTH(32)
+    ) u_rejected_vsync_diag_cdc (
+        .src_clk(video_clk), .src_in(rejected_vsync_gray_source),
+        .dest_clk(camera_axil.aclk), .dest_out(rejected_vsync_gray_axil)
     );
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(32)
+    ) u_line_flush_diag_cdc (
+        .src_clk(pixel_clk), .src_in(line_flush_gray_source),
+        .dest_clk(camera_axil.aclk), .dest_out(line_flush_gray_axil)
+    );
+    assign ingress_extra_gray_axil = {rejected_vsync_gray_axil,
+                                      line_flush_gray_axil};
 
     wire [95:0] href_guard_diag_source = {
         4'd0, href_guard_gap_max, href_guard_flush_position,
@@ -1262,7 +1278,7 @@ module ov7670_frontend #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1), .WIDTH(32)
     ) u_timeout_abort_diag_cdc (
-        .src_clk(video_clk), .src_in(timeout_abort_gray_source),
+        .src_clk(pixel_clk), .src_in(timeout_abort_gray_source),
         .dest_clk(camera_axil.aclk), .dest_out(timeout_abort_gray_axil)
     );
 
@@ -1871,39 +1887,23 @@ module ov7670_frontend #(
         .active(href_guard_active), .discarding(href_guard_discarding)
     );
 
-    function automatic [23:0] rgb565_to_rgb888(input [15:0] value);
-        reg [4:0] red;
-        reg [5:0] green;
-        reg [4:0] blue;
-        begin
-            red = value[15:11];
-            green = value[10:5];
-            blue = value[4:0];
-            rgb565_to_rgb888 = {red, red[4:2], blue, blue[4:2],
-                                green, green[5:4]};
-        end
-    endfunction
-
-    reg [7:0] first_byte;
-    reg byte_phase;
-    reg frame_pending;
-    reg sof_pending;
-
-    // All outputs are pulses in the 300 MHz capture domain.  pixel_ce is the
-    // only event that advances the byte/pixel state; downstream readiness is
-    // observational because the physical sensor cannot be stalled.
-    // Keep the domain reset independent of the run-time capture control.
-    // capture_enable_sync2 is a synchronous transaction qualifier; exposing
-    // its AND with reset as an asynchronous reset caused a LUT to drive the
-    // CLR pins in every camera_axis_cdc instance.
+    // Ordered recovery events are the only payload leaving the 300 MHz
+    // capture domain. RGB565 assembly is intentionally deferred until after
+    // the P3 event CDC. The source is physical and cannot be backpressured;
+    // event_ready is telemetry for an explicit overflow/resync decision.
     assign pixel_resetn = video_resetn;
     assign pixel_enable = capture_enable_sync2;
-    assign pixel_valid = href_guard_byte_accept && byte_phase;
-    assign pixel_data = rgb565_to_rgb888({first_byte, href_aligned_data});
-    assign frame_start = pixel_valid && sof_pending;
-    assign line_last = pixel_valid && href_guard_last_byte;
-    assign line_end = href_guard_line_end;
-    wire output_fire = pixel_valid && pixel_ready;
+    assign event_data = href_aligned_data;
+    assign event_byte_valid = href_guard_byte_accept;
+    assign event_line_start = href_guard_line_start;
+    assign event_line_last = href_guard_last_byte;
+    assign event_line_end = href_guard_line_end;
+    assign event_frame_boundary = pixel_ce && vsync_qualified &&
+                                  !diag_vsync_d;
+    assign event_fault = pclk_loss_event;
+    assign event_valid = capture_enable_sync2 &&
+                         (event_byte_valid || event_line_end ||
+                          event_frame_boundary || event_fault);
 
     always @(posedge video_clk) begin
         if (!capture_resetn) begin
@@ -1982,6 +1982,7 @@ module ov7670_frontend #(
             input_line_count <= 32'd0;
             input_byte_count <= 32'd0;
             input_pixel_count <= 32'd0;
+            input_byte_phase <= 1'b0;
             input_overflow_count <= 32'd0;
             current_line_bytes <= 16'd0;
             last_line_bytes <= 16'd0;
@@ -1989,32 +1990,38 @@ module ov7670_frontend #(
             last_frame_lines <= 16'd0;
             diag_vsync_d <= 1'b0;
             diag_href_d <= 1'b0;
-        end else if (pixel_ce) begin
-            pclk_cycle_count <= pclk_cycle_count + 1'b1;
-            diag_vsync_d <= vsync_qualified;
-            diag_href_d <= href_filtered;
+        end else begin
+            if (event_valid && !event_ready)
+                input_overflow_count <= input_overflow_count + 1'b1;
+            if (event_frame_boundary || event_line_end)
+                input_byte_phase <= 1'b0;
+            else if (event_byte_valid) begin
+                if (input_byte_phase)
+                    input_pixel_count <= input_pixel_count + 1'b1;
+                input_byte_phase <= !input_byte_phase;
+            end
+            if (pixel_ce) begin
+                pclk_cycle_count <= pclk_cycle_count + 1'b1;
+                diag_vsync_d <= vsync_qualified;
+                diag_href_d <= href_filtered;
 
-            if (vsync_qualified && !diag_vsync_d) begin
-                input_frame_count <= input_frame_count + 1'b1;
-                last_frame_lines <= current_frame_lines;
-                current_frame_lines <= 16'd0;
-            end else if (href_filtered && !diag_href_d) begin
-                input_line_count <= input_line_count + 1'b1;
-                current_frame_lines <= current_frame_lines + 1'b1;
-            end
-            if (!href_filtered && diag_href_d)
-                last_line_bytes <= current_line_bytes;
-            if (href_filtered) begin
-                input_byte_count <= input_byte_count + 1'b1;
-                if (!diag_href_d)
-                    current_line_bytes <= 16'd1;
-                else
-                    current_line_bytes <= current_line_bytes + 1'b1;
-            end
-            if (pixel_valid) begin
-                input_pixel_count <= input_pixel_count + 1'b1;
-                if (!pixel_ready)
-                    input_overflow_count <= input_overflow_count + 1'b1;
+                if (vsync_qualified && !diag_vsync_d) begin
+                    input_frame_count <= input_frame_count + 1'b1;
+                    last_frame_lines <= current_frame_lines;
+                    current_frame_lines <= 16'd0;
+                end else if (href_filtered && !diag_href_d) begin
+                    input_line_count <= input_line_count + 1'b1;
+                    current_frame_lines <= current_frame_lines + 1'b1;
+                end
+                if (!href_filtered && diag_href_d)
+                    last_line_bytes <= current_line_bytes;
+                if (href_filtered) begin
+                    input_byte_count <= input_byte_count + 1'b1;
+                    if (!diag_href_d)
+                        current_line_bytes <= 16'd1;
+                    else
+                        current_line_bytes <= current_line_bytes + 1'b1;
+                end
             end
         end
     end
@@ -2032,59 +2039,11 @@ module ov7670_frontend #(
         end
     end
 
-    // OV7670 VSYNC and HREF are active high with the ztachip register table.
-    // RGB565 arrives high byte first and is emitted on every second PCLK.
-    always @(posedge video_clk) begin
-        if (!capture_resetn) begin
-            first_byte <= 8'd0;
-            byte_phase <= 1'b0;
-            frame_pending <= 1'b0;
-            sof_pending <= 1'b0;
-        end else begin
-            if (vsync_qualified) begin
-                frame_pending <= 1'b1;
-                sof_pending <= 1'b0;
-                byte_phase <= 1'b0;
-            end else if (href_guard_line_end) begin
-                byte_phase <= 1'b0;
-            end else if (href_guard_byte_accept) begin
-                if (href_guard_line_start && frame_pending) begin
-                    frame_pending <= 1'b0;
-                    sof_pending <= 1'b1;
-                end
-                if (!byte_phase) begin
-                    first_byte <= href_aligned_data;
-                    byte_phase <= 1'b1;
-                end else begin
-                    byte_phase <= 1'b0;
-                    sof_pending <= 1'b0;
-                end
-            end
-        end
-    end
-
-    reg [31:0] output_fire_count;
-    reg [31:0] output_sof_count;
-    reg [31:0] output_eol_count;
-    always @(posedge video_clk) begin
-        if (!capture_resetn) begin
-            output_fire_count <= 32'd0;
-            output_sof_count <= 32'd0;
-            output_eol_count <= 32'd0;
-        end else if (output_fire) begin
-            output_fire_count <= output_fire_count + 1'b1;
-            if (frame_start)
-                output_sof_count <= output_sof_count + 1'b1;
-            if (line_last)
-                output_eol_count <= output_eol_count + 1'b1;
-        end
-    end
-
     assign axis_diag = {
         32'd0, 32'd0, input_overflow_count,
         32'd0, 32'd0, 32'd0,
         32'd0, 32'd0, 32'd0,
-        output_eol_count, output_sof_count, output_fire_count
+        input_line_count, input_frame_count, input_pixel_count
     };
     wire unused = &{1'b0, FRAME_WIDTH, FRAME_HEIGHT, LEFT_MARGIN,
                     TOP_MARGIN, video_clk, sys_init_done};

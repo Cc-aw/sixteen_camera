@@ -31,6 +31,8 @@ module ddr_memory_subsystem (
     input wire [255:0] hdmi_channel_overflow_counts,
     input wire [255:0] hdmi_channel_frame_counts,
     axis_video_if.source video_axis,
+    output wire         capture_clk,
+    output wire         capture_resetn,
     output wire         video_clk,
     output wire         video_resetn
 );
@@ -42,9 +44,18 @@ module ddr_memory_subsystem (
     wire ddr_resetn_raw = peripheral_aresetn[0] && c0_init_calib_complete;
     (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg [2:0] ddr_reset_sync;
     wire ddr_resetn = ddr_reset_sync[2];
-    assign video_clk = ddr_ui_clk;
-    assign video_resetn = ddr_resetn;
+    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg [2:0] video_reset_sync;
+    assign capture_clk = ddr_ui_clk;
+    assign capture_resetn = ddr_resetn;
     wire unused_soc_clk_100m;
+
+    // Dedicated 2:1 global clock divider: 300.120 MHz MIG UI clock to the
+    // 150.060 MHz P3 camera-video domain. No fabric-generated clock is used.
+    BUFGCE_DIV #(.BUFGCE_DIVIDE(2), .IS_CE_INVERTED(1'b0),
+                 .IS_CLR_INVERTED(1'b0), .IS_I_INVERTED(1'b0))
+    u_camera_video_clk_div (
+        .I(ddr_ui_clk), .CE(1'b1), .CLR(1'b0), .O(video_clk)
+    );
 
     always @(posedge ddr_ui_clk or negedge ddr_resetn_raw) begin
         if (!ddr_resetn_raw)
@@ -52,6 +63,15 @@ module ddr_memory_subsystem (
         else
             ddr_reset_sync <= {ddr_reset_sync[1:0], 1'b1};
     end
+
+
+    always @(posedge video_clk or negedge ddr_resetn) begin
+        if (!ddr_resetn)
+            video_reset_sync <= 3'b000;
+        else
+            video_reset_sync <= {video_reset_sync[1:0], 1'b1};
+    end
+    assign video_resetn = video_reset_sync[2];
 
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) writer_axi();
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) reader_axi();
