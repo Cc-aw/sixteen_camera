@@ -65,13 +65,6 @@ set_false_path -to [get_pins {u_control_soc/ddr_calib_sync_reg[0]/D}]
 set_false_path -to [get_pins -hierarchical -filter \
     {NAME =~ */u_video_framebuffer/u_control/ack_sync_1_reg/D}]
 
-# These are asynchronous-assert/synchronous-release reset synchronizers.
-# Their CLR pins intentionally accept reset assertion from another clock
-# domain; timing the recovery/removal arc to the asynchronous source would
-# report the reset transition rather than the synchronized release path.
-set_false_path -to [get_pins -hierarchical -filter \
-    {NAME =~ *u_camera_cdc/ddr_resetn_cam_sync_reg*/CLR}]
-
 # DDR UI reset is an asynchronous-assert/synchronous-release reset generated
 # by ddr_reset_sync. The synchronizer clock and recovery/removal checks remain
 # constrained; the old Q-origin exception was not a valid timing startpoint in
@@ -107,10 +100,6 @@ set dvp_sync_cells [get_cells -hierarchical -filter \
      NAME =~ *dvp_pclk_sync_reg}]
 set_max_delay 1.500 -datapath_only \
     -from $dvp_iob_cells -to $dvp_sync_cells
-set_min_delay 0.000 -datapath_only \
-    -from $dvp_iob_cells -to $dvp_sync_cells
-unset dvp_iob_cells
-unset dvp_sync_cells
 
 # The eight FMC camera inputs sit in two SLRs.  USER_SLR_ASSIGNMENT applies
 # only to hierarchical cells and is ignored on these leaf registers, so use

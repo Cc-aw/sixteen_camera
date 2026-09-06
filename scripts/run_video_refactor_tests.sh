@@ -33,9 +33,13 @@ run_iverilog tb_dvp_href_line_guard \
 
 run_verilator tb_camera_axis_cdc_line_boundary \
     rtl/interfaces/axis_video_if.sv \
-    sim/xpm_fifo_async_model.sv \
     rtl/video/camera/camera_axis_cdc.sv \
     sim/tb_camera_axis_cdc_line_boundary.sv
+
+run_verilator tb_camera_axis_cdc_backpressure \
+    rtl/interfaces/axis_video_if.sv \
+    rtl/video/camera/camera_axis_cdc.sv \
+    sim/tb_camera_axis_cdc_backpressure.sv
 
 run_verilator tb_camera_axis_to_stream_recovery \
     rtl/interfaces/axis_video_if.sv \

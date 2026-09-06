@@ -1,7 +1,8 @@
 `timescale 1ns/1ps
 
-// Converts the OV5645 ISP's one-pixel RGB888 stream into the framebuffer's
-// two-pixel AXIS format and crosses into the DDR UI clock domain.
+// Converts the camera's one-pixel RGB888 stream into the framebuffer's
+// two-pixel AXIS format.  In P2 camera_clk and ddr_clk are the same physical
+// MIG UI clock; the real capture-to-video CDC is introduced in P3.
 module camera_axis_cdc #(
     parameter integer FRAME_WIDTH = 1920,
     parameter integer FIFO_DEPTH = 4096
@@ -42,25 +43,23 @@ module camera_axis_cdc #(
     wire fifo_empty;
     wire fifo_wr_rst_busy;
     wire fifo_rd_rst_busy;
-    // XPM FIFO reset is synchronous to wr_clk.  Synchronize the DDR-side
-    // reset into the camera domain before combining it with camera_resetn;
-    // this prevents DDR calibration/reset signals from directly driving
-    // camera-domain data registers and the XPM reset network.
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg [2:0] ddr_resetn_cam_sync;
-    // XPM reset is synchronous to wr_clk.  Generate it only from a local
-    // register and stretch release for four clocks, so a run-time disable
-    // flushes queued beats without putting combinational enable logic on an
-    // asynchronous reset pin.
+    // The P2 implementation is deliberately single-clock.  XPM reset is
+    // synchronous to camera_clk and its release is stretched locally.
     reg [3:0] fifo_reset_pipe = 4'hf;
     wire fifo_reset = |fifo_reset_pipe;
-    // In FWFT mode, dout is valid whenever the FIFO is non-empty.  Do not
-    // gate reads with XPM's optional data_valid output: the proven reference
-    // design leaves that port unused, and synthesized hardware can otherwise
-    // deadlock with rd_en permanently low.
-    wire fifo_rd_en = m_axis.tready && !fifo_empty &&
-                       ddr_resetn && !fifo_rd_rst_busy;
     wire [COUNT_WIDTH-1:0] unused_wr_count;
-    wire [COUNT_WIDTH-1:0] unused_rd_count;
+    reg [49:0] output_data_q;
+    reg [49:0] output_skid_data_q;
+    reg output_valid_q;
+    reg output_skid_valid_q;
+    // RAM read enable depends only on registered local occupancy.  Remote
+    // AXIS ready can consume a prefetched word, but it cannot enter the FIFO
+    // BRAM enable cone.
+    wire fifo_rd_en = !fifo_empty && !output_skid_valid_q &&
+                      !fifo_reset && !fifo_rd_rst_busy;
+    wire output_pop = output_valid_q && m_axis.tready && ddr_resetn;
+    wire [COUNT_WIDTH-1:0] buffered_level = unused_wr_count +
+        COUNT_WIDTH'(output_valid_q) + COUNT_WIDTH'(output_skid_valid_q);
     (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg diag_clear_sync1;
     (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg diag_clear_sync2;
     reg diag_clear_seen;
@@ -90,16 +89,8 @@ module camera_axis_cdc #(
             $error("camera_axis_cdc FIFO_DEPTH must be a power of two");
     end
 
-    // Asynchronous assertion, synchronous release in the FIFO write domain.
-    always @(posedge camera_clk or negedge ddr_resetn) begin
-        if (!ddr_resetn)
-            ddr_resetn_cam_sync <= 3'b000;
-        else
-            ddr_resetn_cam_sync <= {ddr_resetn_cam_sync[1:0], 1'b1};
-    end
-
     always @(posedge camera_clk) begin
-        if (!camera_resetn || !camera_enable || !ddr_resetn_cam_sync[2])
+        if (!camera_resetn || !camera_enable || !ddr_resetn)
             fifo_reset_pipe <= 4'hf;
         else
             fifo_reset_pipe <= {fifo_reset_pipe[2:0], 1'b0};
@@ -198,9 +189,9 @@ module camera_axis_cdc #(
                     diag_fifo_full_stall_count + 1'b1;
             if (pixel_valid && !pixel_ready)
                 diag_ready_low_count <= diag_ready_low_count + 1'b1;
-            if (unused_wr_count > diag_fifo_max_level[COUNT_WIDTH-1:0])
+            if (buffered_level > diag_fifo_max_level[COUNT_WIDTH-1:0])
                 diag_fifo_max_level <= {{(32-COUNT_WIDTH){1'b0}},
-                                         unused_wr_count};
+                                         buffered_level};
             if (line_end &&
                 (have_first || (pixel_x != {X_WIDTH{1'b0}})))
                 diag_line_flush_count <= diag_line_flush_count + 1'b1;
@@ -214,71 +205,120 @@ module camera_axis_cdc #(
         end
     end
 
-    xpm_fifo_async #(
-        .CDC_SYNC_STAGES(2),
-        .FIFO_MEMORY_TYPE("block"),
-        .FIFO_READ_LATENCY(0),
-        .FIFO_WRITE_DEPTH(FIFO_DEPTH),
-        .READ_DATA_WIDTH(50),
-        .READ_MODE("fwft"),
-        .USE_ADV_FEATURES("0707"),
-        .WRITE_DATA_WIDTH(50),
-        .WR_DATA_COUNT_WIDTH(COUNT_WIDTH),
-        .RD_DATA_COUNT_WIDTH(COUNT_WIDTH)
+`ifdef VERILATOR
+    localparam integer PTR_WIDTH = $clog2(FIFO_DEPTH);
+    reg [49:0] sim_mem [0:FIFO_DEPTH-1];
+    reg [PTR_WIDTH-1:0] sim_wr_ptr;
+    reg [PTR_WIDTH-1:0] sim_rd_ptr;
+    reg [COUNT_WIDTH-1:0] sim_count;
+    wire sim_write = fifo_wr_en && !fifo_full;
+    wire sim_read = fifo_rd_en && !fifo_empty;
+
+    assign fifo_dout = sim_mem[sim_rd_ptr];
+    assign fifo_empty = (sim_count == 0);
+    assign fifo_full = (sim_count == COUNT_WIDTH'(FIFO_DEPTH));
+    assign fifo_wr_rst_busy = 1'b0;
+    assign fifo_rd_rst_busy = 1'b0;
+    assign unused_wr_count = sim_count;
+
+    always @(posedge camera_clk) begin
+        if (fifo_reset) begin
+            sim_wr_ptr <= 0;
+            sim_rd_ptr <= 0;
+            sim_count <= 0;
+        end else begin
+            if (sim_write) begin
+                sim_mem[sim_wr_ptr] <= fifo_din;
+                sim_wr_ptr <= sim_wr_ptr + 1'b1;
+            end
+            if (sim_read)
+                sim_rd_ptr <= sim_rd_ptr + 1'b1;
+            case ({sim_write, sim_read})
+                2'b10: sim_count <= sim_count + 1'b1;
+                2'b01: sim_count <= sim_count - 1'b1;
+                default: ;
+            endcase
+        end
+    end
+`else
+    xpm_fifo_sync #(
+        .FIFO_MEMORY_TYPE("block"), .ECC_MODE("no_ecc"),
+        .FIFO_WRITE_DEPTH(FIFO_DEPTH), .WRITE_DATA_WIDTH(50),
+        .READ_DATA_WIDTH(50), .READ_MODE("fwft"),
+        .FIFO_READ_LATENCY(0), .WR_DATA_COUNT_WIDTH(COUNT_WIDTH),
+        .RD_DATA_COUNT_WIDTH(COUNT_WIDTH), .DOUT_RESET_VALUE("0"),
+        .FULL_RESET_VALUE(0), .USE_ADV_FEATURES("0707"), .WAKEUP_TIME(0)
     ) u_fifo (
-        .rst(fifo_reset),
-        .wr_clk(camera_clk),
-        .wr_en(fifo_wr_en),
-        .din(fifo_din),
-        .full(fifo_full),
-        .overflow(),
-        .wr_rst_busy(fifo_wr_rst_busy),
-        .wr_data_count(unused_wr_count),
-        .almost_full(),
-        .prog_full(),
-        .wr_ack(),
-        .rd_clk(ddr_clk),
-        .rd_en(fifo_rd_en),
-        .dout(fifo_dout),
-        .empty(fifo_empty),
-        .data_valid(),
-        .underflow(),
-        .rd_rst_busy(fifo_rd_rst_busy),
-        .rd_data_count(unused_rd_count),
-        .almost_empty(),
-        .prog_empty(),
-        .sleep(1'b0),
-        .injectsbiterr(1'b0),
-        .injectdbiterr(1'b0),
-        .sbiterr(),
-        .dbiterr()
+        .sleep(1'b0), .rst(fifo_reset), .wr_clk(camera_clk),
+        .wr_en(fifo_wr_en), .din(fifo_din), .full(fifo_full),
+        .prog_full(), .wr_data_count(unused_wr_count), .overflow(),
+        .wr_ack(), .almost_full(), .wr_rst_busy(fifo_wr_rst_busy),
+        .injectsbiterr(1'b0), .injectdbiterr(1'b0), .sbiterr(),
+        .dbiterr(), .rd_en(fifo_rd_en), .dout(fifo_dout),
+        .empty(fifo_empty), .rd_data_count(), .underflow(), .data_valid(),
+        .almost_empty(), .prog_empty(), .rd_rst_busy(fifo_rd_rst_busy)
     );
+`endif
+
+    // Two registered FWFT prefetch slots.  The first slot is the AXIS output;
+    // the second absorbs a prefetched word while the consumer is stalled.
+    always @(posedge camera_clk) begin
+        if (fifo_reset || fifo_rd_rst_busy || !ddr_resetn) begin
+            output_valid_q <= 1'b0;
+            output_skid_valid_q <= 1'b0;
+        end else begin
+            case ({fifo_rd_en, output_pop})
+                2'b10: begin
+                    if (!output_valid_q) begin
+                        output_data_q <= fifo_dout;
+                        output_valid_q <= 1'b1;
+                    end else begin
+                        output_skid_data_q <= fifo_dout;
+                        output_skid_valid_q <= 1'b1;
+                    end
+                end
+                2'b01: begin
+                    if (output_skid_valid_q) begin
+                        output_data_q <= output_skid_data_q;
+                        output_skid_valid_q <= 1'b0;
+                    end else begin
+                        output_valid_q <= 1'b0;
+                    end
+                end
+                2'b11: begin
+                    // fifo_rd_en can only be high when the skid slot is free.
+                    output_data_q <= fifo_dout;
+                    output_valid_q <= 1'b1;
+                    output_skid_valid_q <= 1'b0;
+                end
+                default: ;
+            endcase
+        end
+    end
 
     assign m_axis.aclk = ddr_clk;
     assign m_axis.aresetn = ddr_resetn;
-    assign m_axis.tdata = fifo_dout[47:0];
-    assign m_axis.tuser = fifo_dout[48];
-    assign m_axis.tlast = fifo_dout[49];
-    assign m_axis.tvalid = !fifo_empty && ddr_resetn &&
-                           !fifo_rd_rst_busy;
-    // Only release the ISP when both sides of the asynchronous FIFO have left
-    // reset.  The DDR-side consumer is faster than this packed camera stream,
-    // so full is not expected during normal operation.
+    assign m_axis.tdata = output_data_q[47:0];
+    assign m_axis.tuser = output_data_q[48];
+    assign m_axis.tlast = output_data_q[49];
+    assign m_axis.tvalid = output_valid_q && ddr_resetn &&
+                           !fifo_reset && !fifo_rd_rst_busy;
+    // Only release the physical source after the common-clock FIFO is ready.
     assign pixel_ready = camera_resetn && camera_enable && input_run_q &&
                          packer_run_q && !fifo_reset && !fifo_wr_rst_busy &&
                          (!have_first || !fifo_full);
 
-    always @(posedge ddr_clk) begin
+    always @(posedge camera_clk) begin
         if (!ddr_resetn) begin
             diag_fire_count <= 0;
             diag_sof_count <= 0;
             diag_eol_count <= 0;
-        end else if (fifo_rd_en) begin
+        end else if (output_pop) begin
             diag_fire_count <= diag_fire_count + 1'b1;
-            if (fifo_dout[48]) diag_sof_count <= diag_sof_count + 1'b1;
-            if (fifo_dout[49]) diag_eol_count <= diag_eol_count + 1'b1;
+            if (output_data_q[48]) diag_sof_count <= diag_sof_count + 1'b1;
+            if (output_data_q[49]) diag_eol_count <= diag_eol_count + 1'b1;
         end
     end
 
-    wire unused = &{1'b0, fifo_empty, unused_wr_count, unused_rd_count};
+    wire unused = &{1'b0, fifo_empty, unused_wr_count, ddr_clk};
 endmodule

@@ -29,6 +29,13 @@
 - disable、camera reset 或已同步的 DDR reset 会装载四拍本地 `fifo_reset_pipe`，冲洗 FIFO 中可能属于旧帧的 beat；重新使能后等待本地 run qualifier 和 FIFO reset-busy 均释放才拉高 `pixel_ready`。
 - P1 仍保持 `camera_clk == ddr_clk == MIG UI clock` 的现状；真正 capture→video 异步事件边界属于 P3，不能把本阶段结构误称为最终 CDC。
 
+### P2 已实现边界
+
+- 在当前同钟前提下，`camera_axis_cdc` 内部使用单时钟 `xpm_fifo_sync`；外部端口名保持兼容，但 `ddr_clk` 不是独立 FIFO 读时钟。P3 改变 capture 时钟前必须同时换成真实事件 CDC，不能继续沿用本结构跨域。
+- FIFO 保持 50-bit `{eol, sof, pixel1, pixel0}` beat 和原配置深度。两个本地预取寄存器属于 FIFO 已发送、AXIS 尚未接受的占用，诊断高水位将它们计入。
+- FIFO RAM read enable 仅由本地 `empty`、reset-busy、reset 和 skid-slot 状态决定；`m_axis.tready` 只消费已寄存的 AXIS 输出，不得被重新接回 RAM enable 组合锥。
+- `m_axis.tvalid && !m_axis.tready` 时 data/sof/eol 保持稳定；持续 ready 且已有数据时允许每个 `camera_clk` 发送一个 beat。
+
 ## DDR 帧事务
 
 - 16 个 capture client：channel 0..7 为 OV7670，8..15 为 HDMI demux。
