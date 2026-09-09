@@ -2,6 +2,7 @@
 
 #include "ai_batch_runtime.h"
 #include "ai_frame_snapshot.h"
+#include "ai_overlay.h"
 #include "ai_preprocess.h"
 #include "ai_runtime_bridge.h"
 #include "camera_config.h"
@@ -9,11 +10,105 @@
 #include "clock_chip.h"
 #include "console.h"
 #include "hdmi_tx.h"
+#include "tinyyolov2_runtime.h"
 #include "video_service.h"
 
 static void print_help(void)
 {
-    console_puts("Commands: s=status, a=snapshot, p=preprocess, f=preprocess format, i=AI input runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
+    console_puts("Commands: s=status, o=fixed overlay box, d=builtin dog inference, a=snapshot, p=preprocess+RGB stats, f=preprocess format, i=AI input runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
+}
+
+static void ai_overlay_fixed_box_test(void)
+{
+    static const AiDetectionResult test_result = {
+        .stream_id = 0U,
+        .count = 1U,
+        .detections = {{
+            .x_min = 64,
+            .y_min = 64,
+            .x_max = 352,
+            .y_max = 352,
+            .score_q15 = 32767U,
+            .class_id = 0U
+        }}
+    };
+
+    if (ai_batch_runtime_is_enabled() != 0U ||
+        ai_batch_runtime_is_idle() == 0U) {
+        console_puts("OVERLAY TEST: press i to disable AI and wait for drain first\r\n");
+        return;
+    }
+
+    int status = ai_overlay_try_submit(&test_result);
+    if (status > 0)
+        console_puts("OVERLAY TEST committed: CH1 green box model_xyxy=64,64,352,352\r\n");
+    else if (status == 0)
+        console_puts("OVERLAY TEST busy; press o again\r\n");
+    else
+        console_puts("OVERLAY TEST submit failed\r\n");
+}
+
+static void ai_builtin_dog_test(void)
+{
+    if (ai_batch_runtime_is_enabled() != 0U ||
+        ai_batch_runtime_is_idle() == 0U) {
+        console_puts("DOG TEST: press i to disable AI and wait for drain first\r\n");
+        return;
+    }
+
+    console_puts("DOG TEST begin (embedded validated dog.jpg tensor)\r\n");
+    int passed = tinyyolov2_run_builtin_dog();
+    tinyyolov2_set_diagnostics(0);
+    console_puts(passed != 0 ?
+                 "DOG TEST PASS: dog detected\r\n" :
+                 "DOG TEST FAIL: dog not detected\r\n");
+}
+
+static void ai_print_ch1_tensor_stats(const AiPreprocessResult *result)
+{
+    if ((result->valid_mask & UINT32_C(1)) == 0U) {
+        console_puts("AI PRE CH1 tensor unavailable\r\n");
+        return;
+    }
+
+    const uint8_t *tensor = (const uint8_t *)AI_DDR_CPU_ALIAS(
+        result->tensor_base);
+    uint32_t minimum[3] = {255U, 255U, 255U};
+    uint32_t maximum[3] = {0U, 0U, 0U};
+    uint32_t sum[3] = {0U, 0U, 0U};
+    uint32_t nonzero = 0U;
+    uint32_t hash = UINT32_C(2166136261);
+    const uint32_t pixels = UINT32_C(416) * UINT32_C(416);
+
+    for (uint32_t pixel = 0U; pixel < pixels; ++pixel) {
+        for (uint32_t channel = 0U; channel < 3U; ++channel) {
+            uint32_t value = tensor[pixel * 3U + channel];
+            if (value < minimum[channel])
+                minimum[channel] = value;
+            if (value > maximum[channel])
+                maximum[channel] = value;
+            sum[channel] += value;
+            nonzero += value != 0U;
+            hash ^= value;
+            hash *= UINT32_C(16777619);
+        }
+    }
+
+    console_puts("AI PRE CH1 RGB min/max/avg=");
+    for (uint32_t channel = 0U; channel < 3U; ++channel) {
+        if (channel != 0U)
+            console_putc(' ');
+        console_put_u32(minimum[channel]);
+        console_putc('/');
+        console_put_u32(maximum[channel]);
+        console_putc('/');
+        console_put_u32(sum[channel] / pixels);
+    }
+    console_puts(" nonzero/hash=");
+    console_put_u32(nonzero);
+    console_putc('/');
+    console_put_hex32(hash);
+    console_puts("\r\n");
 }
 
 static void ai_preprocess_smoke_test(void)
@@ -53,6 +148,8 @@ static void ai_preprocess_smoke_test(void)
     console_putc('/');
     console_put_u32(result.write_beats * 32U);
     console_puts("\r\n");
+
+    ai_print_ch1_tensor_stats(&result);
 
     status = ai_preprocess_recycle(UINT32_C(1) << result.arena);
     console_puts(status == 0 ? "AI PRE arena recycled\r\n" :
@@ -121,6 +218,12 @@ int main(void)
         switch (command) {
         case 's':
             ai_batch_runtime_print_status();
+            break;
+        case 'o':
+            ai_overlay_fixed_box_test();
+            break;
+        case 'd':
+            ai_builtin_dog_test();
             break;
         case 'a':
             if (ai_batch_runtime_is_idle() != 0U)

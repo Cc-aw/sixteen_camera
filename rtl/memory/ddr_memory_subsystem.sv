@@ -19,7 +19,10 @@ module ddr_memory_subsystem (
     inout  wire [7:0]  c0_ddr4_dqs_t,
     output wire [0:0]  c0_ddr4_odt,
     output wire        c0_ddr4_reset_n,
+    input  wire        soc_clk,
+    input  wire        soc_resetn,
     axi4_if.slave      soc_mem_axi,
+    axi4_if.master     fbus_axi,
     axi_lite_if.slave  framebuffer_axil,
     video_stream_if.sink camera_capture_channels [8],
     video_stream_if.sink hdmi_capture_channels [8],
@@ -83,8 +86,6 @@ module ddr_memory_subsystem (
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) reader_ui_axi();
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
         preprocess_read_ui_axi();
-    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
-        preprocess_write_ui_axi();
     video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
         all_capture_channels [16]();
     video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
@@ -197,9 +198,12 @@ module ddr_memory_subsystem (
         .s_axi(preprocess_read_video_axi), .ui_clk(ddr_ui_clk),
         .ui_resetn(ddr_resetn), .m_axi(preprocess_read_ui_axi)
     );
-    axi4_ui_write_cdc u_preprocess_write_ui_cdc (
-        .s_axi(preprocess_write_video_axi), .ui_clk(ddr_ui_clk),
-        .ui_resetn(ddr_resetn), .m_axi(preprocess_write_ui_axi)
+    // Match demo/ai: framebuffer reads stay on the non-coherent DDR S02
+    // read channel, while completed input tensors enter the SoC through its
+    // coherent FBus.  The bridge also applies the bit-31 CPU memory alias.
+    axi4_write_cdc u_preprocess_fbus_write_cdc (
+        .s_axi(preprocess_write_video_axi), .m_clk(soc_clk),
+        .m_resetn(soc_resetn), .m_axi(fbus_axi)
     );
 
     // S01 is deliberately split by AXI channel, matching demo/ai: capture is
@@ -356,29 +360,29 @@ module ddr_memory_subsystem (
         .S01_AXI_rvalid(reader_ui_axi.rvalid),
         .S01_AXI_rready(reader_ui_axi.rready),
 
-        // Preprocess reads and writes share DDR S02. The accelerator exposes
-        // separate AXI interfaces so the independent channels remain clear.
-        .S02_AXI_awid(preprocess_write_ui_axi.awid),
-        .S02_AXI_awaddr(preprocess_write_ui_axi.awaddr),
-        .S02_AXI_awlen(preprocess_write_ui_axi.awlen),
-        .S02_AXI_awsize(preprocess_write_ui_axi.awsize),
-        .S02_AXI_awburst(preprocess_write_ui_axi.awburst),
-        .S02_AXI_awlock(preprocess_write_ui_axi.awlock),
-        .S02_AXI_awcache(preprocess_write_ui_axi.awcache),
-        .S02_AXI_awprot(preprocess_write_ui_axi.awprot),
-        .S02_AXI_awqos(preprocess_write_ui_axi.awqos),
+        // S02 is read-only for preprocessing. Tensor writes use coherent
+        // FBus, so terminate the unused S02 write request channels.
+        .S02_AXI_awid(3'd0),
+        .S02_AXI_awaddr(32'd0),
+        .S02_AXI_awlen(8'd0),
+        .S02_AXI_awsize(3'd0),
+        .S02_AXI_awburst(2'd0),
+        .S02_AXI_awlock(1'b0),
+        .S02_AXI_awcache(4'd0),
+        .S02_AXI_awprot(3'd0),
+        .S02_AXI_awqos(4'd0),
         .S02_AXI_awregion(4'h0),
-        .S02_AXI_awvalid(preprocess_write_ui_axi.awvalid),
-        .S02_AXI_awready(preprocess_write_ui_axi.awready),
-        .S02_AXI_wdata(preprocess_write_ui_axi.wdata),
-        .S02_AXI_wstrb(preprocess_write_ui_axi.wstrb),
-        .S02_AXI_wlast(preprocess_write_ui_axi.wlast),
-        .S02_AXI_wvalid(preprocess_write_ui_axi.wvalid),
-        .S02_AXI_wready(preprocess_write_ui_axi.wready),
-        .S02_AXI_bid(preprocess_write_ui_axi.bid),
-        .S02_AXI_bresp(preprocess_write_ui_axi.bresp),
-        .S02_AXI_bvalid(preprocess_write_ui_axi.bvalid),
-        .S02_AXI_bready(preprocess_write_ui_axi.bready),
+        .S02_AXI_awvalid(1'b0),
+        .S02_AXI_awready(),
+        .S02_AXI_wdata(256'd0),
+        .S02_AXI_wstrb(32'd0),
+        .S02_AXI_wlast(1'b0),
+        .S02_AXI_wvalid(1'b0),
+        .S02_AXI_wready(),
+        .S02_AXI_bid(),
+        .S02_AXI_bresp(),
+        .S02_AXI_bvalid(),
+        .S02_AXI_bready(1'b0),
         .S02_AXI_arid(preprocess_read_ui_axi.arid),
         .S02_AXI_araddr(preprocess_read_ui_axi.araddr),
         .S02_AXI_arlen(preprocess_read_ui_axi.arlen),

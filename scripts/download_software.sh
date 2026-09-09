@@ -3,13 +3,14 @@ set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd -- "$SCRIPT_DIR/.." && pwd)"
-BUILD_FIRMWARE=1
+BUILD_FIRMWARE=0
 CHECK_ONLY=0
 
 usage() {
     cat <<EOF
 用法: $0 [选项]
-  --no-build  使用已有 ELF，不重新编译固件
+  --build     下载前重新编译当前固件
+  --no-build  使用已有 ELF（默认）
   --check     只检查工具、配置和 ELF，不连接开发板
   -h, --help  显示帮助
 
@@ -20,6 +21,7 @@ EOF
 
 while (($#)); do
     case "$1" in
+        --build) BUILD_FIRMWARE=1 ;;
         --no-build) BUILD_FIRMWARE=0 ;;
         --check) CHECK_ONLY=1 ;;
         -h|--help) usage; exit 0 ;;
@@ -30,7 +32,7 @@ done
 
 if ((CHECK_ONLY)); then
     if ((BUILD_FIRMWARE)); then
-        "$ROOT_DIR/sw/run.sh" --check
+        "$ROOT_DIR/sw/run.sh" --build --check
     else
         "$ROOT_DIR/sw/run.sh" --no-build --check
     fi
@@ -39,7 +41,7 @@ fi
 
 echo "下载软件到 Rocket（假定 FPGA bitstream 已由用户提前下载）..."
 if ((BUILD_FIRMWARE)); then
-    exec "$ROOT_DIR/sw/run.sh"
+    exec "$ROOT_DIR/sw/run.sh" --build
 else
     exec "$ROOT_DIR/sw/run.sh" --no-build
 fi

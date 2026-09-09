@@ -6,9 +6,9 @@
 #if TINYYOLOV2_GEMMINI_POOL
 #define GEMMINI_POOL_RUNTIME_DISPATCH 1
 #endif
-#include "include/gemmini.h"
-#include "include/gemmini_nn.h"
-#include "include/gemmini_counter.h"
+#include <include/gemmini.h>
+#include <include/gemmini_nn.h>
+#include <include/gemmini_counter.h>
 #include "tinyyolov2_params.h"
 #include "tinyyolov2_runtime.h"
 #include "tinyyolov2_worker_pool.h"

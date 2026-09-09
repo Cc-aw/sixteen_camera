@@ -15,7 +15,7 @@ enum {
     AI_RUNTIME_RELEASE = 2
 };
 
-#define AI_MODEL_TIMEOUT_CYCLES (SOC_CLOCK_HZ * UINT64_C(5))
+#define AI_MODEL_TIMEOUT_CYCLES (SOC_CLOCK_HZ * UINT64_C(50))
 
 typedef struct {
     uint32_t active;
@@ -638,8 +638,60 @@ void ai_batch_runtime_print_status(void)
         console_put_u32(status->inflight_count);
         console_putc('/');
         console_put_hex64(status->last_frame_id);
+        const AiDetectionResult *latest =
+            ai_result_manager_latest(&runtime.result_manager, stream);
+        if (latest == 0) {
+            console_puts(" det=none");
+        } else {
+            console_puts(" det=");
+            console_put_u32(latest->count);
+        }
         console_puts("\r\n");
+        if (latest != 0) {
+            for (uint32_t index = 0U; index < latest->count; ++index) {
+                const AiDetection *detection = &latest->detections[index];
+                uint32_t score_milli =
+                    ((uint32_t)detection->score_q15 * 1000U + 16384U) /
+                    32768U;
+                console_puts("  BOX");
+                console_put_u32(index);
+                console_puts(" class/score/xyxy=");
+                console_put_u32(detection->class_id);
+                console_putc('/');
+                console_put_u32(score_milli);
+                console_putc('/');
+                console_put_u32((uint32_t)detection->x_min);
+                console_putc(',');
+                console_put_u32((uint32_t)detection->y_min);
+                console_putc(',');
+                console_put_u32((uint32_t)detection->x_max);
+                console_putc(',');
+                console_put_u32((uint32_t)detection->y_max);
+                console_puts("\r\n");
+            }
+        }
     }
+#ifndef AI_MODEL_BACKEND_HOST_TEST
+    console_puts("AI OVL ctrl/stream/count/index/xy0/xy1=");
+    console_put_hex32(mmio_read32(FRAMEBUFFER_BASE +
+                                  FRAMEBUFFER_OVERLAY_CONTROL));
+    console_putc('/');
+    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
+                                FRAMEBUFFER_OVERLAY_STREAM));
+    console_putc('/');
+    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
+                                FRAMEBUFFER_OVERLAY_COUNT));
+    console_putc('/');
+    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
+                                FRAMEBUFFER_OVERLAY_BOX_INDEX));
+    console_putc('/');
+    console_put_hex32(mmio_read32(FRAMEBUFFER_BASE +
+                                  FRAMEBUFFER_OVERLAY_BOX_XY0));
+    console_putc('/');
+    console_put_hex32(mmio_read32(FRAMEBUFFER_BASE +
+                                  FRAMEBUFFER_OVERLAY_BOX_XY1));
+    console_puts("\r\n");
+#endif
 }
 
 void ai_batch_runtime_get_status(AiBatchRuntimeStatus *status)

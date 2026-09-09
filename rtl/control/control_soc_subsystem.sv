@@ -14,14 +14,18 @@ module control_soc_subsystem (
     input  wire ddr_init_done,
     input  wire [7:0] video_interrupts,
     output wire ref_clk_100m,
+    output wire soc_resetn_out,
     axi4_if.master mem_axi,
-    axi4_if.master mmio_axi
+    axi4_if.master mmio_axi,
+    axi4_if.slave  fbus_axi
 );
     wire clk_100m_ibuf;
     wire ref_clk_100m_int;
     wire soc_clk;
     (* ASYNC_REG = "TRUE" *) reg [1:0] ddr_calib_sync;
     wire soc_resetn;
+    wire [28:0] taihang_mmio_awaddr;
+    wire [28:0] taihang_mmio_araddr;
 
     si5338top u_si5338top (
         .clk_25m(clk_25m),
@@ -55,15 +59,62 @@ module control_soc_subsystem (
 
     assign soc_resetn = sys_rstn && ddr_calib_sync[1];
     assign ref_clk_100m = ref_clk_100m_int;
+    assign soc_resetn_out = soc_resetn;
     assign mem_axi.aclk = soc_clk;
     assign mem_axi.aresetn = soc_resetn;
     assign mmio_axi.aclk = soc_clk;
     assign mmio_axi.aresetn = soc_resetn;
-    MyBoardFPGATestHarness u_rocket (
+    // Taihang exposes its external MMIO aperture at 0x1004_0000 with a
+    // 29-bit address bus.  Zero-extension preserves that CPU-visible address
+    // for video_mmio_fabric's existing Taihang compatibility alias.
+    assign mmio_axi.awaddr = {2'b00, taihang_mmio_awaddr};
+    assign mmio_axi.araddr = {2'b00, taihang_mmio_araddr};
+
+    TaihangSoCFPGATestHarness u_rocket (
         .clock(soc_clk),
         .reset(~soc_resetn),
         .uart_txd(uart_txd),
         .uart_rxd(uart_rxd),
+
+        // Coherent tensor writeback from the video preprocessor.  The
+        // current bridge intentionally leaves the FBus read channel idle.
+        .axi4_fbus_aw_ready(fbus_axi.awready),
+        .axi4_fbus_aw_valid(fbus_axi.awvalid),
+        .axi4_fbus_aw_bits_id(fbus_axi.awid),
+        .axi4_fbus_aw_bits_addr(fbus_axi.awaddr),
+        .axi4_fbus_aw_bits_len(fbus_axi.awlen),
+        .axi4_fbus_aw_bits_size(fbus_axi.awsize),
+        .axi4_fbus_aw_bits_burst(fbus_axi.awburst),
+        .axi4_fbus_aw_bits_lock(fbus_axi.awlock),
+        .axi4_fbus_aw_bits_cache(fbus_axi.awcache),
+        .axi4_fbus_aw_bits_prot(fbus_axi.awprot),
+        .axi4_fbus_aw_bits_qos(fbus_axi.awqos),
+        .axi4_fbus_w_ready(fbus_axi.wready),
+        .axi4_fbus_w_valid(fbus_axi.wvalid),
+        .axi4_fbus_w_bits_data(fbus_axi.wdata),
+        .axi4_fbus_w_bits_strb(fbus_axi.wstrb),
+        .axi4_fbus_w_bits_last(fbus_axi.wlast),
+        .axi4_fbus_b_ready(fbus_axi.bready),
+        .axi4_fbus_b_valid(fbus_axi.bvalid),
+        .axi4_fbus_b_bits_id(fbus_axi.bid),
+        .axi4_fbus_b_bits_resp(fbus_axi.bresp),
+        .axi4_fbus_ar_ready(fbus_axi.arready),
+        .axi4_fbus_ar_valid(fbus_axi.arvalid),
+        .axi4_fbus_ar_bits_id(fbus_axi.arid),
+        .axi4_fbus_ar_bits_addr(fbus_axi.araddr),
+        .axi4_fbus_ar_bits_len(fbus_axi.arlen),
+        .axi4_fbus_ar_bits_size(fbus_axi.arsize),
+        .axi4_fbus_ar_bits_burst(fbus_axi.arburst),
+        .axi4_fbus_ar_bits_lock(fbus_axi.arlock),
+        .axi4_fbus_ar_bits_cache(fbus_axi.arcache),
+        .axi4_fbus_ar_bits_prot(fbus_axi.arprot),
+        .axi4_fbus_ar_bits_qos(fbus_axi.arqos),
+        .axi4_fbus_r_ready(fbus_axi.rready),
+        .axi4_fbus_r_valid(fbus_axi.rvalid),
+        .axi4_fbus_r_bits_id(fbus_axi.rid),
+        .axi4_fbus_r_bits_data(fbus_axi.rdata),
+        .axi4_fbus_r_bits_resp(fbus_axi.rresp),
+        .axi4_fbus_r_bits_last(fbus_axi.rlast),
 
         .axi4_mem_aw_ready(mem_axi.awready),
         .axi4_mem_aw_valid(mem_axi.awvalid),
@@ -106,7 +157,7 @@ module control_soc_subsystem (
         .axi4_mmio_aw_ready(mmio_axi.awready),
         .axi4_mmio_aw_valid(mmio_axi.awvalid),
         .axi4_mmio_aw_bits_id(mmio_axi.awid),
-        .axi4_mmio_aw_bits_addr(mmio_axi.awaddr),
+        .axi4_mmio_aw_bits_addr(taihang_mmio_awaddr),
         .axi4_mmio_aw_bits_len(mmio_axi.awlen),
         .axi4_mmio_aw_bits_size(mmio_axi.awsize),
         .axi4_mmio_aw_bits_burst(mmio_axi.awburst),
@@ -126,7 +177,7 @@ module control_soc_subsystem (
         .axi4_mmio_ar_ready(mmio_axi.arready),
         .axi4_mmio_ar_valid(mmio_axi.arvalid),
         .axi4_mmio_ar_bits_id(mmio_axi.arid),
-        .axi4_mmio_ar_bits_addr(mmio_axi.araddr),
+        .axi4_mmio_ar_bits_addr(taihang_mmio_araddr),
         .axi4_mmio_ar_bits_len(mmio_axi.arlen),
         .axi4_mmio_ar_bits_size(mmio_axi.arsize),
         .axi4_mmio_ar_bits_burst(mmio_axi.arburst),
@@ -139,7 +190,11 @@ module control_soc_subsystem (
         .axi4_mmio_r_bits_id(mmio_axi.rid),
         .axi4_mmio_r_bits_data(mmio_axi.rdata),
         .axi4_mmio_r_bits_resp(mmio_axi.rresp),
-        .axi4_mmio_r_bits_last(mmio_axi.rlast),
-        .ext_interrupts(video_interrupts)
+        .axi4_mmio_r_bits_last(mmio_axi.rlast)
     );
+
+    // This Taihang configuration has no external interrupt pins.  Video
+    // service remains polling-based; retain the port so the board-level video
+    // hierarchy and diagnostics do not need a structural special case.
+    wire unused_video_interrupts = &{1'b0, video_interrupts};
 endmodule

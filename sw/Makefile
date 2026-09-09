@@ -1,5 +1,7 @@
 CHIPYARD ?= /home/wzr/chipyard
 TOOLCHAIN ?= $(CHIPYARD)/.conda-env/riscv-tools/bin/riscv64-unknown-elf-
+GEMMINI_TESTS := $(CHIPYARD)/generators/gemmini/software/gemmini-rocc-tests
+GEMMINI_PARAMS := $(GEMMINI_TESTS)/include/gemmini_params_taihang_16x16_packed_gemmini0.h
 
 CC      := $(TOOLCHAIN)gcc
 OBJCOPY := $(TOOLCHAIN)objcopy
@@ -29,7 +31,8 @@ VENDOR_INCLUDES := $(addprefix -I,$(VENDOR_DIRS))
 ARCH_FLAGS := -march=rv64gcv -mabi=lp64d -mcmodel=medany
 CFLAGS := $(ARCH_FLAGS) -std=c11 -Os -g3 -ffreestanding -fno-builtin \
 	-fno-common -fdata-sections -ffunction-sections -Wall -Wextra -Werror \
-	-DXV_CONFIG_LOG_DISABLE_ALL -Isrc -I$(CURDIR)/yolov2 \
+	-DXV_CONFIG_LOG_DISABLE_ALL -Isrc -I$(GEMMINI_TESTS) \
+	-I$(CURDIR)/yolov2 \
 	-I$(REFERENCE_SW)/include $(VENDOR_INCLUDES)
 VENDOR_CFLAGS := $(filter-out -Werror,$(CFLAGS)) -Wno-unused-parameter \
 	-Wno-sign-compare -Wno-type-limits -Wno-unused-variable \
@@ -106,8 +109,14 @@ $(BUILD)/%.o: src/%.c | $(BUILD)
 $(YOLOV2_OBJECT): yolov2/tinyyolov2.c yolov2/tinyyolov2_params.h \
 		yolov2/tinyyolov2_runtime.h yolov2/tinyyolov2_worker_pool.h \
 		yolov2/tinyyolov2_input_contract.h | $(BUILD)
-	$(CC) $(CFLAGS) -std=gnu11 -O2 -DBAREMETAL=1 \
-		-DTINYYOLOV2_NO_STANDALONE_MAIN=1 -DTINYYOLOV2_GEMMINI_POOL=0 \
+	$(CC) $(CFLAGS) -include $(GEMMINI_PARAMS) \
+		-std=gnu11 -O2 -DBAREMETAL=1 \
+		-DTINYYOLOV2_NO_STANDALONE_MAIN=1 -DTINYYOLOV2_GEMMINI_POOL=1 \
+		-DGEMMINI_POOL_NO_INTERNAL_FENCE=1 \
+		-DGEMMINI_LOOPCONV_CREDIT_ADMISSION=1 \
+		-DGEMMINI_LOOPCONV_WORKER1_STATUS_CSR=0x7c5 \
+		-DGEMMINI_LOOPCONV_WORKER1_ACCEPTED_CSR=0x7c8 \
+		-DGEMMINI_LOOPCONV_WORKER1_RETIRED_CSR=0x7c9 \
 		-Wno-error -Wno-sign-compare -Wno-unused-parameter \
 		-Wno-unused-variable -I$(CURDIR)/yolov2 -MMD -MP -c $< -o $@
 

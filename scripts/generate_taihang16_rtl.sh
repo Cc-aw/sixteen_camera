@@ -6,7 +6,7 @@ set -Eeuo pipefail
 # modify demo/ai or copy unrelated configurations into this repository.
 CHIPYARD_ROOT="${CHIPYARD_ROOT:-/home/wzr/chipyard}"
 FPGA_DIR="$CHIPYARD_ROOT/fpga"
-CONFIG="TaihangSoC1Rocket1RVV1Gemmini16x16PackedFullOps256BitConfig"
+CONFIG="TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitConfig"
 
 [[ -d "$FPGA_DIR" ]] || { echo "missing Chipyard FPGA directory: $FPGA_DIR" >&2; exit 1; }
 

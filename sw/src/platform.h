@@ -7,8 +7,8 @@
 #define UART_BAUD    UINT64_C(115200)
 #define UART_BASE    ((uintptr_t)0x10020000UL)
 
-/* CPU-visible mmio-port-axi4 aperture in the active RVV SoC address map. */
-#define VIDEO_MMIO_BASE ((uintptr_t)0x40000000UL)
+/* CPU-visible mmio-port-axi4 aperture in the Taihang SoC address map. */
+#define VIDEO_MMIO_BASE ((uintptr_t)0x10040000UL)
 #define AXI_GPIO_BASE (VIDEO_MMIO_BASE + 0x00000UL)
 #define AXI_IIC_BASE  (VIDEO_MMIO_BASE + 0x10000UL)
 #define VPHY_BASE     (VIDEO_MMIO_BASE + 0x20000UL)

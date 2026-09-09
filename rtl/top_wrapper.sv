@@ -63,6 +63,8 @@ module top_wrapper (
 );
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4)) soc_mem_axi();
     axi4_if #(.ADDR_WIDTH(31), .DATA_WIDTH(64), .ID_WIDTH(4)) soc_mmio_axi();
+    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4)) soc_fbus_axi();
+    wire soc_resetn;
     axis_video_if #(.DATA_WIDTH(48)) ddr_video_axis();
     video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
         camera_capture_channels [8]();
@@ -141,8 +143,10 @@ module top_wrapper (
         .ddr_init_done(c0_init_calib_complete),
         .video_interrupts(video_interrupts),
         .ref_clk_100m(camera_ref_clk),
+        .soc_resetn_out(soc_resetn),
         .mem_axi(soc_mem_axi),
-        .mmio_axi(soc_mmio_axi)
+        .mmio_axi(soc_mmio_axi),
+        .fbus_axi(soc_fbus_axi)
     );
 
     ddr_memory_subsystem u_ddr_memory (
@@ -164,7 +168,10 @@ module top_wrapper (
         .c0_ddr4_dqs_t(c0_ddr4_dqs_t),
         .c0_ddr4_odt(c0_ddr4_odt),
         .c0_ddr4_reset_n(c0_ddr4_reset_n),
+        .soc_clk(camera_ref_clk),
+        .soc_resetn(soc_resetn),
         .soc_mem_axi(soc_mem_axi),
+        .fbus_axi(soc_fbus_axi),
         .framebuffer_axil(framebuffer_axil),
         .camera_capture_channels(camera_capture_channels),
         .hdmi_capture_channels(hdmi_capture_channels),

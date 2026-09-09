@@ -1,17 +1,12 @@
 #include "ai_tinyyolov2_runtime_adapter.h"
 
-#include "include/gemmini_params.h"
 #include "tinyyolov2_input_contract.h"
 
 #define TINYYOLOV2_RUNTIME_INPUT_BYTES \
     (TINYYOLOV2_INPUT_HEIGHT * TINYYOLOV2_INPUT_WIDTH * \
      TINYYOLOV2_INPUT_CHANNELS)
 
-#if DIM == 32
-#define TINYYOLOV2_RUNTIME_PROFILE 0x44333201u
-#else
-#error "TinyYOLOv2 adapter requires a DIM32 Gemmini configuration"
-#endif
+#define TINYYOLOV2_RUNTIME_PROFILE 0x44313602u
 
 static int tinyyolov2_execute(
     const struct inference_model_instance *instance,
@@ -27,7 +22,7 @@ static int tinyyolov2_execute(
 static const struct inference_model_descriptor tinyyolov2_descriptor = {
     .abi_version = 1,
     .hardware_profile = TINYYOLOV2_RUNTIME_PROFILE,
-    .name = "TinyYOLOv2-DIM32",
+    .name = "TinyYOLOv2-Dual-DIM16",
     .input = {
         .dtype = INFERENCE_DTYPE_I8,
         .layout = INFERENCE_LAYOUT_NHWC,

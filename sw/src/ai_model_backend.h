@@ -5,7 +5,7 @@
 
 #include "ai_model_abi.h"
 
-#define AI_MODEL_WORKER_COUNT 1U
+#define AI_MODEL_WORKER_COUNT 2U
 
 typedef struct {
     uint32_t valid;

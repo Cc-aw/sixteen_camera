@@ -1,5 +1,6 @@
 #include "ai_preprocess.h"
 
+#include "console.h"
 #include "mmio.h"
 #include "platform.h"
 
@@ -99,6 +100,38 @@ void ai_preprocess_init(void)
 {
     command.active = 0U;
     current_format = AI_PREPROCESS_FORMAT_416X416;
+
+    /* A debugger reset restarts Rocket but does not reset the DDR/video clock
+     * domain.  Let an old command finish, then reclaim any tensor arenas left
+     * ready by the previous ELF before starting a new software epoch. */
+    uint64_t start_cycle = read_cycle();
+    uint32_t status;
+    do {
+        status = mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_STATUS);
+        if ((status & (FRAMEBUFFER_PRE_STATUS_START_BUSY |
+                       FRAMEBUFFER_PRE_STATUS_RECYCLE_BUSY |
+                       FRAMEBUFFER_PRE_STATUS_ENGINE_BUSY)) == 0U)
+            break;
+        if (read_cycle() - start_cycle > PREPROCESS_TIMEOUT_CYCLES) {
+            console_puts("AI PRE init recovery timeout status=");
+            console_put_hex32(status);
+            console_puts("; reload bitstream required\r\n");
+            return;
+        }
+    } while (1);
+
+    uint32_t ready_mask =
+        (status & FRAMEBUFFER_PRE_STATUS_READY_MASK) >>
+        FRAMEBUFFER_PRE_STATUS_READY_SHIFT;
+    if (ready_mask != 0U) {
+        console_puts("AI PRE init reclaim stale arenas=");
+        console_put_hex32(ready_mask);
+        console_puts("\r\n");
+        if (ai_preprocess_recycle(ready_mask) != 0) {
+            console_puts("AI PRE init arena reclaim failed; reload bitstream required\r\n");
+            return;
+        }
+    }
     (void)ai_preprocess_configure_memory(AI_PREPROCESS_FORMAT_416X416);
 }
 
