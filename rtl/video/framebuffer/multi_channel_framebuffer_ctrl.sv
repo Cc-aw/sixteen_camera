@@ -76,6 +76,7 @@ module multi_channel_framebuffer_ctrl #(
     output reg [3:0] overlay_stream,
     output reg [3:0] overlay_count,
     output reg [8*64-1:0] overlay_boxes,
+    output reg [8*128-1:0] overlay_labels,
     input wire overlay_commit_ack_toggle,
     input wire cfg_ack_toggle,
     input wire [31:0] manager_status,
@@ -179,6 +180,10 @@ module multi_channel_framebuffer_ctrl #(
     localparam [9:0] REG_OVERLAY_BOX_XY0 = 10'h270;
     localparam [9:0] REG_OVERLAY_BOX_XY1 = 10'h274;
     localparam [9:0] REG_OVERLAY_BOX_CLASS = 10'h278;
+    localparam [9:0] REG_OVERLAY_LABEL0 = 10'h294;
+    localparam [9:0] REG_OVERLAY_LABEL1 = 10'h298;
+    localparam [9:0] REG_OVERLAY_LABEL2 = 10'h29c;
+    localparam [9:0] REG_OVERLAY_LABEL3 = 10'h2a0;
 
     reg [9:0] awaddr_hold;
     reg [31:0] wdata_hold;
@@ -299,6 +304,7 @@ module multi_channel_framebuffer_ctrl #(
             overlay_stream <= 4'd0;
             overlay_count <= 4'd0;
             overlay_boxes <= 512'd0;
+            overlay_labels <= 1024'd0;
             overlay_box_index <= 3'd0;
             awaddr_hold <= 10'd0;
             wdata_hold <= 32'd0;
@@ -427,6 +433,26 @@ module multi_channel_framebuffer_ctrl #(
                     REG_OVERLAY_BOX_CLASS: if (!overlay_commit_busy)
                         overlay_boxes[overlay_box_index*64 + 44 +: 8] <=
                             write_data[7:0];
+                    REG_OVERLAY_LABEL0: if (!overlay_commit_busy)
+                        overlay_labels[overlay_box_index*128 +: 32] <=
+                            apply_wstrb(
+                                overlay_labels[overlay_box_index*128 +: 32],
+                                write_data, write_strb);
+                    REG_OVERLAY_LABEL1: if (!overlay_commit_busy)
+                        overlay_labels[overlay_box_index*128 + 32 +: 32] <=
+                            apply_wstrb(
+                                overlay_labels[overlay_box_index*128 + 32 +: 32],
+                                write_data, write_strb);
+                    REG_OVERLAY_LABEL2: if (!overlay_commit_busy)
+                        overlay_labels[overlay_box_index*128 + 64 +: 32] <=
+                            apply_wstrb(
+                                overlay_labels[overlay_box_index*128 + 64 +: 32],
+                                write_data, write_strb);
+                    REG_OVERLAY_LABEL3: if (!overlay_commit_busy)
+                        overlay_labels[overlay_box_index*128 + 96 +: 32] <=
+                            apply_wstrb(
+                                overlay_labels[overlay_box_index*128 + 96 +: 32],
+                                write_data, write_strb);
                     REG_BUFFER_STRIDE: if (!cfg_busy)
                         cfg_buffer_stride_bytes <= apply_wstrb(
                             cfg_buffer_stride_bytes, write_data, write_strb);
@@ -567,6 +593,17 @@ module multi_channel_framebuffer_ctrl #(
                     REG_OVERLAY_BOX_CLASS:
                         rdata <= {24'd0, overlay_boxes[
                             overlay_box_index*64 + 44 +: 8]};
+                    REG_OVERLAY_LABEL0:
+                        rdata <= overlay_labels[overlay_box_index*128 +: 32];
+                    REG_OVERLAY_LABEL1:
+                        rdata <= overlay_labels[
+                            overlay_box_index*128 + 32 +: 32];
+                    REG_OVERLAY_LABEL2:
+                        rdata <= overlay_labels[
+                            overlay_box_index*128 + 64 +: 32];
+                    REG_OVERLAY_LABEL3:
+                        rdata <= overlay_labels[
+                            overlay_box_index*128 + 96 +: 32];
                     REG_PRESENT_MASK: rdata <= {{(32-CHANNELS){1'b0}},
                                                 CAMERA_PRESENT_MASK};
                     REG_BUFFER_STRIDE: rdata <= cfg_buffer_stride_bytes;

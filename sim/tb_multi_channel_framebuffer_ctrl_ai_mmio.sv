@@ -55,6 +55,7 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
     wire [3:0] overlay_stream;
     wire [3:0] overlay_count;
     wire [511:0] overlay_boxes;
+    wire [1023:0] overlay_labels;
     reg overlay_commit_ack_toggle = 1'b0;
     multi_channel_framebuffer_ctrl #(
         .CHANNELS(CHANNELS), .GLOBAL_CHANNEL_BASE(1),
@@ -119,6 +120,7 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
         .overlay_commit_toggle(overlay_commit_toggle),
         .overlay_stream(overlay_stream), .overlay_count(overlay_count),
         .overlay_boxes(overlay_boxes),
+        .overlay_labels(overlay_labels),
         .overlay_commit_ack_toggle(overlay_commit_ack_toggle),
         .cfg_ack_toggle(cfg_request_toggle), .manager_status(32'd0),
         .writer_frame_counts({CHANNELS{32'd0}}),
@@ -302,6 +304,10 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
         axi_write(16'h0270, 32'h0020_000a);
         axi_write(16'h0274, 32'h0000_1234);
         axi_write(16'h0278, 32'd7);
+        axi_write(16'h0294, 32'h2067_6f64);
+        axi_write(16'h0298, 32'h0000_3939);
+        axi_write(16'h029c, 32'h0000_0000);
+        axi_write(16'h02a0, 32'h0000_0000);
         axi_write(16'h0260, 32'd1);
         if (overlay_stream != 15 || overlay_count != 1 ||
             overlay_commit_toggle != 1'b1)
@@ -309,6 +315,12 @@ module tb_multi_channel_framebuffer_ctrl_ai_mmio;
         if (overlay_boxes[31:0] != 32'h0020_000a ||
             overlay_boxes[63:32] != 32'h0000_7234)
             $fatal(1, "overlay payload=%016x", overlay_boxes[63:0]);
+        if (overlay_labels[63:0] != 64'h0000_3939_2067_6f64 ||
+            overlay_labels[127:64] != 64'd0)
+            $fatal(1, "overlay label payload=%032x", overlay_labels[127:0]);
+        axi_read(16'h0294, value);
+        if (value != 32'h2067_6f64)
+            $fatal(1, "overlay label readback=%08x", value);
         axi_read(16'h0260, value);
         if (value[1] != 1'b1)
             $fatal(1, "overlay busy bit missing");

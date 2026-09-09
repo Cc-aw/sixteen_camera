@@ -208,6 +208,8 @@ module multi_channel_ddr_video_pipeline #(
     wire [3:0] overlay_count_ddr;
     wire [511:0] overlay_boxes_cpu;
     wire [511:0] overlay_boxes_ddr;
+    wire [1023:0] overlay_labels_cpu;
+    wire [1023:0] overlay_labels_ddr;
 
     wire [31:0] manager_status_cpu;
     wire [CHANNELS*32-1:0] writer_frame_counts_cpu;
@@ -309,6 +311,7 @@ module multi_channel_ddr_video_pipeline #(
         .overlay_stream(overlay_stream_cpu),
         .overlay_count(overlay_count_cpu),
         .overlay_boxes(overlay_boxes_cpu),
+        .overlay_labels(overlay_labels_cpu),
         .overlay_commit_ack_toggle(overlay_commit_ack_toggle_cpu),
         .cfg_ack_toggle(cfg_ack_toggle),
         .manager_status(manager_status_cpu),
@@ -642,6 +645,14 @@ module multi_channel_ddr_video_pipeline #(
                    overlay_boxes_ddr})
     );
 
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(1024)
+    ) u_overlay_labels_cdc (
+        .src_clk(control_axil.aclk), .src_in(overlay_labels_cpu),
+        .dest_clk(video_clk), .dest_out(overlay_labels_ddr)
+    );
+
     always @(posedge video_clk) begin
         if (!video_resetn) begin
             overlay_commit_seen_ddr <= 1'b0;
@@ -887,6 +898,7 @@ module multi_channel_ddr_video_pipeline #(
         .overlay_stream(overlay_stream_ddr),
         .overlay_count(overlay_count_ddr),
         .overlay_boxes(overlay_boxes_ddr),
+        .overlay_labels(overlay_labels_ddr),
         .m_axis(display_axis), .axi_error(reader_error),
         .fifo_underflow(reader_underflow),
         .debug_active_base(reader_active_base),

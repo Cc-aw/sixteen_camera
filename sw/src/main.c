@@ -29,7 +29,7 @@ static void ai_overlay_fixed_box_test(void)
             .x_max = 352,
             .y_max = 352,
             .score_q15 = 32767U,
-            .class_id = 0U
+            .class_id = 11U
         }}
     };
 
@@ -41,7 +41,7 @@ static void ai_overlay_fixed_box_test(void)
 
     int status = ai_overlay_try_submit(&test_result);
     if (status > 0)
-        console_puts("OVERLAY TEST committed: CH1 green box model_xyxy=64,64,352,352\r\n");
+        console_puts("OVERLAY TEST committed: CH1 dog label model_xyxy=64,64,352,352\r\n");
     else if (status == 0)
         console_puts("OVERLAY TEST busy; press o again\r\n");
     else
