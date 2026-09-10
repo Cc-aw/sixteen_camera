@@ -895,6 +895,10 @@ int tinyyolov2_worker_poll(unsigned worker_id,
   }
   worker->busy_clear_cycle = poll_cycle;
 
+  // Establish producer-to-consumer ordering before CPU or another coherent
+  // FBus master observes the Gemmini store results.
+  gemmini_fence();
+
   /* Read cumulative hardware counters once, at the final layer, to avoid
      injecting counter RoCC commands into every layer boundary. */
   if (worker->layer_index == TINYYOLOV2_LAYER_COUNT - 1) {
@@ -961,6 +965,18 @@ int tinyyolov2_worker_poll(unsigned worker_id,
   worker->state = TINYYOLOV2_WORKER_IDLE;
   return TINYYOLOV2_WORKER_DONE;
 }
+
+const int8_t *tinyyolov2_worker_last_output(unsigned worker_id) {
+  if (worker_id >= TINYYOLOV2_WORKER_COUNT ||
+      tinyyolov2_workers[worker_id].state != TINYYOLOV2_WORKER_IDLE)
+    return NULL;
+  return (const int8_t *)tinyyolov2_workers[worker_id].input;
+}
+
+uint32_t tinyyolov2_worker_last_output_bytes(unsigned worker_id) {
+  return tinyyolov2_worker_last_output(worker_id) == NULL ? 0u :
+      (uint32_t)TINYYOLOV2_OUTPUT_ELEMS;
+}
 #else
 void tinyyolov2_worker_pool_init(void) {}
 int tinyyolov2_worker_is_idle(unsigned worker_id) {
@@ -973,6 +989,14 @@ int tinyyolov2_worker_start(unsigned worker_id, const int8_t *input,
   (void)input;
   (void)input_name;
   return 0;
+}
+const int8_t *tinyyolov2_worker_last_output(unsigned worker_id) {
+  (void)worker_id;
+  return NULL;
+}
+uint32_t tinyyolov2_worker_last_output_bytes(unsigned worker_id) {
+  (void)worker_id;
+  return 0u;
 }
 int tinyyolov2_worker_poll(unsigned worker_id,
                            struct tinyyolov2_result *result,

@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "ai_detection.h"
+#include "ai_postprocess_diag.h"
 #include "console.h"
 #include "mmio.h"
 #include "platform.h"
@@ -24,6 +25,52 @@ static uint32_t running[AI_MODEL_WORKER_COUNT];
 static uint32_t stages[AI_MODEL_WORKER_COUNT];
 static uint64_t start_cycles[AI_MODEL_WORKER_COUNT];
 static uint32_t initialized;
+static uint32_t coherence_available;
+static uint32_t coherence_checks;
+static uint32_t coherence_errors;
+static uint32_t coherence_error_flags;
+
+static void verify_gemmini_output(uint32_t worker_id)
+{
+    const int8_t *tensor;
+    uint32_t bytes;
+    uintptr_t cpu_addr;
+    uint64_t device_addr;
+    AiPostprocessDiagResult observed = {0};
+
+    if (coherence_available == 0U)
+        return;
+    tensor = tinyyolov2_worker_last_output(worker_id);
+    bytes = tinyyolov2_worker_last_output_bytes(worker_id);
+    if (tensor == 0 || bytes == 0U) {
+        coherence_errors++;
+        return;
+    }
+
+    cpu_addr = (uintptr_t)tensor;
+    device_addr = (uint64_t)(cpu_addr &
+        ~(uintptr_t)UINT32_C(0x80000000));
+    mmio_fence();
+    uint32_t expected_crc = ai_postprocess_crc32(tensor, bytes);
+    int status = ai_postprocess_diag_run(device_addr, bytes, &observed);
+    coherence_checks++;
+    coherence_error_flags |= observed.error_flags;
+    if (status != 0 || observed.bytes_read != bytes ||
+        observed.crc32 != expected_crc) {
+        coherence_errors++;
+        console_puts("AI GEMMINI coherence mismatch worker/status/flags=");
+        console_put_u32(worker_id);
+        console_putc('/');
+        console_put_u32((uint32_t)(status < 0 ? -status : status));
+        console_putc('/');
+        console_put_hex32(observed.error_flags);
+        console_puts(" expected/observed=");
+        console_put_hex32(expected_crc);
+        console_putc('/');
+        console_put_hex32(observed.crc32);
+        console_puts("\r\n");
+    }
+}
 
 static void translate_result(uint32_t worker_id)
 {
@@ -70,6 +117,10 @@ void ai_model_backend_init(void)
     memset(running, 0, sizeof(running));
     memset(stages, 0, sizeof(stages));
     memset(start_cycles, 0, sizeof(start_cycles));
+    coherence_available = ai_postprocess_diag_probe() == 0 ? 1U : 0U;
+    coherence_checks = 0U;
+    coherence_errors = 0U;
+    coherence_error_flags = 0U;
     tinyyolov2_set_diagnostics(0);
     tinyyolov2_worker_pool_init();
     initialized = 1U;
@@ -121,6 +172,8 @@ int ai_model_backend_poll(uint32_t worker_id,
         running[worker_id] = 0U;
         return -2;
     }
+
+    verify_gemmini_output(worker_id);
 
     elapsed = read_cycle() - start_cycles[worker_id];
     translate_result(worker_id);
@@ -193,4 +246,7 @@ void ai_model_backend_get_pe_stats(AiModelPeStats *stats)
         stats->exe_active_cycles += tinyyolov2_worker_last_exec[worker];
         stats->store_active_cycles += tinyyolov2_worker_last_store[worker];
     }
+    stats->coherence_checks = coherence_checks;
+    stats->coherence_errors = coherence_errors;
+    stats->coherence_error_flags = coherence_error_flags;
 }

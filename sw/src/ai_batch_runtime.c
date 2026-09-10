@@ -618,6 +618,12 @@ void ai_batch_runtime_print_status(void)
         console_put_u32(pe_stats.load_active_cycles);
         console_putc('/');
         console_put_u32(pe_stats.store_active_cycles);
+        console_puts(" coherence(check/error/flags)=");
+        console_put_u32(pe_stats.coherence_checks);
+        console_putc('/');
+        console_put_u32(pe_stats.coherence_errors);
+        console_putc('/');
+        console_put_hex32(pe_stats.coherence_error_flags);
         console_puts("\r\n");
     }
     for (uint32_t stream = 0U; stream < VIDEO_CHANNEL_COUNT; ++stream) {

@@ -30,6 +30,10 @@ int tinyyolov2_worker_poll(unsigned worker_id,
                            struct tinyyolov2_result *result,
                            int collect_result);
 
+/* Final INT8 tensor retained until this worker accepts another job. */
+const int8_t *tinyyolov2_worker_last_output(unsigned worker_id);
+uint32_t tinyyolov2_worker_last_output_bytes(unsigned worker_id);
+
 /* Read the hardware busy bit published by one Gemmini instance. */
 uint64_t tinyyolov2_worker_busy(unsigned worker_id);
 

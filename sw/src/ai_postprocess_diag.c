@@ -24,6 +24,9 @@
 #define DIAG_STATUS_DONE      UINT32_C(2)
 #define DIAG_STATUS_ERROR     UINT32_C(4)
 #define DIAG_TIMEOUT_CYCLES   (SOC_CLOCK_HZ * UINT64_C(5))
+#define DIAG_STRESS_BYTES     UINT32_C(4099)
+#define DIAG_STRESS_STRIDE    UINT32_C(0x10000)
+#define DIAG_STRESS_OFFSET    UINT32_C(3)
 
 typedef struct {
     uint32_t active;
@@ -131,4 +134,62 @@ uint32_t ai_postprocess_crc32(const void *data, size_t bytes)
                   UINT32_C(0xedb88320) : 0U);
     }
     return crc ^ UINT32_C(0xffffffff);
+}
+
+int ai_postprocess_diag_coherence_stress(
+    uint32_t iterations, AiPostprocessDiagStressResult *result)
+{
+    AiPostprocessDiagResult observed;
+
+    if (result == 0 || iterations == 0U)
+        return -1;
+    *result = (AiPostprocessDiagStressResult){0};
+    if (ai_postprocess_diag_probe() != 0) {
+        result->status = -2;
+        return -2;
+    }
+
+    for (uint32_t iteration = 0U; iteration < iterations; ++iteration) {
+        uint32_t device_addr = AI_MODEL_OUTPUT0_PHYS_BASE +
+            (iteration & 1U) * DIAG_STRESS_STRIDE + DIAG_STRESS_OFFSET;
+        uint8_t *buffer = (uint8_t *)AI_DDR_CPU_ALIAS(device_addr);
+        uint32_t expected_sum = 0U;
+        uint32_t expected_nonzero = 0U;
+        observed = (AiPostprocessDiagResult){0};
+
+        // Alternate two buffers and change every byte on every reuse. The
+        // fence is the producer release before descriptor writes/doorbell.
+        for (uint32_t index = 0U; index < DIAG_STRESS_BYTES; ++index) {
+            uint8_t value = (uint8_t)(index * UINT32_C(29) +
+                                      iteration * UINT32_C(71) +
+                                      (index >> 5));
+            buffer[index] = value;
+            expected_sum += value;
+            expected_nonzero += value != 0U;
+        }
+        mmio_fence();
+        result->expected_crc32 =
+            ai_postprocess_crc32(buffer, DIAG_STRESS_BYTES);
+
+        uint64_t start_cycle = read_cycle();
+        int status = ai_postprocess_diag_run(device_addr,
+                                             DIAG_STRESS_BYTES, &observed);
+        uint64_t elapsed = read_cycle() - start_cycle;
+        result->total_cycles += elapsed;
+        if (elapsed > result->maximum_cycles)
+            result->maximum_cycles = elapsed;
+        result->observed_crc32 = observed.crc32;
+        result->error_flags = observed.error_flags;
+
+        if (status != 0 || observed.crc32 != result->expected_crc32 ||
+            observed.byte_sum != expected_sum ||
+            observed.nonzero_count != expected_nonzero ||
+            observed.bytes_read != DIAG_STRESS_BYTES) {
+            result->failed_iteration = iteration;
+            result->status = status != 0 ? status : -3;
+            return result->status;
+        }
+        result->iterations_completed = iteration + 1U;
+    }
+    return 0;
 }

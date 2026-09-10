@@ -16,6 +16,9 @@ typedef struct {
     uint32_t exe_active_cycles;
     uint32_t store_active_cycles;
     uint32_t pe_util_permille;
+    uint32_t coherence_checks;
+    uint32_t coherence_errors;
+    uint32_t coherence_error_flags;
 } AiModelPeStats;
 
 /*

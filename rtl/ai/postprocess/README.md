@@ -37,3 +37,9 @@ Run `scripts/run_ai_postprocessor_tests.sh` for the fixed-point reference,
 channel join, reader and AXI-Lite diagnostic simulations. On hardware, the
 console `p` command produces a CH1 tensor and compares hardware CRC, byte sum,
 nonzero count and byte count against the CPU view before recycling the arena.
+The console `v` command runs 1000 producer/consumer ordering checks while
+alternating and rewriting two unaligned buffers. It fences CPU stores before
+each descriptor doorbell and reports the first stale or partial read.
+The TinyYOLOv2 runtime also fences every completed Gemmini store and compares
+the final INT8 tensor's CPU CRC against a coherent hardware readback. The `s`
+command reports cumulative checks, mismatches and AXI error flags.

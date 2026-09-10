@@ -16,7 +16,7 @@
 
 static void print_help(void)
 {
-    console_puts("Commands: s=status, o=fixed overlay box, d=builtin dog inference, a=snapshot, p=preprocess+RGB stats, f=preprocess format, i=AI input runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
+    console_puts("Commands: s=status, o=fixed overlay box, d=builtin dog inference, a=snapshot, p=preprocess+RGB stats, v=PP coherence stress, f=preprocess format, i=AI input runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
 }
 
 static void ai_overlay_fixed_box_test(void)
@@ -245,6 +245,41 @@ static void ai_snapshot_smoke_test(void)
                             "AI SNAP release FAILED\r\n");
 }
 
+static void ai_postprocess_coherence_test(void)
+{
+    AiPostprocessDiagStressResult result;
+    const uint32_t iterations = 1000U;
+
+    console_puts("AI POST coherence stress begin iterations=");
+    console_put_u32(iterations);
+    console_puts("\r\n");
+    int status = ai_postprocess_diag_coherence_stress(iterations, &result);
+    if (status != 0) {
+        console_puts("AI POST coherence FAIL completed/iteration/status=");
+        console_put_u32(result.iterations_completed);
+        console_putc('/');
+        console_put_u32(result.failed_iteration);
+        console_putc('/');
+        console_put_u32((uint32_t)(-result.status));
+        console_puts(" expected/observed/flags=");
+        console_put_hex32(result.expected_crc32);
+        console_putc('/');
+        console_put_hex32(result.observed_crc32);
+        console_putc('/');
+        console_put_hex32(result.error_flags);
+        console_puts("\r\n");
+        return;
+    }
+
+    console_puts("AI POST coherence PASS iterations/avg/max cycles=");
+    console_put_u32(result.iterations_completed);
+    console_putc('/');
+    console_put_u32((uint32_t)(result.total_cycles / iterations));
+    console_putc('/');
+    console_put_u32((uint32_t)result.maximum_cycles);
+    console_puts("\r\n");
+}
+
 int main(void)
 {
     int video_status;
@@ -284,6 +319,12 @@ int main(void)
         case 'p':
             if (ai_batch_runtime_is_idle() != 0U)
                 ai_preprocess_smoke_test();
+            else
+                console_puts("AI runtime busy; disable and wait for drain\r\n");
+            break;
+        case 'v':
+            if (ai_batch_runtime_is_idle() != 0U)
+                ai_postprocess_coherence_test();
             else
                 console_puts("AI runtime busy; disable and wait for drain\r\n");
             break;
