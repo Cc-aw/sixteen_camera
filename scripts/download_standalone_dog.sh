@@ -1,32 +1,29 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
+export LC_ALL=C
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd -- "$SCRIPT_DIR/.." && pwd)"
-DEMO_DIR="$ROOT_DIR/demo/twoGemmini"
-BUILD_SCRIPT="$DEMO_DIR/scripts/build_gemmini16_tinyyolov2_counters_board.sh"
-RUN_SCRIPT="$DEMO_DIR/scripts/run_dual_gemmini16_board.sh"
-ELF_FILE="${STANDALONE_DOG_ELF:-$DEMO_DIR/build16/single-gemmini16-batch2/gemmini16_tinyyolov2_batch1_counters_board.riscv}"
-BUILD_ELF=0
+FROZEN_DIR="$ROOT_DIR/artifacts/dual-gemmini16-dog-ddr"
+ELF_FILE="$FROZEN_DIR/gemmini16_tinyyolov2_dog_only_board.riscv"
+EXPECTED_SHA256="f52d0eab0750a9bfe0c71a721061ccd874e8385cd5cef2f37d1a35da8c07a914"
 CHECK_ONLY=0
 
 usage()
 {
     cat <<EOF
-用法: $0 [--build] [--check]
+用法: $0 [--check]
 
-下载独立的单 Gemmini16 TinyYOLOv2 dog 测试 ELF。
-默认使用 2026-09-06 留存的 batch1/combined1 已测试 ELF；只运行 dog。
-该程序只使用 custom3 / busy CSR 0x7c2，不访问视频 MMIO，也不下载 bitstream。
+下载冻结的双 Gemmini16 SoC 单 dog TinyYOLOv2 DDR 基线 ELF。
+该镜像固定使用内置 dog 输入和 worker0（custom3 / busy CSR 0x7c2），
+不访问视频 MMIO，也不下载或修改 bitstream。
 
-  --build  下载前按最新 batch1/combined1 源码重新构建并覆盖该 ELF
-  --check  只检查 ELF，不连接开发板
+  --check  校验 ELF 架构、入口和 SHA-256，不连接开发板
 EOF
 }
 
 while (($# != 0)); do
     case "$1" in
-    --build) BUILD_ELF=1 ;;
     --check) CHECK_ONLY=1 ;;
     -h|--help) usage; exit 0 ;;
     *) echo "未知参数: $1" >&2; usage >&2; exit 2 ;;
@@ -34,17 +31,8 @@ while (($# != 0)); do
     shift
 done
 
-if ((BUILD_ELF)); then
-    "$BUILD_SCRIPT"
-fi
-
 [[ -r "$ELF_FILE" ]] || {
-    echo "独立 dog ELF 不存在: $ELF_FILE" >&2
-    echo "请先执行: $0 --build" >&2
-    exit 1
-}
-[[ -x "$RUN_SCRIPT" ]] || {
-    echo "下载入口不存在或不可执行: $RUN_SCRIPT" >&2
+    echo "冻结的 dog ELF 不存在: $ELF_FILE" >&2
     exit 1
 }
 
@@ -53,20 +41,34 @@ READELF_BIN="${RISCV_ELF_PREFIX:-/home/wzr/chipyard/.conda-env/riscv-tools/bin/r
     echo "找不到 readelf: $READELF_BIN" >&2
     exit 1
 }
-ENTRY="$($READELF_BIN -h "$ELF_FILE" | awk '/Entry point address|入口点地址/ {print $NF; exit}')"
+
+ENTRY="$($READELF_BIN -h "$ELF_FILE" |
+    awk '/Entry point address|入口点地址/ {print $NF; exit}')"
+MACHINE="$($READELF_BIN -h "$ELF_FILE" |
+    awk -F: '/Machine:|系统架构:/ {sub(/^[[:space:]]+/, "", $2); print $2; exit}')"
+OBSERVED_SHA256="$(sha256sum "$ELF_FILE" | awk '{print $1}')"
+
 [[ "$ENTRY" == "0x80000000" ]] || {
     echo "ELF 入口错误: $ENTRY" >&2
     exit 1
 }
+[[ "$MACHINE" == "RISC-V" ]] || {
+    echo "ELF 架构错误: $MACHINE" >&2
+    exit 1
+}
+[[ "$OBSERVED_SHA256" == "$EXPECTED_SHA256" ]] || {
+    echo "ELF SHA-256 错误: $OBSERVED_SHA256" >&2
+    exit 1
+}
+
+echo "STANDALONE_DOG_CHECK=PASS"
+echo "ELF=$ELF_FILE"
+echo "ENTRY=$ENTRY"
+echo "SHA256=$OBSERVED_SHA256"
 
 if ((CHECK_ONLY)); then
-    echo "STANDALONE_DOG_CHECK=PASS"
-    echo "ELF=$ELF_FILE"
-    echo "ENTRY=$ENTRY"
     exit 0
 fi
 
-echo "下载独立 dog 测试 ELF（保留当前 bitstream）..."
-export DUAL_GEMMINI16_BOARD_ELF="$ELF_FILE"
-export GDB_REMOTE_TIMEOUT="${GDB_REMOTE_TIMEOUT:-600}"
-exec "$RUN_SCRIPT"
+echo "下载冻结的单 dog DDR 基线 ELF（保留当前 bitstream）..."
+ELF_FILE="$ELF_FILE" exec "$ROOT_DIR/sw/run.sh" --no-build

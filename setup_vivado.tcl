@@ -201,10 +201,18 @@ set sc_project_name [get_property NAME $sc_project]
 set sc_project_part [get_property PART $sc_project]
 set sc_expected_part xcvu13p-fhga2104-2-i
 set sc_expected_vivado 2023.2
+set sc_frozen_dog_elf [file normalize [file join $sc_repo_root artifacts \
+    dual-gemmini16-dog-ddr gemmini16_tinyyolov2_dog_only_board.riscv]]
 
 puts "PROJECT_NAME=$sc_project_name"
 puts "PROJECT_PART=$sc_project_part"
 puts "REPO_ROOT=$sc_repo_root"
+puts "FROZEN_DOG_ELF=$sc_frozen_dog_elf"
+if {[file isfile $sc_frozen_dog_elf] && [file size $sc_frozen_dog_elf] > 0} {
+    puts "FROZEN_DOG_ELF_STATUS=READY"
+} else {
+    puts "FROZEN_DOG_ELF_STATUS=MISSING"
+}
 
 if {[string first $sc_expected_vivado [version -short]] < 0} {
     puts "ENV_WARN: expected Vivado $sc_expected_vivado, running [version -short]"
