@@ -71,6 +71,7 @@ module top_wrapper (
     video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
         hdmi_capture_channels [8]();
     axi_lite_if #(.ADDR_WIDTH(17)) framebuffer_axil();
+    axi_lite_if #(.ADDR_WIDTH(18)) postprocess_axil();
     wire [7:0] video_interrupts;
     wire hdmi_tx_locked;
     wire video_clk;
@@ -172,6 +173,7 @@ module top_wrapper (
         .soc_resetn(soc_resetn),
         .soc_mem_axi(soc_mem_axi),
         .fbus_axi(soc_fbus_axi),
+        .postprocess_axil(postprocess_axil),
         .framebuffer_axil(framebuffer_axil),
         .camera_capture_channels(camera_capture_channels),
         .hdmi_capture_channels(hdmi_capture_channels),
@@ -195,6 +197,7 @@ module top_wrapper (
         .hdmi_capture_channels(hdmi_capture_channels),
         .hdmi_capture_enable(hdmi_capture_enable),
         .framebuffer_axil(framebuffer_axil),
+        .postprocess_axil(postprocess_axil),
         .capture_clk(capture_clk), .capture_resetn(capture_resetn),
         .video_clk(video_clk), .video_resetn(video_resetn),
         .hdmi_rx_clk_p(hdmi_rx_clk_p), .hdmi_rx_clk_n(hdmi_rx_clk_n),

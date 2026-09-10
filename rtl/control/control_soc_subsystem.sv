@@ -76,8 +76,8 @@ module control_soc_subsystem (
         .uart_txd(uart_txd),
         .uart_rxd(uart_rxd),
 
-        // Coherent tensor writeback from the video preprocessor.  The
-        // current bridge intentionally leaves the FBus read channel idle.
+        // Coherent tensor writeback from the video preprocessor and tensor
+        // readback by the postprocessor share the independent FBus channels.
         .axi4_fbus_aw_ready(fbus_axi.awready),
         .axi4_fbus_aw_valid(fbus_axi.awvalid),
         .axi4_fbus_aw_bits_id(fbus_axi.awid),

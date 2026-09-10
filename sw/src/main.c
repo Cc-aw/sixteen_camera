@@ -3,6 +3,7 @@
 #include "ai_batch_runtime.h"
 #include "ai_frame_snapshot.h"
 #include "ai_overlay.h"
+#include "ai_postprocess_diag.h"
 #include "ai_preprocess.h"
 #include "ai_runtime_bridge.h"
 #include "camera_config.h"
@@ -111,6 +112,54 @@ static void ai_print_ch1_tensor_stats(const AiPreprocessResult *result)
     console_puts("\r\n");
 }
 
+static void ai_validate_ch1_postprocess_reader(const AiPreprocessResult *input)
+{
+    AiPostprocessDiagResult result;
+    const uint8_t *tensor;
+    uint32_t byte_sum = 0U;
+    uint32_t nonzero = 0U;
+
+    if ((input->valid_mask & UINT32_C(1)) == 0U)
+        return;
+    if (ai_postprocess_diag_probe() != 0) {
+        console_puts("AI POST reader unavailable\r\n");
+        return;
+    }
+
+    tensor = (const uint8_t *)AI_DDR_CPU_ALIAS(input->tensor_base);
+    for (uint32_t index = 0U; index < TENSOR_MEMBER_BYTES; ++index) {
+        byte_sum += tensor[index];
+        nonzero += tensor[index] != 0U;
+    }
+    uint32_t expected_crc = ai_postprocess_crc32(tensor,
+                                                  TENSOR_MEMBER_BYTES);
+    int status = ai_postprocess_diag_run(input->tensor_base,
+                                         TENSOR_MEMBER_BYTES, &result);
+    if (status != 0) {
+        console_puts("AI POST reader failed=");
+        console_put_u32((uint32_t)(-status));
+        console_puts(" flags=");
+        console_put_hex32(result.error_flags);
+        console_puts("\r\n");
+        return;
+    }
+
+    int passed = result.crc32 == expected_crc &&
+                 result.byte_sum == byte_sum &&
+                 result.nonzero_count == nonzero &&
+                 result.bytes_read == TENSOR_MEMBER_BYTES;
+    console_puts(passed != 0 ? "AI POST reader PASS crc/readB/ar/beats=" :
+                               "AI POST reader MISMATCH crc/readB/ar/beats=");
+    console_put_hex32(result.crc32);
+    console_putc('/');
+    console_put_u32(result.bytes_read);
+    console_putc('/');
+    console_put_u32(result.ar_requests);
+    console_putc('/');
+    console_put_u32(result.read_beats);
+    console_puts("\r\n");
+}
+
 static void ai_preprocess_smoke_test(void)
 {
     static AiFrameSnapshot snapshot;
@@ -150,6 +199,7 @@ static void ai_preprocess_smoke_test(void)
     console_puts("\r\n");
 
     ai_print_ch1_tensor_stats(&result);
+    ai_validate_ch1_postprocess_reader(&result);
 
     status = ai_preprocess_recycle(UINT32_C(1) << result.arena);
     console_puts(status == 0 ? "AI PRE arena recycled\r\n" :

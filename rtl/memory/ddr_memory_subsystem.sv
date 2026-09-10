@@ -23,6 +23,7 @@ module ddr_memory_subsystem (
     input  wire        soc_resetn,
     axi4_if.slave      soc_mem_axi,
     axi4_if.master     fbus_axi,
+    axi_lite_if.slave  postprocess_axil,
     axi_lite_if.slave  framebuffer_axil,
     video_stream_if.sink camera_capture_channels [8],
     video_stream_if.sink hdmi_capture_channels [8],
@@ -86,6 +87,10 @@ module ddr_memory_subsystem (
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) reader_ui_axi();
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
         preprocess_read_ui_axi();
+    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4))
+        fbus_write_soc_axi();
+    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4))
+        postprocess_read_soc_axi();
     video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
         all_capture_channels [16]();
     video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
@@ -203,7 +208,15 @@ module ddr_memory_subsystem (
     // coherent FBus.  The bridge also applies the bit-31 CPU memory alias.
     axi4_write_cdc u_preprocess_fbus_write_cdc (
         .s_axi(preprocess_write_video_axi), .m_clk(soc_clk),
-        .m_resetn(soc_resetn), .m_axi(fbus_axi)
+        .m_resetn(soc_resetn), .m_axi(fbus_write_soc_axi)
+    );
+    postprocess_read_diagnostic u_postprocess_read_diagnostic (
+        .axil(postprocess_axil), .m_axi(postprocess_read_soc_axi)
+    );
+    axi4_channel_join u_fbus_channel_join (
+        .write_axi(fbus_write_soc_axi),
+        .read_axi(postprocess_read_soc_axi),
+        .clk(soc_clk), .resetn(soc_resetn), .m_axi(fbus_axi)
     );
 
     // S01 is deliberately split by AXI channel, matching demo/ai: capture is

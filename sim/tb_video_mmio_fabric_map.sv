@@ -51,6 +51,7 @@ module tb_video_mmio_fabric_map;
         // Camera software accesses the control bank at block base + 0x1000.
         check_map(31'h10151000, 31'h40111000, 3'd5, 18'h11000);
         check_map(31'h1016D000, 31'h4012D000, 3'd5, 18'h2D000);
+        check_map(31'h10170000, 31'h40130000, 3'd5, 18'h30000);
 
         check_map(31'h1003FFFF, 31'h1003FFFF, 3'd7, 18'h3FFFF);
         check_map(31'h1023FFFF, 31'h401FFFFF, 3'd7, 18'h3FFFF);

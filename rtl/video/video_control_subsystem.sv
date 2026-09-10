@@ -7,6 +7,7 @@ module video_control_subsystem (
     axi_lite_if.master  hdmi_tx_axil,
     axi_lite_if.master  framebuffer_axil,
     axi_lite_if.master  camera_axil [8],
+    axi_lite_if.master  postprocess_axil,
     input  wire [4:0]   gpio_in,
     output wire [31:0]  gpio_out,
     inout  wire         hdmi_ctl_iic_scl,
@@ -198,6 +199,6 @@ module video_control_subsystem (
     video_peripheral_fabric u_peripheral_fabric (
         .s_axil(peripheral_axil),
         .framebuffer_axil(framebuffer_axil),
-        .camera_axil(camera_axil)
+        .camera_axil(camera_axil), .postprocess_axil(postprocess_axil)
     );
 endmodule

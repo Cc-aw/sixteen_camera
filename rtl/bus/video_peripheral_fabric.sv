@@ -6,9 +6,11 @@
 module video_peripheral_fabric (
     axi_lite_if.slave  s_axil,
     axi_lite_if.master framebuffer_axil,
-    axi_lite_if.master camera_axil [8]
+    axi_lite_if.master camera_axil [8],
+    axi_lite_if.master postprocess_axil
 );
     localparam logic [3:0] SEL_FB = 4'd0;
+    localparam logic [3:0] SEL_POSTPROCESS = 4'd9;
     localparam logic [3:0] SEL_ERROR = 4'd15;
 
     logic [3:0] aw_sel, ar_sel;
@@ -19,14 +21,14 @@ module video_peripheral_fabric (
     logic aw_hold, w_hold, write_active, write_aw_done, write_w_done;
     logic ar_hold, read_active, read_ar_done;
 
-    wire [8:0] m_awready;
-    wire [8:0] m_wready;
-    wire [8:0][1:0] m_bresp;
-    wire [8:0] m_bvalid;
-    wire [8:0] m_arready;
-    wire [8:0][31:0] m_rdata;
-    wire [8:0][1:0] m_rresp;
-    wire [8:0] m_rvalid;
+    wire [9:0] m_awready;
+    wire [9:0] m_wready;
+    wire [9:0][1:0] m_bresp;
+    wire [9:0] m_bvalid;
+    wire [9:0] m_arready;
+    wire [9:0][31:0] m_rdata;
+    wire [9:0][1:0] m_rresp;
+    wire [9:0] m_rvalid;
 
     assign m_awready[0] = framebuffer_axil.awready;
     assign m_wready[0] = framebuffer_axil.wready;
@@ -36,6 +38,15 @@ module video_peripheral_fabric (
     assign m_rdata[0] = framebuffer_axil.rdata;
     assign m_rresp[0] = framebuffer_axil.rresp;
     assign m_rvalid[0] = framebuffer_axil.rvalid;
+
+    assign m_awready[SEL_POSTPROCESS] = postprocess_axil.awready;
+    assign m_wready[SEL_POSTPROCESS] = postprocess_axil.wready;
+    assign m_bresp[SEL_POSTPROCESS] = postprocess_axil.bresp;
+    assign m_bvalid[SEL_POSTPROCESS] = postprocess_axil.bvalid;
+    assign m_arready[SEL_POSTPROCESS] = postprocess_axil.arready;
+    assign m_rdata[SEL_POSTPROCESS] = postprocess_axil.rdata;
+    assign m_rresp[SEL_POSTPROCESS] = postprocess_axil.rresp;
+    assign m_rvalid[SEL_POSTPROCESS] = postprocess_axil.rvalid;
 
     generate
         genvar camera_index;
@@ -83,6 +94,8 @@ module video_peripheral_fabric (
                          (address[17:14] <= 4'd11) &&
                          (address[13:12] == 2'd1)) begin
                 decode = 4'd1 + (address[17:14] - 4'd4);
+            end else if (address[17:16] == 2'b11) begin
+                decode = SEL_POSTPROCESS;
             end
         end
     endfunction
@@ -168,6 +181,30 @@ module video_peripheral_fabric (
         framebuffer_axil.arvalid = read_active && (ar_sel == SEL_FB) &&
                                    !read_ar_done;
         framebuffer_axil.rready = read_active && (ar_sel == SEL_FB) &&
+                                  s_axil.rready;
+
+        postprocess_axil.aclk = s_axil.aclk;
+        postprocess_axil.aresetn = s_axil.aresetn;
+        postprocess_axil.awaddr = {2'd0, awaddr_hold[15:0]};
+        postprocess_axil.araddr = {2'd0, araddr_hold[15:0]};
+        postprocess_axil.awprot = awprot_hold;
+        postprocess_axil.arprot = arprot_hold;
+        postprocess_axil.wdata = wdata_hold;
+        postprocess_axil.wstrb = wstrb_hold;
+        postprocess_axil.awvalid = write_active &&
+                                   (aw_sel == SEL_POSTPROCESS) &&
+                                   !write_aw_done;
+        postprocess_axil.wvalid = write_active &&
+                                  (aw_sel == SEL_POSTPROCESS) &&
+                                  !write_w_done;
+        postprocess_axil.bready = write_active &&
+                                  (aw_sel == SEL_POSTPROCESS) &&
+                                  s_axil.bready;
+        postprocess_axil.arvalid = read_active &&
+                                   (ar_sel == SEL_POSTPROCESS) &&
+                                   !read_ar_done;
+        postprocess_axil.rready = read_active &&
+                                  (ar_sel == SEL_POSTPROCESS) &&
                                   s_axil.rready;
     end
 

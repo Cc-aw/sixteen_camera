@@ -9,6 +9,7 @@ module hdmi_subsystem (
     input wire hdmi_capture_enable,
     axi_lite_if.master framebuffer_axil,
     axi_lite_if.master camera_axil [8],
+    axi_lite_if.master postprocess_axil,
     input wire capture_clk,
     input wire capture_resetn,
 
@@ -63,6 +64,7 @@ module hdmi_subsystem (
         .mmio_axi(mmio_axi), .vphy_axil(vphy_axil),
         .hdmi_rx_axil(hdmi_rx_axil), .hdmi_tx_axil(hdmi_tx_axil),
         .framebuffer_axil(framebuffer_axil), .camera_axil(camera_axil),
+        .postprocess_axil(postprocess_axil),
         .gpio_in(gpio_in), .gpio_out(gpio_out),
         .hdmi_ctl_iic_scl(hdmi_clkchip_scl),
         .hdmi_ctl_iic_sda(hdmi_clkchip_sda),

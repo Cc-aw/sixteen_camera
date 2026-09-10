@@ -247,10 +247,10 @@ foreach path [lsort -unique $sc_rtl_files] {
 
 # The selected Rocket configuration is generated as one collateral unit.  All
 # Verilog/SystemVerilog/memory files in this one directory belong together.
-# Keep this aligned with control_soc_subsystem, which instantiates the video
-# Rocket MyBoardFPGATestHarness used by the non-Gemmini timing baseline.
+# Keep this aligned with control_soc_subsystem, which instantiates the
+# Gemmini-enabled TaihangSoCFPGATestHarness.
 set sc_soc_config \
-    chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig
+    tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitConfig
 set sc_soc_dir [file normalize [file join $sc_repo_root rtl soc \
     $sc_soc_config gen-collateral]]
 

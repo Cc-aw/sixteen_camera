@@ -50,6 +50,7 @@ LOCAL_SOURCES := src/main.c src/console.c src/runtime.c src/board_runtime.c src/
 	src/ai_batch_runtime.c src/ai_model_backend_yolov2.c \
 	src/ai_inference_runtime.c src/ai_tinyyolov2_runtime_adapter.c \
 	src/ai_postprocess_scalar.c src/ai_result_manager.c src/ai_display_map.c \
+	src/ai_postprocess_diag.c \
 	src/ai_overlay.c
 BOARD_SOURCES := $(REFERENCE_SW)/src/axi_iic.c \
 	$(REFERENCE_SW)/src/clock_chip.c
