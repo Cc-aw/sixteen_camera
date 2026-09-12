@@ -10,8 +10,8 @@ the following 32-bit registers:
 | Offset | Name | Description |
 | --- | --- | --- |
 | `0x00` | ID | `0x50504431` (`PPD1`) |
-| `0x04` | CAPABILITY | Revision and 32-byte beat capability |
-| `0x08` | CONTROL | bit 0 start, bit 1 clear done |
+| `0x04` | CAPABILITY | `0x00202205`: P1C-3 runtime burst sweep revision |
+| `0x08` | CONTROL | bit 0 start, bit 1 clear done, bit 2 platform-rate CRC |
 | `0x0c` | STATUS | bit 0 busy, bit 1 done, bit 2 read error |
 | `0x10` | ADDR_LO | Tensor address bits 31:0 |
 | `0x14` | ADDR_HI | Tensor address bit 32 |
@@ -25,10 +25,34 @@ the following 32-bit registers:
 | `0x34` | COMPLETIONS | Completed commands |
 | `0x38` | ERRORS | Commands with an AXI protocol/response error |
 | `0x3c` | ERROR_FLAGS | bit 0 RRESP, bit 1 RID, bit 2 RLAST |
+| `0x40` | ACTIVE_CYCLES | Reader cycles from request planning through drain |
+| `0x44` | AR_STALL_CYCLES | Cycles with ARVALID and no ARREADY |
+| `0x48` | R_WAIT_CYCLES | Cycles ready for R data with no RVALID |
+| `0x4c` | R_BACKPRESSURE | Cycles with RVALID and no RREADY |
+| `0x50` | MAX_OUTSTANDING | Maximum number of issued, unfinished bursts |
+| `0x54` | MAX_REORDER | Maximum number of allocated reorder slots |
+| `0x58` | ACTIVE_ID_MASK | AXI IDs used by the current command |
+| `0x5c` | BURST_BEATS | Maximum beats per burst; writable while idle, default 128 |
 
 The reader accepts unaligned buffers, splits bursts at 4 KiB boundaries and
-supports downstream backpressure. The diagnostic folds one byte per clock so
-its CRC does not create a 32-byte combinational path.
+supports downstream backpressure. Eight AXI IDs own eight 4 KiB response
+slots. Responses may complete across IDs in any order; a 32 KiB block-RAM
+reorder store releases them in request order. The diagnostic folds one byte
+per clock so its CRC does not create a 32-byte combinational path.
+
+P1C adds a platform-rate mode which folds each 256-bit AXI beat as four
+64-bit chunks. This matches the physical 64-bit FBus behind the width adapter
+without putting a 256-bit CRC network on one clock path. The reader may keep
+eight bursts outstanding to hide FBus/TileLink request latency. The
+byte-serial mode remains available for P1A/P1B diagnostics.
+
+The 2026-09-11 baseline board run passed all 256 correctness iterations but
+measured only 118 MB/s. `MAX_OUTSTANDING` reached 2. P1C-2 now uses all eight
+external AXI IDs and restores response order in the slot RAM. The regenerated
+SoC keeps two physical AXI ID groups and expands the TileLink source field from
+4 to 7 bits, providing 32 read sources per group and 64 total. See
+[`doc/AI_Postprocessor_P1C_Board_Validation.md`](../../../doc/AI_Postprocessor_P1C_Board_Validation.md)
+for the baseline log, calculations and board acceptance gate.
 
 Descriptors contain device/MIG physical addresses. The diagnostic adds the
 Rocket bit31 DDR alias when issuing coherent FBus reads.
@@ -43,3 +67,93 @@ each descriptor doorbell and reports the first stale or partial read.
 The TinyYOLOv2 runtime also fences every completed Gemmini store and compares
 the final INT8 tensor's CPU CRC against a coherent hardware readback. The `s`
 command reports cumulative checks, mismatches and AXI error flags.
+With the AI runtime enabled, the console `w` command reads 256 copies of a
+2,116,800-byte YOLOv5-sized tensor in full-rate mode while preprocess and both
+Gemmini workers continue running. It reports decimal MB/s, burst efficiency,
+AR stalls, R waits, consumer backpressure, CRC mismatches, timeouts, AXI
+errors, expected/observed CRC, maximum outstanding bursts, and observed
+preprocess/Gemmini overlap. The current 64-bit, 100 MHz FBus platform gate is
+600 MB/s for the eight-channel runtime. The final 16-channel product gate
+remains 1,200 MB/s and requires widening or accelerating FBus because this
+platform's theoretical payload ceiling is 800 MB/s. The final line also
+reports the runtime `valid_mask`; `0x0000ffff` is required for later
+16-channel signoff. A board populated with the current eight local cameras
+normally reports `0x000000ff`.
+
+The console `W` command runs a short burst-size sweep at 64, 128, 256, 512,
+1024, 2048, and 4096 bytes. Each point verifies the same tensor CRC and prints
+bandwidth, stalls, outstanding depth, reorder occupancy, and ID coverage. The
+lowercase `w` command remains the 4096-byte, 256-iteration platform gate.
+
+## YOLOv5nu compute frontend
+
+`yolov5nu_class_reducer.sv` is the first production-model compute block. It
+consumes the board-validated location-major `6300 x 80` INT8 sigmoid score
+tensor, folds all 32 bytes of each 256-bit beat in eight four-byte cycles,
+preserves the lowest class ID
+on ties, and emits one best-class record per location. The frozen 0.25 score
+threshold maps to raw INT8 score 34 for tensor scale 0.007530334406.
+
+Run `scripts/run_yolov5nu_postprocess_tests.sh`. The regression transposes the
+frozen hardware-aware image025 corpus into the exact board layout and compares
+all 6300 positions under input bubbles and output backpressure. The expected
+candidate count is 10, matching the board self-test.
+
+## YOLOv5nu production postprocessor (PPU1)
+
+The currently wired production path starts at the **six raw Gemmini INT8
+heads** in each worker's activation arena. It reads three 80-byte/location
+class heads and three 64-byte/location DFL heads with the existing FBus read
+engine. Model-generated ROMs perform per-head requantization and class
+sigmoid; class reduction retains the first class on a tie. Candidate DFL
+softmax preserves INT8 probability quantization before the 16-weight dot
+product. Fixed-point box conversion feeds a streaming Top-256, stable
+descending sort, class-aware IoU > 0.45 NMS, and a 10-entry result RAM.
+The score threshold is raw 34 (0.25 in the model ABI); coordinates are in
+the model's 640x480 input image, with Q15 scores. CPUs still schedule the
+two Gemmini workers, flush the six raw heads from L2, submit one descriptor
+at a time, and publish the final detection records. They skip software
+head stages 165/166, Decode and NMS when PPU1 is present. The old bitstream
+continues using its previous CPU fallback.
+
+The new registers are in the existing postprocessor MMIO window, alongside
+the unchanged 0x00..0x5c diagnostic. All offsets below are relative to
+`POSTPROCESS_DIAG_BASE`:
+
+| Offset | Meaning |
+| --- | --- |
+| 0x100 | read `0x50505531` (PPU1); write bit 0 to start |
+| 0x104, 0x108, 0x10c | class raw head addresses, counts 4800/1200/300 |
+| 0x110, 0x114, 0x118 | DFL raw head addresses, counts 4800/1200/300 |
+| 0x11c | status: busy bit 0, done bit 1, error bit 2, reader busy bit 3 |
+| 0x120, 0x124 | result index (write), result count (read) |
+| 0x128..0x134 | selected 128-bit candidate, four little-endian words |
+| 0x138, 0x13c, 0x140, 0x144 | class positions, threshold candidates, NMS candidates, cycles |
+
+One 128-bit candidate is `{28'b0, location[12:0], class[6:0],
+score_q15[15:0], y_max[15:0], x_max[15:0], y_min[15:0], x_min[15:0]}`.
+Reader sharing is serialized at descriptor boundaries; a competing diagnostic
+read completes before the PPU acquires the reader.
+
+To prepare for the board test, run `./scripts/run_ai_postprocessor_tests.sh`
+and `make -C sw` (ELF: `sw/build/hdmi_tx_test.elf`), then regenerate the
+bitstream from `prj/sixteen_camera.xpr` using the updated HDL sources. The
+startup line announces `hardware postprocess`; the first eight completed
+jobs print `AI PPU worker/status/count/positions/candidates/nms/cycles`.
+Expected successful status is `0x00000002`, positions `6300`, and hardware
+candidate/NMS counts equal for each job. Image025's frozen post-DFL reference
+has ten threshold candidates and a dog of class 23 at location 6155.
+
+The local regression also tests the full raw-class stream and DFL units,
+48 randomized DFL locations against the model's float32 reference,
+image025's post-DFL dog bbox/NMS, and two six-descriptor MMIO/FBus jobs
+(one empty, one positive dog-class candidate). RTL
+elaboration is checked by `scripts/check_postprocess_elaboration.tcl`.
+For the 100 MHz postprocessor-only synthesis timing gate, run
+`vivado -mode batch -source scripts/check_yolov5nu_postprocess_synthesis.tcl`.
+On the target VU13P, the standalone 100 MHz synthesized postprocessor has
+worst setup slack +1.812 ns. This estimate is before full SoC placement.
+Implementation timing and actual camera results require the new bitstream
+and board validation. The measured 112 MB/s P1C FBus throughput remains the
+separate bandwidth TODO; this functional release does not claim the eventual
+16-channel 480-frame/s throughput target.

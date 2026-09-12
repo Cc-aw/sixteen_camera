@@ -7,8 +7,12 @@ set -Eeuo pipefail
 CHIPYARD_ROOT="${CHIPYARD_ROOT:-/home/wzr/chipyard}"
 FPGA_DIR="$CHIPYARD_ROOT/fpga"
 CONFIG="TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitConfig"
+REPO_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 
 [[ -d "$FPGA_DIR" ]] || { echo "missing Chipyard FPGA directory: $FPGA_DIR" >&2; exit 1; }
+
+python3 "$REPO_DIR/scripts/configure_taihang16_p1c2.py" \
+  --chipyard-root "$CHIPYARD_ROOT"
 
 # Chipyard's generated build depends on the Conda toolchain and the local
 # espresso minimizer exported by env.sh.  Source it here so the script is

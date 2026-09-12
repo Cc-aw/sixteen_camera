@@ -7,7 +7,7 @@ module ErrorDeviceWrapper(	// @[generators/diplomacy/diplomacy/src/diplomacy/laz
   input  [2:0]  auto_buffer_in_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]  auto_buffer_in_a_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [3:0]  auto_buffer_in_a_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [8:0]  auto_buffer_in_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [9:0]  auto_buffer_in_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [13:0] auto_buffer_in_a_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [7:0]  auto_buffer_in_a_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [63:0] auto_buffer_in_a_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -17,7 +17,7 @@ module ErrorDeviceWrapper(	// @[generators/diplomacy/diplomacy/src/diplomacy/laz
   output [2:0]  auto_buffer_in_d_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [1:0]  auto_buffer_in_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [3:0]  auto_buffer_in_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output [8:0]  auto_buffer_in_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [9:0]  auto_buffer_in_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output        auto_buffer_in_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output        auto_buffer_in_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [63:0] auto_buffer_in_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -28,7 +28,7 @@ module ErrorDeviceWrapper(	// @[generators/diplomacy/diplomacy/src/diplomacy/laz
   wire [2:0]  _buffer_auto_out_a_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [2:0]  _buffer_auto_out_a_bits_param;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [3:0]  _buffer_auto_out_a_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-  wire [8:0]  _buffer_auto_out_a_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
+  wire [9:0]  _buffer_auto_out_a_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [13:0] _buffer_auto_out_a_bits_address;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [7:0]  _buffer_auto_out_a_bits_mask;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [63:0] _buffer_auto_out_a_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
@@ -38,7 +38,7 @@ module ErrorDeviceWrapper(	// @[generators/diplomacy/diplomacy/src/diplomacy/laz
   wire        _error_auto_in_d_valid;	// @[generators/rocket-chip/src/main/scala/devices/tilelink/CanHaveBuiltInDevices.scala:40:29]
   wire [2:0]  _error_auto_in_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/devices/tilelink/CanHaveBuiltInDevices.scala:40:29]
   wire [3:0]  _error_auto_in_d_bits_size;	// @[generators/rocket-chip/src/main/scala/devices/tilelink/CanHaveBuiltInDevices.scala:40:29]
-  wire [8:0]  _error_auto_in_d_bits_source;	// @[generators/rocket-chip/src/main/scala/devices/tilelink/CanHaveBuiltInDevices.scala:40:29]
+  wire [9:0]  _error_auto_in_d_bits_source;	// @[generators/rocket-chip/src/main/scala/devices/tilelink/CanHaveBuiltInDevices.scala:40:29]
   wire        _error_auto_in_d_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/devices/tilelink/CanHaveBuiltInDevices.scala:40:29]
   TLError error (	// @[generators/rocket-chip/src/main/scala/devices/tilelink/CanHaveBuiltInDevices.scala:40:29]
     .clock                  (clock),
@@ -60,7 +60,7 @@ module ErrorDeviceWrapper(	// @[generators/diplomacy/diplomacy/src/diplomacy/laz
     .auto_in_d_bits_source  (_error_auto_in_d_bits_source),
     .auto_in_d_bits_corrupt (_error_auto_in_d_bits_corrupt)
   );	// @[generators/rocket-chip/src/main/scala/devices/tilelink/CanHaveBuiltInDevices.scala:40:29]
-  TLBuffer_a14d64s9k1z4u buffer (	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
+  TLBuffer_a14d64s10k1z4u buffer (	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
     .clock                   (clock),
     .reset                   (reset),
     .auto_in_a_ready         (auto_buffer_in_a_ready),

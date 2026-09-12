@@ -14,15 +14,31 @@ module tb_postprocess_read_diagnostic;
     reg read_active = 1'b0;
     reg [32:0] read_addr = 33'd0;
     reg [8:0] read_left = 9'd0;
+    reg [3:0] read_id = 4'd0;
     reg rvalid = 1'b0;
     reg [255:0] rdata = 256'd0;
     reg rlast = 1'b0;
+    reg [1:0] r_gap = 2'd0;
     reg [31:0] lfsr = 32'h1234_5678;
+    reg production_mode = 1'b0;
+    reg production_positive_mode = 1'b0;
+    reg production_early_candidates = 1'b0;
 
     function automatic [255:0] memory_word(input [32:0] address);
         begin
             for (integer lane = 0; lane < 32; lane = lane + 1)
-                memory_word[lane*8 +: 8] = 8'(address + lane);
+                memory_word[lane*8 +: 8] = production_mode ?
+                    (address[30:0] < 31'h000a0000 ?
+                        (production_early_candidates &&
+                         address[30:0] + 31'(lane) >= 31'h0001_0000 &&
+                         address[30:0] + 31'(lane) <
+                             31'h0001_0000 + 31'd9*80 &&
+                         (address[30:0] + 31'(lane) -
+                             31'h0001_0000) % 80 == 23 ? 8'h00 :
+                         production_positive_mode &&
+                         address[30:0] + 31'(lane) ==
+                         31'h00090000 + 31'd155*80 + 31'd23 ?
+                         8'h00 : 8'h80) : 8'h00) : 8'(address + lane);
         end
     endfunction
 
@@ -39,7 +55,7 @@ module tb_postprocess_read_diagnostic;
     endfunction
 
     assign axi.arready = !read_active && (lfsr[0] || lfsr[3]);
-    assign axi.rid = 4'd0;
+    assign axi.rid = read_id;
     assign axi.rdata = rdata;
     assign axi.rresp = 2'b00;
     assign axi.rlast = rlast;
@@ -55,6 +71,7 @@ module tb_postprocess_read_diagnostic;
         if (!resetn) begin
             read_active <= 1'b0;
             rvalid <= 1'b0;
+            r_gap <= 2'd0;
         end else begin
             if (axi.arvalid && axi.arready) begin
                 if (axi.araddr[4:0] != 0 ||
@@ -67,10 +84,14 @@ module tb_postprocess_read_diagnostic;
                            axi.araddr);
                 read_active <= 1'b1;
                 read_addr <= axi.araddr;
+                read_id <= axi.arid;
                 read_left <= {1'b0, axi.arlen} + 1'b1;
             end
             if (rvalid && axi.rready) begin
                 rvalid <= 1'b0;
+                // The generated width adapter needs four 64-bit FBus cycles
+                // to assemble one 256-bit AXI beat.
+                r_gap <= 2'd2;
                 if (rlast)
                     read_active <= 1'b0;
                 else begin
@@ -78,7 +99,10 @@ module tb_postprocess_read_diagnostic;
                     read_left <= read_left - 1'b1;
                 end
             end
-            if (read_active && !rvalid && (lfsr[2] || lfsr[7])) begin
+            if (!(rvalid && axi.rready) && r_gap != 0)
+                r_gap <= r_gap - 1'b1;
+            if (read_active && !rvalid && r_gap == 0 &&
+                (lfsr[2] || lfsr[7])) begin
                 rdata <= memory_word(read_addr);
                 rlast <= read_left == 1;
                 rvalid <= 1'b1;
@@ -140,6 +164,16 @@ module tb_postprocess_read_diagnostic;
         read_reg(16'h0000, value);
         if (value != 32'h5050_4431)
             $fatal(1, "ID mismatch %h", value);
+        read_reg(16'h0004, value);
+        if (value != 32'h0020_2205)
+            $fatal(1, "P1C capability mismatch %h", value);
+        read_reg(16'h0100, value);
+        if (value != 32'h5050_5531)
+            $fatal(1, "production capability mismatch %h", value);
+        write_reg(16'h005c, 32'd2);
+        read_reg(16'h005c, value);
+        if (value != 2)
+            $fatal(1, "burst limit register mismatch %0d", value);
 
         expected_crc = 32'hFFFF_FFFF;
         expected_sum = 0;
@@ -186,12 +220,105 @@ module tb_postprocess_read_diagnostic;
         if (value[1] != 0)
             $fatal(1, "done clear failed");
 
+        // Fast mode must preserve the exact CRC while accepting every
+        // available R beat without diagnostic-induced backpressure.
+        write_reg(16'h0008, 32'd5);
+        wait (dut.done_sticky);
+        read_reg(16'h001c, value);
+        if (value != expected_crc)
+            $fatal(1, "fast CRC mismatch got=%h expected=%h",
+                   value, expected_crc);
+        read_reg(16'h0028, value);
+        if (value != TEST_BYTES)
+            $fatal(1, "fast bytes_read mismatch %0d", value);
+        read_reg(16'h0040, value);
+        if (value == 0)
+            $fatal(1, "fast active cycle counter did not run");
+        read_reg(16'h004c, value);
+        if (value != 0)
+            $fatal(1, "fast mode applied R backpressure for %0d cycles",
+                   value);
+        read_reg(16'h0050, value);
+        if (value != 1)
+            $fatal(1, "maximum outstanding register mismatch %0d", value);
+        read_reg(16'h0054, value);
+        if (value != 2)
+            $fatal(1, "reorder occupancy register mismatch %0d", value);
+        read_reg(16'h0058, value);
+        if (value != 7)
+            $fatal(1, "active ID mask register mismatch %h", value);
+        read_reg(16'h0034, value);
+        if (value != 2)
+            $fatal(1, "fast completion count mismatch %0d", value);
+
+        // Exercise six production descriptors through the same reader, while
+        // leaving the original diagnostic CRC and completion counters intact.
+        production_mode = 1'b1;
+        write_reg(16'h0104, 32'h0001_0000);
+        write_reg(16'h0108, 32'h0007_0000);
+        write_reg(16'h010c, 32'h0009_0000);
+        write_reg(16'h0110, 32'h000b_0000);
+        write_reg(16'h0114, 32'h0010_0000);
+        write_reg(16'h0118, 32'h0012_0000);
+        write_reg(16'h0100, 32'd1);
+        wait(dut.production_done);
+        read_reg(16'h011c, value);
+        if (value != 32'd2)
+            $fatal(1, "production status mismatch %h", value);
+        read_reg(16'h0138, value);
+        if (value != 6300)
+            $fatal(1, "production class positions mismatch %0d", value);
+        read_reg(16'h013c, value);
+        if (value != 0)
+            $fatal(1, "production class candidates mismatch %0d", value);
+        read_reg(16'h0124, value);
+        if (value != 0)
+            $fatal(1, "unexpected negative-score detection %0d", value);
+        read_reg(16'h0034, value);
+        if (value != 2)
+            $fatal(1, "production contaminated diagnostic counter %0d", value);
+
+        // One raw head class at location 6155 now scores above threshold.
+        // Its DFL must stall/resume the real reader and survive AXI R gaps.
+        production_positive_mode = 1'b1;
+        write_reg(16'h0100, 32'd1);
+        wait(dut.production_busy);
+        wait(dut.production_done);
+        read_reg(16'h011c, value);
+        if (value != 32'd2) $fatal(1, "positive production status %h", value);
+        read_reg(16'h0124, value);
+        if (value != 1) $fatal(1, "positive detection count %0d", value);
+        read_reg(16'h013c, value);
+        if (value != 1) $fatal(1, "positive threshold count %0d", value);
+        read_reg(16'h0140, value);
+        if (value != 1) $fatal(1, "positive NMS count %0d", value);
+        write_reg(16'h0120, 32'd0);
+        read_reg(16'h0130, value);
+        if (((value >> 16) & 7'h7f) != 23 ||
+            (value & 16'hffff) < 16'd16000)
+            $fatal(1, "positive dog score/class mismatch %h", value);
+
+        // Early, consecutive candidates repeatedly stall the DFL stream
+        // while the heap inserts them.  This is closer to a live frame than
+        // a single candidate at the end of the last class head.
+        production_positive_mode = 1'b0;
+        production_early_candidates = 1'b1;
+        write_reg(16'h0100, 32'd1);
+        wait(dut.production_busy);
+        wait(dut.production_done);
+        read_reg(16'h011c, value);
+        if (value != 32'd2) $fatal(1, "early candidates status %h", value);
+        read_reg(16'h013c, value);
+        if (value != 9) $fatal(1, "early threshold count %0d", value);
+        read_reg(16'h0140, value);
+        if (value != 9) $fatal(1, "early NMS count %0d", value);
+
         $display("TB_POSTPROCESS_READ_DIAGNOSTIC=PASS crc=%08h", expected_crc);
         $finish;
     end
 
     initial begin
-        #1000000;
+        #10000000;
         $fatal(1, "timeout");
     end
 endmodule

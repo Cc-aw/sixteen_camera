@@ -270,13 +270,9 @@ module SaturnRocketUnit(	// @[generators/saturn/src/main/scala/rocket/Integratio
   wire         _buffer_auto_in_a_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire         _buffer_auto_in_d_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [2:0]   _buffer_auto_in_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-  wire [1:0]   _buffer_auto_in_d_bits_param;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [3:0]   _buffer_auto_in_d_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [4:0]   _buffer_auto_in_d_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-  wire [4:0]   _buffer_auto_in_d_bits_sink;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-  wire         _buffer_auto_in_d_bits_denied;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [255:0] _buffer_auto_in_d_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-  wire         _buffer_auto_in_d_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire         _tl_if_auto_arb_anon_out_a_valid;	// @[generators/saturn/src/main/scala/rocket/Integration.scala:27:25]
   wire [2:0]   _tl_if_auto_arb_anon_out_a_bits_opcode;	// @[generators/saturn/src/main/scala/rocket/Integration.scala:27:25]
   wire [3:0]   _tl_if_auto_arb_anon_out_a_bits_size;	// @[generators/saturn/src/main/scala/rocket/Integration.scala:27:25]
@@ -341,13 +337,9 @@ module SaturnRocketUnit(	// @[generators/saturn/src/main/scala/rocket/Integratio
     .auto_in_d_ready         (_widget_auto_anon_out_d_ready),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
     .auto_in_d_valid         (_buffer_auto_in_d_valid),
     .auto_in_d_bits_opcode   (_buffer_auto_in_d_bits_opcode),
-    .auto_in_d_bits_param    (_buffer_auto_in_d_bits_param),
     .auto_in_d_bits_size     (_buffer_auto_in_d_bits_size),
     .auto_in_d_bits_source   (_buffer_auto_in_d_bits_source),
-    .auto_in_d_bits_sink     (_buffer_auto_in_d_bits_sink),
-    .auto_in_d_bits_denied   (_buffer_auto_in_d_bits_denied),
     .auto_in_d_bits_data     (_buffer_auto_in_d_bits_data),
-    .auto_in_d_bits_corrupt  (_buffer_auto_in_d_bits_corrupt),
     .auto_out_a_ready        (auto_atl_out_a_ready),
     .auto_out_a_valid        (auto_atl_out_a_valid),
     .auto_out_a_bits_opcode  (auto_atl_out_a_bits_opcode),
@@ -395,13 +387,9 @@ module SaturnRocketUnit(	// @[generators/saturn/src/main/scala/rocket/Integratio
     .auto_anon_out_d_ready        (_widget_auto_anon_out_d_ready),
     .auto_anon_out_d_valid        (_buffer_auto_in_d_valid),	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
     .auto_anon_out_d_bits_opcode  (_buffer_auto_in_d_bits_opcode),	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-    .auto_anon_out_d_bits_param   (_buffer_auto_in_d_bits_param),	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
     .auto_anon_out_d_bits_size    (_buffer_auto_in_d_bits_size),	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
     .auto_anon_out_d_bits_source  (_buffer_auto_in_d_bits_source),	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-    .auto_anon_out_d_bits_sink    (_buffer_auto_in_d_bits_sink),	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-    .auto_anon_out_d_bits_denied  (_buffer_auto_in_d_bits_denied),	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-    .auto_anon_out_d_bits_data    (_buffer_auto_in_d_bits_data),	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-    .auto_anon_out_d_bits_corrupt (_buffer_auto_in_d_bits_corrupt)	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
+    .auto_anon_out_d_bits_data    (_buffer_auto_in_d_bits_data)	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   );	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
   VectorDispatcher dis (	// @[generators/saturn/src/main/scala/rocket/Integration.scala:35:21]
     .clock                                  (clock),

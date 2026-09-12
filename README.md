@@ -1,5 +1,10 @@
 # sixteen_camera
 
+当前代码的完整架构见 [YOLOv5nu推理与全系统架构](doc/YOLOv5nu推理与全系统架构.md)
+（2026-09-12）：以默认640×480 YOLOv5nu为主，覆盖双Gemmini16、PPU1硬件后处理、
+16路视频、双输入arena、显示标签和验证边界。下文部分视频说明保留历史版本参数，
+当前实现参数请以该文档及源码为准。
+
 基于 Xilinx Virtex UltraScale+ VU13P 的 16 路视频采集、DDR 帧缓存与 HDMI
 输出工程。当前版本已经完成真实硬件上板验证。
 

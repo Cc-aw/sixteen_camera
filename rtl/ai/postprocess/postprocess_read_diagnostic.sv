@@ -5,7 +5,7 @@ module postprocess_read_diagnostic (
     axi4_if.master    m_axi
 );
     localparam logic [31:0] DIAG_ID = 32'h5050_4431; // "PPD1"
-    localparam logic [31:0] CAPABILITY = 32'h0020_2102;
+    localparam logic [31:0] CAPABILITY = 32'h0020_2205;
 
     logic aw_pending, w_pending, bvalid_q;
     logic [15:0] awaddr_q;
@@ -15,6 +15,7 @@ module postprocess_read_diagnostic (
     logic [31:0] rdata_q;
     logic [32:0] tensor_addr_q;
     logic [31:0] tensor_bytes_q;
+    logic [8:0] burst_beats_q;
     logic start_reader;
     logic done_sticky;
     logic [31:0] result_crc;
@@ -23,10 +24,16 @@ module postprocess_read_diagnostic (
     logic [31:0] completion_count;
     logic [31:0] error_count;
     logic [2:0] result_error_flags;
+    logic fast_mode_q;
 
     wire reader_busy, reader_done, reader_error;
     wire [2:0] reader_error_flags;
     wire [31:0] reader_bytes_read, reader_ar_requests, reader_beats;
+    wire [31:0] reader_active_cycles, reader_ar_stall_cycles;
+    wire [31:0] reader_r_wait_cycles, reader_r_backpressure_cycles;
+    wire [31:0] reader_max_outstanding;
+    wire [31:0] reader_max_reorder_occupancy;
+    wire [31:0] reader_active_id_mask;
     wire [255:0] stream_data;
     wire [31:0] stream_keep;
     wire stream_valid, stream_last;
@@ -36,6 +43,48 @@ module postprocess_read_diagnostic (
     logic [31:0] beat_keep;
     logic [4:0] beat_lane;
     logic reader_complete_pending;
+    // The production descriptor shares the proven FBus reader.  Arbitration
+    // happens only between complete read commands, never between AXI beats.
+    logic production_owner;
+    logic production_start;
+    logic [32:0] production_class0, production_class1, production_class2;
+    logic [32:0] production_dfl0, production_dfl1, production_dfl2;
+    logic [4:0] production_result_index;
+    wire [127:0] production_result;
+    wire [5:0] production_count;
+    wire production_busy, production_done, production_error;
+    wire [12:0] production_positions, production_candidates;
+    wire [15:0] production_nms_candidates;
+    wire [31:0] production_cycles;
+    wire production_read_start, production_stream_ready;
+    wire [32:0] production_read_base;
+    wire [31:0] production_read_bytes;
+
+    yolov5nu_postprocessor u_production (
+        .clk(axil.aclk), .resetn(axil.aresetn),
+        .start(production_start),
+        .class0(production_class0), .class1(production_class1),
+        .class2(production_class2), .dfl0(production_dfl0),
+        .dfl1(production_dfl1), .dfl2(production_dfl2),
+        .read_start(production_read_start),
+        .read_base(production_read_base),
+        .read_bytes(production_read_bytes),
+        .read_busy(reader_busy),
+        .read_done(reader_done && production_owner),
+        .read_error(reader_error && production_owner),
+        .stream_data(stream_data), .stream_keep(stream_keep),
+        .stream_valid(stream_valid && production_owner),
+        .stream_last(stream_last),
+        .stream_ready(production_stream_ready),
+        .result_index(production_result_index),
+        .result_word(production_result),
+        .result_count(production_count), .busy(production_busy),
+        .done(production_done), .error(production_error),
+        .positions_seen(production_positions),
+        .candidates_seen(production_candidates),
+        .nms_candidates_seen(production_nms_candidates),
+        .cycles(production_cycles)
+    );
 
     function automatic [31:0] merge_wstrb(
         input [31:0] previous,
@@ -66,19 +115,77 @@ module postprocess_read_diagnostic (
         end
     endfunction
 
+    function automatic [31:0] crc32_chunk64(
+        input [31:0] current,
+        input [63:0] data,
+        input [7:0] keep
+    );
+        logic [31:0] next;
+        begin
+            next = current;
+            for (integer lane = 0; lane < 8; lane = lane + 1)
+                if (keep[lane])
+                    next = crc32_byte(next, data[lane*8 +: 8]);
+            crc32_chunk64 = next;
+        end
+    endfunction
+
+    function automatic [31:0] chunk64_byte_sum(
+        input [63:0] data,
+        input [7:0] keep
+    );
+        logic [31:0] total;
+        begin
+            total = 32'd0;
+            for (integer lane = 0; lane < 8; lane = lane + 1)
+                if (keep[lane])
+                    total = total + {24'd0, data[lane*8 +: 8]};
+            chunk64_byte_sum = total;
+        end
+    endfunction
+
+    function automatic [31:0] chunk64_nonzero_count(
+        input [63:0] data,
+        input [7:0] keep
+    );
+        logic [31:0] total;
+        begin
+            total = 32'd0;
+            for (integer lane = 0; lane < 8; lane = lane + 1)
+                if (keep[lane] && data[lane*8 +: 8] != 8'd0)
+                    total = total + 1'b1;
+            chunk64_nonzero_count = total;
+        end
+    endfunction
+
     fbus_read_engine u_reader (
-        .clk(axil.aclk), .resetn(axil.aresetn), .start(start_reader),
+        .clk(axil.aclk), .resetn(axil.aresetn),
+        .start(start_reader || production_read_start),
         // MMIO descriptors use device physical addresses. Coherent FBus
         // exposes the same DDR storage through Rocket's bit-31 alias.
-        .base_addr({tensor_addr_q[32],
+        .base_addr(production_read_start ?
+                   {production_read_base[32],
+                    production_read_base[31:0] | 32'h8000_0000} :
+                   {tensor_addr_q[32],
                     tensor_addr_q[31:0] | 32'h8000_0000}),
-        .byte_count(tensor_bytes_q),
+        .byte_count(production_read_start ? production_read_bytes :
+                    tensor_bytes_q),
+        .burst_beats_limit(burst_beats_q),
         .busy(reader_busy), .done(reader_done), .error(reader_error),
         .error_flags(reader_error_flags),
         .bytes_read(reader_bytes_read), .ar_requests(reader_ar_requests),
-        .read_beats(reader_beats), .stream_data(stream_data),
+        .read_beats(reader_beats), .active_cycles(reader_active_cycles),
+        .ar_stall_cycles(reader_ar_stall_cycles),
+        .r_wait_cycles(reader_r_wait_cycles),
+        .r_backpressure_cycles(reader_r_backpressure_cycles),
+        .max_outstanding_observed(reader_max_outstanding),
+        .max_reorder_occupancy(reader_max_reorder_occupancy),
+        .active_id_mask_observed(reader_active_id_mask),
+        .stream_data(stream_data),
         .stream_keep(stream_keep), .stream_valid(stream_valid),
-        .stream_ready(!beat_active), .stream_last(stream_last), .m_axi(m_axi)
+        .stream_ready(production_owner ? production_stream_ready :
+                      !beat_active),
+        .stream_last(stream_last), .m_axi(m_axi)
     );
 
     assign axil.awready = axil.aresetn && !aw_pending && !bvalid_q;
@@ -98,6 +205,7 @@ module postprocess_read_diagnostic (
             rvalid_q <= 1'b0;
             tensor_addr_q <= 33'd0;
             tensor_bytes_q <= 32'd0;
+            burst_beats_q <= 9'd128;
             start_reader <= 1'b0;
             done_sticky <= 1'b0;
             result_crc <= 32'd0;
@@ -107,13 +215,26 @@ module postprocess_read_diagnostic (
             completion_count <= 32'd0;
             error_count <= 32'd0;
             result_error_flags <= 3'b000;
+            fast_mode_q <= 1'b0;
             beat_active <= 1'b0;
             beat_data <= 256'd0;
             beat_keep <= 32'd0;
             beat_lane <= 5'd0;
             reader_complete_pending <= 1'b0;
+            production_owner <= 1'b0;
+            production_start <= 1'b0;
+            production_class0 <= 0;
+            production_class1 <= 0;
+            production_class2 <= 0;
+            production_dfl0 <= 0;
+            production_dfl1 <= 0;
+            production_dfl2 <= 0;
+            production_result_index <= 0;
         end else begin
             start_reader <= 1'b0;
+            production_start <= 1'b0;
+            if (production_read_start) production_owner <= 1'b1;
+            else if (reader_done) production_owner <= 1'b0;
             if (axil.awvalid && axil.awready) begin
                 aw_pending <= 1'b1;
                 awaddr_q <= axil.awaddr[15:0];
@@ -124,11 +245,12 @@ module postprocess_read_diagnostic (
                 wstrb_q <= axil.wstrb;
             end
             if (!bvalid_q && aw_pending && w_pending) begin
-                case (awaddr_q[7:0])
+                case (awaddr_q[9:0])
                 8'h08: begin
                     if (wstrb_q[0] && wdata_q[1])
                         done_sticky <= 1'b0;
-                    if (wstrb_q[0] && wdata_q[0] && !reader_busy) begin
+                    if (wstrb_q[0] && wdata_q[0] && !reader_busy &&
+                        !production_busy) begin
                         start_reader <= 1'b1;
                         done_sticky <= 1'b0;
                         result_crc <= 32'd0;
@@ -136,6 +258,7 @@ module postprocess_read_diagnostic (
                         byte_sum <= 32'd0;
                         nonzero_count <= 32'd0;
                         result_error_flags <= 3'b000;
+                        fast_mode_q <= wdata_q[2];
                         beat_active <= 1'b0;
                         reader_complete_pending <= 1'b0;
                     end
@@ -145,6 +268,26 @@ module postprocess_read_diagnostic (
                 8'h14: if (wstrb_q[0]) tensor_addr_q[32] <= wdata_q[0];
                 8'h18: tensor_bytes_q <=
                     merge_wstrb(tensor_bytes_q, wdata_q, wstrb_q);
+                8'h5c: if (!reader_busy && wstrb_q[0])
+                    burst_beats_q <= wdata_q[8:0];
+                // Queue the production command even if a diagnostic burst
+                // owns the reader; CLASS_LAUNCH waits for the whole read.
+                10'h100: if (wstrb_q[0] && wdata_q[0] &&
+                            !production_busy) production_start <= 1'b1;
+                10'h104: production_class0[31:0] <= merge_wstrb(
+                    production_class0[31:0], wdata_q, wstrb_q);
+                10'h108: production_class1[31:0] <= merge_wstrb(
+                    production_class1[31:0], wdata_q, wstrb_q);
+                10'h10c: production_class2[31:0] <= merge_wstrb(
+                    production_class2[31:0], wdata_q, wstrb_q);
+                10'h110: production_dfl0[31:0] <= merge_wstrb(
+                    production_dfl0[31:0], wdata_q, wstrb_q);
+                10'h114: production_dfl1[31:0] <= merge_wstrb(
+                    production_dfl1[31:0], wdata_q, wstrb_q);
+                10'h118: production_dfl2[31:0] <= merge_wstrb(
+                    production_dfl2[31:0], wdata_q, wstrb_q);
+                10'h120: if (wstrb_q[0])
+                    production_result_index <= wdata_q[4:0];
                 default: begin end
                 endcase
                 aw_pending <= 1'b0;
@@ -154,16 +297,36 @@ module postprocess_read_diagnostic (
                 bvalid_q <= 1'b0;
             end
 
-            if (stream_valid && !beat_active) begin
+            if (stream_valid && !production_owner &&
+                !beat_active && !fast_mode_q) begin
                 beat_active <= 1'b1;
                 beat_data <= stream_data;
                 beat_keep <= stream_keep;
                 beat_lane <= 5'd0;
             end
 
+            // The physical FBus behind the 256-bit AXI adapter is 64-bit.
+            // Consume the first 64-bit chunk as the beat is accepted, then
+            // fold the remaining three chunks while the next beat assembles.
+            if (stream_valid && !production_owner &&
+                !beat_active && fast_mode_q) begin
+                crc_state <= crc32_chunk64(
+                    crc_state, stream_data[63:0], stream_keep[7:0]);
+                byte_sum <= byte_sum +
+                            chunk64_byte_sum(stream_data[63:0],
+                                             stream_keep[7:0]);
+                nonzero_count <= nonzero_count +
+                    chunk64_nonzero_count(stream_data[63:0],
+                                          stream_keep[7:0]);
+                beat_active <= 1'b1;
+                beat_data <= stream_data;
+                beat_keep <= stream_keep;
+                beat_lane <= 5'd8;
+            end
+
             // Fold one byte per cycle. This keeps the diagnostic CRC away from
             // the critical path and deliberately exercises reader backpressure.
-            if (beat_active) begin
+            if (beat_active && !fast_mode_q) begin
                 if (beat_keep[beat_lane]) begin
                     crc_state <= crc32_byte(
                         crc_state, beat_data[beat_lane*8 +: 8]);
@@ -178,7 +341,23 @@ module postprocess_read_diagnostic (
                     beat_lane <= beat_lane + 1'b1;
             end
 
-            if (reader_done) begin
+            if (beat_active && fast_mode_q) begin
+                crc_state <= crc32_chunk64(
+                    crc_state, beat_data[beat_lane*8 +: 64],
+                    beat_keep[beat_lane +: 8]);
+                byte_sum <= byte_sum + chunk64_byte_sum(
+                    beat_data[beat_lane*8 +: 64],
+                    beat_keep[beat_lane +: 8]);
+                nonzero_count <= nonzero_count + chunk64_nonzero_count(
+                    beat_data[beat_lane*8 +: 64],
+                    beat_keep[beat_lane +: 8]);
+                if (beat_lane == 5'd24)
+                    beat_active <= 1'b0;
+                else
+                    beat_lane <= beat_lane + 5'd8;
+            end
+
+            if (reader_done && !production_owner) begin
                 reader_complete_pending <= 1'b1;
             end
             if (reader_complete_pending && !beat_active) begin
@@ -192,7 +371,7 @@ module postprocess_read_diagnostic (
             end
 
             if (axil.arvalid && axil.arready) begin
-                case (axil.araddr[7:0])
+                case (axil.araddr[9:0])
                 8'h00: rdata_q <= DIAG_ID;
                 8'h04: rdata_q <= CAPABILITY;
                 8'h08: rdata_q <= 32'd0;
@@ -210,6 +389,33 @@ module postprocess_read_diagnostic (
                 8'h34: rdata_q <= completion_count;
                 8'h38: rdata_q <= error_count;
                 8'h3c: rdata_q <= {29'd0, result_error_flags};
+                8'h40: rdata_q <= reader_active_cycles;
+                8'h44: rdata_q <= reader_ar_stall_cycles;
+                8'h48: rdata_q <= reader_r_wait_cycles;
+                8'h4c: rdata_q <= reader_r_backpressure_cycles;
+                8'h50: rdata_q <= reader_max_outstanding;
+                8'h54: rdata_q <= reader_max_reorder_occupancy;
+                8'h58: rdata_q <= reader_active_id_mask;
+                8'h5c: rdata_q <= {23'd0, burst_beats_q};
+                10'h100: rdata_q <= 32'h5050_5531; // "PPU1"
+                10'h104: rdata_q <= production_class0[31:0];
+                10'h108: rdata_q <= production_class1[31:0];
+                10'h10c: rdata_q <= production_class2[31:0];
+                10'h110: rdata_q <= production_dfl0[31:0];
+                10'h114: rdata_q <= production_dfl1[31:0];
+                10'h118: rdata_q <= production_dfl2[31:0];
+                10'h11c: rdata_q <= {28'd0, reader_busy, production_error,
+                                     production_done, production_busy};
+                10'h120: rdata_q <= {27'd0, production_result_index};
+                10'h124: rdata_q <= {26'd0, production_count};
+                10'h128: rdata_q <= production_result[31:0];
+                10'h12c: rdata_q <= production_result[63:32];
+                10'h130: rdata_q <= production_result[95:64];
+                10'h134: rdata_q <= production_result[127:96];
+                10'h138: rdata_q <= {19'd0, production_positions};
+                10'h13c: rdata_q <= {19'd0, production_candidates};
+                10'h140: rdata_q <= {16'd0, production_nms_candidates};
+                10'h144: rdata_q <= production_cycles;
                 default: rdata_q <= 32'd0;
                 endcase
                 rvalid_q <= 1'b1;

@@ -69,7 +69,7 @@ module SinkC(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusive
   output [2:0]   io_req_bits_opcode,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
   output [2:0]   io_req_bits_param,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
   output [2:0]   io_req_bits_size,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
-  output [7:0]   io_req_bits_source,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
+  output [8:0]   io_req_bits_source,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
   output [16:0]  io_req_bits_tag,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
   output [5:0]   io_req_bits_offset,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
   output [5:0]   io_req_bits_put,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
@@ -78,7 +78,7 @@ module SinkC(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusive
   output         io_resp_bits_last,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
   output [9:0]   io_resp_bits_set,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
   output [16:0]  io_resp_bits_tag,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
-  output [7:0]   io_resp_bits_source,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
+  output [8:0]   io_resp_bits_source,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
   output [2:0]   io_resp_bits_param,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
   output         io_resp_bits_data,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
   output         io_c_ready,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
@@ -86,7 +86,7 @@ module SinkC(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusive
   input  [2:0]   io_c_bits_opcode,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
   input  [2:0]   io_c_bits_param,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
   input  [2:0]   io_c_bits_size,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
-  input  [7:0]   io_c_bits_source,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
+  input  [8:0]   io_c_bits_source,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
   input  [32:0]  io_c_bits_address,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
   input  [255:0] io_c_bits_data,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
   input          io_c_bits_corrupt,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:43:14]
@@ -116,7 +116,7 @@ module SinkC(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusive
   wire [2:0]   _c_q_io_deq_bits_opcode;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire [2:0]   _c_q_io_deq_bits_param;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire [2:0]   _c_q_io_deq_bits_size;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  wire [7:0]   _c_q_io_deq_bits_source;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [8:0]   _c_q_io_deq_bits_source;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire [32:0]  _c_q_io_deq_bits_address;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire [255:0] _c_q_io_deq_bits_data;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire         _c_q_io_deq_bits_corrupt;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
@@ -210,7 +210,7 @@ module SinkC(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusive
       `FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkC.scala:41:7]
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  Queue2_TLBundleC_a33d256s8k5z3c c_q (	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  Queue2_TLBundleC_a33d256s9k5z3c c_q (	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
     .clock               (clock),
     .reset               (reset),
     .io_enq_ready        (io_c_ready),

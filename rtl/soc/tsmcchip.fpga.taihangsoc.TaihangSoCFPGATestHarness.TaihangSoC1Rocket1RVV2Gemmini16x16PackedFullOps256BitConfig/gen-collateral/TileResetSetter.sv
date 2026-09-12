@@ -8,12 +8,12 @@ module TileResetSetter(	// @[generators/chipyard/src/main/scala/clocking/TileRes
   input         auto_tl_in_a_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]  auto_tl_in_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [1:0]  auto_tl_in_a_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [12:0] auto_tl_in_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [13:0] auto_tl_in_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input         auto_tl_in_d_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output        auto_tl_in_d_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]  auto_tl_in_d_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [1:0]  auto_tl_in_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output [12:0] auto_tl_in_d_bits_source	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [13:0] auto_tl_in_d_bits_source	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
 );
 
   assign auto_clock_out_member_allClocks_uncore_clock = auto_clock_in_member_allClocks_uncore_clock;	// @[generators/chipyard/src/main/scala/clocking/TileResetSetter.scala:26:25]

@@ -1906,6 +1906,11 @@ model_contract
 
 # P1C — Concurrent Bandwidth Stress
 
+状态（2026-09-11）：**正确性通过，平台带宽 No-Go，P1C 尚未关闭**。板测完成
+256/256 次读取，累计 541,900,800 byte，CRC 完全一致且无 timeout/AXI
+error；但并发吞吐仅 118 MB/s，低于当前 8 路平台 600 MB/s Gate。完整日志、
+计算和根因证据见 [AI_Postprocessor_P1C_Board_Validation.md](AI_Postprocessor_P1C_Board_Validation.md)。
+
 同时运行：
 
 ```text
@@ -1929,9 +1934,60 @@ YOLOv5 Gate：
 
 > 建议 sustained FBus read ≥ 1.2 GB/s。
 
+当前板卡的 SoC FBus 为 64-bit @100 MHz，理论上限 0.8 GB/s，因此 P1C
+分两级验收：当前 8 路平台并发测试要求 sustained read ≥600 MB/s；最终 16 路
+产品仍要求 ≥1.2 GB/s，并在 P5B 前完成 FBus 加宽或提频。当前平台通过不等于
+最终 16 路带宽 Gate 通过。
+
+---
+
+# P1C-2 — FBus Source Capacity / Ordered Multi-ID Reader
+
+实现状态（2026-09-12）：RTL、仿真、软件和 `sourceBits=7` collateral 已完成并
+完成新版 bitstream 板测。多 ID 有序读取正确性通过，但带宽为 112 MB/s，平台
+Gate 仍未关闭。进一步检查生成RTL后，瓶颈已定位为AXI ID压缩、64-byte L2
+fragment以及FIFO顺序约束共同造成的近似单cache-line串行访问。
+
+P1C 板测观察到 `max_outstanding=2`、AR stall 99.763%、R wait 96.296%。新版
+SoC的TileLink `sourceBits=7`已经生效，但collateral仍将4-bit外部AXI ID压缩
+为1-bit物理ID。4 KiB请求又被拆成64个同ID的64-byte L2请求；FIFO fixer在
+这一地址域内等待前一个同ID请求返回，因此额外source没有转化成实际并发。
+
+任务：
+
+- 将目标 Chipyard 配置的 `sourceBits` 从 4 扩大到 7，使两个物理 AXI ID 组
+  各获得 32 个读 source，并重新生成 collateral；
+- 实现 8-slot、32 KiB BRAM 的 AXI 多 ID reorder buffer；
+- 允许跨 ID response 乱序返回，保持 tensor 输出和 CRC 的原始顺序；
+- 增加物理 ID/source 并发与 reorder 高水位诊断；
+- 重复 P1C 并发板测。
+
+验收：
+
+> 256 次 CRC 全部一致、无 timeout/AXI error、preprocess 与 Gemmini overlap
+> 均非 0，且当前 8 路平台 sustained read ≥600 MB/s。
+
+板测结果：CRC 256/256 一致，`id_mask=0x000000ff`、`reorder=2`，证明 8 个
+外部 ID 与乱序恢复路径已生效；吞吐 112 MB/s，仍低于 600 MB/s。这里的
+`max_outstanding=2` 是 4 KiB AXI 请求入口队列高水位，不能直接解释成 TileLink
+或 DDR 侧只有两个事务在飞。
+
+P1C 带宽优化延期为 TODO，不阻塞独立后处理计算核的开发。生成 RTL 与板测数据
+已经证明当前 112 MB/s 对应约每 56.9 个 FBus 周期串行完成一个 64-byte cache
+line。后续应在同一次 bitstream 中组合完成：保留 reader 的 8 个 AXI ID 到
+AXI4ToTL，并将外部 burst 改为 64 B，使 AXI4Fragmenter 能在 ID 间轮转。当前
+运行时 burst 扫描保留为诊断工具，但不为它单独生成 bitstream。
+
+详细实施顺序与基线见
+[AI_Postprocessor_P1C_Board_Validation.md](AI_Postprocessor_P1C_Board_Validation.md)。
+
 ---
 
 # P2 — TinyYOLOv2 Decode
+
+状态（2026-09-12）：兼容性 TODO。当前已上板通过的生产模型为 YOLOv5nu，后处理
+计算核优先进入 P5A；TinyYOLOv2 fixed reference 保留，后续复用共享 Candidate、
+Top-K 和 NMS 接口补齐。
 
 实现：
 
@@ -2003,19 +2059,40 @@ bicycle
 
 # P5A — YOLOv5 Functional Frontend
 
+当前板上 YOLOv5nu 的真实检测头合同不同于前文早期规划的单块
+`84 x 6300 Q16.16` 张量。Gemmini 产生三层 location-major INT8 head：
+
+```text
+positions              4800             1200             300
+class logits/position  80               80               80
+DFL logits/position    4 x 16           4 x 16           4 x 16
+class scales           0.2354075164     0.3665552139     0.4492721260
+DFL scales             0.2151331604     0.1472641826     0.1159213334
+```
+
+现有软件将class head requant到scale `0.4492721260`，经sigmoid LUT输出
+location-major `6300 x 80` INT8 score，scale为`0.007530334406`；候选阈值
+`0.25`等价于量化score `>=34`。候选位置再执行4组16-bin DFL softmax，距离
+输出scale为`0.1129496917`。bbox按8/16/32 stride解码，最后执行class-aware
+NMS。硬件实现与回归均以这个已上板合同为准。
+
 先实现正确性：
 
-- Q16.16；
-- channel-major；
-- anchor-major；
-- 6300-entry best-class RAM；
+- location-major INT8 class reduction；
+- 6300位置candidate mask；
+- sparse 4 x 16-bin DFL；
+- 8/16/32 stride bbox decode；
 - candidate；
 - reuse Top-K / Sort / NMS。
 
-第一版允许：
+首个子阶段直接消费现有 `tensor_248`，每拍处理32个INT8 score，验证6300个
+位置的best score、最低ID tie-break和candidate mask；之后前移到三个raw class
+head，将requant与sigmoid LUT一并纳入硬件。
+
+已实现的class reducer使用完整256-bit输入拍：
 
 ```text
-1 score / cycle
+32 INT8 scores / cycle
 ```
 
 验收重点：
@@ -2029,13 +2106,13 @@ bicycle
 升级：
 
 ```text
-128-bit FBus
+256-bit external AXI / 64-bit physical FBus
       ↓
-4 × Q16.16
+32 × INT8 class score
       ↓
-4-lane compare
+location-major fold
       ↓
-4-bank Best RAM
+sparse DFL candidate fetch
 ```
 
 目标：
@@ -2077,11 +2154,12 @@ postprocess N
 | P0 | Fixed C spec 完整，无未定义数学行为 |
 | P1A | CPU/Gemmini tensor CRC 100% 一致 |
 | P1B | 无 ordering / coherence 随机错误 |
-| P1C | 并发压力下带宽满足需求 |
-| P2 | Tiny 845 anchor bit-exact |
+| P1C | 正确性已通过；112 MB/s < 600 MB/s，带宽优化 TODO |
+| P1C-2 | 8 ID + 64 B burst组合后当前平台 sustained read ≥600 MB/s |
+| P2 | Tiny兼容前端 TODO |
 | P3 | Top-K/Sort/NMS regression 通过 |
 | P4 | 16 路 runtime 长时间稳定 |
-| P5A | YOLOv5 功能正确 |
+| P5A | class reducer 6300/6300通过；DFL/bbox待实现 |
 | P5B | YOLOv5 II < 2 ms |
 | P6 | compute/postprocess 可持续重叠 |
 
@@ -2316,3 +2394,28 @@ P6 Full Pipeline
 ```
 
 只要 P1 的 coherence、ordering 与 bandwidth Gate 能通过，该模块非常适合作为当前 Gemmini SoC 中长期保留的正式 AI 后处理器，而不是 TinyYOLOv2 的一次性优化模块。
+
+---
+
+# 56. 当前实际实现：YOLOv5nu 原始 head 硬件后处理
+
+上文的 TinyYOLOv2 首发次序及早期 `84×6300/Q16.16` 设想属于历史
+架构规划。项目实际已上板的模型是 640×480 YOLOv5nu，其真实输出是三层
+location-major 的 INT8 class/DFL head。本轮实现按此实际 ABI 接入
+`rtl/ai/postprocess/yolov5nu_postprocessor.sv`，不要求切换模型。
+
+每个 worker 的六段地址来自本机模型的 activation arena。硬件顺序读取
+三段 `4800/1200/300 × 80` 原始 class，以及三段
+`4800/1200/300 × 64` 原始 DFL：执行按层重定标、sigmoid LUT、
+class reduction、稀疏候选 DFL softmax、INT8 probability 量化和 16 档
+加权、坐标解码、Top-256、确定性排序、class-aware NMS，并保存至
+10-entry MMIO result RAM。score threshold、模型常量及结果 ABI 详见
+`rtl/ai/postprocess/README.md`。软件在提交前执行 Gemmini fence 和
+六段 L2 flush；只负责调度、读取结果及坐标显示。旧比特流通过 PPU1 ID
+检测保留 CPU 后处理回退。
+
+完整的原始 class/DFL → MMIO 功能已通过独立模型 reference、RTL 仿真、
+双 worker 软件编译以及 Vivado 顶层 RTL 展开。尚需新比特流的实现时序
+与上板实测；单模块 100 MHz 综合估算的最差 setup slack 为 +1.812 ns。
+此前 P1C 测得约 112 MB/s、未达到平台 600 MB/s 的带宽
+问题保持独立 TODO；此阶段不宣称满足最终的 16 路吞吐门槛。

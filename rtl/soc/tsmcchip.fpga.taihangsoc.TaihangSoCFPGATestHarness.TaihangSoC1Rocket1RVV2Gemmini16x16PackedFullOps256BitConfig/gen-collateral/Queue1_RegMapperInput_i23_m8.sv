@@ -52,7 +52,7 @@ module Queue1_RegMapperInput_i23_m8(	// @[generators/rocket-chip/src/main/scala/
   input  [22:0] io_enq_bits_index,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   input  [63:0] io_enq_bits_data,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   input  [7:0]  io_enq_bits_mask,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
-  input  [12:0] io_enq_bits_extra_tlrr_extra_source,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [13:0] io_enq_bits_extra_tlrr_extra_source,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   input  [1:0]  io_enq_bits_extra_tlrr_extra_size,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   input         io_deq_ready,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output        io_deq_valid,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
@@ -60,11 +60,11 @@ module Queue1_RegMapperInput_i23_m8(	// @[generators/rocket-chip/src/main/scala/
   output [22:0] io_deq_bits_index,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output [63:0] io_deq_bits_data,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output [7:0]  io_deq_bits_mask,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
-  output [12:0] io_deq_bits_extra_tlrr_extra_source,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [13:0] io_deq_bits_extra_tlrr_extra_source,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output [1:0]  io_deq_bits_extra_tlrr_extra_size	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
 );
 
-  reg  [110:0] ram;	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
+  reg  [111:0] ram;	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
   reg          full;	// @[src/main/scala/chisel3/util/Decoupled.scala:259:27]
   wire         do_enq = ~full & io_enq_valid;	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35, :259:27, :286:19]
   always @(posedge clock) begin	// @[generators/rocket-chip/src/main/scala/regmapper/RegMapper.scala:71:32]
@@ -88,7 +88,7 @@ module Queue1_RegMapperInput_i23_m8(	// @[generators/rocket-chip/src/main/scala/
         for (logic [2:0] i = 3'h0; i < 3'h4; i += 3'h1) begin
           _RANDOM[i[1:0]] = `RANDOM;	// @[generators/rocket-chip/src/main/scala/regmapper/RegMapper.scala:71:32]
         end	// @[generators/rocket-chip/src/main/scala/regmapper/RegMapper.scala:71:32]
-        ram = {_RANDOM[2'h0][31:1], _RANDOM[2'h1], _RANDOM[2'h2], _RANDOM[2'h3][15:0]};	// @[generators/rocket-chip/src/main/scala/regmapper/RegMapper.scala:71:32, src/main/scala/chisel3/util/Decoupled.scala:256:91]
+        ram = {_RANDOM[2'h0][31:1], _RANDOM[2'h1], _RANDOM[2'h2], _RANDOM[2'h3][16:0]};	// @[generators/rocket-chip/src/main/scala/regmapper/RegMapper.scala:71:32, src/main/scala/chisel3/util/Decoupled.scala:256:91]
         full = _RANDOM[2'h0][0];	// @[generators/rocket-chip/src/main/scala/regmapper/RegMapper.scala:71:32, src/main/scala/chisel3/util/Decoupled.scala:256:91, :259:27]
       `endif // RANDOMIZE_REG_INIT
     end // initial
@@ -102,7 +102,7 @@ module Queue1_RegMapperInput_i23_m8(	// @[generators/rocket-chip/src/main/scala/
   assign io_deq_bits_index = ram[23:1];	// @[generators/rocket-chip/src/main/scala/regmapper/RegMapper.scala:71:32, src/main/scala/chisel3/util/Decoupled.scala:256:91]
   assign io_deq_bits_data = ram[87:24];	// @[generators/rocket-chip/src/main/scala/regmapper/RegMapper.scala:71:32, src/main/scala/chisel3/util/Decoupled.scala:256:91]
   assign io_deq_bits_mask = ram[95:88];	// @[generators/rocket-chip/src/main/scala/regmapper/RegMapper.scala:71:32, src/main/scala/chisel3/util/Decoupled.scala:256:91]
-  assign io_deq_bits_extra_tlrr_extra_source = ram[108:96];	// @[generators/rocket-chip/src/main/scala/regmapper/RegMapper.scala:71:32, src/main/scala/chisel3/util/Decoupled.scala:256:91]
-  assign io_deq_bits_extra_tlrr_extra_size = ram[110:109];	// @[generators/rocket-chip/src/main/scala/regmapper/RegMapper.scala:71:32, src/main/scala/chisel3/util/Decoupled.scala:256:91]
+  assign io_deq_bits_extra_tlrr_extra_source = ram[109:96];	// @[generators/rocket-chip/src/main/scala/regmapper/RegMapper.scala:71:32, src/main/scala/chisel3/util/Decoupled.scala:256:91]
+  assign io_deq_bits_extra_tlrr_extra_size = ram[111:110];	// @[generators/rocket-chip/src/main/scala/regmapper/RegMapper.scala:71:32, src/main/scala/chisel3/util/Decoupled.scala:256:91]
 endmodule
 

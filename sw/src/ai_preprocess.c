@@ -15,7 +15,13 @@ typedef struct {
 } AiPreprocessCommand;
 
 static AiPreprocessCommand command;
-static AiPreprocessFormat current_format = AI_PREPROCESS_FORMAT_416X416;
+#ifdef AI_MODEL_YOLOV5NU
+#define AI_PREPROCESS_MODEL_FORMAT AI_PREPROCESS_FORMAT_640X480
+#else
+#define AI_PREPROCESS_MODEL_FORMAT AI_PREPROCESS_FORMAT_416X416
+#endif
+
+static AiPreprocessFormat current_format = AI_PREPROCESS_MODEL_FORMAT;
 
 static int ai_preprocess_configure_memory(AiPreprocessFormat format)
 {
@@ -99,7 +105,7 @@ int ai_preprocess_start(void)
 void ai_preprocess_init(void)
 {
     command.active = 0U;
-    current_format = AI_PREPROCESS_FORMAT_416X416;
+    current_format = AI_PREPROCESS_MODEL_FORMAT;
 
     /* A debugger reset restarts Rocket but does not reset the DDR/video clock
      * domain.  Let an old command finish, then reclaim any tensor arenas left
@@ -132,7 +138,7 @@ void ai_preprocess_init(void)
             return;
         }
     }
-    (void)ai_preprocess_configure_memory(AI_PREPROCESS_FORMAT_416X416);
+    (void)ai_preprocess_configure_memory(AI_PREPROCESS_MODEL_FORMAT);
 }
 
 int ai_preprocess_poll(AiPreprocessResult *result)

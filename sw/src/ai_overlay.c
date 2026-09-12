@@ -1,14 +1,14 @@
 #include "ai_overlay.h"
 
+#include "ai_class_names.h"
 #include "ai_display_map.h"
 #include "mmio.h"
 #include "platform.h"
-#include "tinyyolov2_runtime.h"
 
 static void write_label(uint32_t box_index, uint8_t class_id,
                         uint16_t score_q15)
 {
-    const char *name = tinyyolov2_class_name((int)class_id);
+    const char *name = ai_class_name(class_id);
     char label[16] = {0};
     uint32_t words[4] = {0U, 0U, 0U, 0U};
     uint32_t length = 0U;

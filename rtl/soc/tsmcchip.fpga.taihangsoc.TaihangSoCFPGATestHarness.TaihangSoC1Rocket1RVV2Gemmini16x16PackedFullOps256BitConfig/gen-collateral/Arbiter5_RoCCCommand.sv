@@ -29,7 +29,8 @@ module Arbiter5_RoCCCommand(	// @[src/main/scala/chisel3/util/Arbiter.scala:133:
   output        io_out_valid,	// @[src/main/scala/chisel3/util/Arbiter.scala:140:14]
   output [6:0]  io_out_bits_inst_funct,	// @[src/main/scala/chisel3/util/Arbiter.scala:140:14]
   output [63:0] io_out_bits_rs1,	// @[src/main/scala/chisel3/util/Arbiter.scala:140:14]
-  output [63:0] io_out_bits_rs2	// @[src/main/scala/chisel3/util/Arbiter.scala:140:14]
+  output [63:0] io_out_bits_rs2,	// @[src/main/scala/chisel3/util/Arbiter.scala:140:14]
+  output [2:0]  io_chosen	// @[src/main/scala/chisel3/util/Arbiter.scala:140:14]
 );
 
   wire _grant_T = io_in_0_valid | io_in_1_valid;	// @[src/main/scala/chisel3/util/Arbiter.scala:45:68]
@@ -44,5 +45,6 @@ module Arbiter5_RoCCCommand(	// @[src/main/scala/chisel3/util/Arbiter.scala:133:
   assign io_out_bits_inst_funct = io_in_0_valid ? io_in_0_bits_inst_funct : io_in_1_valid ? io_in_1_bits_inst_funct : io_in_2_valid ? io_in_2_bits_inst_funct : io_in_3_valid ? io_in_3_bits_inst_funct : io_in_4_bits_inst_funct;	// @[src/main/scala/chisel3/util/Arbiter.scala:133:7, :143:15, :145:26, :147:19]
   assign io_out_bits_rs1 = io_in_0_valid ? io_in_0_bits_rs1 : io_in_1_valid ? io_in_1_bits_rs1 : io_in_2_valid ? io_in_2_bits_rs1 : io_in_3_valid ? io_in_3_bits_rs1 : io_in_4_bits_rs1;	// @[src/main/scala/chisel3/util/Arbiter.scala:133:7, :143:15, :145:26, :147:19]
   assign io_out_bits_rs2 = io_in_0_valid ? io_in_0_bits_rs2 : io_in_1_valid ? io_in_1_bits_rs2 : io_in_2_valid ? io_in_2_bits_rs2 : io_in_3_valid ? io_in_3_bits_rs2 : io_in_4_bits_rs2;	// @[src/main/scala/chisel3/util/Arbiter.scala:133:7, :143:15, :145:26, :147:19]
+  assign io_chosen = io_in_0_valid ? 3'h0 : io_in_1_valid ? 3'h1 : io_in_2_valid ? 3'h2 : io_in_3_valid ? 3'h3 : 3'h4;	// @[src/main/scala/chisel3/util/Arbiter.scala:133:7, :142:13, :145:26, :146:17]
 endmodule
 

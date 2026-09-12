@@ -4,6 +4,7 @@ module tb_fbus_read_engine;
     localparam integer ADDR_WIDTH = 33;
     localparam integer DATA_WIDTH = 256;
     localparam integer BYTE_LANES = DATA_WIDTH / 8;
+    localparam integer SLOT_COUNT = 8;
 
     reg clk = 1'b0;
     reg resetn = 1'b0;
@@ -12,12 +13,12 @@ module tb_fbus_read_engine;
     reg start = 1'b0;
     reg [ADDR_WIDTH-1:0] base_addr = '0;
     reg [31:0] byte_count = 0;
-    wire busy;
-    wire done;
-    wire error;
-    wire [31:0] bytes_read;
-    wire [31:0] ar_requests;
-    wire [31:0] read_beats;
+    reg [8:0] burst_beats_limit = 9'd128;
+    wire busy, done, error;
+    wire [31:0] bytes_read, ar_requests, read_beats;
+    wire [31:0] active_cycles, ar_stall_cycles, r_wait_cycles;
+    wire [31:0] r_backpressure_cycles, max_outstanding_observed;
+    wire [31:0] max_reorder_occupancy, active_id_mask_observed;
     wire [DATA_WIDTH-1:0] stream_data;
     wire [BYTE_LANES-1:0] stream_keep;
     wire stream_valid;
@@ -29,24 +30,37 @@ module tb_fbus_read_engine;
     fbus_read_engine dut (
         .clk(clk), .resetn(resetn), .start(start), .base_addr(base_addr),
         .byte_count(byte_count), .busy(busy), .done(done), .error(error),
-        .error_flags(),
-        .bytes_read(bytes_read), .ar_requests(ar_requests),
-        .read_beats(read_beats), .stream_data(stream_data),
-        .stream_keep(stream_keep), .stream_valid(stream_valid),
-        .stream_ready(stream_ready), .stream_last(stream_last), .m_axi(axi)
+        .burst_beats_limit(burst_beats_limit),
+        .error_flags(), .bytes_read(bytes_read), .ar_requests(ar_requests),
+        .read_beats(read_beats), .active_cycles(active_cycles),
+        .ar_stall_cycles(ar_stall_cycles),
+        .r_wait_cycles(r_wait_cycles),
+        .r_backpressure_cycles(r_backpressure_cycles),
+        .max_outstanding_observed(max_outstanding_observed),
+        .max_reorder_occupancy(max_reorder_occupancy),
+        .active_id_mask_observed(active_id_mask_observed),
+        .stream_data(stream_data), .stream_keep(stream_keep),
+        .stream_valid(stream_valid), .stream_ready(stream_ready),
+        .stream_last(stream_last), .m_axi(axi)
     );
 
     reg [31:0] lfsr = 32'h91e1_0da5;
-    reg read_active = 1'b0;
-    reg [ADDR_WIDTH-1:0] response_addr = '0;
-    reg [8:0] response_left = 0;
-    reg rvalid = 1'b0;
-    reg [DATA_WIDTH-1:0] rdata = '0;
-    reg rlast = 1'b0;
     reg inject_error = 1'b0;
     integer request_count = 0;
-    reg [ADDR_WIDTH-1:0] request_addr [0:15];
-    reg [8:0] request_beats [0:15];
+    reg [ADDR_WIDTH-1:0] request_addr [0:63];
+    reg [8:0] request_beats [0:63];
+
+    reg response_active [0:SLOT_COUNT-1];
+    reg [ADDR_WIDTH-1:0] response_addr [0:SLOT_COUNT-1];
+    reg [8:0] response_left [0:SLOT_COUNT-1];
+    reg [4:0] pending_count = 0;
+    reg [4:0] response_holdoff = 0;
+    reg rvalid = 1'b0;
+    reg [3:0] rid = 0;
+    reg [DATA_WIDTH-1:0] rdata = '0;
+    reg rlast = 1'b0;
+    reg out_of_order_seen = 1'b0;
+    integer selected_id;
 
     function automatic [DATA_WIDTH-1:0] memory_word(
         input [ADDR_WIDTH-1:0] address);
@@ -57,10 +71,22 @@ module tb_fbus_read_engine;
         end
     endfunction
 
-    assign axi.arready = !read_active && (lfsr[0] || lfsr[5]);
-    assign axi.rid = 4'd0;
+    always @* begin
+        selected_id = -1;
+        // Highest ID wins. Once eight requests are queued this deliberately
+        // completes later requests before ID 0 and exercises the reorder RAM.
+        for (integer candidate = 0; candidate < SLOT_COUNT;
+             candidate = candidate + 1)
+            if (response_active[candidate])
+                selected_id = candidate;
+    end
+
+    wire ar_accept = axi.arvalid && axi.arready;
+    wire r_accept = axi.rvalid && axi.rready;
+    assign axi.arready = !response_active[axi.arid[2:0]];
+    assign axi.rid = rid;
     assign axi.rdata = rdata;
-    assign axi.rresp = inject_error && response_left == 1 ? 2'b10 : 2'b00;
+    assign axi.rresp = inject_error && rlast ? 2'b10 : 2'b00;
     assign axi.rlast = rlast;
     assign axi.rvalid = rvalid;
     assign axi.awready = 1'b0;
@@ -69,42 +95,68 @@ module tb_fbus_read_engine;
     assign axi.bresp = 2'b00;
     assign axi.bvalid = 1'b0;
 
+    integer response_index;
     always @(posedge clk) begin
         lfsr <= {lfsr[30:0], lfsr[31] ^ lfsr[21] ^ lfsr[1] ^ lfsr[0]};
         stream_ready <= lfsr[3] || lfsr[11];
         if (!resetn) begin
-            read_active <= 1'b0;
             rvalid <= 1'b0;
             request_count <= 0;
+            pending_count <= 0;
+            response_holdoff <= 0;
+            out_of_order_seen <= 1'b0;
+            for (response_index = 0; response_index < SLOT_COUNT;
+                 response_index = response_index + 1)
+                response_active[response_index] <= 1'b0;
         end else begin
-            if (axi.arvalid && axi.arready) begin
-                if (axi.araddr[4:0] != 0 || axi.arsize != 3'd5 ||
-                    axi.arburst != 2'b01)
-                    $fatal(1, "illegal AR request");
+            if (ar_accept) begin
+                if (32'(axi.arid) >= SLOT_COUNT || axi.araddr[4:0] != 0 ||
+                    axi.arsize != 3'd5 || axi.arburst != 2'b01)
+                    $fatal(1, "illegal AR request id=%0d", axi.arid);
                 if (32'(axi.araddr[11:0]) +
                     (32'(axi.arlen) + 1'b1) * BYTE_LANES > 4096)
                     $fatal(1, "burst crosses 4 KiB boundary");
                 request_addr[request_count] <= axi.araddr;
                 request_beats[request_count] <= {1'b0, axi.arlen} + 1'b1;
                 request_count <= request_count + 1;
-                response_addr <= axi.araddr;
-                response_left <= {1'b0, axi.arlen} + 1'b1;
-                read_active <= 1'b1;
+                response_active[axi.arid[2:0]] <= 1'b1;
+                response_addr[axi.arid[2:0]] <= axi.araddr;
+                response_left[axi.arid[2:0]] <=
+                    {1'b0, axi.arlen} + 1'b1;
+                if (pending_count == 0)
+                    response_holdoff <= 5'd12;
             end
-            if (rvalid && axi.rready) begin
+
+            if (response_holdoff != 0)
+                response_holdoff <= response_holdoff - 1'b1;
+
+            if (r_accept) begin
                 rvalid <= 1'b0;
-                if (rlast)
-                    read_active <= 1'b0;
-                else begin
-                    response_addr <= response_addr + BYTE_LANES;
-                    response_left <= response_left - 1'b1;
+                if (rlast) begin
+                    response_active[rid[2:0]] <= 1'b0;
+                    if (rid != 0)
+                        out_of_order_seen <= 1'b1;
+                end else begin
+                    response_addr[rid[2:0]] <=
+                        response_addr[rid[2:0]] + BYTE_LANES;
+                    response_left[rid[2:0]] <=
+                        response_left[rid[2:0]] - 1'b1;
                 end
             end
-            if (read_active && !rvalid && (lfsr[2] || lfsr[7])) begin
-                rdata <= memory_word(response_addr);
-                rlast <= response_left == 1;
+
+            if (!rvalid && response_holdoff == 0 && selected_id >= 0 &&
+                (lfsr[2] || lfsr[7])) begin
+                rid <= 4'(selected_id);
+                rdata <= memory_word(response_addr[selected_id]);
+                rlast <= response_left[selected_id] == 1;
                 rvalid <= 1'b1;
             end
+
+            case ({ar_accept, r_accept && rlast})
+            2'b10: pending_count <= pending_count + 1'b1;
+            2'b01: pending_count <= pending_count - 1'b1;
+            default: pending_count <= pending_count;
+            endcase
         end
     end
 
@@ -115,9 +167,10 @@ module tb_fbus_read_engine;
             for (integer lane = 0; lane < BYTE_LANES; lane = lane + 1) begin
                 if (stream_keep[lane]) begin
                     if (stream_data[lane*8 +: 8] !== expected_addr[7:0])
-                        $fatal(1, "data mismatch byte=%0d expected=%02x got=%02x",
-                               received, expected_addr[7:0],
-                               stream_data[lane*8 +: 8]);
+                        $fatal(1,
+                            "ordered data mismatch byte=%0d expected=%02x got=%02x",
+                            received, expected_addr[7:0],
+                            stream_data[lane*8 +: 8]);
                     expected_addr = expected_addr + 1'b1;
                     received = received + 1;
                 end
@@ -143,8 +196,7 @@ module tb_fbus_read_engine;
             inject_error = expect_error;
             requests_before = request_count;
             expected_read_beats = (32'(address[4:0]) + length +
-                                  BYTE_LANES - 1) /
-                                  BYTE_LANES;
+                                  BYTE_LANES - 1) / BYTE_LANES;
             start = 1'b1;
             @(negedge clk);
             start = 1'b0;
@@ -160,6 +212,8 @@ module tb_fbus_read_engine;
             if (read_beats != expected_read_beats)
                 $fatal(1, "read beat mismatch got=%0d expected=%0d",
                        read_beats, expected_read_beats);
+            if (length != 0 && active_cycles == 0)
+                $fatal(1, "active cycle counter did not run");
             @(posedge clk);
         end
     endtask
@@ -168,11 +222,26 @@ module tb_fbus_read_engine;
         repeat (6) @(posedge clk);
         resetn = 1'b1;
         run_case(33'h0_1000_0040, 64, 1'b0);
+        burst_beats_limit = 9'd2;
+        run_case(33'h0_1000_0080, 160, 1'b0);
+        if (request_beats[1] != 2 || request_beats[2] != 2 ||
+            request_beats[3] != 1)
+            $fatal(1, "runtime burst limit was not applied");
+        burst_beats_limit = 9'd128;
         run_case(33'h0_1000_001d, 70, 1'b0);
         run_case(33'h0_1000_1ff5, 100, 1'b0);
-        if (request_addr[2][11:0] != 12'hfe0 || request_beats[2] != 1 ||
-            request_addr[3][11:0] != 12'h000)
+        if (request_addr[5][11:0] != 12'hfe0 || request_beats[5] != 1 ||
+            request_addr[6][11:0] != 12'h000)
             $fatal(1, "4 KiB split mismatch");
+        out_of_order_seen = 1'b0;
+        run_case(33'h0_1800_0000, 32768, 1'b0);
+        if (max_outstanding_observed != SLOT_COUNT ||
+            max_reorder_occupancy != SLOT_COUNT)
+            $fatal(1, "eight slots were not exercised outstanding=%0d reorder=%0d",
+                   max_outstanding_observed, max_reorder_occupancy);
+        if (active_id_mask_observed[7:0] != 8'hff || !out_of_order_seen)
+            $fatal(1, "multi-ID out-of-order response was not exercised mask=%08x",
+                   active_id_mask_observed);
         run_case(33'h1_0000_0013, 40, 1'b0);
         run_case(33'h0_2000_0000, 32, 1'b1);
         run_case(33'h0_3000_0000, 0, 1'b0);
@@ -181,7 +250,8 @@ module tb_fbus_read_engine;
     end
 
     initial begin
-        #1000000;
-        $fatal(1, "timeout state busy=%0b requests=%0d", busy, request_count);
+        #2000000;
+        $fatal(1, "timeout state busy=%0b requests=%0d pending=%0d",
+               busy, request_count, pending_count);
     end
 endmodule

@@ -68,7 +68,7 @@ module TLFragmenter_UART(	// @[generators/rocket-chip/src/main/scala/tilelink/Fr
   input         auto_anon_in_a_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]  auto_anon_in_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]  auto_anon_in_a_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [8:0]  auto_anon_in_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [9:0]  auto_anon_in_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [28:0] auto_anon_in_a_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [7:0]  auto_anon_in_a_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [63:0] auto_anon_in_a_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -76,13 +76,13 @@ module TLFragmenter_UART(	// @[generators/rocket-chip/src/main/scala/tilelink/Fr
   output        auto_anon_in_d_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]  auto_anon_in_d_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]  auto_anon_in_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output [8:0]  auto_anon_in_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [9:0]  auto_anon_in_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [63:0] auto_anon_in_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input         auto_anon_out_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output        auto_anon_out_a_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]  auto_anon_out_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [1:0]  auto_anon_out_a_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output [12:0] auto_anon_out_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [13:0] auto_anon_out_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [28:0] auto_anon_out_a_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [7:0]  auto_anon_out_a_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [63:0] auto_anon_out_a_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -90,7 +90,7 @@ module TLFragmenter_UART(	// @[generators/rocket-chip/src/main/scala/tilelink/Fr
   input         auto_anon_out_d_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]  auto_anon_out_d_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [1:0]  auto_anon_out_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [12:0] auto_anon_out_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [13:0] auto_anon_out_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [63:0] auto_anon_out_d_bits_data	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
 );
 
@@ -98,7 +98,7 @@ module TLFragmenter_UART(	// @[generators/rocket-chip/src/main/scala/tilelink/Fr
   wire        _repeater_io_deq_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:274:30]
   wire [2:0]  _repeater_io_deq_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:274:30]
   wire [2:0]  _repeater_io_deq_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:274:30]
-  wire [8:0]  _repeater_io_deq_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:274:30]
+  wire [9:0]  _repeater_io_deq_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:274:30]
   wire [28:0] _repeater_io_deq_bits_address;	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:274:30]
   wire [7:0]  _repeater_io_deq_bits_mask;	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:274:30]
   reg  [2:0]  acknum;	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:201:29]
@@ -176,7 +176,7 @@ module TLFragmenter_UART(	// @[generators/rocket-chip/src/main/scala/tilelink/Fr
       `FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:92:9]
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  Repeater_TLBundleA_a29d64s9k1z3u repeater (	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:274:30]
+  Repeater_TLBundleA_a29d64s10k1z3u repeater (	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:274:30]
     .clock               (clock),
     .reset               (reset),
     .io_repeat           (_repeater_io_deq_bits_opcode[2] & (|aFragnum)),	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:37, generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:274:30, :305:30, :314:{41,53}]
@@ -199,7 +199,7 @@ module TLFragmenter_UART(	// @[generators/rocket-chip/src/main/scala/tilelink/Fr
   assign auto_anon_in_d_valid = auto_anon_out_d_valid & ~drop;	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:92:9, :234:30, :236:{36,39}]
   assign auto_anon_in_d_bits_opcode = auto_anon_out_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:92:9]
   assign auto_anon_in_d_bits_size = dFirst ? dFirst_size : dOrig;	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:92:9, :202:24, :205:29, :239:32, src/main/scala/chisel3/util/OneHot.scala:32:10]
-  assign auto_anon_in_d_bits_source = auto_anon_out_d_bits_source[12:4];	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:92:9, :238:47]
+  assign auto_anon_in_d_bits_source = auto_anon_out_d_bits_source[13:4];	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:92:9, :238:47]
   assign auto_anon_in_d_bits_data = auto_anon_out_d_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:92:9]
   assign auto_anon_out_a_valid = _repeater_io_deq_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:92:9, :274:30]
   assign auto_anon_out_a_bits_opcode = _repeater_io_deq_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/Fragmenter.scala:92:9, :274:30]

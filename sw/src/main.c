@@ -2,21 +2,44 @@
 
 #include "ai_batch_runtime.h"
 #include "ai_frame_snapshot.h"
+#include "ai_model_backend.h"
 #include "ai_overlay.h"
 #include "ai_postprocess_diag.h"
 #include "ai_preprocess.h"
 #include "ai_runtime_bridge.h"
+#ifdef AI_MODEL_YOLOV5NU
+#include "ai_yolov5nu_selftest.h"
+#endif
 #include "camera_config.h"
 #include "camera_video.h"
 #include "clock_chip.h"
 #include "console.h"
 #include "hdmi_tx.h"
+#include "platform.h"
 #include "tinyyolov2_runtime.h"
 #include "video_service.h"
 
+#define AI_POST_BANDWIDTH_ITERATIONS UINT32_C(256)
+#define AI_POST_SWEEP_ITERATIONS     UINT32_C(16)
+#define AI_POST_PLATFORM_GATE_MBPS   UINT32_C(600)
+
+typedef struct {
+    uint32_t active;
+    AiBatchRuntimeStatus runtime_start;
+    AiModelPeStats pe_start;
+    uint32_t sweep;
+    uint32_t sweep_index;
+} AiPostprocessBandwidthUiState;
+
+static const uint16_t ai_post_burst_sweep_bytes[] = {
+    64U, 128U, 256U, 512U, 1024U, 2048U, 4096U
+};
+
+static AiPostprocessBandwidthUiState bandwidth_test;
+
 static void print_help(void)
 {
-    console_puts("Commands: s=status, o=fixed overlay box, d=builtin dog inference, a=snapshot, p=preprocess+RGB stats, v=PP coherence stress, f=preprocess format, i=AI input runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
+    console_puts("Commands: s=status, o=fixed overlay box, d=builtin dog inference, t=YOLOv5nu dual correctness, T=image025 hardware/software postprocess speed, a=snapshot, p=preprocess+RGB stats, v=PP coherence stress, w=PP concurrent bandwidth, W=PP burst sweep, f=preprocess format, i=AI input runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
 }
 
 static void ai_overlay_fixed_box_test(void)
@@ -51,6 +74,9 @@ static void ai_overlay_fixed_box_test(void)
 
 static void ai_builtin_dog_test(void)
 {
+#ifdef AI_MODEL_YOLOV5NU
+    console_puts("DOG TEST belongs to the TinyYOLOv2 build; use make AI_MODEL=yolov2\r\n");
+#else
     if (ai_batch_runtime_is_enabled() != 0U ||
         ai_batch_runtime_is_idle() == 0U) {
         console_puts("DOG TEST: press i to disable AI and wait for drain first\r\n");
@@ -63,6 +89,7 @@ static void ai_builtin_dog_test(void)
     console_puts(passed != 0 ?
                  "DOG TEST PASS: dog detected\r\n" :
                  "DOG TEST FAIL: dog not detected\r\n");
+#endif
 }
 
 static void ai_print_ch1_tensor_stats(const AiPreprocessResult *result)
@@ -280,6 +307,182 @@ static void ai_postprocess_coherence_test(void)
     console_puts("\r\n");
 }
 
+static void ai_postprocess_bandwidth_begin(uint32_t sweep)
+{
+    uint32_t iterations = sweep != 0U ? AI_POST_SWEEP_ITERATIONS :
+                                       AI_POST_BANDWIDTH_ITERATIONS;
+    uint32_t burst_bytes = sweep != 0U ? ai_post_burst_sweep_bytes[0] :
+                                        UINT32_C(4096);
+    if (bandwidth_test.active != 0U) {
+        console_puts("AI POST bandwidth test already running\r\n");
+        return;
+    }
+    if (ai_batch_runtime_is_enabled() == 0U) {
+        console_puts("AI POST bandwidth requires active AI runtime; press i first\r\n");
+        return;
+    }
+
+    console_puts(sweep != 0U ?
+        "AI POST burst sweep prepare bytes/iterations/burstB=" :
+        "AI POST bandwidth prepare bytes/iterations/burstB=");
+    console_put_u32(AI_MODEL_OUTPUT_TENSOR_BYTES);
+    console_putc('/');
+    console_put_u32(iterations);
+    console_putc('/');
+    console_put_u32(burst_bytes);
+    console_puts("\r\n");
+    int status = ai_postprocess_bandwidth_start(iterations, burst_bytes);
+    if (status != 0) {
+        if (status == -2 || status == -3) {
+            console_puts("AI POST identity id/cap/expected=");
+            console_put_hex32(ai_postprocess_diag_read_id());
+            console_putc('/');
+            console_put_hex32(ai_postprocess_diag_read_capability());
+            console_putc('/');
+            console_put_hex32(AI_POSTPROCESS_DIAG_ID);
+            console_putc('/');
+            console_put_hex32(AI_POSTPROCESS_DIAG_P1C_CAPABILITY);
+            console_puts("\r\n");
+        }
+        if (status == -3)
+            console_puts("AI POST bandwidth requires P1C bitstream capability\r\n");
+        console_puts("AI POST bandwidth start failed=");
+        console_put_u32((uint32_t)(-status));
+        console_puts("\r\n");
+        return;
+    }
+    ai_batch_runtime_get_status(&bandwidth_test.runtime_start);
+    ai_model_backend_get_pe_stats(&bandwidth_test.pe_start);
+    bandwidth_test.active = 1U;
+    bandwidth_test.sweep = sweep;
+    bandwidth_test.sweep_index = 0U;
+    console_puts("AI POST bandwidth running with preprocess + Gemmini DMA\r\n");
+}
+
+static void ai_postprocess_bandwidth_service(void)
+{
+    AiPostprocessBandwidthResult result;
+    AiBatchRuntimeStatus runtime_end;
+    AiModelPeStats pe_end;
+    uint32_t mbps;
+    uint32_t efficiency_permille;
+    uint32_t preprocess_delta;
+    uint32_t job_delta;
+    uint32_t busy_skip_delta;
+    uint32_t passed;
+
+    if (bandwidth_test.active == 0U)
+        return;
+    int status = ai_postprocess_bandwidth_poll(&result);
+    if (status == 0)
+        return;
+
+    bandwidth_test.active = 0U;
+    ai_batch_runtime_get_status(&runtime_end);
+    ai_model_backend_get_pe_stats(&pe_end);
+    preprocess_delta = runtime_end.preprocess_count -
+                       bandwidth_test.runtime_start.preprocess_count;
+    job_delta = runtime_end.completed_job_count -
+                bandwidth_test.runtime_start.completed_job_count;
+    busy_skip_delta = pe_end.coherence_busy_skips -
+                      bandwidth_test.pe_start.coherence_busy_skips;
+    mbps = result.active_cycles == 0U ? 0U :
+        (uint32_t)((result.bytes_read * (SOC_CLOCK_HZ / UINT64_C(1000000))) /
+                   result.active_cycles);
+    efficiency_permille = result.read_beats == 0U ? 0U :
+        (uint32_t)((result.bytes_read * UINT64_C(1000)) /
+                   (result.read_beats * UINT64_C(32)));
+    passed = status > 0 && mbps >= AI_POST_PLATFORM_GATE_MBPS &&
+             result.crc_mismatches == 0U && result.timeout_count == 0U &&
+             result.axi_error_count == 0U &&
+             result.r_backpressure_cycles == 0U &&
+             result.max_outstanding_observed > 1U &&
+             result.max_reorder_occupancy > 1U &&
+             (result.active_id_mask_observed & UINT32_C(0xff)) ==
+                 UINT32_C(0xff) &&
+             preprocess_delta != 0U && job_delta != 0U;
+
+    if (bandwidth_test.sweep != 0U)
+        console_puts("AI POST burst POINT burstB/MBps/bytes/cycles=");
+    else
+        console_puts(passed != 0U ?
+            "AI POST bandwidth PLATFORM PASS burstB/MBps/bytes/cycles=" :
+            "AI POST bandwidth PLATFORM NO-GO burstB/MBps/bytes/cycles=");
+    console_put_u32(result.burst_bytes);
+    console_putc('/');
+    console_put_u32(mbps);
+    console_putc('/');
+    console_put_hex64(result.bytes_read);
+    console_putc('/');
+    console_put_hex64(result.active_cycles);
+    console_puts("\r\nAI POST bandwidth stall(ar/rwait/rbp)=" );
+    console_put_hex64(result.ar_stall_cycles);
+    console_putc('/');
+    console_put_hex64(result.r_wait_cycles);
+    console_putc('/');
+    console_put_hex64(result.r_backpressure_cycles);
+    console_puts(" bursts/beats/eff_permille=");
+    console_put_hex64(result.ar_requests);
+    console_putc('/');
+    console_put_hex64(result.read_beats);
+    console_putc('/');
+    console_put_u32(efficiency_permille);
+    console_puts(" max_outstanding=");
+    console_put_u32(result.max_outstanding_observed);
+    console_puts(" reorder/id_mask=");
+    console_put_u32(result.max_reorder_occupancy);
+    console_putc('/');
+    console_put_hex32(result.active_id_mask_observed);
+    console_puts("\r\nAI POST bandwidth verify(iter/crc/timeout/axi/flags)=");
+    console_put_u32(result.iterations_completed);
+    console_putc('/');
+    console_put_u32(result.crc_mismatches);
+    console_putc('/');
+    console_put_u32(result.timeout_count);
+    console_putc('/');
+    console_put_u32(result.axi_error_count);
+    console_putc('/');
+    console_put_hex32(result.error_flags);
+    console_puts(" crc(expected/observed)=");
+    console_put_hex32(result.expected_crc32);
+    console_putc('/');
+    console_put_hex32(result.observed_crc32);
+    console_puts(" overlap(pre/job/busy_skip/valid_mask)=");
+    console_put_u32(preprocess_delta);
+    console_putc('/');
+    console_put_u32(job_delta);
+    console_putc('/');
+    console_put_u32(busy_skip_delta);
+    console_putc('/');
+    console_put_hex32(runtime_end.last_valid_mask);
+    console_puts("\r\n");
+
+    if (bandwidth_test.sweep != 0U && status > 0 &&
+        result.crc_mismatches == 0U && result.timeout_count == 0U &&
+        result.axi_error_count == 0U &&
+        bandwidth_test.sweep_index + 1U <
+            sizeof(ai_post_burst_sweep_bytes) /
+            sizeof(ai_post_burst_sweep_bytes[0])) {
+        bandwidth_test.sweep_index++;
+        uint32_t next_burst =
+            ai_post_burst_sweep_bytes[bandwidth_test.sweep_index];
+        status = ai_postprocess_bandwidth_start(
+            AI_POST_SWEEP_ITERATIONS, next_burst);
+        if (status == 0) {
+            bandwidth_test.active = 1U;
+            console_puts("AI POST burst sweep running burstB=");
+            console_put_u32(next_burst);
+            console_puts("\r\n");
+            return;
+        }
+        console_puts("AI POST burst sweep restart failed=");
+        console_put_u32((uint32_t)(-status));
+        console_puts("\r\n");
+    } else if (bandwidth_test.sweep != 0U) {
+        console_puts("AI POST burst sweep DONE\r\n");
+    }
+}
+
 int main(void)
 {
     int video_status;
@@ -299,6 +502,7 @@ int main(void)
     for (;;) {
         video_service_poll();
         ai_batch_runtime_poll();
+        ai_postprocess_bandwidth_service();
         int command = console_getc_nonblock();
         switch (command) {
         case 's':
@@ -309,6 +513,29 @@ int main(void)
             break;
         case 'd':
             ai_builtin_dog_test();
+            break;
+        case 't':
+#ifdef AI_MODEL_YOLOV5NU
+            if (ai_batch_runtime_is_enabled() != 0U ||
+                ai_batch_runtime_is_idle() == 0U)
+                console_puts("YOLOV5NU TEST: disable AI and wait for drain first\r\n");
+            else
+                (void)ai_yolov5nu_correctness_test();
+#else
+            console_puts("YOLOV5NU TEST requires the default yolov5nu build\r\n");
+#endif
+            break;
+        case 'T':
+#ifdef AI_MODEL_YOLOV5NU
+            if (ai_batch_runtime_is_enabled() != 0U ||
+                ai_batch_runtime_is_idle() == 0U ||
+                ai_postprocess_diag_is_active() != 0U)
+                console_puts("YOLOV5NU POST BENCH: disable AI and wait for drain first\r\n");
+            else
+                (void)ai_yolov5nu_postprocess_benchmark();
+#else
+            console_puts("YOLOV5NU POST BENCH requires the default yolov5nu build\r\n");
+#endif
             break;
         case 'a':
             if (ai_batch_runtime_is_idle() != 0U)
@@ -328,12 +555,26 @@ int main(void)
             else
                 console_puts("AI runtime busy; disable and wait for drain\r\n");
             break;
+        case 'w':
+            ai_postprocess_bandwidth_begin(0U);
+            break;
+        case 'W':
+            ai_postprocess_bandwidth_begin(1U);
+            break;
         case 'i':
+#ifdef AI_MODEL_YOLOV5NU
+            if (ai_batch_runtime_is_enabled() == 0U &&
+                ai_preprocess_get_format() != AI_PREPROCESS_FORMAT_640X480) {
+                console_puts("AI runtime currently requires 640x480; select format 1 first\r\n");
+                break;
+            }
+#else
             if (ai_batch_runtime_is_enabled() == 0U &&
                 ai_preprocess_get_format() != AI_PREPROCESS_FORMAT_416X416) {
                 console_puts("AI runtime currently requires 416x416; select format 0 first\r\n");
                 break;
             }
+#endif
             ai_batch_runtime_set_enabled(!ai_batch_runtime_is_enabled());
             console_puts(ai_batch_runtime_is_enabled() != 0U ?
                          "AI input runtime enabled\r\n" :

@@ -17,6 +17,12 @@ enum {
 
 #define AI_MODEL_TIMEOUT_CYCLES (SOC_CLOCK_HZ * UINT64_C(50))
 
+#ifdef AI_MODEL_YOLOV5NU
+#define AI_MODEL_PREPROCESS_FORMAT AI_PREPROCESS_FORMAT_640X480
+#else
+#define AI_MODEL_PREPROCESS_FORMAT AI_PREPROCESS_FORMAT_416X416
+#endif
+
 typedef struct {
     uint32_t active;
     uint32_t arena;
@@ -431,7 +437,7 @@ void ai_batch_runtime_init(void)
 void ai_batch_runtime_set_enabled(uint32_t enabled)
 {
     if (enabled != 0U &&
-        ai_preprocess_get_format() != AI_PREPROCESS_FORMAT_416X416) {
+        ai_preprocess_get_format() != AI_MODEL_PREPROCESS_FORMAT) {
         runtime.status.enabled = 0U;
         runtime.status.error_count++;
         runtime.status.last_error = -12;
@@ -505,7 +511,7 @@ void ai_batch_runtime_poll(void)
 
     if (runtime.status.enabled == 0U)
         return;
-    if (ai_preprocess_get_format() != AI_PREPROCESS_FORMAT_416X416) {
+    if (ai_preprocess_get_format() != AI_MODEL_PREPROCESS_FORMAT) {
         runtime.status.enabled = 0U;
         runtime.status.error_count++;
         runtime.status.last_error = -12;
@@ -618,12 +624,14 @@ void ai_batch_runtime_print_status(void)
         console_put_u32(pe_stats.load_active_cycles);
         console_putc('/');
         console_put_u32(pe_stats.store_active_cycles);
-        console_puts(" coherence(check/error/flags)=");
+        console_puts(" coherence(check/error/flags/busy_skip)=");
         console_put_u32(pe_stats.coherence_checks);
         console_putc('/');
         console_put_u32(pe_stats.coherence_errors);
         console_putc('/');
         console_put_hex32(pe_stats.coherence_error_flags);
+        console_putc('/');
+        console_put_u32(pe_stats.coherence_busy_skips);
         console_puts("\r\n");
     }
     for (uint32_t stream = 0U; stream < VIDEO_CHANNEL_COUNT; ++stream) {

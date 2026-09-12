@@ -153,7 +153,7 @@ module LoopMatmulLdD(	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.
   `endif // ENABLE_INITIAL_REG_
   assign io_req_ready = ~state;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:253:7, :270:22, :302:25]
   assign io_cmd_valid = io_cmd_valid_0;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:253:7, :306:{34,56}]
-  assign io_cmd_bits_rs1 = {23'h0, {9'h0, req_low_d ? {_dram_offset_T_5 + {12'h0, j}, 4'h0} : {_dram_offset_T_5[25:0] + {10'h0, j}, 6'h0}} + {1'h0, req_dram_addr}};	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:253:7, :272:16, :277:14, :282:{24,39,57}, :283:{26,46}, :284:33, :1322:17]
+  assign io_cmd_bits_rs1 = {23'h0, {9'h0, req_low_d ? {_dram_offset_T_5 + {12'h0, j}, 4'h0} : {_dram_offset_T_5[25:0] + {10'h0, j}, 6'h0}} + {1'h0, req_dram_addr}};	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:253:7, :272:16, :277:14, :282:{24,39,57}, :283:{26,46}, :284:33, :1330:17]
   assign io_cmd_bits_rs2 = {11'h0, 5'h10 - {1'h0, i == _next_i_max_T ? req_pad_i : 4'h0}, 9'h0, {blocks[2:0], 4'h0} - {3'h0, j + blocks >= req_max_j ? req_pad_j : 4'h0}, 3'h4, _sp_addr_T_4[28:26], 10'h0, _sp_addr_T_4[15:0]};	// @[generators/gemmini/src/main/scala/gemmini/LocalAddr.scala:108:37, generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:253:7, :272:16, :277:14, :278:14, :285:32, :286:19, :287:{38,43,46,55}, :288:{27,32,35,48}, :300:32]
   assign io_idle = ~state;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:253:7, :270:22, :302:25]
   assign io_loop_id = req_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:253:7, :272:16]

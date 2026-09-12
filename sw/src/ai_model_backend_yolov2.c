@@ -29,6 +29,7 @@ static uint32_t coherence_available;
 static uint32_t coherence_checks;
 static uint32_t coherence_errors;
 static uint32_t coherence_error_flags;
+static uint32_t coherence_busy_skips;
 
 static void verify_gemmini_output(uint32_t worker_id)
 {
@@ -40,6 +41,10 @@ static void verify_gemmini_output(uint32_t worker_id)
 
     if (coherence_available == 0U)
         return;
+    if (ai_postprocess_diag_is_active() != 0U) {
+        coherence_busy_skips++;
+        return;
+    }
     tensor = tinyyolov2_worker_last_output(worker_id);
     bytes = tinyyolov2_worker_last_output_bytes(worker_id);
     if (tensor == 0 || bytes == 0U) {
@@ -121,6 +126,7 @@ void ai_model_backend_init(void)
     coherence_checks = 0U;
     coherence_errors = 0U;
     coherence_error_flags = 0U;
+    coherence_busy_skips = 0U;
     tinyyolov2_set_diagnostics(0);
     tinyyolov2_worker_pool_init();
     initialized = 1U;
@@ -249,4 +255,5 @@ void ai_model_backend_get_pe_stats(AiModelPeStats *stats)
     stats->coherence_checks = coherence_checks;
     stats->coherence_errors = coherence_errors;
     stats->coherence_error_flags = coherence_error_flags;
+    stats->coherence_busy_skips = coherence_busy_skips;
 }

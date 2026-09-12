@@ -19,6 +19,7 @@ typedef struct {
     uint32_t coherence_checks;
     uint32_t coherence_errors;
     uint32_t coherence_error_flags;
+    uint32_t coherence_busy_skips;
 } AiModelPeStats;
 
 /*

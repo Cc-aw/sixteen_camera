@@ -112,6 +112,54 @@ module Queue2_GemminiCmd(	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7
   input  [6:0]  io_enq_bits_rob_id_bits,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   input         io_enq_bits_from_matmul_fsm,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   input         io_enq_bits_from_conv_fsm,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input         io_enq_bits_virtualI_valid,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [31:0] io_enq_bits_virtualI_desc_input_base,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [31:0] io_enq_bits_virtualI_desc_input_limit,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [31:0] io_enq_bits_virtualI_desc_input_channelStride,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [31:0] io_enq_bits_virtualI_desc_input_batchStride,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [31:0] io_enq_bits_virtualI_desc_input_rowStride,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [31:0] io_enq_bits_virtualI_desc_input_pixelStride,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [31:0] io_enq_bits_virtualI_desc_input_physicalY,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [31:0] io_enq_bits_virtualI_desc_input_physicalX,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_input_residentY,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_input_residentX,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_input_residentH,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_input_residentW,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_input_batchOrigin,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_input_batches,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_input_channelOrigin,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_input_channelBlocks,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [31:0] io_enq_bits_virtualI_desc_output_base,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [31:0] io_enq_bits_virtualI_desc_output_limit,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_output_groups,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_owner,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_generation,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input         io_enq_bits_virtualI_desc_segment,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_startB,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_startR,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_startC,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [6:0]  io_enq_bits_virtualI_desc_segmentRows,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input         io_enq_bits_virtualI_desc_supported,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_batches,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_tileRows,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_tileCols,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_batchStart,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_outputY,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_outputX,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_inputH,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_inputW,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_strideY,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_strideX,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_padY,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_padX,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_kernelY,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_kernelX,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_dilationY,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_dilationX,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_channelBlock,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_virtualI_desc_outputGroup,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [6:0]  io_enq_bits_virtualI_desc_kValid,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [6:0]  io_enq_bits_virtualI_desc_jValid,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   input         io_deq_ready,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output        io_deq_valid,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output [6:0]  io_deq_bits_cmd_inst_funct,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
@@ -164,18 +212,66 @@ module Queue2_GemminiCmd(	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7
   output        io_deq_bits_rob_id_valid,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output [6:0]  io_deq_bits_rob_id_bits,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output        io_deq_bits_from_matmul_fsm,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
-  output        io_deq_bits_from_conv_fsm	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output        io_deq_bits_from_conv_fsm,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output        io_deq_bits_virtualI_valid,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [31:0] io_deq_bits_virtualI_desc_input_base,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [31:0] io_deq_bits_virtualI_desc_input_limit,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [31:0] io_deq_bits_virtualI_desc_input_channelStride,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [31:0] io_deq_bits_virtualI_desc_input_batchStride,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [31:0] io_deq_bits_virtualI_desc_input_rowStride,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [31:0] io_deq_bits_virtualI_desc_input_pixelStride,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [31:0] io_deq_bits_virtualI_desc_input_physicalY,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [31:0] io_deq_bits_virtualI_desc_input_physicalX,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_input_residentY,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_input_residentX,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_input_residentH,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_input_residentW,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_input_batchOrigin,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_input_batches,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_input_channelOrigin,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_input_channelBlocks,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [31:0] io_deq_bits_virtualI_desc_output_base,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [31:0] io_deq_bits_virtualI_desc_output_limit,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_output_groups,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_owner,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_generation,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output        io_deq_bits_virtualI_desc_segment,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_startB,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_startR,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_startC,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [6:0]  io_deq_bits_virtualI_desc_segmentRows,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output        io_deq_bits_virtualI_desc_supported,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_batches,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_tileRows,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_tileCols,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_batchStart,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_outputY,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_outputX,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_inputH,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_inputW,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_strideY,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_strideX,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_padY,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_padX,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_kernelY,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_kernelX,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_dilationY,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_dilationX,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_channelBlock,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_virtualI_desc_outputGroup,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [6:0]  io_deq_bits_virtualI_desc_kValid,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [6:0]  io_deq_bits_virtualI_desc_jValid	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
 );
 
-  wire [274:0] _ram_ext_R0_data;	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
-  reg          wrap;	// @[src/main/scala/chisel3/util/Counter.scala:61:40]
-  reg          wrap_1;	// @[src/main/scala/chisel3/util/Counter.scala:61:40]
-  reg          maybe_full;	// @[src/main/scala/chisel3/util/Decoupled.scala:259:27]
-  wire         ptr_match = wrap == wrap_1;	// @[src/main/scala/chisel3/util/Counter.scala:61:40, src/main/scala/chisel3/util/Decoupled.scala:260:33]
-  wire         empty = ptr_match & ~maybe_full;	// @[src/main/scala/chisel3/util/Decoupled.scala:259:27, :260:33, :261:{25,28}]
-  wire         full = ptr_match & maybe_full;	// @[src/main/scala/chisel3/util/Decoupled.scala:259:27, :260:33, :262:24]
-  wire         do_enq = ~full & io_enq_valid;	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35, :262:24, :286:19]
-  wire         do_deq = io_deq_ready & ~empty;	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35, :261:25, :285:19]
+  wire [1130:0] _ram_ext_R0_data;	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
+  reg           wrap;	// @[src/main/scala/chisel3/util/Counter.scala:61:40]
+  reg           wrap_1;	// @[src/main/scala/chisel3/util/Counter.scala:61:40]
+  reg           maybe_full;	// @[src/main/scala/chisel3/util/Decoupled.scala:259:27]
+  wire          ptr_match = wrap == wrap_1;	// @[src/main/scala/chisel3/util/Counter.scala:61:40, src/main/scala/chisel3/util/Decoupled.scala:260:33]
+  wire          empty = ptr_match & ~maybe_full;	// @[src/main/scala/chisel3/util/Decoupled.scala:259:27, :260:33, :261:{25,28}]
+  wire          full = ptr_match & maybe_full;	// @[src/main/scala/chisel3/util/Decoupled.scala:259:27, :260:33, :262:24]
+  wire          do_enq = ~full & io_enq_valid;	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35, :262:24, :286:19]
+  wire          do_deq = io_deq_ready & ~empty;	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35, :261:25, :285:19]
   always @(posedge clock) begin	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7]
     if (reset) begin	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7]
       wrap <= 1'h0;	// @[src/main/scala/chisel3/util/Counter.scala:61:40, src/main/scala/chisel3/util/Decoupled.scala:243:7]
@@ -211,7 +307,7 @@ module Queue2_GemminiCmd(	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7
       `FIRRTL_AFTER_INITIAL	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7]
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  ram_2x275 ram_ext (	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
+  ram_2x1131 ram_ext (	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
     .R0_addr (wrap_1),	// @[src/main/scala/chisel3/util/Counter.scala:61:40]
     .R0_en   (1'h1),
     .R0_clk  (clock),
@@ -219,7 +315,106 @@ module Queue2_GemminiCmd(	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7
     .W0_addr (wrap),	// @[src/main/scala/chisel3/util/Counter.scala:61:40]
     .W0_en   (do_enq),	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35]
     .W0_clk  (clock),
-    .W0_data ({io_enq_bits_from_conv_fsm, io_enq_bits_from_matmul_fsm, io_enq_bits_rob_id_bits, io_enq_bits_rob_id_valid, io_enq_bits_cmd_status_uie, io_enq_bits_cmd_status_sie, io_enq_bits_cmd_status_hie, io_enq_bits_cmd_status_mie, io_enq_bits_cmd_status_upie, io_enq_bits_cmd_status_spie, io_enq_bits_cmd_status_ube, io_enq_bits_cmd_status_mpie, io_enq_bits_cmd_status_spp, io_enq_bits_cmd_status_vs, io_enq_bits_cmd_status_mpp, io_enq_bits_cmd_status_fs, io_enq_bits_cmd_status_xs, io_enq_bits_cmd_status_mprv, io_enq_bits_cmd_status_sum, io_enq_bits_cmd_status_mxr, io_enq_bits_cmd_status_tvm, io_enq_bits_cmd_status_tw, io_enq_bits_cmd_status_tsr, io_enq_bits_cmd_status_zero1, io_enq_bits_cmd_status_sd_rv32, io_enq_bits_cmd_status_uxl, io_enq_bits_cmd_status_sxl, io_enq_bits_cmd_status_sbe, io_enq_bits_cmd_status_mbe, io_enq_bits_cmd_status_gva, io_enq_bits_cmd_status_mpv, io_enq_bits_cmd_status_zero2, io_enq_bits_cmd_status_sd, io_enq_bits_cmd_status_v, io_enq_bits_cmd_status_prv, io_enq_bits_cmd_status_dv, io_enq_bits_cmd_status_dprv, io_enq_bits_cmd_status_isa, io_enq_bits_cmd_status_wfi, io_enq_bits_cmd_status_cease, io_enq_bits_cmd_status_debug, io_enq_bits_cmd_rs2, io_enq_bits_cmd_rs1, io_enq_bits_cmd_inst_opcode, io_enq_bits_cmd_inst_rd, io_enq_bits_cmd_inst_xs2, io_enq_bits_cmd_inst_xs1, io_enq_bits_cmd_inst_xd, io_enq_bits_cmd_inst_rs1, io_enq_bits_cmd_inst_rs2, io_enq_bits_cmd_inst_funct})	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
+    .W0_data
+      ({io_enq_bits_virtualI_desc_jValid,
+        io_enq_bits_virtualI_desc_kValid,
+        io_enq_bits_virtualI_desc_outputGroup,
+        io_enq_bits_virtualI_desc_channelBlock,
+        io_enq_bits_virtualI_desc_dilationX,
+        io_enq_bits_virtualI_desc_dilationY,
+        io_enq_bits_virtualI_desc_kernelX,
+        io_enq_bits_virtualI_desc_kernelY,
+        io_enq_bits_virtualI_desc_padX,
+        io_enq_bits_virtualI_desc_padY,
+        io_enq_bits_virtualI_desc_strideX,
+        io_enq_bits_virtualI_desc_strideY,
+        io_enq_bits_virtualI_desc_inputW,
+        io_enq_bits_virtualI_desc_inputH,
+        io_enq_bits_virtualI_desc_outputX,
+        io_enq_bits_virtualI_desc_outputY,
+        io_enq_bits_virtualI_desc_batchStart,
+        io_enq_bits_virtualI_desc_tileCols,
+        io_enq_bits_virtualI_desc_tileRows,
+        io_enq_bits_virtualI_desc_batches,
+        io_enq_bits_virtualI_desc_supported,
+        io_enq_bits_virtualI_desc_segmentRows,
+        io_enq_bits_virtualI_desc_startC,
+        io_enq_bits_virtualI_desc_startR,
+        io_enq_bits_virtualI_desc_startB,
+        io_enq_bits_virtualI_desc_segment,
+        io_enq_bits_virtualI_desc_generation,
+        io_enq_bits_virtualI_desc_owner,
+        io_enq_bits_virtualI_desc_output_groups,
+        io_enq_bits_virtualI_desc_output_limit,
+        io_enq_bits_virtualI_desc_output_base,
+        io_enq_bits_virtualI_desc_input_channelBlocks,
+        io_enq_bits_virtualI_desc_input_channelOrigin,
+        io_enq_bits_virtualI_desc_input_batches,
+        io_enq_bits_virtualI_desc_input_batchOrigin,
+        io_enq_bits_virtualI_desc_input_residentW,
+        io_enq_bits_virtualI_desc_input_residentH,
+        io_enq_bits_virtualI_desc_input_residentX,
+        io_enq_bits_virtualI_desc_input_residentY,
+        io_enq_bits_virtualI_desc_input_physicalX,
+        io_enq_bits_virtualI_desc_input_physicalY,
+        io_enq_bits_virtualI_desc_input_pixelStride,
+        io_enq_bits_virtualI_desc_input_rowStride,
+        io_enq_bits_virtualI_desc_input_batchStride,
+        io_enq_bits_virtualI_desc_input_channelStride,
+        io_enq_bits_virtualI_desc_input_limit,
+        io_enq_bits_virtualI_desc_input_base,
+        io_enq_bits_virtualI_valid,
+        io_enq_bits_from_conv_fsm,
+        io_enq_bits_from_matmul_fsm,
+        io_enq_bits_rob_id_bits,
+        io_enq_bits_rob_id_valid,
+        io_enq_bits_cmd_status_uie,
+        io_enq_bits_cmd_status_sie,
+        io_enq_bits_cmd_status_hie,
+        io_enq_bits_cmd_status_mie,
+        io_enq_bits_cmd_status_upie,
+        io_enq_bits_cmd_status_spie,
+        io_enq_bits_cmd_status_ube,
+        io_enq_bits_cmd_status_mpie,
+        io_enq_bits_cmd_status_spp,
+        io_enq_bits_cmd_status_vs,
+        io_enq_bits_cmd_status_mpp,
+        io_enq_bits_cmd_status_fs,
+        io_enq_bits_cmd_status_xs,
+        io_enq_bits_cmd_status_mprv,
+        io_enq_bits_cmd_status_sum,
+        io_enq_bits_cmd_status_mxr,
+        io_enq_bits_cmd_status_tvm,
+        io_enq_bits_cmd_status_tw,
+        io_enq_bits_cmd_status_tsr,
+        io_enq_bits_cmd_status_zero1,
+        io_enq_bits_cmd_status_sd_rv32,
+        io_enq_bits_cmd_status_uxl,
+        io_enq_bits_cmd_status_sxl,
+        io_enq_bits_cmd_status_sbe,
+        io_enq_bits_cmd_status_mbe,
+        io_enq_bits_cmd_status_gva,
+        io_enq_bits_cmd_status_mpv,
+        io_enq_bits_cmd_status_zero2,
+        io_enq_bits_cmd_status_sd,
+        io_enq_bits_cmd_status_v,
+        io_enq_bits_cmd_status_prv,
+        io_enq_bits_cmd_status_dv,
+        io_enq_bits_cmd_status_dprv,
+        io_enq_bits_cmd_status_isa,
+        io_enq_bits_cmd_status_wfi,
+        io_enq_bits_cmd_status_cease,
+        io_enq_bits_cmd_status_debug,
+        io_enq_bits_cmd_rs2,
+        io_enq_bits_cmd_rs1,
+        io_enq_bits_cmd_inst_opcode,
+        io_enq_bits_cmd_inst_rd,
+        io_enq_bits_cmd_inst_xs2,
+        io_enq_bits_cmd_inst_xs1,
+        io_enq_bits_cmd_inst_xd,
+        io_enq_bits_cmd_inst_rs1,
+        io_enq_bits_cmd_inst_rs2,
+        io_enq_bits_cmd_inst_funct})	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
   );	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
   assign io_enq_ready = ~full;	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :262:24, :286:19]
   assign io_deq_valid = ~empty;	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :261:25, :285:19]
@@ -274,5 +469,53 @@ module Queue2_GemminiCmd(	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7
   assign io_deq_bits_rob_id_bits = _ram_ext_R0_data[272:266];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
   assign io_deq_bits_from_matmul_fsm = _ram_ext_R0_data[273];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
   assign io_deq_bits_from_conv_fsm = _ram_ext_R0_data[274];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_valid = _ram_ext_R0_data[275];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_base = _ram_ext_R0_data[307:276];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_limit = _ram_ext_R0_data[339:308];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_channelStride = _ram_ext_R0_data[371:340];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_batchStride = _ram_ext_R0_data[403:372];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_rowStride = _ram_ext_R0_data[435:404];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_pixelStride = _ram_ext_R0_data[467:436];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_physicalY = _ram_ext_R0_data[499:468];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_physicalX = _ram_ext_R0_data[531:500];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_residentY = _ram_ext_R0_data[547:532];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_residentX = _ram_ext_R0_data[563:548];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_residentH = _ram_ext_R0_data[579:564];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_residentW = _ram_ext_R0_data[595:580];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_batchOrigin = _ram_ext_R0_data[611:596];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_batches = _ram_ext_R0_data[627:612];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_channelOrigin = _ram_ext_R0_data[643:628];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_input_channelBlocks = _ram_ext_R0_data[659:644];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_output_base = _ram_ext_R0_data[691:660];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_output_limit = _ram_ext_R0_data[723:692];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_output_groups = _ram_ext_R0_data[739:724];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_owner = _ram_ext_R0_data[755:740];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_generation = _ram_ext_R0_data[771:756];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_segment = _ram_ext_R0_data[772];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_startB = _ram_ext_R0_data[788:773];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_startR = _ram_ext_R0_data[804:789];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_startC = _ram_ext_R0_data[820:805];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_segmentRows = _ram_ext_R0_data[827:821];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_supported = _ram_ext_R0_data[828];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_batches = _ram_ext_R0_data[844:829];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_tileRows = _ram_ext_R0_data[860:845];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_tileCols = _ram_ext_R0_data[876:861];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_batchStart = _ram_ext_R0_data[892:877];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_outputY = _ram_ext_R0_data[908:893];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_outputX = _ram_ext_R0_data[924:909];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_inputH = _ram_ext_R0_data[940:925];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_inputW = _ram_ext_R0_data[956:941];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_strideY = _ram_ext_R0_data[972:957];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_strideX = _ram_ext_R0_data[988:973];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_padY = _ram_ext_R0_data[1004:989];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_padX = _ram_ext_R0_data[1020:1005];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_kernelY = _ram_ext_R0_data[1036:1021];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_kernelX = _ram_ext_R0_data[1052:1037];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_dilationY = _ram_ext_R0_data[1068:1053];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_dilationX = _ram_ext_R0_data[1084:1069];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_channelBlock = _ram_ext_R0_data[1100:1085];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_outputGroup = _ram_ext_R0_data[1116:1101];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_kValid = _ram_ext_R0_data[1123:1117];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_virtualI_desc_jValid = _ram_ext_R0_data[1130:1124];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
 endmodule
 

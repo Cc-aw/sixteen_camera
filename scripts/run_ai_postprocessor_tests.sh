@@ -29,8 +29,17 @@ verilator --binary --timing -Wno-fatal \
   rtl/interfaces/axi_lite_if.sv \
   rtl/interfaces/axi4_if.sv \
   rtl/ai/postprocess/fbus_read_engine.sv \
+  rtl/ai/postprocess/yolov5nu_raw_class_lut.sv \
+  rtl/ai/postprocess/yolov5nu_dfl_lut.sv \
+  rtl/ai/postprocess/yolov5nu_class_reducer.sv \
+  rtl/ai/postprocess/yolov5nu_dfl_decoder.sv \
+  rtl/ai/postprocess/yolov5nu_bbox_decoder.sv \
+  rtl/ai/postprocess/yolov5nu_topk_nms.sv \
+  rtl/ai/postprocess/yolov5nu_postprocessor.sv \
   rtl/ai/postprocess/postprocess_read_diagnostic.sv \
   sim/tb_postprocess_read_diagnostic.sv
 "$test_tmp/read_diagnostic/Vtb_postprocess_read_diagnostic"
+
+./scripts/run_yolov5nu_postprocess_tests.sh
 
 echo "AI_POSTPROCESSOR_TESTS=PASS"

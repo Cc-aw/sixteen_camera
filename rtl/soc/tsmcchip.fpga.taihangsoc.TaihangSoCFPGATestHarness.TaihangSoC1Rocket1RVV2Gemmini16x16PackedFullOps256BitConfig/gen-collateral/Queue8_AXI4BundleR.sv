@@ -65,7 +65,7 @@ module Queue8_AXI4BundleR(	// @[src/main/scala/chisel3/util/Decoupled.scala:243:
   input  [63:0] io_enq_bits_data,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   input  [1:0]  io_enq_bits_resp,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   input  [3:0]  io_enq_bits_echo_tl_state_size,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
-  input  [7:0]  io_enq_bits_echo_tl_state_source,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [8:0]  io_enq_bits_echo_tl_state_source,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   input  [3:0]  io_enq_bits_echo_extra_id,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   input         io_enq_bits_last,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   input         io_deq_ready,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
@@ -73,12 +73,12 @@ module Queue8_AXI4BundleR(	// @[src/main/scala/chisel3/util/Decoupled.scala:243:
   output [63:0] io_deq_bits_data,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output [1:0]  io_deq_bits_resp,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output [3:0]  io_deq_bits_echo_tl_state_size,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
-  output [7:0]  io_deq_bits_echo_tl_state_source,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [8:0]  io_deq_bits_echo_tl_state_source,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output [3:0]  io_deq_bits_echo_extra_id,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output        io_deq_bits_last	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
 );
 
-  wire [86:0] _ram_ext_R0_data;	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
+  wire [87:0] _ram_ext_R0_data;	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
   reg  [2:0]  enq_ptr_value;	// @[src/main/scala/chisel3/util/Counter.scala:61:40]
   reg  [2:0]  deq_ptr_value;	// @[src/main/scala/chisel3/util/Counter.scala:61:40]
   reg         maybe_full;	// @[src/main/scala/chisel3/util/Decoupled.scala:259:27]
@@ -121,7 +121,7 @@ module Queue8_AXI4BundleR(	// @[src/main/scala/chisel3/util/Decoupled.scala:243:
       `FIRRTL_AFTER_INITIAL	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7]
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  ram_8x87 ram_ext (	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
+  ram_8x88 ram_ext (	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
     .R0_addr (deq_ptr_value),	// @[src/main/scala/chisel3/util/Counter.scala:61:40]
     .R0_en   (1'h1),
     .R0_clk  (clock),
@@ -136,8 +136,8 @@ module Queue8_AXI4BundleR(	// @[src/main/scala/chisel3/util/Decoupled.scala:243:
   assign io_deq_bits_data = _ram_ext_R0_data[67:4];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
   assign io_deq_bits_resp = _ram_ext_R0_data[69:68];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
   assign io_deq_bits_echo_tl_state_size = _ram_ext_R0_data[73:70];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
-  assign io_deq_bits_echo_tl_state_source = _ram_ext_R0_data[81:74];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
-  assign io_deq_bits_echo_extra_id = _ram_ext_R0_data[85:82];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
-  assign io_deq_bits_last = _ram_ext_R0_data[86];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_echo_tl_state_source = _ram_ext_R0_data[82:74];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_echo_extra_id = _ram_ext_R0_data[86:83];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_last = _ram_ext_R0_data[87];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
 endmodule
 

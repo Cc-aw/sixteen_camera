@@ -69,13 +69,9 @@ module TLWidthWidget16_1(	// @[generators/rocket-chip/src/main/scala/tilelink/Wi
   output         auto_anon_out_d_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_anon_out_d_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]   auto_anon_out_d_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [1:0]   auto_anon_out_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [3:0]   auto_anon_out_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [4:0]   auto_anon_out_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [4:0]   auto_anon_out_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input          auto_anon_out_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [255:0] auto_anon_out_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input          auto_anon_out_d_bits_corrupt	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [255:0] auto_anon_out_d_bits_data	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
 );
 
   wire         _repeated_repeater_io_deq_valid;	// @[generators/rocket-chip/src/main/scala/util/Repeater.scala:36:26]
@@ -345,29 +341,21 @@ module TLWidthWidget16_1(	// @[generators/rocket-chip/src/main/scala/tilelink/Wi
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
   Repeater_TLBundleD_a33d256s5k5z4u repeated_repeater (	// @[generators/rocket-chip/src/main/scala/util/Repeater.scala:36:26]
-    .clock               (clock),
-    .reset               (reset),
-    .io_repeat           (~repeat_last),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:107:35, :148:7]
-    .io_enq_ready        (auto_anon_out_d_ready),
-    .io_enq_valid        (auto_anon_out_d_valid),
-    .io_enq_bits_opcode  (auto_anon_out_d_bits_opcode),
-    .io_enq_bits_param   (auto_anon_out_d_bits_param),
-    .io_enq_bits_size    (auto_anon_out_d_bits_size),
-    .io_enq_bits_source  (auto_anon_out_d_bits_source),
-    .io_enq_bits_sink    (auto_anon_out_d_bits_sink),
-    .io_enq_bits_denied  (auto_anon_out_d_bits_denied),
-    .io_enq_bits_data    (auto_anon_out_d_bits_data),
-    .io_enq_bits_corrupt (auto_anon_out_d_bits_corrupt),
-    .io_deq_ready        (auto_anon_in_d_ready),
-    .io_deq_valid        (_repeated_repeater_io_deq_valid),
-    .io_deq_bits_opcode  (_repeated_repeater_io_deq_bits_opcode),
-    .io_deq_bits_param   (/* unused */),
-    .io_deq_bits_size    (_repeated_repeater_io_deq_bits_size),
-    .io_deq_bits_source  (_repeated_repeater_io_deq_bits_source),
-    .io_deq_bits_sink    (/* unused */),
-    .io_deq_bits_denied  (/* unused */),
-    .io_deq_bits_data    (_repeated_repeater_io_deq_bits_data),
-    .io_deq_bits_corrupt (/* unused */)
+    .clock              (clock),
+    .reset              (reset),
+    .io_repeat          (~repeat_last),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:107:35, :148:7]
+    .io_enq_ready       (auto_anon_out_d_ready),
+    .io_enq_valid       (auto_anon_out_d_valid),
+    .io_enq_bits_opcode (auto_anon_out_d_bits_opcode),
+    .io_enq_bits_size   (auto_anon_out_d_bits_size),
+    .io_enq_bits_source (auto_anon_out_d_bits_source),
+    .io_enq_bits_data   (auto_anon_out_d_bits_data),
+    .io_deq_ready       (auto_anon_in_d_ready),
+    .io_deq_valid       (_repeated_repeater_io_deq_valid),
+    .io_deq_bits_opcode (_repeated_repeater_io_deq_bits_opcode),
+    .io_deq_bits_size   (_repeated_repeater_io_deq_bits_size),
+    .io_deq_bits_source (_repeated_repeater_io_deq_bits_source),
+    .io_deq_bits_data   (_repeated_repeater_io_deq_bits_data)
   );	// @[generators/rocket-chip/src/main/scala/util/Repeater.scala:36:26]
   assign auto_anon_in_a_ready = anonIn_a_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:27:9, :76:29]
   assign auto_anon_in_d_valid = _repeated_repeater_io_deq_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:27:9, generators/rocket-chip/src/main/scala/util/Repeater.scala:36:26]

@@ -115,6 +115,54 @@ module LoopMatmul(	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.sca
   input         io_in_bits_cmd_status_uie,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
   input         io_in_bits_from_matmul_fsm,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
   input         io_in_bits_from_conv_fsm,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input         io_in_bits_virtualI_valid,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [31:0] io_in_bits_virtualI_desc_input_base,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [31:0] io_in_bits_virtualI_desc_input_limit,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [31:0] io_in_bits_virtualI_desc_input_channelStride,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [31:0] io_in_bits_virtualI_desc_input_batchStride,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [31:0] io_in_bits_virtualI_desc_input_rowStride,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [31:0] io_in_bits_virtualI_desc_input_pixelStride,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [31:0] io_in_bits_virtualI_desc_input_physicalY,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [31:0] io_in_bits_virtualI_desc_input_physicalX,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_input_residentY,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_input_residentX,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_input_residentH,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_input_residentW,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_input_batchOrigin,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_input_batches,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_input_channelOrigin,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_input_channelBlocks,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [31:0] io_in_bits_virtualI_desc_output_base,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [31:0] io_in_bits_virtualI_desc_output_limit,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_output_groups,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_owner,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_generation,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input         io_in_bits_virtualI_desc_segment,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_startB,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_startR,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_startC,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [6:0]  io_in_bits_virtualI_desc_segmentRows,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input         io_in_bits_virtualI_desc_supported,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_batches,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_tileRows,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_tileCols,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_batchStart,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_outputY,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_outputX,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_inputH,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_inputW,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_strideY,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_strideX,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_padY,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_padX,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_kernelY,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_kernelX,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_dilationY,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_dilationX,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_channelBlock,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [15:0] io_in_bits_virtualI_desc_outputGroup,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [6:0]  io_in_bits_virtualI_desc_kValid,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  input  [6:0]  io_in_bits_virtualI_desc_jValid,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
   input         io_out_ready,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
   output        io_out_valid,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
   output [6:0]  io_out_bits_cmd_inst_funct,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
@@ -166,6 +214,54 @@ module LoopMatmul(	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.sca
   output        io_out_bits_cmd_status_uie,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
   output        io_out_bits_from_matmul_fsm,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
   output        io_out_bits_from_conv_fsm,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output        io_out_bits_virtualI_valid,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [31:0] io_out_bits_virtualI_desc_input_base,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [31:0] io_out_bits_virtualI_desc_input_limit,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [31:0] io_out_bits_virtualI_desc_input_channelStride,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [31:0] io_out_bits_virtualI_desc_input_batchStride,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [31:0] io_out_bits_virtualI_desc_input_rowStride,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [31:0] io_out_bits_virtualI_desc_input_pixelStride,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [31:0] io_out_bits_virtualI_desc_input_physicalY,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [31:0] io_out_bits_virtualI_desc_input_physicalX,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_input_residentY,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_input_residentX,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_input_residentH,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_input_residentW,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_input_batchOrigin,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_input_batches,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_input_channelOrigin,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_input_channelBlocks,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [31:0] io_out_bits_virtualI_desc_output_base,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [31:0] io_out_bits_virtualI_desc_output_limit,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_output_groups,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_owner,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_generation,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output        io_out_bits_virtualI_desc_segment,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_startB,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_startR,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_startC,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [6:0]  io_out_bits_virtualI_desc_segmentRows,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output        io_out_bits_virtualI_desc_supported,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_batches,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_tileRows,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_tileCols,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_batchStart,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_outputY,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_outputX,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_inputH,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_inputW,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_strideY,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_strideX,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_padY,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_padX,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_kernelY,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_kernelX,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_dilationY,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_dilationX,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_channelBlock,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [15:0] io_out_bits_virtualI_desc_outputGroup,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [6:0]  io_out_bits_virtualI_desc_kValid,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
+  output [6:0]  io_out_bits_virtualI_desc_jValid,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
   input  [6:0]  io_ld_completed,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
   input  [6:0]  io_st_completed,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
   input  [6:0]  io_ex_completed,	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:901:14]
@@ -200,6 +296,54 @@ module LoopMatmul(	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.sca
   wire [63:0]   _cmd_q_io_deq_bits_cmd_rs2;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire          _cmd_q_io_deq_bits_from_matmul_fsm;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire          _cmd_q_io_deq_bits_from_conv_fsm;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire          _cmd_q_io_deq_bits_virtualI_valid;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [31:0]   _cmd_q_io_deq_bits_virtualI_desc_input_base;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [31:0]   _cmd_q_io_deq_bits_virtualI_desc_input_limit;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [31:0]   _cmd_q_io_deq_bits_virtualI_desc_input_channelStride;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [31:0]   _cmd_q_io_deq_bits_virtualI_desc_input_batchStride;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [31:0]   _cmd_q_io_deq_bits_virtualI_desc_input_rowStride;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [31:0]   _cmd_q_io_deq_bits_virtualI_desc_input_pixelStride;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [31:0]   _cmd_q_io_deq_bits_virtualI_desc_input_physicalY;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [31:0]   _cmd_q_io_deq_bits_virtualI_desc_input_physicalX;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_input_residentY;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_input_residentX;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_input_residentH;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_input_residentW;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_input_batchOrigin;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_input_batches;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_input_channelOrigin;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_input_channelBlocks;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [31:0]   _cmd_q_io_deq_bits_virtualI_desc_output_base;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [31:0]   _cmd_q_io_deq_bits_virtualI_desc_output_limit;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_output_groups;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_owner;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_generation;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire          _cmd_q_io_deq_bits_virtualI_desc_segment;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_startB;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_startR;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_startC;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [6:0]    _cmd_q_io_deq_bits_virtualI_desc_segmentRows;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire          _cmd_q_io_deq_bits_virtualI_desc_supported;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_batches;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_tileRows;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_tileCols;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_batchStart;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_outputY;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_outputX;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_inputH;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_inputW;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_strideY;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_strideX;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_padY;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_padX;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_kernelY;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_kernelX;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_dilationY;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_dilationX;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_channelBlock;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [15:0]   _cmd_q_io_deq_bits_virtualI_desc_outputGroup;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [6:0]    _cmd_q_io_deq_bits_virtualI_desc_kValid;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [6:0]    _cmd_q_io_deq_bits_virtualI_desc_jValid;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire          _stC_spad_io_req_ready;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:933:24]
   wire          _stC_spad_io_cmd_valid;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:933:24]
   wire [63:0]   _stC_spad_io_cmd_bits_rs1;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:933:24]
@@ -356,217 +500,217 @@ module LoopMatmul(	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.sca
   wire          is_loop_run_cmd = _cmd_q_io_deq_bits_cmd_inst_funct == 7'h8;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:982:49, src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire          is_loop_config_cmd = _cmd_q_io_deq_bits_cmd_inst_funct > 7'h8 & _cmd_q_io_deq_bits_cmd_inst_funct < 7'hE | _cmd_q_io_deq_bits_cmd_inst_funct > 7'h17 & _cmd_q_io_deq_bits_cmd_inst_funct < 7'h1A;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:983:{53,78,105,135}, :984:{30,56,83}, src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire          is_loop_cmd = is_loop_run_cmd | is_loop_config_cmd;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:982:49, :983:135, :985:37]
-  wire          _GEN = loop_being_configured_id ? loops_1_configured : loops_0_configured;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :994:33]
-  reg  [15:0]   loops_configured;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1036:33]
-  reg  [11:0]   ld_d_addr_start;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1115:32]
-  reg  [11:0]   ex_c_addr_start;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1116:32]
-  reg  [11:0]   st_c_addr_start;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1117:32]
-  wire          loop_requesting_ldA_id = (head_loop_id ? loops_1_lda_started : loops_0_lda_started) ^ head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :914:25, :921:37, :1119:35]
-  wire [1:0]    _GEN_0 = loop_requesting_ldA_id ? loops_1_a_ex_spad_id : loops_0_a_ex_spad_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1119:35, :1121:31]
-  wire          ldA_io_req_valid = ~(loop_requesting_ldA_id ? loops_1_lda_started : loops_0_lda_started) & (loop_requesting_ldA_id ? loops_1_configured : loops_0_configured);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1119:35, :1121:31, :1132:{23,56}]
-  wire          loop_requesting_ldB_id = (head_loop_id ? loops_1_ldb_started : loops_0_ldb_started) ^ head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :914:25, :921:37, :1139:35]
-  wire [1:0]    _GEN_1 = loop_requesting_ldB_id ? loops_1_b_ex_spad_id : loops_0_b_ex_spad_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1139:35, :1141:25]
-  wire          ldB_io_req_valid = ~(loop_requesting_ldB_id ? loops_1_ldb_started : loops_0_ldb_started) & (loop_requesting_ldB_id ? loops_1_configured : loops_0_configured);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1139:35, :1141:25, :1152:{23,56}]
-  wire          loop_requesting_ex_id = (head_loop_id ? loops_1_ex_started : loops_0_ex_started) ^ head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :914:25, :921:37, :1159:34]
-  wire          _GEN_2 = loop_requesting_ex_id ? loops_1_spad_only : loops_0_spad_only;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1159:34, :1161:24]
-  wire [1:0]    _GEN_3 = loop_requesting_ex_id ? loops_1_a_ex_spad_id : loops_0_a_ex_spad_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1159:34, :1161:24]
-  wire [1:0]    _GEN_4 = loop_requesting_ex_id ? loops_1_b_ex_spad_id : loops_0_b_ex_spad_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1159:34, :1161:24]
-  wire          ex_io_req_valid = ~(loop_requesting_ex_id ? loops_1_ex_started : loops_0_ex_started) & (loop_requesting_ex_id ? loops_1_lda_started : loops_0_lda_started) & (loop_requesting_ex_id ? loops_1_ldb_started : loops_0_ldb_started) & (loop_requesting_ex_id ? loops_1_ldd_started : loops_0_ldd_started) & (loop_requesting_ex_id ? loops_1_configured : loops_0_configured);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1159:34, :1161:24, :1178:{22,53,87}, :1179:{36,70}]
-  wire          loop_requesting_ldD_id = (head_loop_id ? loops_1_ldd_started : loops_0_ldd_started) ^ head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :914:25, :921:37, :1190:35]
-  wire          ldD_io_req_valid = ~(loop_requesting_ldD_id ? loops_1_ldd_started : loops_0_ldd_started) & (loop_requesting_ldD_id ? loops_1_configured : loops_0_configured);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1190:35, :1192:25, :1202:{23,56}]
-  wire          loop_requesting_st_id = (head_loop_id ? loops_1_st_started : loops_0_st_started) ^ head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :914:25, :921:37, :1213:34]
-  wire [15:0]   stC_io_req_bits_max_j = loop_requesting_st_id ? loops_1_max_j : loops_0_max_j;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1213:34, :1215:31]
-  wire [15:0]   stC_io_req_bits_max_i = loop_requesting_st_id ? loops_1_max_i : loops_0_max_i;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1213:34, :1215:31]
-  wire [3:0]    stC_io_req_bits_pad_j = loop_requesting_st_id ? loops_1_pad_j[3:0] : loops_0_pad_j[3:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1213:34, :1215:31]
-  wire [3:0]    stC_io_req_bits_pad_i = loop_requesting_st_id ? loops_1_pad_i[3:0] : loops_0_pad_i[3:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1213:34, :1215:31]
-  wire [39:0]   stC_io_req_bits_dram_addr = loop_requesting_st_id ? loops_1_c_dram_addr : loops_0_c_dram_addr;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1213:34, :1215:31]
-  wire          _GEN_5 = loop_requesting_st_id ? loops_1_spad_only : loops_0_spad_only;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1213:34, :1215:31]
-  wire [2:0]    stC_io_req_bits_act = loop_requesting_st_id ? loops_1_act : loops_0_act;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1213:34, :1215:31]
-  wire          stC_io_req_bits_full_c = loop_requesting_st_id ? loops_1_full_c : loops_0_full_c;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1213:34, :1215:31]
-  wire          _GEN_6 = loop_requesting_st_id ? loops_1_configured : loops_0_configured;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1213:34, :1215:31]
-  wire          _GEN_7 = loop_requesting_st_id ? loops_1_ex_started : loops_0_ex_started;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1213:34, :1215:31]
-  wire          _GEN_8 = loop_requesting_st_id ? loops_1_st_started : loops_0_st_started;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1213:34, :1215:31]
-  wire [15:0]   stC_io_req_bits_max_k = is_resadd ? 16'h1 : loop_requesting_st_id ? loops_1_max_k : loops_0_max_k;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :1213:34, :1215:31]
-  wire          stC_spad_io_req_valid = ~_GEN_8 & _GEN_7 & _GEN_6 & _GEN_5;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31, :1240:23, :1242:{59,92}, :1243:35]
-  wire          stC_io_req_valid = is_resadd ? ~_GEN_8 & _GEN_6 : ~_GEN_8 & _GEN_7 & _GEN_6 & ~_GEN_5;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :1215:31, :1240:{20,23,54,87}, :1241:{35,38}, :1254:18, :1258:{22,56}]
-  wire [12:0]   _ld_d_addr_start_T_3 = {1'h0, ld_d_addr_start} + 13'h800;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1115:32, generators/gemmini/src/main/scala/gemmini/Util.scala:41:15]
-  wire [12:0]   _ex_c_addr_start_T_3 = {1'h0, ex_c_addr_start} + 13'h800;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1116:32, generators/gemmini/src/main/scala/gemmini/Util.scala:41:15]
-  wire [12:0]   _st_c_addr_start_T_3 = {1'h0, st_c_addr_start} + 13'h800;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1117:32, generators/gemmini/src/main/scala/gemmini/Util.scala:41:15]
-  wire          _GEN_9 = _cmd_q_io_deq_valid & is_loop_cmd & ~_GEN;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:985:37, :994:33, :1040:{18,33}, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  wire          _GEN_10 = _cmd_q_io_deq_bits_cmd_inst_funct == 7'h9;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1042:38, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  wire          _GEN_11 = _cmd_q_io_deq_bits_cmd_inst_funct == 7'hA;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1042:38, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  wire          _GEN_12 = _cmd_q_io_deq_bits_cmd_inst_funct == 7'hB;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1042:38, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  wire          _GEN_13 = _GEN_10 | _GEN_11;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1042:38]
-  wire          _GEN_14 = _cmd_q_io_deq_bits_cmd_inst_funct == 7'hC;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1042:38, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  wire          _GEN_15 = _GEN_10 | _GEN_11 | _GEN_12;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1042:38]
-  wire          _GEN_16 = _cmd_q_io_deq_bits_cmd_inst_funct == 7'hD;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1042:38, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  wire          _GEN_17 = _GEN_10 | _GEN_11 | _GEN_12 | _GEN_14;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1042:38]
-  wire          _GEN_18 = _cmd_q_io_deq_bits_cmd_inst_funct == 7'h18;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1042:38, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  wire          _GEN_19 = is_loop_run_cmd & ~loop_being_configured_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :982:49, :1042:38, :1044:37, :1081:45]
-  wire          _GEN_20 = _GEN_14 | _GEN_16 | _GEN_18;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1042:38]
-  wire          _GEN_21 = _GEN_10 | _GEN_11 | _GEN_12 | _GEN_20;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1042:38]
-  wire          _GEN_22 = ~_GEN_9 | _GEN_21 | ~_GEN_19;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:{18,33,71}, :1042:38, :1081:45]
-  wire          _GEN_23 = is_loop_run_cmd & loop_being_configured_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :982:49, :1042:38, :1081:45]
-  wire          _GEN_24 = ~_GEN_9 | _GEN_21 | ~_GEN_23;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:{18,33,71}, :1042:38, :1081:45]
-  wire          _GEN_25 = _GEN_22 ? loops_0_st_completed : _cmd_q_io_deq_bits_cmd_rs2[7];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38, :1090:61, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  wire          _GEN_26 = _GEN_24 ? loops_1_st_completed : _cmd_q_io_deq_bits_cmd_rs2[7];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38, :1090:61, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  wire          _GEN_27 = _GEN_11 | _GEN_12;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1042:38, :1054:41]
-  wire          _GEN_28 = ~_GEN_9 | _GEN_10;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:{18,33,71}, :1042:38]
-  wire [4095:0] _GEN_29 = {4064'h0, _cmd_q_io_deq_bits_cmd_rs2[63:32]};	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1099:{43,62}, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  wire          _GEN_30 = _ldA_io_req_ready & ldA_io_req_valid;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:928:19, :1132:56, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-  wire          _GEN_31 = _GEN_30 & ~loop_requesting_ldA_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1119:35, :1134:26, :1135:33, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-  wire          _GEN_32 = _GEN_30 & loop_requesting_ldA_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1119:35, :1134:26, :1135:33, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-  wire          _GEN_33 = _ldB_io_req_ready & ldB_io_req_valid;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:929:19, :1152:56, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-  wire          _GEN_34 = _GEN_33 ? ~loop_requesting_ldB_id | _GEN_31 | loops_0_running : _GEN_31 | loops_0_running;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1134:26, :1135:33, :1139:35, :1154:26, :1155:33, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-  wire          _GEN_35 = _GEN_33 ? loop_requesting_ldB_id | _GEN_32 | loops_1_running : _GEN_32 | loops_1_running;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1134:26, :1135:33, :1139:35, :1154:26, :1155:33, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-  wire          _GEN_36 = _ex_io_req_ready & ex_io_req_valid;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:931:18, :1178:{53,87}, :1179:{36,70}, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-  wire          _GEN_37 = _GEN_36 & ~loop_requesting_ex_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1154:26, :1159:34, :1181:25, :1182:32, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-  wire          _GEN_38 = _GEN_36 & loop_requesting_ex_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1154:26, :1159:34, :1181:25, :1182:32, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-  wire          _GEN_39 = _ldD_io_req_ready & ldD_io_req_valid;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:930:19, :1202:56, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-  wire          _GEN_40 = _stC_io_req_ready & stC_io_req_valid | _stC_spad_io_req_ready & stC_spad_io_req_valid;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:932:19, :933:24, :1240:20, :1242:{59,92}, :1243:35, :1245:25, :1254:18, :1258:22, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-  wire          _GEN_41 = _GEN_40 & ~loop_requesting_st_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1204:26, :1213:34, :1245:{25,50}, :1246:32]
-  wire          _GEN_42 = _GEN_40 & loop_requesting_st_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1204:26, :1213:34, :1245:{25,50}, :1246:32]
-  wire          _GEN_43 = _ldA_io_idle & (_ldA_io_loop_id ? loops_1_running : loops_0_running) & (_ldA_io_loop_id ? loops_1_lda_started : loops_0_lda_started);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :928:19, :1261:{21,54}]
-  wire          _GEN_44 = _ldB_io_idle & (_ldB_io_loop_id ? loops_1_running : loops_0_running) & (_ldB_io_loop_id ? loops_1_ldb_started : loops_0_ldb_started);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :929:19, :1265:{21,54}]
-  wire          _GEN_45 = _ex_io_idle & (_ex_io_loop_id ? loops_1_running : loops_0_running) & (_ex_io_loop_id ? loops_1_ex_started : loops_0_ex_started);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :931:18, :1269:{20,52}]
-  wire          _GEN_46 = _ldD_io_idle & (_ldD_io_loop_id ? loops_1_running : loops_0_running) & (_ldD_io_loop_id ? loops_1_ldd_started : loops_0_ldd_started);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :930:19, :1273:{21,54}]
-  wire          _GEN_47 = _stC_io_idle & (_stC_io_loop_id ? loops_1_running : loops_0_running) & (_stC_io_loop_id ? loops_1_st_started : loops_0_st_started) & ~(_stC_io_loop_id ? loops_1_spad_only : loops_0_spad_only);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :932:19, :1277:{21,54,90,93}]
-  wire          _GEN_48 = _GEN_47 & ~_stC_io_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:932:19, :1040:71, :1277:{21,54,90,127}, :1278:40]
-  wire          _GEN_49 = _GEN_47 & _stC_io_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:932:19, :1040:71, :1277:{21,54,90,127}, :1278:40]
-  wire          _GEN_50 = _stC_spad_io_idle & (_stC_spad_io_loop_id ? loops_1_running : loops_0_running) & (_stC_spad_io_loop_id ? loops_1_st_started : loops_0_st_started) & (_stC_spad_io_loop_id ? loops_1_spad_only : loops_0_spad_only);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :933:24, :1281:{26,64}, :1282:43]
-  wire          _GEN_51 = (head_loop_id ? loops_1_running : loops_0_running) & (head_loop_id ? loops_1_lda_completed : loops_0_lda_completed) & (head_loop_id ? loops_1_ldb_completed : loops_0_ldb_completed) & (head_loop_id ? loops_1_ldd_completed : loops_0_ldd_completed) & (head_loop_id ? loops_1_ex_completed : loops_0_ex_completed) & (head_loop_id ? loops_1_st_completed : loops_0_st_completed);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:863:{57,74,91,107}, :913:18, :914:25, :921:37, :1286:27]
-  wire          _GEN_52 = reset | _GEN_51 & ~head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:863:{57,74,91,107}, :870:16, :914:25, :1040:71, :1286:{27,57}, :1293:23]
-  wire          _GEN_53 = reset | _GEN_51 & head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:863:{57,74,91,107}, :870:16, :914:25, :1040:71, :1286:{27,57}, :1293:23]
-  wire          _GEN_54 = _GEN_10 | _GEN_11 | _GEN_12 | _GEN_14 | _GEN_16;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1042:38]
-  wire          _GEN_55 = ~_GEN_9 | _GEN_21 | ~is_loop_run_cmd;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :982:49, :1040:{18,33,71}, :1042:38]
+  wire          _GEN = loop_being_configured_id ? loops_1_configured : loops_0_configured;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1002:33]
+  reg  [15:0]   loops_configured;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1044:33]
+  reg  [11:0]   ld_d_addr_start;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1123:32]
+  reg  [11:0]   ex_c_addr_start;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1124:32]
+  reg  [11:0]   st_c_addr_start;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1125:32]
+  wire          loop_requesting_ldA_id = (head_loop_id ? loops_1_lda_started : loops_0_lda_started) ^ head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :914:25, :921:37, :1127:35]
+  wire [1:0]    _GEN_0 = loop_requesting_ldA_id ? loops_1_a_ex_spad_id : loops_0_a_ex_spad_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1127:35, :1129:31]
+  wire          ldA_io_req_valid = ~(loop_requesting_ldA_id ? loops_1_lda_started : loops_0_lda_started) & (loop_requesting_ldA_id ? loops_1_configured : loops_0_configured);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1127:35, :1129:31, :1140:{23,56}]
+  wire          loop_requesting_ldB_id = (head_loop_id ? loops_1_ldb_started : loops_0_ldb_started) ^ head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :914:25, :921:37, :1147:35]
+  wire [1:0]    _GEN_1 = loop_requesting_ldB_id ? loops_1_b_ex_spad_id : loops_0_b_ex_spad_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1147:35, :1149:25]
+  wire          ldB_io_req_valid = ~(loop_requesting_ldB_id ? loops_1_ldb_started : loops_0_ldb_started) & (loop_requesting_ldB_id ? loops_1_configured : loops_0_configured);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1147:35, :1149:25, :1160:{23,56}]
+  wire          loop_requesting_ex_id = (head_loop_id ? loops_1_ex_started : loops_0_ex_started) ^ head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :914:25, :921:37, :1167:34]
+  wire          _GEN_2 = loop_requesting_ex_id ? loops_1_spad_only : loops_0_spad_only;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1167:34, :1169:24]
+  wire [1:0]    _GEN_3 = loop_requesting_ex_id ? loops_1_a_ex_spad_id : loops_0_a_ex_spad_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1167:34, :1169:24]
+  wire [1:0]    _GEN_4 = loop_requesting_ex_id ? loops_1_b_ex_spad_id : loops_0_b_ex_spad_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1167:34, :1169:24]
+  wire          ex_io_req_valid = ~(loop_requesting_ex_id ? loops_1_ex_started : loops_0_ex_started) & (loop_requesting_ex_id ? loops_1_lda_started : loops_0_lda_started) & (loop_requesting_ex_id ? loops_1_ldb_started : loops_0_ldb_started) & (loop_requesting_ex_id ? loops_1_ldd_started : loops_0_ldd_started) & (loop_requesting_ex_id ? loops_1_configured : loops_0_configured);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1167:34, :1169:24, :1186:{22,53,87}, :1187:{36,70}]
+  wire          loop_requesting_ldD_id = (head_loop_id ? loops_1_ldd_started : loops_0_ldd_started) ^ head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :914:25, :921:37, :1198:35]
+  wire          ldD_io_req_valid = ~(loop_requesting_ldD_id ? loops_1_ldd_started : loops_0_ldd_started) & (loop_requesting_ldD_id ? loops_1_configured : loops_0_configured);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1198:35, :1200:25, :1210:{23,56}]
+  wire          loop_requesting_st_id = (head_loop_id ? loops_1_st_started : loops_0_st_started) ^ head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :914:25, :921:37, :1221:34]
+  wire [15:0]   stC_io_req_bits_max_j = loop_requesting_st_id ? loops_1_max_j : loops_0_max_j;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1221:34, :1223:31]
+  wire [15:0]   stC_io_req_bits_max_i = loop_requesting_st_id ? loops_1_max_i : loops_0_max_i;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1221:34, :1223:31]
+  wire [3:0]    stC_io_req_bits_pad_j = loop_requesting_st_id ? loops_1_pad_j[3:0] : loops_0_pad_j[3:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1221:34, :1223:31]
+  wire [3:0]    stC_io_req_bits_pad_i = loop_requesting_st_id ? loops_1_pad_i[3:0] : loops_0_pad_i[3:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1221:34, :1223:31]
+  wire [39:0]   stC_io_req_bits_dram_addr = loop_requesting_st_id ? loops_1_c_dram_addr : loops_0_c_dram_addr;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1221:34, :1223:31]
+  wire          _GEN_5 = loop_requesting_st_id ? loops_1_spad_only : loops_0_spad_only;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1221:34, :1223:31]
+  wire [2:0]    stC_io_req_bits_act = loop_requesting_st_id ? loops_1_act : loops_0_act;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1221:34, :1223:31]
+  wire          stC_io_req_bits_full_c = loop_requesting_st_id ? loops_1_full_c : loops_0_full_c;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1221:34, :1223:31]
+  wire          _GEN_6 = loop_requesting_st_id ? loops_1_configured : loops_0_configured;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1221:34, :1223:31]
+  wire          _GEN_7 = loop_requesting_st_id ? loops_1_ex_started : loops_0_ex_started;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1221:34, :1223:31]
+  wire          _GEN_8 = loop_requesting_st_id ? loops_1_st_started : loops_0_st_started;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1221:34, :1223:31]
+  wire [15:0]   stC_io_req_bits_max_k = is_resadd ? 16'h1 : loop_requesting_st_id ? loops_1_max_k : loops_0_max_k;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :1221:34, :1223:31]
+  wire          stC_spad_io_req_valid = ~_GEN_8 & _GEN_7 & _GEN_6 & _GEN_5;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31, :1248:23, :1250:{59,92}, :1251:35]
+  wire          stC_io_req_valid = is_resadd ? ~_GEN_8 & _GEN_6 : ~_GEN_8 & _GEN_7 & _GEN_6 & ~_GEN_5;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :1223:31, :1248:{20,23,54,87}, :1249:{35,38}, :1262:18, :1266:{22,56}]
+  wire [12:0]   _ld_d_addr_start_T_3 = {1'h0, ld_d_addr_start} + 13'h800;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1123:32, generators/gemmini/src/main/scala/gemmini/Util.scala:41:15]
+  wire [12:0]   _ex_c_addr_start_T_3 = {1'h0, ex_c_addr_start} + 13'h800;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1124:32, generators/gemmini/src/main/scala/gemmini/Util.scala:41:15]
+  wire [12:0]   _st_c_addr_start_T_3 = {1'h0, st_c_addr_start} + 13'h800;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1125:32, generators/gemmini/src/main/scala/gemmini/Util.scala:41:15]
+  wire          _GEN_9 = _cmd_q_io_deq_valid & is_loop_cmd & ~_GEN;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:985:37, :1002:33, :1048:{18,33}, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire          _GEN_10 = _cmd_q_io_deq_bits_cmd_inst_funct == 7'h9;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1050:38, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire          _GEN_11 = _cmd_q_io_deq_bits_cmd_inst_funct == 7'hA;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1050:38, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire          _GEN_12 = _cmd_q_io_deq_bits_cmd_inst_funct == 7'hB;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1050:38, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire          _GEN_13 = _GEN_10 | _GEN_11;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1050:38]
+  wire          _GEN_14 = _cmd_q_io_deq_bits_cmd_inst_funct == 7'hC;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1050:38, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire          _GEN_15 = _GEN_10 | _GEN_11 | _GEN_12;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1050:38]
+  wire          _GEN_16 = _cmd_q_io_deq_bits_cmd_inst_funct == 7'hD;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1050:38, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire          _GEN_17 = _GEN_10 | _GEN_11 | _GEN_12 | _GEN_14;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1050:38]
+  wire          _GEN_18 = _cmd_q_io_deq_bits_cmd_inst_funct == 7'h18;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1050:38, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire          _GEN_19 = is_loop_run_cmd & ~loop_being_configured_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :982:49, :1050:38, :1052:37, :1089:45]
+  wire          _GEN_20 = _GEN_14 | _GEN_16 | _GEN_18;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1050:38]
+  wire          _GEN_21 = _GEN_10 | _GEN_11 | _GEN_12 | _GEN_20;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1050:38]
+  wire          _GEN_22 = ~_GEN_9 | _GEN_21 | ~_GEN_19;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:{18,33,71}, :1050:38, :1089:45]
+  wire          _GEN_23 = is_loop_run_cmd & loop_being_configured_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :982:49, :1050:38, :1089:45]
+  wire          _GEN_24 = ~_GEN_9 | _GEN_21 | ~_GEN_23;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:{18,33,71}, :1050:38, :1089:45]
+  wire          _GEN_25 = _GEN_22 ? loops_0_st_completed : _cmd_q_io_deq_bits_cmd_rs2[7];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38, :1098:61, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire          _GEN_26 = _GEN_24 ? loops_1_st_completed : _cmd_q_io_deq_bits_cmd_rs2[7];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38, :1098:61, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire          _GEN_27 = _GEN_11 | _GEN_12;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1050:38, :1062:41]
+  wire          _GEN_28 = ~_GEN_9 | _GEN_10;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:{18,33,71}, :1050:38]
+  wire [4095:0] _GEN_29 = {4064'h0, _cmd_q_io_deq_bits_cmd_rs2[63:32]};	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1107:{43,62}, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire          _GEN_30 = _ldA_io_req_ready & ldA_io_req_valid;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:928:19, :1140:56, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire          _GEN_31 = _GEN_30 & ~loop_requesting_ldA_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1127:35, :1142:26, :1143:33, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire          _GEN_32 = _GEN_30 & loop_requesting_ldA_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1127:35, :1142:26, :1143:33, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire          _GEN_33 = _ldB_io_req_ready & ldB_io_req_valid;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:929:19, :1160:56, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire          _GEN_34 = _GEN_33 ? ~loop_requesting_ldB_id | _GEN_31 | loops_0_running : _GEN_31 | loops_0_running;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1142:26, :1143:33, :1147:35, :1162:26, :1163:33, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire          _GEN_35 = _GEN_33 ? loop_requesting_ldB_id | _GEN_32 | loops_1_running : _GEN_32 | loops_1_running;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1142:26, :1143:33, :1147:35, :1162:26, :1163:33, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire          _GEN_36 = _ex_io_req_ready & ex_io_req_valid;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:931:18, :1186:{53,87}, :1187:{36,70}, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire          _GEN_37 = _GEN_36 & ~loop_requesting_ex_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1162:26, :1167:34, :1189:25, :1190:32, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire          _GEN_38 = _GEN_36 & loop_requesting_ex_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1162:26, :1167:34, :1189:25, :1190:32, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire          _GEN_39 = _ldD_io_req_ready & ldD_io_req_valid;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:930:19, :1210:56, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire          _GEN_40 = _stC_io_req_ready & stC_io_req_valid | _stC_spad_io_req_ready & stC_spad_io_req_valid;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:932:19, :933:24, :1248:20, :1250:{59,92}, :1251:35, :1253:25, :1262:18, :1266:22, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire          _GEN_41 = _GEN_40 & ~loop_requesting_st_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1212:26, :1221:34, :1253:{25,50}, :1254:32]
+  wire          _GEN_42 = _GEN_40 & loop_requesting_st_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1212:26, :1221:34, :1253:{25,50}, :1254:32]
+  wire          _GEN_43 = _ldA_io_idle & (_ldA_io_loop_id ? loops_1_running : loops_0_running) & (_ldA_io_loop_id ? loops_1_lda_started : loops_0_lda_started);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :928:19, :1269:{21,54}]
+  wire          _GEN_44 = _ldB_io_idle & (_ldB_io_loop_id ? loops_1_running : loops_0_running) & (_ldB_io_loop_id ? loops_1_ldb_started : loops_0_ldb_started);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :929:19, :1273:{21,54}]
+  wire          _GEN_45 = _ex_io_idle & (_ex_io_loop_id ? loops_1_running : loops_0_running) & (_ex_io_loop_id ? loops_1_ex_started : loops_0_ex_started);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :931:18, :1277:{20,52}]
+  wire          _GEN_46 = _ldD_io_idle & (_ldD_io_loop_id ? loops_1_running : loops_0_running) & (_ldD_io_loop_id ? loops_1_ldd_started : loops_0_ldd_started);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :930:19, :1281:{21,54}]
+  wire          _GEN_47 = _stC_io_idle & (_stC_io_loop_id ? loops_1_running : loops_0_running) & (_stC_io_loop_id ? loops_1_st_started : loops_0_st_started) & ~(_stC_io_loop_id ? loops_1_spad_only : loops_0_spad_only);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :932:19, :1285:{21,54,90,93}]
+  wire          _GEN_48 = _GEN_47 & ~_stC_io_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:932:19, :1048:71, :1285:{21,54,90,127}, :1286:40]
+  wire          _GEN_49 = _GEN_47 & _stC_io_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:932:19, :1048:71, :1285:{21,54,90,127}, :1286:40]
+  wire          _GEN_50 = _stC_spad_io_idle & (_stC_spad_io_loop_id ? loops_1_running : loops_0_running) & (_stC_spad_io_loop_id ? loops_1_st_started : loops_0_st_started) & (_stC_spad_io_loop_id ? loops_1_spad_only : loops_0_spad_only);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :933:24, :1289:{26,64}, :1290:43]
+  wire          _GEN_51 = (head_loop_id ? loops_1_running : loops_0_running) & (head_loop_id ? loops_1_lda_completed : loops_0_lda_completed) & (head_loop_id ? loops_1_ldb_completed : loops_0_ldb_completed) & (head_loop_id ? loops_1_ldd_completed : loops_0_ldd_completed) & (head_loop_id ? loops_1_ex_completed : loops_0_ex_completed) & (head_loop_id ? loops_1_st_completed : loops_0_st_completed);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:863:{57,74,91,107}, :913:18, :914:25, :921:37, :1294:27]
+  wire          _GEN_52 = reset | _GEN_51 & ~head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:863:{57,74,91,107}, :870:16, :914:25, :1048:71, :1294:{27,57}, :1301:23]
+  wire          _GEN_53 = reset | _GEN_51 & head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:863:{57,74,91,107}, :870:16, :914:25, :1048:71, :1294:{27,57}, :1301:23]
+  wire          _GEN_54 = _GEN_10 | _GEN_11 | _GEN_12 | _GEN_14 | _GEN_16;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1050:38]
+  wire          _GEN_55 = ~_GEN_9 | _GEN_21 | ~is_loop_run_cmd;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :982:49, :1048:{18,33,71}, :1050:38]
   always @(posedge clock) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7]
-    if (_GEN_9 & _GEN_10 & ~loop_being_configured_id) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1040:{18,33,71}, :1042:38, :1044:37]
-      loops_0_max_k <= _cmd_q_io_deq_bits_cmd_rs2[47:32];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1044:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_max_j <= _cmd_q_io_deq_bits_cmd_rs2[31:16];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1045:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_max_i <= _cmd_q_io_deq_bits_cmd_rs2[15:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1046:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_pad_k <= _cmd_q_io_deq_bits_cmd_rs1[47:32];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_pad_j <= _cmd_q_io_deq_bits_cmd_rs1[31:16];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1049:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_pad_i <= _cmd_q_io_deq_bits_cmd_rs1[15:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1050:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    if (_GEN_9 & _GEN_10 & ~loop_being_configured_id) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1048:{18,33,71}, :1050:38, :1052:37]
+      loops_0_max_k <= _cmd_q_io_deq_bits_cmd_rs2[47:32];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1052:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_max_j <= _cmd_q_io_deq_bits_cmd_rs2[31:16];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1053:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_max_i <= _cmd_q_io_deq_bits_cmd_rs2[15:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1054:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_pad_k <= _cmd_q_io_deq_bits_cmd_rs1[47:32];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1056:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_pad_j <= _cmd_q_io_deq_bits_cmd_rs1[31:16];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1057:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_pad_i <= _cmd_q_io_deq_bits_cmd_rs1[15:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1058:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
     end
-    if (~_GEN_9 | _GEN_10 | ~(_GEN_11 & ~loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1040:{18,33,71}, :1042:38, :1044:37, :1055:43]
+    if (~_GEN_9 | _GEN_10 | ~(_GEN_11 & ~loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1048:{18,33,71}, :1050:38, :1052:37, :1063:43]
     end
-    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
-      loops_0_a_dram_addr <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1055:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_b_dram_addr <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1056:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
+      loops_0_a_dram_addr <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1063:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_b_dram_addr <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1064:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
     end
-    if (~_GEN_9 | _GEN_13 | ~(_GEN_12 & ~loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1040:{18,33,71}, :1042:38, :1044:37, :1061:43]
+    if (~_GEN_9 | _GEN_13 | ~(_GEN_12 & ~loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1048:{18,33,71}, :1050:38, :1052:37, :1069:43]
     end
-    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
-      loops_0_d_dram_addr <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1055:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_c_dram_addr <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1056:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
+      loops_0_d_dram_addr <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1063:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_c_dram_addr <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1064:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
     end
-    if (~_GEN_9 | _GEN_15 | ~(_GEN_14 & ~loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1040:{18,33,71}, :1042:38, :1044:37, :1066:45]
+    if (~_GEN_9 | _GEN_15 | ~(_GEN_14 & ~loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1048:{18,33,71}, :1050:38, :1052:37, :1074:45]
     end
-    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
-      loops_0_a_dram_stride <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1055:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_b_dram_stride <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1056:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
+      loops_0_a_dram_stride <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1063:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_b_dram_stride <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1064:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
     end
-    if (~_GEN_9 | _GEN_17 | ~(_GEN_16 & ~loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1040:{18,33,71}, :1042:38, :1044:37, :1071:45]
+    if (~_GEN_9 | _GEN_17 | ~(_GEN_16 & ~loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1048:{18,33,71}, :1050:38, :1052:37, :1079:45]
     end
-    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
-      loops_0_d_dram_stride <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1055:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_c_dram_stride <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1056:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
+      loops_0_d_dram_stride <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1063:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_c_dram_stride <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1064:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
     end
-    if (_GEN_22) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
+    if (_GEN_22) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
     end
-    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
-      loops_0_c_spad_addr <= _GEN_29;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1099:43]
-      loops_0_inc_acc_addr <= _cmd_q_io_deq_bits_cmd_rs2[8];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1096:63, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
+      loops_0_c_spad_addr <= _GEN_29;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1107:43]
+      loops_0_inc_acc_addr <= _cmd_q_io_deq_bits_cmd_rs2[8];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1104:63, src/main/scala/chisel3/util/Decoupled.scala:362:21]
     end
-    loops_0_spad_only <= ~_GEN_52 & (_GEN_28 ? loops_0_spad_only : _GEN_27 ? loop_being_configured_id & loops_0_spad_only : _GEN_20 | ~_GEN_19 ? loops_0_spad_only : _cmd_q_io_deq_bits_cmd_rs2[9]);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :886:15, :913:18, :921:37, :1040:71, :1042:38, :1054:41, :1081:45, :1097:60, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    if (_GEN_22) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
+    loops_0_spad_only <= ~_GEN_52 & (_GEN_28 ? loops_0_spad_only : _GEN_27 ? loop_being_configured_id & loops_0_spad_only : _GEN_20 | ~_GEN_19 ? loops_0_spad_only : _cmd_q_io_deq_bits_cmd_rs2[9]);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :886:15, :913:18, :921:37, :1048:71, :1050:38, :1062:41, :1089:45, :1105:60, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    if (_GEN_22) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
     end
-    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
-      loops_0_a_transpose <= _cmd_q_io_deq_bits_cmd_rs2[0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1103:62, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_b_transpose <= _cmd_q_io_deq_bits_cmd_rs2[1];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1104:62, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_act <= _cmd_q_io_deq_bits_cmd_rs1[10:8];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1084:54, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_low_d <= _cmd_q_io_deq_bits_cmd_rs1[2];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1083:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_full_c <= _cmd_q_io_deq_bits_cmd_rs1[1];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1082:57, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_ex_accumulate <= _cmd_q_io_deq_bits_cmd_rs1[0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1081:64, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_a_ex_spad_id <= _cmd_q_io_deq_bits_cmd_rs1[19:18];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1101:63, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_0_b_ex_spad_id <= _cmd_q_io_deq_bits_cmd_rs1[17:16];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1102:63, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
+      loops_0_a_transpose <= _cmd_q_io_deq_bits_cmd_rs2[0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1111:62, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_b_transpose <= _cmd_q_io_deq_bits_cmd_rs2[1];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1112:62, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_act <= _cmd_q_io_deq_bits_cmd_rs1[10:8];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1092:54, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_low_d <= _cmd_q_io_deq_bits_cmd_rs1[2];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1091:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_full_c <= _cmd_q_io_deq_bits_cmd_rs1[1];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1090:57, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_ex_accumulate <= _cmd_q_io_deq_bits_cmd_rs1[0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1089:64, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_a_ex_spad_id <= _cmd_q_io_deq_bits_cmd_rs1[19:18];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1109:63, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_0_b_ex_spad_id <= _cmd_q_io_deq_bits_cmd_rs1[17:16];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1110:63, src/main/scala/chisel3/util/Decoupled.scala:362:21]
     end
-    loops_0_configured <= ~_GEN_52 & (_GEN_9 & ~_GEN_21 & _GEN_19 | loops_0_configured);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :913:18, :1040:{18,33,71}, :1042:38, :1081:45, :1286:57, :1293:23]
-    loops_0_running <= ~_GEN_52 & (_GEN_41 | (_GEN_39 ? ~loop_requesting_ldD_id | _GEN_37 | _GEN_34 : _GEN_37 | _GEN_34));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :872:13, :913:18, :1040:71, :1134:26, :1154:26, :1155:33, :1181:25, :1182:32, :1190:35, :1204:26, :1205:33, :1245:50, :1246:32, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-    loops_0_lda_started <= ~_GEN_52 & (_GEN_31 | (_GEN_22 ? loops_0_lda_started : _cmd_q_io_deq_bits_cmd_rs2[3]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :874:17, :913:18, :1040:71, :1042:38, :1086:62, :1134:26, :1135:33, :1136:37, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    loops_0_ldb_started <= ~_GEN_52 & (_GEN_33 & ~loop_requesting_ldB_id | (_GEN_22 ? loops_0_ldb_started : _cmd_q_io_deq_bits_cmd_rs2[4]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :875:17, :913:18, :1040:71, :1042:38, :1087:62, :1139:35, :1154:26, :1155:33, :1156:37, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:51:35, :362:21]
-    loops_0_ex_started <= ~_GEN_52 & (_GEN_37 | (_GEN_22 ? loops_0_ex_started : _cmd_q_io_deq_bits_cmd_rs2[6]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :876:16, :913:18, :1040:71, :1042:38, :1089:61, :1154:26, :1181:25, :1182:32, :1183:35, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    loops_0_ldd_started <= ~_GEN_52 & (_GEN_39 & ~loop_requesting_ldD_id | (_GEN_22 ? loops_0_ldd_started : _cmd_q_io_deq_bits_cmd_rs2[5]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :877:17, :913:18, :1040:71, :1042:38, :1088:62, :1190:35, :1204:26, :1205:33, :1206:37, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:51:35, :362:21]
-    loops_0_st_started <= ~_GEN_52 & (_GEN_41 | (_GEN_22 ? loops_0_st_started : _cmd_q_io_deq_bits_cmd_rs2[7]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :878:16, :913:18, :1040:71, :1042:38, :1090:61, :1204:26, :1245:50, :1246:32, :1247:35, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    loops_0_lda_completed <= ~_GEN_52 & (_GEN_43 & ~_ldA_io_loop_id | (_GEN_22 ? loops_0_lda_completed : _cmd_q_io_deq_bits_cmd_rs2[3]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :880:19, :913:18, :928:19, :1040:71, :1042:38, :1086:62, :1261:{21,54,92}, :1262:41, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    loops_0_ldb_completed <= ~_GEN_52 & (_GEN_44 & ~_ldB_io_loop_id | (_GEN_22 ? loops_0_ldb_completed : _cmd_q_io_deq_bits_cmd_rs2[4]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :881:19, :913:18, :929:19, :1040:71, :1042:38, :1087:62, :1265:{21,54,92}, :1266:41, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    loops_0_ex_completed <= ~_GEN_52 & (_GEN_45 & ~_ex_io_loop_id | (_GEN_22 ? loops_0_ex_completed : _cmd_q_io_deq_bits_cmd_rs2[6]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :882:18, :913:18, :931:18, :1040:71, :1042:38, :1089:61, :1269:{20,52,88}, :1270:39, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    loops_0_ldd_completed <= ~_GEN_52 & (_GEN_46 & ~_ldD_io_loop_id | (_GEN_22 ? loops_0_ldd_completed : _cmd_q_io_deq_bits_cmd_rs2[5]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :883:19, :913:18, :930:19, :1040:71, :1042:38, :1088:62, :1273:{21,54,92}, :1274:41, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    loops_0_st_completed <= ~_GEN_52 & (_GEN_50 ? ~_stC_spad_io_loop_id | _GEN_48 | _GEN_25 : _GEN_48 | _GEN_25);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :884:18, :913:18, :933:24, :1040:71, :1042:38, :1277:127, :1278:40, :1281:{26,64}, :1282:{43,84}, :1283:45, :1286:57, :1293:23]
-    if (_GEN_9 & _GEN_10 & loop_being_configured_id) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1040:{18,33,71}, :1042:38, :1044:37]
-      loops_1_max_k <= _cmd_q_io_deq_bits_cmd_rs2[47:32];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1044:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_max_j <= _cmd_q_io_deq_bits_cmd_rs2[31:16];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1045:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_max_i <= _cmd_q_io_deq_bits_cmd_rs2[15:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1046:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_pad_k <= _cmd_q_io_deq_bits_cmd_rs1[47:32];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_pad_j <= _cmd_q_io_deq_bits_cmd_rs1[31:16];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1049:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_pad_i <= _cmd_q_io_deq_bits_cmd_rs1[15:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1050:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    loops_0_configured <= ~_GEN_52 & (_GEN_9 & ~_GEN_21 & _GEN_19 | loops_0_configured);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :913:18, :1048:{18,33,71}, :1050:38, :1089:45, :1294:57, :1301:23]
+    loops_0_running <= ~_GEN_52 & (_GEN_41 | (_GEN_39 ? ~loop_requesting_ldD_id | _GEN_37 | _GEN_34 : _GEN_37 | _GEN_34));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :872:13, :913:18, :1048:71, :1142:26, :1162:26, :1163:33, :1189:25, :1190:32, :1198:35, :1212:26, :1213:33, :1253:50, :1254:32, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+    loops_0_lda_started <= ~_GEN_52 & (_GEN_31 | (_GEN_22 ? loops_0_lda_started : _cmd_q_io_deq_bits_cmd_rs2[3]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :874:17, :913:18, :1048:71, :1050:38, :1094:62, :1142:26, :1143:33, :1144:37, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    loops_0_ldb_started <= ~_GEN_52 & (_GEN_33 & ~loop_requesting_ldB_id | (_GEN_22 ? loops_0_ldb_started : _cmd_q_io_deq_bits_cmd_rs2[4]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :875:17, :913:18, :1048:71, :1050:38, :1095:62, :1147:35, :1162:26, :1163:33, :1164:37, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:51:35, :362:21]
+    loops_0_ex_started <= ~_GEN_52 & (_GEN_37 | (_GEN_22 ? loops_0_ex_started : _cmd_q_io_deq_bits_cmd_rs2[6]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :876:16, :913:18, :1048:71, :1050:38, :1097:61, :1162:26, :1189:25, :1190:32, :1191:35, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    loops_0_ldd_started <= ~_GEN_52 & (_GEN_39 & ~loop_requesting_ldD_id | (_GEN_22 ? loops_0_ldd_started : _cmd_q_io_deq_bits_cmd_rs2[5]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :877:17, :913:18, :1048:71, :1050:38, :1096:62, :1198:35, :1212:26, :1213:33, :1214:37, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:51:35, :362:21]
+    loops_0_st_started <= ~_GEN_52 & (_GEN_41 | (_GEN_22 ? loops_0_st_started : _cmd_q_io_deq_bits_cmd_rs2[7]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :878:16, :913:18, :1048:71, :1050:38, :1098:61, :1212:26, :1253:50, :1254:32, :1255:35, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    loops_0_lda_completed <= ~_GEN_52 & (_GEN_43 & ~_ldA_io_loop_id | (_GEN_22 ? loops_0_lda_completed : _cmd_q_io_deq_bits_cmd_rs2[3]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :880:19, :913:18, :928:19, :1048:71, :1050:38, :1094:62, :1269:{21,54,92}, :1270:41, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    loops_0_ldb_completed <= ~_GEN_52 & (_GEN_44 & ~_ldB_io_loop_id | (_GEN_22 ? loops_0_ldb_completed : _cmd_q_io_deq_bits_cmd_rs2[4]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :881:19, :913:18, :929:19, :1048:71, :1050:38, :1095:62, :1273:{21,54,92}, :1274:41, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    loops_0_ex_completed <= ~_GEN_52 & (_GEN_45 & ~_ex_io_loop_id | (_GEN_22 ? loops_0_ex_completed : _cmd_q_io_deq_bits_cmd_rs2[6]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :882:18, :913:18, :931:18, :1048:71, :1050:38, :1097:61, :1277:{20,52,88}, :1278:39, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    loops_0_ldd_completed <= ~_GEN_52 & (_GEN_46 & ~_ldD_io_loop_id | (_GEN_22 ? loops_0_ldd_completed : _cmd_q_io_deq_bits_cmd_rs2[5]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :883:19, :913:18, :930:19, :1048:71, :1050:38, :1096:62, :1281:{21,54,92}, :1282:41, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    loops_0_st_completed <= ~_GEN_52 & (_GEN_50 ? ~_stC_spad_io_loop_id | _GEN_48 | _GEN_25 : _GEN_48 | _GEN_25);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :884:18, :913:18, :933:24, :1048:71, :1050:38, :1285:127, :1286:40, :1289:{26,64}, :1290:{43,84}, :1291:45, :1294:57, :1301:23]
+    if (_GEN_9 & _GEN_10 & loop_being_configured_id) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1048:{18,33,71}, :1050:38, :1052:37]
+      loops_1_max_k <= _cmd_q_io_deq_bits_cmd_rs2[47:32];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1052:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_max_j <= _cmd_q_io_deq_bits_cmd_rs2[31:16];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1053:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_max_i <= _cmd_q_io_deq_bits_cmd_rs2[15:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1054:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_pad_k <= _cmd_q_io_deq_bits_cmd_rs1[47:32];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1056:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_pad_j <= _cmd_q_io_deq_bits_cmd_rs1[31:16];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1057:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_pad_i <= _cmd_q_io_deq_bits_cmd_rs1[15:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1058:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
     end
-    if (~_GEN_9 | _GEN_10 | ~(_GEN_11 & loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1040:{18,33,71}, :1042:38, :1055:43]
+    if (~_GEN_9 | _GEN_10 | ~(_GEN_11 & loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1048:{18,33,71}, :1050:38, :1063:43]
     end
-    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
-      loops_1_a_dram_addr <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1055:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_b_dram_addr <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1056:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
+      loops_1_a_dram_addr <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1063:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_b_dram_addr <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1064:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
     end
-    if (~_GEN_9 | _GEN_13 | ~(_GEN_12 & loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1040:{18,33,71}, :1042:38, :1061:43]
+    if (~_GEN_9 | _GEN_13 | ~(_GEN_12 & loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1048:{18,33,71}, :1050:38, :1069:43]
     end
-    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
-      loops_1_d_dram_addr <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1055:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_c_dram_addr <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1056:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
+      loops_1_d_dram_addr <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1063:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_c_dram_addr <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1064:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
     end
-    if (~_GEN_9 | _GEN_15 | ~(_GEN_14 & loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1040:{18,33,71}, :1042:38, :1066:45]
+    if (~_GEN_9 | _GEN_15 | ~(_GEN_14 & loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1048:{18,33,71}, :1050:38, :1074:45]
     end
-    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
-      loops_1_a_dram_stride <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1055:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_b_dram_stride <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1056:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
+      loops_1_a_dram_stride <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1063:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_b_dram_stride <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1064:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
     end
-    if (~_GEN_9 | _GEN_17 | ~(_GEN_16 & loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1040:{18,33,71}, :1042:38, :1071:45]
+    if (~_GEN_9 | _GEN_17 | ~(_GEN_16 & loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1048:{18,33,71}, :1050:38, :1079:45]
     end
-    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
-      loops_1_d_dram_stride <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1055:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_c_dram_stride <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1056:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
+      loops_1_d_dram_stride <= _cmd_q_io_deq_bits_cmd_rs1[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1063:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_c_dram_stride <= _cmd_q_io_deq_bits_cmd_rs2[39:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1064:43, src/main/scala/chisel3/util/Decoupled.scala:362:21]
     end
-    if (_GEN_24) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
+    if (_GEN_24) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
     end
-    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
-      loops_1_c_spad_addr <= _GEN_29;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1099:43]
-      loops_1_inc_acc_addr <= _cmd_q_io_deq_bits_cmd_rs2[8];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1096:63, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
+      loops_1_c_spad_addr <= _GEN_29;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1107:43]
+      loops_1_inc_acc_addr <= _cmd_q_io_deq_bits_cmd_rs2[8];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1104:63, src/main/scala/chisel3/util/Decoupled.scala:362:21]
     end
-    loops_1_spad_only <= ~_GEN_53 & (_GEN_28 ? loops_1_spad_only : _GEN_27 ? ~loop_being_configured_id & loops_1_spad_only : _GEN_20 | ~_GEN_23 ? loops_1_spad_only : _cmd_q_io_deq_bits_cmd_rs2[9]);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :886:15, :913:18, :921:37, :1040:71, :1042:38, :1054:41, :1081:45, :1097:60, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    if (_GEN_24) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
+    loops_1_spad_only <= ~_GEN_53 & (_GEN_28 ? loops_1_spad_only : _GEN_27 ? ~loop_being_configured_id & loops_1_spad_only : _GEN_20 | ~_GEN_23 ? loops_1_spad_only : _cmd_q_io_deq_bits_cmd_rs2[9]);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :886:15, :913:18, :921:37, :1048:71, :1050:38, :1062:41, :1089:45, :1105:60, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    if (_GEN_24) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
     end
-    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
-      loops_1_a_transpose <= _cmd_q_io_deq_bits_cmd_rs2[0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1103:62, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_b_transpose <= _cmd_q_io_deq_bits_cmd_rs2[1];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1104:62, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_act <= _cmd_q_io_deq_bits_cmd_rs1[10:8];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1084:54, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_low_d <= _cmd_q_io_deq_bits_cmd_rs1[2];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1083:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_full_c <= _cmd_q_io_deq_bits_cmd_rs1[1];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1082:57, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_ex_accumulate <= _cmd_q_io_deq_bits_cmd_rs1[0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1081:64, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_a_ex_spad_id <= _cmd_q_io_deq_bits_cmd_rs1[19:18];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1101:63, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-      loops_1_b_ex_spad_id <= _cmd_q_io_deq_bits_cmd_rs1[17:16];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1102:63, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
+      loops_1_a_transpose <= _cmd_q_io_deq_bits_cmd_rs2[0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1111:62, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_b_transpose <= _cmd_q_io_deq_bits_cmd_rs2[1];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1112:62, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_act <= _cmd_q_io_deq_bits_cmd_rs1[10:8];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1092:54, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_low_d <= _cmd_q_io_deq_bits_cmd_rs1[2];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1091:56, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_full_c <= _cmd_q_io_deq_bits_cmd_rs1[1];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1090:57, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_ex_accumulate <= _cmd_q_io_deq_bits_cmd_rs1[0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1089:64, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_a_ex_spad_id <= _cmd_q_io_deq_bits_cmd_rs1[19:18];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1109:63, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      loops_1_b_ex_spad_id <= _cmd_q_io_deq_bits_cmd_rs1[17:16];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1110:63, src/main/scala/chisel3/util/Decoupled.scala:362:21]
     end
-    loops_1_configured <= ~_GEN_53 & (_GEN_9 & ~_GEN_21 & _GEN_23 | loops_1_configured);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :913:18, :1040:{18,33,71}, :1042:38, :1081:45, :1286:57, :1293:23]
-    loops_1_running <= ~_GEN_53 & (_GEN_42 | (_GEN_39 ? loop_requesting_ldD_id | _GEN_38 | _GEN_35 : _GEN_38 | _GEN_35));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :872:13, :913:18, :1040:71, :1134:26, :1154:26, :1155:33, :1181:25, :1182:32, :1190:35, :1204:26, :1205:33, :1245:50, :1246:32, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-    loops_1_lda_started <= ~_GEN_53 & (_GEN_32 | (_GEN_24 ? loops_1_lda_started : _cmd_q_io_deq_bits_cmd_rs2[3]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :874:17, :913:18, :1040:71, :1042:38, :1086:62, :1134:26, :1135:33, :1136:37, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    loops_1_ldb_started <= ~_GEN_53 & (_GEN_33 & loop_requesting_ldB_id | (_GEN_24 ? loops_1_ldb_started : _cmd_q_io_deq_bits_cmd_rs2[4]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :875:17, :913:18, :1040:71, :1042:38, :1087:62, :1139:35, :1154:26, :1156:37, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:51:35, :362:21]
-    loops_1_ex_started <= ~_GEN_53 & (_GEN_38 | (_GEN_24 ? loops_1_ex_started : _cmd_q_io_deq_bits_cmd_rs2[6]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :876:16, :913:18, :1040:71, :1042:38, :1089:61, :1154:26, :1181:25, :1182:32, :1183:35, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    loops_1_ldd_started <= ~_GEN_53 & (_GEN_39 & loop_requesting_ldD_id | (_GEN_24 ? loops_1_ldd_started : _cmd_q_io_deq_bits_cmd_rs2[5]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :877:17, :913:18, :1040:71, :1042:38, :1088:62, :1190:35, :1204:26, :1206:37, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:51:35, :362:21]
-    loops_1_st_started <= ~_GEN_53 & (_GEN_42 | (_GEN_24 ? loops_1_st_started : _cmd_q_io_deq_bits_cmd_rs2[7]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :878:16, :913:18, :1040:71, :1042:38, :1090:61, :1204:26, :1245:50, :1246:32, :1247:35, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    loops_1_lda_completed <= ~_GEN_53 & (_GEN_43 & _ldA_io_loop_id | (_GEN_24 ? loops_1_lda_completed : _cmd_q_io_deq_bits_cmd_rs2[3]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :880:19, :913:18, :928:19, :1040:71, :1042:38, :1086:62, :1261:{21,54,92}, :1262:41, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    loops_1_ldb_completed <= ~_GEN_53 & (_GEN_44 & _ldB_io_loop_id | (_GEN_24 ? loops_1_ldb_completed : _cmd_q_io_deq_bits_cmd_rs2[4]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :881:19, :913:18, :929:19, :1040:71, :1042:38, :1087:62, :1265:{21,54,92}, :1266:41, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    loops_1_ex_completed <= ~_GEN_53 & (_GEN_45 & _ex_io_loop_id | (_GEN_24 ? loops_1_ex_completed : _cmd_q_io_deq_bits_cmd_rs2[6]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :882:18, :913:18, :931:18, :1040:71, :1042:38, :1089:61, :1269:{20,52,88}, :1270:39, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    loops_1_ldd_completed <= ~_GEN_53 & (_GEN_46 & _ldD_io_loop_id | (_GEN_24 ? loops_1_ldd_completed : _cmd_q_io_deq_bits_cmd_rs2[5]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :883:19, :913:18, :930:19, :1040:71, :1042:38, :1088:62, :1273:{21,54,92}, :1274:41, :1286:57, :1293:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    loops_1_st_completed <= ~_GEN_53 & (_GEN_50 ? _stC_spad_io_loop_id | _GEN_49 | _GEN_26 : _GEN_49 | _GEN_26);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :884:18, :913:18, :933:24, :1040:71, :1042:38, :1277:127, :1278:40, :1281:{26,64}, :1282:{43,84}, :1283:45, :1286:57, :1293:23]
-    head_loop_id <= _GEN_51 ^ head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:863:{57,74,91,107}, :914:25, :1286:{27,57}, :1289:18]
+    loops_1_configured <= ~_GEN_53 & (_GEN_9 & ~_GEN_21 & _GEN_23 | loops_1_configured);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :913:18, :1048:{18,33,71}, :1050:38, :1089:45, :1294:57, :1301:23]
+    loops_1_running <= ~_GEN_53 & (_GEN_42 | (_GEN_39 ? loop_requesting_ldD_id | _GEN_38 | _GEN_35 : _GEN_38 | _GEN_35));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :872:13, :913:18, :1048:71, :1142:26, :1162:26, :1163:33, :1189:25, :1190:32, :1198:35, :1212:26, :1213:33, :1253:50, :1254:32, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+    loops_1_lda_started <= ~_GEN_53 & (_GEN_32 | (_GEN_24 ? loops_1_lda_started : _cmd_q_io_deq_bits_cmd_rs2[3]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :874:17, :913:18, :1048:71, :1050:38, :1094:62, :1142:26, :1143:33, :1144:37, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    loops_1_ldb_started <= ~_GEN_53 & (_GEN_33 & loop_requesting_ldB_id | (_GEN_24 ? loops_1_ldb_started : _cmd_q_io_deq_bits_cmd_rs2[4]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :875:17, :913:18, :1048:71, :1050:38, :1095:62, :1147:35, :1162:26, :1164:37, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:51:35, :362:21]
+    loops_1_ex_started <= ~_GEN_53 & (_GEN_38 | (_GEN_24 ? loops_1_ex_started : _cmd_q_io_deq_bits_cmd_rs2[6]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :876:16, :913:18, :1048:71, :1050:38, :1097:61, :1162:26, :1189:25, :1190:32, :1191:35, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    loops_1_ldd_started <= ~_GEN_53 & (_GEN_39 & loop_requesting_ldD_id | (_GEN_24 ? loops_1_ldd_started : _cmd_q_io_deq_bits_cmd_rs2[5]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :877:17, :913:18, :1048:71, :1050:38, :1096:62, :1198:35, :1212:26, :1214:37, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:51:35, :362:21]
+    loops_1_st_started <= ~_GEN_53 & (_GEN_42 | (_GEN_24 ? loops_1_st_started : _cmd_q_io_deq_bits_cmd_rs2[7]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :878:16, :913:18, :1048:71, :1050:38, :1098:61, :1212:26, :1253:50, :1254:32, :1255:35, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    loops_1_lda_completed <= ~_GEN_53 & (_GEN_43 & _ldA_io_loop_id | (_GEN_24 ? loops_1_lda_completed : _cmd_q_io_deq_bits_cmd_rs2[3]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :880:19, :913:18, :928:19, :1048:71, :1050:38, :1094:62, :1269:{21,54,92}, :1270:41, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    loops_1_ldb_completed <= ~_GEN_53 & (_GEN_44 & _ldB_io_loop_id | (_GEN_24 ? loops_1_ldb_completed : _cmd_q_io_deq_bits_cmd_rs2[4]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :881:19, :913:18, :929:19, :1048:71, :1050:38, :1095:62, :1273:{21,54,92}, :1274:41, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    loops_1_ex_completed <= ~_GEN_53 & (_GEN_45 & _ex_io_loop_id | (_GEN_24 ? loops_1_ex_completed : _cmd_q_io_deq_bits_cmd_rs2[6]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :882:18, :913:18, :931:18, :1048:71, :1050:38, :1097:61, :1277:{20,52,88}, :1278:39, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    loops_1_ldd_completed <= ~_GEN_53 & (_GEN_46 & _ldD_io_loop_id | (_GEN_24 ? loops_1_ldd_completed : _cmd_q_io_deq_bits_cmd_rs2[5]));	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :883:19, :913:18, :930:19, :1048:71, :1050:38, :1096:62, :1281:{21,54,92}, :1282:41, :1294:57, :1301:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    loops_1_st_completed <= ~_GEN_53 & (_GEN_50 ? _stC_spad_io_loop_id | _GEN_49 | _GEN_26 : _GEN_49 | _GEN_26);	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:870:16, :884:18, :913:18, :933:24, :1048:71, :1050:38, :1285:127, :1286:40, :1289:{26,64}, :1290:{43,84}, :1291:45, :1294:57, :1301:23]
+    head_loop_id <= _GEN_51 ^ head_loop_id;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:863:{57,74,91,107}, :914:25, :1294:{27,57}, :1297:18]
     if (reset) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7]
       loops_0_a_addr_start <= 15'h0;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18]
       loops_0_b_addr_end <= 16'h4000;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18]
@@ -576,41 +720,41 @@ module LoopMatmul(	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.sca
       ld_utilization <= 5'h0;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:969:31]
       st_utilization <= 4'h0;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:970:31]
       ex_utilization <= 6'h0;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:971:31]
-      loops_configured <= 16'h0;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1036:33]
-      ld_d_addr_start <= 12'h0;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1115:32]
-      ex_c_addr_start <= 12'h0;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1116:32]
-      st_c_addr_start <= 12'h0;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1117:32]
+      loops_configured <= 16'h0;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1044:33]
+      ld_d_addr_start <= 12'h0;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1123:32]
+      ex_c_addr_start <= 12'h0;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1124:32]
+      st_c_addr_start <= 12'h0;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1125:32]
     end
     else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7]
-      if (~_GEN_9 | _GEN_54 | ~(_GEN_18 & ~loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1040:{18,33,71}, :1042:38, :1044:37, :1076:44]
+      if (~_GEN_9 | _GEN_54 | ~(_GEN_18 & ~loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1048:{18,33,71}, :1050:38, :1052:37, :1084:44]
       end
-      else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
-        loops_0_a_addr_start <= _cmd_q_io_deq_bits_cmd_rs1[14:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1076:44, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-        loops_0_b_addr_end <= _cmd_q_io_deq_bits_cmd_rs2[15:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1077:42, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
+        loops_0_a_addr_start <= _cmd_q_io_deq_bits_cmd_rs1[14:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1084:44, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+        loops_0_b_addr_end <= _cmd_q_io_deq_bits_cmd_rs2[15:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1085:42, src/main/scala/chisel3/util/Decoupled.scala:362:21]
       end
-      if (~_GEN_9 | _GEN_54 | ~(_GEN_18 & loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1040:{18,33,71}, :1042:38, :1076:44]
+      if (~_GEN_9 | _GEN_54 | ~(_GEN_18 & loop_being_configured_id)) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :921:37, :1048:{18,33,71}, :1050:38, :1084:44]
       end
-      else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1040:71, :1042:38]
-        loops_1_a_addr_start <= _cmd_q_io_deq_bits_cmd_rs1[14:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1076:44, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-        loops_1_b_addr_end <= _cmd_q_io_deq_bits_cmd_rs2[15:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1077:42, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      else begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1048:71, :1050:38]
+        loops_1_a_addr_start <= _cmd_q_io_deq_bits_cmd_rs1[14:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1084:44, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+        loops_1_b_addr_end <= _cmd_q_io_deq_bits_cmd_rs2[15:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1085:42, src/main/scala/chisel3/util/Decoupled.scala:362:21]
       end
-      if (_GEN_55) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :1040:71, :1042:38]
+      if (_GEN_55) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :1048:71, :1050:38]
       end
-      else	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :1040:71, :1042:38]
-        is_resadd <= _cmd_q_io_deq_bits_cmd_rs2[2];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :1105:38, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+      else	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :1048:71, :1050:38]
+        is_resadd <= _cmd_q_io_deq_bits_cmd_rs2[2];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :1113:38, src/main/scala/chisel3/util/Decoupled.scala:362:21]
       ld_utilization <= ld_utilization + {4'h0, _ldab_arb_io_inA_ready & _ldA_io_cmd_valid | _ldab_arb_io_inB_ready & _ldB_io_cmd_valid | _arb_io_in_2_ready & _ldD_io_cmd_valid} - io_ld_completed[4:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:928:19, :929:19, :930:19, :943:24, :960:19, :969:31, :973:{36,56,75,95}, src/main/scala/chisel3/util/Decoupled.scala:51:35]
       st_utilization <= st_utilization + {3'h0, _arb_io_in_0_ready & _stC_io_cmd_valid | _arb_io_in_4_ready & _stC_spad_io_cmd_valid} - io_st_completed[3:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:932:19, :933:24, :960:19, :970:31, :974:{36,56,81}, src/main/scala/chisel3/util/Decoupled.scala:51:35]
       ex_utilization <= ex_utilization + {5'h0, _arb_io_in_1_ready & _ex_io_cmd_valid} - io_ex_completed[5:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:931:18, :960:19, :971:31, :975:{36,54}, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-      if (_GEN_55) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :1036:33, :1040:71, :1042:38]
+      if (_GEN_55) begin	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :1044:33, :1048:71, :1050:38]
       end
-      else	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1036:33, :1040:71, :1042:38]
-        loops_configured <= loops_configured + 16'h1;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1036:33, :1109:46]
-      if (_GEN_39 & (|(loop_requesting_ldD_id ? loops_1_c_dram_addr : loops_0_c_dram_addr)))	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1115:32, :1190:35, :1192:25, :1204:26, :1208:{43,52}, :1209:23, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-        ld_d_addr_start <= _ld_d_addr_start_T_3[12] ? 12'h0 : _ld_d_addr_start_T_3[11:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1115:32, generators/gemmini/src/main/scala/gemmini/Util.scala:41:15, :43:17, src/main/scala/chisel3/util/Mux.scala:126:16]
-      if (_GEN_36 & (_GEN_2 ? (loop_requesting_ex_id ? loops_1_inc_acc_addr : loops_0_inc_acc_addr) : (|(loop_requesting_ex_id ? loops_1_c_dram_addr : loops_0_c_dram_addr))))	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1116:32, :1159:34, :1161:24, :1181:25, :1185:{14,109,119}, :1186:23, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-        ex_c_addr_start <= _ex_c_addr_start_T_3[12] ? 12'h0 : _ex_c_addr_start_T_3[11:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1116:32, generators/gemmini/src/main/scala/gemmini/Util.scala:41:15, :43:17, src/main/scala/chisel3/util/Mux.scala:126:16]
-      if (_GEN_40 & (_GEN_5 ? (loop_requesting_st_id ? loops_1_inc_acc_addr : loops_0_inc_acc_addr) : (|stC_io_req_bits_dram_addr)))	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1117:32, :1213:34, :1215:31, :1245:{25,50}, :1249:{14,109,119}, :1250:23]
-        st_c_addr_start <= _st_c_addr_start_T_3[12] ? 12'h0 : _st_c_addr_start_T_3[11:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1117:32, generators/gemmini/src/main/scala/gemmini/Util.scala:41:15, :43:17, src/main/scala/chisel3/util/Mux.scala:126:16]
+      else	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1044:33, :1048:71, :1050:38]
+        loops_configured <= loops_configured + 16'h1;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1044:33, :1117:46]
+      if (_GEN_39 & (|(loop_requesting_ldD_id ? loops_1_c_dram_addr : loops_0_c_dram_addr)))	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1123:32, :1198:35, :1200:25, :1212:26, :1216:{43,52}, :1217:23, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+        ld_d_addr_start <= _ld_d_addr_start_T_3[12] ? 12'h0 : _ld_d_addr_start_T_3[11:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1123:32, generators/gemmini/src/main/scala/gemmini/Util.scala:41:15, :43:17, src/main/scala/chisel3/util/Mux.scala:126:16]
+      if (_GEN_36 & (_GEN_2 ? (loop_requesting_ex_id ? loops_1_inc_acc_addr : loops_0_inc_acc_addr) : (|(loop_requesting_ex_id ? loops_1_c_dram_addr : loops_0_c_dram_addr))))	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1124:32, :1167:34, :1169:24, :1189:25, :1193:{14,109,119}, :1194:23, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+        ex_c_addr_start <= _ex_c_addr_start_T_3[12] ? 12'h0 : _ex_c_addr_start_T_3[11:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1124:32, generators/gemmini/src/main/scala/gemmini/Util.scala:41:15, :43:17, src/main/scala/chisel3/util/Mux.scala:126:16]
+      if (_GEN_40 & (_GEN_5 ? (loop_requesting_st_id ? loops_1_inc_acc_addr : loops_0_inc_acc_addr) : (|stC_io_req_bits_dram_addr)))	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1125:32, :1221:34, :1223:31, :1253:{25,50}, :1257:{14,109,119}, :1258:23]
+        st_c_addr_start <= _st_c_addr_start_T_3[12] ? 12'h0 : _st_c_addr_start_T_3[11:0];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1125:32, generators/gemmini/src/main/scala/gemmini/Util.scala:41:15, :43:17, src/main/scala/chisel3/util/Mux.scala:126:16]
     end
   end // always @(posedge)
   `ifdef ENABLE_INITIAL_REG_	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7]
@@ -966,10 +1110,10 @@ module LoopMatmul(	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.sca
         ld_utilization = _RANDOM[9'h11E][16:12];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :914:25, :969:31]
         st_utilization = _RANDOM[9'h11E][20:17];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :914:25, :970:31]
         ex_utilization = _RANDOM[9'h11E][26:21];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :914:25, :971:31]
-        loops_configured = {_RANDOM[9'h11E][31:27], _RANDOM[9'h11F][10:0]};	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :914:25, :1036:33]
-        ld_d_addr_start = _RANDOM[9'h11F][22:11];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :1036:33, :1115:32]
-        ex_c_addr_start = {_RANDOM[9'h11F][31:23], _RANDOM[9'h120][2:0]};	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :1036:33, :1116:32]
-        st_c_addr_start = _RANDOM[9'h120][14:3];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :1116:32, :1117:32]
+        loops_configured = {_RANDOM[9'h11E][31:27], _RANDOM[9'h11F][10:0]};	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :914:25, :1044:33]
+        ld_d_addr_start = _RANDOM[9'h11F][22:11];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :1044:33, :1123:32]
+        ex_c_addr_start = {_RANDOM[9'h11F][31:23], _RANDOM[9'h120][2:0]};	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :1044:33, :1124:32]
+        st_c_addr_start = _RANDOM[9'h120][14:3];	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :1124:32, :1125:32]
       `endif // RANDOMIZE_REG_INIT
     end // initial
     `ifdef FIRRTL_AFTER_INITIAL	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7]
@@ -980,16 +1124,16 @@ module LoopMatmul(	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.sca
     .clock                   (clock),
     .reset                   (reset),
     .io_req_ready            (_ldA_io_req_ready),
-    .io_req_valid            (ldA_io_req_valid),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1132:56]
-    .io_req_bits_max_i       (loop_requesting_ldA_id ? loops_1_max_i : loops_0_max_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1119:35, :1121:31]
-    .io_req_bits_max_k       (is_resadd ? (loop_requesting_ldA_id ? loops_1_max_j : loops_0_max_j) : loop_requesting_ldA_id ? loops_1_max_k : loops_0_max_k),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :1119:35, :1121:31]
-    .io_req_bits_pad_i       (loop_requesting_ldA_id ? loops_1_pad_i[3:0] : loops_0_pad_i[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1119:35, :1121:31]
-    .io_req_bits_pad_k       (is_resadd ? (loop_requesting_ldA_id ? loops_1_pad_j[3:0] : loops_0_pad_j[3:0]) : loop_requesting_ldA_id ? loops_1_pad_k[3:0] : loops_0_pad_k[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :1119:35, :1121:31, :1123:31]
-    .io_req_bits_dram_addr   (loop_requesting_ldA_id ? loops_1_a_dram_addr : loops_0_a_dram_addr),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1119:35, :1121:31]
-    .io_req_bits_dram_stride (loop_requesting_ldA_id ? loops_1_a_dram_stride : loops_0_a_dram_stride),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1119:35, :1121:31]
-    .io_req_bits_transpose   (loop_requesting_ldA_id ? loops_1_a_transpose : loops_0_a_transpose),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1119:35, :1121:31]
-    .io_req_bits_addr_start  (is_resadd ? {3'h0, loop_requesting_ldA_id, 11'h0} : _GEN_0 == 2'h0 ? (loop_requesting_ldA_id ? loops_1_a_addr_start : loops_0_a_addr_start) : {_GEN_0[0] - 1'h1, 14'h0}),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :1119:35, :1121:31, :1128:{30,36,70,147,154}, :1254:18, :1255:32]
-    .io_req_bits_loop_id     (loop_requesting_ldA_id),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1119:35]
+    .io_req_valid            (ldA_io_req_valid),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1140:56]
+    .io_req_bits_max_i       (loop_requesting_ldA_id ? loops_1_max_i : loops_0_max_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1127:35, :1129:31]
+    .io_req_bits_max_k       (is_resadd ? (loop_requesting_ldA_id ? loops_1_max_j : loops_0_max_j) : loop_requesting_ldA_id ? loops_1_max_k : loops_0_max_k),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :1127:35, :1129:31]
+    .io_req_bits_pad_i       (loop_requesting_ldA_id ? loops_1_pad_i[3:0] : loops_0_pad_i[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1127:35, :1129:31]
+    .io_req_bits_pad_k       (is_resadd ? (loop_requesting_ldA_id ? loops_1_pad_j[3:0] : loops_0_pad_j[3:0]) : loop_requesting_ldA_id ? loops_1_pad_k[3:0] : loops_0_pad_k[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :1127:35, :1129:31, :1131:31]
+    .io_req_bits_dram_addr   (loop_requesting_ldA_id ? loops_1_a_dram_addr : loops_0_a_dram_addr),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1127:35, :1129:31]
+    .io_req_bits_dram_stride (loop_requesting_ldA_id ? loops_1_a_dram_stride : loops_0_a_dram_stride),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1127:35, :1129:31]
+    .io_req_bits_transpose   (loop_requesting_ldA_id ? loops_1_a_transpose : loops_0_a_transpose),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1127:35, :1129:31]
+    .io_req_bits_addr_start  (is_resadd ? {3'h0, loop_requesting_ldA_id, 11'h0} : _GEN_0 == 2'h0 ? (loop_requesting_ldA_id ? loops_1_a_addr_start : loops_0_a_addr_start) : {_GEN_0[0] - 1'h1, 14'h0}),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :1127:35, :1129:31, :1136:{30,36,70,147,154}, :1262:18, :1263:32]
+    .io_req_bits_loop_id     (loop_requesting_ldA_id),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1127:35]
     .io_req_bits_is_resadd   (is_resadd),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26]
     .io_cmd_ready            (_ldab_arb_io_inA_ready),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:943:24]
     .io_cmd_valid            (_ldA_io_cmd_valid),
@@ -998,23 +1142,23 @@ module LoopMatmul(	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.sca
     .io_i                    (_ldA_io_i),
     .io_k                    (_ldA_io_k),
     .io_idle                 (_ldA_io_idle),
-    .io_rob_overloaded       (ld_utilization[4]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:969:31, :998:43]
+    .io_rob_overloaded       (ld_utilization[4]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:969:31, :1006:43]
     .io_loop_id              (_ldA_io_loop_id)
   );	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:928:19]
   LoopMatmulLdB ldB (	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:929:19]
     .clock                   (clock),
     .reset                   (reset),
     .io_req_ready            (_ldB_io_req_ready),
-    .io_req_valid            (ldB_io_req_valid),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1152:56]
-    .io_req_bits_max_k       (is_resadd ? (loop_requesting_ldB_id ? loops_1_max_i : loops_0_max_i) : loop_requesting_ldB_id ? loops_1_max_k : loops_0_max_k),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :1139:35, :1141:25, :1142:31]
-    .io_req_bits_max_j       (loop_requesting_ldB_id ? loops_1_max_j : loops_0_max_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1139:35, :1141:25]
-    .io_req_bits_pad_k       (is_resadd ? (loop_requesting_ldB_id ? loops_1_pad_i[3:0] : loops_0_pad_i[3:0]) : loop_requesting_ldB_id ? loops_1_pad_k[3:0] : loops_0_pad_k[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :1139:35, :1141:25, :1144:31]
-    .io_req_bits_pad_j       (loop_requesting_ldB_id ? loops_1_pad_j[3:0] : loops_0_pad_j[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1139:35, :1141:25]
-    .io_req_bits_dram_addr   (loop_requesting_ldB_id ? loops_1_b_dram_addr : loops_0_b_dram_addr),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1139:35, :1141:25]
-    .io_req_bits_dram_stride (loop_requesting_ldB_id ? loops_1_b_dram_stride : loops_0_b_dram_stride),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1139:35, :1141:25]
-    .io_req_bits_transpose   (loop_requesting_ldB_id ? loops_1_b_transpose : loops_0_b_transpose),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1139:35, :1141:25]
-    .io_req_bits_addr_end    (is_resadd ? {4'h0, loop_requesting_ldB_id, 11'h0} : _GEN_1 == 2'h0 ? (loop_requesting_ldB_id ? loops_1_b_addr_end : loops_0_b_addr_end) : {_GEN_1, 14'h0}),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :1139:35, :1141:25, :1148:{28,34,68,144}, :1254:18, :1256:30]
-    .io_req_bits_loop_id     (loop_requesting_ldB_id),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1139:35]
+    .io_req_valid            (ldB_io_req_valid),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1160:56]
+    .io_req_bits_max_k       (is_resadd ? (loop_requesting_ldB_id ? loops_1_max_i : loops_0_max_i) : loop_requesting_ldB_id ? loops_1_max_k : loops_0_max_k),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :1147:35, :1149:25, :1150:31]
+    .io_req_bits_max_j       (loop_requesting_ldB_id ? loops_1_max_j : loops_0_max_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1147:35, :1149:25]
+    .io_req_bits_pad_k       (is_resadd ? (loop_requesting_ldB_id ? loops_1_pad_i[3:0] : loops_0_pad_i[3:0]) : loop_requesting_ldB_id ? loops_1_pad_k[3:0] : loops_0_pad_k[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :1147:35, :1149:25, :1152:31]
+    .io_req_bits_pad_j       (loop_requesting_ldB_id ? loops_1_pad_j[3:0] : loops_0_pad_j[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1147:35, :1149:25]
+    .io_req_bits_dram_addr   (loop_requesting_ldB_id ? loops_1_b_dram_addr : loops_0_b_dram_addr),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1147:35, :1149:25]
+    .io_req_bits_dram_stride (loop_requesting_ldB_id ? loops_1_b_dram_stride : loops_0_b_dram_stride),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1147:35, :1149:25]
+    .io_req_bits_transpose   (loop_requesting_ldB_id ? loops_1_b_transpose : loops_0_b_transpose),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1147:35, :1149:25]
+    .io_req_bits_addr_end    (is_resadd ? {4'h0, loop_requesting_ldB_id, 11'h0} : _GEN_1 == 2'h0 ? (loop_requesting_ldB_id ? loops_1_b_addr_end : loops_0_b_addr_end) : {_GEN_1, 14'h0}),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :924:26, :1147:35, :1149:25, :1156:{28,34,68,144}, :1262:18, :1264:30]
+    .io_req_bits_loop_id     (loop_requesting_ldB_id),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1147:35]
     .io_req_bits_is_resadd   (is_resadd),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26]
     .io_cmd_ready            (_ldab_arb_io_inB_ready),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:943:24]
     .io_cmd_valid            (_ldB_io_cmd_valid),
@@ -1023,49 +1167,49 @@ module LoopMatmul(	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.sca
     .io_k                    (_ldB_io_k),
     .io_j                    (_ldB_io_j),
     .io_idle                 (_ldB_io_idle),
-    .io_rob_overloaded       (ld_utilization[4]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:969:31, :998:43]
+    .io_rob_overloaded       (ld_utilization[4]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:969:31, :1006:43]
     .io_loop_id              (_ldB_io_loop_id)
   );	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:929:19]
   LoopMatmulLdD ldD (	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:930:19]
     .clock                   (clock),
     .reset                   (reset),
     .io_req_ready            (_ldD_io_req_ready),
-    .io_req_valid            (ldD_io_req_valid),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1202:56]
-    .io_req_bits_max_j       (loop_requesting_ldD_id ? loops_1_max_j : loops_0_max_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1190:35, :1192:25]
-    .io_req_bits_max_i       (loop_requesting_ldD_id ? loops_1_max_i : loops_0_max_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1190:35, :1192:25]
-    .io_req_bits_pad_j       (loop_requesting_ldD_id ? loops_1_pad_j[3:0] : loops_0_pad_j[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1190:35, :1192:25]
-    .io_req_bits_pad_i       (loop_requesting_ldD_id ? loops_1_pad_i[3:0] : loops_0_pad_i[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1190:35, :1192:25]
-    .io_req_bits_dram_addr   (loop_requesting_ldD_id ? loops_1_d_dram_addr : loops_0_d_dram_addr),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1190:35, :1192:25]
-    .io_req_bits_dram_stride (loop_requesting_ldD_id ? loops_1_d_dram_stride : loops_0_d_dram_stride),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1190:35, :1192:25]
-    .io_req_bits_low_d       (loop_requesting_ldD_id ? loops_1_low_d : loops_0_low_d),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1190:35, :1192:25]
-    .io_req_bits_addr_start  (ld_d_addr_start),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1115:32]
-    .io_req_bits_loop_id     (loop_requesting_ldD_id),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1190:35]
+    .io_req_valid            (ldD_io_req_valid),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1210:56]
+    .io_req_bits_max_j       (loop_requesting_ldD_id ? loops_1_max_j : loops_0_max_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1198:35, :1200:25]
+    .io_req_bits_max_i       (loop_requesting_ldD_id ? loops_1_max_i : loops_0_max_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1198:35, :1200:25]
+    .io_req_bits_pad_j       (loop_requesting_ldD_id ? loops_1_pad_j[3:0] : loops_0_pad_j[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1198:35, :1200:25]
+    .io_req_bits_pad_i       (loop_requesting_ldD_id ? loops_1_pad_i[3:0] : loops_0_pad_i[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1198:35, :1200:25]
+    .io_req_bits_dram_addr   (loop_requesting_ldD_id ? loops_1_d_dram_addr : loops_0_d_dram_addr),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1198:35, :1200:25]
+    .io_req_bits_dram_stride (loop_requesting_ldD_id ? loops_1_d_dram_stride : loops_0_d_dram_stride),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1198:35, :1200:25]
+    .io_req_bits_low_d       (loop_requesting_ldD_id ? loops_1_low_d : loops_0_low_d),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1198:35, :1200:25]
+    .io_req_bits_addr_start  (ld_d_addr_start),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1123:32]
+    .io_req_bits_loop_id     (loop_requesting_ldD_id),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1198:35]
     .io_cmd_ready            (_arb_io_in_2_ready),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:960:19]
     .io_cmd_valid            (_ldD_io_cmd_valid),
     .io_cmd_bits_rs1         (_ldD_io_cmd_bits_rs1),
     .io_cmd_bits_rs2         (_ldD_io_cmd_bits_rs2),
     .io_idle                 (_ldD_io_idle),
-    .io_rob_overloaded       (ld_utilization[4]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:969:31, :998:43]
+    .io_rob_overloaded       (ld_utilization[4]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:969:31, :1006:43]
     .io_loop_id              (_ldD_io_loop_id)
   );	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:930:19]
   LoopMatmulExecute ex (	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:931:18]
     .clock                    (clock),
     .reset                    (reset),
     .io_req_ready             (_ex_io_req_ready),
-    .io_req_valid             (ex_io_req_valid),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1178:{53,87}, :1179:{36,70}]
-    .io_req_bits_max_j        (loop_requesting_ex_id ? loops_1_max_j : loops_0_max_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1159:34, :1161:24]
-    .io_req_bits_max_k        (loop_requesting_ex_id ? loops_1_max_k : loops_0_max_k),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1159:34, :1161:24]
-    .io_req_bits_max_i        (loop_requesting_ex_id ? loops_1_max_i : loops_0_max_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1159:34, :1161:24]
-    .io_req_bits_pad_j        (loop_requesting_ex_id ? loops_1_pad_j[3:0] : loops_0_pad_j[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1159:34, :1161:24]
-    .io_req_bits_pad_k        (loop_requesting_ex_id ? loops_1_pad_k[3:0] : loops_0_pad_k[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1159:34, :1161:24]
-    .io_req_bits_pad_i        (loop_requesting_ex_id ? loops_1_pad_i[3:0] : loops_0_pad_i[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1159:34, :1161:24]
-    .io_req_bits_a_tranpose   (loop_requesting_ex_id ? loops_1_a_transpose : loops_0_a_transpose),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1159:34, :1161:24]
-    .io_req_bits_b_tranpose   (loop_requesting_ex_id ? loops_1_b_transpose : loops_0_b_transpose),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1159:34, :1161:24]
-    .io_req_bits_accumulate   (loop_requesting_ex_id ? loops_1_ex_accumulate : loops_0_ex_accumulate),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1159:34, :1161:24]
-    .io_req_bits_a_addr_start (_GEN_2 | _GEN_3 == 2'h0 ? (loop_requesting_ex_id ? loops_1_a_addr_start : loops_0_a_addr_start) : {_GEN_3[0] - 1'h1, 14'h0}),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1159:34, :1161:24, :1168:{37,67,102}, :1169:{71,78}]
-    .io_req_bits_b_addr_end   (_GEN_2 | _GEN_4 == 2'h0 ? (loop_requesting_ex_id ? loops_1_b_addr_end : loops_0_b_addr_end) : {_GEN_4, 14'h0}),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1159:34, :1161:24, :1170:{35,65,100}, :1171:70]
-    .io_req_bits_c_addr_start (ex_c_addr_start),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1116:32]
-    .io_req_bits_loop_id      (loop_requesting_ex_id),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1159:34]
+    .io_req_valid             (ex_io_req_valid),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1186:{53,87}, :1187:{36,70}]
+    .io_req_bits_max_j        (loop_requesting_ex_id ? loops_1_max_j : loops_0_max_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1167:34, :1169:24]
+    .io_req_bits_max_k        (loop_requesting_ex_id ? loops_1_max_k : loops_0_max_k),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1167:34, :1169:24]
+    .io_req_bits_max_i        (loop_requesting_ex_id ? loops_1_max_i : loops_0_max_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1167:34, :1169:24]
+    .io_req_bits_pad_j        (loop_requesting_ex_id ? loops_1_pad_j[3:0] : loops_0_pad_j[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1167:34, :1169:24]
+    .io_req_bits_pad_k        (loop_requesting_ex_id ? loops_1_pad_k[3:0] : loops_0_pad_k[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1167:34, :1169:24]
+    .io_req_bits_pad_i        (loop_requesting_ex_id ? loops_1_pad_i[3:0] : loops_0_pad_i[3:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1167:34, :1169:24]
+    .io_req_bits_a_tranpose   (loop_requesting_ex_id ? loops_1_a_transpose : loops_0_a_transpose),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1167:34, :1169:24]
+    .io_req_bits_b_tranpose   (loop_requesting_ex_id ? loops_1_b_transpose : loops_0_b_transpose),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1167:34, :1169:24]
+    .io_req_bits_accumulate   (loop_requesting_ex_id ? loops_1_ex_accumulate : loops_0_ex_accumulate),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1167:34, :1169:24]
+    .io_req_bits_a_addr_start (_GEN_2 | _GEN_3 == 2'h0 ? (loop_requesting_ex_id ? loops_1_a_addr_start : loops_0_a_addr_start) : {_GEN_3[0] - 1'h1, 14'h0}),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1167:34, :1169:24, :1176:{37,67,102}, :1177:{71,78}]
+    .io_req_bits_b_addr_end   (_GEN_2 | _GEN_4 == 2'h0 ? (loop_requesting_ex_id ? loops_1_b_addr_end : loops_0_b_addr_end) : {_GEN_4, 14'h0}),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1167:34, :1169:24, :1178:{35,65,100}, :1179:70]
+    .io_req_bits_c_addr_start (ex_c_addr_start),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1124:32]
+    .io_req_bits_loop_id      (loop_requesting_ex_id),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1167:34]
     .io_req_bits_skip         (is_resadd),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26]
     .io_cmd_ready             (_arb_io_in_1_ready),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:960:19]
     .io_cmd_valid             (_ex_io_cmd_valid),
@@ -1079,58 +1223,58 @@ module LoopMatmul(	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.sca
     .io_ld_kb                 (_ldB_io_k),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:929:19]
     .io_ld_j                  (_ldB_io_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:929:19]
     .io_ld_i                  (_ldA_io_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:928:19]
-    .io_lda_completed         (_ldA_io_loop_id != _ex_io_loop_id | _ldA_io_idle),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:928:19, :931:18, :1006:{42,61}]
-    .io_ldb_completed         (_ldB_io_loop_id != _ex_io_loop_id | _ldB_io_idle),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:929:19, :931:18, :1007:{42,61}]
-    .io_ldd_completed         (_ldD_io_loop_id != _ex_io_loop_id | _ldD_io_idle),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:930:19, :931:18, :1008:{42,61}]
+    .io_lda_completed         (_ldA_io_loop_id != _ex_io_loop_id | _ldA_io_idle),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:928:19, :931:18, :1014:{42,61}]
+    .io_ldb_completed         (_ldB_io_loop_id != _ex_io_loop_id | _ldB_io_idle),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:929:19, :931:18, :1015:{42,61}]
+    .io_ldd_completed         (_ldD_io_loop_id != _ex_io_loop_id | _ldD_io_idle),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:930:19, :931:18, :1016:{42,61}]
     .io_idle                  (_ex_io_idle),
-    .io_rob_overloaded        (ex_utilization[5]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:971:31, :1000:42]
+    .io_rob_overloaded        (ex_utilization[5]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:971:31, :1008:42]
     .io_loop_id               (_ex_io_loop_id)
   );	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:931:18]
   LoopMatmulStC stC (	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:932:19]
     .clock                   (clock),
     .reset                   (reset),
     .io_req_ready            (_stC_io_req_ready),
-    .io_req_valid            (stC_io_req_valid),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1240:20, :1254:18, :1258:22]
-    .io_req_bits_max_k       (stC_io_req_bits_max_k),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31]
-    .io_req_bits_max_j       (stC_io_req_bits_max_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31]
-    .io_req_bits_max_i       (stC_io_req_bits_max_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31]
-    .io_req_bits_pad_j       (stC_io_req_bits_pad_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31]
-    .io_req_bits_pad_i       (stC_io_req_bits_pad_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31]
-    .io_req_bits_dram_addr   (stC_io_req_bits_dram_addr),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31]
-    .io_req_bits_dram_stride (loop_requesting_st_id ? loops_1_c_dram_stride : loops_0_c_dram_stride),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1213:34, :1215:31]
-    .io_req_bits_full_c      (stC_io_req_bits_full_c),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31]
-    .io_req_bits_act         (stC_io_req_bits_act),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31]
-    .io_req_bits_addr_start  (is_resadd ? {loop_requesting_st_id, 11'h0} : st_c_addr_start),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :1117:32, :1213:34, :1215:31, :1224:30, :1254:18, :1257:32]
-    .io_req_bits_loop_id     (loop_requesting_st_id),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1213:34]
+    .io_req_valid            (stC_io_req_valid),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1248:20, :1262:18, :1266:22]
+    .io_req_bits_max_k       (stC_io_req_bits_max_k),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31]
+    .io_req_bits_max_j       (stC_io_req_bits_max_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31]
+    .io_req_bits_max_i       (stC_io_req_bits_max_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31]
+    .io_req_bits_pad_j       (stC_io_req_bits_pad_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31]
+    .io_req_bits_pad_i       (stC_io_req_bits_pad_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31]
+    .io_req_bits_dram_addr   (stC_io_req_bits_dram_addr),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31]
+    .io_req_bits_dram_stride (loop_requesting_st_id ? loops_1_c_dram_stride : loops_0_c_dram_stride),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1221:34, :1223:31]
+    .io_req_bits_full_c      (stC_io_req_bits_full_c),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31]
+    .io_req_bits_act         (stC_io_req_bits_act),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31]
+    .io_req_bits_addr_start  (is_resadd ? {loop_requesting_st_id, 11'h0} : st_c_addr_start),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :1125:32, :1221:34, :1223:31, :1232:30, :1262:18, :1265:32]
+    .io_req_bits_loop_id     (loop_requesting_st_id),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1221:34]
     .io_req_bits_is_resadd   (is_resadd),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26]
     .io_cmd_ready            (_arb_io_in_0_ready),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:960:19]
     .io_cmd_valid            (_stC_io_cmd_valid),
     .io_cmd_bits_inst_funct  (_stC_io_cmd_bits_inst_funct),
     .io_cmd_bits_rs1         (_stC_io_cmd_bits_rs1),
     .io_cmd_bits_rs2         (_stC_io_cmd_bits_rs2),
-    .io_ex_k                 (is_resadd ? 16'h0 : _ex_io_k),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :931:18, :1015:15, :1027:18, :1029:17]
-    .io_ex_j                 (is_resadd ? _ldB_io_j : _ex_io_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :929:19, :931:18, :1016:15, :1027:18, :1030:17]
-    .io_ex_i                 (is_resadd ? _ldB_io_k : _ex_io_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :929:19, :931:18, :1017:15, :1027:18, :1031:17]
-    .io_ex_completed         (is_resadd ? (_ldA_io_loop_id != _stC_io_loop_id | _ldA_io_idle) & (_ldB_io_loop_id != _stC_io_loop_id | _ldB_io_idle) : _ex_io_loop_id != _stC_io_loop_id | _ex_io_idle),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :928:19, :929:19, :931:18, :932:19, :1014:{23,41,61}, :1027:18, :1028:{25,44,63,79,98,117}]
+    .io_ex_k                 (is_resadd ? 16'h0 : _ex_io_k),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :931:18, :1023:15, :1035:18, :1037:17]
+    .io_ex_j                 (is_resadd ? _ldB_io_j : _ex_io_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :929:19, :931:18, :1024:15, :1035:18, :1038:17]
+    .io_ex_i                 (is_resadd ? _ldB_io_k : _ex_io_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :929:19, :931:18, :1025:15, :1035:18, :1039:17]
+    .io_ex_completed         (is_resadd ? (_ldA_io_loop_id != _stC_io_loop_id | _ldA_io_idle) & (_ldB_io_loop_id != _stC_io_loop_id | _ldB_io_idle) : _ex_io_loop_id != _stC_io_loop_id | _ex_io_idle),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26, :928:19, :929:19, :931:18, :932:19, :1022:{23,41,61}, :1035:18, :1036:{25,44,63,79,98,117}]
     .io_idle                 (_stC_io_idle),
-    .io_rob_overloaded       (st_utilization[3]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:970:31, :1002:43]
+    .io_rob_overloaded       (st_utilization[3]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:970:31, :1010:43]
     .io_loop_id              (_stC_io_loop_id)
   );	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:932:19]
   LoopMatmulStCSpad stC_spad (	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:933:24]
     .clock                 (clock),
     .reset                 (reset),
     .io_req_ready          (_stC_spad_io_req_ready),
-    .io_req_valid          (stC_spad_io_req_valid),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1242:{59,92}, :1243:35]
-    .io_req_bits_max_k     (stC_io_req_bits_max_k),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31]
-    .io_req_bits_max_j     (stC_io_req_bits_max_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31]
-    .io_req_bits_max_i     (stC_io_req_bits_max_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31]
-    .io_req_bits_pad_j     (stC_io_req_bits_pad_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31]
-    .io_req_bits_pad_i     (stC_io_req_bits_pad_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31]
-    .io_req_bits_dst_addr  (loop_requesting_st_id ? loops_1_c_spad_addr[14:0] : loops_0_c_spad_addr[14:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1213:34, :1215:31]
-    .io_req_bits_src_addr  (st_c_addr_start),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1117:32]
-    .io_req_bits_full_c    (stC_io_req_bits_full_c),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31]
-    .io_req_bits_act       (stC_io_req_bits_act),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1215:31]
-    .io_req_bits_loop_id   (loop_requesting_st_id),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1213:34]
+    .io_req_valid          (stC_spad_io_req_valid),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1250:{59,92}, :1251:35]
+    .io_req_bits_max_k     (stC_io_req_bits_max_k),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31]
+    .io_req_bits_max_j     (stC_io_req_bits_max_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31]
+    .io_req_bits_max_i     (stC_io_req_bits_max_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31]
+    .io_req_bits_pad_j     (stC_io_req_bits_pad_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31]
+    .io_req_bits_pad_i     (stC_io_req_bits_pad_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31]
+    .io_req_bits_dst_addr  (loop_requesting_st_id ? loops_1_c_spad_addr[14:0] : loops_0_c_spad_addr[14:0]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:913:18, :1221:34, :1223:31]
+    .io_req_bits_src_addr  (st_c_addr_start),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1125:32]
+    .io_req_bits_full_c    (stC_io_req_bits_full_c),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31]
+    .io_req_bits_act       (stC_io_req_bits_act),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1223:31]
+    .io_req_bits_loop_id   (loop_requesting_st_id),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:1221:34]
     .io_req_bits_is_resadd (is_resadd),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:924:26]
     .io_cmd_ready          (_arb_io_in_4_ready),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:960:19]
     .io_cmd_valid          (_stC_spad_io_cmd_valid),
@@ -1139,120 +1283,216 @@ module LoopMatmul(	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.sca
     .io_ex_k               (_ex_io_k),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:931:18]
     .io_ex_j               (_ex_io_j),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:931:18]
     .io_ex_i               (_ex_io_i),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:931:18]
-    .io_ex_completed       (_ex_io_loop_id != _stC_spad_io_loop_id | _ex_io_idle),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:931:18, :933:24, :1019:{46,71}]
+    .io_ex_completed       (_ex_io_loop_id != _stC_spad_io_loop_id | _ex_io_idle),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:931:18, :933:24, :1027:{46,71}]
     .io_idle               (_stC_spad_io_idle),
-    .io_rob_overloaded     (st_utilization[3]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:970:31, :1002:43]
+    .io_rob_overloaded     (st_utilization[3]),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:970:31, :1010:43]
     .io_loop_id            (_stC_spad_io_loop_id)
   );	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:933:24]
   Queue2_GemminiCmd cmd_q (	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    .clock                          (clock),
-    .reset                          (reset),
-    .io_enq_ready                   (io_in_ready),
-    .io_enq_valid                   (io_in_valid),
-    .io_enq_bits_cmd_inst_funct     (io_in_bits_cmd_inst_funct),
-    .io_enq_bits_cmd_inst_rs2       (io_in_bits_cmd_inst_rs2),
-    .io_enq_bits_cmd_inst_rs1       (io_in_bits_cmd_inst_rs1),
-    .io_enq_bits_cmd_inst_xd        (io_in_bits_cmd_inst_xd),
-    .io_enq_bits_cmd_inst_xs1       (io_in_bits_cmd_inst_xs1),
-    .io_enq_bits_cmd_inst_xs2       (io_in_bits_cmd_inst_xs2),
-    .io_enq_bits_cmd_inst_rd        (io_in_bits_cmd_inst_rd),
-    .io_enq_bits_cmd_inst_opcode    (io_in_bits_cmd_inst_opcode),
-    .io_enq_bits_cmd_rs1            (io_in_bits_cmd_rs1),
-    .io_enq_bits_cmd_rs2            (io_in_bits_cmd_rs2),
-    .io_enq_bits_cmd_status_debug   (io_in_bits_cmd_status_debug),
-    .io_enq_bits_cmd_status_cease   (io_in_bits_cmd_status_cease),
-    .io_enq_bits_cmd_status_wfi     (io_in_bits_cmd_status_wfi),
-    .io_enq_bits_cmd_status_isa     (io_in_bits_cmd_status_isa),
-    .io_enq_bits_cmd_status_dprv    (io_in_bits_cmd_status_dprv),
-    .io_enq_bits_cmd_status_dv      (io_in_bits_cmd_status_dv),
-    .io_enq_bits_cmd_status_prv     (io_in_bits_cmd_status_prv),
-    .io_enq_bits_cmd_status_v       (io_in_bits_cmd_status_v),
-    .io_enq_bits_cmd_status_sd      (io_in_bits_cmd_status_sd),
-    .io_enq_bits_cmd_status_zero2   (io_in_bits_cmd_status_zero2),
-    .io_enq_bits_cmd_status_mpv     (io_in_bits_cmd_status_mpv),
-    .io_enq_bits_cmd_status_gva     (io_in_bits_cmd_status_gva),
-    .io_enq_bits_cmd_status_mbe     (io_in_bits_cmd_status_mbe),
-    .io_enq_bits_cmd_status_sbe     (io_in_bits_cmd_status_sbe),
-    .io_enq_bits_cmd_status_sxl     (io_in_bits_cmd_status_sxl),
-    .io_enq_bits_cmd_status_uxl     (io_in_bits_cmd_status_uxl),
-    .io_enq_bits_cmd_status_sd_rv32 (io_in_bits_cmd_status_sd_rv32),
-    .io_enq_bits_cmd_status_zero1   (io_in_bits_cmd_status_zero1),
-    .io_enq_bits_cmd_status_tsr     (io_in_bits_cmd_status_tsr),
-    .io_enq_bits_cmd_status_tw      (io_in_bits_cmd_status_tw),
-    .io_enq_bits_cmd_status_tvm     (io_in_bits_cmd_status_tvm),
-    .io_enq_bits_cmd_status_mxr     (io_in_bits_cmd_status_mxr),
-    .io_enq_bits_cmd_status_sum     (io_in_bits_cmd_status_sum),
-    .io_enq_bits_cmd_status_mprv    (io_in_bits_cmd_status_mprv),
-    .io_enq_bits_cmd_status_xs      (io_in_bits_cmd_status_xs),
-    .io_enq_bits_cmd_status_fs      (io_in_bits_cmd_status_fs),
-    .io_enq_bits_cmd_status_mpp     (io_in_bits_cmd_status_mpp),
-    .io_enq_bits_cmd_status_vs      (io_in_bits_cmd_status_vs),
-    .io_enq_bits_cmd_status_spp     (io_in_bits_cmd_status_spp),
-    .io_enq_bits_cmd_status_mpie    (io_in_bits_cmd_status_mpie),
-    .io_enq_bits_cmd_status_ube     (io_in_bits_cmd_status_ube),
-    .io_enq_bits_cmd_status_spie    (io_in_bits_cmd_status_spie),
-    .io_enq_bits_cmd_status_upie    (io_in_bits_cmd_status_upie),
-    .io_enq_bits_cmd_status_mie     (io_in_bits_cmd_status_mie),
-    .io_enq_bits_cmd_status_hie     (io_in_bits_cmd_status_hie),
-    .io_enq_bits_cmd_status_sie     (io_in_bits_cmd_status_sie),
-    .io_enq_bits_cmd_status_uie     (io_in_bits_cmd_status_uie),
-    .io_enq_bits_rob_id_valid       (1'h0),
-    .io_enq_bits_rob_id_bits        (7'h0),
-    .io_enq_bits_from_matmul_fsm    (io_in_bits_from_matmul_fsm),
-    .io_enq_bits_from_conv_fsm      (io_in_bits_from_conv_fsm),
-    .io_deq_ready                   (is_loop_cmd ? ~_GEN : ~loop_configured & io_out_ready),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:919:58, :985:37, :994:{19,33,68,85}]
-    .io_deq_valid                   (_cmd_q_io_deq_valid),
-    .io_deq_bits_cmd_inst_funct     (_cmd_q_io_deq_bits_cmd_inst_funct),
-    .io_deq_bits_cmd_inst_rs2       (_cmd_q_io_deq_bits_cmd_inst_rs2),
-    .io_deq_bits_cmd_inst_rs1       (_cmd_q_io_deq_bits_cmd_inst_rs1),
-    .io_deq_bits_cmd_inst_xd        (_cmd_q_io_deq_bits_cmd_inst_xd),
-    .io_deq_bits_cmd_inst_xs1       (_cmd_q_io_deq_bits_cmd_inst_xs1),
-    .io_deq_bits_cmd_inst_xs2       (_cmd_q_io_deq_bits_cmd_inst_xs2),
-    .io_deq_bits_cmd_inst_rd        (_cmd_q_io_deq_bits_cmd_inst_rd),
-    .io_deq_bits_cmd_inst_opcode    (_cmd_q_io_deq_bits_cmd_inst_opcode),
-    .io_deq_bits_cmd_rs1            (_cmd_q_io_deq_bits_cmd_rs1),
-    .io_deq_bits_cmd_rs2            (_cmd_q_io_deq_bits_cmd_rs2),
-    .io_deq_bits_cmd_status_debug   (io_out_bits_cmd_status_debug),
-    .io_deq_bits_cmd_status_cease   (io_out_bits_cmd_status_cease),
-    .io_deq_bits_cmd_status_wfi     (io_out_bits_cmd_status_wfi),
-    .io_deq_bits_cmd_status_isa     (io_out_bits_cmd_status_isa),
-    .io_deq_bits_cmd_status_dprv    (io_out_bits_cmd_status_dprv),
-    .io_deq_bits_cmd_status_dv      (io_out_bits_cmd_status_dv),
-    .io_deq_bits_cmd_status_prv     (io_out_bits_cmd_status_prv),
-    .io_deq_bits_cmd_status_v       (io_out_bits_cmd_status_v),
-    .io_deq_bits_cmd_status_sd      (io_out_bits_cmd_status_sd),
-    .io_deq_bits_cmd_status_zero2   (io_out_bits_cmd_status_zero2),
-    .io_deq_bits_cmd_status_mpv     (io_out_bits_cmd_status_mpv),
-    .io_deq_bits_cmd_status_gva     (io_out_bits_cmd_status_gva),
-    .io_deq_bits_cmd_status_mbe     (io_out_bits_cmd_status_mbe),
-    .io_deq_bits_cmd_status_sbe     (io_out_bits_cmd_status_sbe),
-    .io_deq_bits_cmd_status_sxl     (io_out_bits_cmd_status_sxl),
-    .io_deq_bits_cmd_status_uxl     (io_out_bits_cmd_status_uxl),
-    .io_deq_bits_cmd_status_sd_rv32 (io_out_bits_cmd_status_sd_rv32),
-    .io_deq_bits_cmd_status_zero1   (io_out_bits_cmd_status_zero1),
-    .io_deq_bits_cmd_status_tsr     (io_out_bits_cmd_status_tsr),
-    .io_deq_bits_cmd_status_tw      (io_out_bits_cmd_status_tw),
-    .io_deq_bits_cmd_status_tvm     (io_out_bits_cmd_status_tvm),
-    .io_deq_bits_cmd_status_mxr     (io_out_bits_cmd_status_mxr),
-    .io_deq_bits_cmd_status_sum     (io_out_bits_cmd_status_sum),
-    .io_deq_bits_cmd_status_mprv    (io_out_bits_cmd_status_mprv),
-    .io_deq_bits_cmd_status_xs      (io_out_bits_cmd_status_xs),
-    .io_deq_bits_cmd_status_fs      (io_out_bits_cmd_status_fs),
-    .io_deq_bits_cmd_status_mpp     (io_out_bits_cmd_status_mpp),
-    .io_deq_bits_cmd_status_vs      (io_out_bits_cmd_status_vs),
-    .io_deq_bits_cmd_status_spp     (io_out_bits_cmd_status_spp),
-    .io_deq_bits_cmd_status_mpie    (io_out_bits_cmd_status_mpie),
-    .io_deq_bits_cmd_status_ube     (io_out_bits_cmd_status_ube),
-    .io_deq_bits_cmd_status_spie    (io_out_bits_cmd_status_spie),
-    .io_deq_bits_cmd_status_upie    (io_out_bits_cmd_status_upie),
-    .io_deq_bits_cmd_status_mie     (io_out_bits_cmd_status_mie),
-    .io_deq_bits_cmd_status_hie     (io_out_bits_cmd_status_hie),
-    .io_deq_bits_cmd_status_sie     (io_out_bits_cmd_status_sie),
-    .io_deq_bits_cmd_status_uie     (io_out_bits_cmd_status_uie),
-    .io_deq_bits_rob_id_valid       (/* unused */),
-    .io_deq_bits_rob_id_bits        (/* unused */),
-    .io_deq_bits_from_matmul_fsm    (_cmd_q_io_deq_bits_from_matmul_fsm),
-    .io_deq_bits_from_conv_fsm      (_cmd_q_io_deq_bits_from_conv_fsm)
+    .clock                                         (clock),
+    .reset                                         (reset),
+    .io_enq_ready                                  (io_in_ready),
+    .io_enq_valid                                  (io_in_valid),
+    .io_enq_bits_cmd_inst_funct                    (io_in_bits_cmd_inst_funct),
+    .io_enq_bits_cmd_inst_rs2                      (io_in_bits_cmd_inst_rs2),
+    .io_enq_bits_cmd_inst_rs1                      (io_in_bits_cmd_inst_rs1),
+    .io_enq_bits_cmd_inst_xd                       (io_in_bits_cmd_inst_xd),
+    .io_enq_bits_cmd_inst_xs1                      (io_in_bits_cmd_inst_xs1),
+    .io_enq_bits_cmd_inst_xs2                      (io_in_bits_cmd_inst_xs2),
+    .io_enq_bits_cmd_inst_rd                       (io_in_bits_cmd_inst_rd),
+    .io_enq_bits_cmd_inst_opcode                   (io_in_bits_cmd_inst_opcode),
+    .io_enq_bits_cmd_rs1                           (io_in_bits_cmd_rs1),
+    .io_enq_bits_cmd_rs2                           (io_in_bits_cmd_rs2),
+    .io_enq_bits_cmd_status_debug                  (io_in_bits_cmd_status_debug),
+    .io_enq_bits_cmd_status_cease                  (io_in_bits_cmd_status_cease),
+    .io_enq_bits_cmd_status_wfi                    (io_in_bits_cmd_status_wfi),
+    .io_enq_bits_cmd_status_isa                    (io_in_bits_cmd_status_isa),
+    .io_enq_bits_cmd_status_dprv                   (io_in_bits_cmd_status_dprv),
+    .io_enq_bits_cmd_status_dv                     (io_in_bits_cmd_status_dv),
+    .io_enq_bits_cmd_status_prv                    (io_in_bits_cmd_status_prv),
+    .io_enq_bits_cmd_status_v                      (io_in_bits_cmd_status_v),
+    .io_enq_bits_cmd_status_sd                     (io_in_bits_cmd_status_sd),
+    .io_enq_bits_cmd_status_zero2                  (io_in_bits_cmd_status_zero2),
+    .io_enq_bits_cmd_status_mpv                    (io_in_bits_cmd_status_mpv),
+    .io_enq_bits_cmd_status_gva                    (io_in_bits_cmd_status_gva),
+    .io_enq_bits_cmd_status_mbe                    (io_in_bits_cmd_status_mbe),
+    .io_enq_bits_cmd_status_sbe                    (io_in_bits_cmd_status_sbe),
+    .io_enq_bits_cmd_status_sxl                    (io_in_bits_cmd_status_sxl),
+    .io_enq_bits_cmd_status_uxl                    (io_in_bits_cmd_status_uxl),
+    .io_enq_bits_cmd_status_sd_rv32                (io_in_bits_cmd_status_sd_rv32),
+    .io_enq_bits_cmd_status_zero1                  (io_in_bits_cmd_status_zero1),
+    .io_enq_bits_cmd_status_tsr                    (io_in_bits_cmd_status_tsr),
+    .io_enq_bits_cmd_status_tw                     (io_in_bits_cmd_status_tw),
+    .io_enq_bits_cmd_status_tvm                    (io_in_bits_cmd_status_tvm),
+    .io_enq_bits_cmd_status_mxr                    (io_in_bits_cmd_status_mxr),
+    .io_enq_bits_cmd_status_sum                    (io_in_bits_cmd_status_sum),
+    .io_enq_bits_cmd_status_mprv                   (io_in_bits_cmd_status_mprv),
+    .io_enq_bits_cmd_status_xs                     (io_in_bits_cmd_status_xs),
+    .io_enq_bits_cmd_status_fs                     (io_in_bits_cmd_status_fs),
+    .io_enq_bits_cmd_status_mpp                    (io_in_bits_cmd_status_mpp),
+    .io_enq_bits_cmd_status_vs                     (io_in_bits_cmd_status_vs),
+    .io_enq_bits_cmd_status_spp                    (io_in_bits_cmd_status_spp),
+    .io_enq_bits_cmd_status_mpie                   (io_in_bits_cmd_status_mpie),
+    .io_enq_bits_cmd_status_ube                    (io_in_bits_cmd_status_ube),
+    .io_enq_bits_cmd_status_spie                   (io_in_bits_cmd_status_spie),
+    .io_enq_bits_cmd_status_upie                   (io_in_bits_cmd_status_upie),
+    .io_enq_bits_cmd_status_mie                    (io_in_bits_cmd_status_mie),
+    .io_enq_bits_cmd_status_hie                    (io_in_bits_cmd_status_hie),
+    .io_enq_bits_cmd_status_sie                    (io_in_bits_cmd_status_sie),
+    .io_enq_bits_cmd_status_uie                    (io_in_bits_cmd_status_uie),
+    .io_enq_bits_rob_id_valid                      (1'h0),
+    .io_enq_bits_rob_id_bits                       (7'h0),
+    .io_enq_bits_from_matmul_fsm                   (io_in_bits_from_matmul_fsm),
+    .io_enq_bits_from_conv_fsm                     (io_in_bits_from_conv_fsm),
+    .io_enq_bits_virtualI_valid                    (io_in_bits_virtualI_valid),
+    .io_enq_bits_virtualI_desc_input_base          (io_in_bits_virtualI_desc_input_base),
+    .io_enq_bits_virtualI_desc_input_limit         (io_in_bits_virtualI_desc_input_limit),
+    .io_enq_bits_virtualI_desc_input_channelStride (io_in_bits_virtualI_desc_input_channelStride),
+    .io_enq_bits_virtualI_desc_input_batchStride   (io_in_bits_virtualI_desc_input_batchStride),
+    .io_enq_bits_virtualI_desc_input_rowStride     (io_in_bits_virtualI_desc_input_rowStride),
+    .io_enq_bits_virtualI_desc_input_pixelStride   (io_in_bits_virtualI_desc_input_pixelStride),
+    .io_enq_bits_virtualI_desc_input_physicalY     (io_in_bits_virtualI_desc_input_physicalY),
+    .io_enq_bits_virtualI_desc_input_physicalX     (io_in_bits_virtualI_desc_input_physicalX),
+    .io_enq_bits_virtualI_desc_input_residentY     (io_in_bits_virtualI_desc_input_residentY),
+    .io_enq_bits_virtualI_desc_input_residentX     (io_in_bits_virtualI_desc_input_residentX),
+    .io_enq_bits_virtualI_desc_input_residentH     (io_in_bits_virtualI_desc_input_residentH),
+    .io_enq_bits_virtualI_desc_input_residentW     (io_in_bits_virtualI_desc_input_residentW),
+    .io_enq_bits_virtualI_desc_input_batchOrigin   (io_in_bits_virtualI_desc_input_batchOrigin),
+    .io_enq_bits_virtualI_desc_input_batches       (io_in_bits_virtualI_desc_input_batches),
+    .io_enq_bits_virtualI_desc_input_channelOrigin (io_in_bits_virtualI_desc_input_channelOrigin),
+    .io_enq_bits_virtualI_desc_input_channelBlocks (io_in_bits_virtualI_desc_input_channelBlocks),
+    .io_enq_bits_virtualI_desc_output_base         (io_in_bits_virtualI_desc_output_base),
+    .io_enq_bits_virtualI_desc_output_limit        (io_in_bits_virtualI_desc_output_limit),
+    .io_enq_bits_virtualI_desc_output_groups       (io_in_bits_virtualI_desc_output_groups),
+    .io_enq_bits_virtualI_desc_owner               (io_in_bits_virtualI_desc_owner),
+    .io_enq_bits_virtualI_desc_generation          (io_in_bits_virtualI_desc_generation),
+    .io_enq_bits_virtualI_desc_segment             (io_in_bits_virtualI_desc_segment),
+    .io_enq_bits_virtualI_desc_startB              (io_in_bits_virtualI_desc_startB),
+    .io_enq_bits_virtualI_desc_startR              (io_in_bits_virtualI_desc_startR),
+    .io_enq_bits_virtualI_desc_startC              (io_in_bits_virtualI_desc_startC),
+    .io_enq_bits_virtualI_desc_segmentRows         (io_in_bits_virtualI_desc_segmentRows),
+    .io_enq_bits_virtualI_desc_supported           (io_in_bits_virtualI_desc_supported),
+    .io_enq_bits_virtualI_desc_batches             (io_in_bits_virtualI_desc_batches),
+    .io_enq_bits_virtualI_desc_tileRows            (io_in_bits_virtualI_desc_tileRows),
+    .io_enq_bits_virtualI_desc_tileCols            (io_in_bits_virtualI_desc_tileCols),
+    .io_enq_bits_virtualI_desc_batchStart          (io_in_bits_virtualI_desc_batchStart),
+    .io_enq_bits_virtualI_desc_outputY             (io_in_bits_virtualI_desc_outputY),
+    .io_enq_bits_virtualI_desc_outputX             (io_in_bits_virtualI_desc_outputX),
+    .io_enq_bits_virtualI_desc_inputH              (io_in_bits_virtualI_desc_inputH),
+    .io_enq_bits_virtualI_desc_inputW              (io_in_bits_virtualI_desc_inputW),
+    .io_enq_bits_virtualI_desc_strideY             (io_in_bits_virtualI_desc_strideY),
+    .io_enq_bits_virtualI_desc_strideX             (io_in_bits_virtualI_desc_strideX),
+    .io_enq_bits_virtualI_desc_padY                (io_in_bits_virtualI_desc_padY),
+    .io_enq_bits_virtualI_desc_padX                (io_in_bits_virtualI_desc_padX),
+    .io_enq_bits_virtualI_desc_kernelY             (io_in_bits_virtualI_desc_kernelY),
+    .io_enq_bits_virtualI_desc_kernelX             (io_in_bits_virtualI_desc_kernelX),
+    .io_enq_bits_virtualI_desc_dilationY           (io_in_bits_virtualI_desc_dilationY),
+    .io_enq_bits_virtualI_desc_dilationX           (io_in_bits_virtualI_desc_dilationX),
+    .io_enq_bits_virtualI_desc_channelBlock        (io_in_bits_virtualI_desc_channelBlock),
+    .io_enq_bits_virtualI_desc_outputGroup         (io_in_bits_virtualI_desc_outputGroup),
+    .io_enq_bits_virtualI_desc_kValid              (io_in_bits_virtualI_desc_kValid),
+    .io_enq_bits_virtualI_desc_jValid              (io_in_bits_virtualI_desc_jValid),
+    .io_deq_ready                                  (is_loop_cmd ? ~_GEN : ~loop_configured & io_out_ready),	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:919:58, :985:37, :1002:{19,33,68,85}]
+    .io_deq_valid                                  (_cmd_q_io_deq_valid),
+    .io_deq_bits_cmd_inst_funct                    (_cmd_q_io_deq_bits_cmd_inst_funct),
+    .io_deq_bits_cmd_inst_rs2                      (_cmd_q_io_deq_bits_cmd_inst_rs2),
+    .io_deq_bits_cmd_inst_rs1                      (_cmd_q_io_deq_bits_cmd_inst_rs1),
+    .io_deq_bits_cmd_inst_xd                       (_cmd_q_io_deq_bits_cmd_inst_xd),
+    .io_deq_bits_cmd_inst_xs1                      (_cmd_q_io_deq_bits_cmd_inst_xs1),
+    .io_deq_bits_cmd_inst_xs2                      (_cmd_q_io_deq_bits_cmd_inst_xs2),
+    .io_deq_bits_cmd_inst_rd                       (_cmd_q_io_deq_bits_cmd_inst_rd),
+    .io_deq_bits_cmd_inst_opcode                   (_cmd_q_io_deq_bits_cmd_inst_opcode),
+    .io_deq_bits_cmd_rs1                           (_cmd_q_io_deq_bits_cmd_rs1),
+    .io_deq_bits_cmd_rs2                           (_cmd_q_io_deq_bits_cmd_rs2),
+    .io_deq_bits_cmd_status_debug                  (io_out_bits_cmd_status_debug),
+    .io_deq_bits_cmd_status_cease                  (io_out_bits_cmd_status_cease),
+    .io_deq_bits_cmd_status_wfi                    (io_out_bits_cmd_status_wfi),
+    .io_deq_bits_cmd_status_isa                    (io_out_bits_cmd_status_isa),
+    .io_deq_bits_cmd_status_dprv                   (io_out_bits_cmd_status_dprv),
+    .io_deq_bits_cmd_status_dv                     (io_out_bits_cmd_status_dv),
+    .io_deq_bits_cmd_status_prv                    (io_out_bits_cmd_status_prv),
+    .io_deq_bits_cmd_status_v                      (io_out_bits_cmd_status_v),
+    .io_deq_bits_cmd_status_sd                     (io_out_bits_cmd_status_sd),
+    .io_deq_bits_cmd_status_zero2                  (io_out_bits_cmd_status_zero2),
+    .io_deq_bits_cmd_status_mpv                    (io_out_bits_cmd_status_mpv),
+    .io_deq_bits_cmd_status_gva                    (io_out_bits_cmd_status_gva),
+    .io_deq_bits_cmd_status_mbe                    (io_out_bits_cmd_status_mbe),
+    .io_deq_bits_cmd_status_sbe                    (io_out_bits_cmd_status_sbe),
+    .io_deq_bits_cmd_status_sxl                    (io_out_bits_cmd_status_sxl),
+    .io_deq_bits_cmd_status_uxl                    (io_out_bits_cmd_status_uxl),
+    .io_deq_bits_cmd_status_sd_rv32                (io_out_bits_cmd_status_sd_rv32),
+    .io_deq_bits_cmd_status_zero1                  (io_out_bits_cmd_status_zero1),
+    .io_deq_bits_cmd_status_tsr                    (io_out_bits_cmd_status_tsr),
+    .io_deq_bits_cmd_status_tw                     (io_out_bits_cmd_status_tw),
+    .io_deq_bits_cmd_status_tvm                    (io_out_bits_cmd_status_tvm),
+    .io_deq_bits_cmd_status_mxr                    (io_out_bits_cmd_status_mxr),
+    .io_deq_bits_cmd_status_sum                    (io_out_bits_cmd_status_sum),
+    .io_deq_bits_cmd_status_mprv                   (io_out_bits_cmd_status_mprv),
+    .io_deq_bits_cmd_status_xs                     (io_out_bits_cmd_status_xs),
+    .io_deq_bits_cmd_status_fs                     (io_out_bits_cmd_status_fs),
+    .io_deq_bits_cmd_status_mpp                    (io_out_bits_cmd_status_mpp),
+    .io_deq_bits_cmd_status_vs                     (io_out_bits_cmd_status_vs),
+    .io_deq_bits_cmd_status_spp                    (io_out_bits_cmd_status_spp),
+    .io_deq_bits_cmd_status_mpie                   (io_out_bits_cmd_status_mpie),
+    .io_deq_bits_cmd_status_ube                    (io_out_bits_cmd_status_ube),
+    .io_deq_bits_cmd_status_spie                   (io_out_bits_cmd_status_spie),
+    .io_deq_bits_cmd_status_upie                   (io_out_bits_cmd_status_upie),
+    .io_deq_bits_cmd_status_mie                    (io_out_bits_cmd_status_mie),
+    .io_deq_bits_cmd_status_hie                    (io_out_bits_cmd_status_hie),
+    .io_deq_bits_cmd_status_sie                    (io_out_bits_cmd_status_sie),
+    .io_deq_bits_cmd_status_uie                    (io_out_bits_cmd_status_uie),
+    .io_deq_bits_rob_id_valid                      (/* unused */),
+    .io_deq_bits_rob_id_bits                       (/* unused */),
+    .io_deq_bits_from_matmul_fsm                   (_cmd_q_io_deq_bits_from_matmul_fsm),
+    .io_deq_bits_from_conv_fsm                     (_cmd_q_io_deq_bits_from_conv_fsm),
+    .io_deq_bits_virtualI_valid                    (_cmd_q_io_deq_bits_virtualI_valid),
+    .io_deq_bits_virtualI_desc_input_base          (_cmd_q_io_deq_bits_virtualI_desc_input_base),
+    .io_deq_bits_virtualI_desc_input_limit         (_cmd_q_io_deq_bits_virtualI_desc_input_limit),
+    .io_deq_bits_virtualI_desc_input_channelStride (_cmd_q_io_deq_bits_virtualI_desc_input_channelStride),
+    .io_deq_bits_virtualI_desc_input_batchStride   (_cmd_q_io_deq_bits_virtualI_desc_input_batchStride),
+    .io_deq_bits_virtualI_desc_input_rowStride     (_cmd_q_io_deq_bits_virtualI_desc_input_rowStride),
+    .io_deq_bits_virtualI_desc_input_pixelStride   (_cmd_q_io_deq_bits_virtualI_desc_input_pixelStride),
+    .io_deq_bits_virtualI_desc_input_physicalY     (_cmd_q_io_deq_bits_virtualI_desc_input_physicalY),
+    .io_deq_bits_virtualI_desc_input_physicalX     (_cmd_q_io_deq_bits_virtualI_desc_input_physicalX),
+    .io_deq_bits_virtualI_desc_input_residentY     (_cmd_q_io_deq_bits_virtualI_desc_input_residentY),
+    .io_deq_bits_virtualI_desc_input_residentX     (_cmd_q_io_deq_bits_virtualI_desc_input_residentX),
+    .io_deq_bits_virtualI_desc_input_residentH     (_cmd_q_io_deq_bits_virtualI_desc_input_residentH),
+    .io_deq_bits_virtualI_desc_input_residentW     (_cmd_q_io_deq_bits_virtualI_desc_input_residentW),
+    .io_deq_bits_virtualI_desc_input_batchOrigin   (_cmd_q_io_deq_bits_virtualI_desc_input_batchOrigin),
+    .io_deq_bits_virtualI_desc_input_batches       (_cmd_q_io_deq_bits_virtualI_desc_input_batches),
+    .io_deq_bits_virtualI_desc_input_channelOrigin (_cmd_q_io_deq_bits_virtualI_desc_input_channelOrigin),
+    .io_deq_bits_virtualI_desc_input_channelBlocks (_cmd_q_io_deq_bits_virtualI_desc_input_channelBlocks),
+    .io_deq_bits_virtualI_desc_output_base         (_cmd_q_io_deq_bits_virtualI_desc_output_base),
+    .io_deq_bits_virtualI_desc_output_limit        (_cmd_q_io_deq_bits_virtualI_desc_output_limit),
+    .io_deq_bits_virtualI_desc_output_groups       (_cmd_q_io_deq_bits_virtualI_desc_output_groups),
+    .io_deq_bits_virtualI_desc_owner               (_cmd_q_io_deq_bits_virtualI_desc_owner),
+    .io_deq_bits_virtualI_desc_generation          (_cmd_q_io_deq_bits_virtualI_desc_generation),
+    .io_deq_bits_virtualI_desc_segment             (_cmd_q_io_deq_bits_virtualI_desc_segment),
+    .io_deq_bits_virtualI_desc_startB              (_cmd_q_io_deq_bits_virtualI_desc_startB),
+    .io_deq_bits_virtualI_desc_startR              (_cmd_q_io_deq_bits_virtualI_desc_startR),
+    .io_deq_bits_virtualI_desc_startC              (_cmd_q_io_deq_bits_virtualI_desc_startC),
+    .io_deq_bits_virtualI_desc_segmentRows         (_cmd_q_io_deq_bits_virtualI_desc_segmentRows),
+    .io_deq_bits_virtualI_desc_supported           (_cmd_q_io_deq_bits_virtualI_desc_supported),
+    .io_deq_bits_virtualI_desc_batches             (_cmd_q_io_deq_bits_virtualI_desc_batches),
+    .io_deq_bits_virtualI_desc_tileRows            (_cmd_q_io_deq_bits_virtualI_desc_tileRows),
+    .io_deq_bits_virtualI_desc_tileCols            (_cmd_q_io_deq_bits_virtualI_desc_tileCols),
+    .io_deq_bits_virtualI_desc_batchStart          (_cmd_q_io_deq_bits_virtualI_desc_batchStart),
+    .io_deq_bits_virtualI_desc_outputY             (_cmd_q_io_deq_bits_virtualI_desc_outputY),
+    .io_deq_bits_virtualI_desc_outputX             (_cmd_q_io_deq_bits_virtualI_desc_outputX),
+    .io_deq_bits_virtualI_desc_inputH              (_cmd_q_io_deq_bits_virtualI_desc_inputH),
+    .io_deq_bits_virtualI_desc_inputW              (_cmd_q_io_deq_bits_virtualI_desc_inputW),
+    .io_deq_bits_virtualI_desc_strideY             (_cmd_q_io_deq_bits_virtualI_desc_strideY),
+    .io_deq_bits_virtualI_desc_strideX             (_cmd_q_io_deq_bits_virtualI_desc_strideX),
+    .io_deq_bits_virtualI_desc_padY                (_cmd_q_io_deq_bits_virtualI_desc_padY),
+    .io_deq_bits_virtualI_desc_padX                (_cmd_q_io_deq_bits_virtualI_desc_padX),
+    .io_deq_bits_virtualI_desc_kernelY             (_cmd_q_io_deq_bits_virtualI_desc_kernelY),
+    .io_deq_bits_virtualI_desc_kernelX             (_cmd_q_io_deq_bits_virtualI_desc_kernelX),
+    .io_deq_bits_virtualI_desc_dilationY           (_cmd_q_io_deq_bits_virtualI_desc_dilationY),
+    .io_deq_bits_virtualI_desc_dilationX           (_cmd_q_io_deq_bits_virtualI_desc_dilationX),
+    .io_deq_bits_virtualI_desc_channelBlock        (_cmd_q_io_deq_bits_virtualI_desc_channelBlock),
+    .io_deq_bits_virtualI_desc_outputGroup         (_cmd_q_io_deq_bits_virtualI_desc_outputGroup),
+    .io_deq_bits_virtualI_desc_kValid              (_cmd_q_io_deq_bits_virtualI_desc_kValid),
+    .io_deq_bits_virtualI_desc_jValid              (_cmd_q_io_deq_bits_virtualI_desc_jValid)
   );	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   WeightedArbiter ldab_arb (	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:943:24]
     .clock                  (clock),
@@ -1308,9 +1548,10 @@ module LoopMatmul(	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.sca
     .io_out_valid            (_arb_io_out_valid),
     .io_out_bits_inst_funct  (_arb_io_out_bits_inst_funct),
     .io_out_bits_rs1         (_arb_io_out_bits_rs1),
-    .io_out_bits_rs2         (_arb_io_out_bits_rs2)
+    .io_out_bits_rs2         (_arb_io_out_bits_rs2),
+    .io_chosen               (/* unused */)
   );	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:960:19]
-  assign io_out_valid = loop_configured ? _arb_io_out_valid : _cmd_q_io_deq_valid & ~is_loop_config_cmd & _cmd_q_io_deq_bits_cmd_inst_funct != 7'h8;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :960:19, :982:49, :983:135, :992:{22,70,73,93,96}, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_valid = loop_configured ? _arb_io_out_valid : _cmd_q_io_deq_valid & ~is_loop_config_cmd & _cmd_q_io_deq_bits_cmd_inst_funct != 7'h8;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :960:19, :982:49, :983:135, :1000:{22,70,73,93,96}, src/main/scala/chisel3/util/Decoupled.scala:362:21]
   assign io_out_bits_cmd_inst_funct = loop_configured ? _arb_io_out_bits_inst_funct : _cmd_q_io_deq_bits_cmd_inst_funct;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :960:19, :987:25, src/main/scala/chisel3/util/Decoupled.scala:362:21]
   assign io_out_bits_cmd_inst_rs2 = loop_configured ? 5'h0 : _cmd_q_io_deq_bits_cmd_inst_rs2;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :987:25, src/main/scala/chisel3/util/Decoupled.scala:362:21]
   assign io_out_bits_cmd_inst_rs1 = loop_configured ? 5'h0 : _cmd_q_io_deq_bits_cmd_inst_rs1;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :987:25, src/main/scala/chisel3/util/Decoupled.scala:362:21]
@@ -1321,8 +1562,56 @@ module LoopMatmul(	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.sca
   assign io_out_bits_cmd_inst_opcode = loop_configured ? 7'h0 : _cmd_q_io_deq_bits_cmd_inst_opcode;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :987:25, src/main/scala/chisel3/util/Decoupled.scala:362:21]
   assign io_out_bits_cmd_rs1 = loop_configured ? _arb_io_out_bits_rs1 : _cmd_q_io_deq_bits_cmd_rs1;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :960:19, :987:25, src/main/scala/chisel3/util/Decoupled.scala:362:21]
   assign io_out_bits_cmd_rs2 = loop_configured ? _arb_io_out_bits_rs2 : _cmd_q_io_deq_bits_cmd_rs2;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :960:19, :987:25, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  assign io_out_bits_from_matmul_fsm = loop_configured | _cmd_q_io_deq_bits_from_matmul_fsm;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :990:37, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  assign io_out_bits_from_conv_fsm = ~loop_configured & _cmd_q_io_deq_bits_from_conv_fsm;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :987:25, :991:35, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_from_matmul_fsm = loop_configured | _cmd_q_io_deq_bits_from_matmul_fsm;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :998:37, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_from_conv_fsm = ~loop_configured & _cmd_q_io_deq_bits_from_conv_fsm;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :987:25, :999:35, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_valid = ~loop_configured & _cmd_q_io_deq_bits_virtualI_valid;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :987:25, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_base = loop_configured ? 32'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_base;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_limit = loop_configured ? 32'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_limit;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_channelStride = loop_configured ? 32'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_channelStride;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_batchStride = loop_configured ? 32'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_batchStride;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_rowStride = loop_configured ? 32'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_rowStride;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_pixelStride = loop_configured ? 32'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_pixelStride;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_physicalY = loop_configured ? 32'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_physicalY;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_physicalX = loop_configured ? 32'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_physicalX;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_residentY = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_residentY;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_residentX = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_residentX;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_residentH = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_residentH;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_residentW = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_residentW;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_batchOrigin = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_batchOrigin;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_batches = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_batches;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_channelOrigin = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_channelOrigin;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_input_channelBlocks = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_input_channelBlocks;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_output_base = loop_configured ? 32'h0 : _cmd_q_io_deq_bits_virtualI_desc_output_base;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_output_limit = loop_configured ? 32'h0 : _cmd_q_io_deq_bits_virtualI_desc_output_limit;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_output_groups = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_output_groups;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_owner = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_owner;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_generation = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_generation;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_segment = ~loop_configured & _cmd_q_io_deq_bits_virtualI_desc_segment;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :987:25, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_startB = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_startB;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_startR = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_startR;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_startC = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_startC;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_segmentRows = loop_configured ? 7'h0 : _cmd_q_io_deq_bits_virtualI_desc_segmentRows;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_supported = ~loop_configured & _cmd_q_io_deq_bits_virtualI_desc_supported;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :987:25, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_batches = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_batches;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_tileRows = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_tileRows;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_tileCols = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_tileCols;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_batchStart = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_batchStart;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_outputY = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_outputY;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_outputX = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_outputX;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_inputH = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_inputH;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_inputW = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_inputW;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_strideY = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_strideY;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_strideX = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_strideX;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_padY = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_padY;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_padX = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_padX;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_kernelY = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_kernelY;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_kernelX = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_kernelX;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_dilationY = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_dilationY;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_dilationX = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_dilationX;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_channelBlock = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_channelBlock;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_outputGroup = loop_configured ? 16'h0 : _cmd_q_io_deq_bits_virtualI_desc_outputGroup;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_kValid = loop_configured ? 7'h0 : _cmd_q_io_deq_bits_virtualI_desc_kValid;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_out_bits_virtualI_desc_jValid = loop_configured ? 7'h0 : _cmd_q_io_deq_bits_virtualI_desc_jValid;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :997:30, src/main/scala/chisel3/util/Decoupled.scala:362:21]
   assign io_busy = _cmd_q_io_deq_valid | loop_configured;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :938:24, src/main/scala/chisel3/util/Decoupled.scala:362:21]
 endmodule
 

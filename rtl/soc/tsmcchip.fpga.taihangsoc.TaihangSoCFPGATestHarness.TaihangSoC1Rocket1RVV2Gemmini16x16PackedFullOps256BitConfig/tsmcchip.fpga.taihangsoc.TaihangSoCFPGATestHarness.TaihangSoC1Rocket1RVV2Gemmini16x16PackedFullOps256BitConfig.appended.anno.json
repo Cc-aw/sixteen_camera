@@ -31,8 +31,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_sbus_i4_o3_a33d256s8k5z4c",
-    "group": "TLXbar_sbus_i4_o3_a33d256s8k5z4c"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_sbus_i4_o3_a33d256s9k5z4c",
+    "group": "TLXbar_sbus_i4_o3_a33d256s9k5z4c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -41,8 +41,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a29d256s8k1z4u",
-    "group": "Repeater_TLBundleA_a29d256s8k1z4u"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a29d256s9k1z4u",
+    "group": "Repeater_TLBundleA_a29d256s9k1z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -56,8 +56,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleD_a33d256s5k5z4u",
-    "group": "Repeater_TLBundleD_a33d256s5k5z4u"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleD_a33d256s8k5z4u",
+    "group": "Repeater_TLBundleD_a33d256s8k5z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -126,18 +126,18 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue74_BundleMap",
+    "group": "Queue74_BundleMap"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue74_BundleMap_1",
+    "group": "Queue74_BundleMap"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
     "target": "~TaihangSoCFPGATestHarness|Queue11_BundleMap_2",
     "group": "Queue11_BundleMap"
-  },
-  {
-    "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue18_BundleMap",
-    "group": "Queue18_BundleMap"
-  },
-  {
-    "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue18_BundleMap_1",
-    "group": "Queue18_BundleMap"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -206,18 +206,18 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue74_BundleMap_2",
+    "group": "Queue74_BundleMap"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue74_BundleMap_3",
+    "group": "Queue74_BundleMap"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
     "target": "~TaihangSoCFPGATestHarness|Queue11_BundleMap_6",
     "group": "Queue11_BundleMap"
-  },
-  {
-    "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue18_BundleMap_2",
-    "group": "Queue18_BundleMap"
-  },
-  {
-    "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue18_BundleMap_3",
-    "group": "Queue18_BundleMap"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -386,8 +386,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a29d256s8k1z3u",
-    "group": "Repeater_TLBundleA_a29d256s8k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a29d256s9k1z3u",
+    "group": "Repeater_TLBundleA_a29d256s9k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -431,28 +431,28 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_pbus_in_i1_o1_a29d64s9k1z3u",
-    "group": "TLXbar_pbus_in_i1_o1_a29d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_pbus_in_i1_o1_a29d64s10k1z3u",
+    "group": "TLXbar_pbus_in_i1_o1_a29d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_pbus_out_i1_o2_a29d64s9k1z3u",
-    "group": "TLXbar_pbus_out_i1_o2_a29d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_pbus_out_i1_o2_a29d64s10k1z3u",
+    "group": "TLXbar_pbus_out_i1_o2_a29d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a29d64s9k1z3u",
-    "group": "Queue2_TLBundleA_a29d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a29d64s10k1z3u",
+    "group": "Queue2_TLBundleA_a29d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a29d64s9k1z3u",
-    "group": "Queue2_TLBundleD_a29d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a29d64s10k1z3u",
+    "group": "Queue2_TLBundleD_a29d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a29d64s9k1z3u",
-    "group": "TLBuffer_a29d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a29d64s10k1z3u",
+    "group": "TLBuffer_a29d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -461,23 +461,23 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a29d64s9k1z3u_1",
-    "group": "Queue2_TLBundleA_a29d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a29d64s10k1z3u_1",
+    "group": "Queue2_TLBundleA_a29d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a29d64s9k1z3u_1",
-    "group": "Queue2_TLBundleD_a29d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a29d64s10k1z3u_1",
+    "group": "Queue2_TLBundleD_a29d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a29d64s9k1z3u_1",
-    "group": "TLBuffer_a29d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a29d64s10k1z3u_1",
+    "group": "TLBuffer_a29d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a13d64s9k1z3u",
-    "group": "Repeater_TLBundleA_a13d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a13d64s10k1z3u",
+    "group": "Repeater_TLBundleA_a13d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -491,8 +491,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a29d64s9k1z3u",
-    "group": "Repeater_TLBundleA_a29d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a29d64s10k1z3u",
+    "group": "Repeater_TLBundleA_a29d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -531,23 +531,23 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_fbus_i2_o1_a33d64s5k5z4u",
-    "group": "TLXbar_fbus_i2_o1_a33d64s5k5z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_fbus_i2_o1_a33d64s8k5z4u",
+    "group": "TLXbar_fbus_i2_o1_a33d64s8k5z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d64s5k5z4u",
-    "group": "Queue2_TLBundleA_a33d64s5k5z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d64s8k5z4u",
+    "group": "Queue2_TLBundleA_a33d64s8k5z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d64s5k5z4u",
-    "group": "Queue2_TLBundleD_a33d64s5k5z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d64s8k5z4u",
+    "group": "Queue2_TLBundleD_a33d64s8k5z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d64s5k5z4u",
-    "group": "TLBuffer_a33d64s5k5z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d64s8k5z4u",
+    "group": "TLBuffer_a33d64s8k5z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -566,18 +566,18 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d64s4k5z4u",
-    "group": "Queue2_TLBundleA_a33d64s4k5z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d64s7k5z4u",
+    "group": "Queue2_TLBundleA_a33d64s7k5z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d64s4k5z4u",
-    "group": "Queue2_TLBundleD_a33d64s4k5z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d64s7k5z4u",
+    "group": "Queue2_TLBundleD_a33d64s7k5z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d64s4k5z4u",
-    "group": "TLBuffer_a33d64s4k5z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d64s7k5z4u",
+    "group": "TLBuffer_a33d64s7k5z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -586,8 +586,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a33d256s4k5z4u",
-    "group": "Repeater_TLBundleA_a33d256s4k5z4u"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a33d256s7k5z4u",
+    "group": "Repeater_TLBundleA_a33d256s7k5z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -611,23 +611,23 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue4_BundleMap",
-    "group": "Queue4_BundleMap"
+    "target": "~TaihangSoCFPGATestHarness|Queue32_BundleMap",
+    "group": "Queue32_BundleMap"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue4_BundleMap_1",
-    "group": "Queue4_BundleMap"
+    "target": "~TaihangSoCFPGATestHarness|Queue32_BundleMap_1",
+    "group": "Queue32_BundleMap"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue4_BundleMap_2",
-    "group": "Queue4_BundleMap"
+    "target": "~TaihangSoCFPGATestHarness|Queue32_BundleMap_2",
+    "group": "Queue32_BundleMap"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue4_BundleMap_3",
-    "group": "Queue4_BundleMap"
+    "target": "~TaihangSoCFPGATestHarness|Queue32_BundleMap_3",
+    "group": "Queue32_BundleMap"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -696,28 +696,28 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_cbus_in_i2_o1_a29d64s9k1z4u",
-    "group": "TLXbar_cbus_in_i2_o1_a29d64s9k1z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_cbus_in_i2_o1_a29d64s10k1z4u",
+    "group": "TLXbar_cbus_in_i2_o1_a29d64s10k1z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_cbus_out_i1_o8_a29d64s9k1z4u",
-    "group": "TLXbar_cbus_out_i1_o8_a29d64s9k1z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_cbus_out_i1_o8_a29d64s10k1z4u",
+    "group": "TLXbar_cbus_out_i1_o8_a29d64s10k1z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a29d64s9k1z4u",
-    "group": "Queue2_TLBundleA_a29d64s9k1z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a29d64s10k1z4u",
+    "group": "Queue2_TLBundleA_a29d64s10k1z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a29d64s9k1z4u",
-    "group": "Queue2_TLBundleD_a29d64s9k1z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a29d64s10k1z4u",
+    "group": "Queue2_TLBundleD_a29d64s10k1z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a29d64s9k1z4u",
-    "group": "TLBuffer_a29d64s9k1z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a29d64s10k1z4u",
+    "group": "TLBuffer_a29d64s10k1z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -726,8 +726,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue1_TLBundleA_a14d64s9k1z4u",
-    "group": "Queue1_TLBundleA_a14d64s9k1z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue1_TLBundleA_a14d64s10k1z4u",
+    "group": "Queue1_TLBundleA_a14d64s10k1z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -736,18 +736,18 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a14d64s9k1z4u",
-    "group": "Queue2_TLBundleA_a14d64s9k1z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a14d64s10k1z4u",
+    "group": "Queue2_TLBundleA_a14d64s10k1z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a14d64s9k1z4u",
-    "group": "Queue2_TLBundleD_a14d64s9k1z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a14d64s10k1z4u",
+    "group": "Queue2_TLBundleD_a14d64s10k1z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a14d64s9k1z4u",
-    "group": "TLBuffer_a14d64s9k1z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a14d64s10k1z4u",
+    "group": "TLBuffer_a14d64s10k1z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -756,23 +756,23 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue1_TLBundleA_a26d64s13k1z2u",
-    "group": "Queue1_TLBundleA_a26d64s13k1z2u"
+    "target": "~TaihangSoCFPGATestHarness|Queue1_TLBundleA_a26d64s14k1z2u",
+    "group": "Queue1_TLBundleA_a26d64s14k1z2u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue1_TLBundleD_a26d64s13k1z2u",
-    "group": "Queue1_TLBundleD_a26d64s13k1z2u"
+    "target": "~TaihangSoCFPGATestHarness|Queue1_TLBundleD_a26d64s14k1z2u",
+    "group": "Queue1_TLBundleD_a26d64s14k1z2u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a26d64s13k1z2u",
-    "group": "TLBuffer_a26d64s13k1z2u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a26d64s14k1z2u",
+    "group": "TLBuffer_a26d64s14k1z2u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a26d64s9k1z3u",
-    "group": "Repeater_TLBundleA_a26d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a26d64s10k1z3u",
+    "group": "Repeater_TLBundleA_a26d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -786,8 +786,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a29d64s8k1z4u",
-    "group": "TLBuffer_a29d64s8k1z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a29d64s9k1z4u",
+    "group": "TLBuffer_a29d64s9k1z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -801,8 +801,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a26d64s9k1z3u_1",
-    "group": "Repeater_TLBundleA_a26d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a26d64s10k1z3u_1",
+    "group": "Repeater_TLBundleA_a26d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -816,8 +816,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a28d64s9k1z3u",
-    "group": "Repeater_TLBundleA_a28d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a28d64s10k1z3u",
+    "group": "Repeater_TLBundleA_a28d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -831,23 +831,23 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a12d64s13k1z2u",
-    "group": "Queue2_TLBundleA_a12d64s13k1z2u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a12d64s14k1z2u",
+    "group": "Queue2_TLBundleA_a12d64s14k1z2u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a12d64s13k1z2u",
-    "group": "Queue2_TLBundleD_a12d64s13k1z2u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a12d64s14k1z2u",
+    "group": "Queue2_TLBundleD_a12d64s14k1z2u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a12d64s13k1z2u",
-    "group": "TLBuffer_a12d64s13k1z2u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a12d64s14k1z2u",
+    "group": "TLBuffer_a12d64s14k1z2u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a12d64s9k1z3u",
-    "group": "Repeater_TLBundleA_a12d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a12d64s10k1z3u",
+    "group": "Repeater_TLBundleA_a12d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -871,8 +871,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a17d64s9k1z3u",
-    "group": "Repeater_TLBundleA_a17d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a17d64s10k1z3u",
+    "group": "Repeater_TLBundleA_a17d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -896,18 +896,18 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a21d64s9k1z3u",
-    "group": "Queue2_TLBundleA_a21d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a21d64s10k1z3u",
+    "group": "Queue2_TLBundleA_a21d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a21d64s9k1z3u",
-    "group": "Queue2_TLBundleD_a21d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a21d64s10k1z3u",
+    "group": "Queue2_TLBundleD_a21d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a21d64s9k1z3u",
-    "group": "TLBuffer_a21d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a21d64s10k1z3u",
+    "group": "TLBuffer_a21d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -1306,8 +1306,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleC_a33d256s8k5z3c",
-    "group": "Queue2_TLBundleC_a33d256s8k5z3c"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleC_a33d256s9k5z3c",
+    "group": "Queue2_TLBundleC_a33d256s9k5z3c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -1501,18 +1501,18 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue1_TLBundleA_a33d256s8k5z3c",
-    "group": "Queue1_TLBundleA_a33d256s8k5z3c"
+    "target": "~TaihangSoCFPGATestHarness|Queue1_TLBundleA_a33d256s9k5z3c",
+    "group": "Queue1_TLBundleA_a33d256s9k5z3c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue1_TLBundleD_a33d256s8k5z3c",
-    "group": "Queue1_TLBundleD_a33d256s8k5z3c"
+    "target": "~TaihangSoCFPGATestHarness|Queue1_TLBundleD_a33d256s9k5z3c",
+    "group": "Queue1_TLBundleD_a33d256s9k5z3c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s8k5z3c",
-    "group": "TLBuffer_a33d256s8k5z3c"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s9k5z3c",
+    "group": "TLBuffer_a33d256s9k5z3c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -8726,7 +8726,7 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleD_a33d256s5k5z4u_1",
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleD_a33d256s5k5z4u",
     "group": "Repeater_TLBundleD_a33d256s5k5z4u"
   },
   {
@@ -11846,8 +11846,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a29d64s13k1z2u",
-    "group": "TLBuffer_a29d64s13k1z2u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a29d64s14k1z2u",
+    "group": "TLBuffer_a29d64s14k1z2u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -11906,8 +11906,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_prcibus_i1_o2_a21d64s9k1z3u",
-    "group": "TLXbar_prcibus_i1_o2_a21d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_prcibus_i1_o2_a21d64s10k1z3u",
+    "group": "TLXbar_prcibus_i1_o2_a21d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -11941,8 +11941,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a21d64s9k1z3u",
-    "group": "Repeater_TLBundleA_a21d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a21d64s10k1z3u",
+    "group": "Repeater_TLBundleA_a21d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -11961,8 +11961,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a21d64s9k1z3u_1",
-    "group": "Repeater_TLBundleA_a21d64s9k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleA_a21d64s10k1z3u_1",
+    "group": "Repeater_TLBundleA_a21d64s10k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -12875,102 +12875,102 @@
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_119.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_203.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_119.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_203.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_120.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_204.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_120.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_204.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_122.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_206.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_126",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_210",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_128",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_212",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_132.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_216.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_136",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_220",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_138",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_222",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_144.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_228.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_144.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_228.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_145.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_229.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_145.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_229.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_147.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_231.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_151",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_235",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_153",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_237",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_157.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_241.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_161",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_245",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_163",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_247",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
@@ -12995,122 +12995,122 @@
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_171.opb.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_255.opb.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_171.opb.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_255.opb.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_171.opa.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_255.opa.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_171.opa.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_255.opa.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_290.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_490.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_290.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_490.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_291.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_491.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_291.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_491.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_293.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_493.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_297",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_497",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_299",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_499",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_303.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_503.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_307",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_507",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_309",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_509",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_315.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_515.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_315.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_515.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_316.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_516.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_316.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_516.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_318.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_518.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_322",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_522",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_324",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_524",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_328.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_528.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_332",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_532",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_334",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_534",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
@@ -13135,122 +13135,122 @@
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_342.opb.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_542.opb.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_342.opb.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_542.opb.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_342.opa.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_542.opa.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_342.opa.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_542.opa.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_461.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_729.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_461.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_729.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_462.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_730.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_462.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_730.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_464.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_732.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_468",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_736",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_470",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_738",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_474.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_742.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_478",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_746",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_480",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_748",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_486.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_754.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_486.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_754.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_487.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_755.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_487.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_755.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_489.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_757.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_493",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_761",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_495",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_763",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_499.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_767.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_503",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_771",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_505",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._issue_entry_WIRE_773",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
@@ -14711,6 +14711,11 @@
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ExecuteController.a_address_result.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
     "target": "TaihangSoCFPGATestHarness.ExecuteController.a_address.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
@@ -15496,102 +15501,102 @@
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_119.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_203.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_119.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_203.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_120.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_204.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_120.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_204.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_122.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_206.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_126",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_210",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_128",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_212",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_132.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_216.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_136",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_220",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_138",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_222",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_144.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_228.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_144.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_228.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_145.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_229.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_145.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_229.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_147.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_231.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_151",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_235",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_153",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_237",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_157.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_241.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_161",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_245",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_163",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_247",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
@@ -15616,122 +15621,122 @@
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_171.opb.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_255.opb.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_171.opb.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_255.opb.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_171.opa.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_255.opa.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_171.opa.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_255.opa.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_290.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_490.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_290.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_490.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_291.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_491.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_291.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_491.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_293.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_493.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_297",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_497",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_299",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_499",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_303.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_503.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_307",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_507",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_309",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_509",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_315.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_515.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_315.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_515.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_316.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_516.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_316.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_516.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_318.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_518.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_322",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_522",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_324",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_524",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_328.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_528.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_332",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_532",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_334",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_534",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
@@ -15756,122 +15761,122 @@
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_342.opb.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_542.opb.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_342.opb.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_542.opb.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_342.opa.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_542.opa.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_342.opa.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_542.opa.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_461.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_729.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_461.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_729.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_462.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_730.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_462.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_730.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_464.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_732.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_468",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_736",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_470",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_738",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_474.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_742.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_478",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_746",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_480",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_748",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_486.bits.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_754.bits.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_486.bits.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_754.bits.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_487.end.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_755.end.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_487.start.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_755.start.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_489.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_757.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_493",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_761",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_495",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_763",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_499.norm_cmd",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_767.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_503",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_771",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
-    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_505",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_773",
     "enumTypeName": "gemmini.NormCmd"
   },
   {
@@ -17214,6 +17219,11 @@
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ExecuteController_1.a_address_result.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
     "target": "TaihangSoCFPGATestHarness.ExecuteController_1.a_address.norm_cmd",
     "enumTypeName": "gemmini.NormCmd"
   },
@@ -18028,7 +18038,7 @@
   },
   {
     "class": "firrtl.passes.InlineAnnotation",
-    "target": "TaihangSoCFPGATestHarness.TLXbar_pbus_in_i1_o1_a29d64s9k1z3u"
+    "target": "TaihangSoCFPGATestHarness.TLXbar_pbus_in_i1_o1_a29d64s10k1z3u"
   },
   {
     "class": "firrtl.passes.InlineAnnotation",
@@ -18056,7 +18066,7 @@
   },
   {
     "class": "firrtl.passes.InlineAnnotation",
-    "target": "TaihangSoCFPGATestHarness.TLBuffer_a29d64s8k1z4u"
+    "target": "TaihangSoCFPGATestHarness.TLBuffer_a29d64s9k1z4u"
   },
   {
     "class": "firrtl.passes.InlineAnnotation",
@@ -22792,7 +22802,7 @@
   },
   {
     "class": "firrtl.passes.InlineAnnotation",
-    "target": "TaihangSoCFPGATestHarness.TLBuffer_a29d64s13k1z2u"
+    "target": "TaihangSoCFPGATestHarness.TLBuffer_a29d64s14k1z2u"
   },
   {
     "class": "firrtl.transforms.BlackBoxInlineAnno",

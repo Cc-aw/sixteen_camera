@@ -15,13 +15,9 @@ module TLBuffer_a33d256s5k5z4u(	// @[generators/rocket-chip/src/main/scala/tilel
   input          auto_in_d_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_in_d_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]   auto_in_d_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output [1:0]   auto_in_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [3:0]   auto_in_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [4:0]   auto_in_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output [4:0]   auto_in_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output         auto_in_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [255:0] auto_in_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output         auto_in_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_out_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_out_a_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]   auto_out_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -84,13 +80,9 @@ module TLBuffer_a33d256s5k5z4u(	// @[generators/rocket-chip/src/main/scala/tilel
     .io_deq_ready        (auto_in_d_ready),
     .io_deq_valid        (auto_in_d_valid),
     .io_deq_bits_opcode  (auto_in_d_bits_opcode),
-    .io_deq_bits_param   (auto_in_d_bits_param),
     .io_deq_bits_size    (auto_in_d_bits_size),
     .io_deq_bits_source  (auto_in_d_bits_source),
-    .io_deq_bits_sink    (auto_in_d_bits_sink),
-    .io_deq_bits_denied  (auto_in_d_bits_denied),
-    .io_deq_bits_data    (auto_in_d_bits_data),
-    .io_deq_bits_corrupt (auto_in_d_bits_corrupt)
+    .io_deq_bits_data    (auto_in_d_bits_data)
   );	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
 endmodule
 

@@ -12,6 +12,7 @@ SIZE    := $(TOOLCHAIN)size
 
 BUILD  := build
 TARGET := $(BUILD)/hdmi_tx_test
+AI_MODEL ?= yolov5nu
 
 # Reuse the board/IIC/clock code and the AMD 2023.2 BSP already validated by
 # the working 4k60 project. This project supplies its own TX-only config table.
@@ -33,7 +34,14 @@ CFLAGS := $(ARCH_FLAGS) -std=c11 -Os -g3 -ffreestanding -fno-builtin \
 	-fno-common -fdata-sections -ffunction-sections -Wall -Wextra -Werror \
 	-DXV_CONFIG_LOG_DISABLE_ALL -Isrc -I$(GEMMINI_TESTS) \
 	-I$(CURDIR)/yolov2 \
+	-I$(CURDIR)/yolov5/dim16_dual \
 	-I$(REFERENCE_SW)/include $(VENDOR_INCLUDES)
+
+ifeq ($(AI_MODEL),yolov5nu)
+CFLAGS += -DAI_MODEL_YOLOV5NU=1
+else ifneq ($(AI_MODEL),yolov2)
+$(error AI_MODEL must be yolov5nu or yolov2)
+endif
 VENDOR_CFLAGS := $(filter-out -Werror,$(CFLAGS)) -Wno-unused-parameter \
 	-Wno-sign-compare -Wno-type-limits -Wno-unused-variable \
 	-Wno-incompatible-pointer-types -Wno-return-type -Wno-enum-conversion \
@@ -47,11 +55,20 @@ LOCAL_SOURCES := src/main.c src/console.c src/runtime.c src/board_runtime.c src/
 	src/xilinx_config.c src/board_gpio.c src/camera_video.c \
 	src/video_service.c \
 	src/camera_config.c src/ai_frame_snapshot.c src/ai_preprocess.c \
-	src/ai_batch_runtime.c src/ai_model_backend_yolov2.c \
-	src/ai_inference_runtime.c src/ai_tinyyolov2_runtime_adapter.c \
+	src/ai_batch_runtime.c \
 	src/ai_postprocess_scalar.c src/ai_result_manager.c src/ai_display_map.c \
+	src/ai_class_names.c \
 	src/ai_postprocess_diag.c \
 	src/ai_overlay.c
+
+ifeq ($(AI_MODEL),yolov5nu)
+LOCAL_SOURCES += src/ai_model_backend_yolov5nu.c src/ai_yolov5nu_selftest.c
+MODEL_OBJECT := $(BUILD)/yolov5nu_dim16_dual.o
+else
+LOCAL_SOURCES += src/ai_model_backend_yolov2.c \
+	src/ai_inference_runtime.c src/ai_tinyyolov2_runtime_adapter.c
+MODEL_OBJECT := $(BUILD)/tinyyolov2.o
+endif
 BOARD_SOURCES := $(REFERENCE_SW)/src/axi_iic.c \
 	$(REFERENCE_SW)/src/clock_chip.c
 VENDOR_SOURCES := \
@@ -87,12 +104,11 @@ VENDOR_SOURCES := \
 	$(DEMO_BSP)/vphy_v1_13/src/xvphy_mmcme4.c
 
 LOCAL_OBJECTS := $(patsubst src/%.c,$(BUILD)/%.o,$(LOCAL_SOURCES))
-YOLOV2_OBJECT := $(BUILD)/tinyyolov2.o
 BOARD_OBJECTS := $(addprefix $(BUILD)/board_,$(notdir $(BOARD_SOURCES:.c=.o)))
 VENDOR_OBJECTS := $(addprefix $(BUILD)/vendor_,$(notdir $(VENDOR_SOURCES:.c=.o)))
-OBJECTS := $(BUILD)/startup.o $(LOCAL_OBJECTS) $(YOLOV2_OBJECT) $(BOARD_OBJECTS) $(VENDOR_OBJECTS)
+OBJECTS := $(BUILD)/startup.o $(LOCAL_OBJECTS) $(MODEL_OBJECT) $(BOARD_OBJECTS) $(VENDOR_OBJECTS)
 
-.PHONY: all clean size check-tools
+.PHONY: all clean size check-tools yolov5nu-regenerate
 all: check-tools $(TARGET).elf $(TARGET).bin $(TARGET).hex $(TARGET).dump size
 
 check-tools:
@@ -107,7 +123,7 @@ $(BUILD)/startup.o: src/startup.S | $(BUILD)
 $(BUILD)/%.o: src/%.c | $(BUILD)
 	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
-$(YOLOV2_OBJECT): yolov2/tinyyolov2.c yolov2/tinyyolov2_params.h \
+$(BUILD)/tinyyolov2.o: yolov2/tinyyolov2.c yolov2/tinyyolov2_params.h \
 		yolov2/tinyyolov2_runtime.h yolov2/tinyyolov2_worker_pool.h \
 		yolov2/tinyyolov2_input_contract.h | $(BUILD)
 	$(CC) $(CFLAGS) -include $(GEMMINI_PARAMS) \
@@ -120,6 +136,27 @@ $(YOLOV2_OBJECT): yolov2/tinyyolov2.c yolov2/tinyyolov2_params.h \
 		-DGEMMINI_LOOPCONV_WORKER1_RETIRED_CSR=0x7c9 \
 		-Wno-error -Wno-sign-compare -Wno-unused-parameter \
 		-Wno-unused-variable -I$(CURDIR)/yolov2 -MMD -MP -c $< -o $@
+
+YOLOV5_GEN_ROOT := $(CURDIR)/yolov5/generators/gemmini/software/gemmini-rocc-tests
+YOLOV5_IMAGENET := $(YOLOV5_GEN_ROOT)/imagenet
+YOLOV5_PARAMS := $(YOLOV5_IMAGENET)/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h
+
+yolov5nu-regenerate:
+	python3 yolov5/dim16_dual/generate_runtime.py
+
+$(BUILD)/yolov5nu_dim16_dual.o: yolov5/dim16_dual/yolov5nu_dim16_dual.c \
+		yolov5/dim16_dual/yolov5nu_dim16_dual.h $(YOLOV5_PARAMS) | $(BUILD)
+	$(CC) $(CFLAGS) -include $(GEMMINI_PARAMS) -std=gnu11 -O2 \
+		-DBAREMETAL=1 -DYOLOV5NU_PROFILE=0 \
+		-DYOLOV5NU_FINAL_TENSOR_STATS=0 \
+		-DGEMMINI_LOOPCONV_CREDIT_ADMISSION=1 \
+		-DGEMMINI_LOOPCONV_WORKER1_STATUS_CSR=0x7c5 \
+		-DGEMMINI_LOOPCONV_WORKER1_ACCEPTED_CSR=0x7c8 \
+		-DGEMMINI_LOOPCONV_WORKER1_RETIRED_CSR=0x7c9 \
+		-Wno-error -Wno-sign-compare -Wno-unused-parameter \
+		-Wno-unused-variable -Wno-unused-function \
+		-I$(YOLOV5_GEN_ROOT) -I$(YOLOV5_IMAGENET) \
+		-MMD -MP -c $< -o $@
 
 define make-board-rule
 $(BUILD)/board_$(notdir $(1:.c=.o)): $(1) | $(BUILD)

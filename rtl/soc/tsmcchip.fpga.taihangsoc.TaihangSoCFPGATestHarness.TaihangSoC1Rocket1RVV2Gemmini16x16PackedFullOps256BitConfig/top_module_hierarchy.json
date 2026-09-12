@@ -17,7 +17,7 @@
             },
             {
               "instance_name": "system_bus_xbar",
-              "module_name": "TLXbar_sbus_i4_o3_a33d256s8k5z4c",
+              "module_name": "TLXbar_sbus_i4_o3_a33d256s9k5z4c",
               "instances": []
             },
             {
@@ -35,7 +35,7 @@
                   "instances": [
                     {
                       "instance_name": "repeated_repeater",
-                      "module_name": "Repeater_TLBundleA_a29d256s8k1z4u",
+                      "module_name": "Repeater_TLBundleA_a29d256s9k1z4u",
                       "instances": []
                     }
                   ]
@@ -52,7 +52,7 @@
                   "instances": [
                     {
                       "instance_name": "repeated_repeater",
-                      "module_name": "Repeater_TLBundleD_a33d256s5k5z4u",
+                      "module_name": "Repeater_TLBundleD_a33d256s8k5z4u",
                       "instances": []
                     }
                   ]
@@ -134,7 +134,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_11x16",
+                          "module_name": "ram_11x17",
                           "instances": []
                         }
                       ]
@@ -145,7 +145,29 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_11x16",
+                          "module_name": "ram_11x17",
+                          "instances": []
+                        }
+                      ]
+                    },
+                    {
+                      "instance_name": "Queue74_BundleMap",
+                      "module_name": "Queue74_BundleMap",
+                      "instances": [
+                        {
+                          "instance_name": "ram_ext",
+                          "module_name": "ram_74x17",
+                          "instances": []
+                        }
+                      ]
+                    },
+                    {
+                      "instance_name": "Queue74_BundleMap_1",
+                      "module_name": "Queue74_BundleMap",
+                      "instances": [
+                        {
+                          "instance_name": "ram_ext",
+                          "module_name": "ram_74x17",
                           "instances": []
                         }
                       ]
@@ -156,29 +178,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_11x16",
-                          "instances": []
-                        }
-                      ]
-                    },
-                    {
-                      "instance_name": "Queue18_BundleMap",
-                      "module_name": "Queue18_BundleMap",
-                      "instances": [
-                        {
-                          "instance_name": "ram_ext",
-                          "module_name": "ram_18x16",
-                          "instances": []
-                        }
-                      ]
-                    },
-                    {
-                      "instance_name": "Queue18_BundleMap_1",
-                      "module_name": "Queue18_BundleMap",
-                      "instances": [
-                        {
-                          "instance_name": "ram_ext",
-                          "module_name": "ram_18x16",
+                          "module_name": "ram_11x17",
                           "instances": []
                         }
                       ]
@@ -189,7 +189,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_11x16",
+                          "module_name": "ram_11x17",
                           "instances": []
                         }
                       ]
@@ -200,7 +200,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -211,7 +211,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -222,7 +222,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -233,7 +233,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -244,7 +244,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -255,7 +255,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -266,7 +266,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -277,7 +277,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -288,7 +288,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -299,7 +299,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -310,7 +310,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_11x16",
+                          "module_name": "ram_11x17",
                           "instances": []
                         }
                       ]
@@ -321,7 +321,29 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_11x16",
+                          "module_name": "ram_11x17",
+                          "instances": []
+                        }
+                      ]
+                    },
+                    {
+                      "instance_name": "Queue74_BundleMap_2",
+                      "module_name": "Queue74_BundleMap",
+                      "instances": [
+                        {
+                          "instance_name": "ram_ext",
+                          "module_name": "ram_74x17",
+                          "instances": []
+                        }
+                      ]
+                    },
+                    {
+                      "instance_name": "Queue74_BundleMap_3",
+                      "module_name": "Queue74_BundleMap",
+                      "instances": [
+                        {
+                          "instance_name": "ram_ext",
+                          "module_name": "ram_74x17",
                           "instances": []
                         }
                       ]
@@ -332,29 +354,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_11x16",
-                          "instances": []
-                        }
-                      ]
-                    },
-                    {
-                      "instance_name": "Queue18_BundleMap_2",
-                      "module_name": "Queue18_BundleMap",
-                      "instances": [
-                        {
-                          "instance_name": "ram_ext",
-                          "module_name": "ram_18x16",
-                          "instances": []
-                        }
-                      ]
-                    },
-                    {
-                      "instance_name": "Queue18_BundleMap_3",
-                      "module_name": "Queue18_BundleMap",
-                      "instances": [
-                        {
-                          "instance_name": "ram_ext",
-                          "module_name": "ram_18x16",
+                          "module_name": "ram_11x17",
                           "instances": []
                         }
                       ]
@@ -365,7 +365,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_11x16",
+                          "module_name": "ram_11x17",
                           "instances": []
                         }
                       ]
@@ -376,7 +376,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -387,7 +387,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -398,7 +398,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -409,7 +409,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -420,7 +420,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -431,7 +431,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -442,7 +442,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -453,7 +453,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -464,7 +464,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -475,7 +475,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_10x16",
+                          "module_name": "ram_10x17",
                           "instances": []
                         }
                       ]
@@ -492,7 +492,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -503,7 +503,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -514,7 +514,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -525,7 +525,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -536,7 +536,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -547,7 +547,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -558,7 +558,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -569,7 +569,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -580,7 +580,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -591,7 +591,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -602,7 +602,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -613,7 +613,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -624,7 +624,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -635,7 +635,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -646,7 +646,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -657,7 +657,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_8x87",
+                          "module_name": "ram_8x88",
                           "instances": []
                         }
                       ]
@@ -691,7 +691,7 @@
                   "instances": [
                     {
                       "instance_name": "repeated_repeater",
-                      "module_name": "Repeater_TLBundleA_a29d256s8k1z3u",
+                      "module_name": "Repeater_TLBundleA_a29d256s9k1z3u",
                       "instances": []
                     }
                   ]
@@ -716,31 +716,31 @@
             },
             {
               "instance_name": "out_xbar",
-              "module_name": "TLXbar_pbus_out_i1_o2_a29d64s9k1z3u",
+              "module_name": "TLXbar_pbus_out_i1_o2_a29d64s10k1z3u",
               "instances": []
             },
             {
               "instance_name": "buffer",
-              "module_name": "TLBuffer_a29d64s9k1z3u",
+              "module_name": "TLBuffer_a29d64s10k1z3u",
               "instances": [
                 {
                   "instance_name": "nodeOut_a_q",
-                  "module_name": "Queue2_TLBundleA_a29d64s9k1z3u",
+                  "module_name": "Queue2_TLBundleA_a29d64s10k1z3u",
                   "instances": [
                     {
                       "instance_name": "ram_ext",
-                      "module_name": "ram_2x120",
+                      "module_name": "ram_2x121",
                       "instances": []
                     }
                   ]
                 },
                 {
                   "instance_name": "nodeIn_d_q",
-                  "module_name": "Queue2_TLBundleD_a29d64s9k1z3u",
+                  "module_name": "Queue2_TLBundleD_a29d64s10k1z3u",
                   "instances": [
                     {
                       "instance_name": "ram_ext",
-                      "module_name": "ram_2x84",
+                      "module_name": "ram_2x85",
                       "instances": []
                     }
                   ]
@@ -754,26 +754,26 @@
             },
             {
               "instance_name": "buffer_1",
-              "module_name": "TLBuffer_a29d64s9k1z3u",
+              "module_name": "TLBuffer_a29d64s10k1z3u",
               "instances": [
                 {
                   "instance_name": "nodeOut_a_q",
-                  "module_name": "Queue2_TLBundleA_a29d64s9k1z3u",
+                  "module_name": "Queue2_TLBundleA_a29d64s10k1z3u",
                   "instances": [
                     {
                       "instance_name": "ram_ext",
-                      "module_name": "ram_2x120",
+                      "module_name": "ram_2x121",
                       "instances": []
                     }
                   ]
                 },
                 {
                   "instance_name": "nodeIn_d_q",
-                  "module_name": "Queue2_TLBundleD_a29d64s9k1z3u",
+                  "module_name": "Queue2_TLBundleD_a29d64s10k1z3u",
                   "instances": [
                     {
                       "instance_name": "ram_ext",
-                      "module_name": "ram_2x84",
+                      "module_name": "ram_2x85",
                       "instances": []
                     }
                   ]
@@ -790,7 +790,7 @@
                   "instances": [
                     {
                       "instance_name": "repeater",
-                      "module_name": "Repeater_TLBundleA_a13d64s9k1z3u",
+                      "module_name": "Repeater_TLBundleA_a13d64s10k1z3u",
                       "instances": []
                     }
                   ]
@@ -807,7 +807,7 @@
                   "instances": [
                     {
                       "instance_name": "repeater",
-                      "module_name": "Repeater_TLBundleA_a29d64s9k1z3u",
+                      "module_name": "Repeater_TLBundleA_a29d64s10k1z3u",
                       "instances": []
                     }
                   ]
@@ -827,31 +827,31 @@
             },
             {
               "instance_name": "fbus_xbar",
-              "module_name": "TLXbar_fbus_i2_o1_a33d64s5k5z4u",
+              "module_name": "TLXbar_fbus_i2_o1_a33d64s8k5z4u",
               "instances": []
             },
             {
               "instance_name": "buffer",
-              "module_name": "TLBuffer_a33d64s5k5z4u",
+              "module_name": "TLBuffer_a33d64s8k5z4u",
               "instances": [
                 {
                   "instance_name": "nodeOut_a_q",
-                  "module_name": "Queue2_TLBundleA_a33d64s5k5z4u",
+                  "module_name": "Queue2_TLBundleA_a33d64s8k5z4u",
                   "instances": [
                     {
                       "instance_name": "ram_ext",
-                      "module_name": "ram_2x128",
+                      "module_name": "ram_2x131",
                       "instances": []
                     }
                   ]
                 },
                 {
                   "instance_name": "nodeIn_d_q",
-                  "module_name": "Queue2_TLBundleD_a33d64s5k5z4u",
+                  "module_name": "Queue2_TLBundleD_a33d64s8k5z4u",
                   "instances": [
                     {
                       "instance_name": "ram_ext",
-                      "module_name": "ram_2x85",
+                      "module_name": "ram_2x88",
                       "instances": []
                     }
                   ]
@@ -881,26 +881,26 @@
               "instances": [
                 {
                   "instance_name": "buffer",
-                  "module_name": "TLBuffer_a33d64s4k5z4u",
+                  "module_name": "TLBuffer_a33d64s7k5z4u",
                   "instances": [
                     {
                       "instance_name": "nodeOut_a_q",
-                      "module_name": "Queue2_TLBundleA_a33d64s4k5z4u",
+                      "module_name": "Queue2_TLBundleA_a33d64s7k5z4u",
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_2x127",
+                          "module_name": "ram_2x130",
                           "instances": []
                         }
                       ]
                     },
                     {
                       "instance_name": "nodeIn_d_q",
-                      "module_name": "Queue2_TLBundleD_a33d64s4k5z4u",
+                      "module_name": "Queue2_TLBundleD_a33d64s7k5z4u",
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_2x77",
+                          "module_name": "ram_2x80",
                           "instances": []
                         }
                       ]
@@ -918,7 +918,7 @@
                   "instances": [
                     {
                       "instance_name": "repeated_repeater",
-                      "module_name": "Repeater_TLBundleA_a33d256s4k5z4u",
+                      "module_name": "Repeater_TLBundleA_a33d256s7k5z4u",
                       "instances": []
                     }
                   ]
@@ -944,45 +944,45 @@
                   "module_name": "AXI4UserYanker_1",
                   "instances": [
                     {
-                      "instance_name": "Queue4_BundleMap",
-                      "module_name": "Queue4_BundleMap",
+                      "instance_name": "Queue32_BundleMap",
+                      "module_name": "Queue32_BundleMap",
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_4x4",
+                          "module_name": "ram_32x4",
                           "instances": []
                         }
                       ]
                     },
                     {
-                      "instance_name": "Queue4_BundleMap_1",
-                      "module_name": "Queue4_BundleMap",
+                      "instance_name": "Queue32_BundleMap_1",
+                      "module_name": "Queue32_BundleMap",
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_4x4",
+                          "module_name": "ram_32x4",
                           "instances": []
                         }
                       ]
                     },
                     {
-                      "instance_name": "Queue4_BundleMap_2",
-                      "module_name": "Queue4_BundleMap",
+                      "instance_name": "Queue32_BundleMap_2",
+                      "module_name": "Queue32_BundleMap",
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_4x4",
+                          "module_name": "ram_32x4",
                           "instances": []
                         }
                       ]
                     },
                     {
-                      "instance_name": "Queue4_BundleMap_3",
-                      "module_name": "Queue4_BundleMap",
+                      "instance_name": "Queue32_BundleMap_3",
+                      "module_name": "Queue32_BundleMap",
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_4x4",
+                          "module_name": "ram_32x4",
                           "instances": []
                         }
                       ]
@@ -1035,36 +1035,36 @@
             },
             {
               "instance_name": "in_xbar",
-              "module_name": "TLXbar_cbus_in_i2_o1_a29d64s9k1z4u",
+              "module_name": "TLXbar_cbus_in_i2_o1_a29d64s10k1z4u",
               "instances": []
             },
             {
               "instance_name": "out_xbar",
-              "module_name": "TLXbar_cbus_out_i1_o8_a29d64s9k1z4u",
+              "module_name": "TLXbar_cbus_out_i1_o8_a29d64s10k1z4u",
               "instances": []
             },
             {
               "instance_name": "buffer",
-              "module_name": "TLBuffer_a29d64s9k1z4u",
+              "module_name": "TLBuffer_a29d64s10k1z4u",
               "instances": [
                 {
                   "instance_name": "nodeOut_a_q",
-                  "module_name": "Queue2_TLBundleA_a29d64s9k1z4u",
+                  "module_name": "Queue2_TLBundleA_a29d64s10k1z4u",
                   "instances": [
                     {
                       "instance_name": "ram_ext",
-                      "module_name": "ram_2x121",
+                      "module_name": "ram_2x122",
                       "instances": []
                     }
                   ]
                 },
                 {
                   "instance_name": "nodeIn_d_q",
-                  "module_name": "Queue2_TLBundleD_a29d64s9k1z4u",
+                  "module_name": "Queue2_TLBundleD_a29d64s10k1z4u",
                   "instances": [
                     {
                       "instance_name": "ram_ext",
-                      "module_name": "ram_2x85",
+                      "module_name": "ram_2x86",
                       "instances": []
                     }
                   ]
@@ -1086,33 +1086,33 @@
                   "instances": [
                     {
                       "instance_name": "a_q",
-                      "module_name": "Queue1_TLBundleA_a14d64s9k1z4u",
+                      "module_name": "Queue1_TLBundleA_a14d64s10k1z4u",
                       "instances": []
                     }
                   ]
                 },
                 {
                   "instance_name": "buffer",
-                  "module_name": "TLBuffer_a14d64s9k1z4u",
+                  "module_name": "TLBuffer_a14d64s10k1z4u",
                   "instances": [
                     {
                       "instance_name": "nodeOut_a_q",
-                      "module_name": "Queue2_TLBundleA_a14d64s9k1z4u",
+                      "module_name": "Queue2_TLBundleA_a14d64s10k1z4u",
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_2x106",
+                          "module_name": "ram_2x107",
                           "instances": []
                         }
                       ]
                     },
                     {
                       "instance_name": "nodeIn_d_q",
-                      "module_name": "Queue2_TLBundleD_a14d64s9k1z4u",
+                      "module_name": "Queue2_TLBundleD_a14d64s10k1z4u",
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_2x85",
+                          "module_name": "ram_2x86",
                           "instances": []
                         }
                       ]
@@ -1127,16 +1127,16 @@
               "instances": [
                 {
                   "instance_name": "buffer",
-                  "module_name": "TLBuffer_a26d64s13k1z2u",
+                  "module_name": "TLBuffer_a26d64s14k1z2u",
                   "instances": [
                     {
                       "instance_name": "nodeOut_a_q",
-                      "module_name": "Queue1_TLBundleA_a26d64s13k1z2u",
+                      "module_name": "Queue1_TLBundleA_a26d64s14k1z2u",
                       "instances": []
                     },
                     {
                       "instance_name": "nodeIn_d_q",
-                      "module_name": "Queue1_TLBundleD_a26d64s13k1z2u",
+                      "module_name": "Queue1_TLBundleD_a26d64s14k1z2u",
                       "instances": []
                     }
                   ]
@@ -1147,7 +1147,7 @@
                   "instances": [
                     {
                       "instance_name": "repeater",
-                      "module_name": "Repeater_TLBundleA_a26d64s9k1z3u",
+                      "module_name": "Repeater_TLBundleA_a26d64s10k1z3u",
                       "instances": []
                     }
                   ]
@@ -1164,7 +1164,7 @@
                   "instances": [
                     {
                       "instance_name": "repeater",
-                      "module_name": "Repeater_TLBundleA_a26d64s9k1z3u",
+                      "module_name": "Repeater_TLBundleA_a26d64s10k1z3u",
                       "instances": []
                     }
                   ]
@@ -1181,7 +1181,7 @@
                   "instances": [
                     {
                       "instance_name": "repeater",
-                      "module_name": "Repeater_TLBundleA_a28d64s9k1z3u",
+                      "module_name": "Repeater_TLBundleA_a28d64s10k1z3u",
                       "instances": []
                     }
                   ]
@@ -1194,26 +1194,26 @@
               "instances": [
                 {
                   "instance_name": "buffer",
-                  "module_name": "TLBuffer_a12d64s13k1z2u",
+                  "module_name": "TLBuffer_a12d64s14k1z2u",
                   "instances": [
                     {
                       "instance_name": "nodeOut_a_q",
-                      "module_name": "Queue2_TLBundleA_a12d64s13k1z2u",
+                      "module_name": "Queue2_TLBundleA_a12d64s14k1z2u",
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_2x102",
+                          "module_name": "ram_2x103",
                           "instances": []
                         }
                       ]
                     },
                     {
                       "instance_name": "nodeIn_d_q",
-                      "module_name": "Queue2_TLBundleD_a12d64s13k1z2u",
+                      "module_name": "Queue2_TLBundleD_a12d64s14k1z2u",
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_2x87",
+                          "module_name": "ram_2x88",
                           "instances": []
                         }
                       ]
@@ -1226,7 +1226,7 @@
                   "instances": [
                     {
                       "instance_name": "repeater",
-                      "module_name": "Repeater_TLBundleA_a12d64s9k1z3u",
+                      "module_name": "Repeater_TLBundleA_a12d64s10k1z3u",
                       "instances": []
                     }
                   ]
@@ -1243,7 +1243,7 @@
                   "instances": [
                     {
                       "instance_name": "repeater",
-                      "module_name": "Repeater_TLBundleA_a17d64s9k1z3u",
+                      "module_name": "Repeater_TLBundleA_a17d64s10k1z3u",
                       "instances": []
                     }
                   ]
@@ -1261,26 +1261,26 @@
                 },
                 {
                   "instance_name": "buffer",
-                  "module_name": "TLBuffer_a21d64s9k1z3u",
+                  "module_name": "TLBuffer_a21d64s10k1z3u",
                   "instances": [
                     {
                       "instance_name": "nodeOut_a_q",
-                      "module_name": "Queue2_TLBundleA_a21d64s9k1z3u",
+                      "module_name": "Queue2_TLBundleA_a21d64s10k1z3u",
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_2x108",
+                          "module_name": "ram_2x109",
                           "instances": []
                         }
                       ]
                     },
                     {
                       "instance_name": "nodeIn_d_q",
-                      "module_name": "Queue2_TLBundleD_a21d64s9k1z3u",
+                      "module_name": "Queue2_TLBundleD_a21d64s10k1z3u",
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_2x84",
+                          "module_name": "ram_2x85",
                           "instances": []
                         }
                       ]
@@ -1875,11 +1875,11 @@
                       "instances": [
                         {
                           "instance_name": "c_q",
-                          "module_name": "Queue2_TLBundleC_a33d256s8k5z3c",
+                          "module_name": "Queue2_TLBundleC_a33d256s9k5z3c",
                           "instances": [
                             {
                               "instance_name": "ram_ext",
-                              "module_name": "ram_2x307",
+                              "module_name": "ram_2x308",
                               "instances": []
                             }
                           ]
@@ -2180,7 +2180,7 @@
                         },
                         {
                           "instance_name": "data_ext",
-                          "module_name": "data_22x51",
+                          "module_name": "data_22x52",
                           "instances": []
                         }
                       ]
@@ -2301,16 +2301,16 @@
             },
             {
               "instance_name": "InclusiveCache_inner_TLBuffer",
-              "module_name": "TLBuffer_a33d256s8k5z3c",
+              "module_name": "TLBuffer_a33d256s9k5z3c",
               "instances": [
                 {
                   "instance_name": "nodeOut_a_q",
-                  "module_name": "Queue1_TLBundleA_a33d256s8k5z3c",
+                  "module_name": "Queue1_TLBundleA_a33d256s9k5z3c",
                   "instances": []
                 },
                 {
                   "instance_name": "nodeIn_d_q",
-                  "module_name": "Queue1_TLBundleD_a33d256s8k5z3c",
+                  "module_name": "Queue1_TLBundleD_a33d256s9k5z3c",
                   "instances": []
                 }
               ]
@@ -2680,7 +2680,7 @@
                               "instances": [
                                 {
                                   "instance_name": "ram_ext",
-                                  "module_name": "ram_2x277",
+                                  "module_name": "ram_2x268",
                                   "instances": []
                                 }
                               ]
@@ -2708,7 +2708,7 @@
                               "instances": [
                                 {
                                   "instance_name": "ram_ext",
-                                  "module_name": "ram_2x277",
+                                  "module_name": "ram_2x268",
                                   "instances": []
                                 }
                               ]
@@ -4170,7 +4170,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_2x275",
+                          "module_name": "ram_2x1131",
                           "instances": []
                         }
                       ]
@@ -4240,7 +4240,7 @@
                           "instances": [
                             {
                               "instance_name": "ram_ext",
-                              "module_name": "ram_2x275",
+                              "module_name": "ram_2x1131",
                               "instances": []
                             }
                           ]
@@ -4292,7 +4292,7 @@
                           "instances": [
                             {
                               "instance_name": "ram_ext",
-                              "module_name": "ram_2x275",
+                              "module_name": "ram_2x1131",
                               "instances": []
                             }
                           ]
@@ -4315,7 +4315,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_2x275",
+                          "module_name": "ram_2x1131",
                           "instances": []
                         }
                       ]
@@ -6756,7 +6756,7 @@
                               "instances": [
                                 {
                                   "instance_name": "ram_ext",
-                                  "module_name": "ram_2x277",
+                                  "module_name": "ram_2x268",
                                   "instances": []
                                 }
                               ]
@@ -6784,7 +6784,7 @@
                               "instances": [
                                 {
                                   "instance_name": "ram_ext",
-                                  "module_name": "ram_2x277",
+                                  "module_name": "ram_2x268",
                                   "instances": []
                                 }
                               ]
@@ -8246,7 +8246,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_2x275",
+                          "module_name": "ram_2x1131",
                           "instances": []
                         }
                       ]
@@ -8316,7 +8316,7 @@
                           "instances": [
                             {
                               "instance_name": "ram_ext",
-                              "module_name": "ram_2x275",
+                              "module_name": "ram_2x1131",
                               "instances": []
                             }
                           ]
@@ -8368,7 +8368,7 @@
                           "instances": [
                             {
                               "instance_name": "ram_ext",
-                              "module_name": "ram_2x275",
+                              "module_name": "ram_2x1131",
                               "instances": []
                             }
                           ]
@@ -8391,7 +8391,7 @@
                       "instances": [
                         {
                           "instance_name": "ram_ext",
-                          "module_name": "ram_2x275",
+                          "module_name": "ram_2x1131",
                           "instances": []
                         }
                       ]
@@ -10999,7 +10999,7 @@
                           "instances": [
                             {
                               "instance_name": "ram_ext",
-                              "module_name": "ram_2x277",
+                              "module_name": "ram_2x268",
                               "instances": []
                             }
                           ]
@@ -14550,7 +14550,7 @@
           "instances": [
             {
               "instance_name": "xbar",
-              "module_name": "TLXbar_prcibus_i1_o2_a21d64s9k1z3u",
+              "module_name": "TLXbar_prcibus_i1_o2_a21d64s10k1z3u",
               "instances": []
             },
             {
@@ -14593,7 +14593,7 @@
               "instances": [
                 {
                   "instance_name": "repeater",
-                  "module_name": "Repeater_TLBundleA_a21d64s9k1z3u",
+                  "module_name": "Repeater_TLBundleA_a21d64s10k1z3u",
                   "instances": []
                 }
               ]
@@ -14609,7 +14609,7 @@
               "instances": [
                 {
                   "instance_name": "repeater",
-                  "module_name": "Repeater_TLBundleA_a21d64s9k1z3u",
+                  "module_name": "Repeater_TLBundleA_a21d64s10k1z3u",
                   "instances": []
                 }
               ]

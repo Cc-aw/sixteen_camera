@@ -87,7 +87,7 @@ module ListBuffer_QueuedRequest_q66_e22(	// @[generators/rocket-chip-inclusive-c
   input  [2:0]  io_push_bits_data_opcode,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
   input  [2:0]  io_push_bits_data_param,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
   input  [2:0]  io_push_bits_data_size,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
-  input  [7:0]  io_push_bits_data_source,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
+  input  [8:0]  io_push_bits_data_source,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
   input  [16:0] io_push_bits_data_tag,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
   input  [5:0]  io_push_bits_data_offset,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
   input  [5:0]  io_push_bits_data_put,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
@@ -102,13 +102,13 @@ module ListBuffer_QueuedRequest_q66_e22(	// @[generators/rocket-chip-inclusive-c
   output [2:0]  io_data_opcode,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
   output [2:0]  io_data_param,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
   output [2:0]  io_data_size,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
-  output [7:0]  io_data_source,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
+  output [8:0]  io_data_source,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
   output [16:0] io_data_tag,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
   output [5:0]  io_data_offset,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
   output [5:0]  io_data_put	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
 );
 
-  wire [50:0]  _data_ext_R0_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18]
+  wire [51:0]  _data_ext_R0_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18]
   wire [4:0]   _next_ext_R0_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:51:18]
   wire [4:0]   _tail_ext_R0_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:49:18]
   wire [4:0]   _tail_ext_R1_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:49:18]
@@ -211,7 +211,7 @@ module ListBuffer_QueuedRequest_q66_e22(	// @[generators/rocket-chip-inclusive-c
     .W0_clk  (clock),
     .W0_data (freeIdx)	// @[src/main/scala/chisel3/util/OneHot.scala:32:10]
   );	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:51:18]
-  data_22x51 data_ext (	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18]
+  data_22x52 data_ext (	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18]
     .R0_addr (_head_ext_R0_data),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:48:18]
     .R0_en   (1'h1),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
     .R0_clk  (clock),
@@ -231,9 +231,9 @@ module ListBuffer_QueuedRequest_q66_e22(	// @[generators/rocket-chip-inclusive-c
   assign io_data_opcode = _data_ext_R0_data[7:5];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :52:18]
   assign io_data_param = _data_ext_R0_data[10:8];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :52:18]
   assign io_data_size = _data_ext_R0_data[13:11];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :52:18]
-  assign io_data_source = _data_ext_R0_data[21:14];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :52:18]
-  assign io_data_tag = _data_ext_R0_data[38:22];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :52:18]
-  assign io_data_offset = _data_ext_R0_data[44:39];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :52:18]
-  assign io_data_put = _data_ext_R0_data[50:45];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :52:18]
+  assign io_data_source = _data_ext_R0_data[22:14];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :52:18]
+  assign io_data_tag = _data_ext_R0_data[39:23];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :52:18]
+  assign io_data_offset = _data_ext_R0_data[45:40];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :52:18]
+  assign io_data_put = _data_ext_R0_data[51:46];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :52:18]
 endmodule
 

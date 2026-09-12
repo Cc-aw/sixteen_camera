@@ -9,6 +9,13 @@ foreach required_file {
     axi4_channel_join.sv
     fbus_read_engine.sv
     postprocess_read_diagnostic.sv
+    yolov5nu_postprocessor.sv
+    yolov5nu_class_reducer.sv
+    yolov5nu_raw_class_lut.sv
+    yolov5nu_dfl_lut.sv
+    yolov5nu_dfl_decoder.sv
+    yolov5nu_bbox_decoder.sv
+    yolov5nu_topk_nms.sv
 } {
     if {[llength [get_files -quiet */$required_file]] != 1} {
         error "Required postprocessor source is missing or duplicated: $required_file"

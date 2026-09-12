@@ -116,6 +116,54 @@ module LoadController(	// @[generators/gemmini/src/main/scala/gemmini/LoadContro
   input  [6:0]  io_cmd_bits_rob_id_bits,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
   input         io_cmd_bits_from_matmul_fsm,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
   input         io_cmd_bits_from_conv_fsm,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input         io_cmd_bits_virtualI_valid,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [31:0] io_cmd_bits_virtualI_desc_input_base,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [31:0] io_cmd_bits_virtualI_desc_input_limit,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [31:0] io_cmd_bits_virtualI_desc_input_channelStride,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [31:0] io_cmd_bits_virtualI_desc_input_batchStride,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [31:0] io_cmd_bits_virtualI_desc_input_rowStride,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [31:0] io_cmd_bits_virtualI_desc_input_pixelStride,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [31:0] io_cmd_bits_virtualI_desc_input_physicalY,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [31:0] io_cmd_bits_virtualI_desc_input_physicalX,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_input_residentY,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_input_residentX,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_input_residentH,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_input_residentW,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_input_batchOrigin,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_input_batches,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_input_channelOrigin,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_input_channelBlocks,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [31:0] io_cmd_bits_virtualI_desc_output_base,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [31:0] io_cmd_bits_virtualI_desc_output_limit,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_output_groups,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_owner,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_generation,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input         io_cmd_bits_virtualI_desc_segment,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_startB,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_startR,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_startC,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [6:0]  io_cmd_bits_virtualI_desc_segmentRows,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input         io_cmd_bits_virtualI_desc_supported,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_batches,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_tileRows,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_tileCols,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_batchStart,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_outputY,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_outputX,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_inputH,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_inputW,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_strideY,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_strideX,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_padY,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_padX,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_kernelY,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_kernelX,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_dilationY,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_dilationX,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_channelBlock,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [15:0] io_cmd_bits_virtualI_desc_outputGroup,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [6:0]  io_cmd_bits_virtualI_desc_kValid,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+  input  [6:0]  io_cmd_bits_virtualI_desc_jValid,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
   input         io_dma_req_ready,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
   output        io_dma_req_valid,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
   output [39:0] io_dma_req_bits_vaddr,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
@@ -328,103 +376,151 @@ module LoadController(	// @[generators/gemmini/src/main/scala/gemmini/LoadContro
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
   Queue16_GemminiCmd cmd_q (	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    .clock                          (clock),
-    .reset                          (reset),
-    .io_enq_ready                   (io_cmd_ready),
-    .io_enq_valid                   (io_cmd_valid),
-    .io_enq_bits_cmd_inst_funct     (io_cmd_bits_cmd_inst_funct),
-    .io_enq_bits_cmd_inst_rs2       (io_cmd_bits_cmd_inst_rs2),
-    .io_enq_bits_cmd_inst_rs1       (io_cmd_bits_cmd_inst_rs1),
-    .io_enq_bits_cmd_inst_xd        (io_cmd_bits_cmd_inst_xd),
-    .io_enq_bits_cmd_inst_xs1       (io_cmd_bits_cmd_inst_xs1),
-    .io_enq_bits_cmd_inst_xs2       (io_cmd_bits_cmd_inst_xs2),
-    .io_enq_bits_cmd_inst_rd        (io_cmd_bits_cmd_inst_rd),
-    .io_enq_bits_cmd_inst_opcode    (io_cmd_bits_cmd_inst_opcode),
-    .io_enq_bits_cmd_rs1            (io_cmd_bits_cmd_rs1),
-    .io_enq_bits_cmd_rs2            (io_cmd_bits_cmd_rs2),
-    .io_enq_bits_cmd_status_debug   (io_cmd_bits_cmd_status_debug),
-    .io_enq_bits_cmd_status_cease   (io_cmd_bits_cmd_status_cease),
-    .io_enq_bits_cmd_status_wfi     (io_cmd_bits_cmd_status_wfi),
-    .io_enq_bits_cmd_status_isa     (io_cmd_bits_cmd_status_isa),
-    .io_enq_bits_cmd_status_dprv    (io_cmd_bits_cmd_status_dprv),
-    .io_enq_bits_cmd_status_dv      (io_cmd_bits_cmd_status_dv),
-    .io_enq_bits_cmd_status_prv     (io_cmd_bits_cmd_status_prv),
-    .io_enq_bits_cmd_status_v       (io_cmd_bits_cmd_status_v),
-    .io_enq_bits_cmd_status_sd      (io_cmd_bits_cmd_status_sd),
-    .io_enq_bits_cmd_status_zero2   (io_cmd_bits_cmd_status_zero2),
-    .io_enq_bits_cmd_status_mpv     (io_cmd_bits_cmd_status_mpv),
-    .io_enq_bits_cmd_status_gva     (io_cmd_bits_cmd_status_gva),
-    .io_enq_bits_cmd_status_mbe     (io_cmd_bits_cmd_status_mbe),
-    .io_enq_bits_cmd_status_sbe     (io_cmd_bits_cmd_status_sbe),
-    .io_enq_bits_cmd_status_sxl     (io_cmd_bits_cmd_status_sxl),
-    .io_enq_bits_cmd_status_uxl     (io_cmd_bits_cmd_status_uxl),
-    .io_enq_bits_cmd_status_sd_rv32 (io_cmd_bits_cmd_status_sd_rv32),
-    .io_enq_bits_cmd_status_zero1   (io_cmd_bits_cmd_status_zero1),
-    .io_enq_bits_cmd_status_tsr     (io_cmd_bits_cmd_status_tsr),
-    .io_enq_bits_cmd_status_tw      (io_cmd_bits_cmd_status_tw),
-    .io_enq_bits_cmd_status_tvm     (io_cmd_bits_cmd_status_tvm),
-    .io_enq_bits_cmd_status_mxr     (io_cmd_bits_cmd_status_mxr),
-    .io_enq_bits_cmd_status_sum     (io_cmd_bits_cmd_status_sum),
-    .io_enq_bits_cmd_status_mprv    (io_cmd_bits_cmd_status_mprv),
-    .io_enq_bits_cmd_status_xs      (io_cmd_bits_cmd_status_xs),
-    .io_enq_bits_cmd_status_fs      (io_cmd_bits_cmd_status_fs),
-    .io_enq_bits_cmd_status_mpp     (io_cmd_bits_cmd_status_mpp),
-    .io_enq_bits_cmd_status_vs      (io_cmd_bits_cmd_status_vs),
-    .io_enq_bits_cmd_status_spp     (io_cmd_bits_cmd_status_spp),
-    .io_enq_bits_cmd_status_mpie    (io_cmd_bits_cmd_status_mpie),
-    .io_enq_bits_cmd_status_ube     (io_cmd_bits_cmd_status_ube),
-    .io_enq_bits_cmd_status_spie    (io_cmd_bits_cmd_status_spie),
-    .io_enq_bits_cmd_status_upie    (io_cmd_bits_cmd_status_upie),
-    .io_enq_bits_cmd_status_mie     (io_cmd_bits_cmd_status_mie),
-    .io_enq_bits_cmd_status_hie     (io_cmd_bits_cmd_status_hie),
-    .io_enq_bits_cmd_status_sie     (io_cmd_bits_cmd_status_sie),
-    .io_enq_bits_cmd_status_uie     (io_cmd_bits_cmd_status_uie),
-    .io_enq_bits_rob_id_bits        (io_cmd_bits_rob_id_bits),
-    .io_enq_bits_from_matmul_fsm    (io_cmd_bits_from_matmul_fsm),
-    .io_enq_bits_from_conv_fsm      (io_cmd_bits_from_conv_fsm),
-    .io_deq_ready                   (_cmd_tracker_io_alloc_valid_T ? _cmd_q_io_deq_valid & ~(|_cmd_q_io_deq_bits_cmd_inst_funct) : ~io_counter_event_signal_8_0 & io_counter_event_signal_9_0 & last_row),	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:64:46, :81:13, :99:38, :100:19, :101:20, :140:26, :142:24, :143:24, :165:42, :167:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-    .io_deq_valid                   (_cmd_q_io_deq_valid),
-    .io_deq_bits_cmd_inst_funct     (_cmd_q_io_deq_bits_cmd_inst_funct),
-    .io_deq_bits_cmd_rs1            (_cmd_q_io_deq_bits_cmd_rs1),
-    .io_deq_bits_cmd_rs2            (_cmd_q_io_deq_bits_cmd_rs2),
-    .io_deq_bits_cmd_status_debug   (io_dma_req_bits_status_debug),
-    .io_deq_bits_cmd_status_cease   (io_dma_req_bits_status_cease),
-    .io_deq_bits_cmd_status_wfi     (io_dma_req_bits_status_wfi),
-    .io_deq_bits_cmd_status_isa     (io_dma_req_bits_status_isa),
-    .io_deq_bits_cmd_status_dprv    (io_dma_req_bits_status_dprv),
-    .io_deq_bits_cmd_status_dv      (io_dma_req_bits_status_dv),
-    .io_deq_bits_cmd_status_prv     (io_dma_req_bits_status_prv),
-    .io_deq_bits_cmd_status_v       (io_dma_req_bits_status_v),
-    .io_deq_bits_cmd_status_sd      (io_dma_req_bits_status_sd),
-    .io_deq_bits_cmd_status_zero2   (io_dma_req_bits_status_zero2),
-    .io_deq_bits_cmd_status_mpv     (io_dma_req_bits_status_mpv),
-    .io_deq_bits_cmd_status_gva     (io_dma_req_bits_status_gva),
-    .io_deq_bits_cmd_status_mbe     (io_dma_req_bits_status_mbe),
-    .io_deq_bits_cmd_status_sbe     (io_dma_req_bits_status_sbe),
-    .io_deq_bits_cmd_status_sxl     (io_dma_req_bits_status_sxl),
-    .io_deq_bits_cmd_status_uxl     (io_dma_req_bits_status_uxl),
-    .io_deq_bits_cmd_status_sd_rv32 (io_dma_req_bits_status_sd_rv32),
-    .io_deq_bits_cmd_status_zero1   (io_dma_req_bits_status_zero1),
-    .io_deq_bits_cmd_status_tsr     (io_dma_req_bits_status_tsr),
-    .io_deq_bits_cmd_status_tw      (io_dma_req_bits_status_tw),
-    .io_deq_bits_cmd_status_tvm     (io_dma_req_bits_status_tvm),
-    .io_deq_bits_cmd_status_mxr     (io_dma_req_bits_status_mxr),
-    .io_deq_bits_cmd_status_sum     (io_dma_req_bits_status_sum),
-    .io_deq_bits_cmd_status_mprv    (io_dma_req_bits_status_mprv),
-    .io_deq_bits_cmd_status_xs      (io_dma_req_bits_status_xs),
-    .io_deq_bits_cmd_status_fs      (io_dma_req_bits_status_fs),
-    .io_deq_bits_cmd_status_mpp     (io_dma_req_bits_status_mpp),
-    .io_deq_bits_cmd_status_vs      (io_dma_req_bits_status_vs),
-    .io_deq_bits_cmd_status_spp     (io_dma_req_bits_status_spp),
-    .io_deq_bits_cmd_status_mpie    (io_dma_req_bits_status_mpie),
-    .io_deq_bits_cmd_status_ube     (io_dma_req_bits_status_ube),
-    .io_deq_bits_cmd_status_spie    (io_dma_req_bits_status_spie),
-    .io_deq_bits_cmd_status_upie    (io_dma_req_bits_status_upie),
-    .io_deq_bits_cmd_status_mie     (io_dma_req_bits_status_mie),
-    .io_deq_bits_cmd_status_hie     (io_dma_req_bits_status_hie),
-    .io_deq_bits_cmd_status_sie     (io_dma_req_bits_status_sie),
-    .io_deq_bits_cmd_status_uie     (io_dma_req_bits_status_uie),
-    .io_deq_bits_rob_id_bits        (_cmd_q_io_deq_bits_rob_id_bits)
+    .clock                                         (clock),
+    .reset                                         (reset),
+    .io_enq_ready                                  (io_cmd_ready),
+    .io_enq_valid                                  (io_cmd_valid),
+    .io_enq_bits_cmd_inst_funct                    (io_cmd_bits_cmd_inst_funct),
+    .io_enq_bits_cmd_inst_rs2                      (io_cmd_bits_cmd_inst_rs2),
+    .io_enq_bits_cmd_inst_rs1                      (io_cmd_bits_cmd_inst_rs1),
+    .io_enq_bits_cmd_inst_xd                       (io_cmd_bits_cmd_inst_xd),
+    .io_enq_bits_cmd_inst_xs1                      (io_cmd_bits_cmd_inst_xs1),
+    .io_enq_bits_cmd_inst_xs2                      (io_cmd_bits_cmd_inst_xs2),
+    .io_enq_bits_cmd_inst_rd                       (io_cmd_bits_cmd_inst_rd),
+    .io_enq_bits_cmd_inst_opcode                   (io_cmd_bits_cmd_inst_opcode),
+    .io_enq_bits_cmd_rs1                           (io_cmd_bits_cmd_rs1),
+    .io_enq_bits_cmd_rs2                           (io_cmd_bits_cmd_rs2),
+    .io_enq_bits_cmd_status_debug                  (io_cmd_bits_cmd_status_debug),
+    .io_enq_bits_cmd_status_cease                  (io_cmd_bits_cmd_status_cease),
+    .io_enq_bits_cmd_status_wfi                    (io_cmd_bits_cmd_status_wfi),
+    .io_enq_bits_cmd_status_isa                    (io_cmd_bits_cmd_status_isa),
+    .io_enq_bits_cmd_status_dprv                   (io_cmd_bits_cmd_status_dprv),
+    .io_enq_bits_cmd_status_dv                     (io_cmd_bits_cmd_status_dv),
+    .io_enq_bits_cmd_status_prv                    (io_cmd_bits_cmd_status_prv),
+    .io_enq_bits_cmd_status_v                      (io_cmd_bits_cmd_status_v),
+    .io_enq_bits_cmd_status_sd                     (io_cmd_bits_cmd_status_sd),
+    .io_enq_bits_cmd_status_zero2                  (io_cmd_bits_cmd_status_zero2),
+    .io_enq_bits_cmd_status_mpv                    (io_cmd_bits_cmd_status_mpv),
+    .io_enq_bits_cmd_status_gva                    (io_cmd_bits_cmd_status_gva),
+    .io_enq_bits_cmd_status_mbe                    (io_cmd_bits_cmd_status_mbe),
+    .io_enq_bits_cmd_status_sbe                    (io_cmd_bits_cmd_status_sbe),
+    .io_enq_bits_cmd_status_sxl                    (io_cmd_bits_cmd_status_sxl),
+    .io_enq_bits_cmd_status_uxl                    (io_cmd_bits_cmd_status_uxl),
+    .io_enq_bits_cmd_status_sd_rv32                (io_cmd_bits_cmd_status_sd_rv32),
+    .io_enq_bits_cmd_status_zero1                  (io_cmd_bits_cmd_status_zero1),
+    .io_enq_bits_cmd_status_tsr                    (io_cmd_bits_cmd_status_tsr),
+    .io_enq_bits_cmd_status_tw                     (io_cmd_bits_cmd_status_tw),
+    .io_enq_bits_cmd_status_tvm                    (io_cmd_bits_cmd_status_tvm),
+    .io_enq_bits_cmd_status_mxr                    (io_cmd_bits_cmd_status_mxr),
+    .io_enq_bits_cmd_status_sum                    (io_cmd_bits_cmd_status_sum),
+    .io_enq_bits_cmd_status_mprv                   (io_cmd_bits_cmd_status_mprv),
+    .io_enq_bits_cmd_status_xs                     (io_cmd_bits_cmd_status_xs),
+    .io_enq_bits_cmd_status_fs                     (io_cmd_bits_cmd_status_fs),
+    .io_enq_bits_cmd_status_mpp                    (io_cmd_bits_cmd_status_mpp),
+    .io_enq_bits_cmd_status_vs                     (io_cmd_bits_cmd_status_vs),
+    .io_enq_bits_cmd_status_spp                    (io_cmd_bits_cmd_status_spp),
+    .io_enq_bits_cmd_status_mpie                   (io_cmd_bits_cmd_status_mpie),
+    .io_enq_bits_cmd_status_ube                    (io_cmd_bits_cmd_status_ube),
+    .io_enq_bits_cmd_status_spie                   (io_cmd_bits_cmd_status_spie),
+    .io_enq_bits_cmd_status_upie                   (io_cmd_bits_cmd_status_upie),
+    .io_enq_bits_cmd_status_mie                    (io_cmd_bits_cmd_status_mie),
+    .io_enq_bits_cmd_status_hie                    (io_cmd_bits_cmd_status_hie),
+    .io_enq_bits_cmd_status_sie                    (io_cmd_bits_cmd_status_sie),
+    .io_enq_bits_cmd_status_uie                    (io_cmd_bits_cmd_status_uie),
+    .io_enq_bits_rob_id_bits                       (io_cmd_bits_rob_id_bits),
+    .io_enq_bits_from_matmul_fsm                   (io_cmd_bits_from_matmul_fsm),
+    .io_enq_bits_from_conv_fsm                     (io_cmd_bits_from_conv_fsm),
+    .io_enq_bits_virtualI_valid                    (io_cmd_bits_virtualI_valid),
+    .io_enq_bits_virtualI_desc_input_base          (io_cmd_bits_virtualI_desc_input_base),
+    .io_enq_bits_virtualI_desc_input_limit         (io_cmd_bits_virtualI_desc_input_limit),
+    .io_enq_bits_virtualI_desc_input_channelStride (io_cmd_bits_virtualI_desc_input_channelStride),
+    .io_enq_bits_virtualI_desc_input_batchStride   (io_cmd_bits_virtualI_desc_input_batchStride),
+    .io_enq_bits_virtualI_desc_input_rowStride     (io_cmd_bits_virtualI_desc_input_rowStride),
+    .io_enq_bits_virtualI_desc_input_pixelStride   (io_cmd_bits_virtualI_desc_input_pixelStride),
+    .io_enq_bits_virtualI_desc_input_physicalY     (io_cmd_bits_virtualI_desc_input_physicalY),
+    .io_enq_bits_virtualI_desc_input_physicalX     (io_cmd_bits_virtualI_desc_input_physicalX),
+    .io_enq_bits_virtualI_desc_input_residentY     (io_cmd_bits_virtualI_desc_input_residentY),
+    .io_enq_bits_virtualI_desc_input_residentX     (io_cmd_bits_virtualI_desc_input_residentX),
+    .io_enq_bits_virtualI_desc_input_residentH     (io_cmd_bits_virtualI_desc_input_residentH),
+    .io_enq_bits_virtualI_desc_input_residentW     (io_cmd_bits_virtualI_desc_input_residentW),
+    .io_enq_bits_virtualI_desc_input_batchOrigin   (io_cmd_bits_virtualI_desc_input_batchOrigin),
+    .io_enq_bits_virtualI_desc_input_batches       (io_cmd_bits_virtualI_desc_input_batches),
+    .io_enq_bits_virtualI_desc_input_channelOrigin (io_cmd_bits_virtualI_desc_input_channelOrigin),
+    .io_enq_bits_virtualI_desc_input_channelBlocks (io_cmd_bits_virtualI_desc_input_channelBlocks),
+    .io_enq_bits_virtualI_desc_output_base         (io_cmd_bits_virtualI_desc_output_base),
+    .io_enq_bits_virtualI_desc_output_limit        (io_cmd_bits_virtualI_desc_output_limit),
+    .io_enq_bits_virtualI_desc_output_groups       (io_cmd_bits_virtualI_desc_output_groups),
+    .io_enq_bits_virtualI_desc_owner               (io_cmd_bits_virtualI_desc_owner),
+    .io_enq_bits_virtualI_desc_generation          (io_cmd_bits_virtualI_desc_generation),
+    .io_enq_bits_virtualI_desc_segment             (io_cmd_bits_virtualI_desc_segment),
+    .io_enq_bits_virtualI_desc_startB              (io_cmd_bits_virtualI_desc_startB),
+    .io_enq_bits_virtualI_desc_startR              (io_cmd_bits_virtualI_desc_startR),
+    .io_enq_bits_virtualI_desc_startC              (io_cmd_bits_virtualI_desc_startC),
+    .io_enq_bits_virtualI_desc_segmentRows         (io_cmd_bits_virtualI_desc_segmentRows),
+    .io_enq_bits_virtualI_desc_supported           (io_cmd_bits_virtualI_desc_supported),
+    .io_enq_bits_virtualI_desc_batches             (io_cmd_bits_virtualI_desc_batches),
+    .io_enq_bits_virtualI_desc_tileRows            (io_cmd_bits_virtualI_desc_tileRows),
+    .io_enq_bits_virtualI_desc_tileCols            (io_cmd_bits_virtualI_desc_tileCols),
+    .io_enq_bits_virtualI_desc_batchStart          (io_cmd_bits_virtualI_desc_batchStart),
+    .io_enq_bits_virtualI_desc_outputY             (io_cmd_bits_virtualI_desc_outputY),
+    .io_enq_bits_virtualI_desc_outputX             (io_cmd_bits_virtualI_desc_outputX),
+    .io_enq_bits_virtualI_desc_inputH              (io_cmd_bits_virtualI_desc_inputH),
+    .io_enq_bits_virtualI_desc_inputW              (io_cmd_bits_virtualI_desc_inputW),
+    .io_enq_bits_virtualI_desc_strideY             (io_cmd_bits_virtualI_desc_strideY),
+    .io_enq_bits_virtualI_desc_strideX             (io_cmd_bits_virtualI_desc_strideX),
+    .io_enq_bits_virtualI_desc_padY                (io_cmd_bits_virtualI_desc_padY),
+    .io_enq_bits_virtualI_desc_padX                (io_cmd_bits_virtualI_desc_padX),
+    .io_enq_bits_virtualI_desc_kernelY             (io_cmd_bits_virtualI_desc_kernelY),
+    .io_enq_bits_virtualI_desc_kernelX             (io_cmd_bits_virtualI_desc_kernelX),
+    .io_enq_bits_virtualI_desc_dilationY           (io_cmd_bits_virtualI_desc_dilationY),
+    .io_enq_bits_virtualI_desc_dilationX           (io_cmd_bits_virtualI_desc_dilationX),
+    .io_enq_bits_virtualI_desc_channelBlock        (io_cmd_bits_virtualI_desc_channelBlock),
+    .io_enq_bits_virtualI_desc_outputGroup         (io_cmd_bits_virtualI_desc_outputGroup),
+    .io_enq_bits_virtualI_desc_kValid              (io_cmd_bits_virtualI_desc_kValid),
+    .io_enq_bits_virtualI_desc_jValid              (io_cmd_bits_virtualI_desc_jValid),
+    .io_deq_ready                                  (_cmd_tracker_io_alloc_valid_T ? _cmd_q_io_deq_valid & ~(|_cmd_q_io_deq_bits_cmd_inst_funct) : ~io_counter_event_signal_8_0 & io_counter_event_signal_9_0 & last_row),	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:64:46, :81:13, :99:38, :100:19, :101:20, :140:26, :142:24, :143:24, :165:42, :167:23, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    .io_deq_valid                                  (_cmd_q_io_deq_valid),
+    .io_deq_bits_cmd_inst_funct                    (_cmd_q_io_deq_bits_cmd_inst_funct),
+    .io_deq_bits_cmd_rs1                           (_cmd_q_io_deq_bits_cmd_rs1),
+    .io_deq_bits_cmd_rs2                           (_cmd_q_io_deq_bits_cmd_rs2),
+    .io_deq_bits_cmd_status_debug                  (io_dma_req_bits_status_debug),
+    .io_deq_bits_cmd_status_cease                  (io_dma_req_bits_status_cease),
+    .io_deq_bits_cmd_status_wfi                    (io_dma_req_bits_status_wfi),
+    .io_deq_bits_cmd_status_isa                    (io_dma_req_bits_status_isa),
+    .io_deq_bits_cmd_status_dprv                   (io_dma_req_bits_status_dprv),
+    .io_deq_bits_cmd_status_dv                     (io_dma_req_bits_status_dv),
+    .io_deq_bits_cmd_status_prv                    (io_dma_req_bits_status_prv),
+    .io_deq_bits_cmd_status_v                      (io_dma_req_bits_status_v),
+    .io_deq_bits_cmd_status_sd                     (io_dma_req_bits_status_sd),
+    .io_deq_bits_cmd_status_zero2                  (io_dma_req_bits_status_zero2),
+    .io_deq_bits_cmd_status_mpv                    (io_dma_req_bits_status_mpv),
+    .io_deq_bits_cmd_status_gva                    (io_dma_req_bits_status_gva),
+    .io_deq_bits_cmd_status_mbe                    (io_dma_req_bits_status_mbe),
+    .io_deq_bits_cmd_status_sbe                    (io_dma_req_bits_status_sbe),
+    .io_deq_bits_cmd_status_sxl                    (io_dma_req_bits_status_sxl),
+    .io_deq_bits_cmd_status_uxl                    (io_dma_req_bits_status_uxl),
+    .io_deq_bits_cmd_status_sd_rv32                (io_dma_req_bits_status_sd_rv32),
+    .io_deq_bits_cmd_status_zero1                  (io_dma_req_bits_status_zero1),
+    .io_deq_bits_cmd_status_tsr                    (io_dma_req_bits_status_tsr),
+    .io_deq_bits_cmd_status_tw                     (io_dma_req_bits_status_tw),
+    .io_deq_bits_cmd_status_tvm                    (io_dma_req_bits_status_tvm),
+    .io_deq_bits_cmd_status_mxr                    (io_dma_req_bits_status_mxr),
+    .io_deq_bits_cmd_status_sum                    (io_dma_req_bits_status_sum),
+    .io_deq_bits_cmd_status_mprv                   (io_dma_req_bits_status_mprv),
+    .io_deq_bits_cmd_status_xs                     (io_dma_req_bits_status_xs),
+    .io_deq_bits_cmd_status_fs                     (io_dma_req_bits_status_fs),
+    .io_deq_bits_cmd_status_mpp                    (io_dma_req_bits_status_mpp),
+    .io_deq_bits_cmd_status_vs                     (io_dma_req_bits_status_vs),
+    .io_deq_bits_cmd_status_spp                    (io_dma_req_bits_status_spp),
+    .io_deq_bits_cmd_status_mpie                   (io_dma_req_bits_status_mpie),
+    .io_deq_bits_cmd_status_ube                    (io_dma_req_bits_status_ube),
+    .io_deq_bits_cmd_status_spie                   (io_dma_req_bits_status_spie),
+    .io_deq_bits_cmd_status_upie                   (io_dma_req_bits_status_upie),
+    .io_deq_bits_cmd_status_mie                    (io_dma_req_bits_status_mie),
+    .io_deq_bits_cmd_status_hie                    (io_dma_req_bits_status_hie),
+    .io_deq_bits_cmd_status_sie                    (io_dma_req_bits_status_sie),
+    .io_deq_bits_cmd_status_uie                    (io_dma_req_bits_status_uie),
+    .io_deq_bits_rob_id_bits                       (_cmd_q_io_deq_bits_rob_id_bits)
   );	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   DMACommandTracker cmd_tracker (	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:94:27]
     .clock                               (clock),
