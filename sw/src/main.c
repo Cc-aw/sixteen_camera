@@ -312,7 +312,7 @@ static void ai_postprocess_bandwidth_begin(uint32_t sweep)
     uint32_t iterations = sweep != 0U ? AI_POST_SWEEP_ITERATIONS :
                                        AI_POST_BANDWIDTH_ITERATIONS;
     uint32_t burst_bytes = sweep != 0U ? ai_post_burst_sweep_bytes[0] :
-                                        UINT32_C(4096);
+                                        UINT32_C(64);
     if (bandwidth_test.active != 0U) {
         console_puts("AI POST bandwidth test already running\r\n");
         return;
@@ -392,7 +392,8 @@ static void ai_postprocess_bandwidth_service(void)
     efficiency_permille = result.read_beats == 0U ? 0U :
         (uint32_t)((result.bytes_read * UINT64_C(1000)) /
                    (result.read_beats * UINT64_C(32)));
-    passed = status > 0 && mbps >= AI_POST_PLATFORM_GATE_MBPS &&
+    passed = status > 0 &&
+             result.iterations_completed == result.iterations_requested && mbps >= AI_POST_PLATFORM_GATE_MBPS &&
              result.crc_mismatches == 0U && result.timeout_count == 0U &&
              result.axi_error_count == 0U &&
              result.r_backpressure_cycles == 0U &&
@@ -457,6 +458,17 @@ static void ai_postprocess_bandwidth_service(void)
     console_put_hex32(runtime_end.last_valid_mask);
     console_puts("\r\n");
 
+    console_puts("AI POST bandwidth exit(code/completed/requested/busy_retries)=");
+    if (status < 0) console_putc('-');
+    console_put_u32((uint32_t)(status < 0 ? -status : status));
+    console_putc('/');
+    console_put_u32(result.iterations_completed);
+    console_putc('/');
+    console_put_u32(result.iterations_requested);
+    console_putc('/');
+    console_put_u32(result.busy_retries);
+    console_puts("\r\n");
+
     if (bandwidth_test.sweep != 0U && status > 0 &&
         result.crc_mismatches == 0U && result.timeout_count == 0U &&
         result.axi_error_count == 0U &&
@@ -479,7 +491,8 @@ static void ai_postprocess_bandwidth_service(void)
         console_put_u32((uint32_t)(-status));
         console_puts("\r\n");
     } else if (bandwidth_test.sweep != 0U) {
-        console_puts("AI POST burst sweep DONE\r\n");
+        console_puts(status > 0 ? "AI POST burst sweep DONE\r\n" :
+                                  "AI POST burst sweep ABORTED\r\n");
     }
 }
 

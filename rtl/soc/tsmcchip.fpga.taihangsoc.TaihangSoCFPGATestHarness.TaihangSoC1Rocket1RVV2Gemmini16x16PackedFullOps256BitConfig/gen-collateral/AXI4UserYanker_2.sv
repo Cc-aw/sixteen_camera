@@ -410,7 +410,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue3_BundleMap_7_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue3_BundleMap_7_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_io_enq_ready),
@@ -424,7 +424,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue2_BundleMap_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue2_BundleMap_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap_1 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap_1 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_1_io_enq_ready),
@@ -438,7 +438,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue2_BundleMap_1_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue2_BundleMap_1_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap_2 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap_2 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_2_io_enq_ready),
@@ -452,7 +452,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue2_BundleMap_2_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue2_BundleMap_2_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap_3 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap_3 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_3_io_enq_ready),
@@ -466,7 +466,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue2_BundleMap_3_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue2_BundleMap_3_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap_4 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap_4 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_4_io_enq_ready),
@@ -480,7 +480,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue2_BundleMap_4_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue2_BundleMap_4_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap_5 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap_5 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_5_io_enq_ready),
@@ -494,7 +494,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue2_BundleMap_5_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue2_BundleMap_5_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap_6 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap_6 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_6_io_enq_ready),
@@ -508,7 +508,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue2_BundleMap_6_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue2_BundleMap_6_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap_7 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap_7 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_7_io_enq_ready),
@@ -634,7 +634,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue3_BundleMap_15_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue3_BundleMap_15_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap_8 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap_8 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_8_io_enq_ready),
@@ -648,7 +648,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue2_BundleMap_8_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue2_BundleMap_8_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap_9 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap_9 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_9_io_enq_ready),
@@ -662,7 +662,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue2_BundleMap_9_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue2_BundleMap_9_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap_10 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap_10 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_10_io_enq_ready),
@@ -676,7 +676,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue2_BundleMap_10_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue2_BundleMap_10_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap_11 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap_11 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_11_io_enq_ready),
@@ -690,7 +690,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue2_BundleMap_11_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue2_BundleMap_11_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap_12 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap_12 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_12_io_enq_ready),
@@ -704,7 +704,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue2_BundleMap_12_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue2_BundleMap_12_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap_13 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap_13 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_13_io_enq_ready),
@@ -718,7 +718,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue2_BundleMap_13_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue2_BundleMap_13_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap_14 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap_14 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_14_io_enq_ready),
@@ -732,7 +732,7 @@ module AXI4UserYanker_2(	// @[generators/rocket-chip/src/main/scala/amba/axi4/Us
     .io_deq_bits_tl_state_source (_Queue2_BundleMap_14_io_deq_bits_tl_state_source),
     .io_deq_bits_extra_id        (_Queue2_BundleMap_14_io_deq_bits_extra_id)
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
-  Queue2_BundleMap Queue2_BundleMap_15 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
+  Queue2_BundleMap_64 Queue2_BundleMap_15 (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:51:17]
     .clock                       (clock),
     .reset                       (reset),
     .io_enq_ready                (_Queue2_BundleMap_15_io_enq_ready),

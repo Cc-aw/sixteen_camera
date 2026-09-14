@@ -278,7 +278,8 @@ foreach sc_file [get_files -quiet -of_objects [get_filesets sources_1]] {
     # Match both repository-linked sources and copies below a Vivado imports
     # directory. Imported files do not begin with sc_soc_root.
     if {[string first $sc_soc_marker $sc_file_name] >= 0 && \
-        [string first $sc_selected_soc_marker $sc_file_name] < 0} {
+        ([string first $sc_selected_soc_marker $sc_file_name] < 0 || \
+         ![file exists $sc_file_name])} {
         lappend sc_stale_soc_files $sc_file
     }
 }

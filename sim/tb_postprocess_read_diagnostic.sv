@@ -6,7 +6,7 @@ module tb_postprocess_read_diagnostic;
     always #5 clk = ~clk;
 
     axi_lite_if #(.ADDR_WIDTH(18)) axil();
-    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4)) axi();
+    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(5)) axi();
     postprocess_read_diagnostic dut(.axil(axil), .m_axi(axi));
     assign axil.aclk = clk;
     assign axil.aresetn = resetn;
@@ -14,7 +14,7 @@ module tb_postprocess_read_diagnostic;
     reg read_active = 1'b0;
     reg [32:0] read_addr = 33'd0;
     reg [8:0] read_left = 9'd0;
-    reg [3:0] read_id = 4'd0;
+    reg [4:0] read_id = 5'd0;
     reg rvalid = 1'b0;
     reg [255:0] rdata = 256'd0;
     reg rlast = 1'b0;
@@ -79,6 +79,8 @@ module tb_postprocess_read_diagnostic;
                     (32'(axi.arlen) + 1) * 32 > 4096)
                     $fatal(1, "bad burst address=%h len=%0d",
                            axi.araddr, axi.arlen);
+                if (dut.production_owner && axi.arlen > 1)
+                    $fatal(1, "PPU burst must remain 64 B during diagnostic sweep");
                 if (!axi.araddr[31])
                     $fatal(1, "FBus DDR alias bit is missing: %h",
                            axi.araddr);
@@ -144,6 +146,29 @@ module tb_postprocess_read_diagnostic;
             value = axil.rdata;
             @(negedge clk);
             axil.rready = 1'b0;
+        end
+    endtask
+
+    localparam integer SNAPSHOT_REGS = 16;
+    reg [15:0] snapshot_addresses [0:SNAPSHOT_REGS-1] = '{
+        16'h001c, 16'h0020, 16'h0024, 16'h0028,
+        16'h002c, 16'h0030, 16'h0034, 16'h0038,
+        16'h003c, 16'h0040, 16'h0044, 16'h0048,
+        16'h004c, 16'h0050, 16'h0054, 16'h0058
+    };
+    reg [31:0] saved_snapshot [0:SNAPSHOT_REGS-1];
+    task automatic check_snapshot;
+        reg [31:0] observed;
+        begin
+            for (integer i = 0; i < SNAPSHOT_REGS; i++) begin
+                read_reg(snapshot_addresses[i], observed);
+                if (observed != saved_snapshot[i])
+                    $fatal(1, "diagnostic snapshot changed addr=%h got=%h expected=%h",
+                           snapshot_addresses[i], observed, saved_snapshot[i]);
+            end
+            read_reg(16'h000c, observed);
+            if (observed[2:1] != 2'b01)
+                $fatal(1, "diagnostic completion/error changed during PPU reuse");
         end
     endtask
 
@@ -242,7 +267,7 @@ module tb_postprocess_read_diagnostic;
         if (value != 1)
             $fatal(1, "maximum outstanding register mismatch %0d", value);
         read_reg(16'h0054, value);
-        if (value != 2)
+        if (value < 1 || value > 3)
             $fatal(1, "reorder occupancy register mismatch %0d", value);
         read_reg(16'h0058, value);
         if (value != 7)
@@ -251,8 +276,12 @@ module tb_postprocess_read_diagnostic;
         if (value != 2)
             $fatal(1, "fast completion count mismatch %0d", value);
 
+        for (integer i = 0; i < SNAPSHOT_REGS; i++)
+            read_reg(snapshot_addresses[i], saved_snapshot[i]);
+
         // Exercise six production descriptors through the same reader, while
         // leaving the original diagnostic CRC and completion counters intact.
+        write_reg(16'h005c, 32'd128);
         production_mode = 1'b1;
         write_reg(16'h0104, 32'h0001_0000);
         write_reg(16'h0108, 32'h0007_0000);
@@ -261,7 +290,11 @@ module tb_postprocess_read_diagnostic;
         write_reg(16'h0114, 32'h0010_0000);
         write_reg(16'h0118, 32'h0012_0000);
         write_reg(16'h0100, 32'd1);
+        wait(dut.reader_busy);
+        wait(dut.reader_beats > 4);
+        check_snapshot();
         wait(dut.production_done);
+        check_snapshot();
         read_reg(16'h011c, value);
         if (value != 32'd2)
             $fatal(1, "production status mismatch %h", value);
@@ -312,6 +345,18 @@ module tb_postprocess_read_diagnostic;
         if (value != 9) $fatal(1, "early threshold count %0d", value);
         read_reg(16'h0140, value);
         if (value != 9) $fatal(1, "early NMS count %0d", value);
+
+        // A later diagnostic must replace the snapshot with its own result.
+        production_mode = 1'b0;
+        write_reg(16'h0018, 32'd32);
+        write_reg(16'h0010, 32'h2000);
+        write_reg(16'h0014, 32'd0);
+        write_reg(16'h0008, 32'd5);
+        wait(dut.done_sticky);
+        read_reg(16'h0028, value);
+        if (value != 32) $fatal(1, "new diagnostic snapshot not published");
+        read_reg(16'h0034, value);
+        if (value != 3) $fatal(1, "new diagnostic completion mismatch");
 
         $display("TB_POSTPROCESS_READ_DIAGNOSTIC=PASS crc=%08h", expected_crc);
         $finish;

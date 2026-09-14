@@ -1,0 +1,545 @@
+{
+  "format": "yolov5nu-stage8-hardware-aware-quantization-audit-v1",
+  "generated_utc": "2026-09-04T11:09:43.489195+00:00",
+  "source_checkpoint": {
+    "path": "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/yolov5nu.pt",
+    "size": 5562759,
+    "sha256": "9e9c1be448b0e1b8598975a9abcab9a0fd0e21182eb422cda7f044a0442d0937"
+  },
+  "fresh_quantized_model": {
+    "path": "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/stage8_640x480_hardware_aware/yolov5nu-hw-aware-full-int8-img640x480.onnx",
+    "size": 3089006,
+    "sha256": "dca4c816476d7d5d82c6566f6de8bfb2792202a48760518ad2204009fe6996f2"
+  },
+  "shared_scale_model": {
+    "path": "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/stage8_640x480_hardware_aware/yolov5nu-hw-aware-shared-scale-int8-img640x480.onnx",
+    "size": 3089006,
+    "sha256": "343adbfbbd5327aa400e58358fa6c726b7e6e3d630ac7b915ecbb98354e6507a"
+  },
+  "manifest": {
+    "path": "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/stage8_640x480_hardware_aware/yolov5nu-hw-aware-shared-scale-img640x480.graph.json",
+    "size": 653967,
+    "sha256": "bab84a0f61e6455c63290b83ac1dd334364d8c755d22f9e5fde510cfc79167a3"
+  },
+  "dynamic_silu_luts": {
+    "path": "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/stage8_640x480_hardware_aware/hardware_silu_luts.json",
+    "size": 224477,
+    "sha256": "b75c038dbd21a6b01f324ed6dc91e12566396d418c457b429ea1425097f5f525"
+  },
+  "calibration_images": [
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000009.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000025.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000030.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000034.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000036.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000042.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000049.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000061.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000064.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000071.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000072.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000073.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000074.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000077.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000078.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000081.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000086.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000089.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000092.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000094.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000109.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000110.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000113.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000127.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000133.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000136.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000138.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000142.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000143.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000144.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000149.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000151.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000154.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000164.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000165.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000192.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000194.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000196.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000201.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000208.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000241.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000247.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000250.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000257.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000260.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000263.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000283.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000294.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000307.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000308.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000309.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000312.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000315.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000321.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000322.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000326.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000328.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000332.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000338.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000349.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000357.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000359.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000360.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000368.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000370.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000382.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000384.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000387.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000389.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000394.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000395.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000397.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000400.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000404.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000415.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000419.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000428.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000431.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000436.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000438.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000443.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000446.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000450.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000459.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000471.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000472.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000474.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000486.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000488.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000490.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000491.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000502.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000508.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000510.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000514.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000520.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000529.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000531.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000532.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000536.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000540.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000542.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000544.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000560.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000562.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000564.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000569.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000572.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000575.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000581.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000584.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000589.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000590.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000595.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000597.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000599.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000605.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000612.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000620.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000623.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000625.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000626.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000629.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000634.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000636.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000641.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000643.jpg",
+    "/mnt/data/fff/chipyard/generators/gemmini/software/gemmini-ort/models/detection/calibration/coco128/images/train2017/000000000650.jpg"
+  ],
+  "calibration_samples": 128,
+  "activation": "per-tensor signed QInt8, zero_point=0",
+  "weight": "per-tensor signed QInt8, zero_point=0",
+  "shared_scale_policy": "topological cumulative max after full recalibration",
+  "feature_add_groups": [
+    {
+      "add_name": "/model.2/m/m.0/Add",
+      "input_scales_before": [
+        0.0747896209359169,
+        0.16140037775039673
+      ],
+      "shared_scale": 0.16140037775039673,
+      "output_scale": 0.16447985172271729
+    },
+    {
+      "add_name": "/model.4/m/m.0/Add",
+      "input_scales_before": [
+        0.027016863226890564,
+        0.04362362250685692
+      ],
+      "shared_scale": 0.04362362250685692,
+      "output_scale": 0.05292493849992752
+    },
+    {
+      "add_name": "/model.4/m/m.1/Add",
+      "input_scales_before": [
+        0.05292493849992752,
+        0.07683932036161423
+      ],
+      "shared_scale": 0.07683932036161423,
+      "output_scale": 0.09039246290922165
+    },
+    {
+      "add_name": "/model.6/m/m.0/Add",
+      "input_scales_before": [
+        0.02089337445795536,
+        0.048265647143125534
+      ],
+      "shared_scale": 0.048265647143125534,
+      "output_scale": 0.04820854216814041
+    },
+    {
+      "add_name": "/model.6/m/m.1/Add",
+      "input_scales_before": [
+        0.04820854216814041,
+        0.056238286197185516
+      ],
+      "shared_scale": 0.056238286197185516,
+      "output_scale": 0.05217299237847328
+    },
+    {
+      "add_name": "/model.6/m/m.2/Add",
+      "input_scales_before": [
+        0.05217299237847328,
+        0.082192562520504
+      ],
+      "shared_scale": 0.082192562520504,
+      "output_scale": 0.09763175249099731
+    },
+    {
+      "add_name": "/model.8/m/m.0/Add",
+      "input_scales_before": [
+        0.04592955484986305,
+        0.14968213438987732
+      ],
+      "shared_scale": 0.14968213438987732,
+      "output_scale": 0.14872673153877258
+    }
+  ],
+  "changed_initializers": [
+    {
+      "initializer": "/model.2/cv1/act/Mul_output_0_scale",
+      "before": 0.0747896209359169,
+      "after": 0.16140037775039673,
+      "users": [
+        "/model.2/cv1/act/Mul_output_0_QuantizeLinear",
+        "/model.2/cv1/act/Mul_output_0_DequantizeLinear"
+      ],
+      "q_tensor": "/model.2/cv1/act/Mul_output_0_QuantizeLinear_Output",
+      "float_tensor": "/model.2/cv1/act/Mul_output_0",
+      "producer_name": "/model.2/cv1/act/Mul"
+    },
+    {
+      "initializer": "/model.2/m/m.0/cv2/act/Mul_output_0_scale",
+      "before": 0.16140037775039673,
+      "after": 0.16140037775039673,
+      "users": [
+        "/model.2/m/m.0/cv2/act/Mul_output_0_QuantizeLinear",
+        "/model.2/m/m.0/cv2/act/Mul_output_0_DequantizeLinear"
+      ],
+      "q_tensor": "/model.2/m/m.0/cv2/act/Mul_output_0_QuantizeLinear_Output",
+      "float_tensor": "/model.2/m/m.0/cv2/act/Mul_output_0",
+      "producer_name": "/model.2/m/m.0/cv2/act/Mul"
+    },
+    {
+      "initializer": "model.2.m.0.cv1.conv.bias_quantized",
+      "before_dtype": "int32",
+      "after_dtype": "int32",
+      "before_checksum": 10645,
+      "after_checksum": 4933,
+      "q_tensor": "model.2.m.0.cv1.conv.bias_quantized",
+      "producer_name": "/model.2/m/m.0/cv1/conv/Conv",
+      "kind": "consumer_conv_bias_quantized"
+    },
+    {
+      "initializer": "model.2.m.0.cv1.conv.bias_quantized_scale",
+      "before": 0.0026455542538315058,
+      "after": 0.005709261026633383,
+      "users": [
+        "model.2.m.0.cv1.conv.bias_DequantizeLinear"
+      ],
+      "q_tensor": "model.2.m.0.cv1.conv.bias_quantized",
+      "producer_name": "/model.2/m/m.0/cv1/conv/Conv",
+      "kind": "consumer_conv_bias_scale"
+    },
+    {
+      "initializer": "/model.4/cv1/act/Mul_output_0_scale",
+      "before": 0.027016863226890564,
+      "after": 0.04362362250685692,
+      "users": [
+        "/model.4/cv1/act/Mul_output_0_QuantizeLinear",
+        "/model.4/cv1/act/Mul_output_0_DequantizeLinear"
+      ],
+      "q_tensor": "/model.4/cv1/act/Mul_output_0_QuantizeLinear_Output",
+      "float_tensor": "/model.4/cv1/act/Mul_output_0",
+      "producer_name": "/model.4/cv1/act/Mul"
+    },
+    {
+      "initializer": "/model.4/m/m.0/cv2/act/Mul_output_0_scale",
+      "before": 0.04362362250685692,
+      "after": 0.04362362250685692,
+      "users": [
+        "/model.4/m/m.0/cv2/act/Mul_output_0_QuantizeLinear",
+        "/model.4/m/m.0/cv2/act/Mul_output_0_DequantizeLinear"
+      ],
+      "q_tensor": "/model.4/m/m.0/cv2/act/Mul_output_0_QuantizeLinear_Output",
+      "float_tensor": "/model.4/m/m.0/cv2/act/Mul_output_0",
+      "producer_name": "/model.4/m/m.0/cv2/act/Mul"
+    },
+    {
+      "initializer": "model.4.m.0.cv1.conv.bias_quantized",
+      "before_dtype": "int32",
+      "after_dtype": "int32",
+      "before_checksum": 52153,
+      "after_checksum": 32298,
+      "q_tensor": "model.4.m.0.cv1.conv.bias_quantized",
+      "producer_name": "/model.4/m/m.0/cv1/conv/Conv",
+      "kind": "consumer_conv_bias_quantized"
+    },
+    {
+      "initializer": "model.4.m.0.cv1.conv.bias_quantized_scale",
+      "before": 0.0005721566267311573,
+      "after": 0.0009238505813470646,
+      "users": [
+        "model.4.m.0.cv1.conv.bias_DequantizeLinear"
+      ],
+      "q_tensor": "model.4.m.0.cv1.conv.bias_quantized",
+      "producer_name": "/model.4/m/m.0/cv1/conv/Conv",
+      "kind": "consumer_conv_bias_scale"
+    },
+    {
+      "initializer": "/model.4/m/m.0/Add_output_0_scale",
+      "before": 0.05292493849992752,
+      "after": 0.07683932036161423,
+      "users": [
+        "/model.4/m/m.0/Add_output_0_QuantizeLinear",
+        "/model.4/m/m.0/Add_output_0_DequantizeLinear"
+      ],
+      "q_tensor": "/model.4/m/m.0/Add_output_0_QuantizeLinear_Output",
+      "float_tensor": "/model.4/m/m.0/Add_output_0",
+      "producer_name": "/model.4/m/m.0/Add"
+    },
+    {
+      "initializer": "/model.4/m/m.1/cv2/act/Mul_output_0_scale",
+      "before": 0.07683932036161423,
+      "after": 0.07683932036161423,
+      "users": [
+        "/model.4/m/m.1/cv2/act/Mul_output_0_QuantizeLinear",
+        "/model.4/m/m.1/cv2/act/Mul_output_0_DequantizeLinear"
+      ],
+      "q_tensor": "/model.4/m/m.1/cv2/act/Mul_output_0_QuantizeLinear_Output",
+      "float_tensor": "/model.4/m/m.1/cv2/act/Mul_output_0",
+      "producer_name": "/model.4/m/m.1/cv2/act/Mul"
+    },
+    {
+      "initializer": "model.4.m.1.cv1.conv.bias_quantized",
+      "before_dtype": "int32",
+      "after_dtype": "int32",
+      "before_checksum": 3635,
+      "after_checksum": 2504,
+      "q_tensor": "model.4.m.1.cv1.conv.bias_quantized",
+      "producer_name": "/model.4/m/m.1/cv1/conv/Conv",
+      "kind": "consumer_conv_bias_quantized"
+    },
+    {
+      "initializer": "model.4.m.1.cv1.conv.bias_quantized_scale",
+      "before": 0.0007173289195634425,
+      "after": 0.001041457342562821,
+      "users": [
+        "model.4.m.1.cv1.conv.bias_DequantizeLinear"
+      ],
+      "q_tensor": "model.4.m.1.cv1.conv.bias_quantized",
+      "producer_name": "/model.4/m/m.1/cv1/conv/Conv",
+      "kind": "consumer_conv_bias_scale"
+    },
+    {
+      "initializer": "/model.6/cv1/act/Mul_output_0_scale",
+      "before": 0.02089337445795536,
+      "after": 0.048265647143125534,
+      "users": [
+        "/model.6/cv1/act/Mul_output_0_QuantizeLinear",
+        "/model.6/cv1/act/Mul_output_0_DequantizeLinear"
+      ],
+      "q_tensor": "/model.6/cv1/act/Mul_output_0_QuantizeLinear_Output",
+      "float_tensor": "/model.6/cv1/act/Mul_output_0",
+      "producer_name": "/model.6/cv1/act/Mul"
+    },
+    {
+      "initializer": "/model.6/m/m.0/cv2/act/Mul_output_0_scale",
+      "before": 0.048265647143125534,
+      "after": 0.048265647143125534,
+      "users": [
+        "/model.6/m/m.0/cv2/act/Mul_output_0_QuantizeLinear",
+        "/model.6/m/m.0/cv2/act/Mul_output_0_DequantizeLinear"
+      ],
+      "q_tensor": "/model.6/m/m.0/cv2/act/Mul_output_0_QuantizeLinear_Output",
+      "float_tensor": "/model.6/m/m.0/cv2/act/Mul_output_0",
+      "producer_name": "/model.6/m/m.0/cv2/act/Mul"
+    },
+    {
+      "initializer": "model.6.m.0.cv1.conv.bias_quantized",
+      "before_dtype": "int32",
+      "after_dtype": "int32",
+      "before_checksum": 10799,
+      "after_checksum": 4675,
+      "q_tensor": "model.6.m.0.cv1.conv.bias_quantized",
+      "producer_name": "/model.6/m/m.0/cv1/conv/Conv",
+      "kind": "consumer_conv_bias_quantized"
+    },
+    {
+      "initializer": "model.6.m.0.cv1.conv.bias_quantized_scale",
+      "before": 0.0010592419421300292,
+      "after": 0.002446947730445584,
+      "users": [
+        "model.6.m.0.cv1.conv.bias_DequantizeLinear"
+      ],
+      "q_tensor": "model.6.m.0.cv1.conv.bias_quantized",
+      "producer_name": "/model.6/m/m.0/cv1/conv/Conv",
+      "kind": "consumer_conv_bias_scale"
+    },
+    {
+      "initializer": "/model.6/m/m.0/Add_output_0_scale",
+      "before": 0.04820854216814041,
+      "after": 0.056238286197185516,
+      "users": [
+        "/model.6/m/m.0/Add_output_0_QuantizeLinear",
+        "/model.6/m/m.0/Add_output_0_DequantizeLinear"
+      ],
+      "q_tensor": "/model.6/m/m.0/Add_output_0_QuantizeLinear_Output",
+      "float_tensor": "/model.6/m/m.0/Add_output_0",
+      "producer_name": "/model.6/m/m.0/Add"
+    },
+    {
+      "initializer": "/model.6/m/m.1/cv2/act/Mul_output_0_scale",
+      "before": 0.056238286197185516,
+      "after": 0.056238286197185516,
+      "users": [
+        "/model.6/m/m.1/cv2/act/Mul_output_0_QuantizeLinear",
+        "/model.6/m/m.1/cv2/act/Mul_output_0_DequantizeLinear"
+      ],
+      "q_tensor": "/model.6/m/m.1/cv2/act/Mul_output_0_QuantizeLinear_Output",
+      "float_tensor": "/model.6/m/m.1/cv2/act/Mul_output_0",
+      "producer_name": "/model.6/m/m.1/cv2/act/Mul"
+    },
+    {
+      "initializer": "model.6.m.1.cv1.conv.bias_quantized",
+      "before_dtype": "int32",
+      "after_dtype": "int32",
+      "before_checksum": -4139,
+      "after_checksum": -3548,
+      "q_tensor": "model.6.m.1.cv1.conv.bias_quantized",
+      "producer_name": "/model.6/m/m.1/cv1/conv/Conv",
+      "kind": "consumer_conv_bias_quantized"
+    },
+    {
+      "initializer": "model.6.m.1.cv1.conv.bias_quantized_scale",
+      "before": 0.0006911147502250969,
+      "after": 0.0008062286775422506,
+      "users": [
+        "model.6.m.1.cv1.conv.bias_DequantizeLinear"
+      ],
+      "q_tensor": "model.6.m.1.cv1.conv.bias_quantized",
+      "producer_name": "/model.6/m/m.1/cv1/conv/Conv",
+      "kind": "consumer_conv_bias_scale"
+    },
+    {
+      "initializer": "/model.6/m/m.1/Add_output_0_scale",
+      "before": 0.05217299237847328,
+      "after": 0.082192562520504,
+      "users": [
+        "/model.6/m/m.1/Add_output_0_QuantizeLinear",
+        "/model.6/m/m.1/Add_output_0_DequantizeLinear"
+      ],
+      "q_tensor": "/model.6/m/m.1/Add_output_0_QuantizeLinear_Output",
+      "float_tensor": "/model.6/m/m.1/Add_output_0",
+      "producer_name": "/model.6/m/m.1/Add"
+    },
+    {
+      "initializer": "/model.6/m/m.2/cv2/act/Mul_output_0_scale",
+      "before": 0.082192562520504,
+      "after": 0.082192562520504,
+      "users": [
+        "/model.6/m/m.2/cv2/act/Mul_output_0_QuantizeLinear",
+        "/model.6/m/m.2/cv2/act/Mul_output_0_DequantizeLinear"
+      ],
+      "q_tensor": "/model.6/m/m.2/cv2/act/Mul_output_0_QuantizeLinear_Output",
+      "float_tensor": "/model.6/m/m.2/cv2/act/Mul_output_0",
+      "producer_name": "/model.6/m/m.2/cv2/act/Mul"
+    },
+    {
+      "initializer": "model.6.m.2.cv1.conv.bias_quantized",
+      "before_dtype": "int32",
+      "after_dtype": "int32",
+      "before_checksum": 5738,
+      "after_checksum": 3642,
+      "q_tensor": "model.6.m.2.cv1.conv.bias_quantized",
+      "producer_name": "/model.6/m/m.2/cv1/conv/Conv",
+      "kind": "consumer_conv_bias_quantized"
+    },
+    {
+      "initializer": "model.6.m.2.cv1.conv.bias_quantized_scale",
+      "before": 0.0004742111486848444,
+      "after": 0.000747065237352143,
+      "users": [
+        "model.6.m.2.cv1.conv.bias_DequantizeLinear"
+      ],
+      "q_tensor": "model.6.m.2.cv1.conv.bias_quantized",
+      "producer_name": "/model.6/m/m.2/cv1/conv/Conv",
+      "kind": "consumer_conv_bias_scale"
+    },
+    {
+      "initializer": "/model.8/cv1/act/Mul_output_0_scale",
+      "before": 0.04592955484986305,
+      "after": 0.14968213438987732,
+      "users": [
+        "/model.8/cv1/act/Mul_output_0_QuantizeLinear",
+        "/model.8/cv1/act/Mul_output_0_DequantizeLinear"
+      ],
+      "q_tensor": "/model.8/cv1/act/Mul_output_0_QuantizeLinear_Output",
+      "float_tensor": "/model.8/cv1/act/Mul_output_0",
+      "producer_name": "/model.8/cv1/act/Mul"
+    },
+    {
+      "initializer": "/model.8/m/m.0/cv2/act/Mul_output_0_scale",
+      "before": 0.14968213438987732,
+      "after": 0.14968213438987732,
+      "users": [
+        "/model.8/m/m.0/cv2/act/Mul_output_0_QuantizeLinear",
+        "/model.8/m/m.0/cv2/act/Mul_output_0_DequantizeLinear"
+      ],
+      "q_tensor": "/model.8/m/m.0/cv2/act/Mul_output_0_QuantizeLinear_Output",
+      "float_tensor": "/model.8/m/m.0/cv2/act/Mul_output_0",
+      "producer_name": "/model.8/m/m.0/cv2/act/Mul"
+    },
+    {
+      "initializer": "model.8.m.0.cv1.conv.bias_quantized",
+      "before_dtype": "int32",
+      "after_dtype": "int32",
+      "before_checksum": -234323,
+      "after_checksum": -71904,
+      "q_tensor": "model.8.m.0.cv1.conv.bias_quantized",
+      "producer_name": "/model.8/m/m.0/cv1/conv/Conv",
+      "kind": "consumer_conv_bias_quantized"
+    },
+    {
+      "initializer": "model.8.m.0.cv1.conv.bias_quantized_scale",
+      "before": 0.0012876731343567371,
+      "after": 0.004196462700716219,
+      "users": [
+        "model.8.m.0.cv1.conv.bias_DequantizeLinear"
+      ],
+      "q_tensor": "model.8.m.0.cv1.conv.bias_quantized",
+      "producer_name": "/model.8/m/m.0/cv1/conv/Conv",
+      "kind": "consumer_conv_bias_scale"
+    }
+  ]
+}

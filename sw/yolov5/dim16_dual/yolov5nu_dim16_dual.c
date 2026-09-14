@@ -125,7 +125,7 @@ static uint64_t head_dfl_candidate_cycles;
 static uint64_t head_class_candidate_cycles;
 static int head_dfl_candidate_rvv_enabled;
 
-static elem_t activation_arenas[YOLOV5NU_DIM16_WORKER_COUNT][2217600] row_align(1);
+static elem_t activation_arenas[YOLOV5NU_DIM16_WORKER_COUNT][2217600] __attribute__((aligned(64)));
 static elem_t *activation_arena;
 #define tensor_3 (activation_arena + 0)
 #define tensor_6 (activation_arena + 1228800)

@@ -705,7 +705,7 @@ module TLInterconnectCoupler_sbus_to_port_named_mmio_port_axi4(	// @[generators/
     .auto_out_r_bits_echo_tl_state_source     (_axi4index_auto_in_r_bits_echo_tl_state_source),	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
     .auto_out_r_bits_last                     (_axi4index_auto_in_r_bits_last)	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   );	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:301:29]
-  TLWidthWidget32_2 widget (	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
+  TLWidthWidget32_3 widget (	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
     .clock                                          (clock),
     .reset                                          (reset),
     .auto_anon_in_a_ready                           (auto_tl_in_a_ready),

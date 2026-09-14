@@ -134,8 +134,38 @@ module TLToAXI4(	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scal
   input         auto_out_r_bits_last	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
 );
 
-  reg               count_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
-  reg               count_164;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               count_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               count_194;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  wire              idStall_193;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_192;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_191;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_190;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_189;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_188;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_187;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_186;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_185;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_184;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_183;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_182;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_181;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_180;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_179;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_178;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_177;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_176;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_175;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_174;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_173;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_172;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_171;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_170;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_169;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_168;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_167;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_166;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
+  wire              idStall_164;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
   wire              idStall_163;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
   wire              idStall_162;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:286:34]
   reg               count_161;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
@@ -538,8 +568,8 @@ module TLToAXI4(	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scal
       8'h0,
       8'h0,
       8'h21,
-      8'hA4,
-      8'hA5,
+      8'hC2,
+      8'hC3,
       8'h20,
       8'h1F,
       8'h1E,
@@ -700,130 +730,130 @@ module TLToAXI4(	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scal
       8'h0,
       8'h0,
       8'h0,
+      8'hC1,
+      8'hC1,
+      8'hC1,
+      8'hC1,
+      8'hC0,
+      8'hC0,
+      8'hC0,
+      8'hC0,
+      8'hBF,
+      8'hBF,
+      8'hBF,
+      8'hBF,
+      8'hBE,
+      8'hBE,
+      8'hBE,
+      8'hBE,
+      8'hBD,
+      8'hBD,
+      8'hBD,
+      8'hBD,
+      8'hBC,
+      8'hBC,
+      8'hBC,
+      8'hBC,
+      8'hBB,
+      8'hBB,
+      8'hBB,
+      8'hBB,
+      8'hBA,
+      8'hBA,
+      8'hBA,
+      8'hBA,
+      8'hB9,
+      8'hB9,
+      8'hB9,
+      8'hB9,
+      8'hB8,
+      8'hB8,
+      8'hB8,
+      8'hB8,
+      8'hB7,
+      8'hB7,
+      8'hB7,
+      8'hB7,
+      8'hB6,
+      8'hB6,
+      8'hB6,
+      8'hB6,
+      8'hB5,
+      8'hB5,
+      8'hB5,
+      8'hB5,
+      8'hB4,
+      8'hB4,
+      8'hB4,
+      8'hB4,
+      8'hB3,
+      8'hB3,
+      8'hB3,
+      8'hB3,
+      8'hB2,
+      8'hB2,
+      8'hB2,
+      8'hB2,
+      8'hB1,
+      8'hB1,
+      8'hB1,
+      8'hB1,
+      8'hB0,
+      8'hB0,
+      8'hB0,
+      8'hB0,
+      8'hAF,
+      8'hAF,
+      8'hAF,
+      8'hAF,
+      8'hAE,
+      8'hAE,
+      8'hAE,
+      8'hAE,
+      8'hAD,
+      8'hAD,
+      8'hAD,
+      8'hAD,
+      8'hAC,
+      8'hAC,
+      8'hAC,
+      8'hAC,
+      8'hAB,
+      8'hAB,
+      8'hAB,
+      8'hAB,
+      8'hAA,
+      8'hAA,
+      8'hAA,
+      8'hAA,
+      8'hA9,
+      8'hA9,
+      8'hA9,
+      8'hA9,
+      8'hA8,
+      8'hA8,
+      8'hA8,
+      8'hA8,
+      8'hA7,
+      8'hA7,
+      8'hA7,
+      8'hA7,
+      8'hA6,
+      8'hA6,
+      8'hA6,
+      8'hA6,
+      8'hA5,
+      8'hA5,
+      8'hA5,
+      8'hA5,
+      8'hA4,
+      8'hA4,
+      8'hA4,
+      8'hA4,
       8'hA3,
       8'hA3,
       8'hA3,
       8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA3,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
-      8'hA2,
       8'hA2,
       8'hA2,
       8'hA2,
@@ -1058,8 +1088,8 @@ module TLToAXI4(	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scal
      {1'h0},
      {1'h0},
      {count_33},
-     {count_164},
-     {count_165},
+     {count_194},
+     {count_195},
      {count_32},
      {count_31},
      {count_30},
@@ -1220,130 +1250,130 @@ module TLToAXI4(	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scal
      {1'h0},
      {1'h0},
      {count},
+     {idStall_193},
+     {idStall_193},
+     {idStall_193},
+     {idStall_193},
+     {idStall_192},
+     {idStall_192},
+     {idStall_192},
+     {idStall_192},
+     {idStall_191},
+     {idStall_191},
+     {idStall_191},
+     {idStall_191},
+     {idStall_190},
+     {idStall_190},
+     {idStall_190},
+     {idStall_190},
+     {idStall_189},
+     {idStall_189},
+     {idStall_189},
+     {idStall_189},
+     {idStall_188},
+     {idStall_188},
+     {idStall_188},
+     {idStall_188},
+     {idStall_187},
+     {idStall_187},
+     {idStall_187},
+     {idStall_187},
+     {idStall_186},
+     {idStall_186},
+     {idStall_186},
+     {idStall_186},
+     {idStall_185},
+     {idStall_185},
+     {idStall_185},
+     {idStall_185},
+     {idStall_184},
+     {idStall_184},
+     {idStall_184},
+     {idStall_184},
+     {idStall_183},
+     {idStall_183},
+     {idStall_183},
+     {idStall_183},
+     {idStall_182},
+     {idStall_182},
+     {idStall_182},
+     {idStall_182},
+     {idStall_181},
+     {idStall_181},
+     {idStall_181},
+     {idStall_181},
+     {idStall_180},
+     {idStall_180},
+     {idStall_180},
+     {idStall_180},
+     {idStall_179},
+     {idStall_179},
+     {idStall_179},
+     {idStall_179},
+     {idStall_178},
+     {idStall_178},
+     {idStall_178},
+     {idStall_178},
+     {idStall_177},
+     {idStall_177},
+     {idStall_177},
+     {idStall_177},
+     {idStall_176},
+     {idStall_176},
+     {idStall_176},
+     {idStall_176},
+     {idStall_175},
+     {idStall_175},
+     {idStall_175},
+     {idStall_175},
+     {idStall_174},
+     {idStall_174},
+     {idStall_174},
+     {idStall_174},
+     {idStall_173},
+     {idStall_173},
+     {idStall_173},
+     {idStall_173},
+     {idStall_172},
+     {idStall_172},
+     {idStall_172},
+     {idStall_172},
+     {idStall_171},
+     {idStall_171},
+     {idStall_171},
+     {idStall_171},
+     {idStall_170},
+     {idStall_170},
+     {idStall_170},
+     {idStall_170},
+     {idStall_169},
+     {idStall_169},
+     {idStall_169},
+     {idStall_169},
+     {idStall_168},
+     {idStall_168},
+     {idStall_168},
+     {idStall_168},
+     {idStall_167},
+     {idStall_167},
+     {idStall_167},
+     {idStall_167},
+     {idStall_166},
+     {idStall_166},
+     {idStall_166},
+     {idStall_166},
+     {idStall_165},
+     {idStall_165},
+     {idStall_165},
+     {idStall_165},
+     {idStall_164},
+     {idStall_164},
+     {idStall_164},
+     {idStall_164},
      {idStall_163},
      {idStall_163},
      {idStall_163},
      {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_163},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
-     {idStall_162},
      {idStall_162},
      {idStall_162},
      {idStall_162},
@@ -1363,346 +1393,496 @@ module TLToAXI4(	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scal
   wire              r_denied = r_first ? (&auto_out_r_bits_resp) : r_denied_r;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:234:28, :236:39, generators/rocket-chip/src/main/scala/util/package.scala:89:{42,63}]
   wire [7:0]        d_sel_shiftAmount = r_wins ? auto_out_r_bits_id : auto_out_b_bits_id;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:225:53, :261:31]
   wire              d_last = ~r_wins | auto_out_r_bits_last;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:225:53, :262:23]
-  wire              _inc_T_165 = _queue_arw_deq_q_io_enq_ready & out_arw_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:207:{31,45}, src/main/scala/chisel3/util/Decoupled.scala:51:35, :362:21]
-  wire              inc = _GEN[auto_in_a_bits_source] == 8'h0 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              _dec_T_331 = auto_in_d_ready & nodeIn_d_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:229:24, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-  wire              dec = d_sel_shiftAmount == 8'h0 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_1 = _GEN[auto_in_a_bits_source] == 8'h1 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_1 = d_sel_shiftAmount == 8'h1 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_2 = _GEN[auto_in_a_bits_source] == 8'h2 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_2 = d_sel_shiftAmount == 8'h2 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_3 = _GEN[auto_in_a_bits_source] == 8'h3 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_3 = d_sel_shiftAmount == 8'h3 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_4 = _GEN[auto_in_a_bits_source] == 8'h4 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_4 = d_sel_shiftAmount == 8'h4 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_5 = _GEN[auto_in_a_bits_source] == 8'h5 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_5 = d_sel_shiftAmount == 8'h5 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_6 = _GEN[auto_in_a_bits_source] == 8'h6 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_6 = d_sel_shiftAmount == 8'h6 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_7 = _GEN[auto_in_a_bits_source] == 8'h7 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_7 = d_sel_shiftAmount == 8'h7 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_8 = _GEN[auto_in_a_bits_source] == 8'h8 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_8 = d_sel_shiftAmount == 8'h8 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_9 = _GEN[auto_in_a_bits_source] == 8'h9 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_9 = d_sel_shiftAmount == 8'h9 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_10 = _GEN[auto_in_a_bits_source] == 8'hA & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_10 = d_sel_shiftAmount == 8'hA & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_11 = _GEN[auto_in_a_bits_source] == 8'hB & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_11 = d_sel_shiftAmount == 8'hB & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_12 = _GEN[auto_in_a_bits_source] == 8'hC & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_12 = d_sel_shiftAmount == 8'hC & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_13 = _GEN[auto_in_a_bits_source] == 8'hD & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_13 = d_sel_shiftAmount == 8'hD & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_14 = _GEN[auto_in_a_bits_source] == 8'hE & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_14 = d_sel_shiftAmount == 8'hE & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_15 = _GEN[auto_in_a_bits_source] == 8'hF & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_15 = d_sel_shiftAmount == 8'hF & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_16 = _GEN[auto_in_a_bits_source] == 8'h10 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_16 = d_sel_shiftAmount == 8'h10 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_17 = _GEN[auto_in_a_bits_source] == 8'h11 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_17 = d_sel_shiftAmount == 8'h11 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_18 = _GEN[auto_in_a_bits_source] == 8'h12 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_18 = d_sel_shiftAmount == 8'h12 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_19 = _GEN[auto_in_a_bits_source] == 8'h13 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_19 = d_sel_shiftAmount == 8'h13 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_20 = _GEN[auto_in_a_bits_source] == 8'h14 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_20 = d_sel_shiftAmount == 8'h14 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_21 = _GEN[auto_in_a_bits_source] == 8'h15 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_21 = d_sel_shiftAmount == 8'h15 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_22 = _GEN[auto_in_a_bits_source] == 8'h16 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_22 = d_sel_shiftAmount == 8'h16 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_23 = _GEN[auto_in_a_bits_source] == 8'h17 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_23 = d_sel_shiftAmount == 8'h17 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_24 = _GEN[auto_in_a_bits_source] == 8'h18 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_24 = d_sel_shiftAmount == 8'h18 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_25 = _GEN[auto_in_a_bits_source] == 8'h19 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_25 = d_sel_shiftAmount == 8'h19 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_26 = _GEN[auto_in_a_bits_source] == 8'h1A & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_26 = d_sel_shiftAmount == 8'h1A & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_27 = _GEN[auto_in_a_bits_source] == 8'h1B & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_27 = d_sel_shiftAmount == 8'h1B & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_28 = _GEN[auto_in_a_bits_source] == 8'h1C & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_28 = d_sel_shiftAmount == 8'h1C & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_29 = _GEN[auto_in_a_bits_source] == 8'h1D & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_29 = d_sel_shiftAmount == 8'h1D & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_30 = _GEN[auto_in_a_bits_source] == 8'h1E & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_30 = d_sel_shiftAmount == 8'h1E & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_31 = _GEN[auto_in_a_bits_source] == 8'h1F & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_31 = d_sel_shiftAmount == 8'h1F & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_32 = _GEN[auto_in_a_bits_source] == 8'h20 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_32 = d_sel_shiftAmount == 8'h20 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_33 = _GEN[auto_in_a_bits_source] == 8'h21 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_33 = d_sel_shiftAmount == 8'h21 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_34 = _GEN[auto_in_a_bits_source] == 8'h22 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_34 = d_sel_shiftAmount == 8'h22 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_35 = _GEN[auto_in_a_bits_source] == 8'h23 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_35 = d_sel_shiftAmount == 8'h23 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_36 = _GEN[auto_in_a_bits_source] == 8'h24 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_36 = d_sel_shiftAmount == 8'h24 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_37 = _GEN[auto_in_a_bits_source] == 8'h25 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_37 = d_sel_shiftAmount == 8'h25 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_38 = _GEN[auto_in_a_bits_source] == 8'h26 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_38 = d_sel_shiftAmount == 8'h26 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_39 = _GEN[auto_in_a_bits_source] == 8'h27 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_39 = d_sel_shiftAmount == 8'h27 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_40 = _GEN[auto_in_a_bits_source] == 8'h28 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_40 = d_sel_shiftAmount == 8'h28 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_41 = _GEN[auto_in_a_bits_source] == 8'h29 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_41 = d_sel_shiftAmount == 8'h29 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_42 = _GEN[auto_in_a_bits_source] == 8'h2A & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_42 = d_sel_shiftAmount == 8'h2A & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_43 = _GEN[auto_in_a_bits_source] == 8'h2B & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_43 = d_sel_shiftAmount == 8'h2B & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_44 = _GEN[auto_in_a_bits_source] == 8'h2C & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_44 = d_sel_shiftAmount == 8'h2C & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_45 = _GEN[auto_in_a_bits_source] == 8'h2D & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_45 = d_sel_shiftAmount == 8'h2D & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_46 = _GEN[auto_in_a_bits_source] == 8'h2E & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_46 = d_sel_shiftAmount == 8'h2E & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_47 = _GEN[auto_in_a_bits_source] == 8'h2F & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_47 = d_sel_shiftAmount == 8'h2F & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_48 = _GEN[auto_in_a_bits_source] == 8'h30 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_48 = d_sel_shiftAmount == 8'h30 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_49 = _GEN[auto_in_a_bits_source] == 8'h31 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_49 = d_sel_shiftAmount == 8'h31 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_50 = _GEN[auto_in_a_bits_source] == 8'h32 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_50 = d_sel_shiftAmount == 8'h32 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_51 = _GEN[auto_in_a_bits_source] == 8'h33 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_51 = d_sel_shiftAmount == 8'h33 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_52 = _GEN[auto_in_a_bits_source] == 8'h34 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_52 = d_sel_shiftAmount == 8'h34 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_53 = _GEN[auto_in_a_bits_source] == 8'h35 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_53 = d_sel_shiftAmount == 8'h35 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_54 = _GEN[auto_in_a_bits_source] == 8'h36 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_54 = d_sel_shiftAmount == 8'h36 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_55 = _GEN[auto_in_a_bits_source] == 8'h37 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_55 = d_sel_shiftAmount == 8'h37 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_56 = _GEN[auto_in_a_bits_source] == 8'h38 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_56 = d_sel_shiftAmount == 8'h38 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_57 = _GEN[auto_in_a_bits_source] == 8'h39 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_57 = d_sel_shiftAmount == 8'h39 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_58 = _GEN[auto_in_a_bits_source] == 8'h3A & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_58 = d_sel_shiftAmount == 8'h3A & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_59 = _GEN[auto_in_a_bits_source] == 8'h3B & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_59 = d_sel_shiftAmount == 8'h3B & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_60 = _GEN[auto_in_a_bits_source] == 8'h3C & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_60 = d_sel_shiftAmount == 8'h3C & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_61 = _GEN[auto_in_a_bits_source] == 8'h3D & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_61 = d_sel_shiftAmount == 8'h3D & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_62 = _GEN[auto_in_a_bits_source] == 8'h3E & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_62 = d_sel_shiftAmount == 8'h3E & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_63 = _GEN[auto_in_a_bits_source] == 8'h3F & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_63 = d_sel_shiftAmount == 8'h3F & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_64 = _GEN[auto_in_a_bits_source] == 8'h40 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_64 = d_sel_shiftAmount == 8'h40 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_65 = _GEN[auto_in_a_bits_source] == 8'h41 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_65 = d_sel_shiftAmount == 8'h41 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_66 = _GEN[auto_in_a_bits_source] == 8'h42 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_66 = d_sel_shiftAmount == 8'h42 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_67 = _GEN[auto_in_a_bits_source] == 8'h43 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_67 = d_sel_shiftAmount == 8'h43 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_68 = _GEN[auto_in_a_bits_source] == 8'h44 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_68 = d_sel_shiftAmount == 8'h44 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_69 = _GEN[auto_in_a_bits_source] == 8'h45 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_69 = d_sel_shiftAmount == 8'h45 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_70 = _GEN[auto_in_a_bits_source] == 8'h46 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_70 = d_sel_shiftAmount == 8'h46 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_71 = _GEN[auto_in_a_bits_source] == 8'h47 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_71 = d_sel_shiftAmount == 8'h47 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_72 = _GEN[auto_in_a_bits_source] == 8'h48 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_72 = d_sel_shiftAmount == 8'h48 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_73 = _GEN[auto_in_a_bits_source] == 8'h49 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_73 = d_sel_shiftAmount == 8'h49 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_74 = _GEN[auto_in_a_bits_source] == 8'h4A & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_74 = d_sel_shiftAmount == 8'h4A & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_75 = _GEN[auto_in_a_bits_source] == 8'h4B & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_75 = d_sel_shiftAmount == 8'h4B & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_76 = _GEN[auto_in_a_bits_source] == 8'h4C & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_76 = d_sel_shiftAmount == 8'h4C & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_77 = _GEN[auto_in_a_bits_source] == 8'h4D & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_77 = d_sel_shiftAmount == 8'h4D & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_78 = _GEN[auto_in_a_bits_source] == 8'h4E & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_78 = d_sel_shiftAmount == 8'h4E & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_79 = _GEN[auto_in_a_bits_source] == 8'h4F & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_79 = d_sel_shiftAmount == 8'h4F & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_80 = _GEN[auto_in_a_bits_source] == 8'h50 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_80 = d_sel_shiftAmount == 8'h50 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_81 = _GEN[auto_in_a_bits_source] == 8'h51 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_81 = d_sel_shiftAmount == 8'h51 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_82 = _GEN[auto_in_a_bits_source] == 8'h52 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_82 = d_sel_shiftAmount == 8'h52 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_83 = _GEN[auto_in_a_bits_source] == 8'h53 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_83 = d_sel_shiftAmount == 8'h53 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_84 = _GEN[auto_in_a_bits_source] == 8'h54 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_84 = d_sel_shiftAmount == 8'h54 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_85 = _GEN[auto_in_a_bits_source] == 8'h55 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_85 = d_sel_shiftAmount == 8'h55 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_86 = _GEN[auto_in_a_bits_source] == 8'h56 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_86 = d_sel_shiftAmount == 8'h56 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_87 = _GEN[auto_in_a_bits_source] == 8'h57 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_87 = d_sel_shiftAmount == 8'h57 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_88 = _GEN[auto_in_a_bits_source] == 8'h58 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_88 = d_sel_shiftAmount == 8'h58 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_89 = _GEN[auto_in_a_bits_source] == 8'h59 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_89 = d_sel_shiftAmount == 8'h59 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_90 = _GEN[auto_in_a_bits_source] == 8'h5A & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_90 = d_sel_shiftAmount == 8'h5A & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_91 = _GEN[auto_in_a_bits_source] == 8'h5B & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_91 = d_sel_shiftAmount == 8'h5B & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_92 = _GEN[auto_in_a_bits_source] == 8'h5C & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_92 = d_sel_shiftAmount == 8'h5C & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_93 = _GEN[auto_in_a_bits_source] == 8'h5D & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_93 = d_sel_shiftAmount == 8'h5D & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_94 = _GEN[auto_in_a_bits_source] == 8'h5E & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_94 = d_sel_shiftAmount == 8'h5E & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_95 = _GEN[auto_in_a_bits_source] == 8'h5F & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_95 = d_sel_shiftAmount == 8'h5F & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_96 = _GEN[auto_in_a_bits_source] == 8'h60 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_96 = d_sel_shiftAmount == 8'h60 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_97 = _GEN[auto_in_a_bits_source] == 8'h61 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_97 = d_sel_shiftAmount == 8'h61 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_98 = _GEN[auto_in_a_bits_source] == 8'h62 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_98 = d_sel_shiftAmount == 8'h62 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_99 = _GEN[auto_in_a_bits_source] == 8'h63 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_99 = d_sel_shiftAmount == 8'h63 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_100 = _GEN[auto_in_a_bits_source] == 8'h64 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_100 = d_sel_shiftAmount == 8'h64 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_101 = _GEN[auto_in_a_bits_source] == 8'h65 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_101 = d_sel_shiftAmount == 8'h65 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_102 = _GEN[auto_in_a_bits_source] == 8'h66 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_102 = d_sel_shiftAmount == 8'h66 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_103 = _GEN[auto_in_a_bits_source] == 8'h67 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_103 = d_sel_shiftAmount == 8'h67 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_104 = _GEN[auto_in_a_bits_source] == 8'h68 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_104 = d_sel_shiftAmount == 8'h68 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_105 = _GEN[auto_in_a_bits_source] == 8'h69 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_105 = d_sel_shiftAmount == 8'h69 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_106 = _GEN[auto_in_a_bits_source] == 8'h6A & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_106 = d_sel_shiftAmount == 8'h6A & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_107 = _GEN[auto_in_a_bits_source] == 8'h6B & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_107 = d_sel_shiftAmount == 8'h6B & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_108 = _GEN[auto_in_a_bits_source] == 8'h6C & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_108 = d_sel_shiftAmount == 8'h6C & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_109 = _GEN[auto_in_a_bits_source] == 8'h6D & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_109 = d_sel_shiftAmount == 8'h6D & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_110 = _GEN[auto_in_a_bits_source] == 8'h6E & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_110 = d_sel_shiftAmount == 8'h6E & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_111 = _GEN[auto_in_a_bits_source] == 8'h6F & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_111 = d_sel_shiftAmount == 8'h6F & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_112 = _GEN[auto_in_a_bits_source] == 8'h70 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_112 = d_sel_shiftAmount == 8'h70 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_113 = _GEN[auto_in_a_bits_source] == 8'h71 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_113 = d_sel_shiftAmount == 8'h71 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_114 = _GEN[auto_in_a_bits_source] == 8'h72 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_114 = d_sel_shiftAmount == 8'h72 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_115 = _GEN[auto_in_a_bits_source] == 8'h73 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_115 = d_sel_shiftAmount == 8'h73 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_116 = _GEN[auto_in_a_bits_source] == 8'h74 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_116 = d_sel_shiftAmount == 8'h74 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_117 = _GEN[auto_in_a_bits_source] == 8'h75 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_117 = d_sel_shiftAmount == 8'h75 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_118 = _GEN[auto_in_a_bits_source] == 8'h76 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_118 = d_sel_shiftAmount == 8'h76 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_119 = _GEN[auto_in_a_bits_source] == 8'h77 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_119 = d_sel_shiftAmount == 8'h77 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_120 = _GEN[auto_in_a_bits_source] == 8'h78 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_120 = d_sel_shiftAmount == 8'h78 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_121 = _GEN[auto_in_a_bits_source] == 8'h79 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_121 = d_sel_shiftAmount == 8'h79 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_122 = _GEN[auto_in_a_bits_source] == 8'h7A & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_122 = d_sel_shiftAmount == 8'h7A & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_123 = _GEN[auto_in_a_bits_source] == 8'h7B & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_123 = d_sel_shiftAmount == 8'h7B & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_124 = _GEN[auto_in_a_bits_source] == 8'h7C & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_124 = d_sel_shiftAmount == 8'h7C & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_125 = _GEN[auto_in_a_bits_source] == 8'h7D & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_125 = d_sel_shiftAmount == 8'h7D & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_126 = _GEN[auto_in_a_bits_source] == 8'h7E & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_126 = d_sel_shiftAmount == 8'h7E & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_127 = _GEN[auto_in_a_bits_source] == 8'h7F & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_127 = d_sel_shiftAmount == 8'h7F & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_128 = _GEN[auto_in_a_bits_source] == 8'h80 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_128 = d_sel_shiftAmount == 8'h80 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_129 = _GEN[auto_in_a_bits_source] == 8'h81 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_129 = d_sel_shiftAmount == 8'h81 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_130 = _GEN[auto_in_a_bits_source] == 8'h82 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_130 = d_sel_shiftAmount == 8'h82 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_131 = _GEN[auto_in_a_bits_source] == 8'h83 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_131 = d_sel_shiftAmount == 8'h83 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_132 = _GEN[auto_in_a_bits_source] == 8'h84 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_132 = d_sel_shiftAmount == 8'h84 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_133 = _GEN[auto_in_a_bits_source] == 8'h85 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_133 = d_sel_shiftAmount == 8'h85 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_134 = _GEN[auto_in_a_bits_source] == 8'h86 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_134 = d_sel_shiftAmount == 8'h86 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_135 = _GEN[auto_in_a_bits_source] == 8'h87 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_135 = d_sel_shiftAmount == 8'h87 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_136 = _GEN[auto_in_a_bits_source] == 8'h88 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_136 = d_sel_shiftAmount == 8'h88 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_137 = _GEN[auto_in_a_bits_source] == 8'h89 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_137 = d_sel_shiftAmount == 8'h89 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_138 = _GEN[auto_in_a_bits_source] == 8'h8A & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_138 = d_sel_shiftAmount == 8'h8A & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_139 = _GEN[auto_in_a_bits_source] == 8'h8B & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_139 = d_sel_shiftAmount == 8'h8B & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_140 = _GEN[auto_in_a_bits_source] == 8'h8C & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_140 = d_sel_shiftAmount == 8'h8C & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_141 = _GEN[auto_in_a_bits_source] == 8'h8D & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_141 = d_sel_shiftAmount == 8'h8D & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_142 = _GEN[auto_in_a_bits_source] == 8'h8E & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_142 = d_sel_shiftAmount == 8'h8E & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_143 = _GEN[auto_in_a_bits_source] == 8'h8F & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_143 = d_sel_shiftAmount == 8'h8F & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_144 = _GEN[auto_in_a_bits_source] == 8'h90 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_144 = d_sel_shiftAmount == 8'h90 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_145 = _GEN[auto_in_a_bits_source] == 8'h91 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_145 = d_sel_shiftAmount == 8'h91 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_146 = _GEN[auto_in_a_bits_source] == 8'h92 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_146 = d_sel_shiftAmount == 8'h92 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_147 = _GEN[auto_in_a_bits_source] == 8'h93 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_147 = d_sel_shiftAmount == 8'h93 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_148 = _GEN[auto_in_a_bits_source] == 8'h94 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_148 = d_sel_shiftAmount == 8'h94 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_149 = _GEN[auto_in_a_bits_source] == 8'h95 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_149 = d_sel_shiftAmount == 8'h95 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_150 = _GEN[auto_in_a_bits_source] == 8'h96 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_150 = d_sel_shiftAmount == 8'h96 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_151 = _GEN[auto_in_a_bits_source] == 8'h97 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_151 = d_sel_shiftAmount == 8'h97 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_152 = _GEN[auto_in_a_bits_source] == 8'h98 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_152 = d_sel_shiftAmount == 8'h98 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_153 = _GEN[auto_in_a_bits_source] == 8'h99 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_153 = d_sel_shiftAmount == 8'h99 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_154 = _GEN[auto_in_a_bits_source] == 8'h9A & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_154 = d_sel_shiftAmount == 8'h9A & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_155 = _GEN[auto_in_a_bits_source] == 8'h9B & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_155 = d_sel_shiftAmount == 8'h9B & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_156 = _GEN[auto_in_a_bits_source] == 8'h9C & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_156 = d_sel_shiftAmount == 8'h9C & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_157 = _GEN[auto_in_a_bits_source] == 8'h9D & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_157 = d_sel_shiftAmount == 8'h9D & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_158 = _GEN[auto_in_a_bits_source] == 8'h9E & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_158 = d_sel_shiftAmount == 8'h9E & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_159 = _GEN[auto_in_a_bits_source] == 8'h9F & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_159 = d_sel_shiftAmount == 8'h9F & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_160 = _GEN[auto_in_a_bits_source] == 8'hA0 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_160 = d_sel_shiftAmount == 8'hA0 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_161 = _GEN[auto_in_a_bits_source] == 8'hA1 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_161 = d_sel_shiftAmount == 8'hA1 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  reg  [6:0]        count_162;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  wire              _inc_T_195 = _queue_arw_deq_q_io_enq_ready & out_arw_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:207:{31,45}, src/main/scala/chisel3/util/Decoupled.scala:51:35, :362:21]
+  wire              inc = _GEN[auto_in_a_bits_source] == 8'h0 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              _dec_T_391 = auto_in_d_ready & nodeIn_d_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:229:24, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire              dec = d_sel_shiftAmount == 8'h0 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_1 = _GEN[auto_in_a_bits_source] == 8'h1 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_1 = d_sel_shiftAmount == 8'h1 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_2 = _GEN[auto_in_a_bits_source] == 8'h2 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_2 = d_sel_shiftAmount == 8'h2 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_3 = _GEN[auto_in_a_bits_source] == 8'h3 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_3 = d_sel_shiftAmount == 8'h3 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_4 = _GEN[auto_in_a_bits_source] == 8'h4 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_4 = d_sel_shiftAmount == 8'h4 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_5 = _GEN[auto_in_a_bits_source] == 8'h5 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_5 = d_sel_shiftAmount == 8'h5 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_6 = _GEN[auto_in_a_bits_source] == 8'h6 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_6 = d_sel_shiftAmount == 8'h6 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_7 = _GEN[auto_in_a_bits_source] == 8'h7 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_7 = d_sel_shiftAmount == 8'h7 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_8 = _GEN[auto_in_a_bits_source] == 8'h8 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_8 = d_sel_shiftAmount == 8'h8 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_9 = _GEN[auto_in_a_bits_source] == 8'h9 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_9 = d_sel_shiftAmount == 8'h9 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_10 = _GEN[auto_in_a_bits_source] == 8'hA & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_10 = d_sel_shiftAmount == 8'hA & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_11 = _GEN[auto_in_a_bits_source] == 8'hB & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_11 = d_sel_shiftAmount == 8'hB & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_12 = _GEN[auto_in_a_bits_source] == 8'hC & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_12 = d_sel_shiftAmount == 8'hC & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_13 = _GEN[auto_in_a_bits_source] == 8'hD & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_13 = d_sel_shiftAmount == 8'hD & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_14 = _GEN[auto_in_a_bits_source] == 8'hE & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_14 = d_sel_shiftAmount == 8'hE & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_15 = _GEN[auto_in_a_bits_source] == 8'hF & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_15 = d_sel_shiftAmount == 8'hF & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_16 = _GEN[auto_in_a_bits_source] == 8'h10 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_16 = d_sel_shiftAmount == 8'h10 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_17 = _GEN[auto_in_a_bits_source] == 8'h11 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_17 = d_sel_shiftAmount == 8'h11 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_18 = _GEN[auto_in_a_bits_source] == 8'h12 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_18 = d_sel_shiftAmount == 8'h12 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_19 = _GEN[auto_in_a_bits_source] == 8'h13 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_19 = d_sel_shiftAmount == 8'h13 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_20 = _GEN[auto_in_a_bits_source] == 8'h14 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_20 = d_sel_shiftAmount == 8'h14 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_21 = _GEN[auto_in_a_bits_source] == 8'h15 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_21 = d_sel_shiftAmount == 8'h15 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_22 = _GEN[auto_in_a_bits_source] == 8'h16 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_22 = d_sel_shiftAmount == 8'h16 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_23 = _GEN[auto_in_a_bits_source] == 8'h17 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_23 = d_sel_shiftAmount == 8'h17 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_24 = _GEN[auto_in_a_bits_source] == 8'h18 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_24 = d_sel_shiftAmount == 8'h18 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_25 = _GEN[auto_in_a_bits_source] == 8'h19 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_25 = d_sel_shiftAmount == 8'h19 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_26 = _GEN[auto_in_a_bits_source] == 8'h1A & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_26 = d_sel_shiftAmount == 8'h1A & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_27 = _GEN[auto_in_a_bits_source] == 8'h1B & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_27 = d_sel_shiftAmount == 8'h1B & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_28 = _GEN[auto_in_a_bits_source] == 8'h1C & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_28 = d_sel_shiftAmount == 8'h1C & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_29 = _GEN[auto_in_a_bits_source] == 8'h1D & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_29 = d_sel_shiftAmount == 8'h1D & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_30 = _GEN[auto_in_a_bits_source] == 8'h1E & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_30 = d_sel_shiftAmount == 8'h1E & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_31 = _GEN[auto_in_a_bits_source] == 8'h1F & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_31 = d_sel_shiftAmount == 8'h1F & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_32 = _GEN[auto_in_a_bits_source] == 8'h20 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_32 = d_sel_shiftAmount == 8'h20 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_33 = _GEN[auto_in_a_bits_source] == 8'h21 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_33 = d_sel_shiftAmount == 8'h21 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_34 = _GEN[auto_in_a_bits_source] == 8'h22 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_34 = d_sel_shiftAmount == 8'h22 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_35 = _GEN[auto_in_a_bits_source] == 8'h23 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_35 = d_sel_shiftAmount == 8'h23 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_36 = _GEN[auto_in_a_bits_source] == 8'h24 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_36 = d_sel_shiftAmount == 8'h24 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_37 = _GEN[auto_in_a_bits_source] == 8'h25 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_37 = d_sel_shiftAmount == 8'h25 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_38 = _GEN[auto_in_a_bits_source] == 8'h26 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_38 = d_sel_shiftAmount == 8'h26 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_39 = _GEN[auto_in_a_bits_source] == 8'h27 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_39 = d_sel_shiftAmount == 8'h27 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_40 = _GEN[auto_in_a_bits_source] == 8'h28 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_40 = d_sel_shiftAmount == 8'h28 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_41 = _GEN[auto_in_a_bits_source] == 8'h29 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_41 = d_sel_shiftAmount == 8'h29 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_42 = _GEN[auto_in_a_bits_source] == 8'h2A & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_42 = d_sel_shiftAmount == 8'h2A & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_43 = _GEN[auto_in_a_bits_source] == 8'h2B & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_43 = d_sel_shiftAmount == 8'h2B & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_44 = _GEN[auto_in_a_bits_source] == 8'h2C & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_44 = d_sel_shiftAmount == 8'h2C & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_45 = _GEN[auto_in_a_bits_source] == 8'h2D & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_45 = d_sel_shiftAmount == 8'h2D & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_46 = _GEN[auto_in_a_bits_source] == 8'h2E & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_46 = d_sel_shiftAmount == 8'h2E & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_47 = _GEN[auto_in_a_bits_source] == 8'h2F & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_47 = d_sel_shiftAmount == 8'h2F & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_48 = _GEN[auto_in_a_bits_source] == 8'h30 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_48 = d_sel_shiftAmount == 8'h30 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_49 = _GEN[auto_in_a_bits_source] == 8'h31 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_49 = d_sel_shiftAmount == 8'h31 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_50 = _GEN[auto_in_a_bits_source] == 8'h32 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_50 = d_sel_shiftAmount == 8'h32 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_51 = _GEN[auto_in_a_bits_source] == 8'h33 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_51 = d_sel_shiftAmount == 8'h33 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_52 = _GEN[auto_in_a_bits_source] == 8'h34 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_52 = d_sel_shiftAmount == 8'h34 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_53 = _GEN[auto_in_a_bits_source] == 8'h35 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_53 = d_sel_shiftAmount == 8'h35 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_54 = _GEN[auto_in_a_bits_source] == 8'h36 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_54 = d_sel_shiftAmount == 8'h36 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_55 = _GEN[auto_in_a_bits_source] == 8'h37 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_55 = d_sel_shiftAmount == 8'h37 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_56 = _GEN[auto_in_a_bits_source] == 8'h38 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_56 = d_sel_shiftAmount == 8'h38 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_57 = _GEN[auto_in_a_bits_source] == 8'h39 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_57 = d_sel_shiftAmount == 8'h39 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_58 = _GEN[auto_in_a_bits_source] == 8'h3A & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_58 = d_sel_shiftAmount == 8'h3A & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_59 = _GEN[auto_in_a_bits_source] == 8'h3B & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_59 = d_sel_shiftAmount == 8'h3B & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_60 = _GEN[auto_in_a_bits_source] == 8'h3C & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_60 = d_sel_shiftAmount == 8'h3C & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_61 = _GEN[auto_in_a_bits_source] == 8'h3D & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_61 = d_sel_shiftAmount == 8'h3D & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_62 = _GEN[auto_in_a_bits_source] == 8'h3E & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_62 = d_sel_shiftAmount == 8'h3E & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_63 = _GEN[auto_in_a_bits_source] == 8'h3F & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_63 = d_sel_shiftAmount == 8'h3F & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_64 = _GEN[auto_in_a_bits_source] == 8'h40 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_64 = d_sel_shiftAmount == 8'h40 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_65 = _GEN[auto_in_a_bits_source] == 8'h41 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_65 = d_sel_shiftAmount == 8'h41 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_66 = _GEN[auto_in_a_bits_source] == 8'h42 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_66 = d_sel_shiftAmount == 8'h42 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_67 = _GEN[auto_in_a_bits_source] == 8'h43 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_67 = d_sel_shiftAmount == 8'h43 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_68 = _GEN[auto_in_a_bits_source] == 8'h44 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_68 = d_sel_shiftAmount == 8'h44 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_69 = _GEN[auto_in_a_bits_source] == 8'h45 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_69 = d_sel_shiftAmount == 8'h45 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_70 = _GEN[auto_in_a_bits_source] == 8'h46 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_70 = d_sel_shiftAmount == 8'h46 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_71 = _GEN[auto_in_a_bits_source] == 8'h47 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_71 = d_sel_shiftAmount == 8'h47 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_72 = _GEN[auto_in_a_bits_source] == 8'h48 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_72 = d_sel_shiftAmount == 8'h48 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_73 = _GEN[auto_in_a_bits_source] == 8'h49 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_73 = d_sel_shiftAmount == 8'h49 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_74 = _GEN[auto_in_a_bits_source] == 8'h4A & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_74 = d_sel_shiftAmount == 8'h4A & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_75 = _GEN[auto_in_a_bits_source] == 8'h4B & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_75 = d_sel_shiftAmount == 8'h4B & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_76 = _GEN[auto_in_a_bits_source] == 8'h4C & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_76 = d_sel_shiftAmount == 8'h4C & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_77 = _GEN[auto_in_a_bits_source] == 8'h4D & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_77 = d_sel_shiftAmount == 8'h4D & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_78 = _GEN[auto_in_a_bits_source] == 8'h4E & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_78 = d_sel_shiftAmount == 8'h4E & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_79 = _GEN[auto_in_a_bits_source] == 8'h4F & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_79 = d_sel_shiftAmount == 8'h4F & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_80 = _GEN[auto_in_a_bits_source] == 8'h50 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_80 = d_sel_shiftAmount == 8'h50 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_81 = _GEN[auto_in_a_bits_source] == 8'h51 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_81 = d_sel_shiftAmount == 8'h51 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_82 = _GEN[auto_in_a_bits_source] == 8'h52 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_82 = d_sel_shiftAmount == 8'h52 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_83 = _GEN[auto_in_a_bits_source] == 8'h53 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_83 = d_sel_shiftAmount == 8'h53 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_84 = _GEN[auto_in_a_bits_source] == 8'h54 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_84 = d_sel_shiftAmount == 8'h54 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_85 = _GEN[auto_in_a_bits_source] == 8'h55 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_85 = d_sel_shiftAmount == 8'h55 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_86 = _GEN[auto_in_a_bits_source] == 8'h56 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_86 = d_sel_shiftAmount == 8'h56 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_87 = _GEN[auto_in_a_bits_source] == 8'h57 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_87 = d_sel_shiftAmount == 8'h57 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_88 = _GEN[auto_in_a_bits_source] == 8'h58 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_88 = d_sel_shiftAmount == 8'h58 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_89 = _GEN[auto_in_a_bits_source] == 8'h59 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_89 = d_sel_shiftAmount == 8'h59 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_90 = _GEN[auto_in_a_bits_source] == 8'h5A & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_90 = d_sel_shiftAmount == 8'h5A & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_91 = _GEN[auto_in_a_bits_source] == 8'h5B & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_91 = d_sel_shiftAmount == 8'h5B & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_92 = _GEN[auto_in_a_bits_source] == 8'h5C & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_92 = d_sel_shiftAmount == 8'h5C & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_93 = _GEN[auto_in_a_bits_source] == 8'h5D & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_93 = d_sel_shiftAmount == 8'h5D & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_94 = _GEN[auto_in_a_bits_source] == 8'h5E & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_94 = d_sel_shiftAmount == 8'h5E & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_95 = _GEN[auto_in_a_bits_source] == 8'h5F & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_95 = d_sel_shiftAmount == 8'h5F & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_96 = _GEN[auto_in_a_bits_source] == 8'h60 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_96 = d_sel_shiftAmount == 8'h60 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_97 = _GEN[auto_in_a_bits_source] == 8'h61 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_97 = d_sel_shiftAmount == 8'h61 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_98 = _GEN[auto_in_a_bits_source] == 8'h62 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_98 = d_sel_shiftAmount == 8'h62 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_99 = _GEN[auto_in_a_bits_source] == 8'h63 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_99 = d_sel_shiftAmount == 8'h63 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_100 = _GEN[auto_in_a_bits_source] == 8'h64 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_100 = d_sel_shiftAmount == 8'h64 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_101 = _GEN[auto_in_a_bits_source] == 8'h65 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_101 = d_sel_shiftAmount == 8'h65 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_102 = _GEN[auto_in_a_bits_source] == 8'h66 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_102 = d_sel_shiftAmount == 8'h66 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_103 = _GEN[auto_in_a_bits_source] == 8'h67 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_103 = d_sel_shiftAmount == 8'h67 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_104 = _GEN[auto_in_a_bits_source] == 8'h68 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_104 = d_sel_shiftAmount == 8'h68 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_105 = _GEN[auto_in_a_bits_source] == 8'h69 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_105 = d_sel_shiftAmount == 8'h69 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_106 = _GEN[auto_in_a_bits_source] == 8'h6A & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_106 = d_sel_shiftAmount == 8'h6A & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_107 = _GEN[auto_in_a_bits_source] == 8'h6B & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_107 = d_sel_shiftAmount == 8'h6B & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_108 = _GEN[auto_in_a_bits_source] == 8'h6C & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_108 = d_sel_shiftAmount == 8'h6C & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_109 = _GEN[auto_in_a_bits_source] == 8'h6D & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_109 = d_sel_shiftAmount == 8'h6D & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_110 = _GEN[auto_in_a_bits_source] == 8'h6E & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_110 = d_sel_shiftAmount == 8'h6E & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_111 = _GEN[auto_in_a_bits_source] == 8'h6F & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_111 = d_sel_shiftAmount == 8'h6F & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_112 = _GEN[auto_in_a_bits_source] == 8'h70 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_112 = d_sel_shiftAmount == 8'h70 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_113 = _GEN[auto_in_a_bits_source] == 8'h71 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_113 = d_sel_shiftAmount == 8'h71 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_114 = _GEN[auto_in_a_bits_source] == 8'h72 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_114 = d_sel_shiftAmount == 8'h72 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_115 = _GEN[auto_in_a_bits_source] == 8'h73 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_115 = d_sel_shiftAmount == 8'h73 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_116 = _GEN[auto_in_a_bits_source] == 8'h74 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_116 = d_sel_shiftAmount == 8'h74 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_117 = _GEN[auto_in_a_bits_source] == 8'h75 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_117 = d_sel_shiftAmount == 8'h75 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_118 = _GEN[auto_in_a_bits_source] == 8'h76 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_118 = d_sel_shiftAmount == 8'h76 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_119 = _GEN[auto_in_a_bits_source] == 8'h77 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_119 = d_sel_shiftAmount == 8'h77 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_120 = _GEN[auto_in_a_bits_source] == 8'h78 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_120 = d_sel_shiftAmount == 8'h78 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_121 = _GEN[auto_in_a_bits_source] == 8'h79 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_121 = d_sel_shiftAmount == 8'h79 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_122 = _GEN[auto_in_a_bits_source] == 8'h7A & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_122 = d_sel_shiftAmount == 8'h7A & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_123 = _GEN[auto_in_a_bits_source] == 8'h7B & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_123 = d_sel_shiftAmount == 8'h7B & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_124 = _GEN[auto_in_a_bits_source] == 8'h7C & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_124 = d_sel_shiftAmount == 8'h7C & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_125 = _GEN[auto_in_a_bits_source] == 8'h7D & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_125 = d_sel_shiftAmount == 8'h7D & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_126 = _GEN[auto_in_a_bits_source] == 8'h7E & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_126 = d_sel_shiftAmount == 8'h7E & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_127 = _GEN[auto_in_a_bits_source] == 8'h7F & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_127 = d_sel_shiftAmount == 8'h7F & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_128 = _GEN[auto_in_a_bits_source] == 8'h80 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_128 = d_sel_shiftAmount == 8'h80 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_129 = _GEN[auto_in_a_bits_source] == 8'h81 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_129 = d_sel_shiftAmount == 8'h81 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_130 = _GEN[auto_in_a_bits_source] == 8'h82 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_130 = d_sel_shiftAmount == 8'h82 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_131 = _GEN[auto_in_a_bits_source] == 8'h83 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_131 = d_sel_shiftAmount == 8'h83 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_132 = _GEN[auto_in_a_bits_source] == 8'h84 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_132 = d_sel_shiftAmount == 8'h84 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_133 = _GEN[auto_in_a_bits_source] == 8'h85 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_133 = d_sel_shiftAmount == 8'h85 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_134 = _GEN[auto_in_a_bits_source] == 8'h86 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_134 = d_sel_shiftAmount == 8'h86 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_135 = _GEN[auto_in_a_bits_source] == 8'h87 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_135 = d_sel_shiftAmount == 8'h87 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_136 = _GEN[auto_in_a_bits_source] == 8'h88 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_136 = d_sel_shiftAmount == 8'h88 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_137 = _GEN[auto_in_a_bits_source] == 8'h89 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_137 = d_sel_shiftAmount == 8'h89 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_138 = _GEN[auto_in_a_bits_source] == 8'h8A & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_138 = d_sel_shiftAmount == 8'h8A & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_139 = _GEN[auto_in_a_bits_source] == 8'h8B & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_139 = d_sel_shiftAmount == 8'h8B & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_140 = _GEN[auto_in_a_bits_source] == 8'h8C & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_140 = d_sel_shiftAmount == 8'h8C & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_141 = _GEN[auto_in_a_bits_source] == 8'h8D & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_141 = d_sel_shiftAmount == 8'h8D & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_142 = _GEN[auto_in_a_bits_source] == 8'h8E & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_142 = d_sel_shiftAmount == 8'h8E & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_143 = _GEN[auto_in_a_bits_source] == 8'h8F & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_143 = d_sel_shiftAmount == 8'h8F & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_144 = _GEN[auto_in_a_bits_source] == 8'h90 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_144 = d_sel_shiftAmount == 8'h90 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_145 = _GEN[auto_in_a_bits_source] == 8'h91 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_145 = d_sel_shiftAmount == 8'h91 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_146 = _GEN[auto_in_a_bits_source] == 8'h92 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_146 = d_sel_shiftAmount == 8'h92 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_147 = _GEN[auto_in_a_bits_source] == 8'h93 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_147 = d_sel_shiftAmount == 8'h93 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_148 = _GEN[auto_in_a_bits_source] == 8'h94 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_148 = d_sel_shiftAmount == 8'h94 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_149 = _GEN[auto_in_a_bits_source] == 8'h95 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_149 = d_sel_shiftAmount == 8'h95 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_150 = _GEN[auto_in_a_bits_source] == 8'h96 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_150 = d_sel_shiftAmount == 8'h96 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_151 = _GEN[auto_in_a_bits_source] == 8'h97 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_151 = d_sel_shiftAmount == 8'h97 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_152 = _GEN[auto_in_a_bits_source] == 8'h98 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_152 = d_sel_shiftAmount == 8'h98 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_153 = _GEN[auto_in_a_bits_source] == 8'h99 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_153 = d_sel_shiftAmount == 8'h99 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_154 = _GEN[auto_in_a_bits_source] == 8'h9A & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_154 = d_sel_shiftAmount == 8'h9A & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_155 = _GEN[auto_in_a_bits_source] == 8'h9B & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_155 = d_sel_shiftAmount == 8'h9B & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_156 = _GEN[auto_in_a_bits_source] == 8'h9C & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_156 = d_sel_shiftAmount == 8'h9C & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_157 = _GEN[auto_in_a_bits_source] == 8'h9D & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_157 = d_sel_shiftAmount == 8'h9D & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_158 = _GEN[auto_in_a_bits_source] == 8'h9E & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_158 = d_sel_shiftAmount == 8'h9E & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_159 = _GEN[auto_in_a_bits_source] == 8'h9F & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_159 = d_sel_shiftAmount == 8'h9F & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_160 = _GEN[auto_in_a_bits_source] == 8'hA0 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_160 = d_sel_shiftAmount == 8'hA0 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_161 = _GEN[auto_in_a_bits_source] == 8'hA1 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_161 = d_sel_shiftAmount == 8'hA1 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  reg  [2:0]        count_162;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
   reg               write_162;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
-  wire              inc_162 = _GEN[auto_in_a_bits_source] == 8'hA2 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_162 = d_sel_shiftAmount == 8'hA2 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  assign idStall_162 = (|count_162) & write_162 != ~(auto_in_a_bits_opcode[2]) | count_162 == 7'h40;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
-  reg  [6:0]        count_163;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  wire              inc_162 = _GEN[auto_in_a_bits_source] == 8'hA2 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_162 = d_sel_shiftAmount == 8'hA2 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_162 = (|count_162) & write_162 != ~(auto_in_a_bits_opcode[2]) | count_162 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_163;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
   reg               write_163;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
-  wire              inc_163 = _GEN[auto_in_a_bits_source] == 8'hA3 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_163 = d_sel_shiftAmount == 8'hA3 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  assign idStall_163 = (|count_163) & write_163 != ~(auto_in_a_bits_opcode[2]) | count_163 == 7'h40;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
-  wire              inc_164 = _GEN[auto_in_a_bits_source] == 8'hA4 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_164 = d_sel_shiftAmount == 8'hA4 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              inc_165 = _GEN[auto_in_a_bits_source] == 8'hA5 & _inc_T_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
-  wire              dec_165 = d_sel_shiftAmount == 8'hA5 & d_last & _dec_T_331;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_163 = _GEN[auto_in_a_bits_source] == 8'hA3 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_163 = d_sel_shiftAmount == 8'hA3 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_163 = (|count_163) & write_163 != ~(auto_in_a_bits_opcode[2]) | count_163 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_164;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_164;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_164 = _GEN[auto_in_a_bits_source] == 8'hA4 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_164 = d_sel_shiftAmount == 8'hA4 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_164 = (|count_164) & write_164 != ~(auto_in_a_bits_opcode[2]) | count_164 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_165 = _GEN[auto_in_a_bits_source] == 8'hA5 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_165 = d_sel_shiftAmount == 8'hA5 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_165 = (|count_165) & write_165 != ~(auto_in_a_bits_opcode[2]) | count_165 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_166;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_166;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_166 = _GEN[auto_in_a_bits_source] == 8'hA6 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_166 = d_sel_shiftAmount == 8'hA6 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_166 = (|count_166) & write_166 != ~(auto_in_a_bits_opcode[2]) | count_166 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_167;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_167;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_167 = _GEN[auto_in_a_bits_source] == 8'hA7 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_167 = d_sel_shiftAmount == 8'hA7 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_167 = (|count_167) & write_167 != ~(auto_in_a_bits_opcode[2]) | count_167 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_168;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_168;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_168 = _GEN[auto_in_a_bits_source] == 8'hA8 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_168 = d_sel_shiftAmount == 8'hA8 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_168 = (|count_168) & write_168 != ~(auto_in_a_bits_opcode[2]) | count_168 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_169;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_169;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_169 = _GEN[auto_in_a_bits_source] == 8'hA9 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_169 = d_sel_shiftAmount == 8'hA9 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_169 = (|count_169) & write_169 != ~(auto_in_a_bits_opcode[2]) | count_169 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_170;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_170;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_170 = _GEN[auto_in_a_bits_source] == 8'hAA & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_170 = d_sel_shiftAmount == 8'hAA & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_170 = (|count_170) & write_170 != ~(auto_in_a_bits_opcode[2]) | count_170 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_171;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_171;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_171 = _GEN[auto_in_a_bits_source] == 8'hAB & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_171 = d_sel_shiftAmount == 8'hAB & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_171 = (|count_171) & write_171 != ~(auto_in_a_bits_opcode[2]) | count_171 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_172;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_172;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_172 = _GEN[auto_in_a_bits_source] == 8'hAC & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_172 = d_sel_shiftAmount == 8'hAC & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_172 = (|count_172) & write_172 != ~(auto_in_a_bits_opcode[2]) | count_172 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_173;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_173;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_173 = _GEN[auto_in_a_bits_source] == 8'hAD & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_173 = d_sel_shiftAmount == 8'hAD & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_173 = (|count_173) & write_173 != ~(auto_in_a_bits_opcode[2]) | count_173 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_174;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_174;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_174 = _GEN[auto_in_a_bits_source] == 8'hAE & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_174 = d_sel_shiftAmount == 8'hAE & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_174 = (|count_174) & write_174 != ~(auto_in_a_bits_opcode[2]) | count_174 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_175;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_175;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_175 = _GEN[auto_in_a_bits_source] == 8'hAF & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_175 = d_sel_shiftAmount == 8'hAF & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_175 = (|count_175) & write_175 != ~(auto_in_a_bits_opcode[2]) | count_175 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_176;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_176;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_176 = _GEN[auto_in_a_bits_source] == 8'hB0 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_176 = d_sel_shiftAmount == 8'hB0 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_176 = (|count_176) & write_176 != ~(auto_in_a_bits_opcode[2]) | count_176 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_177;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_177;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_177 = _GEN[auto_in_a_bits_source] == 8'hB1 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_177 = d_sel_shiftAmount == 8'hB1 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_177 = (|count_177) & write_177 != ~(auto_in_a_bits_opcode[2]) | count_177 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_178;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_178;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_178 = _GEN[auto_in_a_bits_source] == 8'hB2 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_178 = d_sel_shiftAmount == 8'hB2 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_178 = (|count_178) & write_178 != ~(auto_in_a_bits_opcode[2]) | count_178 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_179;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_179;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_179 = _GEN[auto_in_a_bits_source] == 8'hB3 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_179 = d_sel_shiftAmount == 8'hB3 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_179 = (|count_179) & write_179 != ~(auto_in_a_bits_opcode[2]) | count_179 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_180;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_180;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_180 = _GEN[auto_in_a_bits_source] == 8'hB4 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_180 = d_sel_shiftAmount == 8'hB4 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_180 = (|count_180) & write_180 != ~(auto_in_a_bits_opcode[2]) | count_180 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_181;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_181;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_181 = _GEN[auto_in_a_bits_source] == 8'hB5 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_181 = d_sel_shiftAmount == 8'hB5 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_181 = (|count_181) & write_181 != ~(auto_in_a_bits_opcode[2]) | count_181 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_182;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_182;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_182 = _GEN[auto_in_a_bits_source] == 8'hB6 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_182 = d_sel_shiftAmount == 8'hB6 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_182 = (|count_182) & write_182 != ~(auto_in_a_bits_opcode[2]) | count_182 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_183;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_183;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_183 = _GEN[auto_in_a_bits_source] == 8'hB7 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_183 = d_sel_shiftAmount == 8'hB7 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_183 = (|count_183) & write_183 != ~(auto_in_a_bits_opcode[2]) | count_183 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_184;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_184;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_184 = _GEN[auto_in_a_bits_source] == 8'hB8 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_184 = d_sel_shiftAmount == 8'hB8 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_184 = (|count_184) & write_184 != ~(auto_in_a_bits_opcode[2]) | count_184 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_185;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_185;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_185 = _GEN[auto_in_a_bits_source] == 8'hB9 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_185 = d_sel_shiftAmount == 8'hB9 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_185 = (|count_185) & write_185 != ~(auto_in_a_bits_opcode[2]) | count_185 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_186;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_186;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_186 = _GEN[auto_in_a_bits_source] == 8'hBA & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_186 = d_sel_shiftAmount == 8'hBA & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_186 = (|count_186) & write_186 != ~(auto_in_a_bits_opcode[2]) | count_186 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_187;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_187;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_187 = _GEN[auto_in_a_bits_source] == 8'hBB & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_187 = d_sel_shiftAmount == 8'hBB & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_187 = (|count_187) & write_187 != ~(auto_in_a_bits_opcode[2]) | count_187 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_188;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_188;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_188 = _GEN[auto_in_a_bits_source] == 8'hBC & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_188 = d_sel_shiftAmount == 8'hBC & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_188 = (|count_188) & write_188 != ~(auto_in_a_bits_opcode[2]) | count_188 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_189;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_189;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_189 = _GEN[auto_in_a_bits_source] == 8'hBD & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_189 = d_sel_shiftAmount == 8'hBD & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_189 = (|count_189) & write_189 != ~(auto_in_a_bits_opcode[2]) | count_189 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_190;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_190;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_190 = _GEN[auto_in_a_bits_source] == 8'hBE & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_190 = d_sel_shiftAmount == 8'hBE & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_190 = (|count_190) & write_190 != ~(auto_in_a_bits_opcode[2]) | count_190 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_191;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_191;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_191 = _GEN[auto_in_a_bits_source] == 8'hBF & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_191 = d_sel_shiftAmount == 8'hBF & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_191 = (|count_191) & write_191 != ~(auto_in_a_bits_opcode[2]) | count_191 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_192;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_192;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_192 = _GEN[auto_in_a_bits_source] == 8'hC0 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_192 = d_sel_shiftAmount == 8'hC0 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_192 = (|count_192) & write_192 != ~(auto_in_a_bits_opcode[2]) | count_192 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  reg  [2:0]        count_193;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+  reg               write_193;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+  wire              inc_193 = _GEN[auto_in_a_bits_source] == 8'hC1 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_193 = d_sel_shiftAmount == 8'hC1 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  assign idStall_193 = (|count_193) & write_193 != ~(auto_in_a_bits_opcode[2]) | count_193 == 3'h4;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :273:24, :274:26, :285:50, :286:{21,34,44}]
+  wire              inc_194 = _GEN[auto_in_a_bits_source] == 8'hC2 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_194 = d_sel_shiftAmount == 8'hC2 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              inc_195 = _GEN[auto_in_a_bits_source] == 8'hC3 & _inc_T_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:172:17, :260:58, :276:22, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
+  wire              dec_195 = d_sel_shiftAmount == 8'hC3 & d_last & _dec_T_391;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:261:{31,93}, :262:23, :277:{22,32}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:27]
   `ifndef SYNTHESIS	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
     always @(posedge clock) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
       if (~reset & ~(~dec | count)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :277:{22,32}, :280:{16,17,22}]
@@ -3649,49 +3829,409 @@ module TLToAXI4(	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scal
         if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
           $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
       end
-      if (~reset & {~dec_162, count_162} == 8'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :277:{22,32}, :280:{16,17,22,31}]
+      if (~reset & {~dec_162, count_162} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
         if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
           $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
         if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
           $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
       end
-      if (~reset & ~(~inc_162 | count_162 != 7'h40)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+      if (~reset & ~(~inc_162 | count_162 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
         if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
           $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
         if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
           $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
       end
-      if (~reset & {~dec_163, count_163} == 8'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :277:{22,32}, :280:{16,17,22,31}]
+      if (~reset & {~dec_163, count_163} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
         if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
           $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
         if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
           $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
       end
-      if (~reset & ~(~inc_163 | count_163 != 7'h40)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+      if (~reset & ~(~inc_163 | count_163 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
         if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
           $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
         if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
           $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
       end
-      if (~reset & ~(~dec_164 | count_164)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :277:{22,32}, :280:{16,17,22}]
+      if (~reset & {~dec_164, count_164} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
         if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
           $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
         if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
           $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
       end
-      if (~reset & ~(~inc_164 | ~count_164)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+      if (~reset & ~(~inc_164 | count_164 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
         if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
           $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
         if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
           $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
       end
-      if (~reset & ~(~dec_165 | count_165)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :277:{22,32}, :280:{16,17,22}]
+      if (~reset & {~dec_165, count_165} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
         if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
           $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
         if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
           $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
       end
-      if (~reset & ~(~inc_165 | ~count_165)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+      if (~reset & ~(~inc_165 | count_165 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_166, count_166} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_166 | count_166 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_167, count_167} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_167 | count_167 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_168, count_168} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_168 | count_168 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_169, count_169} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_169 | count_169 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_170, count_170} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_170 | count_170 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_171, count_171} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_171 | count_171 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_172, count_172} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_172 | count_172 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_173, count_173} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_173 | count_173 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_174, count_174} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_174 | count_174 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_175, count_175} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_175 | count_175 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_176, count_176} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_176 | count_176 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_177, count_177} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_177 | count_177 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_178, count_178} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_178 | count_178 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_179, count_179} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_179 | count_179 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_180, count_180} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_180 | count_180 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_181, count_181} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_181 | count_181 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_182, count_182} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_182 | count_182 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_183, count_183} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_183 | count_183 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_184, count_184} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_184 | count_184 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_185, count_185} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_185 | count_185 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_186, count_186} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_186 | count_186 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_187, count_187} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_187 | count_187 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_188, count_188} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_188 | count_188 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_189, count_189} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_189 | count_189 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_190, count_190} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_190 | count_190 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_191, count_191} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_191 | count_191 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_192, count_192} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_192 | count_192 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & {~dec_193, count_193} == 4'h0) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :277:{22,32}, :280:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_193 | count_193 != 3'h4)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & ~(~dec_194 | count_194)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :277:{22,32}, :280:{16,17,22}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_194 | ~count_194)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
+      end
+      if (~reset & ~(~dec_195 | count_195)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :277:{22,32}, :280:{16,17,22}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $error("Assertion failed\n    at ToAXI4.scala:280 assert (!dec || count =/= 0.U)        // underflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+        if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+          $fatal;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:280:16]
+      end
+      if (~reset & ~(~inc_195 | ~count_195)) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :280:16, :281:{16,17,22,31}]
         if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
           $error("Assertion failed\n    at ToAXI4.scala:281 assert (!inc || count =/= maxCount.U) // overflow\n");	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
         if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:281:16]
@@ -3867,10 +4407,40 @@ module TLToAXI4(	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scal
       count_159 <= 1'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
       count_160 <= 1'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
       count_161 <= 1'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
-      count_162 <= 7'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
-      count_163 <= 7'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
-      count_164 <= 1'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
-      count_165 <= 1'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_162 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_163 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_164 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_165 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_166 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_167 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_168 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_169 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_170 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_171 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_172 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_173 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_174 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_175 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_176 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_177 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_178 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_179 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_180 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_181 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_182 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_183 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_184 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_185 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_186 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_187 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_188 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_189 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_190 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_191 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_192 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_193 <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_194 <= 1'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
+      count_195 <= 1'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28]
     end
     else begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9]
       if (nodeIn_a_ready & auto_in_a_valid) begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:206:28, src/main/scala/chisel3/util/Decoupled.scala:51:35]
@@ -4043,10 +4613,40 @@ module TLToAXI4(	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scal
       count_159 <= count_159 + inc_159 - dec_159;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
       count_160 <= count_160 + inc_160 - dec_160;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
       count_161 <= count_161 + inc_161 - dec_161;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
-      count_162 <= count_162 + {6'h0, inc_162} - {6'h0, dec_162};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
-      count_163 <= count_163 + {6'h0, inc_163} - {6'h0, dec_163};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
-      count_164 <= count_164 + inc_164 - dec_164;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
-      count_165 <= count_165 + inc_165 - dec_165;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_162 <= count_162 + {2'h0, inc_162} - {2'h0, dec_162};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_163 <= count_163 + {2'h0, inc_163} - {2'h0, dec_163};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_164 <= count_164 + {2'h0, inc_164} - {2'h0, dec_164};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_165 <= count_165 + {2'h0, inc_165} - {2'h0, dec_165};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_166 <= count_166 + {2'h0, inc_166} - {2'h0, dec_166};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_167 <= count_167 + {2'h0, inc_167} - {2'h0, dec_167};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_168 <= count_168 + {2'h0, inc_168} - {2'h0, dec_168};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_169 <= count_169 + {2'h0, inc_169} - {2'h0, dec_169};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_170 <= count_170 + {2'h0, inc_170} - {2'h0, dec_170};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_171 <= count_171 + {2'h0, inc_171} - {2'h0, dec_171};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_172 <= count_172 + {2'h0, inc_172} - {2'h0, dec_172};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_173 <= count_173 + {2'h0, inc_173} - {2'h0, dec_173};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_174 <= count_174 + {2'h0, inc_174} - {2'h0, dec_174};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_175 <= count_175 + {2'h0, inc_175} - {2'h0, dec_175};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_176 <= count_176 + {2'h0, inc_176} - {2'h0, dec_176};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_177 <= count_177 + {2'h0, inc_177} - {2'h0, dec_177};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_178 <= count_178 + {2'h0, inc_178} - {2'h0, dec_178};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_179 <= count_179 + {2'h0, inc_179} - {2'h0, dec_179};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_180 <= count_180 + {2'h0, inc_180} - {2'h0, dec_180};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_181 <= count_181 + {2'h0, inc_181} - {2'h0, dec_181};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_182 <= count_182 + {2'h0, inc_182} - {2'h0, dec_182};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_183 <= count_183 + {2'h0, inc_183} - {2'h0, dec_183};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_184 <= count_184 + {2'h0, inc_184} - {2'h0, dec_184};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_185 <= count_185 + {2'h0, inc_185} - {2'h0, dec_185};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_186 <= count_186 + {2'h0, inc_186} - {2'h0, dec_186};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_187 <= count_187 + {2'h0, inc_187} - {2'h0, dec_187};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_188 <= count_188 + {2'h0, inc_188} - {2'h0, dec_188};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_189 <= count_189 + {2'h0, inc_189} - {2'h0, dec_189};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_190 <= count_190 + {2'h0, inc_190} - {2'h0, dec_190};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_191 <= count_191 + {2'h0, inc_191} - {2'h0, dec_191};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_192 <= count_192 + {2'h0, inc_192} - {2'h0, dec_192};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_193 <= count_193 + {2'h0, inc_193} - {2'h0, dec_193};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_194 <= count_194 + inc_194 - dec_194;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
+      count_195 <= count_195 + inc_195 - dec_195;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:272:28, :276:22, :277:{22,32}, :278:{24,37}]
     end
     b_delay <= auto_out_b_valid & ~nodeOut_b_ready ? b_delay + 3'h1 : 3'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:219:24, :220:{25,28,42}, :221:{17,28}, :223:17, :228:33]
     if (r_first)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:234:28]
@@ -4055,18 +4655,78 @@ module TLToAXI4(	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scal
       write_162 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
     if (inc_163)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
       write_163 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_164)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_164 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_165)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_165 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_166)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_166 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_167)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_167 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_168)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_168 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_169)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_169 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_170)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_170 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_171)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_171 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_172)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_172 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_173)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_173 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_174)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_174 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_175)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_175 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_176)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_176 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_177)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_177 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_178)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_178 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_179)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_179 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_180)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_180 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_181)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_181 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_182)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_182 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_183)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_183 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_184)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_184 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_185)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_185 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_186)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_186 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_187)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_187 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_188)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_188 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_189)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_189 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_190)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_190 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_191)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_191 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_192)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_192 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
+    if (inc_193)	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:276:22]
+      write_193 <= ~(auto_in_a_bits_opcode[2]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:273:24]
   end // always @(posedge)
   `ifdef ENABLE_INITIAL_REG_	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9]
     `ifdef FIRRTL_BEFORE_INITIAL	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9]
       `FIRRTL_BEFORE_INITIAL	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9]
     `endif // FIRRTL_BEFORE_INITIAL
-    logic [31:0] _RANDOM[0:11];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9]
+    logic [31:0] _RANDOM[0:14];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9]
     initial begin	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9]
       `ifdef INIT_RANDOM_PROLOG_	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9]
         `INIT_RANDOM_PROLOG_	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9]
       `endif // INIT_RANDOM_PROLOG_
       `ifdef RANDOMIZE_REG_INIT	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9]
-        for (logic [3:0] i = 4'h0; i < 4'hC; i += 4'h1) begin
+        for (logic [3:0] i = 4'h0; i < 4'hF; i += 4'h1) begin
           _RANDOM[i] = `RANDOM;	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9]
         end	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9]
         r_counter = _RANDOM[4'h0][2:0];	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:229:27, generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9]
@@ -4237,12 +4897,72 @@ module TLToAXI4(	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scal
         count_159 = _RANDOM[4'hA][8];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
         count_160 = _RANDOM[4'hA][10];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
         count_161 = _RANDOM[4'hA][12];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
-        count_162 = _RANDOM[4'hA][20:14];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
-        write_162 = _RANDOM[4'hA][21];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
-        count_163 = _RANDOM[4'hA][28:22];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
-        write_163 = _RANDOM[4'hA][29];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
-        count_164 = _RANDOM[4'hA][30];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
-        count_165 = _RANDOM[4'hB][0];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        count_162 = _RANDOM[4'hA][16:14];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_162 = _RANDOM[4'hA][17];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_163 = _RANDOM[4'hA][20:18];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_163 = _RANDOM[4'hA][21];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_164 = _RANDOM[4'hA][24:22];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_164 = _RANDOM[4'hA][25];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_165 = _RANDOM[4'hA][28:26];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_165 = _RANDOM[4'hA][29];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_166 = {_RANDOM[4'hA][31:30], _RANDOM[4'hB][0]};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_166 = _RANDOM[4'hB][1];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_167 = _RANDOM[4'hB][4:2];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_167 = _RANDOM[4'hB][5];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_168 = _RANDOM[4'hB][8:6];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_168 = _RANDOM[4'hB][9];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_169 = _RANDOM[4'hB][12:10];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_169 = _RANDOM[4'hB][13];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_170 = _RANDOM[4'hB][16:14];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_170 = _RANDOM[4'hB][17];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_171 = _RANDOM[4'hB][20:18];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_171 = _RANDOM[4'hB][21];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_172 = _RANDOM[4'hB][24:22];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_172 = _RANDOM[4'hB][25];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_173 = _RANDOM[4'hB][28:26];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_173 = _RANDOM[4'hB][29];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_174 = {_RANDOM[4'hB][31:30], _RANDOM[4'hC][0]};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_174 = _RANDOM[4'hC][1];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_175 = _RANDOM[4'hC][4:2];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_175 = _RANDOM[4'hC][5];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_176 = _RANDOM[4'hC][8:6];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_176 = _RANDOM[4'hC][9];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_177 = _RANDOM[4'hC][12:10];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_177 = _RANDOM[4'hC][13];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_178 = _RANDOM[4'hC][16:14];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_178 = _RANDOM[4'hC][17];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_179 = _RANDOM[4'hC][20:18];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_179 = _RANDOM[4'hC][21];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_180 = _RANDOM[4'hC][24:22];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_180 = _RANDOM[4'hC][25];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_181 = _RANDOM[4'hC][28:26];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_181 = _RANDOM[4'hC][29];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_182 = {_RANDOM[4'hC][31:30], _RANDOM[4'hD][0]};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_182 = _RANDOM[4'hD][1];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_183 = _RANDOM[4'hD][4:2];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_183 = _RANDOM[4'hD][5];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_184 = _RANDOM[4'hD][8:6];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_184 = _RANDOM[4'hD][9];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_185 = _RANDOM[4'hD][12:10];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_185 = _RANDOM[4'hD][13];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_186 = _RANDOM[4'hD][16:14];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_186 = _RANDOM[4'hD][17];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_187 = _RANDOM[4'hD][20:18];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_187 = _RANDOM[4'hD][21];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_188 = _RANDOM[4'hD][24:22];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_188 = _RANDOM[4'hD][25];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_189 = _RANDOM[4'hD][28:26];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_189 = _RANDOM[4'hD][29];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_190 = {_RANDOM[4'hD][31:30], _RANDOM[4'hE][0]};	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_190 = _RANDOM[4'hE][1];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_191 = _RANDOM[4'hE][4:2];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_191 = _RANDOM[4'hE][5];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_192 = _RANDOM[4'hE][8:6];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_192 = _RANDOM[4'hE][9];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_193 = _RANDOM[4'hE][12:10];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        write_193 = _RANDOM[4'hE][13];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28, :273:24]
+        count_194 = _RANDOM[4'hE][14];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
+        count_195 = _RANDOM[4'hE][16];	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9, :272:28]
       `endif // RANDOMIZE_REG_INIT
     end // initial
     `ifdef FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip/src/main/scala/tilelink/ToAXI4.scala:103:9]

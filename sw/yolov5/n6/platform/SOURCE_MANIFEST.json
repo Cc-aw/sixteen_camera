@@ -1,0 +1,97 @@
+[
+  {
+    "path": "include/accumulator.h",
+    "source": "/mnt/data/wzr/13p/chipyard_mipihdmi/batchGemmini/sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/include/accumulator.h",
+    "sha256": "3a0dfd584a097225470be0a6f3661dc85630cc365f3a5efad1d81275dbed9447"
+  },
+  {
+    "path": "include/character.h",
+    "source": "/mnt/data/wzr/13p/chipyard_mipihdmi/batchGemmini/sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/include/character.h",
+    "sha256": "b92a6787b85e38d0887df6d7a8b93f0b119551890cb47ae048ad9bc0bc1f96b8"
+  },
+  {
+    "path": "include/gemmini.h",
+    "source": "/home/wzr/chipyard/generators/gemmini/software/gemmini-rocc-tests/include/gemmini.h",
+    "sha256": "1cb21e9ba2ab0165c5994d6c1937dc7f1975c3c42adbd90009f955c387aeb2d2"
+  },
+  {
+    "path": "include/gemmini_counter.h",
+    "source": "/mnt/data/wzr/13p/chipyard_mipihdmi/batchGemmini/sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/include/gemmini_counter.h",
+    "sha256": "5826242287784b9a383d45fdcb6791f8a1651d9d320a1a5f011585a9885b5669"
+  },
+  {
+    "path": "include/gemmini_nn.h",
+    "source": "/home/wzr/chipyard/generators/gemmini/software/gemmini-rocc-tests/include/gemmini_nn.h",
+    "sha256": "881078997fd9abbd6bec8cac2451830ffadd458c504cf417ebac0785e394a30f"
+  },
+  {
+    "path": "include/gemmini_params.h",
+    "source": "/mnt/data/wzr/13p/chipyard_mipihdmi/batchGemmini/build/gemmini64_scale32_n6_chunked_rtl/gemmini_params_taihang_64x64_packed_batch2_acc512_scale32_n6_chunked.h",
+    "sha256": "3e9d42f3499816739fe962971278ee35ffcc84cf5d695116ab5893f12d839c9e"
+  },
+  {
+    "path": "include/gemmini_params_ee290.h",
+    "source": "/mnt/data/wzr/13p/chipyard_mipihdmi/batchGemmini/sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/include/gemmini_params_ee290.h",
+    "sha256": "4e8a3abc47b9d9b007c8662e05c2edce381c27220e652c42854b35bd601180db"
+  },
+  {
+    "path": "include/gemmini_params_ee290_smallsp.h",
+    "source": "/mnt/data/wzr/13p/chipyard_mipihdmi/batchGemmini/sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/include/gemmini_params_ee290_smallsp.h",
+    "sha256": "236ca3de2b788bbc3120c692ed729dbc8b39e794b9e2feb5d0852ef8aa2bfa66"
+  },
+  {
+    "path": "include/gemmini_testutils.h",
+    "source": "/home/wzr/chipyard/generators/gemmini/software/gemmini-rocc-tests/include/gemmini_testutils.h",
+    "sha256": "ec58aa5ef24a6fc066fa7410d35b77516c2af0c137f6f037e028140e8912ea62"
+  },
+  {
+    "path": "include/translator.h",
+    "source": "/mnt/data/wzr/13p/chipyard_mipihdmi/batchGemmini/sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/include/translator.h",
+    "sha256": "42383d22d34be62e03772710740ecc385a706746ee11a1898e77e26776237857"
+  },
+  {
+    "path": "include/yolov5nu_silu_lut_rvv.h",
+    "source": "/mnt/data/wzr/13p/chipyard_mipihdmi/batchGemmini/sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/include/yolov5nu_silu_lut_rvv.h",
+    "sha256": "a7538206eafb6aa089b9271c02d54a2c92468418a3c38f607950af93de91b7ec"
+  },
+  {
+    "path": "include/yolov5nu_silu_opencv_rvv.h",
+    "source": "/mnt/data/wzr/13p/chipyard_mipihdmi/batchGemmini/sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/include/yolov5nu_silu_opencv_rvv.h",
+    "sha256": "074ed3d7b0d77051d6254ec0eb8fba67cb4ce9d6f495a3098d48b9799eb5b252"
+  },
+  {
+    "path": "include/yolov5nu_stage3_rvv.h",
+    "source": "/mnt/data/wzr/13p/chipyard_mipihdmi/batchGemmini/sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/include/yolov5nu_stage3_rvv.h",
+    "sha256": "574eafe8a0531d6027ac6a56b0489713e3b5183505bdab944e225e87822d1369"
+  },
+  {
+    "path": "include/yolov5nu_stage4_rvv.h",
+    "source": "/mnt/data/wzr/13p/chipyard_mipihdmi/batchGemmini/sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/include/yolov5nu_stage4_rvv.h",
+    "sha256": "c35588dff4d69c8f59391627aa4c23d81129ea315b060314ce1a707b9dcb0bbe"
+  },
+  {
+    "path": "htif.ld",
+    "source": "/home/wzr/chipyard/tests/htif.ld",
+    "sha256": "4311059b04c69f327c0f966493d52265549c585479cb71bf15905398ff6e95bd"
+  },
+  {
+    "path": "gemmini-myboard-uart.h",
+    "source": "/home/wzr/chipyard/tests/gemmini-myboard-uart.h",
+    "sha256": "75e1196a546ae7fdb94359f6cf40ff0b30e5219575dc8213f1343ed5cca5c93f"
+  },
+  {
+    "path": "mmio.h",
+    "source": "/home/wzr/chipyard/tests/mmio.h",
+    "sha256": "637f6836725300970c1c864aaa239ea5f33195334823e2f503ab761774767e67"
+  },
+  {
+    "path": "rocc-software/src/xcustom.h",
+    "source": "/home/wzr/chipyard/generators/gemmini/software/gemmini-rocc-tests/rocc-software/src/xcustom.h",
+    "sha256": "9582eb00cee774e4680fde6408a0d607bba85196a0a4fd803f7b7ddd801aad69"
+  },
+  {
+    "path": "rocc-software/src/riscv_test_rocc.h",
+    "source": "/home/wzr/chipyard/generators/gemmini/software/gemmini-rocc-tests/rocc-software/src/riscv_test_rocc.h",
+    "sha256": "c7f53ca7c6c8b2db79b9a79b8cf56234381c45f96f441b21f4ce53689a322f29"
+  }
+]

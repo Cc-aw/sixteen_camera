@@ -1,14 +1,16 @@
 `timescale 1ns/1ps
 
 // Coherent FBus reader with independent request, response and ordered-output
-// pipelines. Each live slot owns one AXI ID. Responses may complete in any ID
-// order; the slot RAMs restore descriptor byte order before producing stream.
+// pipelines. AXI IDs are allocated independently of ordered output slots.
+// An ID is reusable at RLAST; its data stays in the reorder RAM until earlier
+// descriptors drain. This avoids waiting for a busy ID when another is free.
 module fbus_read_engine #(
     parameter integer ADDR_WIDTH = 33,
     parameter integer DATA_WIDTH = 256,
-    parameter integer ID_WIDTH = 4,
+    parameter integer ID_WIDTH = 5,
+    parameter integer READ_ID_COUNT = (1 << ID_WIDTH),
     parameter integer MAX_BURST_BEATS = 256,
-    parameter integer MAX_OUTSTANDING = 8
+    parameter integer MAX_OUTSTANDING = 64
 ) (
     input  wire                    clk,
     input  wire                    resetn,
@@ -40,6 +42,9 @@ module fbus_read_engine #(
     localparam integer BYTE_LANES = DATA_WIDTH / 8;
     localparam integer BYTE_SHIFT = $clog2(BYTE_LANES);
     localparam integer PTR_WIDTH = $clog2(MAX_OUTSTANDING);
+    localparam integer ACTIVE_IDS = (MAX_OUTSTANDING < READ_ID_COUNT) ?
+                                   MAX_OUTSTANDING : READ_ID_COUNT;
+    localparam integer RAM_ADDR_WIDTH = PTR_WIDTH + $clog2(4096 / BYTE_LANES);
     localparam integer SLOT_BEATS = 4096 / BYTE_LANES;
     localparam integer SLOT_INDEX_WIDTH = $clog2(SLOT_BEATS);
     localparam [2:0] AXI_SIZE = 3'(BYTE_SHIFT);
@@ -61,8 +66,32 @@ module fbus_read_engine #(
     reg [8:0] slot_expected_beats [0:MAX_OUTSTANDING-1];
     reg [8:0] slot_received_beats [0:MAX_OUTSTANDING-1];
     reg [8:0] slot_drained_beats [0:MAX_OUTSTANDING-1];
+    reg [PTR_WIDTH-1:0] id_slot [0:ACTIVE_IDS-1];
+    reg [ACTIVE_IDS-1:0] id_busy;
+    reg issue_pending;
+    reg [ID_WIDTH-1:0] issue_id;
+    reg [ID_WIDTH-1:0] next_id;
+    reg free_id_valid;
+    reg [ID_WIDTH-1:0] free_id;
+    always @* begin
+        free_id_valid = 1'b0;
+        free_id = '0;
+        for (integer id = 0; id < ACTIVE_IDS; id++) begin
+            if (!free_id_valid && !id_busy[id] && ID_WIDTH'(id) >= next_id) begin
+                free_id_valid = 1'b1;
+                free_id = ID_WIDTH'(id);
+            end
+        end
+        for (integer id = 0; id < ACTIVE_IDS; id++) begin
+            if (!free_id_valid && !id_busy[id]) begin
+                free_id_valid = 1'b1;
+                free_id = ID_WIDTH'(id);
+            end
+        end
+    end
+    // One flat simple-dual-port RAM, with synchronous read and no data reset.
     (* ram_style = "block" *) reg [DATA_WIDTH-1:0] slot_data
-        [0:MAX_OUTSTANDING-1][0:SLOT_BEATS-1];
+        [0:MAX_OUTSTANDING*SLOT_BEATS-1];
 
     reg [31:0] output_remaining_bytes;
     reg [BYTE_SHIFT-1:0] output_skip_bytes;
@@ -121,9 +150,9 @@ module fbus_read_engine #(
     wire ar_fire = m_axi.arvalid && m_axi.arready;
     wire r_fire = m_axi.rvalid && m_axi.rready;
     wire stream_fire = stream_valid_q && stream_ready;
-    wire [PTR_WIDTH-1:0] response_slot = m_axi.rid[PTR_WIDTH-1:0];
-    wire response_id_in_range = m_axi.rid < ID_WIDTH'(MAX_OUTSTANDING);
-    wire response_id_valid = response_id_in_range &&
+    wire response_id_in_range = {1'b0, m_axi.rid} < (ID_WIDTH+1)'(ACTIVE_IDS);
+    wire [PTR_WIDTH-1:0] response_slot = id_slot[m_axi.rid];
+    wire response_id_valid = response_id_in_range && id_busy[m_axi.rid] &&
                              slot_active[response_slot];
     wire expected_response_last = response_id_valid &&
         slot_received_beats[response_slot] + 1'b1 ==
@@ -162,7 +191,7 @@ module fbus_read_engine #(
     assign m_axi.wlast = 1'b0;
     assign m_axi.wvalid = 1'b0;
     assign m_axi.bready = 1'b0;
-    assign m_axi.arid = {{(ID_WIDTH-PTR_WIDTH){1'b0}}, issue_ptr};
+    assign m_axi.arid = issue_id;
     assign m_axi.araddr = issue_addr;
     assign m_axi.arlen = planned_beats[7:0] - 1'b1;
     assign m_axi.arsize = AXI_SIZE;
@@ -171,9 +200,7 @@ module fbus_read_engine #(
     assign m_axi.arcache = 4'b0010;
     assign m_axi.arprot = 3'b000;
     assign m_axi.arqos = 4'hf;
-    assign m_axi.arvalid = busy_q && issue_beats_remaining != 0 &&
-                           allocated_count <
-                           (PTR_WIDTH+1)'(MAX_OUTSTANDING);
+    assign m_axi.arvalid = busy_q && issue_pending;
     assign m_axi.rready = busy_q && response_outstanding_count != 0 &&
         (!response_id_valid ||
          slot_received_beats[response_slot] < SLOT_BEATS_9);
@@ -182,16 +209,32 @@ module fbus_read_engine #(
         if (DATA_WIDTH < 8 || (DATA_WIDTH & (DATA_WIDTH - 1)) != 0 ||
             (DATA_WIDTH % 8) != 0 || MAX_BURST_BEATS < 1 ||
             MAX_BURST_BEATS > 256 || MAX_OUTSTANDING < 2 ||
-            MAX_OUTSTANDING > 32 || ID_WIDTH < PTR_WIDTH ||
+            MAX_OUTSTANDING > 128 || ID_WIDTH < 1 ||
+            READ_ID_COUNT < 1 || READ_ID_COUNT > (1 << ID_WIDTH) ||
             (MAX_OUTSTANDING & (MAX_OUTSTANDING - 1)) != 0 ||
             SLOT_BEATS > 256)
             $error("fbus_read_engine parameters are invalid");
+    end
+
+    wire [RAM_ADDR_WIDTH-1:0] ram_write_address =
+        {response_slot, slot_received_beats[response_slot][SLOT_INDEX_WIDTH-1:0]};
+    wire [RAM_ADDR_WIDTH-1:0] ram_read_address =
+        {drain_ptr, slot_drained_beats[drain_ptr][SLOT_INDEX_WIDTH-1:0]};
+    always @(posedge clk) begin
+        if (resetn && r_fire && response_id_valid)
+            slot_data[ram_write_address] <= m_axi.rdata;
+        if (resetn && drain_fire)
+            stream_data_q <= slot_data[ram_read_address];
     end
 
     integer slot;
     always @(posedge clk or negedge resetn) begin
         if (!resetn) begin
             busy_q <= 1'b0;
+            id_busy <= '0;
+            issue_pending <= 1'b0;
+            issue_id <= '0;
+            next_id <= '0;
             done <= 1'b0;
             error_q <= 1'b0;
             error_flags_q <= 3'b000;
@@ -214,10 +257,11 @@ module fbus_read_engine #(
             max_outstanding_observed <= 32'd0;
             max_reorder_occupancy <= 32'd0;
             active_id_mask_observed <= 32'd0;
-            stream_data_q <= '0;
             stream_keep_q <= '0;
             stream_valid_q <= 1'b0;
             stream_last_q <= 1'b0;
+            for (integer id = 0; id < ACTIVE_IDS; id++)
+                id_slot[id] <= '0;
             for (slot = 0; slot < MAX_OUTSTANDING; slot = slot + 1) begin
                 slot_active[slot] <= 1'b0;
                 slot_complete[slot] <= 1'b0;
@@ -256,12 +300,17 @@ module fbus_read_engine #(
                                {BYTE_SHIFT{1'b0}}};
                 issue_beats_remaining <= initial_beats[31:0];
                 issue_ptr <= '0;
+                id_busy <= '0;
+                next_id <= '0;
+                issue_pending <= 1'b0;
                 drain_ptr <= '0;
                 allocated_count <= '0;
                 response_outstanding_count <= '0;
                 output_remaining_bytes <= byte_count;
                 output_skip_bytes <= base_addr[BYTE_SHIFT-1:0];
                 all_data_queued <= 1'b0;
+                for (integer id = 0; id < ACTIVE_IDS; id++)
+                    id_slot[id] <= '0;
                 for (slot = 0; slot < MAX_OUTSTANDING; slot = slot + 1) begin
                     slot_active[slot] <= 1'b0;
                     slot_complete[slot] <= 1'b0;
@@ -274,14 +323,24 @@ module fbus_read_engine #(
                 else
                     busy_q <= 1'b1;
             end else if (busy_q) begin
+                // Hold the selected ID across AR stalls, even if other IDs free.
+                if (!issue_pending && issue_beats_remaining != 0 &&
+                    allocated_count < (PTR_WIDTH+1)'(MAX_OUTSTANDING) && free_id_valid) begin
+                    issue_pending <= 1'b1;
+                    issue_id <= free_id;
+                end
                 if (ar_fire) begin
+                    issue_pending <= 1'b0;
+                    id_busy[issue_id] <= 1'b1;
+                    next_id <= issue_id + 1'b1;
+                    id_slot[issue_id] <= issue_ptr;
                     slot_active[issue_ptr] <= 1'b1;
                     slot_complete[issue_ptr] <= 1'b0;
                     slot_expected_beats[issue_ptr] <= planned_beats;
                     slot_received_beats[issue_ptr] <= 9'd0;
                     slot_drained_beats[issue_ptr] <= 9'd0;
                     active_id_mask_observed <= active_id_mask_observed |
-                                               (32'd1 << issue_ptr);
+                                               (32'd1 << m_axi.arid);
                     issue_ptr <= issue_ptr + 1'b1;
                     issue_addr <= issue_addr + planned_beats * BYTE_LANES;
                     issue_beats_remaining <= issue_beats_remaining -
@@ -303,10 +362,6 @@ module fbus_read_engine #(
                         error_q <= 1'b1;
                         error_flags_q[1] <= 1'b1;
                     end else begin
-                        slot_data[response_slot]
-                                 [slot_received_beats[response_slot]
-                                                      [SLOT_INDEX_WIDTH-1:0]] <=
-                            m_axi.rdata;
                         slot_received_beats[response_slot] <=
                             slot_received_beats[response_slot] + 1'b1;
                         if (m_axi.rresp != 2'b00) begin
@@ -317,16 +372,14 @@ module fbus_read_engine #(
                             error_q <= 1'b1;
                             error_flags_q[2] <= 1'b1;
                         end
-                        if (expected_response_last)
+                        if (expected_response_last) begin
                             slot_complete[response_slot] <= 1'b1;
+                            id_busy[m_axi.rid] <= 1'b0;
+                        end
                     end
                 end
 
                 if (drain_fire) begin
-                    stream_data_q <=
-                        slot_data[drain_ptr]
-                                 [slot_drained_beats[drain_ptr]
-                                                     [SLOT_INDEX_WIDTH-1:0]];
                     stream_keep_q <= output_valid_mask;
                     stream_last_q <=
                         output_remaining_bytes <= output_available_bytes;

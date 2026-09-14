@@ -63,7 +63,7 @@ module top_wrapper (
 );
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4)) soc_mem_axi();
     axi4_if #(.ADDR_WIDTH(31), .DATA_WIDTH(64), .ID_WIDTH(4)) soc_mmio_axi();
-    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4)) soc_fbus_axi();
+    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(5)) soc_fbus_axi();
     wire soc_resetn;
     axis_video_if #(.DATA_WIDTH(48)) ddr_video_axis();
     video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))

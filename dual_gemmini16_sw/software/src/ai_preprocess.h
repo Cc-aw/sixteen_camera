@@ -1,0 +1,35 @@
+#ifndef AI_PREPROCESS_H
+#define AI_PREPROCESS_H
+
+#include <stdint.h>
+
+typedef struct {
+    uint32_t arena;
+    uint32_t tensor_base;
+    uint32_t valid_mask;
+    uint32_t fresh_mask;
+    uint64_t batch_id;
+    uint32_t cycles;
+    uint32_t read_beats;
+    uint32_t write_beats;
+} AiPreprocessResult;
+
+typedef enum {
+    AI_PREPROCESS_FORMAT_416X416 = 0,
+    AI_PREPROCESS_FORMAT_640X480 = 1
+} AiPreprocessFormat;
+
+/*
+ * Non-blocking interface used by the Batch runtime.  poll() returns 0 while
+ * the hardware is running, 1 when result has been filled, or a negative error
+ * code.  The existing blocking helper remains available for diagnostics.
+ */
+void ai_preprocess_init(void);
+int ai_preprocess_set_format(AiPreprocessFormat format);
+AiPreprocessFormat ai_preprocess_get_format(void);
+int ai_preprocess_start(void);
+int ai_preprocess_poll(AiPreprocessResult *result);
+int ai_preprocess_run(AiPreprocessResult *result);
+int ai_preprocess_recycle(uint32_t arena_mask);
+
+#endif

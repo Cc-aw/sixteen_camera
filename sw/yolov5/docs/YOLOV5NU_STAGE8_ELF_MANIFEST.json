@@ -1,0 +1,40 @@
+{
+  "format": "yolov5nu-stage8-all-consumer-elf-manifest-v1",
+  "mode": "8c-dual-consumer-splitk",
+  "physical_layout": "nhwc",
+  "stage7_mode": "7e",
+  "partial_fence": true,
+  "load_address": "0x80000000",
+  "elf_files": [
+    {
+      "image_id": "025",
+      "path": "generators/gemmini/software/gemmini-rocc-tests/build/imagenet/yolov5nu-stage8c-all-consumer-splitk-image025-profile-baremetal-uart",
+      "size": 3067328,
+      "sha256": "bb64186da95c4a06382135b87e8bb36426403ba73379a7609f8f8b2bb100f6cb"
+    },
+    {
+      "image_id": "036",
+      "path": "generators/gemmini/software/gemmini-rocc-tests/build/imagenet/yolov5nu-stage8c-all-consumer-splitk-image036-profile-baremetal-uart",
+      "size": 3067328,
+      "sha256": "c852e2a91ceb90ab93bf5d2d9efacfc04bdc3452a1a8b3e6c281030ef094d2ca"
+    },
+    {
+      "image_id": "142",
+      "path": "generators/gemmini/software/gemmini-rocc-tests/build/imagenet/yolov5nu-stage8c-all-consumer-splitk-image142-profile-baremetal-uart",
+      "size": 3067328,
+      "sha256": "d1832ba4944475735a82d0d458dfe4c684811c8a326cd03dbb72b74d3b47d191"
+    },
+    {
+      "image_id": "404",
+      "path": "generators/gemmini/software/gemmini-rocc-tests/build/imagenet/yolov5nu-stage8c-all-consumer-splitk-image404-profile-baremetal-uart",
+      "size": 3067328,
+      "sha256": "58654b9ee0e74fbaddd02c207b390ed8b25890151b22e4ab7f7ef3f0646fc9eb"
+    },
+    {
+      "image_id": "650",
+      "path": "generators/gemmini/software/gemmini-rocc-tests/build/imagenet/yolov5nu-stage8c-all-consumer-splitk-image650-profile-baremetal-uart",
+      "size": 3067328,
+      "sha256": "b41344f6cd243d6a37c0adf0b54a6a7c49146bfd5a054408fca1b578e64eded1"
+    }
+  ]
+}

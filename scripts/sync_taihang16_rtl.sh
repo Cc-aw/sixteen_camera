@@ -13,18 +13,8 @@ target_dir="$repo_dir/rtl/soc/$tree/gen-collateral"
   exit 1
 }
 
-# P1C-2 requires 7-bit TL sources. With the current Rocket-Chip adapter this
-# produces two physical AXI ID groups with 32 read source counters each.
-grep -Eq 'output \[6:0\][[:space:]]+auto_out_a_bits_source' \
-  "$source_dir/AXI4ToTL.sv" || {
-  echo "generated AXI4ToTL does not expose a 7-bit source" >&2
-  exit 1
-}
-grep -Eq 'reg[[:space:]]+\[5:0\][[:space:]]+r_count_0' \
-  "$source_dir/AXI4ToTL.sv" || {
-  echo "generated AXI4ToTL does not contain 32 read sources per ID group" >&2
-  exit 1
-}
+# Preserve 32 physical AXI ID groups, each with two read sources.
+python3 "$repo_dir/scripts/check_fbus_id_groups.py" "$source_dir"
 
 mkdir -p "$target_dir"
 rsync -rt --delete "$source_dir/" "$target_dir/"

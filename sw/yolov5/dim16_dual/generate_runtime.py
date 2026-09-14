@@ -79,7 +79,7 @@ def build() -> str:
     prefix = prefix.replace(
         "static elem_t activation_arena[2217600] row_align(1);",
         "static elem_t activation_arenas[YOLOV5NU_DIM16_WORKER_COUNT]"
-        "[2217600] row_align(1);\nstatic elem_t *activation_arena;")
+        "[2217600] __attribute__((aligned(64)));\nstatic elem_t *activation_arena;")
     prefix = prefix.replace(
         "static elem_t conv_input_scratch[YOLOV5NU_CONV_INPUT_SCRATCH] "
         "row_align(1);",

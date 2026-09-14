@@ -4,7 +4,8 @@
 // outstanding burst at a time, so preserving AW/W/B ordering is sufficient
 // and avoids routing its tensor writes through the non-coherent DDR S02 port.
 module axi4_write_cdc #(
-    parameter integer FIFO_ADDR_WIDTH = 4
+    parameter integer FIFO_ADDR_WIDTH = 4,
+    parameter integer FBUS_WRITE_ID = -1
 ) (
     axi4_if.slave  s_axi,
     input  wire    m_clk,
@@ -22,6 +23,7 @@ module axi4_write_cdc #(
     wire w_fifo_full, w_fifo_empty;
     wire b_fifo_full, b_fifo_empty;
     reg  m_aw_inflight;
+    reg [2:0] original_awid;
 
     wire s_aw_fire = s_axi.awvalid && s_axi.awready;
     wire s_w_fire = s_axi.wvalid && s_axi.wready;
@@ -47,7 +49,9 @@ module axi4_write_cdc #(
 
     assign m_axi.aclk = m_clk;
     assign m_axi.aresetn = m_resetn;
-    assign m_axi.awid = {1'b0, aw_fifo_rdata[59:57]};
+    // A dedicated FBus ID separates preprocess writes from PPU read ordering.
+    assign m_axi.awid = FBUS_WRITE_ID >= 0 ? $bits(m_axi.awid)'(FBUS_WRITE_ID) :
+                       $bits(m_axi.awid)'(aw_fifo_rdata[59:57]);
     // The preprocessor is configured with the 32-bit MIG physical address
     // (0x3000_0000 / 0x3100_0000), while the coherent FBus exposes that DDR
     // storage through Rocket's bit-31 alias (0xB000_0000 / 0xB100_0000).
@@ -101,18 +105,22 @@ module axi4_write_cdc #(
 
     async_fifo #(.DATA_WIDTH(B_WIDTH), .ADDR_WIDTH(FIFO_ADDR_WIDTH)) u_b_fifo (
         .wclk(m_clk), .wresetn(m_resetn),
-        .wdata({m_axi.bid[2:0], m_axi.bresp, 1'b0}),
+        .wdata({FBUS_WRITE_ID >= 0 ? original_awid : m_axi.bid[2:0],
+                m_axi.bresp, 1'b0}),
         .w_en(m_b_fire), .w_full(b_fifo_full),
         .rclk(s_axi.aclk), .rresetn(s_axi.aresetn), .rdata(b_fifo_rdata),
         .r_en(s_b_fire), .r_empty(b_fifo_empty)
     );
 
     always @(posedge m_clk or negedge m_resetn) begin
-        if (!m_resetn)
+        if (!m_resetn) begin
             m_aw_inflight <= 1'b0;
-        else begin
-            if (m_aw_fire)
+            original_awid <= 3'd0;
+        end else begin
+            if (m_aw_fire) begin
                 m_aw_inflight <= 1'b1;
+                original_awid <= aw_fifo_rdata[59:57];
+            end
             if (m_b_fire)
                 m_aw_inflight <= 1'b0;
         end

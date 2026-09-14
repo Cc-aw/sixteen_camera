@@ -32,3 +32,4 @@ module ram_2x1131(	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
   `endif // ENABLE_INITIAL_MEM_
   assign R0_data = R0_en ? Memory[R0_addr] : 1131'bx;	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
 endmodule
+

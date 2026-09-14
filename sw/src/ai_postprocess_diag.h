@@ -57,6 +57,7 @@ typedef struct {
     uint32_t max_reorder_occupancy;
     uint32_t active_id_mask_observed;
     uint32_t burst_bytes;
+    uint32_t busy_retries;
 } AiPostprocessBandwidthResult;
 
 int ai_postprocess_diag_probe(void);

@@ -1,0 +1,22 @@
+{
+  "imported_files_sha256_pass": 874,
+  "python_syntax_pass": 58,
+  "shell_syntax_pass": 8,
+  "onnx_checker": "PASS",
+  "aot_image025_regeneration": {
+    "yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile.c": {
+      "byte_identical_to_source_aot": true,
+      "sha256": "56cb9a46f419bd6e6ca591b846310a4609d3bf579bba415b629cdd31001b2df1"
+    },
+    "yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_memory.json": {
+      "byte_identical_to_source_aot": true,
+      "sha256": "fcabb9e9f9d0d391932990a44d212e48776bbb92b8a27853533eafc3e18c7eb3"
+    },
+    "yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h": {
+      "byte_identical_to_source_aot": true,
+      "sha256": "19d6ad52c6ccf0c392076f98de7d859d7d47c47d82589feac27f7e5b9a534b7f"
+    }
+  },
+  "five_image_stage8f_contract": "PASS: 7 shared Add, 17 split-K edges, 4 reuse groups, arena 2217600",
+  "n6_build_or_board_test": "NOT_RUN"
+}

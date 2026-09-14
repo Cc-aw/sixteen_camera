@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module tb_axi4_write_cdc;
+module tb_axi4_write_cdc #(parameter integer TEST_REMAP_ID = 31);
     reg s_clk = 1'b0;
     reg m_clk = 1'b0;
     reg s_resetn = 1'b0;
@@ -9,20 +9,20 @@ module tb_axi4_write_cdc;
     always #7 m_clk = ~m_clk;
 
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) s_axi();
-    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4)) m_axi();
+    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(5)) m_axi();
     reg m_bvalid;
-    reg [3:0] m_bid;
+    reg [4:0] m_bid;
     reg [1:0] m_bresp;
     reg m_aw_seen;
     reg [32:0] m_awaddr_seen;
-    reg [3:0] m_awid_seen;
-    reg [3:0] m_current_id;
+    reg [4:0] m_awid_seen;
+    reg [4:0] m_current_id;
     reg m_w_seen;
     reg [255:0] m_wdata_seen;
     reg m_wlast_seen;
     integer timeout;
 
-    axi4_write_cdc #(.FIFO_ADDR_WIDTH(2)) dut (
+    axi4_write_cdc #(.FIFO_ADDR_WIDTH(2), .FBUS_WRITE_ID(TEST_REMAP_ID)) dut (
         .s_axi(s_axi), .m_clk(m_clk), .m_resetn(m_resetn), .m_axi(m_axi)
     );
 
@@ -124,19 +124,19 @@ module tb_axi4_write_cdc;
                                 input [255:0] expected_data);
         begin
             timeout = 0;
-            while (!m_aw_seen) begin
+            while (!m_aw_seen || m_awaddr_seen !== expected_address) begin
                 @(posedge m_clk);
                 timeout = timeout + 1;
                 if (timeout > 200)
                     $fatal(1, "destination AW timeout");
             end
             if (m_awaddr_seen !== expected_address ||
-                m_awid_seen !== {1'b0, expected_id})
+                m_awid_seen !== (TEST_REMAP_ID >= 0 ? 5'(TEST_REMAP_ID) : {2'b0, expected_id}))
                 $fatal(1, "FBus address/id mismatch: addr=%h id=%h",
                        m_awaddr_seen, m_awid_seen);
 
             timeout = 0;
-            while (!m_w_seen) begin
+            while (!m_w_seen || m_wdata_seen !== expected_data) begin
                 @(posedge m_clk);
                 timeout = timeout + 1;
                 if (timeout > 200)
@@ -160,6 +160,7 @@ module tb_axi4_write_cdc;
                 $fatal(1, "source B mismatch");
             s_axi.bready = 1'b1;
             @(posedge s_clk);
+            @(negedge s_clk);
             s_axi.bready = 1'b0;
         end
     endtask
@@ -188,7 +189,13 @@ module tb_axi4_write_cdc;
         send_single_write(32'h3000_0020, 3'd5, 256'h1234);
         expect_write(33'h0_b000_0020, 3'd5, 256'h1234);
         expect_response(3'd5);
-        $display("tb_axi4_write_cdc PASS");
+        send_single_write(32'h3000_0040, 3'd2, 256'h5678);
+        expect_write(33'h0_b000_0040, 3'd2, 256'h5678);
+        expect_response(3'd2);
+        send_single_write(32'h3000_0060, 3'd7, 256'h9abc);
+        expect_write(33'h0_b000_0060, 3'd7, 256'h9abc);
+        expect_response(3'd7);
+        $display("tb_axi4_write_cdc PASS remap=%0d", TEST_REMAP_ID);
         $finish;
     end
 endmodule

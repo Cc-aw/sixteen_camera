@@ -4,7 +4,7 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
   input          reset,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:136:7]
   output         auto_axi4index_in_aw_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_axi4index_in_aw_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [3:0]   auto_axi4index_in_aw_bits_id,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [4:0]   auto_axi4index_in_aw_bits_id,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [32:0]  auto_axi4index_in_aw_bits_addr,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [7:0]   auto_axi4index_in_aw_bits_len,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]   auto_axi4index_in_aw_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -20,11 +20,11 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
   input          auto_axi4index_in_w_bits_last,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_axi4index_in_b_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_axi4index_in_b_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output [3:0]   auto_axi4index_in_b_bits_id,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [4:0]   auto_axi4index_in_b_bits_id,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [1:0]   auto_axi4index_in_b_bits_resp,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_axi4index_in_ar_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_axi4index_in_ar_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [3:0]   auto_axi4index_in_ar_bits_id,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [4:0]   auto_axi4index_in_ar_bits_id,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [32:0]  auto_axi4index_in_ar_bits_addr,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [7:0]   auto_axi4index_in_ar_bits_len,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]   auto_axi4index_in_ar_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -35,7 +35,7 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
   input  [3:0]   auto_axi4index_in_ar_bits_qos,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_axi4index_in_r_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_axi4index_in_r_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output [3:0]   auto_axi4index_in_r_bits_id,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [4:0]   auto_axi4index_in_r_bits_id,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [255:0] auto_axi4index_in_r_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [1:0]   auto_axi4index_in_r_bits_resp,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_axi4index_in_r_bits_last,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -53,8 +53,8 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
   output         auto_tl_out_a_bits_user_amba_prot_privileged,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_tl_out_a_bits_user_amba_prot_secure,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_tl_out_a_bits_user_amba_prot_fetch,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output [7:0]   auto_tl_out_a_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output [63:0]  auto_tl_out_a_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [31:0]  auto_tl_out_a_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [255:0] auto_tl_out_a_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_tl_out_a_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_tl_out_d_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_tl_out_d_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -64,12 +64,12 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
   input  [6:0]   auto_tl_out_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [4:0]   auto_tl_out_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_tl_out_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [63:0]  auto_tl_out_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [255:0] auto_tl_out_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_tl_out_d_bits_corrupt	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
 );
 
   wire         _axi4index_auto_out_aw_valid;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
-  wire         _axi4index_auto_out_aw_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
+  wire [4:0]   _axi4index_auto_out_aw_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire [32:0]  _axi4index_auto_out_aw_bits_addr;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire [7:0]   _axi4index_auto_out_aw_bits_len;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire [2:0]   _axi4index_auto_out_aw_bits_size;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
@@ -78,14 +78,13 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
   wire [3:0]   _axi4index_auto_out_aw_bits_cache;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire [2:0]   _axi4index_auto_out_aw_bits_prot;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire [3:0]   _axi4index_auto_out_aw_bits_qos;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
-  wire [2:0]   _axi4index_auto_out_aw_bits_echo_extra_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire         _axi4index_auto_out_w_valid;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire [255:0] _axi4index_auto_out_w_bits_data;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire [31:0]  _axi4index_auto_out_w_bits_strb;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire         _axi4index_auto_out_w_bits_last;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire         _axi4index_auto_out_b_ready;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire         _axi4index_auto_out_ar_valid;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
-  wire         _axi4index_auto_out_ar_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
+  wire [4:0]   _axi4index_auto_out_ar_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire [32:0]  _axi4index_auto_out_ar_bits_addr;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire [7:0]   _axi4index_auto_out_ar_bits_len;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire [2:0]   _axi4index_auto_out_ar_bits_size;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
@@ -94,29 +93,25 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
   wire [3:0]   _axi4index_auto_out_ar_bits_cache;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire [2:0]   _axi4index_auto_out_ar_bits_prot;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire [3:0]   _axi4index_auto_out_ar_bits_qos;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
-  wire [2:0]   _axi4index_auto_out_ar_bits_echo_extra_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire         _axi4index_auto_out_r_ready;	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
   wire         _axi4frag_auto_in_aw_ready;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire         _axi4frag_auto_in_w_ready;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire         _axi4frag_auto_in_b_valid;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-  wire         _axi4frag_auto_in_b_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
+  wire [4:0]   _axi4frag_auto_in_b_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire [1:0]   _axi4frag_auto_in_b_bits_resp;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-  wire [2:0]   _axi4frag_auto_in_b_bits_echo_extra_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire         _axi4frag_auto_in_ar_ready;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire         _axi4frag_auto_in_r_valid;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-  wire         _axi4frag_auto_in_r_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
+  wire [4:0]   _axi4frag_auto_in_r_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire [255:0] _axi4frag_auto_in_r_bits_data;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire [1:0]   _axi4frag_auto_in_r_bits_resp;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-  wire [2:0]   _axi4frag_auto_in_r_bits_echo_extra_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire         _axi4frag_auto_in_r_bits_last;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire         _axi4frag_auto_out_aw_valid;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-  wire         _axi4frag_auto_out_aw_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
+  wire [4:0]   _axi4frag_auto_out_aw_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire [32:0]  _axi4frag_auto_out_aw_bits_addr;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire [7:0]   _axi4frag_auto_out_aw_bits_len;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire [2:0]   _axi4frag_auto_out_aw_bits_size;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire [3:0]   _axi4frag_auto_out_aw_bits_cache;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire [2:0]   _axi4frag_auto_out_aw_bits_prot;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-  wire [2:0]   _axi4frag_auto_out_aw_bits_echo_extra_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire         _axi4frag_auto_out_aw_bits_echo_real_last;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire         _axi4frag_auto_out_w_valid;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire [255:0] _axi4frag_auto_out_w_bits_data;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
@@ -124,32 +119,29 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
   wire         _axi4frag_auto_out_w_bits_last;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire         _axi4frag_auto_out_b_ready;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire         _axi4frag_auto_out_ar_valid;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-  wire         _axi4frag_auto_out_ar_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
+  wire [4:0]   _axi4frag_auto_out_ar_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire [32:0]  _axi4frag_auto_out_ar_bits_addr;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire [7:0]   _axi4frag_auto_out_ar_bits_len;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire [2:0]   _axi4frag_auto_out_ar_bits_size;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire [3:0]   _axi4frag_auto_out_ar_bits_cache;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire [2:0]   _axi4frag_auto_out_ar_bits_prot;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-  wire [2:0]   _axi4frag_auto_out_ar_bits_echo_extra_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire         _axi4frag_auto_out_ar_bits_echo_real_last;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire         _axi4frag_auto_out_r_ready;	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   wire         _axi4yank_auto_in_aw_ready;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire         _axi4yank_auto_in_w_ready;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire         _axi4yank_auto_in_b_valid;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
-  wire         _axi4yank_auto_in_b_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
+  wire [4:0]   _axi4yank_auto_in_b_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire [1:0]   _axi4yank_auto_in_b_bits_resp;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
-  wire [2:0]   _axi4yank_auto_in_b_bits_echo_extra_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire         _axi4yank_auto_in_b_bits_echo_real_last;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire         _axi4yank_auto_in_ar_ready;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire         _axi4yank_auto_in_r_valid;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
-  wire         _axi4yank_auto_in_r_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
+  wire [4:0]   _axi4yank_auto_in_r_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire [255:0] _axi4yank_auto_in_r_bits_data;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire [1:0]   _axi4yank_auto_in_r_bits_resp;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
-  wire [2:0]   _axi4yank_auto_in_r_bits_echo_extra_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire         _axi4yank_auto_in_r_bits_echo_real_last;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire         _axi4yank_auto_in_r_bits_last;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire         _axi4yank_auto_out_aw_valid;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
-  wire         _axi4yank_auto_out_aw_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
+  wire [4:0]   _axi4yank_auto_out_aw_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire [32:0]  _axi4yank_auto_out_aw_bits_addr;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire [7:0]   _axi4yank_auto_out_aw_bits_len;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire [2:0]   _axi4yank_auto_out_aw_bits_size;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
@@ -161,7 +153,7 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
   wire         _axi4yank_auto_out_w_bits_last;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire         _axi4yank_auto_out_b_ready;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire         _axi4yank_auto_out_ar_valid;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
-  wire         _axi4yank_auto_out_ar_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
+  wire [4:0]   _axi4yank_auto_out_ar_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire [32:0]  _axi4yank_auto_out_ar_bits_addr;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire [7:0]   _axi4yank_auto_out_ar_bits_len;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   wire [2:0]   _axi4yank_auto_out_ar_bits_size;	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
@@ -171,11 +163,11 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
   wire         _axi42tl_auto_in_aw_ready;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
   wire         _axi42tl_auto_in_w_ready;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
   wire         _axi42tl_auto_in_b_valid;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-  wire         _axi42tl_auto_in_b_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+  wire [4:0]   _axi42tl_auto_in_b_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
   wire [1:0]   _axi42tl_auto_in_b_bits_resp;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
   wire         _axi42tl_auto_in_ar_ready;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
   wire         _axi42tl_auto_in_r_valid;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-  wire         _axi42tl_auto_in_r_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+  wire [4:0]   _axi42tl_auto_in_r_bits_id;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
   wire [255:0] _axi42tl_auto_in_r_bits_data;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
   wire [1:0]   _axi42tl_auto_in_r_bits_resp;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
   wire         _axi42tl_auto_in_r_bits_last;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
@@ -194,36 +186,13 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
   wire [31:0]  _axi42tl_auto_out_a_bits_mask;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
   wire [255:0] _axi42tl_auto_out_a_bits_data;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
   wire         _axi42tl_auto_out_d_ready;	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-  wire         _widget_auto_anon_in_a_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire         _widget_auto_anon_in_d_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire [2:0]   _widget_auto_anon_in_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire [3:0]   _widget_auto_anon_in_d_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire [6:0]   _widget_auto_anon_in_d_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire         _widget_auto_anon_in_d_bits_denied;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire [255:0] _widget_auto_anon_in_d_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire         _widget_auto_anon_in_d_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire         _widget_auto_anon_out_a_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire [2:0]   _widget_auto_anon_out_a_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire [3:0]   _widget_auto_anon_out_a_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire [6:0]   _widget_auto_anon_out_a_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire [32:0]  _widget_auto_anon_out_a_bits_address;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire         _widget_auto_anon_out_a_bits_user_amba_prot_bufferable;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire         _widget_auto_anon_out_a_bits_user_amba_prot_modifiable;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire         _widget_auto_anon_out_a_bits_user_amba_prot_readalloc;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire         _widget_auto_anon_out_a_bits_user_amba_prot_writealloc;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire         _widget_auto_anon_out_a_bits_user_amba_prot_privileged;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire         _widget_auto_anon_out_a_bits_user_amba_prot_secure;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire         _widget_auto_anon_out_a_bits_user_amba_prot_fetch;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire [7:0]   _widget_auto_anon_out_a_bits_mask;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire [63:0]  _widget_auto_anon_out_a_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-  wire         _widget_auto_anon_out_d_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
   wire         _fixer_auto_anon_in_a_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
   wire         _fixer_auto_anon_in_d_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
   wire [2:0]   _fixer_auto_anon_in_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
   wire [3:0]   _fixer_auto_anon_in_d_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
   wire [6:0]   _fixer_auto_anon_in_d_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
   wire         _fixer_auto_anon_in_d_bits_denied;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
-  wire [63:0]  _fixer_auto_anon_in_d_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
+  wire [255:0] _fixer_auto_anon_in_d_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
   wire         _fixer_auto_anon_in_d_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
   wire         _fixer_auto_anon_out_a_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
   wire [2:0]   _fixer_auto_anon_out_a_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
@@ -237,8 +206,8 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
   wire         _fixer_auto_anon_out_a_bits_user_amba_prot_privileged;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
   wire         _fixer_auto_anon_out_a_bits_user_amba_prot_secure;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
   wire         _fixer_auto_anon_out_a_bits_user_amba_prot_fetch;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
-  wire [7:0]   _fixer_auto_anon_out_a_bits_mask;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
-  wire [63:0]  _fixer_auto_anon_out_a_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
+  wire [31:0]  _fixer_auto_anon_out_a_bits_mask;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
+  wire [255:0] _fixer_auto_anon_out_a_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
   wire         _fixer_auto_anon_out_d_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
   wire         _buffer_auto_in_a_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire         _buffer_auto_in_d_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
@@ -246,9 +215,9 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
   wire [3:0]   _buffer_auto_in_d_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [6:0]   _buffer_auto_in_d_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire         _buffer_auto_in_d_bits_denied;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-  wire [63:0]  _buffer_auto_in_d_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
+  wire [255:0] _buffer_auto_in_d_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire         _buffer_auto_in_d_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-  TLBuffer_a33d64s7k5z4u buffer (	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
+  TLBuffer_a33d256s7k5z4u buffer (	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
     .clock                                     (clock),
     .reset                                     (reset),
     .auto_in_a_ready                           (_buffer_auto_in_a_ready),
@@ -306,21 +275,21 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
     .clock                                          (clock),
     .reset                                          (reset),
     .auto_anon_in_a_ready                           (_fixer_auto_anon_in_a_ready),
-    .auto_anon_in_a_valid                           (_widget_auto_anon_out_a_valid),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_anon_in_a_bits_opcode                     (_widget_auto_anon_out_a_bits_opcode),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_anon_in_a_bits_size                       (_widget_auto_anon_out_a_bits_size),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_anon_in_a_bits_source                     (_widget_auto_anon_out_a_bits_source),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_anon_in_a_bits_address                    (_widget_auto_anon_out_a_bits_address),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_anon_in_a_bits_user_amba_prot_bufferable  (_widget_auto_anon_out_a_bits_user_amba_prot_bufferable),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_anon_in_a_bits_user_amba_prot_modifiable  (_widget_auto_anon_out_a_bits_user_amba_prot_modifiable),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_anon_in_a_bits_user_amba_prot_readalloc   (_widget_auto_anon_out_a_bits_user_amba_prot_readalloc),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_anon_in_a_bits_user_amba_prot_writealloc  (_widget_auto_anon_out_a_bits_user_amba_prot_writealloc),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_anon_in_a_bits_user_amba_prot_privileged  (_widget_auto_anon_out_a_bits_user_amba_prot_privileged),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_anon_in_a_bits_user_amba_prot_secure      (_widget_auto_anon_out_a_bits_user_amba_prot_secure),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_anon_in_a_bits_user_amba_prot_fetch       (_widget_auto_anon_out_a_bits_user_amba_prot_fetch),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_anon_in_a_bits_mask                       (_widget_auto_anon_out_a_bits_mask),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_anon_in_a_bits_data                       (_widget_auto_anon_out_a_bits_data),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_anon_in_d_ready                           (_widget_auto_anon_out_d_ready),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
+    .auto_anon_in_a_valid                           (_axi42tl_auto_out_a_valid),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+    .auto_anon_in_a_bits_opcode                     (_axi42tl_auto_out_a_bits_opcode),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+    .auto_anon_in_a_bits_size                       (_axi42tl_auto_out_a_bits_size),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+    .auto_anon_in_a_bits_source                     (_axi42tl_auto_out_a_bits_source),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+    .auto_anon_in_a_bits_address                    (_axi42tl_auto_out_a_bits_address),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+    .auto_anon_in_a_bits_user_amba_prot_bufferable  (_axi42tl_auto_out_a_bits_user_amba_prot_bufferable),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+    .auto_anon_in_a_bits_user_amba_prot_modifiable  (_axi42tl_auto_out_a_bits_user_amba_prot_modifiable),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+    .auto_anon_in_a_bits_user_amba_prot_readalloc   (_axi42tl_auto_out_a_bits_user_amba_prot_readalloc),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+    .auto_anon_in_a_bits_user_amba_prot_writealloc  (_axi42tl_auto_out_a_bits_user_amba_prot_writealloc),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+    .auto_anon_in_a_bits_user_amba_prot_privileged  (_axi42tl_auto_out_a_bits_user_amba_prot_privileged),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+    .auto_anon_in_a_bits_user_amba_prot_secure      (_axi42tl_auto_out_a_bits_user_amba_prot_secure),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+    .auto_anon_in_a_bits_user_amba_prot_fetch       (_axi42tl_auto_out_a_bits_user_amba_prot_fetch),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+    .auto_anon_in_a_bits_mask                       (_axi42tl_auto_out_a_bits_mask),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+    .auto_anon_in_a_bits_data                       (_axi42tl_auto_out_a_bits_data),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
+    .auto_anon_in_d_ready                           (_axi42tl_auto_out_d_ready),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
     .auto_anon_in_d_valid                           (_fixer_auto_anon_in_d_valid),
     .auto_anon_in_d_bits_opcode                     (_fixer_auto_anon_in_d_bits_opcode),
     .auto_anon_in_d_bits_size                       (_fixer_auto_anon_in_d_bits_size),
@@ -352,56 +321,6 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
     .auto_anon_out_d_bits_data                      (_buffer_auto_in_d_bits_data),	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
     .auto_anon_out_d_bits_corrupt                   (_buffer_auto_in_d_bits_corrupt)	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   );	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
-  TLWidthWidget32_3 widget (	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .clock                                          (clock),
-    .reset                                          (reset),
-    .auto_anon_in_a_ready                           (_widget_auto_anon_in_a_ready),
-    .auto_anon_in_a_valid                           (_axi42tl_auto_out_a_valid),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-    .auto_anon_in_a_bits_opcode                     (_axi42tl_auto_out_a_bits_opcode),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-    .auto_anon_in_a_bits_size                       (_axi42tl_auto_out_a_bits_size),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-    .auto_anon_in_a_bits_source                     (_axi42tl_auto_out_a_bits_source),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-    .auto_anon_in_a_bits_address                    (_axi42tl_auto_out_a_bits_address),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-    .auto_anon_in_a_bits_user_amba_prot_bufferable  (_axi42tl_auto_out_a_bits_user_amba_prot_bufferable),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-    .auto_anon_in_a_bits_user_amba_prot_modifiable  (_axi42tl_auto_out_a_bits_user_amba_prot_modifiable),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-    .auto_anon_in_a_bits_user_amba_prot_readalloc   (_axi42tl_auto_out_a_bits_user_amba_prot_readalloc),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-    .auto_anon_in_a_bits_user_amba_prot_writealloc  (_axi42tl_auto_out_a_bits_user_amba_prot_writealloc),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-    .auto_anon_in_a_bits_user_amba_prot_privileged  (_axi42tl_auto_out_a_bits_user_amba_prot_privileged),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-    .auto_anon_in_a_bits_user_amba_prot_secure      (_axi42tl_auto_out_a_bits_user_amba_prot_secure),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-    .auto_anon_in_a_bits_user_amba_prot_fetch       (_axi42tl_auto_out_a_bits_user_amba_prot_fetch),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-    .auto_anon_in_a_bits_mask                       (_axi42tl_auto_out_a_bits_mask),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-    .auto_anon_in_a_bits_data                       (_axi42tl_auto_out_a_bits_data),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-    .auto_anon_in_d_ready                           (_axi42tl_auto_out_d_ready),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
-    .auto_anon_in_d_valid                           (_widget_auto_anon_in_d_valid),
-    .auto_anon_in_d_bits_opcode                     (_widget_auto_anon_in_d_bits_opcode),
-    .auto_anon_in_d_bits_size                       (_widget_auto_anon_in_d_bits_size),
-    .auto_anon_in_d_bits_source                     (_widget_auto_anon_in_d_bits_source),
-    .auto_anon_in_d_bits_denied                     (_widget_auto_anon_in_d_bits_denied),
-    .auto_anon_in_d_bits_data                       (_widget_auto_anon_in_d_bits_data),
-    .auto_anon_in_d_bits_corrupt                    (_widget_auto_anon_in_d_bits_corrupt),
-    .auto_anon_out_a_ready                          (_fixer_auto_anon_in_a_ready),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
-    .auto_anon_out_a_valid                          (_widget_auto_anon_out_a_valid),
-    .auto_anon_out_a_bits_opcode                    (_widget_auto_anon_out_a_bits_opcode),
-    .auto_anon_out_a_bits_size                      (_widget_auto_anon_out_a_bits_size),
-    .auto_anon_out_a_bits_source                    (_widget_auto_anon_out_a_bits_source),
-    .auto_anon_out_a_bits_address                   (_widget_auto_anon_out_a_bits_address),
-    .auto_anon_out_a_bits_user_amba_prot_bufferable (_widget_auto_anon_out_a_bits_user_amba_prot_bufferable),
-    .auto_anon_out_a_bits_user_amba_prot_modifiable (_widget_auto_anon_out_a_bits_user_amba_prot_modifiable),
-    .auto_anon_out_a_bits_user_amba_prot_readalloc  (_widget_auto_anon_out_a_bits_user_amba_prot_readalloc),
-    .auto_anon_out_a_bits_user_amba_prot_writealloc (_widget_auto_anon_out_a_bits_user_amba_prot_writealloc),
-    .auto_anon_out_a_bits_user_amba_prot_privileged (_widget_auto_anon_out_a_bits_user_amba_prot_privileged),
-    .auto_anon_out_a_bits_user_amba_prot_secure     (_widget_auto_anon_out_a_bits_user_amba_prot_secure),
-    .auto_anon_out_a_bits_user_amba_prot_fetch      (_widget_auto_anon_out_a_bits_user_amba_prot_fetch),
-    .auto_anon_out_a_bits_mask                      (_widget_auto_anon_out_a_bits_mask),
-    .auto_anon_out_a_bits_data                      (_widget_auto_anon_out_a_bits_data),
-    .auto_anon_out_d_ready                          (_widget_auto_anon_out_d_ready),
-    .auto_anon_out_d_valid                          (_fixer_auto_anon_in_d_valid),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
-    .auto_anon_out_d_bits_opcode                    (_fixer_auto_anon_in_d_bits_opcode),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
-    .auto_anon_out_d_bits_size                      (_fixer_auto_anon_in_d_bits_size),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
-    .auto_anon_out_d_bits_source                    (_fixer_auto_anon_in_d_bits_source),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
-    .auto_anon_out_d_bits_denied                    (_fixer_auto_anon_in_d_bits_denied),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
-    .auto_anon_out_d_bits_data                      (_fixer_auto_anon_in_d_bits_data),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
-    .auto_anon_out_d_bits_corrupt                   (_fixer_auto_anon_in_d_bits_corrupt)	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
-  );	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
   AXI4ToTL axi42tl (	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
     .clock                                     (clock),
     .reset                                     (reset),
@@ -436,7 +355,7 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
     .auto_in_r_bits_data                       (_axi42tl_auto_in_r_bits_data),
     .auto_in_r_bits_resp                       (_axi42tl_auto_in_r_bits_resp),
     .auto_in_r_bits_last                       (_axi42tl_auto_in_r_bits_last),
-    .auto_out_a_ready                          (_widget_auto_anon_in_a_ready),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
+    .auto_out_a_ready                          (_fixer_auto_anon_in_a_ready),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
     .auto_out_a_valid                          (_axi42tl_auto_out_a_valid),
     .auto_out_a_bits_opcode                    (_axi42tl_auto_out_a_bits_opcode),
     .auto_out_a_bits_size                      (_axi42tl_auto_out_a_bits_size),
@@ -452,13 +371,13 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
     .auto_out_a_bits_mask                      (_axi42tl_auto_out_a_bits_mask),
     .auto_out_a_bits_data                      (_axi42tl_auto_out_a_bits_data),
     .auto_out_d_ready                          (_axi42tl_auto_out_d_ready),
-    .auto_out_d_valid                          (_widget_auto_anon_in_d_valid),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_out_d_bits_opcode                    (_widget_auto_anon_in_d_bits_opcode),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_out_d_bits_size                      (_widget_auto_anon_in_d_bits_size),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_out_d_bits_source                    (_widget_auto_anon_in_d_bits_source),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_out_d_bits_denied                    (_widget_auto_anon_in_d_bits_denied),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_out_d_bits_data                      (_widget_auto_anon_in_d_bits_data),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .auto_out_d_bits_corrupt                   (_widget_auto_anon_in_d_bits_corrupt)	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
+    .auto_out_d_valid                          (_fixer_auto_anon_in_d_valid),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
+    .auto_out_d_bits_opcode                    (_fixer_auto_anon_in_d_bits_opcode),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
+    .auto_out_d_bits_size                      (_fixer_auto_anon_in_d_bits_size),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
+    .auto_out_d_bits_source                    (_fixer_auto_anon_in_d_bits_source),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
+    .auto_out_d_bits_denied                    (_fixer_auto_anon_in_d_bits_denied),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
+    .auto_out_d_bits_data                      (_fixer_auto_anon_in_d_bits_data),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
+    .auto_out_d_bits_corrupt                   (_fixer_auto_anon_in_d_bits_corrupt)	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
   AXI4UserYanker_1 axi4yank (	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
     .clock                          (clock),
@@ -471,7 +390,6 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
     .auto_in_aw_bits_size           (_axi4frag_auto_out_aw_bits_size),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
     .auto_in_aw_bits_cache          (_axi4frag_auto_out_aw_bits_cache),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
     .auto_in_aw_bits_prot           (_axi4frag_auto_out_aw_bits_prot),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-    .auto_in_aw_bits_echo_extra_id  (_axi4frag_auto_out_aw_bits_echo_extra_id),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
     .auto_in_aw_bits_echo_real_last (_axi4frag_auto_out_aw_bits_echo_real_last),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
     .auto_in_w_ready                (_axi4yank_auto_in_w_ready),
     .auto_in_w_valid                (_axi4frag_auto_out_w_valid),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
@@ -482,7 +400,6 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
     .auto_in_b_valid                (_axi4yank_auto_in_b_valid),
     .auto_in_b_bits_id              (_axi4yank_auto_in_b_bits_id),
     .auto_in_b_bits_resp            (_axi4yank_auto_in_b_bits_resp),
-    .auto_in_b_bits_echo_extra_id   (_axi4yank_auto_in_b_bits_echo_extra_id),
     .auto_in_b_bits_echo_real_last  (_axi4yank_auto_in_b_bits_echo_real_last),
     .auto_in_ar_ready               (_axi4yank_auto_in_ar_ready),
     .auto_in_ar_valid               (_axi4frag_auto_out_ar_valid),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
@@ -492,14 +409,12 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
     .auto_in_ar_bits_size           (_axi4frag_auto_out_ar_bits_size),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
     .auto_in_ar_bits_cache          (_axi4frag_auto_out_ar_bits_cache),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
     .auto_in_ar_bits_prot           (_axi4frag_auto_out_ar_bits_prot),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-    .auto_in_ar_bits_echo_extra_id  (_axi4frag_auto_out_ar_bits_echo_extra_id),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
     .auto_in_ar_bits_echo_real_last (_axi4frag_auto_out_ar_bits_echo_real_last),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
     .auto_in_r_ready                (_axi4frag_auto_out_r_ready),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
     .auto_in_r_valid                (_axi4yank_auto_in_r_valid),
     .auto_in_r_bits_id              (_axi4yank_auto_in_r_bits_id),
     .auto_in_r_bits_data            (_axi4yank_auto_in_r_bits_data),
     .auto_in_r_bits_resp            (_axi4yank_auto_in_r_bits_resp),
-    .auto_in_r_bits_echo_extra_id   (_axi4yank_auto_in_r_bits_echo_extra_id),
     .auto_in_r_bits_echo_real_last  (_axi4yank_auto_in_r_bits_echo_real_last),
     .auto_in_r_bits_last            (_axi4yank_auto_in_r_bits_last),
     .auto_out_aw_ready              (_axi42tl_auto_in_aw_ready),	// @[generators/rocket-chip/src/main/scala/amba/axi4/ToTL.scala:238:29]
@@ -548,7 +463,6 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
     .auto_in_aw_bits_cache           (_axi4index_auto_out_aw_bits_cache),	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
     .auto_in_aw_bits_prot            (_axi4index_auto_out_aw_bits_prot),	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
     .auto_in_aw_bits_qos             (_axi4index_auto_out_aw_bits_qos),	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
-    .auto_in_aw_bits_echo_extra_id   (_axi4index_auto_out_aw_bits_echo_extra_id),	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
     .auto_in_w_ready                 (_axi4frag_auto_in_w_ready),
     .auto_in_w_valid                 (_axi4index_auto_out_w_valid),	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
     .auto_in_w_bits_data             (_axi4index_auto_out_w_bits_data),	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
@@ -558,7 +472,6 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
     .auto_in_b_valid                 (_axi4frag_auto_in_b_valid),
     .auto_in_b_bits_id               (_axi4frag_auto_in_b_bits_id),
     .auto_in_b_bits_resp             (_axi4frag_auto_in_b_bits_resp),
-    .auto_in_b_bits_echo_extra_id    (_axi4frag_auto_in_b_bits_echo_extra_id),
     .auto_in_ar_ready                (_axi4frag_auto_in_ar_ready),
     .auto_in_ar_valid                (_axi4index_auto_out_ar_valid),	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
     .auto_in_ar_bits_id              (_axi4index_auto_out_ar_bits_id),	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
@@ -570,13 +483,11 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
     .auto_in_ar_bits_cache           (_axi4index_auto_out_ar_bits_cache),	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
     .auto_in_ar_bits_prot            (_axi4index_auto_out_ar_bits_prot),	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
     .auto_in_ar_bits_qos             (_axi4index_auto_out_ar_bits_qos),	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
-    .auto_in_ar_bits_echo_extra_id   (_axi4index_auto_out_ar_bits_echo_extra_id),	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
     .auto_in_r_ready                 (_axi4index_auto_out_r_ready),	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
     .auto_in_r_valid                 (_axi4frag_auto_in_r_valid),
     .auto_in_r_bits_id               (_axi4frag_auto_in_r_bits_id),
     .auto_in_r_bits_data             (_axi4frag_auto_in_r_bits_data),
     .auto_in_r_bits_resp             (_axi4frag_auto_in_r_bits_resp),
-    .auto_in_r_bits_echo_extra_id    (_axi4frag_auto_in_r_bits_echo_extra_id),
     .auto_in_r_bits_last             (_axi4frag_auto_in_r_bits_last),
     .auto_out_aw_ready               (_axi4yank_auto_in_aw_ready),	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
     .auto_out_aw_valid               (_axi4frag_auto_out_aw_valid),
@@ -586,7 +497,6 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
     .auto_out_aw_bits_size           (_axi4frag_auto_out_aw_bits_size),
     .auto_out_aw_bits_cache          (_axi4frag_auto_out_aw_bits_cache),
     .auto_out_aw_bits_prot           (_axi4frag_auto_out_aw_bits_prot),
-    .auto_out_aw_bits_echo_extra_id  (_axi4frag_auto_out_aw_bits_echo_extra_id),
     .auto_out_aw_bits_echo_real_last (_axi4frag_auto_out_aw_bits_echo_real_last),
     .auto_out_w_ready                (_axi4yank_auto_in_w_ready),	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
     .auto_out_w_valid                (_axi4frag_auto_out_w_valid),
@@ -597,7 +507,6 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
     .auto_out_b_valid                (_axi4yank_auto_in_b_valid),	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
     .auto_out_b_bits_id              (_axi4yank_auto_in_b_bits_id),	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
     .auto_out_b_bits_resp            (_axi4yank_auto_in_b_bits_resp),	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
-    .auto_out_b_bits_echo_extra_id   (_axi4yank_auto_in_b_bits_echo_extra_id),	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
     .auto_out_b_bits_echo_real_last  (_axi4yank_auto_in_b_bits_echo_real_last),	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
     .auto_out_ar_ready               (_axi4yank_auto_in_ar_ready),	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
     .auto_out_ar_valid               (_axi4frag_auto_out_ar_valid),
@@ -607,96 +516,90 @@ module TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4(	// @[generato
     .auto_out_ar_bits_size           (_axi4frag_auto_out_ar_bits_size),
     .auto_out_ar_bits_cache          (_axi4frag_auto_out_ar_bits_cache),
     .auto_out_ar_bits_prot           (_axi4frag_auto_out_ar_bits_prot),
-    .auto_out_ar_bits_echo_extra_id  (_axi4frag_auto_out_ar_bits_echo_extra_id),
     .auto_out_ar_bits_echo_real_last (_axi4frag_auto_out_ar_bits_echo_real_last),
     .auto_out_r_ready                (_axi4frag_auto_out_r_ready),
     .auto_out_r_valid                (_axi4yank_auto_in_r_valid),	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
     .auto_out_r_bits_id              (_axi4yank_auto_in_r_bits_id),	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
     .auto_out_r_bits_data            (_axi4yank_auto_in_r_bits_data),	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
     .auto_out_r_bits_resp            (_axi4yank_auto_in_r_bits_resp),	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
-    .auto_out_r_bits_echo_extra_id   (_axi4yank_auto_in_r_bits_echo_extra_id),	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
     .auto_out_r_bits_echo_real_last  (_axi4yank_auto_in_r_bits_echo_real_last),	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
     .auto_out_r_bits_last            (_axi4yank_auto_in_r_bits_last)	// @[generators/rocket-chip/src/main/scala/amba/axi4/UserYanker.scala:125:30]
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   AXI4IdIndexer_1 axi4index (	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
-    .auto_in_aw_ready               (auto_axi4index_in_aw_ready),
-    .auto_in_aw_valid               (auto_axi4index_in_aw_valid),
-    .auto_in_aw_bits_id             (auto_axi4index_in_aw_bits_id),
-    .auto_in_aw_bits_addr           (auto_axi4index_in_aw_bits_addr),
-    .auto_in_aw_bits_len            (auto_axi4index_in_aw_bits_len),
-    .auto_in_aw_bits_size           (auto_axi4index_in_aw_bits_size),
-    .auto_in_aw_bits_burst          (auto_axi4index_in_aw_bits_burst),
-    .auto_in_aw_bits_lock           (auto_axi4index_in_aw_bits_lock),
-    .auto_in_aw_bits_cache          (auto_axi4index_in_aw_bits_cache),
-    .auto_in_aw_bits_prot           (auto_axi4index_in_aw_bits_prot),
-    .auto_in_aw_bits_qos            (auto_axi4index_in_aw_bits_qos),
-    .auto_in_w_ready                (auto_axi4index_in_w_ready),
-    .auto_in_w_valid                (auto_axi4index_in_w_valid),
-    .auto_in_w_bits_data            (auto_axi4index_in_w_bits_data),
-    .auto_in_w_bits_strb            (auto_axi4index_in_w_bits_strb),
-    .auto_in_w_bits_last            (auto_axi4index_in_w_bits_last),
-    .auto_in_b_ready                (auto_axi4index_in_b_ready),
-    .auto_in_b_valid                (auto_axi4index_in_b_valid),
-    .auto_in_b_bits_id              (auto_axi4index_in_b_bits_id),
-    .auto_in_b_bits_resp            (auto_axi4index_in_b_bits_resp),
-    .auto_in_ar_ready               (auto_axi4index_in_ar_ready),
-    .auto_in_ar_valid               (auto_axi4index_in_ar_valid),
-    .auto_in_ar_bits_id             (auto_axi4index_in_ar_bits_id),
-    .auto_in_ar_bits_addr           (auto_axi4index_in_ar_bits_addr),
-    .auto_in_ar_bits_len            (auto_axi4index_in_ar_bits_len),
-    .auto_in_ar_bits_size           (auto_axi4index_in_ar_bits_size),
-    .auto_in_ar_bits_burst          (auto_axi4index_in_ar_bits_burst),
-    .auto_in_ar_bits_lock           (auto_axi4index_in_ar_bits_lock),
-    .auto_in_ar_bits_cache          (auto_axi4index_in_ar_bits_cache),
-    .auto_in_ar_bits_prot           (auto_axi4index_in_ar_bits_prot),
-    .auto_in_ar_bits_qos            (auto_axi4index_in_ar_bits_qos),
-    .auto_in_r_ready                (auto_axi4index_in_r_ready),
-    .auto_in_r_valid                (auto_axi4index_in_r_valid),
-    .auto_in_r_bits_id              (auto_axi4index_in_r_bits_id),
-    .auto_in_r_bits_data            (auto_axi4index_in_r_bits_data),
-    .auto_in_r_bits_resp            (auto_axi4index_in_r_bits_resp),
-    .auto_in_r_bits_last            (auto_axi4index_in_r_bits_last),
-    .auto_out_aw_ready              (_axi4frag_auto_in_aw_ready),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-    .auto_out_aw_valid              (_axi4index_auto_out_aw_valid),
-    .auto_out_aw_bits_id            (_axi4index_auto_out_aw_bits_id),
-    .auto_out_aw_bits_addr          (_axi4index_auto_out_aw_bits_addr),
-    .auto_out_aw_bits_len           (_axi4index_auto_out_aw_bits_len),
-    .auto_out_aw_bits_size          (_axi4index_auto_out_aw_bits_size),
-    .auto_out_aw_bits_burst         (_axi4index_auto_out_aw_bits_burst),
-    .auto_out_aw_bits_lock          (_axi4index_auto_out_aw_bits_lock),
-    .auto_out_aw_bits_cache         (_axi4index_auto_out_aw_bits_cache),
-    .auto_out_aw_bits_prot          (_axi4index_auto_out_aw_bits_prot),
-    .auto_out_aw_bits_qos           (_axi4index_auto_out_aw_bits_qos),
-    .auto_out_aw_bits_echo_extra_id (_axi4index_auto_out_aw_bits_echo_extra_id),
-    .auto_out_w_ready               (_axi4frag_auto_in_w_ready),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-    .auto_out_w_valid               (_axi4index_auto_out_w_valid),
-    .auto_out_w_bits_data           (_axi4index_auto_out_w_bits_data),
-    .auto_out_w_bits_strb           (_axi4index_auto_out_w_bits_strb),
-    .auto_out_w_bits_last           (_axi4index_auto_out_w_bits_last),
-    .auto_out_b_ready               (_axi4index_auto_out_b_ready),
-    .auto_out_b_valid               (_axi4frag_auto_in_b_valid),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-    .auto_out_b_bits_id             (_axi4frag_auto_in_b_bits_id),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-    .auto_out_b_bits_resp           (_axi4frag_auto_in_b_bits_resp),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-    .auto_out_b_bits_echo_extra_id  (_axi4frag_auto_in_b_bits_echo_extra_id),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-    .auto_out_ar_ready              (_axi4frag_auto_in_ar_ready),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-    .auto_out_ar_valid              (_axi4index_auto_out_ar_valid),
-    .auto_out_ar_bits_id            (_axi4index_auto_out_ar_bits_id),
-    .auto_out_ar_bits_addr          (_axi4index_auto_out_ar_bits_addr),
-    .auto_out_ar_bits_len           (_axi4index_auto_out_ar_bits_len),
-    .auto_out_ar_bits_size          (_axi4index_auto_out_ar_bits_size),
-    .auto_out_ar_bits_burst         (_axi4index_auto_out_ar_bits_burst),
-    .auto_out_ar_bits_lock          (_axi4index_auto_out_ar_bits_lock),
-    .auto_out_ar_bits_cache         (_axi4index_auto_out_ar_bits_cache),
-    .auto_out_ar_bits_prot          (_axi4index_auto_out_ar_bits_prot),
-    .auto_out_ar_bits_qos           (_axi4index_auto_out_ar_bits_qos),
-    .auto_out_ar_bits_echo_extra_id (_axi4index_auto_out_ar_bits_echo_extra_id),
-    .auto_out_r_ready               (_axi4index_auto_out_r_ready),
-    .auto_out_r_valid               (_axi4frag_auto_in_r_valid),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-    .auto_out_r_bits_id             (_axi4frag_auto_in_r_bits_id),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-    .auto_out_r_bits_data           (_axi4frag_auto_in_r_bits_data),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-    .auto_out_r_bits_resp           (_axi4frag_auto_in_r_bits_resp),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-    .auto_out_r_bits_echo_extra_id  (_axi4frag_auto_in_r_bits_echo_extra_id),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
-    .auto_out_r_bits_last           (_axi4frag_auto_in_r_bits_last)	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
+    .auto_in_aw_ready       (auto_axi4index_in_aw_ready),
+    .auto_in_aw_valid       (auto_axi4index_in_aw_valid),
+    .auto_in_aw_bits_id     (auto_axi4index_in_aw_bits_id),
+    .auto_in_aw_bits_addr   (auto_axi4index_in_aw_bits_addr),
+    .auto_in_aw_bits_len    (auto_axi4index_in_aw_bits_len),
+    .auto_in_aw_bits_size   (auto_axi4index_in_aw_bits_size),
+    .auto_in_aw_bits_burst  (auto_axi4index_in_aw_bits_burst),
+    .auto_in_aw_bits_lock   (auto_axi4index_in_aw_bits_lock),
+    .auto_in_aw_bits_cache  (auto_axi4index_in_aw_bits_cache),
+    .auto_in_aw_bits_prot   (auto_axi4index_in_aw_bits_prot),
+    .auto_in_aw_bits_qos    (auto_axi4index_in_aw_bits_qos),
+    .auto_in_w_ready        (auto_axi4index_in_w_ready),
+    .auto_in_w_valid        (auto_axi4index_in_w_valid),
+    .auto_in_w_bits_data    (auto_axi4index_in_w_bits_data),
+    .auto_in_w_bits_strb    (auto_axi4index_in_w_bits_strb),
+    .auto_in_w_bits_last    (auto_axi4index_in_w_bits_last),
+    .auto_in_b_ready        (auto_axi4index_in_b_ready),
+    .auto_in_b_valid        (auto_axi4index_in_b_valid),
+    .auto_in_b_bits_id      (auto_axi4index_in_b_bits_id),
+    .auto_in_b_bits_resp    (auto_axi4index_in_b_bits_resp),
+    .auto_in_ar_ready       (auto_axi4index_in_ar_ready),
+    .auto_in_ar_valid       (auto_axi4index_in_ar_valid),
+    .auto_in_ar_bits_id     (auto_axi4index_in_ar_bits_id),
+    .auto_in_ar_bits_addr   (auto_axi4index_in_ar_bits_addr),
+    .auto_in_ar_bits_len    (auto_axi4index_in_ar_bits_len),
+    .auto_in_ar_bits_size   (auto_axi4index_in_ar_bits_size),
+    .auto_in_ar_bits_burst  (auto_axi4index_in_ar_bits_burst),
+    .auto_in_ar_bits_lock   (auto_axi4index_in_ar_bits_lock),
+    .auto_in_ar_bits_cache  (auto_axi4index_in_ar_bits_cache),
+    .auto_in_ar_bits_prot   (auto_axi4index_in_ar_bits_prot),
+    .auto_in_ar_bits_qos    (auto_axi4index_in_ar_bits_qos),
+    .auto_in_r_ready        (auto_axi4index_in_r_ready),
+    .auto_in_r_valid        (auto_axi4index_in_r_valid),
+    .auto_in_r_bits_id      (auto_axi4index_in_r_bits_id),
+    .auto_in_r_bits_data    (auto_axi4index_in_r_bits_data),
+    .auto_in_r_bits_resp    (auto_axi4index_in_r_bits_resp),
+    .auto_in_r_bits_last    (auto_axi4index_in_r_bits_last),
+    .auto_out_aw_ready      (_axi4frag_auto_in_aw_ready),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
+    .auto_out_aw_valid      (_axi4index_auto_out_aw_valid),
+    .auto_out_aw_bits_id    (_axi4index_auto_out_aw_bits_id),
+    .auto_out_aw_bits_addr  (_axi4index_auto_out_aw_bits_addr),
+    .auto_out_aw_bits_len   (_axi4index_auto_out_aw_bits_len),
+    .auto_out_aw_bits_size  (_axi4index_auto_out_aw_bits_size),
+    .auto_out_aw_bits_burst (_axi4index_auto_out_aw_bits_burst),
+    .auto_out_aw_bits_lock  (_axi4index_auto_out_aw_bits_lock),
+    .auto_out_aw_bits_cache (_axi4index_auto_out_aw_bits_cache),
+    .auto_out_aw_bits_prot  (_axi4index_auto_out_aw_bits_prot),
+    .auto_out_aw_bits_qos   (_axi4index_auto_out_aw_bits_qos),
+    .auto_out_w_ready       (_axi4frag_auto_in_w_ready),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
+    .auto_out_w_valid       (_axi4index_auto_out_w_valid),
+    .auto_out_w_bits_data   (_axi4index_auto_out_w_bits_data),
+    .auto_out_w_bits_strb   (_axi4index_auto_out_w_bits_strb),
+    .auto_out_w_bits_last   (_axi4index_auto_out_w_bits_last),
+    .auto_out_b_ready       (_axi4index_auto_out_b_ready),
+    .auto_out_b_valid       (_axi4frag_auto_in_b_valid),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
+    .auto_out_b_bits_id     (_axi4frag_auto_in_b_bits_id),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
+    .auto_out_b_bits_resp   (_axi4frag_auto_in_b_bits_resp),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
+    .auto_out_ar_ready      (_axi4frag_auto_in_ar_ready),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
+    .auto_out_ar_valid      (_axi4index_auto_out_ar_valid),
+    .auto_out_ar_bits_id    (_axi4index_auto_out_ar_bits_id),
+    .auto_out_ar_bits_addr  (_axi4index_auto_out_ar_bits_addr),
+    .auto_out_ar_bits_len   (_axi4index_auto_out_ar_bits_len),
+    .auto_out_ar_bits_size  (_axi4index_auto_out_ar_bits_size),
+    .auto_out_ar_bits_burst (_axi4index_auto_out_ar_bits_burst),
+    .auto_out_ar_bits_lock  (_axi4index_auto_out_ar_bits_lock),
+    .auto_out_ar_bits_cache (_axi4index_auto_out_ar_bits_cache),
+    .auto_out_ar_bits_prot  (_axi4index_auto_out_ar_bits_prot),
+    .auto_out_ar_bits_qos   (_axi4index_auto_out_ar_bits_qos),
+    .auto_out_r_ready       (_axi4index_auto_out_r_ready),
+    .auto_out_r_valid       (_axi4frag_auto_in_r_valid),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
+    .auto_out_r_bits_id     (_axi4frag_auto_in_r_bits_id),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
+    .auto_out_r_bits_data   (_axi4frag_auto_in_r_bits_data),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
+    .auto_out_r_bits_resp   (_axi4frag_auto_in_r_bits_resp),	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
+    .auto_out_r_bits_last   (_axi4frag_auto_in_r_bits_last)	// @[generators/rocket-chip/src/main/scala/amba/axi4/Fragmenter.scala:224:30]
   );	// @[generators/rocket-chip/src/main/scala/amba/axi4/IdIndexer.scala:108:31]
 endmodule
 

@@ -30,6 +30,8 @@
 #define DIAG_CONTROL_START    UINT32_C(1)
 #define DIAG_CONTROL_CLEAR    UINT32_C(2)
 #define DIAG_CONTROL_FAST     UINT32_C(4)
+#define PPU_STATUS            0x11CU
+#define PPU_STATUS_BUSY       UINT32_C(1)
 #define DIAG_STATUS_BUSY      UINT32_C(1)
 #define DIAG_STATUS_DONE      UINT32_C(2)
 #define DIAG_STATUS_ERROR     UINT32_C(4)
@@ -51,6 +53,8 @@ static AiPostprocessDiagCommand command;
 
 typedef struct {
     uint32_t running;
+    uint32_t waiting;
+    uint64_t wait_start;
     AiPostprocessBandwidthResult result;
 } AiPostprocessBandwidthState;
 
@@ -101,9 +105,17 @@ static int ai_postprocess_diag_start_mode(uint64_t tensor_addr,
     if (tensor_bytes == 0U || (tensor_addr >> 33) != 0U)
         return -1;
     status = mmio_read32(POSTPROCESS_DIAG_BASE + DIAG_STATUS);
-    if (command.active != 0U || (status & DIAG_STATUS_BUSY) != 0U)
+    if (command.active != 0U || (status & DIAG_STATUS_BUSY) != 0U
+#ifdef AI_MODEL_YOLOV5NU
+        || (mmio_read32(POSTPROCESS_DIAG_BASE + PPU_STATUS) &
+            PPU_STATUS_BUSY) != 0U
+#endif
+       )
         return -2;
 
+    if (bandwidth.running != 0U && bandwidth.waiting != 0U)
+        mmio_write32(POSTPROCESS_DIAG_BASE + DIAG_BURST_BEATS,
+                     bandwidth.result.burst_bytes / 32U);
     command.completion_before =
         mmio_read32(POSTPROCESS_DIAG_BASE + DIAG_COMPLETIONS);
     command.error_before = mmio_read32(POSTPROCESS_DIAG_BASE + DIAG_ERRORS);
@@ -297,8 +309,6 @@ int ai_postprocess_bandwidth_start(uint32_t iterations,
     bandwidth = (AiPostprocessBandwidthState){0};
     bandwidth.result.iterations_requested = iterations;
     bandwidth.result.burst_bytes = burst_bytes;
-    mmio_write32(POSTPROCESS_DIAG_BASE + DIAG_BURST_BEATS,
-                 burst_bytes / 32U);
     buffer = (uint8_t *)AI_DDR_CPU_ALIAS(AI_MODEL_OUTPUT0_PHYS_BASE);
     for (uint32_t index = 0U; index < DIAG_BANDWIDTH_BYTES; ++index)
         buffer[index] = (uint8_t)(index * UINT32_C(29) +
@@ -308,10 +318,8 @@ int ai_postprocess_bandwidth_start(uint32_t iterations,
         ai_postprocess_crc32(buffer, DIAG_BANDWIDTH_BYTES);
     cache_range_flush(buffer, DIAG_BANDWIDTH_BYTES);
 
-    int status = ai_postprocess_diag_start_fast(
-        AI_MODEL_OUTPUT0_PHYS_BASE, DIAG_BANDWIDTH_BYTES);
-    if (status != 0)
-        return status;
+    bandwidth.waiting = 1U;
+    bandwidth.wait_start = read_cycle();
     bandwidth.running = 1U;
     return 0;
 }
@@ -323,9 +331,41 @@ int ai_postprocess_bandwidth_poll(AiPostprocessBandwidthResult *result)
 
     if (result == 0 || bandwidth.running == 0U)
         return -1;
+    if (bandwidth.waiting != 0U) {
+        uint64_t elapsed = read_cycle() - bandwidth.wait_start;
+        /* Yield between reads so the cooperative runtime can launch PPU work.
+         * This is wall time, deliberately excluded from reader active cycles. */
+        if (elapsed < SOC_CLOCK_HZ / UINT64_C(1000))
+            return 0;
+        status = ai_postprocess_diag_start_fast(
+            AI_MODEL_OUTPUT0_PHYS_BASE, DIAG_BANDWIDTH_BYTES);
+        if (status == -2) {
+            bandwidth.result.busy_retries++;
+            if (elapsed <= DIAG_TIMEOUT_CYCLES)
+                return 0;
+            status = -6; /* Timed out waiting to acquire the shared reader. */
+            bandwidth.result.timeout_count++;
+        }
+        if (status != 0) {
+            bandwidth.running = 0U;
+            *result = bandwidth.result;
+            return status;
+        }
+        bandwidth.waiting = 0U;
+        return 0;
+    }
     status = ai_postprocess_diag_poll(&observed);
     if (status == 0)
         return 0;
+
+    /* A polling timeout has no completed snapshot to validate or accumulate. */
+    if (status < 0 && status != -5) {
+        if (status == -4)
+            bandwidth.result.timeout_count++;
+        bandwidth.running = 0U;
+        *result = bandwidth.result;
+        return status;
+    }
 
     bandwidth.result.observed_crc32 = observed.crc32;
     bandwidth.result.error_flags |= observed.error_flags;
@@ -347,8 +387,6 @@ int ai_postprocess_bandwidth_poll(AiPostprocessBandwidthResult *result)
             observed.max_reorder_occupancy;
     bandwidth.result.active_id_mask_observed |=
         observed.active_id_mask_observed;
-    if (status == -4)
-        bandwidth.result.timeout_count++;
     if (status == -5)
         bandwidth.result.axi_error_count++;
     if (observed.bytes_read != DIAG_BANDWIDTH_BYTES ||
@@ -368,12 +406,7 @@ int ai_postprocess_bandwidth_poll(AiPostprocessBandwidthResult *result)
         return 1;
     }
 
-    status = ai_postprocess_diag_start_fast(
-        AI_MODEL_OUTPUT0_PHYS_BASE, DIAG_BANDWIDTH_BYTES);
-    if (status != 0) {
-        bandwidth.running = 0U;
-        *result = bandwidth.result;
-        return status;
-    }
+    bandwidth.waiting = 1U;
+    bandwidth.wait_start = read_cycle();
     return 0;
 }

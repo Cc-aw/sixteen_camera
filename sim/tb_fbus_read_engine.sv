@@ -1,10 +1,13 @@
 `timescale 1ns/1ps
 
-module tb_fbus_read_engine;
+module tb_fbus_read_engine #(
+    parameter integer SLOT_COUNT = 16,
+    parameter integer REORDER_SLOTS = 32
+);
     localparam integer ADDR_WIDTH = 33;
     localparam integer DATA_WIDTH = 256;
     localparam integer BYTE_LANES = DATA_WIDTH / 8;
-    localparam integer SLOT_COUNT = 8;
+    localparam integer ID_INDEX_WIDTH = $clog2(SLOT_COUNT);
 
     reg clk = 1'b0;
     reg resetn = 1'b0;
@@ -27,7 +30,7 @@ module tb_fbus_read_engine;
     axi4_if #(.ADDR_WIDTH(ADDR_WIDTH), .DATA_WIDTH(DATA_WIDTH),
               .ID_WIDTH(4)) axi();
 
-    fbus_read_engine dut (
+    fbus_read_engine #(.ID_WIDTH(4), .MAX_OUTSTANDING(REORDER_SLOTS)) dut (
         .clk(clk), .resetn(resetn), .start(start), .base_addr(base_addr),
         .byte_count(byte_count), .busy(busy), .done(done), .error(error),
         .burst_beats_limit(burst_beats_limit),
@@ -47,14 +50,14 @@ module tb_fbus_read_engine;
     reg [31:0] lfsr = 32'h91e1_0da5;
     reg inject_error = 1'b0;
     integer request_count = 0;
-    reg [ADDR_WIDTH-1:0] request_addr [0:63];
-    reg [8:0] request_beats [0:63];
+    reg [ADDR_WIDTH-1:0] request_addr [0:2047];
+    reg [8:0] request_beats [0:2047];
 
     reg response_active [0:SLOT_COUNT-1];
     reg [ADDR_WIDTH-1:0] response_addr [0:SLOT_COUNT-1];
     reg [8:0] response_left [0:SLOT_COUNT-1];
     reg [4:0] pending_count = 0;
-    reg [4:0] response_holdoff = 0;
+    reg [5:0] response_holdoff = 0;
     reg rvalid = 1'b0;
     reg [3:0] rid = 0;
     reg [DATA_WIDTH-1:0] rdata = '0;
@@ -67,7 +70,7 @@ module tb_fbus_read_engine;
         integer lane;
         begin
             for (lane = 0; lane < BYTE_LANES; lane = lane + 1)
-                memory_word[lane*8 +: 8] = 8'(address + lane);
+                memory_word[lane*8 +: 8] = 8'((address + lane) ^ ((address + lane) >> 8) ^ ((address + lane) >> 16));
         end
     endfunction
 
@@ -83,7 +86,7 @@ module tb_fbus_read_engine;
 
     wire ar_accept = axi.arvalid && axi.arready;
     wire r_accept = axi.rvalid && axi.rready;
-    assign axi.arready = !response_active[axi.arid[2:0]];
+    assign axi.arready = !response_active[axi.arid[ID_INDEX_WIDTH-1:0]] && (lfsr[0] || lfsr[8]);
     assign axi.rid = rid;
     assign axi.rdata = rdata;
     assign axi.rresp = inject_error && rlast ? 2'b10 : 2'b00;
@@ -119,12 +122,12 @@ module tb_fbus_read_engine;
                 request_addr[request_count] <= axi.araddr;
                 request_beats[request_count] <= {1'b0, axi.arlen} + 1'b1;
                 request_count <= request_count + 1;
-                response_active[axi.arid[2:0]] <= 1'b1;
-                response_addr[axi.arid[2:0]] <= axi.araddr;
-                response_left[axi.arid[2:0]] <=
+                response_active[axi.arid[ID_INDEX_WIDTH-1:0]] <= 1'b1;
+                response_addr[axi.arid[ID_INDEX_WIDTH-1:0]] <= axi.araddr;
+                response_left[axi.arid[ID_INDEX_WIDTH-1:0]] <=
                     {1'b0, axi.arlen} + 1'b1;
                 if (pending_count == 0)
-                    response_holdoff <= 5'd12;
+                    response_holdoff <= 6'd48;
             end
 
             if (response_holdoff != 0)
@@ -133,14 +136,14 @@ module tb_fbus_read_engine;
             if (r_accept) begin
                 rvalid <= 1'b0;
                 if (rlast) begin
-                    response_active[rid[2:0]] <= 1'b0;
+                    response_active[rid[ID_INDEX_WIDTH-1:0]] <= 1'b0;
                     if (rid != 0)
                         out_of_order_seen <= 1'b1;
                 end else begin
-                    response_addr[rid[2:0]] <=
-                        response_addr[rid[2:0]] + BYTE_LANES;
-                    response_left[rid[2:0]] <=
-                        response_left[rid[2:0]] - 1'b1;
+                    response_addr[rid[ID_INDEX_WIDTH-1:0]] <=
+                        response_addr[rid[ID_INDEX_WIDTH-1:0]] + BYTE_LANES;
+                    response_left[rid[ID_INDEX_WIDTH-1:0]] <=
+                        response_left[rid[ID_INDEX_WIDTH-1:0]] - 1'b1;
                 end
             end
 
@@ -166,7 +169,7 @@ module tb_fbus_read_engine;
         if (resetn && stream_valid && stream_ready) begin
             for (integer lane = 0; lane < BYTE_LANES; lane = lane + 1) begin
                 if (stream_keep[lane]) begin
-                    if (stream_data[lane*8 +: 8] !== expected_addr[7:0])
+                    if (stream_data[lane*8 +: 8] !== 8'(expected_addr ^ (expected_addr >> 8) ^ (expected_addr >> 16)))
                         $fatal(1,
                             "ordered data mismatch byte=%0d expected=%02x got=%02x",
                             received, expected_addr[7:0],
@@ -234,14 +237,21 @@ module tb_fbus_read_engine;
             request_addr[6][11:0] != 12'h000)
             $fatal(1, "4 KiB split mismatch");
         out_of_order_seen = 1'b0;
-        run_case(33'h0_1800_0000, 32768, 1'b0);
+        run_case(33'h0_1800_0000, 4096*SLOT_COUNT, 1'b0);
         if (max_outstanding_observed != SLOT_COUNT ||
             max_reorder_occupancy != SLOT_COUNT)
-            $fatal(1, "eight slots were not exercised outstanding=%0d reorder=%0d",
+            $fatal(1, "ID slots were not exercised outstanding=%0d reorder=%0d",
                    max_outstanding_observed, max_reorder_occupancy);
-        if (active_id_mask_observed[7:0] != 8'hff || !out_of_order_seen)
+        if (active_id_mask_observed != (32'd1 << SLOT_COUNT)-1 || !out_of_order_seen)
             $fatal(1, "multi-ID out-of-order response was not exercised mask=%08x",
                    active_id_mask_observed);
+        // Reuse IDs while earlier completed data remains in the ordered RAM.
+        burst_beats_limit = 9'd2;
+        run_case(33'h0_1800_0000, 32768, 1'b0);
+        if (max_reorder_occupancy <= SLOT_COUNT ||
+            max_outstanding_observed > SLOT_COUNT)
+            $fatal(1, "ID lifetime was not decoupled from reorder slots");
+        burst_beats_limit = 9'd128;
         run_case(33'h1_0000_0013, 40, 1'b0);
         run_case(33'h0_2000_0000, 32, 1'b1);
         run_case(33'h0_3000_0000, 0, 1'b0);

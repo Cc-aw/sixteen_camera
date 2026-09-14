@@ -87,9 +87,9 @@ module ddr_memory_subsystem (
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) reader_ui_axi();
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
         preprocess_read_ui_axi();
-    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4))
+    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(5))
         fbus_write_soc_axi();
-    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4))
+    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(5))
         postprocess_read_soc_axi();
     video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
         all_capture_channels [16]();
@@ -206,7 +206,7 @@ module ddr_memory_subsystem (
     // Match demo/ai: framebuffer reads stay on the non-coherent DDR S02
     // read channel, while completed input tensors enter the SoC through its
     // coherent FBus.  The bridge also applies the bit-31 CPU memory alias.
-    axi4_write_cdc u_preprocess_fbus_write_cdc (
+    axi4_write_cdc #(.FBUS_WRITE_ID(31)) u_preprocess_fbus_write_cdc (
         .s_axi(preprocess_write_video_axi), .m_clk(soc_clk),
         .m_resetn(soc_resetn), .m_axi(fbus_write_soc_axi)
     );

@@ -1,0 +1,9 @@
+{
+  "numpy": "1.26.4",
+  "onnx": "1.22.0",
+  "onnxruntime": "1.23.2",
+  "Pillow": "10.3.0",
+  "opencv-python": null,
+  "ultralytics": null,
+  "torch": null
+}

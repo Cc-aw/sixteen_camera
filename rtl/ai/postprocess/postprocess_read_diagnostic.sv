@@ -25,6 +25,23 @@ module postprocess_read_diagnostic (
     logic [31:0] error_count;
     logic [2:0] result_error_flags;
     logic fast_mode_q;
+    // Capture shared-reader counters before PPU reuse; publish only after CRC drain.
+    typedef struct packed {
+        logic [31:0] bytes_read;
+        logic [31:0] ar_requests;
+        logic [31:0] beats;
+        logic [31:0] active_cycles;
+        logic [31:0] ar_stall_cycles;
+        logic [31:0] r_wait_cycles;
+        logic [31:0] r_backpressure_cycles;
+        logic [31:0] max_outstanding;
+        logic [31:0] max_reorder_occupancy;
+        logic [31:0] active_id_mask;
+        logic error;
+        logic [2:0] error_flags;
+    } reader_snapshot_t;
+    reader_snapshot_t pending_snapshot, result_snapshot;
+    logic [31:0] result_byte_sum, result_nonzero_count;
 
     wire reader_busy, reader_done, reader_error;
     wire [2:0] reader_error_flags;
@@ -158,7 +175,8 @@ module postprocess_read_diagnostic (
         end
     endfunction
 
-    fbus_read_engine u_reader (
+    // ID 31 belongs to preprocess writes, avoiding cross-direction FIFO stalls.
+    fbus_read_engine #(.READ_ID_COUNT(31)) u_reader (
         .clk(axil.aclk), .resetn(axil.aresetn),
         .start(start_reader || production_read_start),
         // MMIO descriptors use device physical addresses. Coherent FBus
@@ -170,7 +188,9 @@ module postprocess_read_diagnostic (
                     tensor_addr_q[31:0] | 32'h8000_0000}),
         .byte_count(production_read_start ? production_read_bytes :
                     tensor_bytes_q),
-        .burst_beats_limit(burst_beats_q),
+        // Keep production reads at one cache line even during a diagnostic sweep.
+        .burst_beats_limit((production_read_start || production_owner) ?
+                           9'd2 : burst_beats_q),
         .busy(reader_busy), .done(reader_done), .error(reader_error),
         .error_flags(reader_error_flags),
         .bytes_read(reader_bytes_read), .ar_requests(reader_ar_requests),
@@ -209,6 +229,10 @@ module postprocess_read_diagnostic (
             start_reader <= 1'b0;
             done_sticky <= 1'b0;
             result_crc <= 32'd0;
+            pending_snapshot <= '0;
+            result_snapshot <= '0;
+            result_byte_sum <= 0;
+            result_nonzero_count <= 0;
             crc_state <= 32'hFFFF_FFFF;
             byte_sum <= 32'd0;
             nonzero_count <= 32'd0;
@@ -253,11 +277,9 @@ module postprocess_read_diagnostic (
                         !production_busy) begin
                         start_reader <= 1'b1;
                         done_sticky <= 1'b0;
-                        result_crc <= 32'd0;
                         crc_state <= 32'hFFFF_FFFF;
                         byte_sum <= 32'd0;
                         nonzero_count <= 32'd0;
-                        result_error_flags <= 3'b000;
                         fast_mode_q <= wdata_q[2];
                         beat_active <= 1'b0;
                         reader_complete_pending <= 1'b0;
@@ -359,14 +381,29 @@ module postprocess_read_diagnostic (
 
             if (reader_done && !production_owner) begin
                 reader_complete_pending <= 1'b1;
+                pending_snapshot.bytes_read <= reader_bytes_read;
+                pending_snapshot.ar_requests <= reader_ar_requests;
+                pending_snapshot.beats <= reader_beats;
+                pending_snapshot.active_cycles <= reader_active_cycles;
+                pending_snapshot.ar_stall_cycles <= reader_ar_stall_cycles;
+                pending_snapshot.r_wait_cycles <= reader_r_wait_cycles;
+                pending_snapshot.r_backpressure_cycles <= reader_r_backpressure_cycles;
+                pending_snapshot.max_outstanding <= reader_max_outstanding;
+                pending_snapshot.max_reorder_occupancy <= reader_max_reorder_occupancy;
+                pending_snapshot.active_id_mask <= reader_active_id_mask;
+                pending_snapshot.error <= reader_error;
+                pending_snapshot.error_flags <= reader_error_flags;
             end
             if (reader_complete_pending && !beat_active) begin
                 reader_complete_pending <= 1'b0;
                 done_sticky <= 1'b1;
                 result_crc <= crc_state ^ 32'hFFFF_FFFF;
                 completion_count <= completion_count + 1'b1;
-                result_error_flags <= reader_error_flags;
-                if (reader_error)
+                result_snapshot <= pending_snapshot;
+                result_byte_sum <= byte_sum;
+                result_nonzero_count <= nonzero_count;
+                result_error_flags <= pending_snapshot.error_flags;
+                if (pending_snapshot.error)
                     error_count <= error_count + 1'b1;
             end
 
@@ -375,27 +412,27 @@ module postprocess_read_diagnostic (
                 8'h00: rdata_q <= DIAG_ID;
                 8'h04: rdata_q <= CAPABILITY;
                 8'h08: rdata_q <= 32'd0;
-                8'h0c: rdata_q <= {29'd0, reader_error,
+                8'h0c: rdata_q <= {29'd0, result_snapshot.error,
                                     done_sticky, reader_busy};
                 8'h10: rdata_q <= tensor_addr_q[31:0];
                 8'h14: rdata_q <= {31'd0, tensor_addr_q[32]};
                 8'h18: rdata_q <= tensor_bytes_q;
                 8'h1c: rdata_q <= result_crc;
-                8'h20: rdata_q <= byte_sum;
-                8'h24: rdata_q <= nonzero_count;
-                8'h28: rdata_q <= reader_bytes_read;
-                8'h2c: rdata_q <= reader_ar_requests;
-                8'h30: rdata_q <= reader_beats;
+                8'h20: rdata_q <= result_byte_sum;
+                8'h24: rdata_q <= result_nonzero_count;
+                8'h28: rdata_q <= result_snapshot.bytes_read;
+                8'h2c: rdata_q <= result_snapshot.ar_requests;
+                8'h30: rdata_q <= result_snapshot.beats;
                 8'h34: rdata_q <= completion_count;
                 8'h38: rdata_q <= error_count;
                 8'h3c: rdata_q <= {29'd0, result_error_flags};
-                8'h40: rdata_q <= reader_active_cycles;
-                8'h44: rdata_q <= reader_ar_stall_cycles;
-                8'h48: rdata_q <= reader_r_wait_cycles;
-                8'h4c: rdata_q <= reader_r_backpressure_cycles;
-                8'h50: rdata_q <= reader_max_outstanding;
-                8'h54: rdata_q <= reader_max_reorder_occupancy;
-                8'h58: rdata_q <= reader_active_id_mask;
+                8'h40: rdata_q <= result_snapshot.active_cycles;
+                8'h44: rdata_q <= result_snapshot.ar_stall_cycles;
+                8'h48: rdata_q <= result_snapshot.r_wait_cycles;
+                8'h4c: rdata_q <= result_snapshot.r_backpressure_cycles;
+                8'h50: rdata_q <= result_snapshot.max_outstanding;
+                8'h54: rdata_q <= result_snapshot.max_reorder_occupancy;
+                8'h58: rdata_q <= result_snapshot.active_id_mask;
                 8'h5c: rdata_q <= {23'd0, burst_beats_q};
                 10'h100: rdata_q <= 32'h5050_5531; // "PPU1"
                 10'h104: rdata_q <= production_class0[31:0];
