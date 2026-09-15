@@ -24,6 +24,30 @@ module multi_channel_framebuffer_ctrl #(
     output reg [31:0] preprocess_member_stride,
     output reg [31:0] preprocess_member_bytes,
     output reg        preprocess_format_640x480,
+    output reg        tensor_sidecar_req_toggle,
+    output reg [3:0]  tensor_sidecar_channel,
+    output reg [31:0] tensor_sidecar_addr,
+    input wire        tensor_sidecar_ack_toggle,
+    input wire        tensor_sidecar_busy,
+    input wire        tensor_sidecar_completed,
+    input wire        tensor_sidecar_error,
+    input wire [3:0]  tensor_sidecar_done_channel,
+    input wire [31:0] tensor_sidecar_frame_id,
+    input wire [31:0] tensor_sidecar_bytes,
+    input wire [31:0] tensor_sidecar_overflows,
+    output reg tensor_production_enable,
+    output reg tensor_production_release_toggle,
+    output reg [31:0] tensor_production_release_mask,
+    input wire tensor_production_release_ack,
+    input wire [31:0] tensor_production_ready_mask,
+    input wire [31:0] tensor_production_writing_mask,
+    input wire [31:0] tensor_production_error_mask,
+    input wire tensor_production_quiescent,
+    input wire [32*32-1:0] tensor_production_frame_ids,
+    input wire [32*32-1:0] tensor_production_byte_counts,
+    input wire [16*32-1:0] tensor_production_no_slot_counts,
+    input wire [16*32-1:0] tensor_production_missed_counts,
+    input wire [16*32-1:0] tensor_production_overflow_counts,
     output reg [((CHANNELS <= 1) ? 1 : $clog2(CHANNELS))-1:0]
         cfg_display_channel,
     output reg cfg_display_mode,
@@ -43,6 +67,7 @@ module multi_channel_framebuffer_ctrl #(
     input wire [CHANNELS-1:0] ai_held_mask,
     input wire [31:0] ai_meta_addr,
     input wire [63:0] ai_meta_frame_id,
+    input wire [31:0] ai_meta_source_frame_id,
     input wire [63:0] ai_meta_timestamp,
     input wire [31:0] ai_meta_version,
     input wire [63:0] ai_snapshot_batch_id,
@@ -184,6 +209,25 @@ module multi_channel_framebuffer_ctrl #(
     localparam [9:0] REG_OVERLAY_LABEL1 = 10'h298;
     localparam [9:0] REG_OVERLAY_LABEL2 = 10'h29c;
     localparam [9:0] REG_OVERLAY_LABEL3 = 10'h2a0;
+    localparam [9:0] REG_TENSOR_CONTROL = 10'h2b0;
+    localparam [9:0] REG_TENSOR_CHANNEL = 10'h2b4;
+    localparam [9:0] REG_TENSOR_ADDR = 10'h2b8;
+    localparam [9:0] REG_TENSOR_STATUS = 10'h2bc;
+    localparam [9:0] REG_TENSOR_FRAME_ID = 10'h2c0;
+    localparam [9:0] REG_TENSOR_BYTES = 10'h2c4;
+    localparam [9:0] REG_TENSOR_OVERFLOWS = 10'h2c8;
+    localparam [9:0] REG_AI_META_SOURCE_FRAME = 10'h2cc;
+    localparam [9:0] REG_TENSOR_PROD_CONTROL = 10'h2d0;
+    localparam [9:0] REG_TENSOR_PROD_RELEASE = 10'h2d4;
+    localparam [9:0] REG_TENSOR_PROD_READY = 10'h2d8;
+    localparam [9:0] REG_TENSOR_PROD_WRITING = 10'h2dc;
+    localparam [9:0] REG_TENSOR_PROD_ERROR = 10'h2e0;
+    localparam [9:0] REG_TENSOR_PROD_INDEX = 10'h2e4;
+    localparam [9:0] REG_TENSOR_PROD_FRAME = 10'h2e8;
+    localparam [9:0] REG_TENSOR_PROD_BYTES = 10'h2ec;
+    localparam [9:0] REG_TENSOR_PROD_NO_SLOT = 10'h2f0;
+    localparam [9:0] REG_TENSOR_PROD_OVERFLOW = 10'h2f4;
+    localparam [9:0] REG_TENSOR_PROD_MISSED = 10'h2f8;
 
     reg [9:0] awaddr_hold;
     reg [31:0] wdata_hold;
@@ -194,6 +238,9 @@ module multi_channel_framebuffer_ctrl #(
     reg [31:0] rdata;
     reg rvalid;
     reg [2:0] overlay_box_index;
+    reg [4:0] tensor_production_index;
+    wire tensor_production_release_busy =
+        tensor_production_release_toggle != tensor_production_release_ack;
     (* ASYNC_REG = "TRUE" *) reg ack_sync_1;
     (* ASYNC_REG = "TRUE" *) reg ack_sync_2;
 
@@ -216,6 +263,8 @@ module multi_channel_framebuffer_ctrl #(
         preprocess_recycle_req_toggle != preprocess_recycle_ack_toggle;
     wire overlay_commit_busy =
         overlay_commit_toggle != overlay_commit_ack_toggle;
+    wire tensor_sidecar_req_busy =
+        tensor_sidecar_req_toggle != tensor_sidecar_ack_toggle;
     wire write_is_channel_base = (write_addr >= REG_CHANNEL_BASE0) &&
         (write_addr < REG_CHANNEL_BASE0 + CHANNELS*4) &&
         (write_addr[1:0] == 2'b00);
@@ -287,6 +336,13 @@ module multi_channel_framebuffer_ctrl #(
             preprocess_member_stride <= 32'h0007_ec00;
             preprocess_member_bytes <= 32'h0007_ec00;
             preprocess_format_640x480 <= 1'b0;
+            tensor_sidecar_req_toggle <= 1'b0;
+            tensor_sidecar_channel <= 4'd0;
+            tensor_sidecar_addr <= 32'h3100_0000;
+            tensor_production_enable <= 1'b0;
+            tensor_production_release_toggle <= 1'b0;
+            tensor_production_release_mask <= 32'd0;
+            tensor_production_index <= 5'd0;
             cfg_display_channel <= CHANNEL_WIDTH'(GLOBAL_CHANNEL_BASE);
             // Zero selects the mosaic reader; one retains the full-frame
             // single-channel debug path.
@@ -373,7 +429,9 @@ module multi_channel_framebuffer_ctrl #(
                     end
                     REG_PRE_CONTROL: if (write_strb[0]) begin
                         if (write_data[0] && !write_data[1] &&
-                            !preprocess_start_busy)
+                            !preprocess_start_busy &&
+                            !tensor_production_enable &&
+                            tensor_production_quiescent)
                             preprocess_start_req_toggle <=
                                 !preprocess_start_req_toggle;
                         if (write_data[1] && !write_data[0] &&
@@ -402,6 +460,40 @@ module multi_channel_framebuffer_ctrl #(
                     REG_PRE_FORMAT: if (write_strb[0] && !preprocess_busy &&
                                         !preprocess_start_busy)
                         preprocess_format_640x480 <= write_data[0];
+                    REG_TENSOR_CONTROL: if (write_strb[0] && write_data[0] &&
+                                            !tensor_sidecar_req_busy &&
+                                            !tensor_sidecar_busy &&
+                                            !tensor_production_enable)
+                        tensor_sidecar_req_toggle <=
+                            !tensor_sidecar_req_toggle;
+                    REG_TENSOR_CHANNEL: if (write_strb[0] &&
+                                            !tensor_sidecar_req_busy &&
+                                            !tensor_sidecar_busy &&
+                                            write_data < CHANNELS)
+                        tensor_sidecar_channel <= write_data[3:0];
+                    REG_TENSOR_ADDR: if (!tensor_sidecar_req_busy &&
+                                            !tensor_sidecar_busy)
+                        tensor_sidecar_addr <= apply_wstrb(
+                            tensor_sidecar_addr, write_data, write_strb);
+                    REG_TENSOR_PROD_CONTROL: if (write_strb[0]) begin
+                        if (!write_data[0] ||
+                            (!preprocess_busy && !preprocess_start_busy &&
+                             preprocess_ready_mask == 0 &&
+                             !tensor_sidecar_busy))
+                            tensor_production_enable <= write_data[0];
+                        if (write_data[1] &&
+                            !tensor_production_release_busy)
+                            tensor_production_release_toggle <=
+                                !tensor_production_release_toggle;
+                    end
+                    REG_TENSOR_PROD_RELEASE:
+                        if (!tensor_production_release_busy)
+                            tensor_production_release_mask <= apply_wstrb(
+                                tensor_production_release_mask,
+                                write_data, write_strb);
+                    REG_TENSOR_PROD_INDEX: if (write_strb[0] &&
+                                               write_data < 32)
+                        tensor_production_index <= write_data[4:0];
                     REG_OVERLAY_CONTROL: if (write_strb[0] &&
                                                 write_data[0] &&
                                                 !overlay_commit_busy &&
@@ -578,6 +670,51 @@ module multi_channel_framebuffer_ctrl #(
                     REG_PRE_MEMBER_STRIDE: rdata <= preprocess_member_stride;
                     REG_PRE_MEMBER_BYTES: rdata <= preprocess_member_bytes;
                     REG_PRE_FORMAT: rdata <= {31'd0, preprocess_format_640x480};
+                    REG_TENSOR_CONTROL:
+                        rdata <= {30'd0, tensor_sidecar_req_busy,
+                                  tensor_sidecar_req_toggle};
+                    REG_TENSOR_CHANNEL:
+                        rdata <= {28'd0, tensor_sidecar_channel};
+                    REG_TENSOR_ADDR: rdata <= tensor_sidecar_addr;
+                    REG_TENSOR_STATUS:
+                        rdata <= {24'd0, tensor_sidecar_done_channel,
+                                  tensor_sidecar_req_busy,
+                                  tensor_sidecar_error,
+                                  tensor_sidecar_completed,
+                                  tensor_sidecar_busy};
+                    REG_TENSOR_FRAME_ID: rdata <= tensor_sidecar_frame_id;
+                    REG_TENSOR_BYTES: rdata <= tensor_sidecar_bytes;
+                    REG_TENSOR_OVERFLOWS: rdata <= tensor_sidecar_overflows;
+                    REG_AI_META_SOURCE_FRAME:
+                        rdata <= ai_meta_source_frame_id;
+                    REG_TENSOR_PROD_CONTROL:
+                        rdata <= {30'd0, tensor_production_release_busy,
+                                  tensor_production_enable};
+                    REG_TENSOR_PROD_RELEASE:
+                        rdata <= tensor_production_release_mask;
+                    REG_TENSOR_PROD_READY:
+                        rdata <= tensor_production_ready_mask;
+                    REG_TENSOR_PROD_WRITING:
+                        rdata <= tensor_production_writing_mask;
+                    REG_TENSOR_PROD_ERROR:
+                        rdata <= tensor_production_error_mask;
+                    REG_TENSOR_PROD_INDEX:
+                        rdata <= {27'd0, tensor_production_index};
+                    REG_TENSOR_PROD_FRAME:
+                        rdata <= tensor_production_frame_ids[
+                            tensor_production_index*32 +: 32];
+                    REG_TENSOR_PROD_BYTES:
+                        rdata <= tensor_production_byte_counts[
+                            tensor_production_index*32 +: 32];
+                    REG_TENSOR_PROD_NO_SLOT:
+                        rdata <= tensor_production_no_slot_counts[
+                            tensor_production_index[3:0]*32 +: 32];
+                    REG_TENSOR_PROD_OVERFLOW:
+                        rdata <= tensor_production_overflow_counts[
+                            tensor_production_index[3:0]*32 +: 32];
+                    REG_TENSOR_PROD_MISSED:
+                        rdata <= tensor_production_missed_counts[
+                            tensor_production_index[3:0]*32 +: 32];
                     REG_OVERLAY_CONTROL:
                         rdata <= {30'd0, overlay_commit_busy,
                                   overlay_commit_toggle};

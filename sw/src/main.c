@@ -5,7 +5,6 @@
 #include "ai_model_backend.h"
 #include "ai_overlay.h"
 #include "ai_postprocess_diag.h"
-#include "ai_preprocess.h"
 #include "ai_runtime_bridge.h"
 #ifdef AI_MODEL_YOLOV5NU
 #include "ai_yolov5nu_selftest.h"
@@ -15,6 +14,7 @@
 #include "clock_chip.h"
 #include "console.h"
 #include "hdmi_tx.h"
+#include "mmio.h"
 #include "platform.h"
 #include "tinyyolov2_runtime.h"
 #include "video_service.h"
@@ -36,10 +36,17 @@ static const uint16_t ai_post_burst_sweep_bytes[] = {
 };
 
 static AiPostprocessBandwidthUiState bandwidth_test;
+static uint32_t tensor_sidecar_channel;
+static uint32_t tensor_sidecar_test_active;
+static uint32_t tensor_sidecar_seen_clear;
+static uint32_t tensor_production_mode;
+static uint32_t tensor_production_done[VIDEO_CHANNEL_COUNT];
+static uint32_t tensor_production_last_frame[VIDEO_CHANNEL_COUNT];
+static uint64_t tensor_production_report_cycle;
 
 static void print_help(void)
 {
-    console_puts("Commands: s=status, o=fixed overlay box, d=builtin dog inference, t=YOLOv5nu dual correctness, T=image025 hardware/software postprocess speed, a=snapshot, p=preprocess+RGB stats, v=PP coherence stress, w=PP concurrent bandwidth, W=PP burst sweep, f=preprocess format, i=AI input runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
+    console_puts("Commands: s=status, o=overlay, d=dog inference, t=YOLOv5nu dual test, T=postprocess speed, a=snapshot, n=stream tensor capture, N=next tensor channel, m=16-stream tensor soak, v=PP coherence, w=PP bandwidth, W=PP burst sweep, i=stream AI runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
 }
 
 static void ai_overlay_fixed_box_test(void)
@@ -90,147 +97,6 @@ static void ai_builtin_dog_test(void)
                  "DOG TEST PASS: dog detected\r\n" :
                  "DOG TEST FAIL: dog not detected\r\n");
 #endif
-}
-
-static void ai_print_ch1_tensor_stats(const AiPreprocessResult *result)
-{
-    if ((result->valid_mask & UINT32_C(1)) == 0U) {
-        console_puts("AI PRE CH1 tensor unavailable\r\n");
-        return;
-    }
-
-    const uint8_t *tensor = (const uint8_t *)AI_DDR_CPU_ALIAS(
-        result->tensor_base);
-    uint32_t minimum[3] = {255U, 255U, 255U};
-    uint32_t maximum[3] = {0U, 0U, 0U};
-    uint32_t sum[3] = {0U, 0U, 0U};
-    uint32_t nonzero = 0U;
-    uint32_t hash = UINT32_C(2166136261);
-    const uint32_t pixels = UINT32_C(416) * UINT32_C(416);
-
-    for (uint32_t pixel = 0U; pixel < pixels; ++pixel) {
-        for (uint32_t channel = 0U; channel < 3U; ++channel) {
-            uint32_t value = tensor[pixel * 3U + channel];
-            if (value < minimum[channel])
-                minimum[channel] = value;
-            if (value > maximum[channel])
-                maximum[channel] = value;
-            sum[channel] += value;
-            nonzero += value != 0U;
-            hash ^= value;
-            hash *= UINT32_C(16777619);
-        }
-    }
-
-    console_puts("AI PRE CH1 RGB min/max/avg=");
-    for (uint32_t channel = 0U; channel < 3U; ++channel) {
-        if (channel != 0U)
-            console_putc(' ');
-        console_put_u32(minimum[channel]);
-        console_putc('/');
-        console_put_u32(maximum[channel]);
-        console_putc('/');
-        console_put_u32(sum[channel] / pixels);
-    }
-    console_puts(" nonzero/hash=");
-    console_put_u32(nonzero);
-    console_putc('/');
-    console_put_hex32(hash);
-    console_puts("\r\n");
-}
-
-static void ai_validate_ch1_postprocess_reader(const AiPreprocessResult *input)
-{
-    AiPostprocessDiagResult result;
-    const uint8_t *tensor;
-    uint32_t byte_sum = 0U;
-    uint32_t nonzero = 0U;
-
-    if ((input->valid_mask & UINT32_C(1)) == 0U)
-        return;
-    if (ai_postprocess_diag_probe() != 0) {
-        console_puts("AI POST reader unavailable\r\n");
-        return;
-    }
-
-    tensor = (const uint8_t *)AI_DDR_CPU_ALIAS(input->tensor_base);
-    for (uint32_t index = 0U; index < TENSOR_MEMBER_BYTES; ++index) {
-        byte_sum += tensor[index];
-        nonzero += tensor[index] != 0U;
-    }
-    uint32_t expected_crc = ai_postprocess_crc32(tensor,
-                                                  TENSOR_MEMBER_BYTES);
-    int status = ai_postprocess_diag_run(input->tensor_base,
-                                         TENSOR_MEMBER_BYTES, &result);
-    if (status != 0) {
-        console_puts("AI POST reader failed=");
-        console_put_u32((uint32_t)(-status));
-        console_puts(" flags=");
-        console_put_hex32(result.error_flags);
-        console_puts("\r\n");
-        return;
-    }
-
-    int passed = result.crc32 == expected_crc &&
-                 result.byte_sum == byte_sum &&
-                 result.nonzero_count == nonzero &&
-                 result.bytes_read == TENSOR_MEMBER_BYTES;
-    console_puts(passed != 0 ? "AI POST reader PASS crc/readB/ar/beats=" :
-                               "AI POST reader MISMATCH crc/readB/ar/beats=");
-    console_put_hex32(result.crc32);
-    console_putc('/');
-    console_put_u32(result.bytes_read);
-    console_putc('/');
-    console_put_u32(result.ar_requests);
-    console_putc('/');
-    console_put_u32(result.read_beats);
-    console_puts("\r\n");
-}
-
-static void ai_preprocess_smoke_test(void)
-{
-    static AiFrameSnapshot snapshot;
-    AiPreprocessResult result;
-    int status = ai_frame_snapshot_acquire(&snapshot);
-    if (status != 0) {
-        console_puts("AI PRE snapshot failed\r\n");
-        return;
-    }
-
-    status = ai_preprocess_run(&result);
-    int release_status = ai_frame_snapshot_release(snapshot.valid_mask);
-    if (status != 0) {
-        console_puts("AI PRE failed=");
-        console_put_u32((uint32_t)(-status));
-        console_puts(release_status == 0 ? " refs released\r\n" :
-                                           " ref release failed\r\n");
-        return;
-    }
-
-    console_puts("AI PRE arena/base batch valid/fresh=");
-    console_put_u32(result.arena);
-    console_putc('/');
-    console_put_hex32(result.tensor_base);
-    console_putc(' ');
-    console_put_hex64(result.batch_id);
-    console_putc(' ');
-    console_put_hex32(result.valid_mask);
-    console_putc('/');
-    console_put_hex32(result.fresh_mask);
-    console_puts(" cycles/readB/writeB=");
-    console_put_u32(result.cycles);
-    console_putc('/');
-    console_put_u32(result.read_beats * 32U);
-    console_putc('/');
-    console_put_u32(result.write_beats * 32U);
-    console_puts("\r\n");
-
-    ai_print_ch1_tensor_stats(&result);
-    ai_validate_ch1_postprocess_reader(&result);
-
-    status = ai_preprocess_recycle(UINT32_C(1) << result.arena);
-    console_puts(status == 0 ? "AI PRE arena recycled\r\n" :
-                              "AI PRE recycle failed\r\n");
 }
 
 static void ai_snapshot_smoke_test(void)
@@ -496,6 +362,266 @@ static void ai_postprocess_bandwidth_service(void)
     }
 }
 
+static void tensor_sidecar_begin_test(void)
+{
+    uint32_t status = mmio_read32(FRAMEBUFFER_BASE +
+                                  FRAMEBUFFER_TENSOR_STATUS);
+    uint32_t ai_enabled = ai_batch_runtime_is_enabled();
+    uint32_t ai_idle = ai_batch_runtime_is_idle();
+    if (tensor_sidecar_test_active != 0U || tensor_production_mode != 0U ||
+        ai_enabled != 0U ||
+        ai_idle == 0U ||
+        (status & FRAMEBUFFER_TENSOR_STATUS_BUSY) != 0U) {
+        console_puts("TENSOR SIDECAR blocked active/ai_enable/ai_idle/tensor=");
+        console_put_u32(tensor_sidecar_test_active);
+        console_putc('/');
+        console_put_u32(ai_enabled);
+        console_putc('/');
+        console_put_u32(ai_idle);
+        console_putc('/');
+        console_put_hex32(status);
+        console_puts("\r\n");
+        return;
+    }
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_CHANNEL,
+                 tensor_sidecar_channel);
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_ADDR,
+                 TENSOR_SIDECAR_DIAG_PHYS_BASE);
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_CONTROL, 1U);
+    tensor_sidecar_test_active = 1U;
+    tensor_sidecar_seen_clear = 0U;
+    console_puts("TENSOR SIDECAR armed channel/address=");
+    console_put_u32(tensor_sidecar_channel + 1U);
+    console_putc('/');
+    console_put_hex32(TENSOR_SIDECAR_DIAG_PHYS_BASE);
+    console_puts("\r\n");
+}
+
+
+static void tensor_sidecar_service(void)
+{
+    if (tensor_sidecar_test_active == 0U)
+        return;
+    uint32_t status = mmio_read32(FRAMEBUFFER_BASE +
+                                  FRAMEBUFFER_TENSOR_STATUS);
+    if ((status & FRAMEBUFFER_TENSOR_STATUS_DONE) == 0U)
+        tensor_sidecar_seen_clear = 1U;
+    if (tensor_sidecar_seen_clear == 0U ||
+        (status & FRAMEBUFFER_TENSOR_STATUS_DONE) == 0U ||
+        (status & FRAMEBUFFER_TENSOR_STATUS_BUSY) != 0U)
+        return;
+    tensor_sidecar_test_active = 0U;
+    uint32_t bytes = mmio_read32(FRAMEBUFFER_BASE +
+                                 FRAMEBUFFER_TENSOR_BYTES);
+    uint32_t frame_id = mmio_read32(FRAMEBUFFER_BASE +
+                                    FRAMEBUFFER_TENSOR_FRAME_ID);
+    uint32_t overflows = mmio_read32(FRAMEBUFFER_BASE +
+                                     FRAMEBUFFER_TENSOR_OVERFLOWS);
+    uint32_t hash = UINT32_C(2166136261);
+    uint32_t nonzero = 0U;
+    if ((status & FRAMEBUFFER_TENSOR_STATUS_ERROR) == 0U &&
+        bytes == TENSOR_MEMBER_BYTES) {
+        volatile const uint8_t *tensor =
+            (volatile const uint8_t *)AI_DDR_CPU_ALIAS(
+                TENSOR_SIDECAR_DIAG_PHYS_BASE);
+        for (uint32_t index = 0U; index < bytes; ++index) {
+            uint8_t value = tensor[index];
+            hash = (hash ^ value) * UINT32_C(16777619);
+            nonzero += value != 0U;
+        }
+    }
+    console_puts((status & FRAMEBUFFER_TENSOR_STATUS_ERROR) == 0U &&
+                 bytes == TENSOR_MEMBER_BYTES && nonzero != 0U ?
+                 "TENSOR SIDECAR PASS ch/frame/bytes/hash/nonzero/overflows=" :
+                 "TENSOR SIDECAR FAIL ch/frame/bytes/hash/nonzero/overflows=");
+    console_put_u32(((status >> 4) & 15U) + 1U);
+    console_putc('/');
+    console_put_u32(frame_id);
+    console_putc('/');
+    console_put_u32(bytes);
+    console_putc('/');
+    console_put_hex32(hash);
+    console_putc('/');
+    console_put_u32(nonzero);
+    console_putc('/');
+    console_put_u32(overflows);
+    console_puts("\r\n");
+}
+
+static void tensor_production_service(void)
+{
+    if (tensor_production_mode == 0U)
+        return;
+    uint32_t ready = mmio_read32(FRAMEBUFFER_BASE +
+                                 FRAMEBUFFER_TENSOR_PROD_READY);
+    for (uint32_t slot = 0U; slot < 32U; ++slot) {
+        if ((ready & (UINT32_C(1) << slot)) == 0U)
+            continue;
+        uint32_t stream = slot % VIDEO_CHANNEL_COUNT;
+        mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_INDEX, slot);
+        mmio_fence();
+        uint32_t frame = mmio_read32(FRAMEBUFFER_BASE +
+                                     FRAMEBUFFER_TENSOR_PROD_FRAME);
+        uint32_t bytes = mmio_read32(FRAMEBUFFER_BASE +
+                                     FRAMEBUFFER_TENSOR_PROD_BYTES);
+        uint64_t metadata_start = read_cycle();
+        while ((bytes != TENSOR_MEMBER_BYTES ||
+                (tensor_production_done[stream] != 0U &&
+                 frame <= tensor_production_last_frame[stream])) &&
+               read_cycle() - metadata_start < SOC_CLOCK_HZ / 100U) {
+            frame = mmio_read32(FRAMEBUFFER_BASE +
+                                FRAMEBUFFER_TENSOR_PROD_FRAME);
+            bytes = mmio_read32(FRAMEBUFFER_BASE +
+                                FRAMEBUFFER_TENSOR_PROD_BYTES);
+        }
+        if (bytes != TENSOR_MEMBER_BYTES ||
+            (tensor_production_done[stream] != 0U &&
+             frame <= tensor_production_last_frame[stream])) {
+            console_puts("TENSOR PROD FAIL slot/frame/bytes=");
+            console_put_u32(slot);
+            console_putc('/');
+            console_put_u32(frame);
+            console_putc('/');
+            console_put_u32(bytes);
+            console_puts("\r\n");
+        } else {
+            tensor_production_done[stream]++;
+            tensor_production_last_frame[stream] = frame;
+        }
+        mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_RELEASE,
+                     UINT32_C(1) << slot);
+        mmio_fence();
+        mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL,
+                     (tensor_production_mode == 1U ?
+                      FRAMEBUFFER_TENSOR_PROD_ENABLE : 0U) |
+                     FRAMEBUFFER_TENSOR_PROD_RELEASE_GO);
+        mmio_fence();
+        uint64_t start = read_cycle();
+        while (((mmio_read32(FRAMEBUFFER_BASE +
+                             FRAMEBUFFER_TENSOR_PROD_READY) &
+                 (UINT32_C(1) << slot)) != 0U) ||
+               (mmio_read32(FRAMEBUFFER_BASE +
+                            FRAMEBUFFER_TENSOR_PROD_CONTROL) &
+                FRAMEBUFFER_TENSOR_PROD_RELEASE_GO) != 0U) {
+            if (read_cycle() - start > SOC_CLOCK_HZ / 10U) {
+                console_puts("TENSOR PROD release timeout\r\n");
+                tensor_production_mode = 2U;
+                mmio_write32(FRAMEBUFFER_BASE +
+                             FRAMEBUFFER_TENSOR_PROD_CONTROL, 0U);
+                return;
+            }
+        }
+        break;
+    }
+    if (tensor_production_mode == 2U &&
+        mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_READY) == 0U &&
+        mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_WRITING) == 0U) {
+        tensor_production_mode = 0U;
+        console_puts("TENSOR PROD drained\r\n");
+    }
+    if (read_cycle() - tensor_production_report_cycle >= SOC_CLOCK_HZ) {
+        uint32_t no_slot = 0U, missed = 0U, overflow = 0U;
+        for (uint32_t channel = 0U; channel < VIDEO_CHANNEL_COUNT; ++channel) {
+            mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_INDEX,
+                         channel);
+            mmio_fence();
+            no_slot += mmio_read32(FRAMEBUFFER_BASE +
+                                   FRAMEBUFFER_TENSOR_PROD_NO_SLOT);
+            missed += mmio_read32(FRAMEBUFFER_BASE +
+                                  FRAMEBUFFER_TENSOR_PROD_MISSED);
+            overflow += mmio_read32(FRAMEBUFFER_BASE +
+                                    FRAMEBUFFER_TENSOR_PROD_OVERFLOW);
+        }
+        console_puts("TENSOR PROD done CH1..16=");
+        for (uint32_t channel = 0U; channel < VIDEO_CHANNEL_COUNT; ++channel) {
+            if (channel != 0U) console_putc(',');
+            console_put_u32(tensor_production_done[channel]);
+        }
+        console_puts(" missed/no_slot/overflow/error=");
+        console_put_u32(missed);
+        console_putc('/');
+        console_put_u32(no_slot);
+        console_putc('/');
+        console_put_u32(overflow);
+        console_putc('/');
+        console_put_hex32(mmio_read32(FRAMEBUFFER_BASE +
+                                      FRAMEBUFFER_TENSOR_PROD_ERROR));
+        console_puts("\r\n");
+        tensor_production_report_cycle = read_cycle();
+    }
+}
+
+static void tensor_production_toggle(void)
+{
+    if (tensor_production_mode == 1U) {
+        tensor_production_mode = 2U;
+        mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL, 0U);
+        console_puts("TENSOR PROD draining\r\n");
+        return;
+    }
+    if (tensor_production_mode != 0U)
+        return;
+    if (tensor_sidecar_test_active != 0U ||
+        ai_batch_runtime_is_enabled() != 0U ||
+        ai_batch_runtime_is_idle() == 0U ||
+        mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_STATUS) &
+            FRAMEBUFFER_TENSOR_STATUS_BUSY) {
+        console_puts("TENSOR PROD: disable AI and drain all arenas first\r\n");
+        return;
+    }
+    for (uint32_t channel = 0U; channel < VIDEO_CHANNEL_COUNT; ++channel) {
+        tensor_production_done[channel] = 0U;
+        tensor_production_last_frame[channel] = 0U;
+    }
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL,
+                 FRAMEBUFFER_TENSOR_PROD_ENABLE);
+    mmio_fence();
+    if ((mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL) &
+         FRAMEBUFFER_TENSOR_PROD_ENABLE) == 0U) {
+        console_puts("TENSOR PROD enable rejected by hardware\r\n");
+        return;
+    }
+    tensor_production_mode = 1U;
+    tensor_production_report_cycle = read_cycle();
+    console_puts("TENSOR PROD enabled, one capture at a time, press m to drain\r\n");
+}
+
+static void tensor_production_init(void)
+{
+    /* A Rocket debugger reset may leave the video clock domain running. */
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL, 0U);
+    mmio_fence();
+    uint64_t start = read_cycle();
+    while (mmio_read32(FRAMEBUFFER_BASE +
+                       FRAMEBUFFER_TENSOR_PROD_WRITING) != 0U) {
+        if (read_cycle() - start > SOC_CLOCK_HZ * 2U) {
+            console_puts("TENSOR PROD stale write did not drain\r\n");
+            return;
+        }
+    }
+    uint32_t ready = mmio_read32(FRAMEBUFFER_BASE +
+                                 FRAMEBUFFER_TENSOR_PROD_READY);
+    if (ready != 0U) {
+        mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_RELEASE,
+                     ready);
+        mmio_fence();
+        mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL,
+                     FRAMEBUFFER_TENSOR_PROD_RELEASE_GO);
+        mmio_fence();
+        start = read_cycle();
+        while (mmio_read32(FRAMEBUFFER_BASE +
+                           FRAMEBUFFER_TENSOR_PROD_READY) != 0U ||
+               (mmio_read32(FRAMEBUFFER_BASE +
+                            FRAMEBUFFER_TENSOR_PROD_CONTROL) &
+                FRAMEBUFFER_TENSOR_PROD_RELEASE_GO) != 0U) {
+            if (read_cycle() - start > SOC_CLOCK_HZ / 10U) {
+                console_puts("TENSOR PROD stale slots did not release\r\n");
+                return;
+            }
+        }
+    }
+}
+
 int main(void)
 {
     int video_status;
@@ -507,6 +633,7 @@ int main(void)
     video_status = video_service_init();
     if (video_status != 0)
         console_puts("Video pipeline initialization failed; press r to retry\r\n");
+    tensor_production_init();
     ai_batch_runtime_init();
     if (ai_runtime_bridge_init() != 0)
         console_puts("AI runtime initialization failed\r\n");
@@ -516,7 +643,15 @@ int main(void)
         video_service_poll();
         ai_batch_runtime_poll();
         ai_postprocess_bandwidth_service();
+        tensor_sidecar_service();
+        tensor_production_service();
         int command = console_getc_nonblock();
+        if (tensor_production_mode != 0U && command >= 0 &&
+            command != 'm' && command != 's' &&
+            command != 'N' && command != 'h') {
+            console_puts("TENSOR PROD active; press m and wait for drain\r\n");
+            continue;
+        }
         switch (command) {
         case 's':
             ai_batch_runtime_print_status();
@@ -556,11 +691,18 @@ int main(void)
             else
                 console_puts("AI runtime busy; disable and wait for drain\r\n");
             break;
-        case 'p':
-            if (ai_batch_runtime_is_idle() != 0U)
-                ai_preprocess_smoke_test();
-            else
-                console_puts("AI runtime busy; disable and wait for drain\r\n");
+        case 'n':
+            tensor_sidecar_begin_test();
+            break;
+        case 'm':
+            tensor_production_toggle();
+            break;
+        case 'N':
+            tensor_sidecar_channel =
+                (tensor_sidecar_channel + 1U) % VIDEO_CHANNEL_COUNT;
+            console_puts("TENSOR SIDECAR selected channel=");
+            console_put_u32(tensor_sidecar_channel + 1U);
+            console_puts("\r\n");
             break;
         case 'v':
             if (ai_batch_runtime_is_idle() != 0U)
@@ -575,46 +717,16 @@ int main(void)
             ai_postprocess_bandwidth_begin(1U);
             break;
         case 'i':
-#ifdef AI_MODEL_YOLOV5NU
-            if (ai_batch_runtime_is_enabled() == 0U &&
-                ai_preprocess_get_format() != AI_PREPROCESS_FORMAT_640X480) {
-                console_puts("AI runtime currently requires 640x480; select format 1 first\r\n");
+            if (tensor_production_mode != 0U &&
+                ai_batch_runtime_is_enabled() == 0U) {
+                console_puts("TENSOR PROD active; press m and wait for drain\r\n");
                 break;
             }
-#else
-            if (ai_batch_runtime_is_enabled() == 0U &&
-                ai_preprocess_get_format() != AI_PREPROCESS_FORMAT_416X416) {
-                console_puts("AI runtime currently requires 416x416; select format 0 first\r\n");
-                break;
-            }
-#endif
             ai_batch_runtime_set_enabled(!ai_batch_runtime_is_enabled());
             console_puts(ai_batch_runtime_is_enabled() != 0U ?
-                         "AI input runtime enabled\r\n" :
-                         "AI input runtime draining\r\n");
+                         "AI stream runtime enabled\r\n" :
+                         "AI stream runtime draining\r\n");
             break;
-        case 'f': {
-            if (ai_batch_runtime_is_enabled() != 0U ||
-                ai_batch_runtime_is_idle() == 0U) {
-                console_puts("AI runtime busy; disable and wait for drain\r\n");
-                break;
-            }
-            AiPreprocessFormat next = ai_preprocess_get_format() ==
-                                      AI_PREPROCESS_FORMAT_416X416 ?
-                                      AI_PREPROCESS_FORMAT_640X480 :
-                                      AI_PREPROCESS_FORMAT_416X416;
-            int format_status = ai_preprocess_set_format(next);
-            if (format_status == 0) {
-                console_puts(next == AI_PREPROCESS_FORMAT_416X416 ?
-                             "AI preprocess format 416x416\r\n" :
-                             "AI preprocess format 640x480\r\n");
-            } else {
-                console_puts("AI preprocess format change failed=");
-                console_put_u32((uint32_t)(-format_status));
-                console_puts("\r\n");
-            }
-            break;
-        }
         case 'r':
             hdmi_tx_restart();
             video_status = video_service_init();

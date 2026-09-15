@@ -22,9 +22,10 @@ SECTIONS {
     *(.srodata.cst16 .srodata.cst8 .srodata.cst4 .srodata.cst2)
     *(.srodata .srodata.* .sdata .sdata.* .gnu.linkonce.s.*)
   } > DDR
-  . = ALIGN(64);
-  __bss_start = .;
-  .sbss : { *(.sbss .sbss.* .scommon) } > DDR
+  .sbss ALIGN(64) : {
+    __bss_start = .;
+    *(.sbss .sbss.* .scommon)
+  } > DDR
   .bss : { *(.bss .bss.* COMMON) } > DDR
   __bss_end = .;
   .tdata : { _tdata_begin = .; *(.tdata .tdata.*); _tdata_end = .; } > DDR

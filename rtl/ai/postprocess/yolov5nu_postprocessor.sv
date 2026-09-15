@@ -28,10 +28,18 @@ module yolov5nu_postprocessor (
 );
     localparam [3:0] IDLE=0, CLASS_LAUNCH=1, CLASS_STREAM=2,
         CLASS_DRAIN=3, DFL_LAUNCH=4, DFL_STREAM=5,
-        DFL_DRAIN=6, NMS_WAIT=7, COMPLETE=8;
+        DFL_DRAIN=6, NMS_WAIT=7, COMPLETE=8,
+        CLEAR_HIST=9, CUTOFF_SCAN=10, DFL_SCAN=11;
     reg [3:0] state;
     reg [1:0] head;
     reg [12:0] location;
+    reg [12:0] scan_location;
+    reg [7:0] histogram_index;
+    reg [7:0] score_scan;
+    reg [12:0] better_count;
+    reg [8:0] cutoff_quota;
+    reg signed [7:0] cutoff_score;
+    reg [12:0] score_histogram [0:255];
     reg half;
     reg wait_decoder;
     reg [255:0] first_half;
@@ -72,7 +80,7 @@ module yolov5nu_postprocessor (
         );
     end
 
-    yolov5nu_class_reducer u_class (
+    yolov5nu_class_reducer #(.FOLD_BYTES(8)) u_class (
         .clk(clk), .resetn(resetn), .start(class_start),
         .score_threshold(8'sd34),
         .s_data(class_stream), .s_keep(stream_keep),
@@ -152,9 +160,13 @@ module yolov5nu_postprocessor (
             nms_start <= 0;
             nms_finish <= 0;
             if (busy) cycles <= cycles + 1'b1;
-            if (class_result_valid && class_position < 13'd6300)
+            if (class_result_valid && class_position < 13'd6300) begin
                 class_meta[class_position] <=
                     {class_result_class, class_result_score[7:0]};
+                if (class_result_candidate)
+                    score_histogram[class_result_score[7:0]] <=
+                        score_histogram[class_result_score[7:0]] + 1'b1;
+            end
             if (nms_result_valid && stored_count < 10) begin
                 result_ram[stored_count[3:0]] <= nms_result;
                 stored_count <= stored_count + 1'b1;
@@ -164,7 +176,7 @@ module yolov5nu_postprocessor (
                 wait_decoder <= 0;
             case (state)
             IDLE: if (start) begin
-                state <= CLASS_LAUNCH;
+                state <= CLEAR_HIST;
                 busy <= 1;
                 done <= 0;
                 error <= 0;
@@ -174,8 +186,16 @@ module yolov5nu_postprocessor (
                 stored_count <= 0;
                 cycles <= 0;
                 finish_sent <= 0;
-                class_start <= 1;
                 nms_start <= 1;
+                histogram_index <= 0;
+            end
+            CLEAR_HIST: begin
+                score_histogram[histogram_index] <= 0;
+                histogram_index <= histogram_index + 1'b1;
+                if (histogram_index == 8'd255) begin
+                    class_start <= 1;
+                    state <= CLASS_LAUNCH;
+                end
             end
             CLASS_LAUNCH: if (!read_busy) begin
                 case (head)
@@ -206,22 +226,54 @@ module yolov5nu_postprocessor (
                     error <= 1;
                     state <= COMPLETE;
                 end else begin
-                    head <= 0;
-                    location <= 0;
-                    state <= DFL_LAUNCH;
+                    score_scan <= 8'd127;
+                    better_count <= 0;
+                    state <= CUTOFF_SCAN;
                 end
             end
+            // Only the best 256 class scores can survive the existing NMS
+            // heap.  At an equal score, lower location wins.  Determine the
+            // cutoff before issuing any DFL reads, then scan in location
+            // order so ties remain identical to the full-head path.
+            CUTOFF_SCAN: begin
+                if (better_count + score_histogram[score_scan] >= 13'd256 ||
+                    score_scan == 8'd34) begin
+                    cutoff_score <= $signed(score_scan);
+                    cutoff_quota <= 9'd256 - better_count[8:0];
+                    scan_location <= 0;
+                    state <= DFL_SCAN;
+                end else begin
+                    better_count <= better_count + score_histogram[score_scan];
+                    score_scan <= score_scan - 1'b1;
+                end
+            end
+            DFL_SCAN: begin
+                if (scan_location == 13'd6300)
+                    state <= NMS_WAIT;
+                else if ($signed(class_meta[scan_location][7:0]) >
+                             cutoff_score ||
+                         ($signed(class_meta[scan_location][7:0]) ==
+                             cutoff_score && cutoff_quota != 0)) begin
+                    if ($signed(class_meta[scan_location][7:0]) == cutoff_score)
+                        cutoff_quota <= cutoff_quota - 1'b1;
+                    state <= DFL_LAUNCH;
+                end else
+                    scan_location <= scan_location + 1'b1;
+            end
             DFL_LAUNCH: if (!read_busy) begin
-                case (head)
-                0: read_base <= dfl0;
-                1: read_base <= dfl1;
-                default: read_base <= dfl2;
-                endcase
-                case (head)
-                0: read_bytes <= 32'd307200;
-                1: read_bytes <= 32'd76800;
-                default: read_bytes <= 32'd19200;
-                endcase
+                if (scan_location < 13'd4800) begin
+                    head <= 0;
+                    read_base <= dfl0 + {14'd0, scan_location, 6'b0};
+                end else if (scan_location < 13'd6000) begin
+                    head <= 1;
+                    read_base <= dfl1 +
+                        {14'd0, (scan_location - 13'd4800), 6'b0};
+                end else begin
+                    head <= 2;
+                    read_base <= dfl2 +
+                        {14'd0, (scan_location - 13'd6000), 6'b0};
+                end
+                read_bytes <= 32'd64;
                 read_start <= 1;
                 state <= DFL_STREAM;
                 half <= 0;
@@ -231,12 +283,10 @@ module yolov5nu_postprocessor (
                     half <= !half;
                     if (!half) first_half <= stream_data;
                     else begin
-                        if (class_meta[location][7:0] >= 8'd34) begin
-                            raw_dfl <= {stream_data, first_half};
-                            dfl_start <= 1;
-                            wait_decoder <= 1;
-                        end
-                        location <= location + 1'b1;
+                        raw_dfl <= {stream_data, first_half};
+                        dfl_start <= 1;
+                        wait_decoder <= 1;
+                        location <= scan_location + 1'b1;
                     end
                     if (stream_keep != 32'hffff_ffff) error <= 1;
                 end
@@ -247,12 +297,9 @@ module yolov5nu_postprocessor (
             end
             DFL_DRAIN: if (!wait_decoder && !dfl_busy && !dfl_valid) begin
                 if (error) state <= COMPLETE;
-                else if (head == 2) begin
-                    if (location != 13'd6300) error <= 1;
-                    state <= NMS_WAIT;
-                end else begin
-                    head <= head + 1'b1;
-                    state <= DFL_LAUNCH;
+                else begin
+                    scan_location <= scan_location + 1'b1;
+                    state <= DFL_SCAN;
                 end
             end
             NMS_WAIT: begin

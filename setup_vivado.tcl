@@ -249,6 +249,17 @@ foreach subdir {
 }
 lappend sc_rtl_files [file join $sc_repo_root rtl top_wrapper.sv]
 
+# The DDR-read batch preprocessor is retired from the production design. Its
+# sources remain in the repository only for the historical bit-exact tests.
+foreach retired_name {batch_preprocess_engine.sv frame_preprocess_accel.sv} {
+    set retired_path [file normalize [file join $sc_repo_root rtl ai preprocess $retired_name]]
+    set sc_rtl_files [lsearch -all -inline -not -exact $sc_rtl_files $retired_path]
+    set registered [get_files -all -quiet $retired_path]
+    if {[llength $registered] != 0} {
+        remove_files $registered
+    }
+}
+
 foreach path [lsort -unique $sc_rtl_files] {
     ::sixteen_camera_setup::safe_add_file RTL sources_1 $path
 }

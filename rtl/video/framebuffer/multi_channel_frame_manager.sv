@@ -30,6 +30,7 @@ module multi_channel_frame_manager #(
     output reg  [CHANNELS*32-1:0]            writer_base,
     input  wire [CHANNELS-1:0]               writer_done,
     input  wire [CHANNELS-1:0]               writer_error,
+    input  wire [CHANNELS*32-1:0]            writer_source_frame_ids,
 
     input  wire                              reader_acquire,
     output reg                               reader_grant,
@@ -54,6 +55,7 @@ module multi_channel_frame_manager #(
     output reg  [CHANNELS-1:0]               ai_held_mask,
     output reg  [CHANNELS*32-1:0]            ai_snapshot_addrs,
     output reg  [CHANNELS*64-1:0]            ai_snapshot_frame_ids,
+    output reg  [CHANNELS*32-1:0]            ai_snapshot_source_frame_ids,
     output reg  [CHANNELS*64-1:0]            ai_snapshot_timestamps,
     output reg  [CHANNELS*32-1:0]            ai_snapshot_versions,
     output reg  [63:0]                       ai_snapshot_batch_id,
@@ -107,6 +109,8 @@ module multi_channel_frame_manager #(
     reg [SLOT_WIDTH-1:0] latest_index [0:CHANNELS-1];
     reg [63:0] slot_frame_id [0:CHANNELS-1]
                                [0:MAX_BUFFERS_PER_CHANNEL-1];
+    reg [31:0] slot_source_frame_id [0:CHANNELS-1]
+                                       [0:MAX_BUFFERS_PER_CHANNEL-1];
     reg [63:0] slot_timestamp [0:CHANNELS-1]
                                 [0:MAX_BUFFERS_PER_CHANNEL-1];
     reg [31:0] slot_version [0:CHANNELS-1]
@@ -189,6 +193,9 @@ module multi_channel_frame_manager #(
                     slot_frame_id[metadata_ch]
                                  [writer_index[metadata_ch]] <=
                         channel_frame_id[metadata_ch] + 1'b1;
+                    slot_source_frame_id[metadata_ch]
+                                        [writer_index[metadata_ch]] <=
+                        writer_source_frame_ids[metadata_ch*32 +: 32];
                     slot_timestamp[metadata_ch]
                                   [writer_index[metadata_ch]] <=
                         timestamp_counter;
@@ -218,6 +225,9 @@ module multi_channel_frame_manager #(
                     ai_snapshot_frame_ids[snapshot_ch*64 +: 64] <=
                         slot_frame_id[snapshot_ch]
                                      [ai_snapshot_slot[snapshot_ch]];
+                    ai_snapshot_source_frame_ids[snapshot_ch*32 +: 32] <=
+                        slot_source_frame_id[snapshot_ch]
+                                            [ai_snapshot_slot[snapshot_ch]];
                     ai_snapshot_timestamps[snapshot_ch*64 +: 64] <=
                         slot_timestamp[snapshot_ch]
                                       [ai_snapshot_slot[snapshot_ch]];

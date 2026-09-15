@@ -63,6 +63,8 @@ int ai_frame_snapshot_acquire(AiFrameSnapshot *snapshot)
             FRAMEBUFFER_BASE + FRAMEBUFFER_AI_META_ADDR);
         member->frame_id = read_pair(FRAMEBUFFER_AI_META_FRAME_LO,
                                      FRAMEBUFFER_AI_META_FRAME_HI);
+        member->source_frame_id = mmio_read32(
+            FRAMEBUFFER_BASE + FRAMEBUFFER_AI_META_SOURCE_FRAME);
         member->timestamp = read_pair(FRAMEBUFFER_AI_META_TIME_LO,
                                       FRAMEBUFFER_AI_META_TIME_HI);
         member->version = mmio_read32(

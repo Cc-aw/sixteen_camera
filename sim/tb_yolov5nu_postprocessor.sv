@@ -23,6 +23,8 @@ module tb_yolov5nu_postprocessor;
     reg [7:0] raw_classes [0:503999];
     reg [31:0] current_bytes, current_offset, consumed;
     reg current_class;
+    reg dense, empty_case;
+    reg [31:0] dfl_bytes;
 
     yolov5nu_postprocessor dut (
         .clk(clk), .resetn(resetn), .start(start),
@@ -54,10 +56,17 @@ module tb_yolov5nu_postprocessor;
             current_bytes <= 0;
             current_offset <= 0;
             current_class <= 0;
+            dfl_bytes <= 0;
         end else begin
             read_done <= 0;
             if (read_start && !read_busy) begin
                 current_class <= read_base < 33'h4000;
+                if (read_base >= 33'h4000) begin
+                    if (dense && read_base != 33'h4000 + dfl_bytes)
+                        $fatal(1, "dense equal-score TopK changed location order: addr=%h expected=%h",
+                               read_base, 33'h4000 + dfl_bytes);
+                    dfl_bytes <= dfl_bytes + read_bytes;
+                end
                 current_offset <= read_base == 33'h1000 ? 0 :
                                   read_base == 33'h2000 ? 384000 :
                                   read_base == 33'h3000 ? 480000 : 0;
@@ -76,27 +85,42 @@ module tb_yolov5nu_postprocessor;
 
     initial begin
         $readmemh("raw_classes.mem", raw_classes);
+        dense = $test$plusargs("dense");
+        empty_case = $test$plusargs("empty");
+        if (dense)
+            for (int position=0; position<300; position++)
+                raw_classes[position*80] = 8'h7f;
+        if (empty_case)
+            for (int index=0; index<504000; index++)
+                raw_classes[index] = 8'h80;
         repeat (5) @(negedge clk);
         resetn=1;
         start=1;
         @(negedge clk);
         start=0;
         wait(done);
-        if (error || positions_seen != 6300 || candidates_seen != 10 ||
-            nms_candidates_seen != 10 || result_count == 0 ||
+        if (error || positions_seen != 6300 ||
+            (!dense && !empty_case && candidates_seen != 10) ||
+            (dense && candidates_seen <= 256) ||
+            (empty_case && candidates_seen != 0) ||
+            nms_candidates_seen != (dense ? 256 : empty_case ? 0 : 10) ||
+            dfl_bytes != (dense ? 256*64 : empty_case ? 0 : 10*64) ||
+            (!empty_case && result_count == 0) ||
+            (empty_case && result_count != 0) ||
             result_count > 10)
-            $fatal(1, "raw-head pipeline error: %b pos=%0d cand=%0d nms=%0d count=%0d state=%0d",
+            $fatal(1, "raw-head pipeline error: %b pos=%0d cand=%0d nms=%0d dflB=%0d count=%0d state=%0d",
                    error, positions_seen, candidates_seen,
-                   nms_candidates_seen, result_count, dut.state);
-        if (result_word[99:87] != 6155 || result_word[86:80] != 23)
+                   nms_candidates_seen, dfl_bytes, result_count, dut.state);
+        if (!dense && !empty_case &&
+            (result_word[99:87] != 6155 || result_word[86:80] != 23))
             $fatal(1, "first result is not image025 dog: %h", result_word);
-        $display("yolov5nu raw-head integrated pipeline PASS: %0d results, %0d cycles",
-                 result_count, cycles);
+        $display("yolov5nu raw-head integrated pipeline PASS: dense=%0d results=%0d dflB=%0d cycles=%0d",
+                 dense, result_count, dfl_bytes, cycles);
         $finish;
     end
 
     initial begin
-        repeat (200000) @(posedge clk);
+        repeat (500000) @(posedge clk);
         $fatal(1, "raw-head pipeline timeout state=%0d pos=%0d loc=%0d wait=%b",
                dut.state, positions_seen, dut.location, dut.wait_decoder);
     end

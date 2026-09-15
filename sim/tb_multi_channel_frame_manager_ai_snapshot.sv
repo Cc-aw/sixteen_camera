@@ -26,6 +26,7 @@ module tb_multi_channel_frame_manager_ai_snapshot;
     wire [CHANNELS*32-1:0] writer_base;
     reg [CHANNELS-1:0] writer_done = 0;
     reg [CHANNELS-1:0] writer_error = 0;
+    reg [CHANNELS*32-1:0] writer_source_frame_ids = 0;
 
     reg reader_acquire = 1'b0;
     wire reader_grant;
@@ -47,6 +48,7 @@ module tb_multi_channel_frame_manager_ai_snapshot;
     wire [CHANNELS-1:0] ai_held_mask;
     wire [CHANNELS*32-1:0] ai_snapshot_addrs;
     wire [CHANNELS*64-1:0] ai_snapshot_frame_ids;
+    wire [CHANNELS*32-1:0] ai_snapshot_source_frame_ids;
     wire [CHANNELS*64-1:0] ai_snapshot_timestamps;
     wire [CHANNELS*32-1:0] ai_snapshot_versions;
     wire [63:0] ai_snapshot_batch_id;
@@ -85,6 +87,7 @@ module tb_multi_channel_frame_manager_ai_snapshot;
         .writer_acquire(writer_acquire), .writer_grant(writer_grant),
         .writer_drop(writer_drop), .writer_base(writer_base),
         .writer_done(writer_done), .writer_error(writer_error),
+        .writer_source_frame_ids(writer_source_frame_ids),
         .reader_acquire(reader_acquire), .reader_grant(reader_grant),
         .reader_base(reader_base), .reader_bases(reader_bases),
         .reader_valid_mask(reader_valid_mask), .reader_mode(reader_mode),
@@ -100,6 +103,7 @@ module tb_multi_channel_frame_manager_ai_snapshot;
         .ai_held_mask(ai_held_mask),
         .ai_snapshot_addrs(ai_snapshot_addrs),
         .ai_snapshot_frame_ids(ai_snapshot_frame_ids),
+        .ai_snapshot_source_frame_ids(ai_snapshot_source_frame_ids),
         .ai_snapshot_timestamps(ai_snapshot_timestamps),
         .ai_snapshot_versions(ai_snapshot_versions),
         .ai_snapshot_batch_id(ai_snapshot_batch_id),
@@ -116,6 +120,9 @@ module tb_multi_channel_frame_manager_ai_snapshot;
     task automatic capture_all;
         input integer expected_frame_id;
         begin
+            for (int source_ch = 0; source_ch < CHANNELS; source_ch++)
+                writer_source_frame_ids[source_ch*32 +: 32] =
+                    32'(1000*expected_frame_id + source_ch);
             writer_acquire = {CHANNELS{1'b1}};
             timeout = 0;
             while (writer_grant != {CHANNELS{1'b1}}) begin
@@ -220,6 +227,7 @@ module tb_multi_channel_frame_manager_ai_snapshot;
                    ai_snapshot_batch_id, ai_snapshot_count);
         for (ch = 0; ch < CHANNELS; ch = ch + 1) begin
             if (ai_snapshot_frame_ids[ch*64 +: 64] != 1 ||
+                ai_snapshot_source_frame_ids[ch*32 +: 32] != 1000+ch ||
                 ai_snapshot_versions[ch*32 +: 32] != 1 ||
                 ai_snapshot_addrs[ch*32 +: 32] !=
                     cfg_channel_bases[ch*32 +: 32])

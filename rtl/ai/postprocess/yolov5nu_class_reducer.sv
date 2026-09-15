@@ -5,13 +5,14 @@
 // The active model stores 80 signed INT8 sigmoid scores for each of 6300
 // locations.  Lane 0 is the earliest byte in the tensor stream.  One AXI
 // beat may straddle a location boundary, so the fold below carries the new
-// location's partial maximum into the next beat.  Four lanes are folded per
-// clock; this bounds the LUT + comparison path at 100 MHz.  Ties retain the
+// location's partial maximum into the next beat.  FOLD_BYTES lanes are
+// folded per clock.  Ties retain the
 // lowest class ID, matching the software implementation.
 module yolov5nu_class_reducer #(
     parameter integer DATA_WIDTH = 256,
     parameter integer CLASS_COUNT = 80,
-    parameter integer POSITION_COUNT = 6300
+    parameter integer POSITION_COUNT = 6300,
+    parameter integer FOLD_BYTES = 4
 ) (
     input  wire                  clk,
     input  wire                  resetn,
@@ -40,6 +41,8 @@ module yolov5nu_class_reducer #(
     output reg  [12:0]           candidates_seen
 );
     localparam integer LANES = DATA_WIDTH / 8;
+    localparam integer GROUP_COUNT = LANES / FOLD_BYTES;
+    localparam integer GROUP_WIDTH = (GROUP_COUNT <= 1) ? 1 : $clog2(GROUP_COUNT);
     localparam [LANES-1:0] FULL_KEEP = {LANES{1'b1}};
     localparam [6:0] LAST_CLASS = 7'(CLASS_COUNT - 1);
     localparam [12:0] LAST_POSITION = 13'(POSITION_COUNT - 1);
@@ -52,7 +55,7 @@ module yolov5nu_class_reducer #(
     reg [DATA_WIDTH-1:0] beat_data;
     reg [LANES-1:0] beat_keep;
     reg beat_last;
-    reg [2:0] beat_group;
+    reg [GROUP_WIDTH-1:0] beat_group;
 
     integer lane;
     reg [6:0] fold_class_index;
@@ -65,7 +68,13 @@ module yolov5nu_class_reducer #(
     assign s_ready = busy && !input_complete && !beat_active &&
                      (!result_valid || result_ready);
 
-    // A four-byte group can complete at most one 80-byte class vector.
+    initial begin
+        if (FOLD_BYTES < 1 || LANES % FOLD_BYTES != 0 ||
+            FOLD_BYTES > CLASS_COUNT)
+            $error("FOLD_BYTES must divide one beat and fit within a class vector");
+    end
+
+    // One group can complete at most one 80-byte class vector.
     always @* begin
         fold_class_index = class_index;
         fold_best_score = best_score;
@@ -73,12 +82,12 @@ module yolov5nu_class_reducer #(
         fold_emits = 1'b0;
         fold_result_score = best_score;
         fold_result_class = best_class;
-        for (lane = 0; lane < 4; lane = lane + 1) begin
-            if (beat_keep[beat_group*4 + lane]) begin
-                if ($signed(beat_data[(beat_group*4+lane)*8 +: 8]) >
+        for (lane = 0; lane < FOLD_BYTES; lane = lane + 1) begin
+            if (beat_keep[beat_group*FOLD_BYTES + lane]) begin
+                if ($signed(beat_data[(beat_group*FOLD_BYTES+lane)*8 +: 8]) >
                     fold_best_score) begin
                     fold_best_score =
-                        $signed(beat_data[(beat_group*4+lane)*8 +: 8]);
+                        $signed(beat_data[(beat_group*FOLD_BYTES+lane)*8 +: 8]);
                     fold_best_class = fold_class_index;
                 end
                 if (fold_class_index == LAST_CLASS) begin
@@ -102,7 +111,7 @@ module yolov5nu_class_reducer #(
             best_class <= 7'd0;
             input_complete <= 1'b0;
             beat_active <= 1'b0;
-            beat_group <= 3'd0;
+            beat_group <= '0;
             result_valid <= 1'b0;
             result_position <= 13'd0;
             result_class <= 7'd0;
@@ -126,7 +135,7 @@ module yolov5nu_class_reducer #(
                 best_class <= 7'd0;
                 input_complete <= 1'b0;
                 beat_active <= 1'b0;
-                beat_group <= 3'd0;
+                beat_group <= '0;
                 result_valid <= 1'b0;
                 busy <= 1'b1;
                 error <= 1'b0;
@@ -139,7 +148,7 @@ module yolov5nu_class_reducer #(
                 beat_data <= s_data;
                 beat_keep <= s_keep;
                 beat_last <= s_last;
-                beat_group <= 3'd0;
+                beat_group <= '0;
                 beat_active <= 1'b1;
                 if (s_keep != FULL_KEEP) begin
                     error <= 1'b1;
@@ -152,7 +161,8 @@ module yolov5nu_class_reducer #(
                 best_score <= fold_best_score;
                 best_class <= fold_best_class;
                 beat_group <= beat_group + 1'b1;
-                if (beat_group == 3'd7) beat_active <= 1'b0;
+                if (beat_group == GROUP_WIDTH'(GROUP_COUNT-1))
+                    beat_active <= 1'b0;
 
                 if (fold_emits) begin
                     result_valid <= 1'b1;
@@ -167,7 +177,7 @@ module yolov5nu_class_reducer #(
                         candidates_seen <= candidates_seen + 1'b1;
                 end
 
-                if (beat_last && beat_group == 3'd7) begin
+                if (beat_last && beat_group == GROUP_WIDTH'(GROUP_COUNT-1)) begin
                     input_complete <= 1'b1;
                     if (!fold_emits ||
                         positions_seen != LAST_POSITION ||

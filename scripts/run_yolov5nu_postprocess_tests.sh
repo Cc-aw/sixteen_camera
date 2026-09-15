@@ -58,5 +58,7 @@ verilator --binary --timing -Wno-fatal \
   "$root/sim/tb_yolov5nu_postprocessor.sv" \
   --top-module tb_yolov5nu_postprocessor
 (cd "$test_tmp" && "$test_tmp/obj_integrated/Vtb_yolov5nu_postprocessor")
+(cd "$test_tmp" && "$test_tmp/obj_integrated/Vtb_yolov5nu_postprocessor" +dense)
+(cd "$test_tmp" && "$test_tmp/obj_integrated/Vtb_yolov5nu_postprocessor" +empty)
 
 python3 "$root/scripts/check_yolov5nu_nms_quantization.py"
