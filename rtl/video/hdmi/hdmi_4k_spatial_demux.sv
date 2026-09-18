@@ -72,6 +72,8 @@ module hdmi_4k_spatial_demux #(
             reg stage_eof;
             reg [31:0] stage_frame_id;
             reg stage_error;
+            reg overflow_event;
+            reg frame_complete_event;
             wire stage_ready = !stage_valid ||
                                channels[channel_index].ready;
             wire stage_load = selected && stage_ready;
@@ -103,10 +105,19 @@ module hdmi_4k_spatial_demux #(
                     stage_eof <= 1'b0;
                     stage_frame_id <= 32'd0;
                     stage_error <= 1'b0;
+                    overflow_event <= 1'b0;
+                    frame_complete_event <= 1'b0;
                     channel_bad[channel_index] <= 1'b0;
                     channel_overflow_counts[channel_index*32 +: 32] <= 32'd0;
                     channel_frame_counts[channel_index*32 +: 32] <= 32'd0;
                 end else begin
+                    // Diagnostics consume registered events.  This removes
+                    // the 4K coordinate/crop decoder from the enable input of
+                    // each 32-bit counter at the 300 MHz HDMI RX clock.
+                    overflow_event <= stage_overflow;
+                    frame_complete_event <= stage_load &&
+                        (source_x == IMAGE_LAST_X) &&
+                        (source_y == IMAGE_LAST_Y);
                     if (stage_ready) begin
                         stage_valid <= selected;
                         if (selected) begin
@@ -125,15 +136,14 @@ module hdmi_4k_spatial_demux #(
 
                     if (input_fire && (s_axis.tuser || !capture_enable))
                         channel_bad[channel_index] <= 1'b0;
-                    if (stage_overflow) begin
+                    if (stage_overflow)
                         channel_bad[channel_index] <= 1'b1;
+                    if (overflow_event) begin
                         channel_overflow_counts[channel_index*32 +: 32] <=
                             channel_overflow_counts[
                                 channel_index*32 +: 32] + 1'b1;
                     end
-                    if (stage_load &&
-                        (source_x == IMAGE_LAST_X) &&
-                        (source_y == IMAGE_LAST_Y))
+                    if (frame_complete_event)
                         channel_frame_counts[channel_index*32 +: 32] <=
                             channel_frame_counts[
                                 channel_index*32 +: 32] + 1'b1;

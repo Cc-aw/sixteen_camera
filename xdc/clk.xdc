@@ -122,6 +122,17 @@ set_max_delay 1.500 -datapath_only \
 # instead of allowing an SLR-wide pblock to place them a region away from the
 # corresponding BITSLICE. These remain soft placement guides; the 1.5 ns
 # datapath constraint above is the actual acceptance criterion.
+# Create SLR-wide parents before the contained clock-region guides.  Vivado
+# otherwise re-parents the child pblocks while reading this XDC, which makes
+# incremental placement depend on constraint processing order.
+create_pblock pblock_dvp_bridge_slr2
+resize_pblock [get_pblocks pblock_dvp_bridge_slr2] -add SLR2
+set_property IS_SOFT true [get_pblocks pblock_dvp_bridge_slr2]
+
+create_pblock pblock_dvp_pipe_slr1
+resize_pblock [get_pblocks pblock_dvp_pipe_slr1] -add SLR1
+set_property IS_SOFT true [get_pblocks pblock_dvp_pipe_slr1]
+
 create_pblock pblock_dvp_sync_ch01
 resize_pblock [get_pblocks pblock_dvp_sync_ch01] -add CLOCKREGION_X4Y13
 set_property IS_SOFT true [get_pblocks pblock_dvp_sync_ch01]
@@ -150,16 +161,10 @@ add_cells_to_pblock [get_pblocks pblock_dvp_sync_ch67] \
     [get_cells -hierarchical -regexp \
         {.*g_camera_frontend\[[6-7]\]\.u_camera/dvp_(data|href|vsync|pclk)_sync_reg.*}]
 
-create_pblock pblock_dvp_bridge_slr2
-resize_pblock [get_pblocks pblock_dvp_bridge_slr2] -add SLR2
-set_property IS_SOFT true [get_pblocks pblock_dvp_bridge_slr2]
 add_cells_to_pblock [get_pblocks pblock_dvp_bridge_slr2] \
     [get_cells -hierarchical -regexp \
         {.*g_camera_frontend\[[0-3]\]\.u_camera/dvp_(data|href|vsync|pclk)_pipe_reg.*}]
 
-create_pblock pblock_dvp_pipe_slr1
-resize_pblock [get_pblocks pblock_dvp_pipe_slr1] -add SLR1
-set_property IS_SOFT true [get_pblocks pblock_dvp_pipe_slr1]
 add_cells_to_pblock [get_pblocks pblock_dvp_pipe_slr1] \
     [get_cells -hierarchical -regexp \
         {.*g_camera_frontend\[[4-7]\]\.u_camera/dvp_(data|href|vsync|pclk)_pipe_reg.*}]

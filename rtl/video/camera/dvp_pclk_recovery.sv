@@ -200,6 +200,12 @@ module dvp_pclk_recovery #(
     reg [FP_WIDTH-1:0] diag_phase_value;
     reg diag_interval_event;
     reg [15:0] diag_interval_value;
+    reg loss_snapshot_event;
+    reg [3:0] loss_snapshot_reason;
+    reg [23:0] loss_snapshot_period;
+    reg [23:0] loss_snapshot_candidate_period;
+    reg [23:0] loss_snapshot_phase_error;
+    reg [15:0] loss_snapshot_interval;
     // Candidate classification pipeline. A DVP edge is at least PERIOD_MIN
     // 300 MHz clocks from the next one, so one registered classification
     // stage preserves throughput while removing the raw interval arithmetic
@@ -356,12 +362,13 @@ module dvp_pclk_recovery #(
             raw_candidate_interval <= 16'd0;
             lock_score <= 6'd0;
             recovery_confirm_count <= 4'd0;
-            last_loss_reason <= 4'd0;
             loss_event <= 1'b0;
-            period_at_loss <= 24'd0;
-            candidate_period_at_loss <= 24'd0;
-            phase_error_at_loss <= 24'd0;
-            interval_at_loss <= 16'd0;
+            loss_snapshot_event <= 1'b0;
+            loss_snapshot_reason <= 4'd0;
+            loss_snapshot_period <= 24'd0;
+            loss_snapshot_candidate_period <= 24'd0;
+            loss_snapshot_phase_error <= 24'd0;
+            loss_snapshot_interval <= 16'd0;
             diag_candidate_event <= 1'b0;
             diag_valid_event <= 1'b0;
             diag_glitch_event <= 1'b0;
@@ -395,6 +402,7 @@ module dvp_pclk_recovery #(
         end else begin
             recovered_edge <= 1'b0;
             loss_event <= 1'b0;
+            loss_snapshot_event <= 1'b0;
             diag_candidate_event <= 1'b0;
             diag_valid_event <= 1'b0;
             diag_glitch_event <= 1'b0;
@@ -690,15 +698,16 @@ module dvp_pclk_recovery #(
                                 accepted_edge_seen <= 1'b0;
                                 lock_score <= 6'd0;
                                 recovery_confirm_count <= 4'd0;
-                                last_loss_reason <=
+                                loss_snapshot_reason <=
                                     (recovery_state == STATE_HOLDOVER) ?
                                     4'd9 : 4'd2;
                                 loss_event <= 1'b1;
-                                period_at_loss <= period_est_fp;
-                                candidate_period_at_loss <=
+                                loss_snapshot_event <= 1'b1;
+                                loss_snapshot_period <= period_est_fp;
+                                loss_snapshot_candidate_period <=
                                     candidate_period_est_fp;
-                                phase_error_at_loss <= phase_error_fp;
-                                interval_at_loss <= last_interval;
+                                loss_snapshot_phase_error <= phase_error_fp;
+                                loss_snapshot_interval <= last_interval;
                                 diag_lock_loss_event <= 1'b1;
                             end
                         end
@@ -741,12 +750,13 @@ module dvp_pclk_recovery #(
                 accepted_edge_seen <= 1'b0;
                 lock_score <= 6'd0;
                 recovery_confirm_count <= 4'd0;
-                last_loss_reason <= 4'd1;
                 loss_event <= 1'b1;
-                period_at_loss <= period_est_fp;
-                candidate_period_at_loss <= candidate_period_est_fp;
-                phase_error_at_loss <= phase_error_fp;
-                interval_at_loss <= last_interval;
+                loss_snapshot_event <= 1'b1;
+                loss_snapshot_reason <= 4'd1;
+                loss_snapshot_period <= period_est_fp;
+                loss_snapshot_candidate_period <= candidate_period_est_fp;
+                loss_snapshot_phase_error <= phase_error_fp;
+                loss_snapshot_interval <= last_interval;
                 diag_period_range_fault_event <= 1'b1;
                 if (pclk_locked || recovery_state == STATE_HOLDOVER)
                     diag_lock_loss_event <= 1'b1;
@@ -760,23 +770,37 @@ module dvp_pclk_recovery #(
                 acquire_good_count <= 8'd0;
                 lock_score <= 6'd0;
                 harmonic_confirm <= 4'd0;
-                last_loss_reason <= 4'd4;
                 loss_event <= 1'b1;
-                period_at_loss <= period_est_fp;
-                candidate_period_at_loss <= candidate_period_est_fp;
-                phase_error_at_loss <= phase_error_fp;
-                interval_at_loss <= last_interval;
+                loss_snapshot_event <= 1'b1;
+                loss_snapshot_reason <= 4'd4;
+                loss_snapshot_period <= period_est_fp;
+                loss_snapshot_candidate_period <= candidate_period_est_fp;
+                loss_snapshot_phase_error <= phase_error_fp;
+                loss_snapshot_interval <= last_interval;
                 diag_harmonic_reject_event <= 1'b1;
                 diag_lock_loss_event <= 1'b1;
             end
 
-            if (diag_clear) begin
-                last_loss_reason <= 4'd0;
-                period_at_loss <= 24'd0;
-                candidate_period_at_loss <= 24'd0;
-                phase_error_at_loss <= 24'd0;
-                interval_at_loss <= 16'd0;
-            end
+        end
+    end
+
+    // Loss snapshots are diagnostic payloads.  Capture the functional state
+    // into local event registers first, then update the externally visible
+    // snapshot one clock later.  This keeps the recovery-state comparison and
+    // phase arithmetic away from the wide diagnostic register enables.
+    always @(posedge clk_300m) begin
+        if (!resetn || diag_clear) begin
+            last_loss_reason <= 4'd0;
+            period_at_loss <= 24'd0;
+            candidate_period_at_loss <= 24'd0;
+            phase_error_at_loss <= 24'd0;
+            interval_at_loss <= 16'd0;
+        end else if (loss_snapshot_event) begin
+            last_loss_reason <= loss_snapshot_reason;
+            period_at_loss <= loss_snapshot_period;
+            candidate_period_at_loss <= loss_snapshot_candidate_period;
+            phase_error_at_loss <= loss_snapshot_phase_error;
+            interval_at_loss <= loss_snapshot_interval;
         end
     end
 

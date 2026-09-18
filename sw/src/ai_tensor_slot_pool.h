@@ -28,6 +28,7 @@ typedef struct {
     uint64_t timestamp;
     uint32_t version;
     uint32_t byte_count;
+    uint32_t error_code;
     uint32_t owner_worker;
     uint32_t generation;
     AiTensorSlotState state;

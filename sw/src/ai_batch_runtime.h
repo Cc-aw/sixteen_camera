@@ -39,9 +39,16 @@ typedef struct {
 typedef struct {
     uint64_t last_frame_id;
     uint64_t last_service_cycle;
+    uint64_t last_complete_cycle;
+    uint64_t next_deadline;
+    uint64_t max_service_gap_cycles;
+    uint64_t last_result_cycle;
+    uint32_t last_version;
     uint32_t dispatched_count;
     uint32_t completed_count;
     uint32_t superseded_count;
+    uint32_t missed_deadline_count;
+    uint32_t expired_result_count;
     uint32_t inflight_count;
     uint32_t last_frame_valid;
 } AiStreamRuntimeStatus;

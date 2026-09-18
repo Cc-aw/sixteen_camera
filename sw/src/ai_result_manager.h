@@ -18,5 +18,7 @@ int ai_result_manager_publish(AiResultManager *manager,
                               const AiDetectionResult *result);
 const AiDetectionResult *ai_result_manager_latest(
     const AiResultManager *manager, uint32_t stream_id);
+int ai_result_manager_invalidate(AiResultManager *manager,
+                                 uint32_t stream_id);
 
 #endif

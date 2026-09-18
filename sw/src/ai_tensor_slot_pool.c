@@ -40,6 +40,7 @@ void ai_tensor_slot_pool_init(AiTensorSlotPool *pool)
         slot->timestamp = 0U;
         slot->version = 0U;
         slot->byte_count = 0U;
+        slot->error_code = 0U;
         slot->owner_worker = AI_TENSOR_SLOT_INVALID;
         slot->generation = 0U;
         slot->state = AI_TENSOR_SLOT_FREE;
@@ -74,6 +75,7 @@ int ai_tensor_slot_begin_write(AiTensorSlotPool *pool, uint32_t stream_id,
     slot->timestamp = timestamp;
     slot->version = version;
     slot->byte_count = 0U;
+    slot->error_code = 0U;
     slot->owner_worker = AI_TENSOR_SLOT_INVALID;
     slot->state = AI_TENSOR_SLOT_WRITING;
     handle->index = selected;
@@ -90,6 +92,7 @@ int ai_tensor_slot_finish_write(AiTensorSlotPool *pool,
         return -1;
     slot->byte_count = byte_count;
     if (write_error || byte_count != TENSOR_MEMBER_BYTES) {
+        slot->error_code = write_error != 0 ? (uint32_t)write_error : 1U;
         slot->state = AI_TENSOR_SLOT_ERROR;
         return -1;
     }

@@ -108,6 +108,9 @@ static void test_result_manager(void)
     assert(ai_result_manager_latest(&manager, 7U)->frame_id == 11U);
     assert(ai_result_manager_latest(&manager, 7U)->count == 0U);
     assert(manager.publish_count == 2U && manager.stale_count == 1U);
+    assert(ai_result_manager_invalidate(&manager, 7U) == 1);
+    assert(ai_result_manager_latest(&manager, 7U) == NULL);
+    assert(ai_result_manager_invalidate(&manager, 7U) == 0);
 }
 
 static void test_display_map(void)

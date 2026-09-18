@@ -82,6 +82,10 @@ module multi_channel_ddr_video_pipeline #(
     wire [31:0] tensor_sidecar_bytes_cpu;
     wire [31:0] tensor_sidecar_overflows_cpu;
     wire tensor_production_enable_cpu, tensor_production_enable_ddr;
+    wire [15:0] tensor_production_admission_mask_cpu;
+    wire [15:0] tensor_production_admission_mask_ddr;
+    wire [4:0] tensor_production_admission_limit_cpu;
+    wire [4:0] tensor_production_admission_limit_ddr;
     wire tensor_production_release_toggle_cpu;
     wire tensor_production_release_toggle_ddr;
     reg tensor_production_release_seen_ddr;
@@ -95,19 +99,33 @@ module multi_channel_ddr_video_pipeline #(
     wire [31:0] tensor_production_error_ddr, tensor_production_error_cpu;
     wire tensor_production_quiescent_ddr, tensor_production_quiescent_cpu;
     wire [32*32-1:0] tensor_production_frames_ddr, tensor_production_frames_cpu;
+    wire [32*64-1:0] tensor_production_timestamps_ddr;
+    wire [32*64-1:0] tensor_production_timestamps_cpu;
+    wire [32*32-1:0] tensor_production_versions_ddr;
+    wire [32*32-1:0] tensor_production_versions_cpu;
+    wire [32*8-1:0] tensor_production_error_codes_ddr;
+    wire [32*8-1:0] tensor_production_error_codes_cpu;
     wire [32*32-1:0] tensor_production_bytes_ddr, tensor_production_bytes_cpu;
     wire [16*32-1:0] tensor_production_no_slot_ddr, tensor_production_no_slot_cpu;
     wire [16*32-1:0] tensor_production_missed_ddr, tensor_production_missed_cpu;
+    wire [16*32-1:0] tensor_production_admission_skip_ddr;
+    wire [16*32-1:0] tensor_production_admission_skip_cpu;
     wire [16*32-1:0] tensor_production_overflows_ddr, tensor_production_overflows_cpu;
+    wire [15:0] tensor_dma_outstanding_ddr, tensor_dma_outstanding_cpu;
+    wire [15:0] tensor_dma_outstanding_max_ddr, tensor_dma_outstanding_max_cpu;
+    wire [31:0] tensor_dma_starvation_ddr, tensor_dma_starvation_cpu;
+    wire [31:0] tensor_dma_aw_stall_ddr, tensor_dma_aw_stall_cpu;
+    wire [31:0] tensor_dma_w_stall_ddr, tensor_dma_w_stall_cpu;
+    wire [31:0] tensor_dma_w_transfer_ddr, tensor_dma_w_transfer_cpu;
+    wire [31:0] tensor_dma_b_wait_ddr, tensor_dma_b_wait_cpu;
+    wire [31:0] tensor_dma_bursts_ddr, tensor_dma_bursts_cpu;
+    wire [31:0] tensor_dma_completed_ddr, tensor_dma_completed_cpu;
+    wire [31:0] tensor_dma_resp_errors_ddr, tensor_dma_resp_errors_cpu;
     wire [CHANNELS*48-1:0] tensor_tap_data;
     wire [CHANNELS-1:0] tensor_tap_accept;
     wire [CHANNELS-1:0] tensor_tap_sof, tensor_tap_eol;
     wire [CHANNELS-1:0] tensor_tap_eof, tensor_tap_error;
     wire [CHANNELS*32-1:0] tensor_tap_frame_id;
-    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
-        tensor_sidecar_write_axi();
-    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
-        tensor_production_write_axi();
     wire [CHANNEL_WIDTH-1:0] cfg_display_channel;
     wire cfg_display_mode;
     wire cfg_hdmi_capture_enable;
@@ -326,6 +344,10 @@ module multi_channel_ddr_video_pipeline #(
         .tensor_sidecar_bytes(tensor_sidecar_bytes_cpu),
         .tensor_sidecar_overflows(tensor_sidecar_overflows_cpu),
         .tensor_production_enable(tensor_production_enable_cpu),
+        .tensor_production_admission_mask(
+            tensor_production_admission_mask_cpu),
+        .tensor_production_admission_limit(
+            tensor_production_admission_limit_cpu),
         .tensor_production_release_toggle(
             tensor_production_release_toggle_cpu),
         .tensor_production_release_mask(
@@ -336,10 +358,25 @@ module multi_channel_ddr_video_pipeline #(
         .tensor_production_error_mask(tensor_production_error_cpu),
         .tensor_production_quiescent(tensor_production_quiescent_cpu),
         .tensor_production_frame_ids(tensor_production_frames_cpu),
+        .tensor_production_timestamps(tensor_production_timestamps_cpu),
+        .tensor_production_versions(tensor_production_versions_cpu),
+        .tensor_production_error_codes(tensor_production_error_codes_cpu),
         .tensor_production_byte_counts(tensor_production_bytes_cpu),
         .tensor_production_no_slot_counts(tensor_production_no_slot_cpu),
         .tensor_production_missed_counts(tensor_production_missed_cpu),
+        .tensor_production_admission_skip_counts(
+            tensor_production_admission_skip_cpu),
         .tensor_production_overflow_counts(tensor_production_overflows_cpu),
+        .tensor_dma_outstanding_current(tensor_dma_outstanding_cpu),
+        .tensor_dma_outstanding_max(tensor_dma_outstanding_max_cpu),
+        .tensor_dma_source_starvation(tensor_dma_starvation_cpu),
+        .tensor_dma_aw_stall_cycles(tensor_dma_aw_stall_cpu),
+        .tensor_dma_w_stall_cycles(tensor_dma_w_stall_cpu),
+        .tensor_dma_w_transfer_cycles(tensor_dma_w_transfer_cpu),
+        .tensor_dma_b_wait_cycles(tensor_dma_b_wait_cpu),
+        .tensor_dma_bursts_issued(tensor_dma_bursts_cpu),
+        .tensor_dma_bursts_completed(tensor_dma_completed_cpu),
+        .tensor_dma_response_errors(tensor_dma_resp_errors_cpu),
         .cfg_display_channel(cfg_display_channel),
         .cfg_display_mode(cfg_display_mode),
         .cfg_hdmi_capture_enable(cfg_hdmi_capture_enable),
@@ -472,6 +509,17 @@ module multi_channel_ddr_video_pipeline #(
         .src_clk(control_axil.aclk), .src_in(tensor_production_enable_cpu),
         .dest_clk(video_clk), .dest_out(tensor_production_enable_ddr)
     );
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(21)
+    ) u_tensor_production_admission_cfg_cdc (
+        .src_clk(control_axil.aclk),
+        .src_in({tensor_production_admission_limit_cpu,
+                 tensor_production_admission_mask_cpu}),
+        .dest_clk(video_clk),
+        .dest_out({tensor_production_admission_limit_ddr,
+                   tensor_production_admission_mask_ddr})
+    );
     xpm_cdc_single #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1)
@@ -520,6 +568,40 @@ module multi_channel_ddr_video_pipeline #(
     xpm_cdc_array_single #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1), .WIDTH(1024)
+    ) u_tensor_production_timestamp0_cdc (
+        .src_clk(video_clk),
+        .src_in(tensor_production_timestamps_ddr[0 +: 1024]),
+        .dest_clk(control_axil.aclk),
+        .dest_out(tensor_production_timestamps_cpu[0 +: 1024])
+    );
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(1024)
+    ) u_tensor_production_timestamp1_cdc (
+        .src_clk(video_clk),
+        .src_in(tensor_production_timestamps_ddr[1024 +: 1024]),
+        .dest_clk(control_axil.aclk),
+        .dest_out(tensor_production_timestamps_cpu[1024 +: 1024])
+    );
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(1024)
+    ) u_tensor_production_version_cdc (
+        .src_clk(video_clk), .src_in(tensor_production_versions_ddr),
+        .dest_clk(control_axil.aclk),
+        .dest_out(tensor_production_versions_cpu)
+    );
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(256)
+    ) u_tensor_production_error_code_cdc (
+        .src_clk(video_clk), .src_in(tensor_production_error_codes_ddr),
+        .dest_clk(control_axil.aclk),
+        .dest_out(tensor_production_error_codes_cpu)
+    );
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(1024)
     ) u_tensor_production_bytes_cdc (
         .src_clk(video_clk), .src_in(tensor_production_bytes_ddr),
         .dest_clk(control_axil.aclk), .dest_out(tensor_production_bytes_cpu)
@@ -541,10 +623,38 @@ module multi_channel_ddr_video_pipeline #(
     xpm_cdc_array_single #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
         .SRC_INPUT_REG(1), .WIDTH(512)
+    ) u_tensor_production_admission_skip_cdc (
+        .src_clk(video_clk),
+        .src_in(tensor_production_admission_skip_ddr),
+        .dest_clk(control_axil.aclk),
+        .dest_out(tensor_production_admission_skip_cpu)
+    );
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(512)
     ) u_tensor_production_overflow_cdc (
         .src_clk(video_clk), .src_in(tensor_production_overflows_ddr),
         .dest_clk(control_axil.aclk),
         .dest_out(tensor_production_overflows_cpu)
+    );
+    xpm_cdc_array_single #(
+        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
+        .SRC_INPUT_REG(1), .WIDTH(288)
+    ) u_tensor_dma_perf_cdc (
+        .src_clk(video_clk),
+        .src_in({tensor_dma_outstanding_ddr,
+                 tensor_dma_outstanding_max_ddr,
+                 tensor_dma_starvation_ddr, tensor_dma_aw_stall_ddr,
+                 tensor_dma_w_stall_ddr, tensor_dma_w_transfer_ddr,
+                 tensor_dma_b_wait_ddr, tensor_dma_bursts_ddr,
+                 tensor_dma_completed_ddr, tensor_dma_resp_errors_ddr}),
+        .dest_clk(control_axil.aclk),
+        .dest_out({tensor_dma_outstanding_cpu,
+                   tensor_dma_outstanding_max_cpu,
+                   tensor_dma_starvation_cpu, tensor_dma_aw_stall_cpu,
+                   tensor_dma_w_stall_cpu, tensor_dma_w_transfer_cpu,
+                   tensor_dma_b_wait_cpu, tensor_dma_bursts_cpu,
+                   tensor_dma_completed_cpu, tensor_dma_resp_errors_cpu})
     );
     assign tensor_production_quiescent_ddr =
         !tensor_production_enable_ddr &&
@@ -1156,36 +1266,21 @@ module multi_channel_ddr_video_pipeline #(
             capture_channels[tensor_ch].error;
     end
 
-    yolov5nu_tensor_capture_sidecar #(
+    yolov5nu_multi_channel_tensor_dma #(
         .CHANNELS(CHANNELS), .FRAME_WIDTH(FRAME_WIDTH),
         .FRAME_HEIGHT(FRAME_HEIGHT)
-    ) u_tensor_sidecar (
+    ) u_tensor_dma (
         .clk(video_clk), .resetn(video_resetn),
-        .command_start(tensor_sidecar_start_ddr), .cancel(1'b0),
-        .command_channel(tensor_sidecar_channel_ddr),
-        .command_addr(tensor_sidecar_addr_ddr),
-        .tap_data(tensor_tap_data),
-        .tap_accept(tensor_tap_accept),
-        .tap_sof(tensor_tap_sof), .tap_eol(tensor_tap_eol),
-        .tap_eof(tensor_tap_eof),
-        .tap_frame_id(tensor_tap_frame_id),
-        .tap_error(tensor_tap_error),
-        .busy(tensor_sidecar_busy_ddr), .ready_for_frame(),
-        .completed(tensor_sidecar_completed_ddr),
-        .completion_error(tensor_sidecar_error_ddr),
-        .completion_channel(tensor_sidecar_done_channel_ddr),
-        .completion_frame_id(tensor_sidecar_frame_id_ddr),
-        .completion_bytes(tensor_sidecar_bytes_ddr),
-        .overflow_count(tensor_sidecar_overflows_ddr),
-        .m_axi(tensor_sidecar_write_axi)
-    );
-
-    yolov5nu_tensor_slot_ingest u_tensor_production (
-        .clk(video_clk), .resetn(video_resetn),
-        .enable(tensor_production_enable_ddr),
+        .production_enable(tensor_production_enable_ddr),
+        .admission_enable_mask(tensor_production_admission_mask_ddr),
+        .admission_limit(tensor_production_admission_limit_ddr),
         .release_pulse(tensor_production_release_pulse_ddr),
         .release_mask(tensor_production_release_mask_ddr),
-        .tap_data(tensor_tap_data), .tap_accept(tensor_tap_accept),
+        .diagnostic_start(tensor_sidecar_start_ddr),
+        .diagnostic_channel(tensor_sidecar_channel_ddr),
+        .diagnostic_addr(tensor_sidecar_addr_ddr),
+        .tap_data(tensor_tap_data),
+        .tap_accept(tensor_tap_accept),
         .tap_sof(tensor_tap_sof), .tap_eol(tensor_tap_eol),
         .tap_eof(tensor_tap_eof),
         .tap_frame_id(tensor_tap_frame_id),
@@ -1194,17 +1289,34 @@ module multi_channel_ddr_video_pipeline #(
         .writing_mask(tensor_production_writing_ddr),
         .error_mask(tensor_production_error_ddr),
         .slot_frame_ids(tensor_production_frames_ddr),
+        .slot_timestamps(tensor_production_timestamps_ddr),
+        .slot_versions(tensor_production_versions_ddr),
+        .slot_error_codes(tensor_production_error_codes_ddr),
         .slot_byte_counts(tensor_production_bytes_ddr),
         .no_slot_counts(tensor_production_no_slot_ddr),
         .missed_frame_counts(tensor_production_missed_ddr),
+        .admission_skip_counts(tensor_production_admission_skip_ddr),
         .overflow_counts(tensor_production_overflows_ddr),
-        .m_axi(tensor_production_write_axi)
-    );
-
-    axi4_write_arbiter2 u_tensor_production_arbiter (
-        .clk(video_clk), .resetn(video_resetn),
-        .s0_axi(tensor_sidecar_write_axi),
-        .s1_axi(tensor_production_write_axi),
+        .diagnostic_busy(tensor_sidecar_busy_ddr),
+        .diagnostic_completed(tensor_sidecar_completed_ddr),
+        .diagnostic_error(tensor_sidecar_error_ddr),
+        .diagnostic_done_channel(tensor_sidecar_done_channel_ddr),
+        .diagnostic_frame_id(tensor_sidecar_frame_id_ddr),
+        .diagnostic_bytes(tensor_sidecar_bytes_ddr),
+        .diagnostic_overflows(tensor_sidecar_overflows_ddr),
+        .perf_outstanding_current(tensor_dma_outstanding_ddr),
+        .perf_outstanding_max(tensor_dma_outstanding_max_ddr),
+        .perf_source_starvation(tensor_dma_starvation_ddr),
+        .perf_aw_stall_cycles(tensor_dma_aw_stall_ddr),
+        .perf_w_stall_cycles(tensor_dma_w_stall_ddr),
+        .perf_w_transfer_cycles(tensor_dma_w_transfer_ddr),
+        .perf_b_wait_cycles(tensor_dma_b_wait_ddr),
+        .perf_bursts_issued(tensor_dma_bursts_ddr),
+        .perf_bursts_completed(tensor_dma_completed_ddr),
+        .perf_response_errors(tensor_dma_resp_errors_ddr),
+        .perf_channel_index(4'd0), .perf_channel_fifo_level(),
+        .perf_channel_fifo_peak(), .perf_channel_wait_max(),
+        .perf_channel_bursts(),
         .m_axi(preprocess_write_axi)
     );
 

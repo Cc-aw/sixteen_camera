@@ -36,6 +36,8 @@ module multi_channel_framebuffer_ctrl #(
     input wire [31:0] tensor_sidecar_bytes,
     input wire [31:0] tensor_sidecar_overflows,
     output reg tensor_production_enable,
+    output reg [15:0] tensor_production_admission_mask,
+    output reg [4:0] tensor_production_admission_limit,
     output reg tensor_production_release_toggle,
     output reg [31:0] tensor_production_release_mask,
     input wire tensor_production_release_ack,
@@ -44,10 +46,24 @@ module multi_channel_framebuffer_ctrl #(
     input wire [31:0] tensor_production_error_mask,
     input wire tensor_production_quiescent,
     input wire [32*32-1:0] tensor_production_frame_ids,
+    input wire [32*64-1:0] tensor_production_timestamps,
+    input wire [32*32-1:0] tensor_production_versions,
+    input wire [32*8-1:0] tensor_production_error_codes,
     input wire [32*32-1:0] tensor_production_byte_counts,
     input wire [16*32-1:0] tensor_production_no_slot_counts,
     input wire [16*32-1:0] tensor_production_missed_counts,
+    input wire [16*32-1:0] tensor_production_admission_skip_counts,
     input wire [16*32-1:0] tensor_production_overflow_counts,
+    input wire [15:0] tensor_dma_outstanding_current,
+    input wire [15:0] tensor_dma_outstanding_max,
+    input wire [31:0] tensor_dma_source_starvation,
+    input wire [31:0] tensor_dma_aw_stall_cycles,
+    input wire [31:0] tensor_dma_w_stall_cycles,
+    input wire [31:0] tensor_dma_w_transfer_cycles,
+    input wire [31:0] tensor_dma_b_wait_cycles,
+    input wire [31:0] tensor_dma_bursts_issued,
+    input wire [31:0] tensor_dma_bursts_completed,
+    input wire [31:0] tensor_dma_response_errors,
     output reg [((CHANNELS <= 1) ? 1 : $clog2(CHANNELS))-1:0]
         cfg_display_channel,
     output reg cfg_display_mode,
@@ -228,6 +244,26 @@ module multi_channel_framebuffer_ctrl #(
     localparam [9:0] REG_TENSOR_PROD_NO_SLOT = 10'h2f0;
     localparam [9:0] REG_TENSOR_PROD_OVERFLOW = 10'h2f4;
     localparam [9:0] REG_TENSOR_PROD_MISSED = 10'h2f8;
+    localparam [9:0] REG_TENSOR_DMA_OUTSTANDING = 10'h300;
+    localparam [9:0] REG_TENSOR_DMA_OUTSTANDING_MAX = 10'h304;
+    localparam [9:0] REG_TENSOR_DMA_STARVATION = 10'h308;
+    localparam [9:0] REG_TENSOR_DMA_AW_STALL = 10'h30c;
+    localparam [9:0] REG_TENSOR_DMA_W_STALL = 10'h310;
+    localparam [9:0] REG_TENSOR_DMA_W_TRANSFER = 10'h314;
+    localparam [9:0] REG_TENSOR_DMA_B_WAIT = 10'h318;
+    localparam [9:0] REG_TENSOR_DMA_BURSTS = 10'h31c;
+    localparam [9:0] REG_TENSOR_DMA_COMPLETED = 10'h320;
+    localparam [9:0] REG_TENSOR_DMA_RESP_ERRORS = 10'h324;
+    localparam [9:0] REG_TENSOR_PROD_TIME_LO = 10'h328;
+    localparam [9:0] REG_TENSOR_PROD_TIME_HI = 10'h32c;
+    localparam [9:0] REG_TENSOR_PROD_VERSION = 10'h330;
+    localparam [9:0] REG_TENSOR_PROD_STREAM = 10'h334;
+    localparam [9:0] REG_TENSOR_PROD_ADDR = 10'h338;
+    localparam [9:0] REG_TENSOR_PROD_STATE = 10'h33c;
+    localparam [9:0] REG_TENSOR_PROD_ERROR_CODE = 10'h340;
+    localparam [9:0] REG_TENSOR_PROD_ADMISSION_MASK = 10'h344;
+    localparam [9:0] REG_TENSOR_PROD_ADMISSION_LIMIT = 10'h348;
+    localparam [9:0] REG_TENSOR_PROD_ADMISSION_SKIP = 10'h34c;
 
     reg [9:0] awaddr_hold;
     reg [31:0] wdata_hold;
@@ -333,13 +369,15 @@ module multi_channel_framebuffer_ctrl #(
             cfg_buffer_stride_bytes <= 32'h0040_0000;
             preprocess_arena0_base <= 32'h3000_0000;
             preprocess_arena1_base <= 32'h3100_0000;
-            preprocess_member_stride <= 32'h0007_ec00;
+            preprocess_member_stride <= 32'h000e_1000;
             preprocess_member_bytes <= 32'h0007_ec00;
             preprocess_format_640x480 <= 1'b0;
             tensor_sidecar_req_toggle <= 1'b0;
             tensor_sidecar_channel <= 4'd0;
             tensor_sidecar_addr <= 32'h3100_0000;
             tensor_production_enable <= 1'b0;
+            tensor_production_admission_mask <= CAMERA_PRESENT_MASK;
+            tensor_production_admission_limit <= 5'd1;
             tensor_production_release_toggle <= 1'b0;
             tensor_production_release_mask <= 32'd0;
             tensor_production_index <= 5'd0;
@@ -494,6 +532,20 @@ module multi_channel_framebuffer_ctrl #(
                     REG_TENSOR_PROD_INDEX: if (write_strb[0] &&
                                                write_data < 32)
                         tensor_production_index <= write_data[4:0];
+                    REG_TENSOR_PROD_ADMISSION_MASK:
+                        if (!tensor_production_enable) begin
+                            if (write_strb[0])
+                                tensor_production_admission_mask[7:0] <=
+                                    write_data[7:0];
+                            if (write_strb[1])
+                                tensor_production_admission_mask[15:8] <=
+                                    write_data[15:8];
+                        end
+                    REG_TENSOR_PROD_ADMISSION_LIMIT:
+                        if (!tensor_production_enable && write_strb[0] &&
+                            write_data >= 1 && write_data <= CHANNELS)
+                            tensor_production_admission_limit <=
+                                write_data[4:0];
                     REG_OVERLAY_CONTROL: if (write_strb[0] &&
                                                 write_data[0] &&
                                                 !overlay_commit_busy &&
@@ -714,6 +766,65 @@ module multi_channel_framebuffer_ctrl #(
                             tensor_production_index[3:0]*32 +: 32];
                     REG_TENSOR_PROD_MISSED:
                         rdata <= tensor_production_missed_counts[
+                            tensor_production_index[3:0]*32 +: 32];
+                    REG_TENSOR_DMA_OUTSTANDING:
+                        rdata <= {16'd0, tensor_dma_outstanding_current};
+                    REG_TENSOR_DMA_OUTSTANDING_MAX:
+                        rdata <= {16'd0, tensor_dma_outstanding_max};
+                    REG_TENSOR_DMA_STARVATION:
+                        rdata <= tensor_dma_source_starvation;
+                    REG_TENSOR_DMA_AW_STALL:
+                        rdata <= tensor_dma_aw_stall_cycles;
+                    REG_TENSOR_DMA_W_STALL:
+                        rdata <= tensor_dma_w_stall_cycles;
+                    REG_TENSOR_DMA_W_TRANSFER:
+                        rdata <= tensor_dma_w_transfer_cycles;
+                    REG_TENSOR_DMA_B_WAIT:
+                        rdata <= tensor_dma_b_wait_cycles;
+                    REG_TENSOR_DMA_BURSTS:
+                        rdata <= tensor_dma_bursts_issued;
+                    REG_TENSOR_DMA_COMPLETED:
+                        rdata <= tensor_dma_bursts_completed;
+                    REG_TENSOR_DMA_RESP_ERRORS:
+                        rdata <= tensor_dma_response_errors;
+                    REG_TENSOR_PROD_TIME_LO:
+                        rdata <= tensor_production_timestamps[
+                            tensor_production_index*64 +: 32];
+                    REG_TENSOR_PROD_TIME_HI:
+                        rdata <= tensor_production_timestamps[
+                            tensor_production_index*64 + 32 +: 32];
+                    REG_TENSOR_PROD_VERSION:
+                        rdata <= tensor_production_versions[
+                            tensor_production_index*32 +: 32];
+                    REG_TENSOR_PROD_STREAM:
+                        rdata <= {28'd0, tensor_production_index[3:0]};
+                    REG_TENSOR_PROD_ADDR:
+                        rdata <= (tensor_production_index[4] ?
+                                  preprocess_arena1_base :
+                                  preprocess_arena0_base) +
+                                 tensor_production_index[3:0] *
+                                 preprocess_member_stride;
+                    REG_TENSOR_PROD_STATE:
+                        if (tensor_production_error_mask[
+                                tensor_production_index])
+                            rdata <= 32'd4;
+                        else if (tensor_production_writing_mask[
+                                     tensor_production_index])
+                            rdata <= 32'd1;
+                        else if (tensor_production_ready_mask[
+                                     tensor_production_index])
+                            rdata <= 32'd2;
+                        else
+                            rdata <= 32'd0;
+                    REG_TENSOR_PROD_ERROR_CODE:
+                        rdata <= {24'd0, tensor_production_error_codes[
+                            tensor_production_index*8 +: 8]};
+                    REG_TENSOR_PROD_ADMISSION_MASK:
+                        rdata <= {16'd0, tensor_production_admission_mask};
+                    REG_TENSOR_PROD_ADMISSION_LIMIT:
+                        rdata <= {27'd0, tensor_production_admission_limit};
+                    REG_TENSOR_PROD_ADMISSION_SKIP:
+                        rdata <= tensor_production_admission_skip_counts[
                             tensor_production_index[3:0]*32 +: 32];
                     REG_OVERLAY_CONTROL:
                         rdata <= {30'd0, overlay_commit_busy,

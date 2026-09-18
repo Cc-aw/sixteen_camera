@@ -22,7 +22,7 @@ module tb_axi4_write_cdc #(parameter integer TEST_REMAP_ID = 31);
     reg m_wlast_seen;
     integer timeout;
 
-    axi4_write_cdc #(.FIFO_ADDR_WIDTH(2), .FBUS_WRITE_ID(TEST_REMAP_ID)) dut (
+    axi4_write_cdc #(.FIFO_ADDR_WIDTH(4), .FBUS_WRITE_ID(TEST_REMAP_ID)) dut (
         .s_axi(s_axi), .m_clk(m_clk), .m_resetn(m_resetn), .m_axi(m_axi)
     );
 
@@ -92,13 +92,12 @@ module tb_axi4_write_cdc #(parameter integer TEST_REMAP_ID = 31);
             s_axi.awqos = 4'd0;
             s_axi.awvalid = 1'b1;
             timeout = 0;
-            while (!s_axi.awready) begin
+            do begin
                 @(posedge s_clk);
                 timeout = timeout + 1;
                 if (timeout > 100)
                     $fatal(1, "source AW timeout");
-            end
-            @(posedge s_clk);
+            end while (!s_axi.awready);
             @(negedge s_clk);
             s_axi.awvalid = 1'b0;
 
@@ -107,13 +106,12 @@ module tb_axi4_write_cdc #(parameter integer TEST_REMAP_ID = 31);
             s_axi.wlast = 1'b1;
             s_axi.wvalid = 1'b1;
             timeout = 0;
-            while (!s_axi.wready) begin
+            do begin
                 @(posedge s_clk);
                 timeout = timeout + 1;
                 if (timeout > 100)
                     $fatal(1, "source W timeout");
-            end
-            @(posedge s_clk);
+            end while (!s_axi.wready);
             @(negedge s_clk);
             s_axi.wvalid = 1'b0;
         end
@@ -157,7 +155,8 @@ module tb_axi4_write_cdc #(parameter integer TEST_REMAP_ID = 31);
                     $fatal(1, "source B timeout");
             end
             if (s_axi.bid !== expected_id || s_axi.bresp !== 2'b00)
-                $fatal(1, "source B mismatch");
+                $fatal(1, "source B mismatch: got id=%0d resp=%0d expected id=%0d",
+                       s_axi.bid, s_axi.bresp, expected_id);
             s_axi.bready = 1'b1;
             @(posedge s_clk);
             @(negedge s_clk);

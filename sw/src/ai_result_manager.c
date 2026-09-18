@@ -56,3 +56,16 @@ const AiDetectionResult *ai_result_manager_latest(
         return 0;
     return &manager->latest[stream_id];
 }
+
+int ai_result_manager_invalidate(AiResultManager *manager,
+                                 uint32_t stream_id)
+{
+    if (manager == 0 || stream_id >= VIDEO_CHANNEL_COUNT)
+        return -1;
+    uint16_t mask = (uint16_t)(UINT16_C(1) << stream_id);
+    if ((manager->valid_mask & mask) == 0U)
+        return 0;
+    manager->valid_mask &= (uint16_t)~mask;
+    manager->latest[stream_id].count = 0U;
+    return 1;
+}

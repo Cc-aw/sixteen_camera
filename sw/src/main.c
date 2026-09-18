@@ -520,7 +520,8 @@ static void tensor_production_service(void)
         console_puts("TENSOR PROD drained\r\n");
     }
     if (read_cycle() - tensor_production_report_cycle >= SOC_CLOCK_HZ) {
-        uint32_t no_slot = 0U, missed = 0U, overflow = 0U;
+        uint32_t no_slot = 0U, missed = 0U, admission_skip = 0U;
+        uint32_t overflow = 0U;
         for (uint32_t channel = 0U; channel < VIDEO_CHANNEL_COUNT; ++channel) {
             mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_INDEX,
                          channel);
@@ -529,6 +530,9 @@ static void tensor_production_service(void)
                                    FRAMEBUFFER_TENSOR_PROD_NO_SLOT);
             missed += mmio_read32(FRAMEBUFFER_BASE +
                                   FRAMEBUFFER_TENSOR_PROD_MISSED);
+            admission_skip += mmio_read32(
+                FRAMEBUFFER_BASE +
+                FRAMEBUFFER_TENSOR_PROD_ADMISSION_SKIP);
             overflow += mmio_read32(FRAMEBUFFER_BASE +
                                     FRAMEBUFFER_TENSOR_PROD_OVERFLOW);
         }
@@ -537,8 +541,10 @@ static void tensor_production_service(void)
             if (channel != 0U) console_putc(',');
             console_put_u32(tensor_production_done[channel]);
         }
-        console_puts(" missed/no_slot/overflow/error=");
+        console_puts(" missed/admit_skip/no_slot/overflow/error=");
         console_put_u32(missed);
+        console_putc('/');
+        console_put_u32(admission_skip);
         console_putc('/');
         console_put_u32(no_slot);
         console_putc('/');
@@ -573,6 +579,12 @@ static void tensor_production_toggle(void)
         tensor_production_done[channel] = 0U;
         tensor_production_last_frame[channel] = 0U;
     }
+    mmio_write32(FRAMEBUFFER_BASE +
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_MASK,
+                 CAMERA_PRESENT_MASK);
+    mmio_write32(FRAMEBUFFER_BASE +
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT, 1U);
+    mmio_fence();
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL,
                  FRAMEBUFFER_TENSOR_PROD_ENABLE);
     mmio_fence();
@@ -590,6 +602,12 @@ static void tensor_production_init(void)
 {
     /* A Rocket debugger reset may leave the video clock domain running. */
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL, 0U);
+    mmio_fence();
+    mmio_write32(FRAMEBUFFER_BASE +
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_MASK,
+                 CAMERA_PRESENT_MASK);
+    mmio_write32(FRAMEBUFFER_BASE +
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT, 1U);
     mmio_fence();
     uint64_t start = read_cycle();
     while (mmio_read32(FRAMEBUFFER_BASE +
