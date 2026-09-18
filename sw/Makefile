@@ -63,7 +63,8 @@ LOCAL_SOURCES := src/main.c src/console.c src/runtime.c src/board_runtime.c src/
 
 ifeq ($(AI_MODEL),yolov5nu)
 LOCAL_SOURCES += src/ai_batch_runtime_stream.c \
-	src/ai_model_backend_yolov5nu.c src/ai_yolov5nu_selftest.c
+	src/ai_head_slot_queue.c src/ai_model_backend_yolov5nu.c \
+	src/ai_yolov5nu_selftest.c
 MODEL_OBJECT := $(BUILD)/yolov5nu_dim16_dual.o
 else
 LOCAL_SOURCES += src/ai_preprocess.c src/ai_batch_runtime.c \

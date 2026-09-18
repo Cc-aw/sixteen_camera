@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "platform.h"
+#include "yolov5nu_head_layout.h"
 uint64_t test_cycle;
 static uint32_t regs[128];
 static unsigned launches;
@@ -40,6 +41,13 @@ static void complete_read(void)
 int main(void)
 {
     AiPostprocessBandwidthResult result = {0};
+    assert(YOLOV5NU_HEAD_PAYLOAD_BYTES <= YOLOV5NU_HEAD_SLOT_STRIDE);
+    assert(YOLOV5NU_HEAD_POOL_BYTES <= AI_MODEL_OUTPUT_ARENA_BYTES);
+    assert(AI_POSTPROCESS_BANDWIDTH_PHYS_BASE >=
+           AI_MODEL_OUTPUT0_PHYS_BASE + YOLOV5NU_HEAD_POOL_BYTES);
+    assert(AI_POSTPROCESS_BANDWIDTH_PHYS_BASE +
+           AI_POSTPROCESS_BANDWIDTH_BYTES <=
+           AI_MODEL_OUTPUT0_PHYS_BASE + AI_MODEL_OUTPUT_ARENA_BYTES);
     reset_test();
     assert(ai_postprocess_bandwidth_poll(&result) == 0 && launches == 0);
     test_cycle = SOC_CLOCK_HZ / 1000;

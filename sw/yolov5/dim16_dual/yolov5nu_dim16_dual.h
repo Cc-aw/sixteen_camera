@@ -51,6 +51,14 @@ uint32_t yolov5nu_dim16_worker_stage(uint32_t worker_id);
 uint64_t yolov5nu_dim16_worker_busy(uint32_t worker_id);
 void yolov5nu_dim16_worker_use_hardware(uint32_t worker_id, int enabled);
 uintptr_t yolov5nu_dim16_worker_arena(uint32_t worker_id);
+/*
+ * Select a dedicated raw-head destination before the first worker poll.
+ * A zero address preserves the legacy activation-arena layout used by the
+ * software fallback and the static hardware/software comparison.
+ */
+void yolov5nu_dim16_worker_set_head_slot(uint32_t worker_id,
+                                        uintptr_t head_slot_addr);
+uintptr_t yolov5nu_dim16_worker_head_slot(uint32_t worker_id);
 void yolov5nu_dim16_worker_finish_hardware(uint32_t worker_id);
 // Resume the software head/Decode/NMS path from raw Gemmini heads retained
 // after YOLOV5NU_DIM16_HEAD_READY. Used by the static PPU comparison.

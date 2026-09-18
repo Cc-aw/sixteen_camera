@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 
 // Split the fixed 3840x2160p30, RGB888, 2-PPC transport described in
-// doc/8路640x480视频在4K30_HDMI中的空间封装规范.md into eight native
+// doc/接口规范/8路640x480视频在4K30_HDMI中的空间封装规范.md into eight native
 // 640x480 streams.  The HDMI input is never backpressured: if one downstream
 // channel cannot accept a cropped beat, only that channel/frame is marked
 // bad and the transport coordinate tracker continues to run.

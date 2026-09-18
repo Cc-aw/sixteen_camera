@@ -191,7 +191,7 @@ static void ai_postprocess_bandwidth_begin(uint32_t sweep)
     console_puts(sweep != 0U ?
         "AI POST burst sweep prepare bytes/iterations/burstB=" :
         "AI POST bandwidth prepare bytes/iterations/burstB=");
-    console_put_u32(AI_MODEL_OUTPUT_TENSOR_BYTES);
+    console_put_u32(AI_POSTPROCESS_BANDWIDTH_BYTES);
     console_putc('/');
     console_put_u32(iterations);
     console_putc('/');

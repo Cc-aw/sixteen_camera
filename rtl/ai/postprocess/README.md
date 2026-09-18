@@ -51,7 +51,7 @@ measured only 118 MB/s. `MAX_OUTSTANDING` reached 2. P1C-2 now uses all eight
 external AXI IDs and restores response order in the slot RAM. The regenerated
 SoC keeps two physical AXI ID groups and expands the TileLink source field from
 4 to 7 bits, providing 32 read sources per group and 64 total. See
-[`doc/AI_Postprocessor_P1C_Board_Validation.md`](../../../doc/AI_Postprocessor_P1C_Board_Validation.md)
+[`doc/验证记录/AI_Postprocessor_P1C_Board_Validation.md`](../../../doc/验证记录/AI_Postprocessor_P1C_Board_Validation.md)
 for the baseline log, calculations and board acceptance gate.
 
 Descriptors contain device/MIG physical addresses. The diagnostic adds the

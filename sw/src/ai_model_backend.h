@@ -6,6 +6,8 @@
 #include "ai_model_abi.h"
 
 #define AI_MODEL_WORKER_COUNT 2U
+#define AI_MODEL_RESULT_QUEUE_CAPACITY (AI_MODEL_WORKER_COUNT * 2U)
+#define AI_MODEL_POSTPROCESS_CAPACITY (AI_MODEL_WORKER_COUNT * 4U)
 
 typedef struct {
     uint32_t valid;
@@ -23,15 +25,21 @@ typedef struct {
 } AiModelPeStats;
 
 /*
- * Stable boundary implemented by the future Gemmini executor. A worker owns
- * its output arena until poll() reports completion. poll() returns zero while
- * running, one on completion, or a negative backend error.
+ * Single-phase compatibility boundary used by the older model backends.
+ * YOLOv5nu streaming uses the two-phase compute/result interface below so a
+ * Gemmini worker does not remain owned while the PPU consumes its Head Slot.
  */
 void ai_model_backend_init(void);
 int ai_model_backend_submit(const AiModelFrameRequest *request);
 int ai_model_backend_poll(uint32_t worker_id,
                           AiModelFrameCompletion *completion);
 int ai_model_backend_abort(uint32_t worker_id);
+
+/* Two-phase streaming interface used by the YOLOv5nu backend. */
+int ai_model_backend_poll_compute(uint32_t worker_id,
+                                  AiModelComputeCompletion *completion);
+int ai_model_backend_poll_result(AiModelFrameCompletion *completion);
+uint32_t ai_model_backend_is_idle(void);
 
 /* Diagnostic state for the synchronous model invocation. */
 uint32_t ai_model_backend_stage(void);

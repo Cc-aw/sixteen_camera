@@ -30,9 +30,21 @@ typedef struct {
 } StreamWorker;
 
 typedef struct {
+    uint32_t active;
+    uint32_t worker;
+    uint32_t stream;
+    uint32_t version;
+    uint64_t frame_id;
+    uint64_t timestamp;
+    uint64_t job_id;
+    uint64_t start_cycle;
+} StreamPostJob;
+
+typedef struct {
     AiBatchRuntimeStatus status;
     AiStreamRuntimeStatus streams[VIDEO_CHANNEL_COUNT];
     StreamWorker workers[AI_MODEL_WORKER_COUNT];
+    StreamPostJob post_jobs[AI_MODEL_POSTPROCESS_CAPACITY];
     AiResultManager results;
     AiPostprocessWorkspace postprocess_workspace;
     uint16_t overlay_dirty;
@@ -190,17 +202,18 @@ static void service_result_ttl(void)
     }
 }
 
-static void finish_worker(uint32_t worker_id, int error)
+static void complete_stream_job(uint32_t stream_id, uint64_t frame_id,
+                                uint32_t version, int error)
 {
-    StreamWorker *worker = &runtime.workers[worker_id];
-    AiStreamRuntimeStatus *stream = &runtime.streams[worker->stream];
-    worker->release_pending = 1U;
+    AiStreamRuntimeStatus *stream = &runtime.streams[stream_id];
     runtime.status.completed_job_count++;
     stream->completed_count++;
+    if (stream->inflight_count != 0U)
+        stream->inflight_count--;
     if (error == 0) {
         uint64_t now = read_cycle();
-        stream->last_frame_id = worker->frame_id;
-        stream->last_version = worker->version;
+        stream->last_frame_id = frame_id;
+        stream->last_version = version;
         stream->last_frame_valid = 1U;
         if (stream->next_deadline != 0U && now > stream->next_deadline)
             stream->missed_deadline_count++;
@@ -211,6 +224,59 @@ static void finish_worker(uint32_t worker_id, int error)
     }
 }
 
+static StreamPostJob *find_post_job(uint64_t job_id)
+{
+    for (uint32_t index = 0U; index < AI_MODEL_POSTPROCESS_CAPACITY;
+         ++index)
+        if (runtime.post_jobs[index].active != 0U &&
+            runtime.post_jobs[index].job_id == job_id)
+            return &runtime.post_jobs[index];
+    return 0;
+}
+
+static int register_post_job(const StreamWorker *worker)
+{
+    for (uint32_t index = 0U; index < AI_MODEL_POSTPROCESS_CAPACITY;
+         ++index) {
+        StreamPostJob *post = &runtime.post_jobs[index];
+        if (post->active != 0U)
+            continue;
+        post->active = 1U;
+        post->worker = (uint32_t)(worker - runtime.workers);
+        post->stream = worker->stream;
+        post->version = worker->version;
+        post->frame_id = worker->frame_id;
+        post->timestamp = worker->timestamp;
+        post->job_id = worker->job_id;
+        post->start_cycle = read_cycle();
+        return 0;
+    }
+    return -1;
+}
+
+static uint32_t post_job_count(void)
+{
+    uint32_t count = 0U;
+    for (uint32_t index = 0U; index < AI_MODEL_POSTPROCESS_CAPACITY;
+         ++index)
+        if (runtime.post_jobs[index].active != 0U)
+            count++;
+    return count;
+}
+
+static void dispatch_jobs(uint32_t ready);
+
+static int release_worker_input(StreamWorker *worker)
+{
+    if (release_slot(worker->slot) != 0)
+        return -1;
+    runtime.held_mask &= ~(UINT32_C(1) << worker->slot);
+    runtime.status.consumed_count++;
+    worker->active = 0U;
+    worker->release_pending = 0U;
+    return 0;
+}
+
 static void progress_workers(void)
 {
     for (uint32_t worker_id = 0U;
@@ -219,25 +285,21 @@ static void progress_workers(void)
         if (worker->active == 0U)
             continue;
         if (worker->release_pending != 0U) {
-            if (release_slot(worker->slot) != 0) {
+            if (release_worker_input(worker) != 0) {
                 record_error(-41);
                 runtime.faulted = 1U;
-                continue;
             }
-            runtime.held_mask &= ~(UINT32_C(1) << worker->slot);
-            if (runtime.streams[worker->stream].inflight_count != 0U)
-                runtime.streams[worker->stream].inflight_count--;
-            runtime.status.consumed_count++;
-            worker->active = 0U;
-            worker->release_pending = 0U;
             continue;
         }
-        AiModelFrameCompletion completion;
-        int status = ai_model_backend_poll(worker_id, &completion);
+        AiModelComputeCompletion completion;
+        int status = ai_model_backend_poll_compute(worker_id, &completion);
         if (status == 0) {
             if (read_cycle() - worker->start_cycle > STREAM_MODEL_TIMEOUT) {
-                if (ai_model_backend_abort(worker_id) == 0)
-                    finish_worker(worker_id, -42);
+                if (ai_model_backend_abort(worker_id) == 0) {
+                    worker->release_pending = 1U;
+                    complete_stream_job(worker->stream, worker->frame_id,
+                                        worker->version, -42);
+                }
                 else {
                     runtime.faulted = 1U;
                     record_error(-43);
@@ -250,62 +312,110 @@ static void progress_workers(void)
             completion.job_id != worker->job_id ||
             completion.stream_id != worker->stream ||
             completion.frame_id != worker->frame_id ||
-            completion.version != worker->version ||
-            completion.output_addr == 0U) {
-            if (ai_model_backend_abort(worker_id) == 0)
-                finish_worker(worker_id, status < 0 ? status : -44);
+            completion.version != worker->version) {
+            if (ai_model_backend_abort(worker_id) == 0) {
+                worker->release_pending = 1U;
+                complete_stream_job(worker->stream, worker->frame_id,
+                                    worker->version,
+                                    status < 0 ? status : -44);
+            }
             else {
                 runtime.faulted = 1U;
                 record_error(-45);
             }
             continue;
         }
+        if (register_post_job(worker) != 0) {
+            runtime.faulted = 1U;
+            record_error(-51);
+            continue;
+        }
+        worker->release_pending = 1U;
+        /* Dispatch in this same service pass, before result polling can
+         * retire a short PPU job and hide the intended overlap window. */
+        if (release_worker_input(worker) != 0) {
+            record_error(-41);
+            runtime.faulted = 1U;
+            continue;
+        }
+        dispatch_jobs(hardware_ready());
+    }
+}
+
+static void progress_results(void)
+{
+    for (uint32_t completed = 0U;
+         completed < AI_MODEL_POSTPROCESS_CAPACITY; ++completed) {
+        AiModelFrameCompletion completion;
+        int status = ai_model_backend_poll_result(&completion);
+        if (status == 0)
+            return;
+        if (status < 0) {
+            record_error(status);
+            runtime.faulted = 1U;
+            return;
+        }
+        StreamPostJob *post = find_post_job(completion.job_id);
+        if (post == 0) {
+            record_error(-52);
+            runtime.faulted = 1U;
+            return;
+        }
+        int post_status = completion.status;
+        if (completion.worker_id != post->worker ||
+            completion.stream_id != post->stream ||
+            completion.frame_id != post->frame_id ||
+            completion.version != post->version)
+            post_status = -53;
         AiDetectionResult result;
-        int post_status;
-        if (completion.output_desc.dtype == AI_TENSOR_DTYPE_CUSTOM) {
+        if (post_status == 0 && completion.output_addr == 0U)
+            post_status = -54;
+        if (post_status == 0 &&
+            completion.output_desc.dtype == AI_TENSOR_DTYPE_CUSTOM) {
             result = *(const AiDetectionResult *)completion.output_addr;
-            post_status = 0;
-        } else {
+        } else if (post_status == 0) {
             post_status = ai_postprocess_yolov5nu(
                 (const void *)completion.output_addr, &completion.output_desc,
-                &ai_postprocess_default_config, worker->job_id, worker_id,
-                worker->stream, worker->frame_id, worker->timestamp,
-                worker->version, &runtime.postprocess_workspace, &result);
+                &ai_postprocess_default_config, post->job_id, post->worker,
+                post->stream, post->frame_id, post->timestamp,
+                post->version, &runtime.postprocess_workspace, &result);
         }
         if (post_status == 0 &&
-            (result.job_id != worker->job_id ||
-             result.worker_id != worker_id ||
-             result.stream_id != worker->stream ||
-             result.frame_id != worker->frame_id ||
-             result.version != worker->version))
-            post_status = -51;
+            (result.job_id != post->job_id ||
+             result.worker_id != post->worker ||
+             result.stream_id != post->stream ||
+             result.frame_id != post->frame_id ||
+             result.version != post->version))
+            post_status = -55;
         if (post_status == 0) {
             int published =
                 ai_result_manager_publish(&runtime.results, &result);
             runtime.status.postprocess_count++;
             if (published > 0) {
                 runtime.status.result_publish_count++;
-                runtime.streams[worker->stream].last_result_cycle =
+                runtime.streams[post->stream].last_result_cycle =
                     read_cycle();
                 runtime.overlay_clear &=
-                    (uint16_t)~(UINT16_C(1) << worker->stream);
+                    (uint16_t)~(UINT16_C(1) << post->stream);
                 runtime.overlay_dirty |=
-                    (uint16_t)(UINT16_C(1) << worker->stream);
+                    (uint16_t)(UINT16_C(1) << post->stream);
             } else if (published == 0)
                 runtime.status.stale_result_count++;
             else
                 post_status = published;
         }
-        finish_worker(worker_id, post_status);
+        complete_stream_job(post->stream, post->frame_id, post->version,
+                            post_status);
+        post->active = 0U;
     }
 }
 
 static uint32_t inflight_streams(void)
 {
     uint32_t mask = 0U;
-    for (uint32_t worker = 0U; worker < AI_MODEL_WORKER_COUNT; ++worker)
-        if (runtime.workers[worker].active != 0U)
-            mask |= UINT32_C(1) << runtime.workers[worker].stream;
+    for (uint32_t stream = 0U; stream < VIDEO_CHANNEL_COUNT; ++stream)
+        if (runtime.streams[stream].inflight_count != 0U)
+            mask |= UINT32_C(1) << stream;
     return mask;
 }
 
@@ -413,6 +523,10 @@ static void dispatch_jobs(uint32_t ready)
         };
         int submitted = ai_model_backend_submit(&request);
         if (submitted != 0) {
+            /* Both raw-head slots can be owned while the PPU drains.  This
+             * is normal backpressure, not a model failure. */
+            if (submitted == -3)
+                return;
             record_error(submitted);
             return;
         }
@@ -508,7 +622,8 @@ uint32_t ai_batch_runtime_is_enabled(void)
 uint32_t ai_batch_runtime_is_idle(void)
 {
     if (runtime.status.enabled != 0U || runtime.draining != 0U ||
-        runtime.held_mask != 0U)
+        runtime.held_mask != 0U || post_job_count() != 0U ||
+        ai_model_backend_is_idle() == 0U)
         return 0U;
     for (uint32_t worker = 0U; worker < AI_MODEL_WORKER_COUNT; ++worker)
         if (runtime.workers[worker].active != 0U)
@@ -521,6 +636,7 @@ uint32_t ai_batch_runtime_is_idle(void)
 void ai_batch_runtime_poll(void)
 {
     progress_workers();
+    progress_results();
     service_result_ttl();
     service_overlay();
     if (runtime.status.enabled == 0U && runtime.draining == 0U)
@@ -537,7 +653,8 @@ void ai_batch_runtime_poll(void)
                 }
             return;
         }
-        if (runtime.held_mask == 0U &&
+        if (runtime.held_mask == 0U && post_job_count() == 0U &&
+            ai_model_backend_is_idle() != 0U &&
             mmio_read32(FRAMEBUFFER_BASE +
                         FRAMEBUFFER_TENSOR_PROD_WRITING) == 0U)
             runtime.draining = 0U;
@@ -582,6 +699,8 @@ void ai_batch_runtime_print_status(void)
     console_put_u32(runtime.status.stale_result_count);
     console_putc('/');
     console_put_u32(runtime.status.error_count);
+    console_puts(" post_inflight=");
+    console_put_u32(post_job_count());
     console_puts(" last_err=");
     console_put_u32((uint32_t)(runtime.status.last_error < 0 ?
                     -runtime.status.last_error : runtime.status.last_error));

@@ -8,6 +8,7 @@
 #include "mmio.h"
 #include "platform.h"
 #include "yolov5nu_dim16_dual.h"
+#include "yolov5nu_head_layout.h"
 
 #define SELFTEST_TIMEOUT_CYCLES (SOC_CLOCK_HZ * UINT64_C(120))
 
@@ -178,26 +179,22 @@ static uint32_t difference_u32(uint32_t left, uint32_t right)
     return left >= right ? left - right : right - left;
 }
 
-static void start_benchmark_ppu(uintptr_t arena)
+static void start_benchmark_ppu(uintptr_t head)
 {
-    ai_postprocess_diag_flush_range((void *)(arena + 499200U), 384000U);
-    ai_postprocess_diag_flush_range((void *)(arena + 1113600U), 96000U);
-    ai_postprocess_diag_flush_range((void *)(arena + 883200U), 24000U);
-    ai_postprocess_diag_flush_range((void *)(arena + 153600U), 307200U);
-    ai_postprocess_diag_flush_range((void *)(arena + 1036800U), 76800U);
-    ai_postprocess_diag_flush_range((void *)(arena + 460800U), 19200U);
+    ai_postprocess_diag_flush_range((void *)head,
+                                    YOLOV5NU_HEAD_PAYLOAD_BYTES);
     mmio_write32(POSTPROCESS_DIAG_BASE + BENCH_PPU_CLASS0,
-                 (uint32_t)(arena + 499200U));
+                 (uint32_t)(head + YOLOV5NU_HEAD_CLASS0_OFFSET));
     mmio_write32(POSTPROCESS_DIAG_BASE + BENCH_PPU_CLASS1,
-                 (uint32_t)(arena + 1113600U));
+                 (uint32_t)(head + YOLOV5NU_HEAD_CLASS1_OFFSET));
     mmio_write32(POSTPROCESS_DIAG_BASE + BENCH_PPU_CLASS2,
-                 (uint32_t)(arena + 883200U));
+                 (uint32_t)(head + YOLOV5NU_HEAD_CLASS2_OFFSET));
     mmio_write32(POSTPROCESS_DIAG_BASE + BENCH_PPU_DFL0,
-                 (uint32_t)(arena + 153600U));
+                 (uint32_t)(head + YOLOV5NU_HEAD_DFL0_OFFSET));
     mmio_write32(POSTPROCESS_DIAG_BASE + BENCH_PPU_DFL1,
-                 (uint32_t)(arena + 1036800U));
+                 (uint32_t)(head + YOLOV5NU_HEAD_DFL1_OFFSET));
     mmio_write32(POSTPROCESS_DIAG_BASE + BENCH_PPU_DFL2,
-                 (uint32_t)(arena + 460800U));
+                 (uint32_t)(head + YOLOV5NU_HEAD_DFL2_OFFSET));
     mmio_write32(POSTPROCESS_DIAG_BASE + BENCH_PPU_CONTROL, 1U);
 }
 
@@ -219,7 +216,7 @@ int ai_yolov5nu_postprocess_benchmark(void)
         uint32_t ppu_candidates, ppu_nms_candidates, xy0, xy1, score_class;
         uint32_t hardware_score_milli, software_score_milli;
         const struct yolov5nu_dim16_detection *software_box;
-        uintptr_t arena;
+        uintptr_t head;
         int status;
 
         memset(&software_result, 0, sizeof(software_result));
@@ -228,6 +225,9 @@ int ai_yolov5nu_postprocess_benchmark(void)
             console_puts("YOLOV5NU_POST_BENCH FAIL reason=graph_start\r\n");
             return 0;
         }
+        head = AI_DDR_CPU_ALIAS(AI_MODEL_OUTPUT0_PHYS_BASE +
+            (iteration & 1U) * YOLOV5NU_HEAD_SLOT_STRIDE);
+        yolov5nu_dim16_worker_set_head_slot(0U, head);
         yolov5nu_dim16_worker_use_hardware(0U, 1);
         for (;;) {
             status = yolov5nu_dim16_worker_poll(0U, &software_result);
@@ -240,10 +240,8 @@ int ai_yolov5nu_postprocess_benchmark(void)
             }
         }
         graph_cycles = read_cycle() - start;
-        arena = yolov5nu_dim16_worker_arena(0U);
-
         start = read_cycle();
-        start_benchmark_ppu(arena);
+        start_benchmark_ppu(head);
         for (;;) {
             ppu_status = mmio_read32(POSTPROCESS_DIAG_BASE +
                                      BENCH_PPU_STATUS);

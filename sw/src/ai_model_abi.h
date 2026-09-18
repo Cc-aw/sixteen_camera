@@ -75,6 +75,21 @@ typedef struct {
     uint32_t output_bytes;
 } AiModelFrameRequest;
 
+/*
+ * The input tensor and Gemmini activation arena may be released after this
+ * event.  Final detections are delivered separately because hardware
+ * postprocessing can still own the raw-head slot.
+ */
+typedef struct {
+    uint64_t job_id;
+    uint32_t worker_id;
+    uint32_t stream_id;
+    uint64_t frame_id;
+    uint32_t version;
+    int32_t status;
+    uint64_t compute_cycles;
+} AiModelComputeCompletion;
+
 typedef struct {
     uint64_t job_id;
     uint32_t worker_id;

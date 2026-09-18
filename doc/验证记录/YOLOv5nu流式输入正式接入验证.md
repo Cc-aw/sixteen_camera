@@ -34,4 +34,49 @@ make -C sw
 
 先按 `m`，观察每路完成计数增长，`overflow=0`、`error=0x00000000`，再按 `m` 排空。之后按 `i` 启动流式推理，隔一段时间按 `s`：各路 `dispatch/done` 应增长，`inflight` 不超过 1，总 `held` 只对应在途 worker，`pub` 增长、`err=0`；HDMI 视频与检测框正常。再按 `i` 停用，等待 `drain=0` 且 `held/ready/writing=0`。若 `fault=1` 或后端拒绝中止，输入槽会保持占用以防仍在执行的 DMA 被覆盖，应记录日志并复位检查。
 
-共享 DMA 性能优化和本次元数据/EDF/TTL 改动尚未生成新 bitstream，因此当前结论限于 RTL/host 仿真与固件构建；板上吞吐、WNS 和新元数据寄存器仍需后续统一生成 bitstream 验证。
+## 2026-09-18 板上状态
+
+已使用拥塞优化布局布线生成的 bitstream 完成一轮 VU13P 板上验证。当前物理接入
+CH1–CH8 摄像头，CH9–CH16 未接摄像头，因此以下正式数据链验收范围为前 8 路。
+
+### 已通过项
+
+- 固件正常启动，视频与 overlay 通路可用；固定 dog 框能成功提交到 CH1。
+- CH1–CH8 依次执行 `n/N` sidecar 抓取全部 PASS。每路字节数均为
+  `921600 = 640×480×3`，`nonzero > 0`，`overflows=0`。
+- `m` 生产模式中 CH1–CH8 完成数均衡增长，实测末次为
+  `21,21,21,21,21,21,21,20`；`no_slot=0`、`overflow=0`、
+  `error=0x00000000`，停用后正常进入 `drained`。
+- 共享 DMA 最大 outstanding 实测达到 8，AW burst 发出/完成均为
+  `155682`，非 OKAY AXI 响应数为 0，表明 AW/W/B 独立推进和响应回收已在板上工作。
+- `i` 流式 runtime 能够启动，两个 PPU worker 都有实际任务，观测到
+  6300 positions 扫描、candidate 过滤和 NMS 完成。
+
+### 当前性能与限制
+
+这一轮 `m` 模式约 8 秒内每路增加 18–19 帧，当前约为 **2–3 FPS/路**，未达到
+8 路各 30 FPS，也未达到文档的 16 路各 30 FPS 目标。同期累计计数为：
+
+```text
+missed/admit_skip/no_slot/overflow/error=
+2006/2006/0/0/0x00000000
+```
+
+`missed` 与 `admit_skip` 完全相等，同时没有 no-slot、FIFO overflow 或 AXI error，说明帧是在
+**SOF 准入阶段被主动跳过**，不是 DDR 写入失败。当前固件将
+`FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT` 设为 1，一次只允许一路完整帧处于采集状态；
+RTL 中 `admission_rr` 又每个 DDR 时钟轮转，只有当轮转令牌与该路单拍
+`tap_sof` 同周期时才接收帧。这会产生额外的帧首等待，是当前低吞吐的直接原因。
+
+后续修复需将“每拍转动令牌碰撞 SOF”改为能在帧边界稳定决策的准入机制，然后分阶段提高
+`admission_limit`，先验证 8 路并发采集，再扩展到 16 路。每次提高并发度都应同时验收
+`overflow=0`、`resp=0`、burst 发出/完成一致和全部已连接通道的完成数公平增长。
+
+### 仍需补充的板上证据
+
+- runtime 启动后连续运行 10–20 秒再按 `s`，确认 `jobs/done/post/pub` 持续且接近增长，
+  `stale/err/last_err=0`，CH1–CH8 的 `dispatch/done` 全部增长且 `inflight<=1`。
+- 等待停机后输出 `AI stream runtime drained`，并确认 `held/ready/writing=0`。
+- 进行长时间压力测试；当前 bitstream 虽然可以启动和完成上述测试，最后一次布线阶段观测到的
+  WNS 约为 `-8.373 ns`，主要由 Gemmini 时序路径主导，实现时序仍未签收。板上功能通过不代表
+  已满足最终 PVT 稳定性。

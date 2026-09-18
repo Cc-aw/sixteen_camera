@@ -13,6 +13,7 @@
 #include "include/yolov5nu_stage4_rvv.h"
 #include "yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h"
 #include "yolov5nu_dim16_dual.h"
+#include "yolov5nu_head_layout.h"
 
 #if DIM != 16
 #error "This runtime requires the current DIM16 Gemmini parameters"
@@ -1681,6 +1682,7 @@ enum { YOLOV5NU_GRAPH_STAGE_COUNT = 167U };
 
 struct yolov5nu_worker_context {
   const elem_t *input;
+  elem_t *head_slot;
   uint32_t stage;
   uint32_t active;
   uint32_t waiting;
@@ -1691,6 +1693,24 @@ struct yolov5nu_worker_context {
 
 static struct yolov5nu_worker_context
   worker_contexts[YOLOV5NU_DIM16_WORKER_COUNT];
+
+static elem_t *head_pointer(elem_t *slot, uintptr_t offset,
+                            elem_t *legacy) {
+  return slot != NULL ? slot + offset : legacy;
+}
+
+#define raw_class0 head_pointer(context->head_slot, \
+    YOLOV5NU_HEAD_CLASS0_OFFSET, tensor_180)
+#define raw_class1 head_pointer(context->head_slot, \
+    YOLOV5NU_HEAD_CLASS1_OFFSET, tensor_216)
+#define raw_class2 head_pointer(context->head_slot, \
+    YOLOV5NU_HEAD_CLASS2_OFFSET, tensor_242)
+#define raw_dfl0 head_pointer(context->head_slot, \
+    YOLOV5NU_HEAD_DFL0_OFFSET, tensor_179)
+#define raw_dfl1 head_pointer(context->head_slot, \
+    YOLOV5NU_HEAD_DFL1_OFFSET, tensor_215)
+#define raw_dfl2 head_pointer(context->head_slot, \
+    YOLOV5NU_HEAD_DFL2_OFFSET, tensor_241)
 
 static inline uint64_t read_worker_busy(uint32_t worker_id) {
   uint64_t value;
@@ -1726,6 +1746,17 @@ void yolov5nu_dim16_worker_use_hardware(uint32_t worker_id, int enabled) {
 uintptr_t yolov5nu_dim16_worker_arena(uint32_t worker_id) {
   return worker_id < YOLOV5NU_DIM16_WORKER_COUNT ?
          (uintptr_t)activation_arenas[worker_id] : 0;
+}
+
+void yolov5nu_dim16_worker_set_head_slot(uint32_t worker_id,
+    uintptr_t head_slot_addr) {
+  if (worker_id < YOLOV5NU_DIM16_WORKER_COUNT)
+    worker_contexts[worker_id].head_slot = (elem_t *)head_slot_addr;
+}
+
+uintptr_t yolov5nu_dim16_worker_head_slot(uint32_t worker_id) {
+  return worker_id < YOLOV5NU_DIM16_WORKER_COUNT ?
+         (uintptr_t)worker_contexts[worker_id].head_slot : 0;
 }
 
 void yolov5nu_dim16_worker_finish_hardware(uint32_t worker_id) {
@@ -3476,7 +3507,7 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
 
     yolo_profile_add(PROFILE_CONV_IN_LAYOUT, "CONV_IN_LAYOUT", "/model.24/cv2.0/cv2.0.2/Conv", 0);
     uint64_t phase_start = yolo_profile_clock();
-    tiled_conv_auto(1, 60, 80, 64, 64, 60, 80, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_175, yolov5nu_conv52_weights, yolov5nu_conv52_bias, tensor_179, NO_ACTIVATION, 0.00497773409f, 1, 0, 0, WS);
+    tiled_conv_auto(1, 60, 80, 64, 64, 60, 80, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_175, yolov5nu_conv52_weights, yolov5nu_conv52_bias, raw_dfl0, NO_ACTIVATION, 0.00497773409f, 1, 0, 0, WS);
     gemmini_fence();
     yolo_profile_add(PROFILE_CONV_GEMMINI, "CONV_GEMMINI", "/model.24/cv2.0/cv2.0.2/Conv", yolo_profile_clock() - phase_start);
     yolo_profile_add(PROFILE_CONV_OUT_LAYOUT, "CONV_OUT_LAYOUT", "/model.24/cv2.0/cv2.0.2/Conv", 0);
@@ -3493,7 +3524,7 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
 
     yolo_profile_add(PROFILE_CONV_IN_LAYOUT, "CONV_IN_LAYOUT", "/model.24/cv3.0/cv3.0.2/Conv", 0);
     uint64_t phase_start = yolo_profile_clock();
-    tiled_conv_auto(1, 60, 80, 80, 80, 60, 80, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_176, yolov5nu_conv53_weights, yolov5nu_conv53_bias, tensor_180, NO_ACTIVATION, 0.003811468887f, 1, 0, 0, WS);
+    tiled_conv_auto(1, 60, 80, 80, 80, 60, 80, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_176, yolov5nu_conv53_weights, yolov5nu_conv53_bias, raw_class0, NO_ACTIVATION, 0.003811468887f, 1, 0, 0, WS);
     gemmini_fence();
     yolo_profile_add(PROFILE_CONV_GEMMINI, "CONV_GEMMINI", "/model.24/cv3.0/cv3.0.2/Conv", yolo_profile_clock() - phase_start);
     yolo_profile_add(PROFILE_CONV_OUT_LAYOUT, "CONV_OUT_LAYOUT", "/model.24/cv3.0/cv3.0.2/Conv", 0);
@@ -3798,7 +3829,7 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
 
     yolo_profile_add(PROFILE_CONV_IN_LAYOUT, "CONV_IN_LAYOUT", "/model.24/cv2.1/cv2.1.2/Conv", 0);
     uint64_t phase_start = yolo_profile_clock();
-    tiled_conv_auto(1, 30, 40, 64, 64, 30, 40, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_211, yolov5nu_conv64_weights, yolov5nu_conv64_bias, tensor_215, NO_ACTIVATION, 0.006079990314f, 1, 0, 0, WS);
+    tiled_conv_auto(1, 30, 40, 64, 64, 30, 40, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_211, yolov5nu_conv64_weights, yolov5nu_conv64_bias, raw_dfl1, NO_ACTIVATION, 0.006079990314f, 1, 0, 0, WS);
     gemmini_fence();
     yolo_profile_add(PROFILE_CONV_GEMMINI, "CONV_GEMMINI", "/model.24/cv2.1/cv2.1.2/Conv", yolo_profile_clock() - phase_start);
     yolo_profile_add(PROFILE_CONV_OUT_LAYOUT, "CONV_OUT_LAYOUT", "/model.24/cv2.1/cv2.1.2/Conv", 0);
@@ -3815,7 +3846,7 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
 
     yolo_profile_add(PROFILE_CONV_IN_LAYOUT, "CONV_IN_LAYOUT", "/model.24/cv3.1/cv3.1.2/Conv", 0);
     uint64_t phase_start = yolo_profile_clock();
-    tiled_conv_auto(1, 30, 40, 80, 80, 30, 40, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_212, yolov5nu_conv65_weights, yolov5nu_conv65_bias, tensor_216, NO_ACTIVATION, 0.004823161851f, 1, 0, 0, WS);
+    tiled_conv_auto(1, 30, 40, 80, 80, 30, 40, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_212, yolov5nu_conv65_weights, yolov5nu_conv65_bias, raw_class1, NO_ACTIVATION, 0.004823161851f, 1, 0, 0, WS);
     gemmini_fence();
     yolo_profile_add(PROFILE_CONV_GEMMINI, "CONV_GEMMINI", "/model.24/cv3.1/cv3.1.2/Conv", yolo_profile_clock() - phase_start);
     yolo_profile_add(PROFILE_CONV_OUT_LAYOUT, "CONV_OUT_LAYOUT", "/model.24/cv3.1/cv3.1.2/Conv", 0);
@@ -4045,7 +4076,7 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
 
     yolo_profile_add(PROFILE_CONV_IN_LAYOUT, "CONV_IN_LAYOUT", "/model.24/cv2.2/cv2.2.2/Conv", 0);
     uint64_t phase_start = yolo_profile_clock();
-    tiled_conv_auto(1, 15, 20, 64, 64, 15, 20, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_239, yolov5nu_conv73_weights, yolov5nu_conv73_bias, tensor_241, NO_ACTIVATION, 0.007988214559f, 1, 0, 0, WS);
+    tiled_conv_auto(1, 15, 20, 64, 64, 15, 20, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_239, yolov5nu_conv73_weights, yolov5nu_conv73_bias, raw_dfl2, NO_ACTIVATION, 0.007988214559f, 1, 0, 0, WS);
     gemmini_fence();
     yolo_profile_add(PROFILE_CONV_GEMMINI, "CONV_GEMMINI", "/model.24/cv2.2/cv2.2.2/Conv", yolo_profile_clock() - phase_start);
     yolo_profile_add(PROFILE_CONV_OUT_LAYOUT, "CONV_OUT_LAYOUT", "/model.24/cv2.2/cv2.2.2/Conv", 0);
@@ -4062,7 +4093,7 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
 
     yolo_profile_add(PROFILE_CONV_IN_LAYOUT, "CONV_IN_LAYOUT", "/model.24/cv3.2/cv3.2.2/Conv", 0);
     uint64_t phase_start = yolo_profile_clock();
-    tiled_conv_auto(1, 15, 20, 80, 80, 15, 20, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_240, yolov5nu_conv74_weights, yolov5nu_conv74_bias, tensor_242, NO_ACTIVATION, 0.004325870487f, 1, 0, 0, WS);
+    tiled_conv_auto(1, 15, 20, 80, 80, 15, 20, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_240, yolov5nu_conv74_weights, yolov5nu_conv74_bias, raw_class2, NO_ACTIVATION, 0.004325870487f, 1, 0, 0, WS);
     gemmini_fence();
     yolo_profile_add(PROFILE_CONV_GEMMINI, "CONV_GEMMINI", "/model.24/cv3.2/cv3.2.2/Conv", yolo_profile_clock() - phase_start);
     yolo_profile_add(PROFILE_CONV_OUT_LAYOUT, "CONV_OUT_LAYOUT", "/model.24/cv3.2/cv3.2.2/Conv", 0);
@@ -4082,7 +4113,7 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
       return YOLOV5NU_DIM16_HEAD_READY;
     }
     uint64_t op_start = yolo_profile_begin(PROFILE_HEAD_CLASS, "HEAD_CLASS", "location-major");
-  stage4_class_heads_i8(tensor_180, 4800, 0.2354075164f, tensor_216, 1200, 0.3665552139f, tensor_242, 300, 0.449272126f, tensor_246, tensor_248, 0.449272126f, yolov5nu_sigmoid_lut0, 0.007530334406f, 0.25f);
+  stage4_class_heads_i8(raw_class0, 4800, 0.2354075164f, raw_class1, 1200, 0.3665552139f, raw_class2, 300, 0.449272126f, tensor_246, tensor_248, 0.449272126f, yolov5nu_sigmoid_lut0, 0.007530334406f, 0.25f);
     yolo_profile_add(PROFILE_HEAD_CLASS, "HEAD_CLASS", "location-major", yolo_profile_clock() - op_start);
   }
       context->stage++;
@@ -4090,7 +4121,7 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
     case 166U:
 {
     uint64_t op_start = yolo_profile_begin(PROFILE_HEAD_DFL, "HEAD_DFL", "location-major");
-  stage4_dfl_heads_i8(tensor_179, 4800, 0.2151331604f, tensor_215, 1200, 0.1472641826f, tensor_241, 300, 0.1159213334f, tensor_245, tensor_252, 0.2151331604f, 0.007874015719f, 0.1181102395f, 0.1129496917f, yolov5nu_conv75_weights, yolov5nu_softmax_exp_lut0);
+  stage4_dfl_heads_i8(raw_dfl0, 4800, 0.2151331604f, raw_dfl1, 1200, 0.1472641826f, raw_dfl2, 300, 0.1159213334f, tensor_245, tensor_252, 0.2151331604f, 0.007874015719f, 0.1181102395f, 0.1129496917f, yolov5nu_conv75_weights, yolov5nu_softmax_exp_lut0);
     yolo_profile_add(PROFILE_HEAD_DFL, "HEAD_DFL", "location-major", yolo_profile_clock() - op_start);
   }
       context->stage++;

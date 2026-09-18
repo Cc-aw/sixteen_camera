@@ -1,20 +1,21 @@
 # YOLOv5nu 推理与 16 路视频系统架构
 
-版本：2026-09-12，基于本次阅读时的工作区源码。目标器件：`xcvu13p-fhga2104-2-i`；工具工程：Vivado 2023.2；默认固件：`sw/Makefile` 的 `AI_MODEL=yolov5nu`。
+版本：2026-09-18，基于当前工作区源码与 P3 板测结果。目标器件：`xcvu13p-fhga2104-2-i`；工具工程：Vivado 2023.2；默认固件：`sw/Makefile` 的 `AI_MODEL=yolov5nu`。
 
 本文以当前生产构建、顶层实例及函数实现为依据，覆盖视频输入、缓存、AI 输入、推理、后处理、显示、控制和验证工具。历史文档中的 TinyYOLOv2 默认配置、全链路 300 MHz、三缓冲、640×480 尚无 backend 等描述不再代表当前源码。**源码具备功能、仿真通过、历史上板记录、当前 bitstream 已验收是四种不同状态。** 本文没有重新下载 FPGA，也不据文件存在推断当前板上运行版本。
 
 ## 1. 阅读导航与核心结论
 
-系统已实现一条端到端链路：8 路 OV7670 加 4K HDMI 解包得到的 8 路视频，统一写入 DDR；CPU 获取稳定帧引用，硬件转为 INT8 输入；两个 Gemmini16 worker 独立推理；CPU 或 PPU1 完成后处理；结果按视频通道保存，再映射到 1080p60 mosaic 的检测框和英文类别标签。
+系统已实现一条端到端视频 AI 链路：8 路 OV7670 加 4K HDMI 解包得到的 8 路视频，同时分流到 DDR 显示帧缓存和流式 Tensor 生产器；硬件直接生成 640×480×3 NHWC INT8 Tensor，写入 32 个独立 Slot；单 CPU 用 latest-frame + EDF 调度两个 Gemmini16 worker；六路原始检测头直接写入每 worker 的双 Head Slot；单 PPU1 异步完成分类归约、DFL、框解码和 NMS；结果按视频通道保存，最后映射到 1080p60 mosaic 的检测框和英文类别标签。
 
 理解项目时要区分三种“批次/并行”：
 
 | 概念 | 当前含义 |
 | --- | --- |
 | 16 路输入 | 16 个独立 stream，允许部分通道无有效帧 |
-| Batch16 / 双 Tensor Arena | 每个 arena 留 16 个成员；单预处理引擎顺序处理，两个 arena 交替占用 |
+| 32 个 Tensor Slot | 每路两个物理 Slot，流式硬件直接生产；不再以 Batch16 为生命周期 |
 | 双 Gemmini / batch=2 | 单 CPU 调度两个独立 Batch=1 图像任务；不是同一张图在两个阵列分片，也不是模型 batch 维度变为 2 |
+| 双 Head Slot / worker | frame N 的 Head 可由 PPU 读取，同一 worker 同时生成 frame N+1 的 Head |
 
 当前 SoC 为 **1 Rocket RV64 + 1 Saturn RVV + 2 个逻辑 16×16 Gemmini**。不是历史方案中的三个 64×64 Gemmini。RVV 是 CPU 的向量执行资源，两个 worker 共享 CPU/RVV 的软件执行时间，拥有各自的 Gemmini 和激活内存。
 
@@ -27,19 +28,21 @@ flowchart TD
     CAM[8 路 OV7670 / RGB565] --> CAP[300 MHz DVP 恢复与事件采样]
     CAP --> CDC[事件 FIFO / 150 MHz 像素组装]
     HDMI[4K30 HDMI RX / RGB888 / 2 PPC] --> CROP[固定空间裁剪 / 8 路 CDC]
-    CDC --> DMA[16 路 FIFO 与共享 AXI DMA]
-    CROP --> DMA
+    CDC --> NORM[16 路已接受视频流]
+    CROP --> NORM
+    NORM --> DMA[16 路 FIFO 与共享 AXI DMA]
     DMA --> FB[DDR 帧池 / 每路 5 slots]
     FB --> DISP[1080p60 mosaic reader]
-    FB --> SNAP[原子 snapshot / ai_ref]
-    SNAP --> PRE[单硬件预处理引擎]
-    PRE -->|S02 读源帧 / FBus 写 tensor| ARENA[双输入 Tensor Arena]
-    ARENA --> RT[单 CPU 公平调度器]
+    NORM --> TAP[已接受像素流 tap]
+    TAP --> PACK[16 路 RGB INT8 packer / FIFO]
+    PACK --> TDMA[共享 Tensor DMA]
+    TDMA --> SLOT[32 Tensor Slots / READY metadata]
+    SLOT --> RT[latest-frame + EDF 调度器]
     RT --> G0[worker0 / custom3 / Gemmini16]
     RT --> G1[worker1 / custom2 / Gemmini16]
-    G0 --> HEAD[各 worker 的六路原始检测头]
+    G0 --> HEAD[每 worker 双 Head Slot]
     G1 --> HEAD
-    HEAD --> PPU[PPU1 / FBus 读取 / 硬件后处理]
+    HEAD --> PPU[单 PPU1 / READY queue / FBus 读取]
     HEAD --> CPU[无 PPU1 时 CPU/RVV 后处理]
     PPU --> RES[逐路 latest result]
     CPU --> RES
@@ -49,13 +52,19 @@ flowchart TD
     OVL --> TX[HDMI TX / 1920×1080p60]
 ```
 
+显示支路和 AI 支路从同一个已接受视频流分叉。显示支路保存
+XRGB8888 帧并按最新完整帧读取；AI 支路在像素到达时直接打包为
+RGB INT8，不再先写 framebuffer 再读回。两条支路在资源和生命
+周期上独立：AI 丢帧不应阻塞显示，显示选择的最新帧也不会
+锁住某个 Tensor Slot。
+
 | 顶层模块 | 已实现职责 |
 | --- | --- |
 | `rtl/top_wrapper.sv` | 摄像头引脚 IBUF/IOBUF、SoC、视频控制、DDR 三大子系统连接及接口实例 |
 | `rtl/control/control_soc_subsystem.sv` | Si5338 初始化、100 MHz SoC 时钟、DDR ready 后释放 CPU、SoC memory/MMIO/FBus/UART/JTAG 边界 |
 | `rtl/video/video_control_subsystem.sv` | MMIO、GPIO/IIC、摄像头与 HDMI 控制和视频流接口 |
 | `rtl/memory/ddr_memory_subsystem.sv` | MIG/BD、视频时钟分频、视频 AXI CDC、DDR 帧流水线、FBus 写桥和后处理读通道 |
-| `rtl/video/framebuffer/multi_channel_ddr_video_pipeline.sv` | 帧管理、DMA、snapshot、预处理、显示 reader、overlay 配置 CDC 的集成 |
+| `rtl/video/framebuffer/multi_channel_ddr_video_pipeline.sv` | 帧管理、视频 DMA、snapshot、流式 Tensor DMA、显示 reader、overlay 配置 CDC 的集成 |
 
 SoC collateral 当前选自 `rtl/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitConfig/gen-collateral/`。`setup_vivado.tcl` 使用同名配置并排除旧 SoC 文件。另一个 SmallRocket 目录是保留版本，不是当前顶层实例依据。
 
@@ -67,10 +76,67 @@ SoC collateral 当前选自 `rtl/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATest
 | SoC/控制/FBus | 板载差分 100 MHz，经 BUFG | Rocket、Gemmini、RVV 所在 SoC、MMIO、PPU/diagnostic |
 | 摄像头控制 | clock wizard 输出 24 MHz | OV7670 SCCB、启动时序；各前端分频得到 12 MHz XCLK |
 | capture / MIG UI | 约 300.120 MHz | PCLK/DATA/HREF/VSYNC 首拍采样、恢复事件、DDR UI |
-| camera video | MIG UI 经 `BUFGCE_DIV=2`，约 150.060 MHz | RGB565 组装、视频归一化、帧管理、DMA、预处理、display reader |
+| camera video | MIG UI 经 `BUFGCE_DIV=2`，约 150.060 MHz | RGB565 组装、视频归一化、帧管理、video/Tensor DMA、display reader |
 | HDMI RX/TX | VPHY/IP 各自视频与串行域 | RX 2-PPC transport、TX 视频定时与串化 |
 
 DDR calibration 和外部 reset 共同影响运行许可；DDR/video 域使用异步置位、同步释放的本地 reset 链。SoC 在 DDR calibration 同步后释放。300→150 MHz 采用专用全局时钟分频器，并非 fabric 逻辑生成时钟。跨域流使用 FIFO；命令及保持型配置用 toggle/ack；统计跨域读数用于诊断，不等于多通道同时曝光的时间戳。
+
+### 2.2 按视频流阶段划分的已实现功能
+
+| 视频流阶段 | 当前已实现功能 | 输出或所有权边界 |
+| --- | --- | --- |
+| 板级启动 | 两片 Si5338 硬件初始化、DDR calibration 门控、SoC/video/HDMI 分域复位 | 只有 DDR 与相关时钟稳定后才开放数据面 |
+| CH1～CH8 摄像头控制 | 八路 SCCB 初始化、PWDN/reset/XCLK、NACK 重试和失败状态 | 摄像头开始输出 DVP RGB565 |
+| DVP 接收 | 300 MHz 首拍、PCLK 周期/相位恢复、毛刺/缺边沿诊断、HREF/VSYNC 滤波 | 有序 byte/line/frame 事件 |
+| 像素恢复与 CDC | RGB565 组装、fault flush、坏帧重同步、300→150 MHz FIFO | 统一 2-PPC 视频 stream |
+| CH9～CH16 HDMI 输入 | 4K30/RGB/8bpc/2-PPC 格式门控、4×2 空间解包、八路 640×480 裁剪 | 统一 2-PPC 视频 stream |
+| 16 路采集 | 每路 FIFO、共享 AXI writer、burst/outstanding、错误与丢帧计数 | 完整帧进入每路 DDR 帧池 |
+| 帧所有权 | 每路五个 framebuffer Slot，区分 writer、display reader 与保留 snapshot `ai_ref` | latest complete frame，不保存历史录像 |
+| 显示读取 | 单路或 4×4 mosaic，输出帧边界锁存帧集合，缩放与黑边保持 4:3 | 1920×1080p60、RGB、2-PPC |
+| AI 视频 tap | 从已接受视频握手点复制 SOF/EOL/EOF、frame_id 和 RGB 像素 | 不反压显示采集链 |
+| Tensor 生成 | 16 路 `R/G/B >> 1`、NHWC INT8 packer、per-channel elastic FIFO | 每帧 921600 B |
+| Tensor DMA | RR＋watermark＋aging、可变 burst、8 outstanding、B response 后发布 | 32 个独立 Tensor Slot |
+| Tensor 所有权 | 每路双 Slot，FREE/WRITING/READY/RUNNING/ERROR，完整 metadata 与 release ack | runtime 只接收稳定 READY descriptor |
+| 多流选择 | latest-frame 淘汰旧 READY、33.333 ms deadline、EDF、同 deadline 选新帧 | 每 stream 最多一个 inflight job |
+| 双 worker 推理 | worker0/custom3 与 worker1/custom2，固定 167-stage AOT 图，Gemmini＋RVV 协作 | 每次处理一个 Batch=1 Tensor |
+| Head 生成 | 六个末层 Conv 直接写 worker 专属 A/B Head Slot，无中间 memcpy | 每 Slot 907200 B 有效 payload |
+| Head 排队 | FREE/WRITING/READY/PROCESSING、FIFO 顺序、满 Slot 可重试背压 | 单共享 PPU 的稳定输入 descriptor |
+| PPU1 | 三尺度 class reducer、阈值候选、DFL、bbox、Top-256、class-aware NMS | 最多 10 个检测结果 |
+| 异步流水 | compute/result completion 分离；Graph 完成即释放输入和 worker，Head 保持到 PPU 完成 | `PPU(N) || Graph(N+1)` 已板测 |
+| 软件回退 | PPU1 不存在时由 CPU/RVV/LUT 完成 class、sparse DFL、decode/NMS | 与硬件共用 `AiDetectionResult` ABI |
+| 结果管理 | frame/version 单调校验、逐路 latest result、100 ms TTL 自动清框 | 每路独立检测状态 |
+| 画面叠加 | 模型坐标映射到 4×4 tile、每路最多 8 框、类别色、英文类别与置信度标签 | shadow 配置在输出帧边界原子切换 |
+| 运行控制 | UART 非阻塞命令、enable/drain、状态统计、固定图自检、Tensor/PPU/带宽诊断 | 裸机轮询控制面 |
+| 故障可观测性 | 摄像头、HDMI、video DMA、Tensor DMA、Slot、worker、PPU、overlay 分层计数 | 错误可以定位到视频流的具体阶段 |
+
+这里的“已实现”表示对应 RTL/C 路径已经存在。各阶段是否通过仿真、当前板级功能
+验收、时序签收或最终吞吐验收，仍须按第 16～17 节分别判断。
+
+### 2.3 一帧视频的完整生命周期
+
+以 stream S 的 frame F 为例：
+
+1. 摄像头前端或 HDMI demux 产生带 SOF/EOL/EOF 的 640×480 视频流。
+2. capture 握手接受像素后，framebuffer writer 与 Tensor tap 同时看到该像素。
+3. 显示支路把 XRGB8888 帧写进 stream S 的五 Slot 帧池；写响应完成后，frame
+   manager 将其作为新的完整显示帧候选。
+4. AI 支路将同一输入流量化、紧凑打包，并在准入成功时写入 stream S 的两个
+   Tensor Slot 之一；最后一个 B response 成功后发布 READY 和 F 的 metadata。
+5. runtime 比较 stream S 的两个 Slot，只保留最新 READY；当该 stream 没有
+   inflight job 且其 EDF deadline 被选中时，将 Slot 标成 RUNNING 并绑定 worker W。
+6. worker W 执行固定 YOLOv5nu AOT Graph，末层直接把六路 raw head 写入自己的
+   Head Slot A 或 B。
+7. Graph 完成后，backend 发布 Head descriptor；runtime 记录 post-job，立即释放
+   F 的输入 Tensor Slot 和 worker W，使它能接收另一帧。
+8. PPU 独立读取 F 的 Head Slot，完成分类、DFL、bbox 和 NMS；与此同时 worker W
+   可以运行 frame F+1 的 Graph。
+9. PPU result completion 携带原始 job/stream/frame/version 返回；runtime 校验后
+   更新 stream S 的 latest result、deadline、TTL 和 overlay dirty bit，再释放 Head Slot。
+10. overlay service 把框和标签写入 shadow 配置；显示流水线在下一输出帧边界原子
+    切换 active 配置，将检测结果叠加到当时最新的 stream S 显示画面。
+
+第 3 步和第 4 步共享源视频但各自管理内存；第 10 步使用最新显示帧，不会回看 F。
+因此结果保持 stream/frame/version 一致，但检测框与屏幕画面不是严格的同帧锁步关系。
 
 ## 3. 已实现的视频输入
 
@@ -107,7 +173,10 @@ HDMI RX 合同是 3840×2160p30、progressive、RGB、8 bpc、48-bit AXI4-Stream
 | 14 / CH15 | 2080～2719 | 1380～1859 |
 | 15 / CH16 | 3040～3679 | 1380～1859 |
 
-支持 transport frame/malformed 以及八路 frame/overflow 统计。HDMI 子流经 `video_stream_cdc` 到 video 域后，与本地摄像头合并。硬件支持 16 路不表示现场必须接满；有效性最终以 snapshot `valid_mask` 判断。
+支持 transport frame/malformed 以及八路 frame/overflow 统计。HDMI 子流经
+`video_stream_cdc` 到 video 域后，与本地摄像头合并。硬件支持 16 路
+不表示现场必须接满；显示路径以 frame manager 的 valid slot 为准，
+AI 生产路径以 Tensor Slot READY mask 为准。
 
 ## 4. DDR、帧缓存与所有权
 
@@ -118,11 +187,14 @@ HDMI RX 合同是 3840×2160p30、progressive、RGB、8 bpc、48-bit AXI4-Stream
 | Rocket/Gemmini 系统内存 | SoC memory → BD S00 | 由 SoC 系统内存路径进入 DDR |
 | 16 路采集写帧 | video writer → write CDC → S01 AW/W/B | 物理地址、256-bit 数据、共享 DMA |
 | 显示读帧 | video reader → read CDC → S01 AR/R | 与写帧共用 S01 的独立读写通道 |
-| 预处理读源图 | preprocess reader → read CDC → S02 AR/R | 直接读取物理 framebuffer |
-| 预处理写 tensor | `axi4_write_cdc` → FBus AW/W/B | 加 bit31 DDR alias，进入 SoC 一致性入口 |
-| PPU/diagnostic 读检测头 | FBus AR/R | 与预处理写端通过 `axi4_channel_join` 合并 |
+| 流式 Tensor 写入 | 16 路 packer/FIFO → 共享 Tensor DMA → FBus AW/W/B | 直接写 32 个 Tensor Slot；加 bit31 DDR alias 进入 SoC 一致性入口 |
+| 保留预处理端口 | preprocess read S02 / write FBus | 默认 YOLOv5nu 生产 RTL 中数据面置为空闲，只保留 CSR 地址兼容 |
+| PPU/diagnostic 读检测头 | FBus AR/R | 与 Tensor DMA 写端通过 `axi4_channel_join` 合并 |
 
-S02 写请求被终止为空闲；不能为了布线方便把 tensor 写端改回 S02。FBus 外部接口为 **33-bit address / 256-bit data / 4-bit ID**，但内部平台通路为 **64-bit @100 MHz**；外部 256-bit 不代表 3.2 GB/s 持续带宽。
+S02 预处理端口在当前默认路径置为空闲；不能为了布线方便把
+Tensor 写端改回 S02。FBus 外部接口为 **33-bit address / 256-bit data /
+4-bit ID**，但内部平台通路为 **64-bit @100 MHz**；外部 256-bit 不代表
+3.2 GB/s 持续带宽。
 
 视频 DMA 有逐路 FIFO、共享仲裁、burst descriptor、多个 outstanding 和 B response 完成核对。流水线默认 burst 最大 64 beats，write outstanding=8、write descriptor depth=16，read outstanding=8、read descriptor depth=8。帧“写完”以写响应完成为依据，不以最后一个输入像素或 W beat 已发出为依据。
 
@@ -148,54 +220,86 @@ pixel(x,y) = slot + y × 2560 + x × 4
 | --- | --- | --- |
 | ELF、权重、静态激活 | 从 `0x00000000` 开始 | 从 `0x80000000` 链接 |
 | 视频 pools | `0x08000000`～末路保留窗 | CPU 访问时 OR `0x80000000` |
-| 输入 Tensor Arena 0 | `0x30000000` | `0xB0000000` |
-| 输入 Tensor Arena 1 | `0x31000000` | `0xB1000000` |
-| 通用 worker output 0/1 预留 | `0x32000000` / `0x32400000` | 每 worker 4 MiB；当前 YOLOv5nu backend 不把结果写这里 |
+| Tensor Slot Arena 0 | `0x30000000` | slot 0～15，每路一个 921600 B Slot |
+| Tensor Slot Arena 1 | `0x31000000` | slot 16～31，每路第二个 Slot |
+| worker0 Head Pool | `0x32000000` | 4 MiB window；前 2 MiB 为两个 1 MiB Head Slot |
+| PPU 带宽诊断区 | `0x32200000` | 2 MiB，避免覆盖 worker0 生产 Head Slot |
+| worker1 Head Pool | `0x32400000` | 4 MiB window；前 2 MiB 为两个 1 MiB Head Slot |
+| 单路 Tensor 旁路诊断 | `0x33000000` | `n` 命令写入一帧，CPU alias 为 `0xB3000000` |
 | L2 flush 控制寄存器 | 不属于 DDR payload | CPU `0x02010200`，写 64-bit cache line 地址 |
 
 `sw/linker_ai_video.ld` 允许 CPU `0x80000000` 起 512 MiB，栈顶 `0xA0000000`，末 16 MiB 为栈保留区。这个 linker 上限横跨视频池，**不等于全部可供模型随意分配**；固件、静态数据及 heap 必须避免碰到 `0x88000000` 起的视频区域。脚本中的旧帧池注释不替代顶层实际地址。
 
-## 5. Snapshot 与硬件预处理
+## 5. 从视频流直接生成 Tensor
 
-### 5.1 原子 snapshot
+### 5.1 生产路径
 
-`ai_frame_snapshot_acquire()` 经 framebuffer MMIO 发起 snapshot。video 域在一个受控操作内选取各路已有完整帧并保持引用，随后提供：
+默认 YOLOv5nu 路径已移除旧 `batch_preprocess_engine`。Tensor tap 位于
+16 路 `capture_channels` 的 `valid && ready` 握手点，因此 AI 看到的是
+被视频管线正式接受的 SOF/EOL/EOF 和像素，而不是另一套独立
+采样。每路 packer 将 2-PPC RGB 像素按 `R>>1、G>>1、B>>1`量化，
+输出紧凑的 640×480×3 NHWC INT8 Tensor；单帧固定 921,600 B，
+无行 padding、resize、letterbox、JPEG 解码或浮点 `/255`。
 
-- `batch_id`、`valid_mask`、`fresh_mask`、`held_mask`；
-- 每成员的物理地址、64-bit frame_id、64-bit timestamp、version、stream_id；
-- indexed metadata mailbox，通过 index 选择成员后读取元数据。
+16 路 packer 各有 elastic FIFO。共享 `yolov5nu_multi_channel_tensor_dma`
+使用 RR、水位、aging 和自适应 burst 选择通道，配置为 32 项
+descriptor、8 笔 write outstanding、最大 64 beats/burst，并按 4 KiB
+边界切分请求。AW、W、B 独立推进；只有最后一笔 AXI B 成功
+返回后才发布 READY。FIFO overflow、坏帧、AXI response error 或取消均
+不会发布一个可推理的 Slot。
 
-valid 表示存在可用完整帧，fresh 表示相对于之前快照有更新。**原子获取指所有权稳定，不指 16 个传感器同步曝光或帧号相同。** 后续预处理读取期间，writer 不得覆盖这些 slot。
+### 5.2 32 个 Tensor Slot
 
-预处理结束后，runtime 写 release mask，再提交 release command，等待确认并重试未完成释放。源 framebuffer 引用在输入 tensor 已准备好后释放，不保持到推理结束。
+每个 stream 有两个物理 Slot，slot 0～15 对应 Arena0 的 CH1～CH16，
+slot 16～31 对应 Arena1 的 CH1～CH16：
 
-### 5.2 两种输入格式
+```text
+slot(ch,0) = 0x30000000 + ch × 921600
+slot(ch,1) = 0x31000000 + ch × 921600
+ch=0..15
+```
 
-`frame_preprocess_accel` 读 XRGB8888，按 RGB 顺序输出紧凑 NHWC INT8；实际量化为 `R>>1、G>>1、B>>1`，值域 0～127，没有行 padding。
-
-| format | 空间处理 | 单成员字节数 | 16 成员有效占用 |
-| --- | --- | ---: | ---: |
-| 0 | 640×480 最近邻变为 416×416 | 519,168 / `0x7EC00` | 8,306,688 |
-| 1 | 640×480 保持尺寸 | 921,600 / `0xE1000` | 14,745,600 |
-
-默认 YOLOv5nu 固件初始化会选择 format 1；RTL reset 默认仍是 format 0，由软件改写。当前视频输入本身已是 640×480，生产预处理不执行 JPEG 解码、letterbox 或浮点 `/255`。离线 image025 的制备与在线像素右移是不同过程，不能声称两者对任意源 RGB 都逐位等价。
-
-读写均使用 256-bit AXI burst，最大 64 beats，并按 4 KiB 边界切分；行缓冲负责把 4-byte 像素重排为 3-byte RGB。`batch_preprocess_engine` 顺序复用此单引擎，invalid 成员写零。零填充保证 arena 内容确定，但 invalid 成员不会被推理调度器当作有效任务。
-
-### 5.3 双 arena 生命周期
+这两个 Arena 只是地址容器，不再表示两个 Batch16 任务。单个 Slot
+独立经过：
 
 ```mermaid
 stateDiagram-v2
     [*] --> FREE
-    FREE --> PREPROCESS: snapshot 有可用成员
-    PREPROCESS --> READY: 硬件完成 / ready bit
-    READY --> RUNNING: 派发成员 job
-    RUNNING --> RUNNING: 两 worker 完成与继续派发
-    RUNNING --> DONE: 全部 valid 成员完成或跳过
-    DONE --> FREE: recycle / 清 ready bit
+    FREE --> WRITING: 在 SOF 接受帧
+    WRITING --> READY: 全帧成功且最后 AXI B 返回
+    WRITING --> ERROR: overflow / bad frame / AXI error / cancel
+    READY --> RUNNING: runtime 选中并绑定 worker
+    READY --> FREE: 更新 READY 帧将其淘汰
+    RUNNING --> FREE: Graph compute completion 后释放
+    ERROR --> FREE: 软件清理
 ```
 
-硬件只选择非 busy 且 ready=0 的 arena。CPU 为两个 arena 各建 `AiBatchContext`，保存输入 tensor base、原始帧元数据和 dispatched/completed mask。另一个 arena 可在当前 arena 被 Gemmini 消费时接受预处理；同一 arena 未回收前不可覆盖。
+每 Slot 发布 `tensor_addr/stream_id/frame_id/capture_timestamp/version/
+byte_count/state/error_code`。runtime 通过 indexed mailbox 连续两次读 version，
+并同时核对 READY mask、stream、地址、字节数和 state，避免接受
+跨时钟同步期间的半更新 metadata。软件选中后另外记录
+`RUNNING/owner_worker`。
+
+### 5.3 帧准入与显示隔离
+
+Tensor 生产路径可以用 16-bit mask 选择通道，并用
+`admission_limit` 限制同时正在采集的完整帧数。当前生产固件设为
+1；与帧首 RR 判定共同作用时，已证实是目前约 2～3 FPS/已连接路
+的直接限制，而不是 no-slot、FIFO overflow 或 AXI error。
+
+Tensor tap 不对视频流施加额外 backpressure。未准入 AI、AI Slot 已满或
+AI 路径报错时，帧仍可正常进入 framebuffer 并显示。因此当前系统
+是“显示尽可能连续，AI 按有界资源选择最新帧”，不是每个显示帧
+都必须完成推理。
+
+### 5.4 保留的 framebuffer snapshot
+
+DDR framebuffer 的原子 snapshot、`ai_ref`、indexed metadata 和 release
+协议仍在 RTL 与 `ai_frame_snapshot.c` 中，并可由串口 `a` 独立检查。
+它可保持各路已完整帧的引用，但不再是默认 YOLOv5nu 在线推理
+的输入路径。旧 preprocess CSR 窗口为保持地址兼容仍存在，生产 RTL
+将其数据面置为空闲；不能再将它描述为当前在线的双 batch
+预处理引擎。
 
 ## 6. YOLOv5nu 固定模型架构
 
@@ -280,49 +384,66 @@ CPU 不会同时执行两个 C 函数。它轮询 worker0/1，在一个阵列运
 | convolution output scratch | 1,228,800 | 各 worker 独立 |
 | 三者合计 | 4,675,200 | 双 worker 合计 9,350,400 bytes，不含参数和其他 BSS |
 | 权重/bias/LUT/内置测试图 | 由参数头定义 | 只读共享 |
-| CPU 候选 mask/decoded candidates | 静态共享工作区 | 单 CPU 在不让出的软件后处理段内使用 |
+| Head Pool | 4 MiB | 每 worker 独立；前 2 MiB 是 A/B 两个 1 MiB Head Slot |
+| CPU 候选 mask/decoded candidates | 静态共享工作区 | 仅软件后处理回退路径使用 |
 
-输入 Tensor Arena 与这里的 activation arena 完全不同：前者由预处理硬件填充、batch context 保持，后者在 ELF 静态内存中、由 worker 保持。`activation_arena` 全局指针在 poll 时切换到 worker 专属数组；后续如果改成多 hart 并发调用，必须重新设计这些全局工作指针和软件共享工作区。
+输入 Tensor Slot、activation arena 和 Head Slot 是三类不同所有权。
+Tensor Slot 由视频 Tensor DMA 生产；activation arena 在 ELF 静态内存中并
+只在 Graph 计算期间绑定 worker；Head Slot 保留六路原始头直到 PPU
+读完。`activation_arena` 全局指针在 poll 时切换到 worker 专属数组；
+后续如果改成多 hart 并发调用，必须重新设计这些全局工作指针和
+软件共享工作区。
 
 ### 7.3 Runtime 的公平调度
 
-`ai_batch_runtime_poll()` 的主要顺序是：推进 workers → 提交 dirty overlay → 回收完成 context → 释放 snapshot → 派发待处理 job → 轮询预处理或获取新 snapshot。
+`ai_batch_runtime_poll()` 的生产顺序是：同步 32-bit READY/WRITING/
+ERROR mask → 淘汰同 stream 较旧 READY Slot → 推进两个 worker 的 Graph
+计算 → 处理 compute completion 并释放输入 Slot → 立即向空闲 worker
+派发下一帧 → 回收 PPU result completion → 更新 TTL 和 overlay。
 
-选择 READY/RUNNING context 中 `valid & ~dispatched` 的成员，并执行：
+调度规则为：
 
-1. 一个 stream 同时最多一个 inflight job。
-2. 优先选择 `last_service_cycle` 最早的 stream。
-3. 服务时间相同时优先较新的 frame_id。
-4. 待处理 frame_id 若不大于该 stream 已成功完成帧，标记 superseded，并计入 completed mask。
-5. `job_id=(batch_id<<5)|channel`，completion 校验 worker/job/stream/frame/version，防止错配。
+1. 每个 stream 同时最多一个 inflight job。
+2. 每路目标周期为 33.333 ms，优先选择 deadline 最早的 READY stream。
+3. deadline 相同时选择较新 frame_id；同一 stream 的较旧 READY Slot 直接释放并计为 superseded。
+4. 读取 Slot metadata 后校验 version、stream、address、bytes 与 READY state。
+5. completion 校验 worker/job/stream/frame/version，防止 worker 和 Slot 复用后错配。
 
-`fresh_mask` 保留并可诊断，但调度有效成员主要由 valid/dispatched/completed 和 per-stream frame_id 决定，不是简单只处理 fresh bit。context 全部 valid 成员完成/跳过后才能 recycle。按 `i` 停止时不再获取新输入，已有任务继续 drain；初始化默认 disabled。
+按 `i` 停止时，硬件不再准入新 Tensor，runtime 释放未派发 READY
+Slot，并继续等待 Graph、Head queue、PPU、result FIFO 和 overlay 任务排空。
+初始化默认 disabled。
 
 runtime job timeout 为 50 s；PPU 子过程 timeout 为 30 s。错误完成计数也会进入 completed_job_count，故 `job` 增加并不等于检测正确。当前 abort 不是强制硬件取消，详见限制节。
 
 ## 8. 六路检测头：软件与硬件的分界
 
-最后一层 Gemmini 输出后，六块原始头存储如下。偏移均相对当前 worker 的 activation arena：
+最后六个 Gemmini Conv 直接写入当前 worker 选中的 Head Slot，不再先写
+activation arena 后 memcpy。每个 Slot 的有效 payload 为 907,200 B，物理步长
+1 MiB；每 worker 有 A/B 两个 Slot。偏移如下：
 
 | head | locations | class offset / bytes | DFL offset / bytes | class raw scale | DFL raw scale |
 | --- | ---: | --- | --- | ---: | ---: |
-| P3 | 4800 | 499200 / 384000 | 153600 / 307200 | 0.2354075164 | 0.2151331604 |
-| P4 | 1200 | 1113600 / 96000 | 1036800 / 76800 | 0.3665552139 | 0.1472641826 |
-| P5 | 300 | 883200 / 24000 | 460800 / 19200 | 0.449272126 | 0.1159213334 |
+| P3 | 4800 | `0x00000` / 384000 | `0x7b0c0` / 307200 | 0.2354075164 | 0.2151331604 |
+| P4 | 1200 | `0x5dc00` / 96000 | `0xc60c0` / 76800 | 0.3665552139 | 0.1472641826 |
+| P5 | 300 | `0x75300` / 24000 | `0xd8cc0` / 19200 | 0.449272126 | 0.1159213334 |
 
 全部为 location-major，分类共 **504,000 bytes**，DFL 共 **403,200 bytes**，合计 **907,200 bytes/image**。class 统一 logits scale 为 `0.449272126`，sigmoid score scale 为 `0.007530334406`；最后量化 distance scale 为 `0.1129496917`。
 
 初始化时 backend 读取 `POSTPROCESS_DIAG_BASE+0x100`：返回 `0x50505531`（PPU1）则启用硬件后处理，否则保留软件回退。此选择在 backend 初始化时确定。
 
 ```text
-stage 0..164：Gemmini / RVV backbone + neck + raw heads
-    ├─ 有 PPU1：stage165 fence → HEAD_READY → HEAD_PENDING
-    │           → 六头 cache flush → PPU doorbell → POSTPROCESS → result
+stage 0..164：Gemmini / RVV backbone + neck
+    ├─ 有 PPU1：选 Head Slot → 六个末层 Conv 直接写 Slot
+    │           → fence/flush → READY queue → PPU doorbell → result FIFO
     └─ 无 PPU1：stage165 class → stage166 sparse DFL
                 → software Decode/NMS/hash → result
 ```
 
-两个 worker 共用 **一个 PPU**。`hardware_worker` 保证一次只有一个 worker 提交 PPU；另一个到达 HEAD_PENDING 后等待。PPU 完成前原始 activation arena 必须保持占用，不能被下一张图覆盖。
+双 worker 共用一个 PPU，Head queue 保证一次只有一个 Slot 处于
+PROCESSING，其余可保持 READY。Slot 状态为 FREE → WRITING → READY →
+PROCESSING → FREE；异常写入可从 WRITING 退回 FREE。descriptor 独立保存
+job/worker/stream/frame/timestamp/version 和六个地址，因此 worker context
+可在 PPU 返回前复用。
 
 ## 9. CPU/RVV 后处理回退路径
 
@@ -373,11 +494,37 @@ reader 允许 8 个外部 AXI IDs，每 ID 对应一个最多 4 KiB slot，32 Ki
 
 SoC P1C-2 collateral 扩大 TileLink source 字段到 7 bit；两个物理 ID 组各提供 32 read sources。高层 AXI burst outstanding 只有 2 的测量，不直接等于内部 TileLink 只有 2 个请求。
 
-真实发布协议是：等待最后一个 Gemmini store 完成并 fence → 对六头逐个 **64-byte L2 cache line flush** → 写六个 descriptor 地址 → start → 等待 busy 被观察到，再接受 done → 读结果 → 释放 worker。flush 通过 CPU `0x02010200` 控制寄存器执行。不能仅因为端口被称作 coherent 就删除当前代码明确采用的 flush。
+真实发布协议是：等待最后一个 Gemmini store 完成并 fence → 对当前
+Head Slot 的六个 range 执行 **64-byte L2 cache line flush** → 发布 READY
+descriptor → Head queue 向 PPU 写六个地址并 doorbell → 返回 compute
+completion → runtime 释放输入 Tensor Slot 并复用 worker/activation arena →
+PPU 独立返回 result completion → 释放 Head Slot。flush 通过 CPU
+`0x02010200` 控制寄存器执行。不能仅因为端口被称作 coherent 就
+删除当前代码明确采用的 flush。
 
 设备侧读地址 OR bit31 进入 Rocket DDR alias；backend 当前传入的 arena 指针已经可能带 bit31，再 OR 是幂等的，不能改成数值加法。descriptor 只在空闲时更新，诊断和 PPU 在命令/descriptor 边界串行争用 reader；预处理的独立 FBus 写通道仍可活动。
 
-### 10.3 和软件路径的差别
+### 10.3 Graph/PPU 异步重叠
+
+backend ABI 将一个 job 拆成 compute completion 和 result completion。前者只表示
+Graph 已生成可由 PPU 独立持有的 Head Slot，后者才表示最终检测结果
+可发布。backend 使用 4 项 result FIFO，runtime 使用 8 项 post-job 表，
+使 stream inflight 一直保持到 result completion，但输入 Slot 在 compute
+completion 当轮即释放。两个 Head Slot 都忙时返回可重试背压，不记为
+永久故障。
+
+P3 板测中，job 3～8 的新 `AI GRAPH start` 均在旧 job PPU completion
+之前观察到 `ppu_status=0x9`（BUSY | READ_BUSY），随后旧 job 才以
+`status=0x2` 完成。这证明板上实际运行已是：
+
+```text
+PPU(frame N) || Gemmini Graph(frame N+1)
+```
+
+本轮 8 个流式 job 的 Graph 平均约 439.528 ms，PPU 核心平均约
+1.182 ms。这是功能性异步重叠验收，不是 480 FPS 性能验收。
+
+### 10.4 和软件路径的差别
 
 PPU 在整数像素坐标上做 NMS，CPU 在浮点框上 NMS 后才 round/clip；PPU 还限制进入 NMS 的 Top-256，软件路径没有同样的 256 候选裁剪。因此不能承诺任意输入的两个路径天然 bit-exact。现有测试覆盖参考 corpus 的像素量化选择一致性和指定测试向量；密集场景、大于 256 候选、IoU 临界值仍需专项验证。
 
@@ -385,7 +532,12 @@ PPU 在整数像素坐标上做 NMS，CPU 在浮点框上 NMS 后才 round/clip�
 
 `AiResultManager` 对 16 路各保存最后一个结果，拒绝 frame_id 变旧或同帧 version 不递增的发布。成功发布设置对应 overlay dirty bit；每次 service 最多尝试提交一路，MMIO busy 时延后。结果数为 0 也可发布，用于清除该路已有框。
 
-当前“保鲜”是版本单调，不是 TTL 自动过期。画面使用最新显示帧，框来自最近完成的推理；frame_id 没有用于让 display reader 回看相同推理源帧，因此快速运动时可能存在框相对画面的时差。代码没有实现跨帧目标跟踪、ID 关联或运动补偿。
+结果同时使用版本单调和 100 ms TTL：新结果不得比已发布的 frame/version
+更旧；某路超过 100 ms 没有新结果时，Result Manager 使旧结果失效并
+向 overlay 提交零框，避免检测框长期停留。画面仍使用最新显示帧，框
+来自最近完成的推理；frame_id 没有用于让 display reader 回看相同
+推理源帧，因此快速运动时可能存在框相对画面的时差。代码没有实现
+跨帧目标跟踪、ID 关联或运动补偿。
 
 ### 11.1 显示读取
 
@@ -419,6 +571,8 @@ y_display=y_origin+y_model×270/480
 video_service_poll();
 ai_batch_runtime_poll();
 ai_postprocess_bandwidth_service();
+tensor_sidecar_service();
+tensor_production_service();
 /* 非阻塞读取 UART 并处理命令 */
 ```
 
@@ -456,13 +610,21 @@ HDMI TX 使用 1080p60 RGB 8 bpc、2 PPC。软件管理 HPD、clock lock、VPHY 
 | `0x1C0` | SNAPSHOT bit0、RELEASE bit1 |
 | `0x1C4..0x1D4` | status、release mask、valid/fresh/held mask |
 | `0x1D8..0x1FC` | metadata index、address/frame/time/version、batch_id、diagnostic |
-| `0x200` | PRE START bit0、RECYCLE bit1 |
-| `0x204..0x254` | busy/ready、recycle mask、progress、arena metadata、cycles/read/write/start/complete/error |
+| `0x200..0x254` | 旧 batch preprocess CSR 兼容窗口；默认 YOLOv5nu 生产 RTL 数据面已置为空闲 |
 | `0x260..0x278` | overlay commit/busy、stream/count/box index/packed geometry/class |
-| `0x280..0x290` | 两 arena base、member stride/bytes、format |
+| `0x280..0x290` | 旧 preprocess arena base、member stride/bytes、format 兼容寄存器；不控制当前流式 Slot 地址 |
 | `0x294..0x2A0` | 当前 box 的 LABEL0～3，共16 bytes |
+| `0x2B0..0x2C8` | 单路 Tensor sidecar 启动、通道、地址、状态、帧号、字节和 overflow |
+| `0x2D0..0x2E0` | Tensor 生产 enable/release，32-bit READY/WRITING/ERROR masks |
+| `0x2E4..0x2F8` | Slot index/frame/bytes 和逐路 no-slot/overflow/missed |
+| `0x2FC..0x324` | Tensor DMA outstanding/stall/burst/response 性能计数 |
+| `0x328..0x340` | 选中 Slot 的 timestamp/version/stream/address/state/error code |
+| `0x344..0x34C` | 准入 mask、准入上限和逐路 admission-skip 计数 |
 
-release 和 recycle 均先写 mask，再写命令；metadata 和结果读取均先选 index。box XY 寄存器是软件打包的连续11-bit坐标字段加class，不能解释成两个普通16-bit坐标对；PPU result XY 寄存器才是16-bit成对布局。
+snapshot release 和 Tensor Slot release 均先写 mask，再写命令；metadata
+和结果读取均先选 index。box XY 寄存器是软件打包的连续11-bit
+坐标字段加class，不能解释成两个普通16-bit坐标对；PPU result XY
+寄存器才是16-bit成对布局。
 
 ### 13.2 Postprocess 相对偏移
 
@@ -488,12 +650,14 @@ PPU 阈值/shape/LUT 是固定模型实现，目前没有通用阈值配置寄�
 
 | 命令 | 当前功能 | 前提/说明 |
 | --- | --- | --- |
-| `s` | AI runtime/context/worker、逐路 job/detection 和 overlay 状态 | 当前没有调用完整 `hdmi_tx_print_status()` |
-| `i` | 启用连续 AI / 停止并 drain | YOLOv5nu 必须 format1；TinyYOLOv2 必须 format0 |
-| `f` | 切换416×416和640×480硬件预处理 | AI disabled 且 idle |
-| `a` | 单次 snapshot、逐路元数据、释放 | AI idle |
-| `p` | snapshot+preprocess、CH1 RGB统计/hash、CPU与FBus读回比较、回收 | AI idle |
-| `t` | image025 双 Gemmini YOLOv5nu bit-exact 自检 | 默认YOLOv5nu构建；disabled且idle |
+| `s` | AI runtime、held/ready/writing/error、job/post/publish、`post_inflight`、逐路 deadline/TTL 状态 | 用于验证运行和 drain；不代替完整视频前端诊断 |
+| `i` | 启用流式 YOLOv5nu / 停止准入并 drain | 与 `m` 互斥；初始默认 disabled |
+| `a` | 单次 framebuffer snapshot、逐路 metadata、释放 | 保留的帧缓存所有权诊断；AI idle |
+| `n` | 抓取当前选中通道的一帧流式 Tensor | 写 `0x33000000`，检查 921600 B、hash、nonzero 和 overflow |
+| `N` | 选择下一个 Tensor 诊断通道 | CH1～CH16 循环 |
+| `m` | 16-stream Tensor Slot 持续生产/stop+drain | 只验证 Tensor DMA 与 Slot，与 `i` 互斥 |
+| `t` | image025 双 Gemmini YOLOv5nu 图计算自检 | 默认 YOLOv5nu 构建；disabled 且 idle |
+| `T` | image025 PPU/CPU 后处理对照与计时 | 比较检测结果、6300 positions 和 speedup |
 | `d` | TinyYOLOv2内置dog专项测试入口 | YOLOv5nu构建仅提示需切换模型；不执行推理 |
 | `o` | CH1固定绿色框和标签测试 | disabled且drain完成 |
 | `v` | 1000次CPU producer/FBus consumer一致性测试 | idle；两个非对齐buffer交替重写 |
@@ -510,7 +674,11 @@ PPU 阈值/shape/LUT 是固定模型实现，目前没有通用阈值配置寄�
 
 ### 15.1 TinyYOLOv2 与通用 backend
 
-`make -C sw AI_MODEL=yolov2` 选择 `ai_model_backend_yolov2.c`、`tinyyolov2.o` 和416×416输入：9层网络、13×13×125输出、双Gemmini worker、软件Decode/NMS，阈值0.30/0.45，最多8框。它共享snapshot、预处理、调度、发布和显示链。
+`make -C sw AI_MODEL=yolov2` 仍保留 `ai_model_backend_yolov2.c`、`tinyyolov2.o`
+和 416×416 输入软件：9 层网络、13×13×125 输出、双 Gemmini worker、
+软件 Decode/NMS，阈值 0.30/0.45，最多 8 框。但当前默认生产 RTL 已将
+旧 batch preprocessor 数据面置为空闲；TinyYOLOv2 需要与其旧预处理路径
+兼容的 bitstream，不能只替换 ELF 就声称在当前默认硬件上可用。
 
 `ai_model_backend_gemcc.c`、`ai_model_backend_stub.c` 是替代接口实现，不在默认生产源清单中。`ai_inference_runtime.c` 和 `ai_tinyyolov2_runtime_adapter.c` 在 TinyYOLOv2 编译分支使用；`ai_runtime_bridge.c` 是兼容入口，不是YOLOv5nu主调度器。`sw/postprocess/fixed_ref/` 保存定点参考后处理及host验证，不意味着当前生产 TinyYOLOv2 已由硬件 PPU 完成。
 
@@ -550,8 +718,11 @@ python3 scripts/test_yolov5nu_dual_correctness.py --log uart.log
 | 范围 | 仓库证据/入口 | 能证明与不能证明 |
 | --- | --- | --- |
 | 视频采样/CDC/DMA/frame manager/mosaic | `scripts/run_video_refactor_tests.sh`，各sim testbench | 单元协议/恢复行为；不直接证明所有当前物理布线时序 |
-| snapshot/preprocess/MMIO/overlay | `sim/tb_*preprocess*`、`tb_*ai_mmio*`、`tb_detection_overlay.sv` 等 | 存在独立测试平台；并非所有均被video脚本包含 |
-| runtime/公共后处理/定点参考 | `sw/test/run_ai_batch_runtime_test.sh`、`run_ai_postprocess_test.sh`、`run_yolov2_fixed_ref_test.sh` | CPU侧状态机与参考算法，不执行真实Gemmini |
+| 流式 Tensor/Slot/MMIO | `scripts/run_yolov5nu_multi_channel_tensor_dma_tests.sh`、`sw/test/run_ai_tensor_slot_pool_test.sh` | packer、burst、READY 发布和 Slot 生命周期 |
+| 流式 runtime | `sw/test/run_ai_batch_runtime_stream_test.sh` | latest-frame、EDF、双 worker、TTL、drain 和 compute/result 分离 |
+| Head Slot 队列 | `sw/test/run_ai_head_slot_queue_test.sh` | A/B Slot、READY/PROCESSING、metadata 和背压 |
+| snapshot/MMIO/overlay | `sim/tb_*ai_mmio*`、`tb_detection_overlay.sv` 等 | 保留所有权路径与显示提交协议 |
+| 公共后处理/定点参考 | `run_ai_postprocess_test.sh`、`run_yolov2_fixed_ref_test.sh` | CPU 侧参考算法，不执行真实 Gemmini |
 | PPU功能 | `scripts/run_yolov5nu_postprocess_tests.sh` | class reducer、Top-K/NMS、DFL、48组随机DFL、image025框、六descriptor集成与NMS corpus检查 |
 | FBus及PPU总回归 | `scripts/run_ai_postprocessor_tests.sh` | 包含channel join、乱序reader、MMIO diagnostic和上述PPU回归 |
 | PPU综合 | `scripts/check_postprocess_elaboration.tcl`、`check_yolov5nu_postprocess_synthesis.tcl` | elaboration/模块综合；不等于完整SoC布局布线通过 |
@@ -572,21 +743,27 @@ image025自检的冻结参考如下：
 
 ### 16.2 带宽不是推理FPS
 
-`doc/AI_Postprocessor_P1C_Board_Validation.md` 保存2026-09-12 P1C-2日志：256次、每次2,116,800 bytes读回，CRC/timeout/AXI错误均为0；实测约**112.49 MB/s**，8个ID均使用，valid mask=`0xFF`，平台600 MB/s门槛仍为No-Go。此前9月11日基线约118 MB/s。源码已加入burst sweep，但不能据其存在声称带宽已改善。
+`doc/验证记录/AI_Postprocessor_P1C_Board_Validation.md` 保存了 FBus 演进
+日志：早期 P1C-2 基线约 112.49 MB/s；256-bit FBus、31 个读 ID 和独立
+写 ID 版本于 2026-09-14 上板后，小写 `w` 完成 256/256 次，CRC/timeout/
+AXI error 均为零，实测约 **351 MB/s @100 MHz**。它仍未达到项目设定的
+600 MB/s Gate，也不能据带宽压测推导完整推理 FPS。
 
 该压力测试的 **2,116,800 bytes** 是通用输出大小的诊断payload；当前PPU每图六个raw heads合计 **907,200 bytes**。二者不能混为当前真实后处理流量。
 
-按源码尺寸计算，若假设16路各30图/s全部推理，单原始头读取就需907200×480=**435.456 MB/s**；预处理输出写入还需921600×480=**442.368 MB/s**，并且存在权重、激活、视频读写和cache维护开销。该计算只是需求估算，不是已达到吞吐。当前FBus内部64-bit×100 MHz给出单向理想payload上限800 MB/s，实际受共享互连、缓存、burst和仲裁影响。
+按源码尺寸计算，若假设16路各30图/s全部推理，单原始头读取就需907200×480=**435.456 MB/s**；流式 Tensor DMA 写入还需921600×480=**442.368 MB/s**，并且存在权重、激活、视频读写和cache维护开销。该计算只是需求估算，不是已达到吞吐。当前FBus内部64-bit×100 MHz给出单向理想payload上限800 MB/s，实际受共享互连、缓存、burst和仲裁影响。
 
 历史600 MB/s与1.2 GB/s门槛针对既有诊断/产品规格，不能直接作为907200-byte PPU链路已验收依据。未见当前完整系统的实测16路推理FPS、逐路时延分布和完整时序签核证据，本文不填入猜测值。
 
-### 16.3 本次文档核验范围
+### 16.3 2026-09-18 当前验收基线
 
-本次工作完成代码阅读、生产源清单/实例参数核对、文档链接与结构检查，并于2026-09-12执行以下现有回归：
+当前代码与板上证据分层如下：
 
 | 本次执行项 | 结果 |
 | --- | --- |
-| `sw/test/run_ai_batch_runtime_test.sh` | `TEST_AI_BATCH_RUNTIME=PASS`；使用host stub，不能代表Gemmini板测 |
+| `sw/test/run_ai_batch_runtime_stream_test.sh` | `AI_BATCH_RUNTIME_STREAM=PASS submit=6 release=9` |
+| `sw/test/run_ai_head_slot_queue_test.sh` | `AI head slot queue PASS` |
+| `sw/test/run_ai_postprocess_schedule_test.sh` | `AI postprocess scheduling PASS` |
 | `scripts/run_yolov5nu_postprocess_tests.sh` 分类归约 | PASS，6300 positions、10 candidates |
 | Top-K/NMS、DFL uniform | PASS |
 | DFL float32参考对照 | PASS，48个随机locations |
@@ -595,25 +772,42 @@ image025自检的冻结参考如下：
 | 参考corpus浮点/像素坐标NMS对照 | 128张，mismatches=0 |
 | Markdown本地链接、代码块、阶段表 | 链接目标存在，代码块配对，stage0～166共167项 |
 
-本次没有执行板卡下载、训练、模型再生成或Vivado完整实现；没有把仿真周期换算为实际板端推理性能。
+
+板上已完成：
+
+- CH1～CH8 流式 Tensor 生产，921600 B/帧，`overflow=0`、AXI response error=0，共享 DMA 观察到 8 outstanding；
+- `T` 固定 image025 的 PPU/CPU 对照连续 PASS，score=0.858；
+- 双 worker、A/B Head Slot、job/stream/frame/version metadata 匹配；
+- Graph 启动时观察到 PPU `BUSY|READ_BUSY=0x9`，异步重叠成立；
+- 未观察到 PPU、Tensor Slot、Head Slot 或 stale result 所有权错误。
+
+当前物理接入只验收 CH1～CH8；CH9～CH16 的单路 sidecar 历史测试已
+通过，但本轮没有接入真实摄像头。完整 16 路每路 30 FPS、长时间压力
+和 PVT 时序仍未签收。
 
 ## 17. 当前限制与维护不变量
 
 | 限制/风险 | 当前代码含义 |
 | --- | --- |
 | 固定shape/scale/LUT | PPU只对应当前640×480量化模型；更换模型需要全链更新 |
-| 单PPU、单预处理器 | 双worker/双arena提供重叠机会，不把这些硬件变为双执行引擎 |
+| 单 PPU | 双 worker/双 Head Slot 可与 PPU 重叠，但两个 worker 的后处理仍串行经过同一 PPU |
+| Tensor 帧准入 | 当前 `admission_limit=1` 且 SOF/RR 判定会跳过大量帧，已连接路约 2～3 FPS，不是 30 FPS |
 | PPU与CPU结果边界 | Top-256和整数NMS有差异；现有corpus通过不证明任意输入一致 |
 | 源帧与显示不同步 | latest detection叠加latest display，未做跟踪或同帧显示 |
 | 标签长度/框容量 | 16字符、8框/stream；模型返回最多10、公共结构32 |
-| timeout不能强制取消 | backend在running时abort返回错误；PPU timeout保留其owner/arena以免读悬空；不应把软件报错当作硬件已静止 |
-| runtime故障恢复 | 50秒timeout会完成软件channel，但不保证未完成DMA停下；异常后需要确认硬件状态，不能承诺完整自动恢复 |
+| timeout不能强制取消 | backend 在 running 时 abort 返回错误；PPU timeout 保留其 Head Slot owner 以免读悬空；不应把软件报错当作硬件已静止 |
+| runtime故障恢复 | 50秒 timeout 不是硬件强制取消；为避免 DMA/PPU 仍访问时覆盖 Slot，异常路径可保留所有权并要求复位检查 |
 | 轮询服务 | 自检/CPU重操作可能阻塞HDMI服务；没有视频外部IRQ与OS抢占 |
-| 带宽验收未完成 | 当前保存的P1C-2仍112 MB/s；PPU上线不自动解决FBus性能 |
+| 带宽验收未完成 | 当前新版板测约351 MB/s @100 MHz，仍低于600 MB/s Gate；PPU上线不自动解决FBus性能 |
 | 生成器不同步 | 重生runtime可能覆盖PPU集成，修改生成流程前需补齐模板 |
 | 历史文档落后 | 旧TinyYOLOv2 LoopConv错误是历史诊断，不能据旧文档认定当前YOLOv5nu仍有同一错误 |
 
-保持以下设计不变量：源帧地址和CPU alias分清；snapshot引用在预处理之后释放；输入arena全部成员结束后才回收；worker原始头读完前激活区不得复用；软件全局worker选择仅在单CPU协作环境使用；PPU doorbell前保持fence/flush；所有权交接等待ack；结果版本不可倒退；overlay帧边界更新；端口位宽/opcode/CSR与选定SoC一致。
+保持以下设计不变量：视频物理地址和 CPU alias 分清；Tensor Slot 只在
+最后 AXI B 成功后发布 READY；RUNNING Slot 只在 compute completion 后释放；
+Head Slot 只在 PPU completion 后释放；PPU doorbell 前保持 fence/flush；
+job/worker/stream/frame/version 完整校验；stream inflight 保持到 result completion；
+结果版本不可倒退；overlay 只在输出帧边界更新；端口位宽、opcode 和 CSR
+必须与选定 SoC 一致。
 
 源码未实现的系统能力包括任意ONNX运行时、多模型同时调度、目标跟踪、视频文件录制、网络流输出、训练/在线学习、16路每路30FPS推理保证。离线工具中存在模型转换和参考运算，不等于板端具备训练能力。
 
@@ -621,21 +815,25 @@ image025自检的冻结参考如下：
 
 | 路径 | 阅读用途 |
 | --- | --- |
-| [top_wrapper.sv](../rtl/top_wrapper.sv) / [ddr_memory_subsystem.sv](../rtl/memory/ddr_memory_subsystem.sv) | 系统真实连接与地址池 |
-| [camera_subsystem.sv](../rtl/video/camera/camera_subsystem.sv) | 当前生产采样/恢复参数与CDC |
-| [multi_channel_frame_manager.sv](../rtl/video/framebuffer/multi_channel_frame_manager.sv) | slot、display、AI引用 |
-| [frame_preprocess_accel.sv](../rtl/ai/preprocess/frame_preprocess_accel.sv) / [batch_preprocess_engine.sv](../rtl/ai/preprocess/batch_preprocess_engine.sv) | 输入张量格式及arena写入 |
-| [ai_batch_runtime.c](../sw/src/ai_batch_runtime.c) | 两context、两worker、公平调度、drain和发布 |
-| [ai_model_backend_yolov5nu.c](../sw/src/ai_model_backend_yolov5nu.c) | PPU探测/仲裁/flush/软件回退 |
-| [yolov5nu_dim16_dual.c](../sw/yolov5/dim16_dual/yolov5nu_dim16_dual.c) | 167阶段生产图、算子调用、静态内存 |
-| [yolov5nu_postprocessor.sv](../rtl/ai/postprocess/yolov5nu_postprocessor.sv) | 当前硬件六头后处理 |
-| [ai_result_manager.c](../sw/src/ai_result_manager.c) / [ai_overlay.c](../sw/src/ai_overlay.c) | 版本排序与标签提交 |
-| [detection_overlay.sv](../rtl/video/overlay/detection_overlay.sv) | 原子显示和字符流水线 |
-| [main.c](../sw/src/main.c) / [platform.h](../sw/src/platform.h) / [Makefile](../sw/Makefile) | 命令、地址、生产源清单 |
-| [P1C板测记录](AI_Postprocessor_P1C_Board_Validation.md) | 带宽原始日志和历史阶段结论 |
-| [YOLOv5nu算子数据流](../sw/yolov5/docs/YOLOV5NU_640X480_OPERATOR_DATAFLOW.md) | 模型级算子清单；物理head布局以当前C实现为准 |
+| [top_wrapper.sv](../../rtl/top_wrapper.sv) / [ddr_memory_subsystem.sv](../../rtl/memory/ddr_memory_subsystem.sv) | 系统真实连接与地址池 |
+| [camera_subsystem.sv](../../rtl/video/camera/camera_subsystem.sv) | 当前生产采样/恢复参数与CDC |
+| [multi_channel_frame_manager.sv](../../rtl/video/framebuffer/multi_channel_frame_manager.sv) | slot、display、AI引用 |
+| [yolov5nu_multi_channel_tensor_dma.sv](../../rtl/ai/preprocess/yolov5nu_multi_channel_tensor_dma.sv) | 16 路流式 RGB INT8 生产、共享 DMA 与 32 Slot 发布 |
+| [ai_batch_runtime_stream.c](../../sw/src/ai_batch_runtime_stream.c) / [ai_tensor_slot_pool.c](../../sw/src/ai_tensor_slot_pool.c) | latest-frame、EDF、Tensor Slot、TTL、drain 和异步 completion |
+| [ai_head_slot_queue.c](../../sw/src/ai_head_slot_queue.c) / [yolov5nu_head_layout.h](../../sw/yolov5/dim16_dual/yolov5nu_head_layout.h) | 双 Head Slot 状态机、地址布局和 descriptor |
+| [ai_model_backend_yolov5nu.c](../../sw/src/ai_model_backend_yolov5nu.c) | compute/result 分离、PPU 队列、flush、result FIFO 和软件回退 |
+| [yolov5nu_dim16_dual.c](../../sw/yolov5/dim16_dual/yolov5nu_dim16_dual.c) | 167阶段生产图、算子调用、静态内存 |
+| [yolov5nu_postprocessor.sv](../../rtl/ai/postprocess/yolov5nu_postprocessor.sv) | 当前硬件六头后处理 |
+| [ai_result_manager.c](../../sw/src/ai_result_manager.c) / [ai_overlay.c](../../sw/src/ai_overlay.c) | 版本排序与标签提交 |
+| [detection_overlay.sv](../../rtl/video/overlay/detection_overlay.sv) | 原子显示和字符流水线 |
+| [main.c](../../sw/src/main.c) / [platform.h](../../sw/src/platform.h) / [Makefile](../../sw/Makefile) | 命令、地址、生产源清单 |
+| [P1C板测记录](../验证记录/AI_Postprocessor_P1C_Board_Validation.md) | 带宽原始日志和历史阶段结论 |
+| [YOLOv5nu算子数据流](../../sw/yolov5/docs/YOLOV5NU_640X480_OPERATOR_DATAFLOW.md) | 模型级算子清单；物理head布局以当前C实现为准 |
 
-[当前系统完整架构](当前系统完整架构.md)是2026-09-08阶段记录，[当前已实现视频采集与AI输入架构](当前已实现视频采集与AI输入架构.md)是更早输入链路基线。本文补足后续时钟域重构、YOLOv5nu、PPU和文字叠加，用于当前代码理解；历史性能/故障记录保留用于追溯，不直接覆盖为当前验收结论。
+[当前系统完整架构](当前系统完整架构.md)是 2026-09-08 TinyYOLOv2 阶段记录，
+[当前已实现视频采集与AI输入架构](当前已实现视频采集与AI输入架构.md)是更早的 snapshot/预处理基线。本文是当前已实现系统的权威入口；
+[后处理分阶段实施计划](YOLOv5nu后处理分阶段实施计划.md)保存 P1～P3 的详细实施和板测过程；
+[3×Gemmini64 目标架构](3×Gemmini64%20十六路%20YOLOv5nu%20流式推理%20SoC%20架构设计.md)描述未来性能方案，不应被当作当前已实现硬件。
 
 ## 附录 A：生产 AOT 167-stage 调度索引
 

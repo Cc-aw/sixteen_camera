@@ -200,6 +200,10 @@
 #define AI_MODEL_OUTPUT0_PHYS_BASE UINT32_C(0x32000000)
 #define AI_MODEL_OUTPUT_ARENA_BYTES UINT32_C(0x00400000)
 #define AI_MODEL_OUTPUT_TENSOR_BYTES UINT32_C(0x00204CC0)
+/* Worker0 reserves its first 2 MiB for two raw-head slots.  Keep the
+ * concurrent reader bandwidth diagnostic in the unused upper half. */
+#define AI_POSTPROCESS_BANDWIDTH_PHYS_BASE UINT32_C(0x32200000)
+#define AI_POSTPROCESS_BANDWIDTH_BYTES UINT32_C(0x00200000)
 #define AI_DDR_CPU_ALIAS(address) ((uintptr_t)(address) | UINT32_C(0x80000000))
 
 #define GPIO_OUT_TX_ENABLE   (UINT32_C(1) << 0)

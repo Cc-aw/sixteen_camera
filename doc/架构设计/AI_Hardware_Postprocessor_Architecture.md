@@ -1909,7 +1909,7 @@ model_contract
 状态（2026-09-11）：**正确性通过，平台带宽 No-Go，P1C 尚未关闭**。板测完成
 256/256 次读取，累计 541,900,800 byte，CRC 完全一致且无 timeout/AXI
 error；但并发吞吐仅 118 MB/s，低于当前 8 路平台 600 MB/s Gate。完整日志、
-计算和根因证据见 [AI_Postprocessor_P1C_Board_Validation.md](AI_Postprocessor_P1C_Board_Validation.md)。
+计算和根因证据见 [AI_Postprocessor_P1C_Board_Validation.md](../验证记录/AI_Postprocessor_P1C_Board_Validation.md)。
 
 同时运行：
 
@@ -1979,7 +1979,7 @@ AXI4ToTL，并将外部 burst 改为 64 B，使 AXI4Fragmenter 能在 ID 间轮�
 运行时 burst 扫描保留为诊断工具，但不为它单独生成 bitstream。
 
 详细实施顺序与基线见
-[AI_Postprocessor_P1C_Board_Validation.md](AI_Postprocessor_P1C_Board_Validation.md)。
+[AI_Postprocessor_P1C_Board_Validation.md](../验证记录/AI_Postprocessor_P1C_Board_Validation.md)。
 
 ---
 

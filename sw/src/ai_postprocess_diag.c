@@ -39,7 +39,7 @@
 #define DIAG_STRESS_BYTES     UINT32_C(4099)
 #define DIAG_STRESS_STRIDE    UINT32_C(0x10000)
 #define DIAG_STRESS_OFFSET    UINT32_C(3)
-#define DIAG_BANDWIDTH_BYTES  AI_MODEL_OUTPUT_TENSOR_BYTES
+#define DIAG_BANDWIDTH_BYTES  AI_POSTPROCESS_BANDWIDTH_BYTES
 #define TAIHANG_L2_FLUSH64    ((uintptr_t)UINT64_C(0x02010200))
 
 typedef struct {
@@ -309,7 +309,8 @@ int ai_postprocess_bandwidth_start(uint32_t iterations,
     bandwidth = (AiPostprocessBandwidthState){0};
     bandwidth.result.iterations_requested = iterations;
     bandwidth.result.burst_bytes = burst_bytes;
-    buffer = (uint8_t *)AI_DDR_CPU_ALIAS(AI_MODEL_OUTPUT0_PHYS_BASE);
+    buffer = (uint8_t *)AI_DDR_CPU_ALIAS(
+        AI_POSTPROCESS_BANDWIDTH_PHYS_BASE);
     for (uint32_t index = 0U; index < DIAG_BANDWIDTH_BYTES; ++index)
         buffer[index] = (uint8_t)(index * UINT32_C(29) +
                                   (index >> 7) + UINT32_C(0x5a));
@@ -338,7 +339,7 @@ int ai_postprocess_bandwidth_poll(AiPostprocessBandwidthResult *result)
         if (elapsed < SOC_CLOCK_HZ / UINT64_C(1000))
             return 0;
         status = ai_postprocess_diag_start_fast(
-            AI_MODEL_OUTPUT0_PHYS_BASE, DIAG_BANDWIDTH_BYTES);
+            AI_POSTPROCESS_BANDWIDTH_PHYS_BASE, DIAG_BANDWIDTH_BYTES);
         if (status == -2) {
             bandwidth.result.busy_retries++;
             if (elapsed <= DIAG_TIMEOUT_CYCLES)

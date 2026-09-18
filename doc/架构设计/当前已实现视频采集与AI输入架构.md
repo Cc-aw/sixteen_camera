@@ -75,7 +75,7 @@ CH0~CH15。
   滤波、帧边界识别和时钟域转换。
 - CH8~CH15：一路 3840x2160p30、RGB888、2 pixels/clock 的 HDMI transport
   经过固定空间裁剪，拆出 8 个 640x480 stream。裁剪协议见
-  `doc/8路640x480视频在4K30_HDMI中的空间封装规范.md`。
+  `doc/接口规范/8路640x480视频在4K30_HDMI中的空间封装规范.md`。
 - 进入 `multi_channel_ddr_video_pipeline` 前，所有输入都已经位于 DDR
   时钟域的统一 stream 接口；该模块不再承担摄像头 PCLK CDC。
 

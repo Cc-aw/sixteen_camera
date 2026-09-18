@@ -15,7 +15,13 @@
 
 本文定义下一阶段 16 路实时 YOLOv5nu 推理系统的目标架构。
 
-当前生产系统已经实现视频采集、DDR 帧池、snapshot、硬件预处理、双 Tensor Arena、双 Gemmini worker、YOLOv5nu AOT 推理、PPU1 后处理和 16 路 mosaic 显示。当前计算系统实际为 **1 Rocket + 1 Saturn RVV + 2×16×16 Gemmini**，而非本文设计的三颗 64×64 Gemmini。
+当前生产系统已经实现视频采集、DDR 帧池、直连视频 tap 的流式硬件预处理、
+32 个 Tensor Slot、共享多通道 DMA、双 Gemmini worker、YOLOv5nu AOT 推理、PPU1 后处理和
+16 路 mosaic 显示。当前计算系统实际为 **1 Rocket + 1 Saturn RVV + 2×16×16 Gemmini**，
+而非本文设计的三颗 64×64 Gemmini。
+
+当前已实现功能、接口和板测边界以
+[YOLOv5nu 推理与 16 路视频系统架构](YOLOv5nu推理与全系统架构.md)为权威入口；本文后续章节描述未来目标，不能据此认定 Gemmini64、TTE、PPU V2 或 480 FPS 已经实现。
 
 当前系统已经具备较完整的正确性基础，但下一阶段的主要目标从“链路可以正确运行”转变为：
 
@@ -25,27 +31,27 @@
 
 ---
 
-# 2. 当前架构基础
+# 2. 当前架构基础（2026-09-18 板上状态）
 
-当前系统数据流大致为：
+当前已不再使用“从 DDR framebuffer 读回后二次预处理”作为默认 YOLOv5nu 输入路径。
+实际数据流为：
 
 ```text
-Video Input
+16-channel accepted video tap
     │
     ▼
-DDR Framebuffer
+16 × RGB INT8 packer + per-channel elastic FIFO
     │
     ▼
-Snapshot / ai_ref
+Shared multi-channel Tensor DMA
+RR + watermark + aging + adaptive burst + 8 outstanding
     │
     ▼
-Hardware Preprocess
+DDR Tensor Slot Pool
+2 slots/channel, 32 slots total
     │
     ▼
-Double Tensor Arena
-    │
-    ▼
-Single CPU Scheduler
+Latest-frame + EDF cooperative runtime
     │
     ├───────────────┐
     ▼               ▼
@@ -53,13 +59,14 @@ Gemmini16 #0    Gemmini16 #1
     │               │
     └──────┬────────┘
            ▼
-      Raw YOLO Heads
+ 2 Head Slots / worker
+           │
+           ├──────── compute completion ──► release Tensor Slot / next Graph
+           ▼
+     READY Head Queue
            │
            ▼
-       Cache Flush
-           │
-           ▼
-          PPU1
+     PPU1 + result FIFO
            │
            ▼
      Result Manager
@@ -68,13 +75,36 @@ Gemmini16 #0    Gemmini16 #1
         Overlay
 ```
 
-当前输入链中，预处理引擎从 DDR framebuffer 读取 640×480 XRGB8888 图像，再生成紧凑的 640×480×3 INT8 Tensor。YOLOv5nu 在线生产路径不执行 resize 或 letterbox，只进行 RGB 提取和 `>>1` 定点量化。
-
-当前双 Tensor Arena 每个包含 16 个成员，两个 Arena 交替工作。一个 Arena 中所有有效成员全部完成或跳过之后，整个 Arena 才能回收。
+输入 tap 直接生成紧凑的 640×480×3 RGB INT8 Tensor，不执行 resize 或 letterbox。
+共享 DMA 在最后一笔 AXI B 响应成功后才发布 READY；每路独立保存 frame ID、capture
+timestamp、version、byte count、state 和 error code。软件在每路两个物理槽之间选择
+latest frame，使用 EDF 调度两个 Gemmini16 worker，并使用 Result TTL 清除过期检测框。
 
 当前 worker 使用单 CPU cooperative runtime。YOLOv5nu AOT 图包含 167 个 stage，其中 78 个 stage 提交加速器运算；两个 worker 共享 CPU/RVV 软件执行时间。
 
-当前后处理器由两个 worker 共享。Gemmini 产生的六路 raw head 保存在 worker activation arena 中，在 PPU 完成读取前对应 arena 不能复用。
+当前后处理器由两个 worker 共享。每个 worker 的六路 raw head 直接写入 A/B 两个独立
+Head Slot，不再保存在 activation arena 后复制。Graph 完成后输入 Tensor Slot、worker
+context 和 activation arena 当轮释放；Head descriptor 独立持有旧帧 metadata，直到
+PPU result completion 后才释放 Head Slot。backend 已将 compute completion 与 result
+completion 分开。
+
+当前板上已验证的边界为：
+
+- CH1–CH8 sidecar 均能生成 921600 字节 Tensor，数据非零且无 overflow；
+- 8 路生产计数公平增长，`no_slot=0`、`overflow=0`、`error=0`；
+- 共享 DMA 实测达到 8 outstanding，burst 发出数等于完成数，AXI response error 为 0；
+- 两个 PPU worker 均已执行实际 positions/candidate/NMS 任务；
+- worker/slot/job metadata 一一对应，Head Slot 按 A/B 交替；
+- 新 Graph 启动时捕获到旧 PPU `BUSY|READ_BUSY=0x9`，板上已验证
+  `PPU(frame N) || Gemmini Graph(frame N+1)`；
+- CH9–CH16 当前未连接摄像头，本轮不作为板上输入验收对象。
+
+当前吞吐仍受准入机制限制。固件配置 `admission_limit=1`，RTL 又要求每拍转动的
+`admission_rr` 与单拍 `tap_sof` 同周期才接收帧。板上约为 2–3 FPS/路，累计
+`missed=admit_skip=2006`，但 `no_slot/overflow/error` 全部为 0。因此当前丢帧位于
+SOF 准入阶段，不是 DDR 带宽耗尽或 AXI 写入错误。达成 8/16 路各 30 FPS 前，还需重构帧边界准入并分阶段提高并发采集数。
+
+详细板上日志解读和验收缺口见 [YOLOv5nu 流式输入正式接入验证](../验证记录/YOLOv5nu流式输入正式接入验证.md)。
 
 当前系统已经具备良好的所有权和结果一致性设计，因此下一代架构应优先保留以下设计思想：
 

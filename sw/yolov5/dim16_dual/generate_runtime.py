@@ -72,7 +72,8 @@ def build() -> str:
         'image025-profile_params.h"',
         '#include "yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-'
         'image025-profile_params.h"\n'
-        '#include "yolov5nu_dim16_dual.h"\n\n'
+        '#include "yolov5nu_dim16_dual.h"\n'
+        '#include "yolov5nu_head_layout.h"\n\n'
         '#if DIM != 16\n'
         '#error "This runtime requires the current DIM16 Gemmini parameters"\n'
         '#endif')
@@ -96,6 +97,18 @@ def build() -> str:
     cases = []
     for stage, block in enumerate(blocks):
         block = block.replace("yolov5nu_input", "model_input")
+        # The final six raw tensors use a dedicated slot in hardware mode.
+        # With no slot selected these aliases resolve to the validated arena
+        # addresses, preserving the CPU fallback and static comparison path.
+        for tensor, raw_head in (
+            ("tensor_179", "raw_dfl0"),
+            ("tensor_180", "raw_class0"),
+            ("tensor_215", "raw_dfl1"),
+            ("tensor_216", "raw_class1"),
+            ("tensor_241", "raw_dfl2"),
+            ("tensor_242", "raw_class2"),
+        ):
+            block = block.replace(tensor, raw_head)
         if stage == 165:
             block = block.replace(
                 "{", "{\n    if (context->hardware_head) {\n"
@@ -120,6 +133,7 @@ enum { YOLOV5NU_GRAPH_STAGE_COUNT = 167U };
 
 struct yolov5nu_worker_context {
   const elem_t *input;
+  elem_t *head_slot;
   uint32_t stage;
   uint32_t active;
   uint32_t waiting;
@@ -130,6 +144,24 @@ struct yolov5nu_worker_context {
 
 static struct yolov5nu_worker_context
   worker_contexts[YOLOV5NU_DIM16_WORKER_COUNT];
+
+static elem_t *head_pointer(elem_t *slot, uintptr_t offset,
+                            elem_t *legacy) {
+  return slot != NULL ? slot + offset : legacy;
+}
+
+#define raw_class0 head_pointer(context->head_slot, \
+    YOLOV5NU_HEAD_CLASS0_OFFSET, tensor_180)
+#define raw_class1 head_pointer(context->head_slot, \
+    YOLOV5NU_HEAD_CLASS1_OFFSET, tensor_216)
+#define raw_class2 head_pointer(context->head_slot, \
+    YOLOV5NU_HEAD_CLASS2_OFFSET, tensor_242)
+#define raw_dfl0 head_pointer(context->head_slot, \
+    YOLOV5NU_HEAD_DFL0_OFFSET, tensor_179)
+#define raw_dfl1 head_pointer(context->head_slot, \
+    YOLOV5NU_HEAD_DFL1_OFFSET, tensor_215)
+#define raw_dfl2 head_pointer(context->head_slot, \
+    YOLOV5NU_HEAD_DFL2_OFFSET, tensor_241)
 
 static inline uint64_t read_worker_busy(uint32_t worker_id) {
   uint64_t value;
@@ -165,6 +197,17 @@ void yolov5nu_dim16_worker_use_hardware(uint32_t worker_id, int enabled) {
 uintptr_t yolov5nu_dim16_worker_arena(uint32_t worker_id) {
   return worker_id < YOLOV5NU_DIM16_WORKER_COUNT ?
          (uintptr_t)activation_arenas[worker_id] : 0;
+}
+
+void yolov5nu_dim16_worker_set_head_slot(uint32_t worker_id,
+    uintptr_t head_slot_addr) {
+  if (worker_id < YOLOV5NU_DIM16_WORKER_COUNT)
+    worker_contexts[worker_id].head_slot = (elem_t *)head_slot_addr;
+}
+
+uintptr_t yolov5nu_dim16_worker_head_slot(uint32_t worker_id) {
+  return worker_id < YOLOV5NU_DIM16_WORKER_COUNT ?
+         (uintptr_t)worker_contexts[worker_id].head_slot : 0;
 }
 
 void yolov5nu_dim16_worker_finish_hardware(uint32_t worker_id) {

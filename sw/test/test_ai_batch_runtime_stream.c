@@ -18,12 +18,18 @@ static uint32_t version[32];
 static uint64_t capture_timestamp[32];
 static uint32_t overlay_clear_count;
 static AiModelFrameRequest requests[AI_MODEL_WORKER_COUNT];
-static AiDetectionResult results[AI_MODEL_WORKER_COUNT];
 static uint32_t backend_running[AI_MODEL_WORKER_COUNT];
-static uint32_t complete_allowed[AI_MODEL_WORKER_COUNT];
+static uint32_t compute_allowed[AI_MODEL_WORKER_COUNT];
+static uint32_t result_allowed[AI_MODEL_WORKER_COUNT];
 static uint32_t submit_count;
 static uint32_t corrupt_completion;
 static uint32_t admission_mask, admission_limit;
+typedef struct {
+    uint32_t active;
+    AiModelFrameRequest request;
+    AiDetectionResult result;
+} MockPostCompletion;
+static MockPostCompletion pending[AI_MODEL_RESULT_QUEUE_CAPACITY];
 
 uint32_t mmio_read32(uintptr_t address)
 {
@@ -137,6 +143,7 @@ void ai_model_backend_init(void)
 {
     memset(requests, 0, sizeof(requests));
     memset(backend_running, 0, sizeof(backend_running));
+    memset(pending, 0, sizeof(pending));
 }
 
 int ai_model_backend_submit(const AiModelFrameRequest *request)
@@ -161,13 +168,13 @@ int ai_model_backend_submit(const AiModelFrameRequest *request)
     return 0;
 }
 
-int ai_model_backend_poll(uint32_t worker,
-                          AiModelFrameCompletion *completion)
+int ai_model_backend_poll_compute(uint32_t worker,
+                                  AiModelComputeCompletion *completion)
 {
     assert(worker < AI_MODEL_WORKER_COUNT && backend_running[worker]);
-    if (complete_allowed[worker] == 0U)
+    if (compute_allowed[worker] == 0U)
         return 0;
-    complete_allowed[worker] = 0U;
+    compute_allowed[worker] = 0U;
     backend_running[worker] = 0U;
     AiModelFrameRequest *request = &requests[worker];
     memset(completion, 0, sizeof(*completion));
@@ -175,20 +182,58 @@ int ai_model_backend_poll(uint32_t worker,
     completion->worker_id = worker;
     completion->stream_id = request->stream_id;
     completion->frame_id = request->frame_id;
-    if (corrupt_completion != 0U) {
-        completion->frame_id++;
-        corrupt_completion = 0U;
-    }
     completion->version = request->version;
-    results[worker].job_id = request->job_id;
-    results[worker].stream_id = request->stream_id;
-    results[worker].frame_id = request->frame_id;
-    results[worker].worker_id = worker;
-    results[worker].version = request->version;
-    results[worker].count = 1U;
-    completion->output_addr = (uintptr_t)&results[worker];
-    completion->output_desc.dtype = AI_TENSOR_DTYPE_CUSTOM;
+    uint32_t slot;
+    for (slot = 0U; slot < AI_MODEL_RESULT_QUEUE_CAPACITY; ++slot)
+        if (pending[slot].active == 0U)
+            break;
+    assert(slot < AI_MODEL_RESULT_QUEUE_CAPACITY);
+    pending[slot].active = 1U;
+    pending[slot].request = *request;
+    pending[slot].result.job_id = request->job_id;
+    pending[slot].result.stream_id = request->stream_id;
+    pending[slot].result.frame_id = request->frame_id;
+    pending[slot].result.worker_id = worker;
+    pending[slot].result.version = request->version;
+    pending[slot].result.count = 1U;
     return 1;
+}
+
+int ai_model_backend_poll_result(AiModelFrameCompletion *completion)
+{
+    for (uint32_t slot = 0U; slot < AI_MODEL_RESULT_QUEUE_CAPACITY; ++slot) {
+        MockPostCompletion *post = &pending[slot];
+        uint32_t worker = post->request.worker_id;
+        if (post->active == 0U || result_allowed[worker] == 0U)
+            continue;
+        result_allowed[worker]--;
+        memset(completion, 0, sizeof(*completion));
+        completion->job_id = post->request.job_id;
+        completion->worker_id = worker;
+        completion->stream_id = post->request.stream_id;
+        completion->frame_id = post->request.frame_id;
+        if (corrupt_completion != 0U) {
+            completion->frame_id++;
+            corrupt_completion = 0U;
+        }
+        completion->version = post->request.version;
+        completion->output_addr = (uintptr_t)&post->result;
+        completion->output_desc.dtype = AI_TENSOR_DTYPE_CUSTOM;
+        post->active = 0U;
+        return 1;
+    }
+    return 0;
+}
+
+uint32_t ai_model_backend_is_idle(void)
+{
+    for (uint32_t worker = 0U; worker < AI_MODEL_WORKER_COUNT; ++worker)
+        if (backend_running[worker] != 0U)
+            return 0U;
+    for (uint32_t slot = 0U; slot < AI_MODEL_RESULT_QUEUE_CAPACITY; ++slot)
+        if (pending[slot].active != 0U)
+            return 0U;
+    return 1U;
 }
 
 int ai_model_backend_abort(uint32_t worker)
@@ -228,48 +273,61 @@ int main(void)
            ((UINT32_C(1) << 16) | (UINT32_C(1) << 1)));
 
     publish_slot(17U, 16U);
+    publish_slot(2U, 18U);
     ai_batch_runtime_poll();
     assert(submit_count == 2U); /* One in-flight job per stream. */
-    assert(release_count == 1U); /* Input must remain owned while running. */
+    assert(release_count == 1U); /* Input remains owned during compute. */
 
-    complete_allowed[0] = 1U;
-    ai_batch_runtime_poll();
-    assert(release_count == 1U);
-    assert(ai_batch_runtime_latest_result(1U)->frame_id == 15U);
+    /* A compute completion does not wait for its PPU result. */
+    compute_allowed[0] = 1U;
     ai_batch_runtime_poll();
     assert(release_count == 2U && submit_count == 3U);
-    assert(requests[0].frame_id == 16U);
+    assert(ai_batch_runtime_latest_result(1U) == NULL);
+    assert(requests[0].stream_id == 2U && requests[0].frame_id == 18U);
+
+    /* worker0 now computes stream2 while its old stream1 result is pending. */
+    result_allowed[0] = 1U;
+    ai_batch_runtime_poll();
+    assert(ai_batch_runtime_latest_result(1U)->frame_id == 15U);
+    assert(backend_running[0] != 0U);
 
     ai_batch_runtime_set_enabled(0U);
     assert(ai_batch_runtime_is_idle() == 0U);
-    complete_allowed[0] = 1U;
-    complete_allowed[1] = 1U;
+    compute_allowed[0] = 1U;
+    compute_allowed[1] = 1U;
+    ai_batch_runtime_poll();
+    result_allowed[0] = 1U;
+    result_allowed[1] = 1U;
     for (uint32_t poll = 0U; poll < 12U; ++poll)
         ai_batch_runtime_poll();
     assert(ai_batch_runtime_is_idle() != 0U);
-    assert(ready == 0U && release_count == 4U);
-    assert(overlay_count >= 2U);
+    assert(ready == 0U && release_count == 5U);
+    assert(overlay_count >= 3U);
     AiBatchRuntimeStatus status;
     ai_batch_runtime_get_status(&status);
     assert(status.completed_job_count == 3U &&
            status.result_publish_count == 3U &&
            status.error_count == 0U);
+
     test_cycle += SOC_CLOCK_HZ / 10U + 1U;
     ai_batch_runtime_poll();
     assert(ai_batch_runtime_latest_result(0U) == NULL);
     assert(ai_batch_runtime_latest_result(1U) == NULL);
     ai_batch_runtime_poll();
     assert(overlay_clear_count >= 2U);
+
+    /* Corrupt final-result metadata after a valid compute completion. */
     ai_batch_runtime_set_enabled(1U);
     publish_slot(0U, 20U);
     ai_batch_runtime_poll();
     assert(submit_count == 4U && (ready & 1U) != 0U);
-    corrupt_completion = 1U;
-    complete_allowed[0] = 1U;
+    compute_allowed[0] = 1U;
     ai_batch_runtime_poll();
-    assert((ready & 1U) != 0U);
     ai_batch_runtime_poll();
     assert((ready & 1U) == 0U);
+    corrupt_completion = 1U;
+    result_allowed[0] = 1U;
+    ai_batch_runtime_poll();
     ai_batch_runtime_set_enabled(0U);
     ai_batch_runtime_poll();
     assert(ai_batch_runtime_is_idle() != 0U);
@@ -277,8 +335,7 @@ int main(void)
     assert(status.error_count == 1U &&
            status.result_publish_count == 3U);
 
-    /* Streams 2 and 3 have never completed and retain the earliest deadline;
-       EDF must select them ahead of stream 0 even though all are READY. */
+    /* Streams 2 and 3 retain the earliest deadline and win EDF. */
     ai_batch_runtime_set_enabled(1U);
     publish_slot(0U, 21U);
     publish_slot(2U, 30U);
@@ -288,8 +345,11 @@ int main(void)
     assert(requests[0].stream_id == 3U && requests[0].frame_id == 40U);
     assert(requests[1].stream_id == 2U && requests[1].frame_id == 30U);
     ai_batch_runtime_set_enabled(0U);
-    complete_allowed[0] = 1U;
-    complete_allowed[1] = 1U;
+    compute_allowed[0] = 1U;
+    compute_allowed[1] = 1U;
+    ai_batch_runtime_poll();
+    result_allowed[0] = 1U;
+    result_allowed[1] = 1U;
     for (uint32_t poll = 0U; poll < 12U; ++poll)
         ai_batch_runtime_poll();
     assert(ai_batch_runtime_is_idle() != 0U);
