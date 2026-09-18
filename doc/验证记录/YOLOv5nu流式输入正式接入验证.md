@@ -14,7 +14,7 @@
 
 ## 调度与结果时效
 
-每路保存 `last_complete_cycle/next_deadline/max_service_gap/missed_deadline_count`。worker 空闲时先选 deadline 最早的 READY stream，相同 deadline 选择 frame_id 较大的 descriptor。完成后下一 deadline 设为完成时刻加 33.333 ms。结果发布后启动 100 ms TTL；TTL 内没有更新时，Result Manager 使旧结果失效，并向 overlay 提交该 stream 的零框结果，避免旧检测框长期停留。串口 `s` 的逐路状态增加 `ver/deadline_miss/expire`。
+每路保存 `last_complete_cycle/next_deadline/max_service_gap/missed_deadline_count`。worker 空闲时先选 deadline 最早的 READY stream，相同 deadline 选择 frame_id 较大的 descriptor。完成后下一 deadline 设为完成时刻加 33.333 ms。结果发布后启动 1000 ms TTL；TTL 内没有更新时，Result Manager 使旧结果失效，并向 overlay 提交该 stream 的零框结果，避免旧检测框长期停留。串口 `s` 的逐路状态增加 `ver/deadline_miss/expire`。
 
 `m` 仍是只验证十六路张量写入和槽位元数据的诊断模式，与 `i` 互斥。`n` 仍能单路抓取到诊断地址。`s` 打印 `AI RT stream enable/drain/fault held/ready/writing/error`、任务完成/发布统计和逐路 dispatch/done/supersede/inflight/frame；`i` 再按一次停用并排空 READY 槽和运行中的 worker。
 

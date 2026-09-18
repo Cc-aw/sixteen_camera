@@ -75,6 +75,22 @@ typedef struct {
     uint32_t output_bytes;
 } AiModelFrameRequest;
 
+typedef struct {
+    uint64_t cpu_scheduler_cycles;
+    uint64_t rocc_submit_cycles;
+    uint64_t gemmini_busy_cycles;
+    uint64_t gemmini_load_stall_cycles;
+    uint64_t gemmini_exec_cycles;
+    uint64_t gemmini_store_stall_cycles;
+    uint64_t rvv_maxpool_cycles;
+    uint64_t rvv_resize_cycles;
+    uint64_t rvv_copy_requant_cycles;
+    uint64_t fence_cycles;
+    uint64_t tensor_wait_cycles;
+    uint64_t head_wait_cycles;
+    uint64_t ppu_queue_wait_cycles;
+} AiFrameProfile;
+
 /*
  * The input tensor and Gemmini activation arena may be released after this
  * event.  Final detections are delivered separately because hardware
@@ -88,6 +104,7 @@ typedef struct {
     uint32_t version;
     int32_t status;
     uint64_t compute_cycles;
+    AiFrameProfile profile;
 } AiModelComputeCompletion;
 
 typedef struct {
@@ -98,6 +115,7 @@ typedef struct {
     uint32_t version;
     int32_t status;
     uint64_t compute_cycles;
+    AiFrameProfile profile;
     uintptr_t output_addr;
     AiTensorDesc output_desc;
 } AiModelFrameCompletion;

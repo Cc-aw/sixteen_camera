@@ -198,6 +198,175 @@ static void start_benchmark_ppu(uintptr_t head)
     mmio_write32(POSTPROCESS_DIAG_BASE + BENCH_PPU_CONTROL, 1U);
 }
 
+static uint32_t benchmark_cycles_to_us(uint64_t cycles)
+{
+    return (uint32_t)((cycles * UINT64_C(1000000) +
+                       SOC_CLOCK_HZ / UINT64_C(2)) / SOC_CLOCK_HZ);
+}
+
+/*
+ * Standalone board timing path.  Unlike the T command, this does not run the
+ * software postprocessor.  It measures the current production head layout:
+ * fixed image025 Graph -> dedicated Head Slot -> cache publication -> PPU1.
+ */
+int ai_yolov5nu_graph_post_benchmark(void)
+{
+    uint64_t graph_sum = 0U;
+    uint64_t post_wall_sum = 0U;
+    uint64_t post_core_sum = 0U;
+    uint64_t total_sum = 0U;
+
+    if (mmio_read32(POSTPROCESS_DIAG_BASE + BENCH_PPU_CONTROL) !=
+        UINT32_C(0x50505531)) {
+        console_puts("YOLOV5NU_PIPE_BENCH FAIL reason=ppu_missing\r\n");
+        return 0;
+    }
+    console_puts("YOLOV5NU_PIPE_BENCH_BEGIN image=025 repeats=");
+    console_put_u32(BENCH_REPETITIONS);
+    console_puts(" clock_hz=");
+    console_put_u32(SOC_CLOCK_HZ);
+    console_puts("\r\n");
+
+    for (uint32_t iteration = 0U; iteration < BENCH_REPETITIONS;
+         ++iteration) {
+        struct yolov5nu_dim16_result unused_result;
+        uintptr_t head;
+        uint64_t graph_start, graph_cycles, post_start, post_wall_cycles;
+        uint64_t total_cycles;
+        uint32_t ppu_status, ppu_core_cycles, ppu_count, ppu_positions;
+        uint32_t ppu_candidates, ppu_nms_candidates, score_class;
+        uint32_t score_milli;
+        int status;
+
+        memset(&unused_result, 0, sizeof(unused_result));
+        graph_start = read_cycle();
+        if (yolov5nu_dim16_worker_start_reference(0U) < 0) {
+            console_puts("YOLOV5NU_PIPE_BENCH FAIL reason=graph_start\r\n");
+            return 0;
+        }
+        head = AI_DDR_CPU_ALIAS(AI_MODEL_OUTPUT0_PHYS_BASE +
+            (iteration & 1U) * YOLOV5NU_HEAD_SLOT_STRIDE);
+        yolov5nu_dim16_worker_set_head_slot(0U, head);
+        yolov5nu_dim16_worker_use_hardware(0U, 1);
+        for (;;) {
+            status = yolov5nu_dim16_worker_poll(0U, &unused_result);
+            if (status == YOLOV5NU_DIM16_HEAD_READY)
+                break;
+            if (status != YOLOV5NU_DIM16_RUNNING ||
+                read_cycle() - graph_start > SELFTEST_TIMEOUT_CYCLES) {
+                console_puts("YOLOV5NU_PIPE_BENCH FAIL reason=graph\r\n");
+                yolov5nu_dim16_worker_finish_hardware(0U);
+                return 0;
+            }
+        }
+        graph_cycles = read_cycle() - graph_start;
+
+        post_start = read_cycle();
+        start_benchmark_ppu(head);
+        for (;;) {
+            ppu_status = mmio_read32(POSTPROCESS_DIAG_BASE +
+                                     BENCH_PPU_STATUS);
+            if ((ppu_status & 2U) != 0U)
+                break;
+            if (read_cycle() - post_start > SOC_CLOCK_HZ * UINT64_C(30)) {
+                console_puts("YOLOV5NU_PIPE_BENCH FAIL reason=ppu_timeout status=");
+                console_put_hex32(ppu_status);
+                console_puts("\r\n");
+                yolov5nu_dim16_worker_finish_hardware(0U);
+                return 0;
+            }
+        }
+        ppu_core_cycles = mmio_read32(POSTPROCESS_DIAG_BASE +
+                                      BENCH_PPU_CYCLES);
+        ppu_positions = mmio_read32(POSTPROCESS_DIAG_BASE +
+                                    BENCH_PPU_POSITIONS);
+        ppu_candidates = mmio_read32(POSTPROCESS_DIAG_BASE +
+                                     BENCH_PPU_CANDIDATES);
+        ppu_nms_candidates = mmio_read32(POSTPROCESS_DIAG_BASE +
+                                         BENCH_PPU_NMS_CANDIDATES);
+        ppu_count = mmio_read32(POSTPROCESS_DIAG_BASE +
+                                BENCH_PPU_RESULT_COUNT);
+        mmio_write32(POSTPROCESS_DIAG_BASE + BENCH_PPU_RESULT_INDEX, 0U);
+        score_class = mmio_read32(POSTPROCESS_DIAG_BASE +
+                                  BENCH_PPU_SCORE_CLASS);
+        post_wall_cycles = read_cycle() - post_start;
+        yolov5nu_dim16_worker_finish_hardware(0U);
+
+        score_milli = ((score_class & 0xffffU) * 1000U + 16384U) /
+                      32768U;
+        if (ppu_status != 2U || ppu_positions != 6300U ||
+            ppu_candidates != 10U || ppu_nms_candidates != 10U ||
+            ppu_count != 1U || ((score_class >> 16) & 0x7fU) != 23U ||
+            difference_u32(score_milli, 858U) > 1U) {
+            console_puts("YOLOV5NU_PIPE_BENCH FAIL reason=ppu_result status/count/positions/candidates/nms/class/score_milli=");
+            console_put_hex32(ppu_status);
+            console_putc('/');
+            console_put_u32(ppu_count);
+            console_putc('/');
+            console_put_u32(ppu_positions);
+            console_putc('/');
+            console_put_u32(ppu_candidates);
+            console_putc('/');
+            console_put_u32(ppu_nms_candidates);
+            console_putc('/');
+            console_put_u32((score_class >> 16) & 0x7fU);
+            console_putc('/');
+            console_put_u32(score_milli);
+            console_puts("\r\n");
+            return 0;
+        }
+
+        total_cycles = graph_cycles + post_wall_cycles;
+        graph_sum += graph_cycles;
+        post_wall_sum += post_wall_cycles;
+        post_core_sum += ppu_core_cycles;
+        total_sum += total_cycles;
+        console_puts("YOLOV5NU_PIPE_BENCH sample/graph_cycles/post_wall_cycles/post_core_cycles/total_cycles=");
+        console_put_u32(iteration + 1U);
+        console_putc('/');
+        console_put_hex64(graph_cycles);
+        console_putc('/');
+        console_put_hex64(post_wall_cycles);
+        console_putc('/');
+        console_put_u32(ppu_core_cycles);
+        console_putc('/');
+        console_put_hex64(total_cycles);
+        console_puts("\r\n");
+        console_puts("YOLOV5NU_PIPE_BENCH time_us graph/post_wall/post_core/total=");
+        console_put_u32(benchmark_cycles_to_us(graph_cycles));
+        console_putc('/');
+        console_put_u32(benchmark_cycles_to_us(post_wall_cycles));
+        console_putc('/');
+        console_put_u32(benchmark_cycles_to_us(ppu_core_cycles));
+        console_putc('/');
+        console_put_u32(benchmark_cycles_to_us(total_cycles));
+        console_puts("\r\n");
+    }
+
+    console_puts("YOLOV5NU_PIPE_BENCH_RESULT PASS avg_cycles graph/post_wall/post_core/total=");
+    console_put_hex64(graph_sum / BENCH_REPETITIONS);
+    console_putc('/');
+    console_put_hex64(post_wall_sum / BENCH_REPETITIONS);
+    console_putc('/');
+    console_put_hex64(post_core_sum / BENCH_REPETITIONS);
+    console_putc('/');
+    console_put_hex64(total_sum / BENCH_REPETITIONS);
+    console_puts("\r\n");
+    console_puts("YOLOV5NU_PIPE_BENCH_RESULT avg_us graph/post_wall/post_core/total=");
+    console_put_u32(benchmark_cycles_to_us(graph_sum / BENCH_REPETITIONS));
+    console_putc('/');
+    console_put_u32(benchmark_cycles_to_us(post_wall_sum /
+                                           BENCH_REPETITIONS));
+    console_putc('/');
+    console_put_u32(benchmark_cycles_to_us(post_core_sum /
+                                           BENCH_REPETITIONS));
+    console_putc('/');
+    console_put_u32(benchmark_cycles_to_us(total_sum /
+                                           BENCH_REPETITIONS));
+    console_puts("\r\n");
+    return 1;
+}
+
 int ai_yolov5nu_postprocess_benchmark(void)
 {
     uint64_t hardware_sum = 0U;

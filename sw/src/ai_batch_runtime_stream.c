@@ -15,7 +15,8 @@
 #define STREAM_MMIO_TIMEOUT (SOC_CLOCK_HZ / UINT64_C(10))
 #define STREAM_META_SETTLE (SOC_CLOCK_HZ / UINT64_C(100000))
 #define STREAM_TARGET_PERIOD (SOC_CLOCK_HZ / UINT64_C(30))
-#define STREAM_RESULT_TTL (SOC_CLOCK_HZ / UINT64_C(10))
+#define STREAM_RESULT_TTL SOC_CLOCK_HZ
+#define STREAM_PROFILE_CAPACITY 16U
 
 typedef struct {
     uint32_t active;
@@ -27,6 +28,7 @@ typedef struct {
     uint64_t timestamp;
     uint64_t job_id;
     uint64_t start_cycle;
+    AiFrameProfile profile;
 } StreamWorker;
 
 typedef struct {
@@ -38,7 +40,16 @@ typedef struct {
     uint64_t timestamp;
     uint64_t job_id;
     uint64_t start_cycle;
+    AiFrameProfile profile;
 } StreamPostJob;
+
+typedef struct {
+    uint64_t job_id;
+    uint64_t frame_id;
+    uint32_t stream;
+    uint32_t worker;
+    AiFrameProfile profile;
+} StreamProfileRecord;
 
 typedef struct {
     AiBatchRuntimeStatus status;
@@ -53,6 +64,11 @@ typedef struct {
     uint32_t draining;
     uint32_t faulted;
     uint64_t next_job_id;
+    uint64_t ready_seen_cycle[AI_TENSOR_SLOT_COUNT];
+    uint64_t head_wait_start[AI_TENSOR_SLOT_COUNT];
+    StreamProfileRecord profiles[STREAM_PROFILE_CAPACITY];
+    uint32_t profile_head;
+    uint32_t profile_count;
 } StreamRuntime;
 
 static StreamRuntime runtime;
@@ -234,7 +250,8 @@ static StreamPostJob *find_post_job(uint64_t job_id)
     return 0;
 }
 
-static int register_post_job(const StreamWorker *worker)
+static int register_post_job(const StreamWorker *worker,
+                             const AiModelComputeCompletion *completion)
 {
     for (uint32_t index = 0U; index < AI_MODEL_POSTPROCESS_CAPACITY;
          ++index) {
@@ -249,9 +266,47 @@ static int register_post_job(const StreamWorker *worker)
         post->timestamp = worker->timestamp;
         post->job_id = worker->job_id;
         post->start_cycle = read_cycle();
+        post->profile = completion->profile;
+        post->profile.cpu_scheduler_cycles +=
+            worker->profile.cpu_scheduler_cycles;
+        post->profile.tensor_wait_cycles =
+            worker->profile.tensor_wait_cycles;
+        post->profile.head_wait_cycles = worker->profile.head_wait_cycles;
         return 0;
     }
     return -1;
+}
+
+static void track_ready_slots(uint32_t ready)
+{
+    uint64_t now = read_cycle();
+    for (uint32_t slot = 0U; slot < AI_TENSOR_SLOT_COUNT; ++slot) {
+        uint32_t bit = UINT32_C(1) << slot;
+        if ((ready & bit) != 0U) {
+            if (runtime.ready_seen_cycle[slot] == 0U)
+                runtime.ready_seen_cycle[slot] = now;
+        } else {
+            runtime.ready_seen_cycle[slot] = 0U;
+            runtime.head_wait_start[slot] = 0U;
+        }
+    }
+}
+
+static void record_frame_profile(const StreamPostJob *post,
+                                 const AiModelFrameCompletion *completion)
+{
+    StreamProfileRecord *record = &runtime.profiles[runtime.profile_head];
+    record->job_id = post->job_id;
+    record->frame_id = post->frame_id;
+    record->stream = post->stream;
+    record->worker = post->worker;
+    record->profile = post->profile;
+    record->profile.ppu_queue_wait_cycles =
+        completion->profile.ppu_queue_wait_cycles;
+    runtime.profile_head =
+        (runtime.profile_head + 1U) % STREAM_PROFILE_CAPACITY;
+    if (runtime.profile_count < STREAM_PROFILE_CAPACITY)
+        runtime.profile_count++;
 }
 
 static uint32_t post_job_count(void)
@@ -307,6 +362,7 @@ static void progress_workers(void)
             }
             continue;
         }
+        uint64_t scheduler_start = read_cycle();
         if (status < 0 || completion.status != 0 ||
             completion.worker_id != worker_id ||
             completion.job_id != worker->job_id ||
@@ -325,7 +381,7 @@ static void progress_workers(void)
             }
             continue;
         }
-        if (register_post_job(worker) != 0) {
+        if (register_post_job(worker, &completion) != 0) {
             runtime.faulted = 1U;
             record_error(-51);
             continue;
@@ -338,6 +394,10 @@ static void progress_workers(void)
             runtime.faulted = 1U;
             continue;
         }
+        StreamPostJob *post = find_post_job(completion.job_id);
+        if (post != 0)
+            post->profile.cpu_scheduler_cycles +=
+                read_cycle() - scheduler_start;
         dispatch_jobs(hardware_ready());
     }
 }
@@ -355,6 +415,7 @@ static void progress_results(void)
             runtime.faulted = 1U;
             return;
         }
+        uint64_t scheduler_start = read_cycle();
         StreamPostJob *post = find_post_job(completion.job_id);
         if (post == 0) {
             record_error(-52);
@@ -406,6 +467,8 @@ static void progress_results(void)
         }
         complete_stream_job(post->stream, post->frame_id, post->version,
                             post_status);
+        post->profile.cpu_scheduler_cycles += read_cycle() - scheduler_start;
+        record_frame_profile(post, &completion);
         post->active = 0U;
     }
 }
@@ -459,10 +522,12 @@ static void service_stale_slots(uint32_t ready)
 
 static void dispatch_jobs(uint32_t ready)
 {
+    track_ready_slots(ready);
     if (runtime.status.enabled == 0U || runtime.faulted != 0U)
         return;
     for (uint32_t worker_id = 0U;
          worker_id < AI_MODEL_WORKER_COUNT; ++worker_id) {
+        uint64_t scheduler_start = read_cycle();
         StreamWorker *worker = &runtime.workers[worker_id];
         if (worker->active != 0U)
             continue;
@@ -521,12 +586,17 @@ static void dispatch_jobs(uint32_t ready)
                            worker_id * AI_MODEL_OUTPUT_ARENA_BYTES,
             .output_bytes = AI_MODEL_OUTPUT_ARENA_BYTES
         };
+        uint64_t before_submit = read_cycle();
         int submitted = ai_model_backend_submit(&request);
+        uint64_t after_submit = read_cycle();
         if (submitted != 0) {
             /* Both raw-head slots can be owned while the PPU drains.  This
              * is normal backpressure, not a model failure. */
-            if (submitted == -3)
+            if (submitted == -3) {
+                if (runtime.head_wait_start[selected_slot] == 0U)
+                    runtime.head_wait_start[selected_slot] = after_submit;
                 return;
+            }
             record_error(submitted);
             return;
         }
@@ -539,6 +609,16 @@ static void dispatch_jobs(uint32_t ready)
         worker->timestamp = selected_metadata.timestamp;
         worker->job_id = job_id;
         worker->start_cycle = submit_cycle;
+        memset(&worker->profile, 0, sizeof(worker->profile));
+        worker->profile.cpu_scheduler_cycles =
+            before_submit - scheduler_start;
+        if (runtime.ready_seen_cycle[selected_slot] != 0U)
+            worker->profile.tensor_wait_cycles =
+                submit_cycle - runtime.ready_seen_cycle[selected_slot];
+        if (runtime.head_wait_start[selected_slot] != 0U)
+            worker->profile.head_wait_cycles =
+                submit_cycle - runtime.head_wait_start[selected_slot];
+        runtime.head_wait_start[selected_slot] = 0U;
         runtime.held_mask |= UINT32_C(1) << selected_slot;
         runtime.streams[selected_stream].inflight_count++;
         runtime.streams[selected_stream].dispatched_count++;
@@ -550,6 +630,7 @@ static void dispatch_jobs(uint32_t ready)
         }
         stream->last_service_cycle = submit_cycle;
         runtime.status.preprocess_count++;
+        worker->profile.cpu_scheduler_cycles += read_cycle() - after_submit;
     }
 }
 
@@ -635,13 +716,16 @@ uint32_t ai_batch_runtime_is_idle(void)
 
 void ai_batch_runtime_poll(void)
 {
+    uint32_t ready = hardware_ready();
+    track_ready_slots(ready);
     progress_workers();
     progress_results();
     service_result_ttl();
     service_overlay();
     if (runtime.status.enabled == 0U && runtime.draining == 0U)
         return;
-    uint32_t ready = hardware_ready();
+    ready = hardware_ready();
+    track_ready_slots(ready);
     if (runtime.draining != 0U) {
         uint32_t releasable = ready & ~runtime.held_mask;
         if (releasable != 0U) {
@@ -666,6 +750,62 @@ void ai_batch_runtime_poll(void)
     }
     service_stale_slots(ready);
     dispatch_jobs(hardware_ready());
+}
+
+void ai_batch_runtime_print_frame_profiles(void)
+{
+    console_puts("AI FRAME PROFILE count/clock_hz=");
+    console_put_u32(runtime.profile_count);
+    console_putc('/');
+    console_put_u32(SOC_CLOCK_HZ);
+    console_puts("\r\n");
+    uint32_t oldest = (runtime.profile_head + STREAM_PROFILE_CAPACITY -
+                       runtime.profile_count) % STREAM_PROFILE_CAPACITY;
+    for (uint32_t item = 0U; item < runtime.profile_count; ++item) {
+        const StreamProfileRecord *record =
+            &runtime.profiles[(oldest + item) % STREAM_PROFILE_CAPACITY];
+        const AiFrameProfile *profile = &record->profile;
+        uint64_t rvv_cycles = profile->rvv_maxpool_cycles +
+                              profile->rvv_resize_cycles +
+                              profile->rvv_copy_requant_cycles;
+        console_puts("AI FRAME id/frame/stream/worker=");
+        console_put_hex64(record->job_id);
+        console_putc('/');
+        console_put_hex64(record->frame_id);
+        console_putc('/');
+        console_put_u32(record->stream);
+        console_putc('/');
+        console_put_u32(record->worker);
+        console_puts("\r\n  cycles scheduler/rocc/gem_busy/load_stall/exec/store_stall=");
+        console_put_hex64(profile->cpu_scheduler_cycles);
+        console_putc('/');
+        console_put_hex64(profile->rocc_submit_cycles);
+        console_putc('/');
+        console_put_hex64(profile->gemmini_busy_cycles);
+        console_putc('/');
+        console_put_hex64(profile->gemmini_load_stall_cycles);
+        console_putc('/');
+        console_put_hex64(profile->gemmini_exec_cycles);
+        console_putc('/');
+        console_put_hex64(profile->gemmini_store_stall_cycles);
+        console_puts("\r\n  cycles rvv/maxpool/resize/copy_requant/fence/tensor_wait/head_wait/ppu_queue_wait=");
+        console_put_hex64(rvv_cycles);
+        console_putc('/');
+        console_put_hex64(profile->rvv_maxpool_cycles);
+        console_putc('/');
+        console_put_hex64(profile->rvv_resize_cycles);
+        console_putc('/');
+        console_put_hex64(profile->rvv_copy_requant_cycles);
+        console_putc('/');
+        console_put_hex64(profile->fence_cycles);
+        console_putc('/');
+        console_put_hex64(profile->tensor_wait_cycles);
+        console_putc('/');
+        console_put_hex64(profile->head_wait_cycles);
+        console_putc('/');
+        console_put_hex64(profile->ppu_queue_wait_cycles);
+        console_puts("\r\n");
+    }
 }
 
 void ai_batch_runtime_print_status(void)

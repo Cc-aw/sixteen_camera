@@ -83,6 +83,7 @@ uint32_t ai_batch_runtime_is_enabled(void);
 uint32_t ai_batch_runtime_is_idle(void);
 void ai_batch_runtime_poll(void);
 void ai_batch_runtime_print_status(void);
+void ai_batch_runtime_print_frame_profiles(void);
 void ai_batch_runtime_get_status(AiBatchRuntimeStatus *status);
 const AiBatchContext *ai_batch_runtime_context(uint32_t arena);
 const AiDetectionResult *ai_batch_runtime_latest_result(uint32_t stream_id);

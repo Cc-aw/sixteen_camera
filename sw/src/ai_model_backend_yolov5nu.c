@@ -39,6 +39,7 @@ enum {
 #define PPU_STATUS_DONE UINT32_C(2)
 #define PPU_STATUS_ERROR UINT32_C(4)
 #define PPU_STATUS_READ_BUSY UINT32_C(8)
+#define AI_STREAM_HOTPATH_LOG 0
 
 _Static_assert(AI_MODEL_WORKER_COUNT <= AI_HEAD_SLOT_QUEUE_MAX_WORKERS,
                "head slot queue is smaller than the model worker pool");
@@ -55,6 +56,8 @@ static uint32_t hardware_log_count;
 static uint32_t queue_log_count;
 static uint32_t graph_start_log_count;
 static uint64_t hardware_start_cycles;
+static uint64_t head_ready_cycles[AI_HEAD_SLOT_QUEUE_CAPACITY];
+static AiFrameProfile head_profiles[AI_HEAD_SLOT_QUEUE_CAPACITY];
 static AiHeadSlotQueue head_queue;
 static uint32_t worker_head_slot[AI_MODEL_WORKER_COUNT];
 typedef struct {
@@ -71,7 +74,8 @@ static uint32_t hardware_faulted;
 static void log_hardware_postprocess(uint32_t worker_id, uint32_t slot_id,
                                      uint32_t status)
 {
-    if ((status & PPU_STATUS_ERROR) == 0U && hardware_log_count >= 8U)
+    if ((status & PPU_STATUS_ERROR) == 0U &&
+        (AI_STREAM_HOTPATH_LOG == 0 || hardware_log_count >= 8U))
         return;
     if (hardware_log_count < 8U) hardware_log_count++;
     const AiHeadSlot *slot = ai_head_slot_get_const(&head_queue,
@@ -247,6 +251,8 @@ void ai_model_backend_init(void)
     memset(running, 0, sizeof(running));
     memset(stages, 0, sizeof(stages));
     memset(start_cycles, 0, sizeof(start_cycles));
+    memset(head_ready_cycles, 0, sizeof(head_ready_cycles));
+    memset(head_profiles, 0, sizeof(head_profiles));
     yolov5nu_dim16_dual_init();
     hardware_present = mmio_read32(POSTPROCESS_DIAG_BASE + PPU_ID) ==
                        PPU_IDENT;
@@ -310,7 +316,8 @@ int ai_model_backend_submit(const AiModelFrameRequest *request)
     running[worker_id] = 1U;
     stages[worker_id] = YOLOV5_STAGE_RUNNING;
     start_cycles[worker_id] = read_cycle();
-    if (hardware_present != 0U && graph_start_log_count < 8U) {
+    if (AI_STREAM_HOTPATH_LOG != 0 && hardware_present != 0U &&
+        graph_start_log_count < 8U) {
         const AiHeadSlot *slot = ai_head_slot_get_const(&head_queue,
                                                         slot_key);
         uint32_t ppu_status = mmio_read32(POSTPROCESS_DIAG_BASE +
@@ -370,6 +377,8 @@ static int service_hardware_postprocess(void)
         } else {
             read_hardware_postprocess(slot, record);
         }
+        if (head_queue.active < AI_HEAD_SLOT_QUEUE_CAPACITY)
+            record->completion.profile = head_profiles[head_queue.active];
         post_tail = (post_tail + 1U) % AI_MODEL_RESULT_QUEUE_CAPACITY;
         post_count++;
         if (ai_head_slot_complete(&head_queue,
@@ -386,6 +395,9 @@ static int service_hardware_postprocess(void)
     queue_status = ai_head_slot_start_next(&head_queue, &slot);
     if (queue_status <= 0)
         return queue_status;
+    if (head_queue.active < AI_HEAD_SLOT_QUEUE_CAPACITY)
+        head_profiles[head_queue.active].ppu_queue_wait_cycles =
+            read_cycle() - head_ready_cycles[head_queue.active];
     worker_id = slot->descriptor.worker_id;
     if (worker_id >= AI_MODEL_WORKER_COUNT)
         return -1;
@@ -404,6 +416,26 @@ static void fill_compute_completion(uint32_t worker_id,
     completion->frame_id = request->frame_id;
     completion->version = request->version;
     completion->compute_cycles = read_cycle() - start_cycles[worker_id];
+    struct yolov5nu_dim16_profile model_profile;
+    if (yolov5nu_dim16_worker_get_profile(worker_id, &model_profile) == 0) {
+        completion->profile.rocc_submit_cycles =
+            model_profile.rocc_submit_cycles;
+        completion->profile.gemmini_busy_cycles =
+            model_profile.gemmini_busy_cycles;
+        completion->profile.gemmini_load_stall_cycles =
+            model_profile.gemmini_load_stall_cycles;
+        completion->profile.gemmini_exec_cycles =
+            model_profile.gemmini_exec_cycles;
+        completion->profile.gemmini_store_stall_cycles =
+            model_profile.gemmini_store_stall_cycles;
+        completion->profile.rvv_maxpool_cycles =
+            model_profile.rvv_maxpool_cycles;
+        completion->profile.rvv_resize_cycles =
+            model_profile.rvv_resize_cycles;
+        completion->profile.rvv_copy_requant_cycles =
+            model_profile.rvv_copy_requant_cycles;
+        completion->profile.fence_cycles = model_profile.fence_cycles;
+    }
 }
 
 static void descriptor_from_request(uint32_t worker_id,
@@ -444,7 +476,10 @@ int ai_model_backend_poll_compute(uint32_t worker_id,
             running[worker_id] = 0U;
             return -2;
         }
-        if (queue_log_count < 8U) {
+        fill_compute_completion(worker_id, completion);
+        head_ready_cycles[slot_key] = read_cycle();
+        head_profiles[slot_key] = completion->profile;
+        if (AI_STREAM_HOTPATH_LOG != 0 && queue_log_count < 8U) {
             const AiHeadSlot *slot = ai_head_slot_get_const(&head_queue,
                                                             slot_key);
             queue_log_count++;
@@ -467,7 +502,6 @@ int ai_model_backend_poll_compute(uint32_t worker_id,
         worker_head_slot[worker_id] = AI_HEAD_SLOT_INVALID;
         stages[worker_id] = YOLOV5_STAGE_COMPLETE;
         running[worker_id] = 0U;
-        fill_compute_completion(worker_id, completion);
         if (service_hardware_postprocess() < 0)
             hardware_faulted = 1U;
         return 1;
@@ -541,6 +575,7 @@ int ai_model_backend_poll(uint32_t worker_id,
     completion->version = compute.version;
     completion->status = compute.status;
     completion->compute_cycles = compute.compute_cycles;
+    completion->profile = compute.profile;
     return 1;
 }
 

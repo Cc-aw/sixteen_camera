@@ -104,7 +104,7 @@ DDR calibration 和外部 reset 共同影响运行许可；DDR/video 域使用�
 | PPU1 | 三尺度 class reducer、阈值候选、DFL、bbox、Top-256、class-aware NMS | 最多 10 个检测结果 |
 | 异步流水 | compute/result completion 分离；Graph 完成即释放输入和 worker，Head 保持到 PPU 完成 | `PPU(N) || Graph(N+1)` 已板测 |
 | 软件回退 | PPU1 不存在时由 CPU/RVV/LUT 完成 class、sparse DFL、decode/NMS | 与硬件共用 `AiDetectionResult` ABI |
-| 结果管理 | frame/version 单调校验、逐路 latest result、100 ms TTL 自动清框 | 每路独立检测状态 |
+| 结果管理 | frame/version 单调校验、逐路 latest result、1000 ms TTL 自动清框 | 每路独立检测状态 |
 | 画面叠加 | 模型坐标映射到 4×4 tile、每路最多 8 框、类别色、英文类别与置信度标签 | shadow 配置在输出帧边界原子切换 |
 | 运行控制 | UART 非阻塞命令、enable/drain、状态统计、固定图自检、Tensor/PPU/带宽诊断 | 裸机轮询控制面 |
 | 故障可观测性 | 摄像头、HDMI、video DMA、Tensor DMA、Slot、worker、PPU、overlay 分层计数 | 错误可以定位到视频流的具体阶段 |
@@ -532,8 +532,8 @@ PPU 在整数像素坐标上做 NMS，CPU 在浮点框上 NMS 后才 round/clip�
 
 `AiResultManager` 对 16 路各保存最后一个结果，拒绝 frame_id 变旧或同帧 version 不递增的发布。成功发布设置对应 overlay dirty bit；每次 service 最多尝试提交一路，MMIO busy 时延后。结果数为 0 也可发布，用于清除该路已有框。
 
-结果同时使用版本单调和 100 ms TTL：新结果不得比已发布的 frame/version
-更旧；某路超过 100 ms 没有新结果时，Result Manager 使旧结果失效并
+结果同时使用版本单调和 1000 ms TTL：新结果不得比已发布的 frame/version
+更旧；某路超过 1000 ms 没有新结果时，Result Manager 使旧结果失效并
 向 overlay 提交零框，避免检测框长期停留。画面仍使用最新显示帧，框
 来自最近完成的推理；frame_id 没有用于让 display reader 回看相同
 推理源帧，因此快速运动时可能存在框相对画面的时差。代码没有实现
@@ -658,6 +658,7 @@ PPU 阈值/shape/LUT 是固定模型实现，目前没有通用阈值配置寄�
 | `m` | 16-stream Tensor Slot 持续生产/stop+drain | 只验证 Tensor DMA 与 Slot，与 `i` 互斥 |
 | `t` | image025 双 Gemmini YOLOv5nu 图计算自检 | 默认 YOLOv5nu 构建；disabled 且 idle |
 | `T` | image025 PPU/CPU 后处理对照与计时 | 比较检测结果、6300 positions 和 speedup |
+| `g` | image025 独立 Graph＋PPU 计时 | 分别输出 Graph、PPU wall、PPU core、总 cycles 和微秒；不执行软件后处理 |
 | `d` | TinyYOLOv2内置dog专项测试入口 | YOLOv5nu构建仅提示需切换模型；不执行推理 |
 | `o` | CH1固定绿色框和标签测试 | disabled且drain完成 |
 | `v` | 1000次CPU producer/FBus consumer一致性测试 | idle；两个非对齐buffer交替重写 |

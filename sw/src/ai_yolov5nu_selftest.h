@@ -3,5 +3,6 @@
 
 int ai_yolov5nu_correctness_test(void);
 int ai_yolov5nu_postprocess_benchmark(void);
+int ai_yolov5nu_graph_post_benchmark(void);
 
 #endif

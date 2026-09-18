@@ -1957,7 +1957,7 @@ RESULT_TTL
 例如超过：
 
 ```text
-100 ms
+1000 ms
 ```
 
 未获得新推理结果，则：
@@ -2087,6 +2087,50 @@ PPU utilization
 Gemmini utilization
 TTE utilization
 ```
+
+## 48.4 当前 DIM16 双 worker 的逐帧计数实现
+
+当前软件已经为最近完成的 16 个推理任务保留 RAM 环形记录。热路径不逐帧打印，
+避免 115200 baud UART 阻塞改变调度和队列等待时间；运行流式 AI 后先按 `i`
+停用并等待 drain 完成，再按 `p` 统一输出：
+
+```text
+CPU scheduler cycles
+RoCC submit cycles
+Gemmini busy cycles
+  LOAD stall
+  EXEC
+  STORE stall
+RVV cycles
+  MaxPool
+  Resize
+  copy/requant
+fence cycles
+Tensor wait
+Head wait
+PPU queue wait
+```
+
+计数口径如下：
+
+| 字段 | 当前来源与边界 |
+|---|---|
+| CPU scheduler | runtime 的选帧、完成校验、slot 释放和结果发布；不包含模型算子 |
+| RoCC submit | 每个 Gemmini stage 的 `tiled_conv_auto()` 发令路径及 RoCC backpressure |
+| Gemmini busy | 每颗 Gemmini 的 `RESERVATION_STATION_ACTIVE_CYCLES` 硬件事件 |
+| LOAD stall | `LOAD_DMA_WAIT_CYCLE + LOAD_SCRATCHPAD_WAIT_CYCLE` 事件计数之和；两事件若同周期成立会重复计数 |
+| EXEC | `EXE_ACTIVE_CYCLE` 硬件事件 |
+| STORE stall | `STORE_DMA_WAIT_CYCLE + STORE_SCRATCHPAD_WAIT_CYCLE` 事件计数之和；两事件若同周期成立会重复计数 |
+| RVV MaxPool/Resize | 对应生成算子外围的 `rdcycle` 差值 |
+| RVV copy/requant | Add、Concat、Reshape、Transpose、layout 和 head requant 类 CPU/RVV 路径汇总 |
+| fence | 图内 `gemmini_fence()` 指令外围的 `rdcycle` 差值 |
+| Tensor wait | CPU 第一次观察到 Tensor Slot READY 到 Graph submit；不是 camera capture latency |
+| Head wait | 第一次因该 worker 的两个 Head Slot 均被占用而退避，到 submit 成功 |
+| PPU queue wait | Head Slot 发布为 READY 到 `ai_head_slot_start_next()` 将其取出；不含 cache flush 和 PPU 寄存器配置 |
+
+两颗 Gemmini 分别通过 custom3 和 custom2 配置、快照并读取独立的 8 路性能计数器。
+正常帧原有的 `AI GRAPH`、`AI PPU enqueue` 和 `AI PPU worker` 即时日志已关闭，
+错误日志仍保留。这样 `p` 输出反映的是无逐帧 UART 干扰的运行区间。
 
 ---
 

@@ -41,6 +41,20 @@ struct yolov5nu_dim16_result {
         YOLOV5NU_DIM16_MAX_DETECTIONS];
 };
 
+/* Per-inference counters. Gemmini fields come from the accelerator's own
+ * event counters; RVV/RoCC/fence fields are CPU rdcycle deltas. */
+struct yolov5nu_dim16_profile {
+    uint64_t rocc_submit_cycles;
+    uint64_t gemmini_busy_cycles;
+    uint64_t gemmini_load_stall_cycles;
+    uint64_t gemmini_exec_cycles;
+    uint64_t gemmini_store_stall_cycles;
+    uint64_t rvv_maxpool_cycles;
+    uint64_t rvv_resize_cycles;
+    uint64_t rvv_copy_requant_cycles;
+    uint64_t fence_cycles;
+};
+
 void yolov5nu_dim16_dual_init(void);
 int yolov5nu_dim16_worker_is_idle(uint32_t worker_id);
 int yolov5nu_dim16_worker_start(uint32_t worker_id, const int8_t *input);
@@ -49,6 +63,8 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
                               struct yolov5nu_dim16_result *result);
 uint32_t yolov5nu_dim16_worker_stage(uint32_t worker_id);
 uint64_t yolov5nu_dim16_worker_busy(uint32_t worker_id);
+int yolov5nu_dim16_worker_get_profile(
+    uint32_t worker_id, struct yolov5nu_dim16_profile *profile);
 void yolov5nu_dim16_worker_use_hardware(uint32_t worker_id, int enabled);
 uintptr_t yolov5nu_dim16_worker_arena(uint32_t worker_id);
 /*

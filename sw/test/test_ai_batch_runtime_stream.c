@@ -309,7 +309,13 @@ int main(void)
            status.result_publish_count == 3U &&
            status.error_count == 0U);
 
+    /* Results must survive the former 100 ms TTL. */
     test_cycle += SOC_CLOCK_HZ / 10U + 1U;
+    ai_batch_runtime_poll();
+    assert(ai_batch_runtime_latest_result(0U) != NULL);
+    assert(ai_batch_runtime_latest_result(1U) != NULL);
+
+    test_cycle += SOC_CLOCK_HZ - SOC_CLOCK_HZ / 10U;
     ai_batch_runtime_poll();
     assert(ai_batch_runtime_latest_result(0U) == NULL);
     assert(ai_batch_runtime_latest_result(1U) == NULL);

@@ -46,7 +46,7 @@ static uint64_t tensor_production_report_cycle;
 
 static void print_help(void)
 {
-    console_puts("Commands: s=status, o=overlay, d=dog inference, t=YOLOv5nu dual test, T=postprocess speed, a=snapshot, n=stream tensor capture, N=next tensor channel, m=16-stream tensor soak, v=PP coherence, w=PP bandwidth, W=PP burst sweep, i=stream AI runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
+    console_puts("Commands: s=status, p=per-frame profile, o=overlay, d=dog inference, t=YOLOv5nu dual test, T=postprocess compare, g=Graph+PPU timing, a=snapshot, n=stream tensor capture, N=next tensor channel, m=16-stream tensor soak, v=PP coherence, w=PP bandwidth, W=PP burst sweep, i=stream AI runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
 }
 
 static void ai_overlay_fixed_box_test(void)
@@ -674,6 +674,13 @@ int main(void)
         case 's':
             ai_batch_runtime_print_status();
             break;
+        case 'p':
+            if (ai_batch_runtime_is_enabled() != 0U ||
+                ai_batch_runtime_is_idle() == 0U)
+                console_puts("AI FRAME PROFILE: disable AI and wait for drain first\r\n");
+            else
+                ai_batch_runtime_print_frame_profiles();
+            break;
         case 'o':
             ai_overlay_fixed_box_test();
             break;
@@ -701,6 +708,18 @@ int main(void)
                 (void)ai_yolov5nu_postprocess_benchmark();
 #else
             console_puts("YOLOV5NU POST BENCH requires the default yolov5nu build\r\n");
+#endif
+            break;
+        case 'g':
+#ifdef AI_MODEL_YOLOV5NU
+            if (ai_batch_runtime_is_enabled() != 0U ||
+                ai_batch_runtime_is_idle() == 0U ||
+                ai_postprocess_diag_is_active() != 0U)
+                console_puts("YOLOV5NU PIPE BENCH: disable AI and wait for drain first\r\n");
+            else
+                (void)ai_yolov5nu_graph_post_benchmark();
+#else
+            console_puts("YOLOV5NU PIPE BENCH requires the default yolov5nu build\r\n");
 #endif
             break;
         case 'a':
