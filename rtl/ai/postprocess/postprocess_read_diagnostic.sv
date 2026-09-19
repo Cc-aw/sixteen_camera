@@ -2,10 +2,17 @@
 
 module postprocess_read_diagnostic (
     axi_lite_if.slave axil,
-    axi4_if.master    m_axi
+    axi4_if.master    m_axi,
+    output wire [1:0] local_read_bank,
+    output wire       local_read_req_valid,
+    input  wire       local_read_req_ready,
+    output wire [14:0] local_read_req_word_addr,
+    input  wire [255:0] local_read_rsp_data,
+    input  wire       local_read_rsp_valid,
+    output wire       local_read_rsp_ready
 );
     localparam logic [31:0] DIAG_ID = 32'h5050_4431; // "PPD1"
-    localparam logic [31:0] CAPABILITY = 32'h0020_2205;
+    localparam logic [31:0] CAPABILITY = 32'h0020_2305;
 
     logic aw_pending, w_pending, bvalid_q;
     logic [15:0] awaddr_q;
@@ -63,6 +70,8 @@ module postprocess_read_diagnostic (
     // The production descriptor shares the proven FBus reader.  Arbitration
     // happens only between complete read commands, never between AXI beats.
     logic production_owner;
+    logic local_enable_q;
+    logic local_active_q;
     logic production_start;
     logic [32:0] production_class0, production_class1, production_class2;
     logic [32:0] production_dfl0, production_dfl1, production_dfl2;
@@ -76,6 +85,57 @@ module postprocess_read_diagnostic (
     wire production_read_start, production_stream_ready;
     wire [32:0] production_read_base;
     wire [31:0] production_read_bytes;
+
+    wire fbus_reader_busy, fbus_reader_done, fbus_reader_error;
+    wire [2:0] fbus_reader_error_flags;
+    wire [31:0] fbus_reader_bytes_read;
+    wire [255:0] fbus_stream_data;
+    wire [31:0] fbus_stream_keep;
+    wire fbus_stream_valid, fbus_stream_last;
+    wire local_reader_busy, local_reader_done, local_reader_error;
+    wire [2:0] local_reader_error_flags;
+    wire [31:0] local_reader_bytes_read;
+    wire [255:0] local_stream_data;
+    wire [31:0] local_stream_keep;
+    wire local_stream_valid, local_stream_last;
+    wire production_uses_local = production_owner && local_active_q;
+
+    function automatic [1:0] decode_local_bank(input [32:0] address);
+        reg [31:0] canonical;
+        begin
+            canonical = address[31:0];
+            canonical[31] = 1'b0;
+            case (canonical[31:20])
+            12'h320: decode_local_bank = 2'd0;
+            12'h321: decode_local_bank = 2'd1;
+            12'h324: decode_local_bank = 2'd2;
+            12'h325: decode_local_bank = 2'd3;
+            default: decode_local_bank = 2'd0;
+            endcase
+        end
+    endfunction
+
+    assign local_read_bank = decode_local_bank(production_read_base);
+    assign reader_busy = production_uses_local ? local_reader_busy :
+                         fbus_reader_busy;
+    assign reader_done = production_uses_local ? local_reader_done :
+                         fbus_reader_done;
+    assign reader_error = production_uses_local ? local_reader_error :
+                          fbus_reader_error;
+    assign reader_error_flags = production_uses_local ?
+                                local_reader_error_flags :
+                                fbus_reader_error_flags;
+    assign reader_bytes_read = production_uses_local ?
+                               local_reader_bytes_read :
+                               fbus_reader_bytes_read;
+    assign stream_data = production_uses_local ? local_stream_data :
+                         fbus_stream_data;
+    assign stream_keep = production_uses_local ? local_stream_keep :
+                         fbus_stream_keep;
+    assign stream_valid = production_uses_local ? local_stream_valid :
+                          fbus_stream_valid;
+    assign stream_last = production_uses_local ? local_stream_last :
+                         fbus_stream_last;
 
     yolov5nu_postprocessor u_production (
         .clk(axil.aclk), .resetn(axil.aresetn),
@@ -178,7 +238,8 @@ module postprocess_read_diagnostic (
     // ID 31 belongs to preprocess writes, avoiding cross-direction FIFO stalls.
     fbus_read_engine #(.READ_ID_COUNT(31)) u_reader (
         .clk(axil.aclk), .resetn(axil.aresetn),
-        .start(start_reader || production_read_start),
+        .start(start_reader ||
+               (production_read_start && !local_active_q)),
         // MMIO descriptors use device physical addresses. Coherent FBus
         // exposes the same DDR storage through Rocket's bit-31 alias.
         .base_addr(production_read_start ?
@@ -191,9 +252,11 @@ module postprocess_read_diagnostic (
         // Keep production reads at one cache line even during a diagnostic sweep.
         .burst_beats_limit((production_read_start || production_owner) ?
                            9'd2 : burst_beats_q),
-        .busy(reader_busy), .done(reader_done), .error(reader_error),
-        .error_flags(reader_error_flags),
-        .bytes_read(reader_bytes_read), .ar_requests(reader_ar_requests),
+        .busy(fbus_reader_busy), .done(fbus_reader_done),
+        .error(fbus_reader_error),
+        .error_flags(fbus_reader_error_flags),
+        .bytes_read(fbus_reader_bytes_read),
+        .ar_requests(reader_ar_requests),
         .read_beats(reader_beats), .active_cycles(reader_active_cycles),
         .ar_stall_cycles(reader_ar_stall_cycles),
         .r_wait_cycles(reader_r_wait_cycles),
@@ -201,11 +264,33 @@ module postprocess_read_diagnostic (
         .max_outstanding_observed(reader_max_outstanding),
         .max_reorder_occupancy(reader_max_reorder_occupancy),
         .active_id_mask_observed(reader_active_id_mask),
-        .stream_data(stream_data),
-        .stream_keep(stream_keep), .stream_valid(stream_valid),
-        .stream_ready(production_owner ? production_stream_ready :
+        .stream_data(fbus_stream_data),
+        .stream_keep(fbus_stream_keep), .stream_valid(fbus_stream_valid),
+        .stream_ready(production_owner && !local_active_q ?
+                      production_stream_ready :
                       !beat_active),
-        .stream_last(stream_last), .m_axi(m_axi)
+        .stream_last(fbus_stream_last), .m_axi(m_axi)
+    );
+
+    head_local_reader u_local_reader (
+        .clk(axil.aclk), .resetn(axil.aresetn),
+        .start(production_read_start && local_active_q),
+        .base_addr(production_read_base),
+        .byte_count(production_read_bytes),
+        .busy(local_reader_busy), .done(local_reader_done),
+        .error(local_reader_error),
+        .error_flags(local_reader_error_flags),
+        .bytes_read(local_reader_bytes_read),
+        .memory_req_valid(local_read_req_valid),
+        .memory_req_ready(local_read_req_ready),
+        .memory_req_word_addr(local_read_req_word_addr),
+        .memory_rsp_data(local_read_rsp_data),
+        .memory_rsp_valid(local_read_rsp_valid),
+        .memory_rsp_ready(local_read_rsp_ready),
+        .stream_data(local_stream_data), .stream_keep(local_stream_keep),
+        .stream_valid(local_stream_valid),
+        .stream_ready(production_stream_ready),
+        .stream_last(local_stream_last)
     );
 
     assign axil.awready = axil.aresetn && !aw_pending && !bvalid_q;
@@ -246,6 +331,8 @@ module postprocess_read_diagnostic (
             beat_lane <= 5'd0;
             reader_complete_pending <= 1'b0;
             production_owner <= 1'b0;
+            local_enable_q <= 1'b1;
+            local_active_q <= 1'b1;
             production_start <= 1'b0;
             production_class0 <= 0;
             production_class1 <= 0;
@@ -257,6 +344,7 @@ module postprocess_read_diagnostic (
         end else begin
             start_reader <= 1'b0;
             production_start <= 1'b0;
+            if (production_start) local_active_q <= local_enable_q;
             if (production_read_start) production_owner <= 1'b1;
             else if (reader_done) production_owner <= 1'b0;
             if (axil.awvalid && axil.awready) begin
@@ -310,6 +398,11 @@ module postprocess_read_diagnostic (
                     production_dfl2[31:0], wdata_q, wstrb_q);
                 10'h120: if (wstrb_q[0])
                     production_result_index <= wdata_q[4:0];
+                // Change the source only while the complete PPU command is
+                // idle. The selection is latched once per command.
+                10'h148: if (wstrb_q[0] && !production_busy &&
+                            !fbus_reader_busy && !local_reader_busy)
+                    local_enable_q <= wdata_q[0];
                 default: begin end
                 endcase
                 aw_pending <= 1'b0;
@@ -453,6 +546,9 @@ module postprocess_read_diagnostic (
                 10'h13c: rdata_q <= {19'd0, production_candidates};
                 10'h140: rdata_q <= {16'd0, production_nms_candidates};
                 10'h144: rdata_q <= production_cycles;
+                10'h148: rdata_q <= {28'd0, local_reader_error,
+                                     local_reader_busy, local_active_q,
+                                     local_enable_q};
                 default: rdata_q <= 32'd0;
                 endcase
                 rvalid_q <= 1'b1;

@@ -18,11 +18,7 @@ if {$sc_total_failed != 0 ||
 
 foreach source {
     yolov5nu_tensor_stream_packer.sv
-    yolov5nu_tensor_frame_writer.sv
-    yolov5nu_tensor_capture_sidecar.sv
-    yolov5nu_tensor_slot_ingest.sv
     yolov5nu_multi_channel_tensor_dma.sv
-    axi4_write_arbiter2.sv
 } {
     if {[llength [get_files -quiet */$source]] != 1} {
         error "Missing or duplicate tensor production source: $source"
@@ -31,6 +27,7 @@ foreach source {
 
 set synth_run [get_runs synth_1]
 set impl_run [get_runs impl_1]
+set_property strategy {Vivado Implementation Defaults} $impl_run
 set bitstream [file join $repo_dir prj sixteen_camera.runs impl_1 top_wrapper.bit]
 if {[file exists $bitstream]} {
     file copy -force $bitstream /tmp/sixteen_camera_before_tensor_production.bit

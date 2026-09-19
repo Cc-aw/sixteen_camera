@@ -91,6 +91,15 @@ module ddr_memory_subsystem (
         fbus_write_soc_axi();
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(5))
         postprocess_read_soc_axi();
+    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4))
+        soc_ddr_axi();
+    wire [1:0] head_local_read_bank;
+    wire head_local_read_req_valid;
+    wire head_local_read_req_ready;
+    wire [14:0] head_local_read_req_word_addr;
+    wire [255:0] head_local_read_rsp_data;
+    wire head_local_read_rsp_valid;
+    wire head_local_read_rsp_ready;
     video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
         all_capture_channels [16]();
     video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
@@ -211,7 +220,27 @@ module ddr_memory_subsystem (
         .m_resetn(soc_resetn), .m_axi(fbus_write_soc_axi)
     );
     postprocess_read_diagnostic u_postprocess_read_diagnostic (
-        .axil(postprocess_axil), .m_axi(postprocess_read_soc_axi)
+        .axil(postprocess_axil), .m_axi(postprocess_read_soc_axi),
+        .local_read_bank(head_local_read_bank),
+        .local_read_req_valid(head_local_read_req_valid),
+        .local_read_req_ready(head_local_read_req_ready),
+        .local_read_req_word_addr(head_local_read_req_word_addr),
+        .local_read_rsp_data(head_local_read_rsp_data),
+        .local_read_rsp_valid(head_local_read_rsp_valid),
+        .local_read_rsp_ready(head_local_read_rsp_ready)
+    );
+    // P3 keeps DDR as an exact shadow/fallback while serving production PPU
+    // payload reads through the dedicated URAM local port.
+    axi4_head_uram_router #(.SHADOW_DDR(1)) u_head_uram_router (
+        .clk(soc_clk), .resetn(soc_resetn),
+        .s_axi(soc_mem_axi), .m_ddr_axi(soc_ddr_axi),
+        .local_read_bank(head_local_read_bank),
+        .local_read_req_valid(head_local_read_req_valid),
+        .local_read_req_ready(head_local_read_req_ready),
+        .local_read_req_word_addr(head_local_read_req_word_addr),
+        .local_read_rsp_data(head_local_read_rsp_data),
+        .local_read_rsp_valid(head_local_read_rsp_valid),
+        .local_read_rsp_ready(head_local_read_rsp_ready)
     );
     axi4_channel_join u_fbus_channel_join (
         .write_axi(fbus_write_soc_axi),
@@ -291,47 +320,47 @@ module ddr_memory_subsystem (
         .C0_SYS_CLK_clk_n(c0_sys_clk_n),
         .C0_SYS_CLK_clk_p(c0_sys_clk_p),
 
-        .S00_ACLK(soc_mem_axi.aclk),
-        .S00_ARESETN(soc_mem_axi.aresetn),
-        .S00_AXI_awid(soc_mem_axi.awid),
-        .S00_AXI_awaddr({soc_mem_axi.awaddr[32], soc_mem_axi.awaddr[30:0]}),
-        .S00_AXI_awlen(soc_mem_axi.awlen),
-        .S00_AXI_awsize(soc_mem_axi.awsize),
-        .S00_AXI_awburst(soc_mem_axi.awburst),
-        .S00_AXI_awlock(soc_mem_axi.awlock),
-        .S00_AXI_awcache(soc_mem_axi.awcache),
-        .S00_AXI_awprot(soc_mem_axi.awprot),
-        .S00_AXI_awqos(soc_mem_axi.awqos),
+        .S00_ACLK(soc_ddr_axi.aclk),
+        .S00_ARESETN(soc_ddr_axi.aresetn),
+        .S00_AXI_awid(soc_ddr_axi.awid),
+        .S00_AXI_awaddr({soc_ddr_axi.awaddr[32], soc_ddr_axi.awaddr[30:0]}),
+        .S00_AXI_awlen(soc_ddr_axi.awlen),
+        .S00_AXI_awsize(soc_ddr_axi.awsize),
+        .S00_AXI_awburst(soc_ddr_axi.awburst),
+        .S00_AXI_awlock(soc_ddr_axi.awlock),
+        .S00_AXI_awcache(soc_ddr_axi.awcache),
+        .S00_AXI_awprot(soc_ddr_axi.awprot),
+        .S00_AXI_awqos(soc_ddr_axi.awqos),
         .S00_AXI_awregion(4'h0),
-        .S00_AXI_awvalid(soc_mem_axi.awvalid),
-        .S00_AXI_awready(soc_mem_axi.awready),
-        .S00_AXI_wdata(soc_mem_axi.wdata),
-        .S00_AXI_wstrb(soc_mem_axi.wstrb),
-        .S00_AXI_wlast(soc_mem_axi.wlast),
-        .S00_AXI_wvalid(soc_mem_axi.wvalid),
-        .S00_AXI_wready(soc_mem_axi.wready),
-        .S00_AXI_bid(soc_mem_axi.bid),
-        .S00_AXI_bresp(soc_mem_axi.bresp),
-        .S00_AXI_bvalid(soc_mem_axi.bvalid),
-        .S00_AXI_bready(soc_mem_axi.bready),
-        .S00_AXI_arid(soc_mem_axi.arid),
-        .S00_AXI_araddr({soc_mem_axi.araddr[32], soc_mem_axi.araddr[30:0]}),
-        .S00_AXI_arlen(soc_mem_axi.arlen),
-        .S00_AXI_arsize(soc_mem_axi.arsize),
-        .S00_AXI_arburst(soc_mem_axi.arburst),
-        .S00_AXI_arlock(soc_mem_axi.arlock),
-        .S00_AXI_arcache(soc_mem_axi.arcache),
-        .S00_AXI_arprot(soc_mem_axi.arprot),
-        .S00_AXI_arqos(soc_mem_axi.arqos),
+        .S00_AXI_awvalid(soc_ddr_axi.awvalid),
+        .S00_AXI_awready(soc_ddr_axi.awready),
+        .S00_AXI_wdata(soc_ddr_axi.wdata),
+        .S00_AXI_wstrb(soc_ddr_axi.wstrb),
+        .S00_AXI_wlast(soc_ddr_axi.wlast),
+        .S00_AXI_wvalid(soc_ddr_axi.wvalid),
+        .S00_AXI_wready(soc_ddr_axi.wready),
+        .S00_AXI_bid(soc_ddr_axi.bid),
+        .S00_AXI_bresp(soc_ddr_axi.bresp),
+        .S00_AXI_bvalid(soc_ddr_axi.bvalid),
+        .S00_AXI_bready(soc_ddr_axi.bready),
+        .S00_AXI_arid(soc_ddr_axi.arid),
+        .S00_AXI_araddr({soc_ddr_axi.araddr[32], soc_ddr_axi.araddr[30:0]}),
+        .S00_AXI_arlen(soc_ddr_axi.arlen),
+        .S00_AXI_arsize(soc_ddr_axi.arsize),
+        .S00_AXI_arburst(soc_ddr_axi.arburst),
+        .S00_AXI_arlock(soc_ddr_axi.arlock),
+        .S00_AXI_arcache(soc_ddr_axi.arcache),
+        .S00_AXI_arprot(soc_ddr_axi.arprot),
+        .S00_AXI_arqos(soc_ddr_axi.arqos),
         .S00_AXI_arregion(4'h0),
-        .S00_AXI_arvalid(soc_mem_axi.arvalid),
-        .S00_AXI_arready(soc_mem_axi.arready),
-        .S00_AXI_rid(soc_mem_axi.rid),
-        .S00_AXI_rdata(soc_mem_axi.rdata),
-        .S00_AXI_rresp(soc_mem_axi.rresp),
-        .S00_AXI_rlast(soc_mem_axi.rlast),
-        .S00_AXI_rvalid(soc_mem_axi.rvalid),
-        .S00_AXI_rready(soc_mem_axi.rready),
+        .S00_AXI_arvalid(soc_ddr_axi.arvalid),
+        .S00_AXI_arready(soc_ddr_axi.arready),
+        .S00_AXI_rid(soc_ddr_axi.rid),
+        .S00_AXI_rdata(soc_ddr_axi.rdata),
+        .S00_AXI_rresp(soc_ddr_axi.rresp),
+        .S00_AXI_rlast(soc_ddr_axi.rlast),
+        .S00_AXI_rvalid(soc_ddr_axi.rvalid),
+        .S00_AXI_rready(soc_ddr_axi.rready),
 
         .S01_AXI_awid(writer_ui_axi.awid),
         .S01_AXI_awaddr(writer_ui_axi.awaddr),

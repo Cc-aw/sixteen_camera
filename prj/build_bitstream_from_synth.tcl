@@ -14,6 +14,8 @@ if {$synth_status ne "synth_design Complete!" || $synth_progress ne "100%"} {
 }
 
 set impl_run [get_runs impl_1]
+set_property strategy {Vivado Implementation Defaults} $impl_run
+puts "IMPLEMENTATION_STRATEGY=[get_property strategy $impl_run]"
 reset_run $impl_run
 launch_runs $impl_run -to_step write_bitstream -jobs 8
 wait_on_run $impl_run

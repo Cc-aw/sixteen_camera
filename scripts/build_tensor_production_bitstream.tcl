@@ -9,11 +9,7 @@ if {$sc_total_failed != 0 ||
 }
 foreach source {
     yolov5nu_tensor_stream_packer.sv
-    yolov5nu_tensor_frame_writer.sv
-    yolov5nu_tensor_capture_sidecar.sv
-    yolov5nu_tensor_slot_ingest.sv
     yolov5nu_multi_channel_tensor_dma.sv
-    axi4_write_arbiter2.sv
 } {
     if {[llength [get_files -quiet */$source]] != 1} {
         error "Missing or duplicate tensor production source: $source"
@@ -29,6 +25,7 @@ wait_on_run synth_1
 if {[get_property PROGRESS [get_runs synth_1]] ne "100%"} {
     error "Synthesis failed: [get_property STATUS [get_runs synth_1]]"
 }
+set_property strategy {Vivado Implementation Defaults} [get_runs impl_1]
 launch_runs impl_1 -to_step write_bitstream -jobs 8
 wait_on_run impl_1
 if {[get_property PROGRESS [get_runs impl_1]] ne "100%" ||

@@ -7,7 +7,10 @@ update_compile_order -fileset sources_1
 
 foreach required_file {
     axi4_channel_join.sv
+    axi4_head_uram_router.sv
     fbus_read_engine.sv
+    head_local_reader.sv
+    head_uram_store.sv
     postprocess_read_diagnostic.sv
     yolov5nu_postprocessor.sv
     yolov5nu_class_reducer.sv

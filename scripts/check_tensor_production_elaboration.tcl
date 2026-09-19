@@ -4,11 +4,7 @@ source [file join $repo_dir setup_vivado.tcl]
 update_compile_order -fileset sources_1
 foreach source {
     yolov5nu_tensor_stream_packer.sv
-    yolov5nu_tensor_frame_writer.sv
-    yolov5nu_tensor_capture_sidecar.sv
-    yolov5nu_tensor_slot_ingest.sv
     yolov5nu_multi_channel_tensor_dma.sv
-    axi4_write_arbiter2.sv
 } {
     if {[llength [get_files -quiet */$source]] != 1} {
         error "Missing or duplicate tensor production source: $source"

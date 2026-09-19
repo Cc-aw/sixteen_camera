@@ -7,7 +7,23 @@ module tb_postprocess_read_diagnostic;
 
     axi_lite_if #(.ADDR_WIDTH(18)) axil();
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(5)) axi();
-    postprocess_read_diagnostic dut(.axil(axil), .m_axi(axi));
+    wire [1:0] local_read_bank;
+    wire local_read_req_valid;
+    wire local_read_req_ready;
+    wire [14:0] local_read_req_word_addr;
+    reg [255:0] local_read_rsp_data = 0;
+    reg local_read_rsp_valid = 0;
+    wire local_read_rsp_ready;
+    postprocess_read_diagnostic dut(
+        .axil(axil), .m_axi(axi),
+        .local_read_bank(local_read_bank),
+        .local_read_req_valid(local_read_req_valid),
+        .local_read_req_ready(local_read_req_ready),
+        .local_read_req_word_addr(local_read_req_word_addr),
+        .local_read_rsp_data(local_read_rsp_data),
+        .local_read_rsp_valid(local_read_rsp_valid),
+        .local_read_rsp_ready(local_read_rsp_ready)
+    );
     assign axil.aclk = clk;
     assign axil.aresetn = resetn;
 
@@ -23,6 +39,8 @@ module tb_postprocess_read_diagnostic;
     reg production_mode = 1'b0;
     reg production_positive_mode = 1'b0;
     reg production_early_candidates = 1'b0;
+    integer fbus_ar_count = 0;
+    integer fbus_ar_before = 0;
 
     function automatic [255:0] memory_word(input [32:0] address);
         begin
@@ -65,6 +83,8 @@ module tb_postprocess_read_diagnostic;
     assign axi.bid = 4'd0;
     assign axi.bresp = 2'b00;
     assign axi.bvalid = 1'b0;
+    assign local_read_req_ready = !local_read_rsp_valid ||
+                                  local_read_rsp_ready;
 
     always @(posedge clk) begin
         lfsr <= {lfsr[30:0], lfsr[31] ^ lfsr[21] ^ lfsr[1] ^ lfsr[0]};
@@ -72,8 +92,17 @@ module tb_postprocess_read_diagnostic;
             read_active <= 1'b0;
             rvalid <= 1'b0;
             r_gap <= 2'd0;
+            local_read_rsp_valid <= 1'b0;
         end else begin
+            if (local_read_rsp_valid && local_read_rsp_ready)
+                local_read_rsp_valid <= 1'b0;
+            if (local_read_req_valid && local_read_req_ready) begin
+                local_read_rsp_data <= memory_word(
+                    {13'd0, local_read_req_word_addr, 5'd0});
+                local_read_rsp_valid <= 1'b1;
+            end
             if (axi.arvalid && axi.arready) begin
+                fbus_ar_count <= fbus_ar_count + 1;
                 if (axi.araddr[4:0] != 0 ||
                     32'(axi.araddr[11:0]) +
                     (32'(axi.arlen) + 1) * 32 > 4096)
@@ -190,8 +219,8 @@ module tb_postprocess_read_diagnostic;
         if (value != 32'h5050_4431)
             $fatal(1, "ID mismatch %h", value);
         read_reg(16'h0004, value);
-        if (value != 32'h0020_2205)
-            $fatal(1, "P1C capability mismatch %h", value);
+        if (value != 32'h0020_2305)
+            $fatal(1, "P3 capability mismatch %h", value);
         read_reg(16'h0100, value);
         if (value != 32'h5050_5531)
             $fatal(1, "production capability mismatch %h", value);
@@ -289,9 +318,12 @@ module tb_postprocess_read_diagnostic;
         write_reg(16'h0110, 32'h000b_0000);
         write_reg(16'h0114, 32'h0010_0000);
         write_reg(16'h0118, 32'h0012_0000);
+        read_reg(16'h0148, value);
+        if (value[0] != 1'b1)
+            $fatal(1, "local reader is not enabled by default");
         write_reg(16'h0100, 32'd1);
         wait(dut.reader_busy);
-        wait(dut.reader_beats > 4);
+        wait(dut.local_reader_bytes_read > 128);
         check_snapshot();
         wait(dut.production_done);
         check_snapshot();
@@ -345,6 +377,23 @@ module tb_postprocess_read_diagnostic;
         if (value != 9) $fatal(1, "early threshold count %0d", value);
         read_reg(16'h0140, value);
         if (value != 9) $fatal(1, "early NMS count %0d", value);
+
+        // Source selection is command-granular. An idle write switches the
+        // next complete command back to the original coherent FBus reader.
+        write_reg(16'h0148, 32'd0);
+        read_reg(16'h0148, value);
+        if (value[0] != 1'b0)
+            $fatal(1, "FBus fallback selection did not latch");
+        production_early_candidates = 1'b0;
+        fbus_ar_before = fbus_ar_count;
+        write_reg(16'h0100, 32'd1);
+        wait(dut.production_busy);
+        wait(dut.production_done);
+        if (fbus_ar_count <= fbus_ar_before)
+            $fatal(1, "FBus fallback did not issue production reads");
+        read_reg(16'h011c, value);
+        if (value != 32'd2)
+            $fatal(1, "FBus fallback production status %h", value);
 
         // A later diagnostic must replace the snapshot with its own result.
         production_mode = 1'b0;

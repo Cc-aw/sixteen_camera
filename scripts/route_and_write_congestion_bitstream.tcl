@@ -17,7 +17,7 @@ puts "SYNTHESIS_RELAUNCHED=NO"
 puts "PLACEMENT_RELAUNCHED=NO"
 puts "ROUTE_RESUME_CHECKPOINT=$physopt_checkpoint"
 
-route_design -directive AlternateCLBRouting
+route_design
 
 # Save the legal routed design before running any memory-heavy reports. The
 # previous run was killed inside report_timing_summary before its generated

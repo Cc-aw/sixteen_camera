@@ -19,31 +19,15 @@ if {[get_property PROGRESS $synth_run] ne "100%"} {
     error "A completed synthesized design is required"
 }
 
-# Use a new run instead of mutating impl_1. Existing impl_1 step overrides are
-# serialized in the XPR and were silently restored when launch_runs spawned
-# its child Vivado process. A newly created run has no stale overrides.
+# Use a new run instead of mutating impl_1, but deliberately keep Vivado's
+# default implementation strategy. The former congestion/timing directives
+# could make placement fail on this design.
 if {[llength [get_runs -quiet $run_name]] != 0} {
     delete_runs [get_runs $run_name]
 }
 create_run $run_name -parent_run synth_1 -flow {Vivado Implementation 2023} \
-    -strategy Congestion_SpreadLogic_high -constrset constrs_1
+    -strategy {Vivado Implementation Defaults} -constrset constrs_1
 set impl_run [get_runs $run_name]
-
-set expected_properties {
-    STEPS.OPT_DESIGN.ARGS.DIRECTIVE Default
-    STEPS.PLACE_DESIGN.ARGS.DIRECTIVE AltSpreadLogic_high
-    STEPS.PHYS_OPT_DESIGN.ARGS.DIRECTIVE AggressiveExplore
-    STEPS.ROUTE_DESIGN.ARGS.DIRECTIVE AlternateCLBRouting
-    {STEPS.ROUTE_DESIGN.ARGS.MORE OPTIONS} {}
-    STEPS.POST_ROUTE_PHYS_OPT_DESIGN.IS_ENABLED 0
-}
-foreach {property expected} $expected_properties {
-    set actual [get_property $property $impl_run]
-    puts "IMPLEMENTATION_PROPERTY $property=$actual"
-    if {$actual ne $expected} {
-        error "Implementation property $property is '$actual', expected '$expected'"
-    }
-}
 
 puts "IMPLEMENTATION_RUN=$run_name"
 puts "IMPLEMENTATION_STRATEGY=[get_property STRATEGY $impl_run]"

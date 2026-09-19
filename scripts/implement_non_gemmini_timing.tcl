@@ -19,9 +19,9 @@ reset_run $impl_run
 
 # The previous routed checkpoint was removed when synthesis was reset, so the
 # implementation itself cannot reuse placement.  Synthesis remains incremental
-# and is not relaunched here.  Use the timing-oriented implementation strategy
-# and stop after routing so the result can be inspected before bitstream write.
-set_property strategy Performance_ExplorePostRoutePhysOpt $impl_run
+# and is not relaunched here. Use the default implementation strategy and
+# stop after routing so the result can be inspected before bitstream write.
+set_property strategy {Vivado Implementation Defaults} $impl_run
 puts "IMPLEMENTATION_STRATEGY=[get_property strategy $impl_run]"
 puts "SYNTHESIS_RELAUNCHED=NO"
 launch_runs $impl_run -to_step route_design -jobs 8

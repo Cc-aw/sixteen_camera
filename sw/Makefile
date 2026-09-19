@@ -16,8 +16,9 @@ AI_MODEL ?= yolov5nu
 
 # Reuse the board/IIC/clock code and the AMD 2023.2 BSP already validated by
 # the working 4k60 project. This project supplies its own TX-only config table.
-REFERENCE_SW := ../../../4k/4k60to1k60/sw
-DEMO_BSP := ../../../4k/4k60to1k60/demo/11.FH1159/2_software/XCZU15EG/ZYNQMPSOC_15EG_HDMI_4K_LOOP/Vitis/exdes_wrapper/psu_cortexa53_0/standalone_psu_cortexa53_0/bsp/psu_cortexa53_0/libsrc
+REFERENCE_ROOT ?= ../../../ALL_MIPI_HDMI/4k/4k60to1k60
+REFERENCE_SW ?= $(REFERENCE_ROOT)/sw
+DEMO_BSP ?= $(REFERENCE_ROOT)/demo/11.FH1159/2_software/XCZU15EG/ZYNQMPSOC_15EG_HDMI_4K_LOOP/Vitis/exdes_wrapper/psu_cortexa53_0/standalone_psu_cortexa53_0/bsp/psu_cortexa53_0/libsrc
 VENDOR_DIRS := \
 	$(DEMO_BSP)/video_common_v4_13/src \
 	$(DEMO_BSP)/v_hdmi_common_v1_7/src \

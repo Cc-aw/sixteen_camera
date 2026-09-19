@@ -88,6 +88,44 @@ context 和 activation arena 当轮释放；Head descriptor 独立持有旧帧 m
 PPU result completion 后才释放 Head Slot。backend 已将 compute completion 与 result
 completion 分开。
 
+Head payload 从 DDR 迁移到 URAM 的 P1/P2 基础模块与 P3 生产接入现已完成：
+
+- `head_uram_store` 定义一个 1 MiB、256-bit、双端口 Head Slot，写口保留完整逐字节
+  `WSTRB`，读口可连续输出每拍一个 256-bit beat；
+- `head_local_reader` 保留现有物理 `base_addr + byte_count` descriptor 和 PPU stream
+  语义，支持非对齐首尾、反压、零长度及槽边界检查；
+- 生产参数独立综合确认每槽使用 32 个 URAM288、0 个 BRAM，100 MHz WNS 为
+  +7.087 ns；
+- P1 提供独立、可综合验证的存储和顺序流读取构件。
+
+P2 的 `axi4_head_uram_router` 已实现以下独立功能：
+
+- 解码 worker0/1 A/B 四个现有 1 MiB Head 物理窗口及其 bit31 CPU alias；
+- Head AW/W/B 和 AR/R 在本地 URAM 终止，逐拍保留 `WSTRB`，完整事务锁定同一 bank；
+- 支持 FIXED/INCR burst，并拒绝跨槽、WRAP 或传输宽度超出 256 bit 的 Head 请求；
+- Head 窗口以外的地址、ID、属性、数据和响应保持不变转发 DDR；
+- 四槽生产参数独立综合使用 128 个 URAM288、0 个 BRAM，100 MHz WNS 为
+  +6.984 ns。
+
+P3 已把路由器插入 `soc_mem_axi -> DDR S00` 生产路径。四个 Head 窗口的每个合法
+写 beat 只有在 DDR 与 URAM 均可接收时才握手，DDR B 响应仍作为事务完成权威；因此
+P3 阶段保留一份实时 DDR shadow，可在板上即时回退。Head 之外的读写与 Head 的 AXI
+读仍转发 DDR，诊断区 `0x32200000..0x323fffff` 不受影响。
+
+PPU1 同时保留原 `fbus_read_engine` 并增加 `head_local_reader`。每个完整 PPU command
+启动时锁存一次读源，六个 class/DFL tensor 在同一任务内不会切换来源。默认读源为
+URAM Local Reader；仅当 PPU 与两个 reader 均空闲时，软件才能通过偏移 `0x148` bit0
+修改下一任务读源。`0x148` 读回 bit0/1/2/3 分别表示 requested enable、当前任务
+active source、local busy、local error。写 0 可让下一任务回退原 DDR/FBus 路径。
+
+P3 仿真覆盖四 bank Head shadow 写在随机 DDR backpressure 下的逐拍一致性、Local
+Reader 读回、六段 production descriptor 的完整 positions/candidate/NMS 结果，以及
+空闲边界切回 FBus 后的任务完成。新 bitstream 尚待上板验证，不能把这些仿真结论写成
+板级通过结论。P3 shadow 参数独立综合使用 128 个 URAM288、0 个 BRAM，100 MHz
+WNS 为 +7.020 ns；全 `top_wrapper` RTL elaboration 为 0 errors。
+
+该阶段没有修改 Gemmini 算法、PPU 算法、Head ABI 或 A/B ownership。
+
 当前板上已验证的边界为：
 
 - CH1–CH8 sidecar 均能生成 921600 字节 Tensor，数据非零且无 overflow；

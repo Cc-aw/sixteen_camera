@@ -31,7 +31,8 @@ enum {
     PPU_RESULT_COUNT = 0x124U,
     PPU_RESULT_XY0 = 0x128U,
     PPU_RESULT_XY1 = 0x12cU,
-    PPU_RESULT_SCORE_CLASS = 0x130U
+    PPU_RESULT_SCORE_CLASS = 0x130U,
+    PPU_READER_SELECT = 0x148U
 };
 
 #define PPU_IDENT UINT32_C(0x50505531)
@@ -272,6 +273,19 @@ void ai_model_backend_init(void)
     console_puts(hardware_present ?
         "AI MODEL init OK (YOLOv5nu dual + hardware postprocess)\r\n" :
         "AI MODEL init OK (YOLOv5nu dual CPU postprocess)\r\n");
+    if (hardware_present != 0U) {
+        console_puts("AI PPU head reader enable/active/busy/error=");
+        uint32_t reader = mmio_read32(POSTPROCESS_DIAG_BASE +
+                                      PPU_READER_SELECT);
+        console_put_u32(reader & 1U);
+        console_putc('/');
+        console_put_u32((reader >> 1) & 1U);
+        console_putc('/');
+        console_put_u32((reader >> 2) & 1U);
+        console_putc('/');
+        console_put_u32((reader >> 3) & 1U);
+        console_puts("\r\n");
+    }
 }
 
 int ai_model_backend_submit(const AiModelFrameRequest *request)

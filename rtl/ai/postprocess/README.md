@@ -1,5 +1,68 @@
 # AI postprocessor P1A read path
 
+## Head URAM migration P1: standalone storage and local reader
+
+`head_uram_store.sv` implements one 1 MiB Head slot as a 256-bit simple
+dual-port memory with UltraRAM inference and byte write enables. Its write
+port is the future P2 AXI-router boundary; its independent synchronous read
+port can sustain one 256-bit response per clock. Storage contents are not
+reset, and the existing software-owned A/B slot protocol remains responsible
+for preventing simultaneous producer writes and consumer reads.
+
+`head_local_reader.sv` converts the unchanged physical `base_addr` and byte
+count descriptor into the ordered stream contract already consumed by PPU1.
+It uses the low 20 address bits only after an external bank selector chooses
+the A/B/worker slot. It supports unaligned first and last beats, downstream
+backpressure, zero-byte commands, slot-boundary checking, and one local beat
+per clock when the consumer stays ready. P1 is standalone and is not yet
+connected to the SoC memory AXI or PPU reader mux; Head traffic therefore
+still uses DDR in the production design.
+
+The standalone regression is part of
+`scripts/run_ai_postprocessor_tests.sh`. Run
+`vivado -mode batch -source scripts/check_head_uram_p1_synthesis.tcl` to
+verify that a production-size slot infers exactly 32 URAM288 primitives and
+meets the standalone 100 MHz synthesis timing gate.
+
+## Head URAM migration P2: standalone AXI router
+
+`axi4_head_uram_router.sv` owns four P1 stores for worker0/1 A/B. It decodes
+the unchanged `0x32000000`, `0x32100000`, `0x32400000`, and `0x32500000`
+physical windows and their bit31 CPU aliases. Head writes terminate locally
+with byte strobes preserved; Head AXI reads return the same URAM contents.
+Traffic outside those four 1 MiB slots, including the diagnostic gaps, is
+forwarded to DDR without changing its AXI address, ID, attributes, data, or
+response.
+
+The router holds a target for the complete AW/W/B or AR/R transaction,
+supports FIXED and INCR bursts up to 256 beats, and rejects a Head request
+that is oversized, wrapped, or crosses a slot boundary. The separate local
+read port is reserved for P3 and arbitrates against AXI Head reads. P2 remains
+standalone: the production `soc_mem_axi` still connects directly to DDR and
+the PPU still reads Head payload through FBus.
+
+Run `vivado -mode batch -source scripts/check_head_uram_p2_synthesis.tcl`
+to synthesize the production four-bank router and require exactly 128
+URAM288 primitives plus positive standalone 100 MHz setup slack.
+
+## Head URAM migration P3: production shadow and selectable local read
+
+The production memory subsystem now inserts the router between `soc_mem_axi`
+and DDR S00 with `SHADOW_DDR=1`. A legal Head write beat is accepted only
+when both DDR and the selected URAM bank accept it. DDR remains populated and
+its B response remains authoritative, so it is a live fallback rather than a
+stale copy. Non-Head traffic and all AXI reads continue to DDR unchanged.
+
+PPU1 instantiates `head_local_reader` beside the original FBus reader. The
+source is latched at the start of a complete PPU command and cannot change
+between its six tensors. Local URAM is the reset default. MMIO offset `0x148`
+bit 0 selects the next command (`1` local, `0` FBus) only while PPU and both
+readers are idle; read bits 0/1/2/3 report enable, active source, local busy,
+and local error. This preserves the existing six-address descriptor ABI and
+A/B ownership protocol while providing an immediate DDR/FBus fallback.
+Run `vivado -mode batch -source scripts/check_head_uram_p3_synthesis.tcl`
+to enforce the 128-URAM and 100 MHz gates with shadow mode enabled.
+
 P1A connects a 33-bit, 256-bit AXI reader to the Taihang coherent FBus. The
 existing preprocessor writer and the new reader use independent AXI write and
 read channels through `axi4_channel_join`.
@@ -102,9 +165,10 @@ candidate count is 10, matching the board self-test.
 ## YOLOv5nu production postprocessor (PPU1)
 
 The currently wired production path starts at the **six raw Gemmini INT8
-heads** in each worker's activation arena. It reads three 80-byte/location
-class heads and three 64-byte/location DFL heads with the existing FBus read
-engine. Model-generated ROMs perform per-head requantization and class
+heads** in each worker's A/B Head Slot. It reads three 80-byte/location class
+heads and three 64-byte/location DFL heads from the URAM Local Reader by
+default, with the existing FBus reader retained as a command-level fallback.
+Model-generated ROMs perform per-head requantization and class
 sigmoid; class reduction retains the first class on a tie. Candidate DFL
 softmax preserves INT8 probability quantization before the 16-weight dot
 product. Fixed-point box conversion feeds a streaming Top-256, stable
@@ -129,6 +193,7 @@ the unchanged 0x00..0x5c diagnostic. All offsets below are relative to
 | 0x120, 0x124 | result index (write), result count (read) |
 | 0x128..0x134 | selected 128-bit candidate, four little-endian words |
 | 0x138, 0x13c, 0x140, 0x144 | class positions, threshold candidates, NMS candidates, cycles |
+| 0x148 | reader select/status: bit 0 enable, bit 1 active, bit 2 local busy, bit 3 local error |
 
 One 128-bit candidate is `{28'b0, location[12:0], class[6:0],
 score_q15[15:0], y_max[15:0], x_max[15:0], y_min[15:0], x_min[15:0]}`.

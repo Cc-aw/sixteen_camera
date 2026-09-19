@@ -33,11 +33,31 @@ verilator --binary --timing -Wno-fatal \
 "$test_tmp/fbus_read/Vtb_fbus_read_engine"
 
 verilator --binary --timing -Wno-fatal \
+  --top-module tb_head_uram_local_reader --Mdir "$test_tmp/head_uram" \
+  rtl/ai/postprocess/head_uram_store.sv \
+  rtl/ai/postprocess/head_local_reader.sv \
+  sim/tb_head_uram_local_reader.sv
+"$test_tmp/head_uram/Vtb_head_uram_local_reader"
+
+for shadow in 0 1; do
+  verilator --binary --timing -Wno-fatal \
+    --top-module tb_axi4_head_uram_router \
+    -GTEST_SHADOW_DDR="$shadow" \
+    --Mdir "$test_tmp/head_router_$shadow" \
+    rtl/interfaces/axi4_if.sv \
+    rtl/ai/postprocess/head_uram_store.sv \
+    rtl/ai/postprocess/axi4_head_uram_router.sv \
+    sim/tb_axi4_head_uram_router.sv
+  "$test_tmp/head_router_$shadow/Vtb_axi4_head_uram_router"
+done
+
+verilator --binary --timing -Wno-fatal \
   --top-module tb_postprocess_read_diagnostic \
   --Mdir "$test_tmp/read_diagnostic" \
   rtl/interfaces/axi_lite_if.sv \
   rtl/interfaces/axi4_if.sv \
   rtl/ai/postprocess/fbus_read_engine.sv \
+  rtl/ai/postprocess/head_local_reader.sv \
   rtl/ai/postprocess/yolov5nu_raw_class_lut.sv \
   rtl/ai/postprocess/yolov5nu_dfl_lut.sv \
   rtl/ai/postprocess/yolov5nu_class_reducer.sv \
