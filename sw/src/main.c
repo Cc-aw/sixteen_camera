@@ -46,7 +46,58 @@ static uint64_t tensor_production_report_cycle;
 
 static void print_help(void)
 {
-    console_puts("Commands: s=status, p=per-frame profile, o=overlay, d=dog inference, t=YOLOv5nu dual test, T=postprocess compare, g=Graph+PPU timing, a=snapshot, n=stream tensor capture, N=next tensor channel, m=16-stream tensor soak, v=PP coherence, w=PP bandwidth, W=PP burst sweep, i=stream AI runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
+    console_puts("Commands: s=status, p=per-frame profile, o=overlay, d=dog inference, t=YOLOv5nu dual test, T=postprocess compare, g=Graph+PPU timing, u=PPU reader status, U=toggle PPU reader, a=snapshot, n=stream tensor capture, N=next tensor channel, m=16-stream tensor soak, v=PP coherence, w=PP bandwidth, W=PP burst sweep, i=stream AI runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
+}
+
+static void ai_postprocess_reader_print(void)
+{
+#ifdef AI_MODEL_YOLOV5NU
+    uint32_t status = ai_postprocess_ppu_reader_status();
+    console_puts("AI PPU reader requested/active/busy/error/backing=");
+    console_puts((status & 1U) != 0U ? "local" : "fbus");
+    console_putc('/');
+    console_puts((status & 2U) != 0U ? "local" : "fbus");
+    console_putc('/');
+    console_put_u32((status >> 2) & 1U);
+    console_putc('/');
+    console_put_u32((status >> 3) & 1U);
+    console_putc('/');
+    status = ai_postprocess_ppu_backing_status();
+    if ((status & 2U) == 0U)
+        console_puts("unknown");
+    else if ((status & 1U) != 0U)
+        console_puts("uram+ddr");
+    else
+        console_puts("uram-only");
+    console_puts("\r\n");
+#else
+    console_puts("AI PPU reader requires the YOLOv5nu build\r\n");
+#endif
+}
+
+static void ai_postprocess_reader_toggle(void)
+{
+#ifdef AI_MODEL_YOLOV5NU
+    uint32_t local;
+    int status;
+    if (ai_batch_runtime_is_enabled() != 0U ||
+        ai_batch_runtime_is_idle() == 0U ||
+        ai_postprocess_diag_is_active() != 0U) {
+        console_puts("AI PPU reader: disable AI and wait for drain first\r\n");
+        return;
+    }
+    local = ai_postprocess_ppu_reader_local_enabled();
+    status = ai_postprocess_ppu_reader_select_local(local == 0U ? 1U : 0U);
+    if (status != 0) {
+        console_puts("AI PPU reader switch failed status=");
+        console_put_u32((uint32_t)(-status));
+        console_puts("\r\n");
+        return;
+    }
+    ai_postprocess_reader_print();
+#else
+    console_puts("AI PPU reader requires the YOLOv5nu build\r\n");
+#endif
 }
 
 static void ai_overlay_fixed_box_test(void)
@@ -721,6 +772,12 @@ int main(void)
 #else
             console_puts("YOLOV5NU PIPE BENCH requires the default yolov5nu build\r\n");
 #endif
+            break;
+        case 'u':
+            ai_postprocess_reader_print();
+            break;
+        case 'U':
+            ai_postprocess_reader_toggle();
             break;
         case 'a':
             if (ai_batch_runtime_is_idle() != 0U)

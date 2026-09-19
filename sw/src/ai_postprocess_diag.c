@@ -31,7 +31,13 @@
 #define DIAG_CONTROL_CLEAR    UINT32_C(2)
 #define DIAG_CONTROL_FAST     UINT32_C(4)
 #define PPU_STATUS            0x11CU
+#define PPU_ID                0x100U
+#define PPU_READER_SELECT     0x148U
+#define PPU_BACKING_STATUS    0x14CU
+#define PPU_IDENT             UINT32_C(0x50505531)
 #define PPU_STATUS_BUSY       UINT32_C(1)
+#define PPU_READER_LOCAL      UINT32_C(1)
+#define PPU_READER_BUSY       UINT32_C(4)
 #define DIAG_STATUS_BUSY      UINT32_C(1)
 #define DIAG_STATUS_DONE      UINT32_C(2)
 #define DIAG_STATUS_ERROR     UINT32_C(4)
@@ -95,6 +101,46 @@ uint32_t ai_postprocess_diag_read_id(void)
 uint32_t ai_postprocess_diag_read_capability(void)
 {
     return mmio_read32(POSTPROCESS_DIAG_BASE + DIAG_CAPABILITY);
+}
+
+uint32_t ai_postprocess_ppu_reader_status(void)
+{
+    if (mmio_read32(POSTPROCESS_DIAG_BASE + PPU_ID) != PPU_IDENT)
+        return 0U;
+    return mmio_read32(POSTPROCESS_DIAG_BASE + PPU_READER_SELECT);
+}
+
+uint32_t ai_postprocess_ppu_reader_local_enabled(void)
+{
+    return ai_postprocess_ppu_reader_status() & PPU_READER_LOCAL;
+}
+
+uint32_t ai_postprocess_ppu_backing_status(void)
+{
+    if (mmio_read32(POSTPROCESS_DIAG_BASE + PPU_ID) != PPU_IDENT)
+        return 0U;
+    return mmio_read32(POSTPROCESS_DIAG_BASE + PPU_BACKING_STATUS);
+}
+
+int ai_postprocess_ppu_reader_select_local(uint32_t enable)
+{
+    uint32_t reader_status;
+    if (mmio_read32(POSTPROCESS_DIAG_BASE + PPU_ID) != PPU_IDENT)
+        return -1;
+    reader_status = mmio_read32(POSTPROCESS_DIAG_BASE + PPU_READER_SELECT);
+    if (command.active != 0U || bandwidth.running != 0U ||
+        (mmio_read32(POSTPROCESS_DIAG_BASE + DIAG_STATUS) &
+         DIAG_STATUS_BUSY) != 0U ||
+        (mmio_read32(POSTPROCESS_DIAG_BASE + PPU_STATUS) &
+         PPU_STATUS_BUSY) != 0U ||
+        (reader_status & PPU_READER_BUSY) != 0U)
+        return -2;
+    mmio_write32(POSTPROCESS_DIAG_BASE + PPU_READER_SELECT,
+                 enable != 0U ? PPU_READER_LOCAL : 0U);
+    mmio_fence();
+    reader_status = mmio_read32(POSTPROCESS_DIAG_BASE + PPU_READER_SELECT);
+    return (reader_status & PPU_READER_LOCAL) ==
+           (enable != 0U ? PPU_READER_LOCAL : 0U) ? 0 : -3;
 }
 
 static int ai_postprocess_diag_start_mode(uint64_t tensor_addr,

@@ -150,7 +150,9 @@ module top_wrapper (
         .fbus_axi(soc_fbus_axi)
     );
 
-    ddr_memory_subsystem u_ddr_memory (
+    ddr_memory_subsystem #(
+        .HEAD_SHADOW_DDR(1'b0)
+    ) u_ddr_memory (
         .sys_rstn(sys_rstn),
         .c0_sys_clk_p(c0_sys_clk_p),
         .c0_sys_clk_n(c0_sys_clk_n),

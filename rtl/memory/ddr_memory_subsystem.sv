@@ -1,6 +1,10 @@
 `timescale 1ns/1ps
 
-module ddr_memory_subsystem (
+module ddr_memory_subsystem #(
+    // P4.2 production default: Head payload is backed only by URAM.  Keep
+    // this parameter available for a one-line rollback bitstream.
+    parameter bit HEAD_SHADOW_DDR = 1'b0
+) (
     input  wire        sys_rstn,
     input  wire        c0_sys_clk_p,
     input  wire        c0_sys_clk_n,
@@ -219,7 +223,9 @@ module ddr_memory_subsystem (
         .s_axi(preprocess_write_video_axi), .m_clk(soc_clk),
         .m_resetn(soc_resetn), .m_axi(fbus_write_soc_axi)
     );
-    postprocess_read_diagnostic u_postprocess_read_diagnostic (
+    postprocess_read_diagnostic #(
+        .HEAD_SHADOW_DDR(HEAD_SHADOW_DDR)
+    ) u_postprocess_read_diagnostic (
         .axil(postprocess_axil), .m_axi(postprocess_read_soc_axi),
         .local_read_bank(head_local_read_bank),
         .local_read_req_valid(head_local_read_req_valid),
@@ -229,9 +235,12 @@ module ddr_memory_subsystem (
         .local_read_rsp_valid(head_local_read_rsp_valid),
         .local_read_rsp_ready(head_local_read_rsp_ready)
     );
-    // P3 keeps DDR as an exact shadow/fallback while serving production PPU
-    // payload reads through the dedicated URAM local port.
-    axi4_head_uram_router #(.SHADOW_DDR(1)) u_head_uram_router (
+    // P4.2 keeps the proven cache-flush publication boundary but terminates
+    // Head payload storage in URAM.  HEAD_SHADOW_DDR=1 builds the P3 rollback
+    // image with a live DDR copy.
+    axi4_head_uram_router #(
+        .SHADOW_DDR(HEAD_SHADOW_DDR)
+    ) u_head_uram_router (
         .clk(soc_clk), .resetn(soc_resetn),
         .s_axi(soc_mem_axi), .m_ddr_axi(soc_ddr_axi),
         .local_read_bank(head_local_read_bank),

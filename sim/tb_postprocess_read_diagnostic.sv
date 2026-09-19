@@ -14,7 +14,9 @@ module tb_postprocess_read_diagnostic;
     reg [255:0] local_read_rsp_data = 0;
     reg local_read_rsp_valid = 0;
     wire local_read_rsp_ready;
-    postprocess_read_diagnostic dut(
+    postprocess_read_diagnostic #(
+        .HEAD_SHADOW_DDR(1'b0)
+    ) dut(
         .axil(axil), .m_axi(axi),
         .local_read_bank(local_read_bank),
         .local_read_req_valid(local_read_req_valid),
@@ -224,6 +226,9 @@ module tb_postprocess_read_diagnostic;
         read_reg(16'h0100, value);
         if (value != 32'h5050_5531)
             $fatal(1, "production capability mismatch %h", value);
+        read_reg(16'h014c, value);
+        if (value != 32'h0000_0002)
+            $fatal(1, "URAM-only backing mode mismatch %h", value);
         write_reg(16'h005c, 32'd2);
         read_reg(16'h005c, value);
         if (value != 2)

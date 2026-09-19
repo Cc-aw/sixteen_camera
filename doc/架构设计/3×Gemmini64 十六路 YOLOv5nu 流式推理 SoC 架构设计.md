@@ -120,9 +120,75 @@ active source、local busy、local error。写 0 可让下一任务回退原 DDR
 
 P3 仿真覆盖四 bank Head shadow 写在随机 DDR backpressure 下的逐拍一致性、Local
 Reader 读回、六段 production descriptor 的完整 positions/candidate/NMS 结果，以及
-空闲边界切回 FBus 后的任务完成。新 bitstream 尚待上板验证，不能把这些仿真结论写成
-板级通过结论。P3 shadow 参数独立综合使用 128 个 URAM288、0 个 BRAM，100 MHz
-WNS 为 +7.020 ns；全 `top_wrapper` RTL elaboration 为 0 errors。
+空闲边界切回 FBus 后的任务完成。P3 shadow 参数独立综合使用 128 个
+URAM288、0 个 BRAM，100 MHz WNS 为 +7.020 ns；全 `top_wrapper` RTL elaboration
+为 0 errors。
+
+P3 新 bitstream 已完成板级验证：固定图片上双 worker 连续 6 次均与软件
+reference bit-exact，后处理 benchmark 连续 9 次 PASS；PPU core 固定为 92593
+cycles（0.926 ms@100 MHz），带 DDR cache flush 的 post wall 约为 3.44 ms，相对
+软件 reference 约 44.5 倍加速。当时 graph 约为 230 ms，这一数值仍包含
+DDR shadow 写路径，不代表 PPU Local Reader 本身的耗时。
+
+P4.1 在不改变 RTL 数据面的前提下增加软件 A/B 验证：串口 `u` 读取
+requested/active/busy/error，`U` 仅在 runtime、PPU 和诊断全部空闲时
+切换 Local/FBus。板上 A/B 实测证明 Local Reader 硬件可以完整执行，但也否定了
+“Local Reader 可直接省略 cache flush”的假设：跳过 flush 时 PPU 虽在 92593 cycles
+内正常结束，但产生了 539/597 个错误 candidate；切换 FBus 并恢复 flush 后
+pipeline、双 worker bit-exact 和后处理 benchmark 立即全部 PASS。
+
+根因是 stage 165 `gemmini_fence()` 只保证加速器命令完成，不保证所有最终 Head
+cache line 已经到达 AXI router 并更新 URAM mirror。因此 P4.1 修正后 Local 和
+FBus 两条路径都保留 907200 字节 flush。要删除 flush，必须先建立一个明确的
+生产者发布边界，确保发布 `HEAD_READY` 之前所有 Head 行已进入 URAM。
+
+Local Reader 不经 coherent FBus，因此 `T` benchmark 不能先让 Local PPU 读 URAM，
+再把 flush 后 CPU 从 DDR shadow/cache 路径读到的内容当作软件 oracle。板测中
+Local PPU 始终输出精确结果，而后续软件 checksum 有小幅非确定偏差；64 KiB
+L1 eviction 不能消除该偏差，证明它不是单纯的 L1 旧行。`T` 因此改为：
+Graph 完成后先用 CPU coherent producer view 生成软件 reference，再执行 flush 发布
+Head，最后运行 Local/FBus PPU 并比较结果。eviction 仍作为 CPU 测试前置条件，
+不计入 `sw_cycles`；该路径只存在于 benchmark，不影响生产 Local 路径。
+修正后 Local 模式板上连续 9 个 `T` sample 全部 PASS，随后 3 个 `g` sample
+也全部 PASS。`T` 平均 hardware wall 约 3.20 ms、PPU core 固定 0.926 ms、
+相对软件 reference 约 47.75 倍；生产顺序的 `g` 平均 graph/post wall/PPU
+core/total 为 230.016/3.432/0.926/233.448 ms。因此 P4.1 的 Local/FBus 可控
+回退、Local Reader 功能和带 flush 发布边界已完成板级验收。flush 删除
+作为后续 P4.3，仍未实现。
+
+P4.2 把“取消 DDR shadow”与“删除 flush”解耦。生产顶层已以
+`HEAD_SHADOW_DDR=0` 实例化 router：Head 的最终 cache writeback 仍由板上验证过的
+flush 发布，但 router 只写 URAM 并在本地返回 AXI B，不再复制到 DDR。
+CPU/FBus 对四个 Head 窗口的 AXI 读也由 URAM 返回；Head 之外包括
+`0x32200000..0x323fffff` 诊断区仍原样透传 DDR。因此 `U` 在 P4.2 中切换
+的是 Local/FBus 读取传输，两者最终都以 URAM 为 backing，不再提供 DDR 副本容灾。
+
+MMIO `0x14c` bit1 表示 URAM Head store 存在，bit0 表示 DDR shadow 使能；P4.2
+固件的 `u` 命令显示 `backing=uram-only`，P3 回退 bitstream 显示
+`uram+ddr`。shadow=0/1 两种 RTL 回归均通过，shadow=0 中 Head 流量未进入
+DDR；P4.2 独立综合使用 128 个 URAM288、0 个 BRAM，100 MHz WNS 为
++6.984 ns，全 `top_wrapper` elaboration 为 0 errors。
+
+P4.2 bitstream 上板后，`t` 连续 3 轮、双 worker 共 6 个样本全部
+bit-exact PASS。Local 的 `g` 平均 graph/post wall/PPU core/total 为
+227.082/3.272/0.926/230.354 ms；FBus 的对应结果为
+227.135/3.276/0.929/230.411 ms，两条路径均通过。FBus 在没有 DDR
+shadow 时仍可正确、且 PPU core 与 Local 接近，证明 CPU/FBus Head
+读已由 URAM 返回，而非偷读旧 DDR 副本。
+
+重复执行 `T` 时暴露了 benchmark 的 oracle 顺序问题：URAM-only 模式下
+在 flush 发布前驱逐 L1，CPU miss 可能读到尚未完整发布的 URAM，因而
+出现小幅、非确定的 software checksum 偏差；同轮 PPU 与 `g` 仍正确。
+`T` 现已按 MMIO backing 模式分流：P4.2 使用 Graph → flush/PPU →
+L1 eviction/software oracle，使 CPU 和 PPU 读同一份已发布 URAM；P3
+shadow 回退仍保留 Graph → software oracle → flush/PPU 的已验证顺序。
+该修正仅改测试编排，不改生产数据路径，也无需重生成
+bitstream。新 ELF 上板后，Local 模式连续 3 轮 `T`、共 9 个
+sample 全部 PASS：PPU core 稳定为 92,593 cycles（0.926 ms），
+hardware wall 约 3.273 ms，相对 software oracle 约 45.08 倍。同版
+`g` 也连续 3/3 PASS，平均 graph/post wall/PPU core/total 为
+227.419/3.272/0.926/230.691 ms。至此 P4.2 的 RTL、综合、Local/FBus
+路径、bit-exact 与稳定性验收全部通过。
 
 该阶段没有修改 Gemmini 算法、PPU 算法、Head ABI 或 A/B ownership。
 

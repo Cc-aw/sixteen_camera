@@ -11,6 +11,28 @@
 #include "yolov5nu_head_layout.h"
 
 #define SELFTEST_TIMEOUT_CYCLES (SOC_CLOCK_HZ * UINT64_C(120))
+#define BENCH_L1_EVICT_BYTES (64U * 1024U)
+
+/*
+ * Local PPU reads bypass the coherent FBus, while the T benchmark later asks
+ * the CPU to consume the same DMA-produced Head payload.  Reusing A/B slots
+ * can therefore leave old Head lines in the 32 KiB Rocket D-cache.  Touch two
+ * cache capacities before the software reference so it measures the current
+ * payload rather than a line retained from the previous use of that slot.
+ */
+static volatile uint8_t benchmark_l1_evict[BENCH_L1_EVICT_BYTES]
+    __attribute__((aligned(64)));
+static volatile uint8_t benchmark_l1_evict_sink;
+
+static void benchmark_evict_l1(void)
+{
+    uint8_t sink = benchmark_l1_evict_sink;
+    for (size_t offset = 0U; offset < sizeof(benchmark_l1_evict);
+         offset += 64U)
+        sink ^= benchmark_l1_evict[offset];
+    benchmark_l1_evict_sink = sink;
+    mmio_fence();
+}
 
 static int rounded(float value)
 {
@@ -204,6 +226,25 @@ static uint32_t benchmark_cycles_to_us(uint64_t cycles)
                        SOC_CLOCK_HZ / UINT64_C(2)) / SOC_CLOCK_HZ);
 }
 
+static int finish_benchmark_software(
+    struct yolov5nu_dim16_result *software_result,
+    uint64_t *software_cycles)
+{
+    uint64_t start;
+    int status;
+    benchmark_evict_l1();
+    start = read_cycle();
+    status = yolov5nu_dim16_worker_finish_software(0U, software_result);
+    *software_cycles = read_cycle() - start;
+    if (status != YOLOV5NU_DIM16_DONE ||
+        !result_matches_reference(software_result)) {
+        console_puts("YOLOV5NU_POST_BENCH FAIL reason=software_reference\r\n");
+        print_worker_result(0U, software_result, 0);
+        return 0;
+    }
+    return 1;
+}
+
 /*
  * Standalone board timing path.  Unlike the T command, this does not run the
  * software postprocessor.  It measures the current production head layout:
@@ -371,11 +412,15 @@ int ai_yolov5nu_postprocess_benchmark(void)
 {
     uint64_t hardware_sum = 0U;
     uint64_t software_sum = 0U;
+    uint32_t backing_status;
+    uint32_t software_before_ppu;
     if (mmio_read32(POSTPROCESS_DIAG_BASE + BENCH_PPU_CONTROL) !=
         UINT32_C(0x50505531)) {
         console_puts("YOLOV5NU_POST_BENCH FAIL reason=ppu_missing\r\n");
         return 0;
     }
+    backing_status = ai_postprocess_ppu_backing_status();
+    software_before_ppu = (backing_status & 3U) != 2U;
     console_puts("YOLOV5NU_POST_BENCH_BEGIN image=025 repeats=3 clock_hz=100000000\r\n");
     for (uint32_t iteration = 0U; iteration < BENCH_REPETITIONS;
          ++iteration) {
@@ -409,6 +454,18 @@ int ai_yolov5nu_postprocess_benchmark(void)
             }
         }
         graph_cycles = read_cycle() - start;
+
+        /*
+         * P3 shadow images use the coherent producer view for the CPU oracle.
+         * In P4.2 URAM-only mode, eviction before publication can make a CPU
+         * miss reach stale URAM.  Publish and validate URAM with the PPU
+         * first, then evict L1 and let the CPU consume the same backing.
+         */
+        if (software_before_ppu != 0U &&
+            finish_benchmark_software(&software_result,
+                                      &software_cycles) == 0)
+            return 0;
+
         start = read_cycle();
         start_benchmark_ppu(head);
         for (;;) {
@@ -420,6 +477,7 @@ int ai_yolov5nu_postprocess_benchmark(void)
                 console_puts("YOLOV5NU_POST_BENCH FAIL reason=ppu_timeout status=");
                 console_put_hex32(ppu_status);
                 console_puts("\r\n");
+                yolov5nu_dim16_worker_finish_hardware(0U);
                 return 0;
             }
         }
@@ -455,21 +513,15 @@ int ai_yolov5nu_postprocess_benchmark(void)
             yolov5nu_dim16_worker_finish_hardware(0U);
             return 0;
         }
-
-        start = read_cycle();
-        status = yolov5nu_dim16_worker_finish_software(0U,
-                                                        &software_result);
-        software_cycles = read_cycle() - start;
-        if (status != YOLOV5NU_DIM16_DONE ||
-            !result_matches_reference(&software_result)) {
-            console_puts("YOLOV5NU_POST_BENCH FAIL reason=software_reference\r\n");
+        if (software_before_ppu == 0U &&
+            finish_benchmark_software(&software_result,
+                                      &software_cycles) == 0)
             return 0;
-        }
         software_box = &software_result.detections[0];
-        hardware_score_milli =
-            ((score_class & 0xffffU) * 1000U + 16384U) / 32768U;
         software_score_milli =
             (uint32_t)rounded(software_box->score * 1000.0f);
+        hardware_score_milli =
+            ((score_class & 0xffffU) * 1000U + 16384U) / 32768U;
         if (((score_class >> 16) & 0x7fU) !=
                 (uint32_t)software_box->class_id ||
             difference_u32(hardware_score_milli, software_score_milli) > 1U ||

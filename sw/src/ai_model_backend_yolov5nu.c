@@ -120,9 +120,10 @@ static void start_hardware_postprocess(AiHeadSlot *slot)
     const AiHeadSlotDescriptor *descriptor = &slot->descriptor;
     uint32_t worker_id = descriptor->worker_id;
     uintptr_t head = AI_DDR_CPU_ALIAS(descriptor->base_addr);
-    // The same FBus path's coherence stress requires L2 line flushing for
-    // CPU-addressed DDR.  Fence Gemmini first (in stage 165), then publish
-    // every raw head before issuing the FBus read descriptors.
+    // gemmini_fence() completes the accelerator command, but board testing
+    // shows that dirty Head cache lines may still not have reached the AXI
+    // router. Flush before either reader so the URAM mirror and DDR shadow
+    // both contain the completed payload before the PPU command is issued.
     ai_postprocess_diag_flush_range((void *)head,
                                     YOLOV5NU_HEAD_PAYLOAD_BYTES);
     // The FBus bridge applies the bit-31 coherent DDR alias itself.

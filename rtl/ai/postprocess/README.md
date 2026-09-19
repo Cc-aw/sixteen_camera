@@ -63,6 +63,56 @@ A/B ownership protocol while providing an immediate DDR/FBus fallback.
 Run `vivado -mode batch -source scripts/check_head_uram_p3_synthesis.tcl`
 to enforce the 128-URAM and 100 MHz gates with shadow mode enabled.
 
+## Head URAM migration P4.1: board control and publication boundary
+
+The console `u` command reports the requested and active PPU reader plus the
+local busy/error bits. Uppercase `U` toggles the next command between the
+local reader and FBus only after the stream runtime, PPU and diagnostic reader
+are idle. The selection remains command-granular through the existing `0x148`
+register and does not change the Head descriptor ABI or A/B ownership.
+
+Board A/B testing proved that the stage-165 Gemmini fence completes the
+accelerator command but is not a sufficient publication boundary for the AXI
+router: skipping the 907,200-byte cache flush let the local reader observe an
+incomplete Head payload. Both local-reader and FBus commands therefore retain
+the flush. Removing it requires a producer path that explicitly guarantees
+that every final Head line has reached URAM before HEAD_READY is published.
+P4.1 therefore retained the DDR shadow while the publication behavior was
+isolated and validated on board.
+
+## Head URAM migration P4.2: URAM-only physical backing
+
+The production memory subsystem now builds the router with
+`HEAD_SHADOW_DDR=0`. The proven 907,200-byte cache flush remains the producer
+publication boundary, but every Head writeback terminates in URAM and returns
+a local AXI B response instead of also waiting for DDR. CPU/FBus AXI reads of
+the four Head windows are served from URAM; non-Head traffic, including the
+`0x32200000..0x323fffff` diagnostic range, continues to DDR unchanged.
+
+MMIO offset `0x14c` reports the compiled backing mode: bit 1 means that the
+URAM Head store is present and bit 0 means that DDR shadowing is enabled. The
+P4.2 production value is therefore `0x2`; a P3 rollback image reports `0x3`.
+The console `u` command renders this as `uram-only` or `uram+ddr`.
+
+With shadow disabled, selecting FBus still validates the original coherent
+reader transport, but both reader choices ultimately consume the same URAM
+payload. It is no longer a redundant DDR storage fallback. Run the full RTL
+regression and `scripts/check_head_uram_p4_synthesis.tcl` before building the
+P4.2 bitstream. Removing the cache flush remains a separate future phase.
+
+Board validation of the P4.2 bitstream passed six bit-exact dual-worker
+samples and both Local/FBus graph-to-PPU benchmarks. Repeated `T` runs also
+exposed a test-order hazard: evicting L1 before the URAM-only publication flush
+can make the CPU oracle miss into incomplete URAM. The benchmark therefore
+uses Graph -> flush/PPU -> L1 eviction/software oracle for backing status
+`0x2`, while retaining the proven software-before-PPU order for P3 shadow
+images. This is a software-only test-harness change; it does not alter the PPU
+or the production data path. The corrected ELF subsequently passed three
+consecutive `T` runs (nine samples) and three consecutive production-order
+`g` samples. P4.2 board acceptance is complete: the final Local averages were
+3.273 ms postprocess wall, 0.926 ms PPU core, and 230.691 ms total
+graph-to-result latency.
+
 P1A connects a 33-bit, 256-bit AXI reader to the Taihang coherent FBus. The
 existing preprocessor writer and the new reader use independent AXI write and
 read channels through `axi4_channel_join`.
@@ -194,6 +244,7 @@ the unchanged 0x00..0x5c diagnostic. All offsets below are relative to
 | 0x128..0x134 | selected 128-bit candidate, four little-endian words |
 | 0x138, 0x13c, 0x140, 0x144 | class positions, threshold candidates, NMS candidates, cycles |
 | 0x148 | reader select/status: bit 0 enable, bit 1 active, bit 2 local busy, bit 3 local error |
+| 0x14c | backing status: bit 1 URAM present, bit 0 DDR shadow enabled |
 
 One 128-bit candidate is `{28'b0, location[12:0], class[6:0],
 score_q15[15:0], y_max[15:0], x_max[15:0], y_min[15:0], x_min[15:0]}`.

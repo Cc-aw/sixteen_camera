@@ -77,5 +77,9 @@ int ai_postprocess_bandwidth_start(uint32_t iterations,
 int ai_postprocess_bandwidth_poll(AiPostprocessBandwidthResult *result);
 uint32_t ai_postprocess_crc32(const void *data, size_t bytes);
 void ai_postprocess_diag_flush_range(const void *base, size_t bytes);
+uint32_t ai_postprocess_ppu_reader_status(void);
+uint32_t ai_postprocess_ppu_reader_local_enabled(void);
+uint32_t ai_postprocess_ppu_backing_status(void);
+int ai_postprocess_ppu_reader_select_local(uint32_t enable);
 
 #endif

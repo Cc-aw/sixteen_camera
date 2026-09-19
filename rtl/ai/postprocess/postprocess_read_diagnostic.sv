@@ -1,6 +1,8 @@
 `timescale 1ns/1ps
 
-module postprocess_read_diagnostic (
+module postprocess_read_diagnostic #(
+    parameter bit HEAD_SHADOW_DDR = 1'b1
+) (
     axi_lite_if.slave axil,
     axi4_if.master    m_axi,
     output wire [1:0] local_read_bank,
@@ -549,6 +551,9 @@ module postprocess_read_diagnostic (
                 10'h148: rdata_q <= {28'd0, local_reader_error,
                                      local_reader_busy, local_active_q,
                                      local_enable_q};
+                // bit 1 identifies the URAM Head store; bit 0 reports
+                // whether the build also mirrors Head writes into DDR.
+                10'h14c: rdata_q <= {30'd0, 1'b1, HEAD_SHADOW_DDR};
                 default: rdata_q <= 32'd0;
                 endcase
                 rvalid_q <= 1'b1;
