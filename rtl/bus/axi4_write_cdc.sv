@@ -97,7 +97,11 @@ module axi4_write_cdc #(
     assign m_axi.arvalid = 1'b0;
     assign m_axi.rready = 1'b0;
 
-    cdc_payload_fifo #(.WIDTH(AW_WIDTH), .DEPTH(FIFO_DEPTH)) u_aw_fifo (
+    // camera_video_clk and the 100 MHz SoC/FBus clock are asynchronous.
+    // Do not let XPM optimize these FIFOs as related-clock crossings.
+    cdc_payload_fifo #(
+        .WIDTH(AW_WIDTH), .DEPTH(FIFO_DEPTH), .RELATED_CLOCKS(0)
+    ) u_aw_fifo (
         .w_clk(s_axi.aclk), .w_resetn(s_axi.aresetn),
         .w_valid(s_axi.awvalid), .w_ready(aw_s_ready),
         .w_data({s_axi.awid, s_axi.awaddr, s_axi.awlen, s_axi.awsize,
@@ -107,7 +111,9 @@ module axi4_write_cdc #(
         .r_ready(m_axi.awready && outstanding_room), .r_data(aw_data)
     );
 
-    cdc_payload_fifo #(.WIDTH(W_WIDTH), .DEPTH(FIFO_DEPTH)) u_w_fifo (
+    cdc_payload_fifo #(
+        .WIDTH(W_WIDTH), .DEPTH(FIFO_DEPTH), .RELATED_CLOCKS(0)
+    ) u_w_fifo (
         .w_clk(s_axi.aclk), .w_resetn(s_axi.aresetn),
         .w_valid(s_axi.wvalid), .w_ready(w_s_ready),
         .w_data({s_axi.wdata, s_axi.wstrb, s_axi.wlast}),
@@ -115,7 +121,9 @@ module axi4_write_cdc #(
         .r_ready(m_axi.wready && write_credit_count != 0), .r_data(w_data)
     );
 
-    cdc_payload_fifo #(.WIDTH(B_WIDTH), .DEPTH(FIFO_DEPTH)) u_b_fifo (
+    cdc_payload_fifo #(
+        .WIDTH(B_WIDTH), .DEPTH(FIFO_DEPTH), .RELATED_CLOCKS(0)
+    ) u_b_fifo (
         .w_clk(m_clk), .w_resetn(m_resetn),
         .w_valid(m_axi.bvalid && outstanding_count != 0),
         .w_ready(b_m_ready),

@@ -23,6 +23,13 @@ for remap in 31 -1; do
     rtl/interfaces/axi4_if.sv rtl/bus/cdc_payload_fifo.sv \
     rtl/bus/axi4_write_cdc.sv sim/tb_axi4_write_cdc.sv
   "$test_tmp/write_cdc_$remap/Vtb_axi4_write_cdc"
+
+  verilator --binary --timing -Wno-fatal \
+    --top-module tb_axi4_write_cdc_stress -GTEST_REMAP_ID="$remap" \
+    --Mdir "$test_tmp/write_cdc_stress_$remap" \
+    rtl/interfaces/axi4_if.sv rtl/bus/cdc_payload_fifo.sv \
+    rtl/bus/axi4_write_cdc.sv sim/tb_axi4_write_cdc_stress.sv
+  "$test_tmp/write_cdc_stress_$remap/Vtb_axi4_write_cdc_stress"
 done
 
 verilator --binary --timing -Wno-fatal \

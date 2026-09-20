@@ -5,7 +5,11 @@
 // before either side is allowed to handshake.
 module cdc_payload_fifo #(
     parameter integer WIDTH = 8,
-    parameter integer DEPTH = 16
+    parameter integer DEPTH = 16,
+    // Set only when w_clk and r_clk come from the same clock source and
+    // have a fixed phase relationship.  The video/UI bridges are related;
+    // the video/SoC FBus bridge is not.
+    parameter integer RELATED_CLOCKS = 1
 ) (
     input  wire             w_clk,
     input  wire             w_resetn,
@@ -83,7 +87,7 @@ module cdc_payload_fifo #(
         .CDC_SYNC_STAGES(2), .FIFO_MEMORY_TYPE("auto"),
         .FIFO_READ_LATENCY(0), .FIFO_WRITE_DEPTH(DEPTH),
         .READ_DATA_WIDTH(WIDTH), .READ_MODE("fwft"),
-        .RELATED_CLOCKS(1), .USE_ADV_FEATURES("0707"),
+        .RELATED_CLOCKS(RELATED_CLOCKS), .USE_ADV_FEATURES("0707"),
         .WRITE_DATA_WIDTH(WIDTH),
         .WR_DATA_COUNT_WIDTH(COUNT_WIDTH),
         .RD_DATA_COUNT_WIDTH(COUNT_WIDTH)

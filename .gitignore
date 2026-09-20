@@ -27,6 +27,7 @@ demo/
 # Software and simulator build products
 sw/build/
 obj_dir/
+xsim.dir/
 *.o
 *.d
 *.elf
