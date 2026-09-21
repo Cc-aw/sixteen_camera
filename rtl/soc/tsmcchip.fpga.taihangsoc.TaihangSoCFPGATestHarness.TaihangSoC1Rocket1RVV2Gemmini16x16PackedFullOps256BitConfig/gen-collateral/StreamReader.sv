@@ -205,23 +205,23 @@ module StreamReader(	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60
   input          io_counter_external_reset	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:62:16]
 );
 
-  wire         _beatPacker_io_req_ready;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:76:28]
-  wire         _beatPacker_io_in_ready;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:76:28]
-  wire         _xactTracker_io_alloc_ready;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-  wire [4:0]   _xactTracker_io_alloc_xactid;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-  wire [5:0]   _xactTracker_io_peek_entry_shift;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-  wire [14:0]  _xactTracker_io_peek_entry_addr;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-  wire         _xactTracker_io_peek_entry_is_acc;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-  wire         _xactTracker_io_peek_entry_accumulate;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-  wire         _xactTracker_io_peek_entry_has_acc_bitwidth;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-  wire [31:0]  _xactTracker_io_peek_entry_scale;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-  wire [15:0]  _xactTracker_io_peek_entry_repeats;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-  wire [7:0]   _xactTracker_io_peek_entry_pixel_repeats;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-  wire [15:0]  _xactTracker_io_peek_entry_len;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-  wire [15:0]  _xactTracker_io_peek_entry_block_stride;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-  wire [8:0]   _xactTracker_io_peek_entry_spad_row_offset;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-  wire [6:0]   _xactTracker_io_peek_entry_bytes_to_read;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-  wire [1:0]   _xactTracker_io_peek_entry_cmd_id;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
+  wire         _beatPacker_io_req_ready;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:81:28]
+  wire         _beatPacker_io_in_ready;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:81:28]
+  wire         _xactTracker_io_alloc_ready;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+  wire [4:0]   _xactTracker_io_alloc_xactid;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+  wire [5:0]   _xactTracker_io_peek_entry_shift;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+  wire [14:0]  _xactTracker_io_peek_entry_addr;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+  wire         _xactTracker_io_peek_entry_is_acc;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+  wire         _xactTracker_io_peek_entry_accumulate;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+  wire         _xactTracker_io_peek_entry_has_acc_bitwidth;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+  wire [31:0]  _xactTracker_io_peek_entry_scale;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+  wire [15:0]  _xactTracker_io_peek_entry_repeats;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+  wire [7:0]   _xactTracker_io_peek_entry_pixel_repeats;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+  wire [15:0]  _xactTracker_io_peek_entry_len;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+  wire [15:0]  _xactTracker_io_peek_entry_block_stride;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+  wire [8:0]   _xactTracker_io_peek_entry_spad_row_offset;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+  wire [6:0]   _xactTracker_io_peek_entry_bytes_to_read;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+  wire [1:0]   _xactTracker_io_peek_entry_cmd_id;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
   wire         _core_io_reserve_valid;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24]
   wire [5:0]   _core_io_reserve_entry_shift;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24]
   wire [14:0]  _core_io_reserve_entry_addr;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24]
@@ -241,23 +241,23 @@ module StreamReader(	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60
   wire [255:0] _core_io_beatData_bits_data;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24]
   wire [2:0]   _core_io_beatData_bits_lg_len_req;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24]
   wire         _core_io_beatData_bits_last;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24]
-  wire         _io_resp_bits_bytes_read_T = _beatPacker_io_req_ready & _core_io_beatData_valid;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24, :76:28, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire         _io_resp_bits_bytes_read_T = _beatPacker_io_req_ready & _core_io_beatData_valid;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24, :81:28, src/main/scala/chisel3/util/Decoupled.scala:51:35]
   reg  [4:0]   xactTracker_io_peek_xactid_buf;	// @[generators/gemmini/src/main/scala/gemmini/Util.scala:90:24]
-  reg  [31:0]  io_resp_bits_scale_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:102:36]
-  reg  [15:0]  io_resp_bits_repeats_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:103:38]
-  reg  [7:0]   io_resp_bits_pixel_repeats_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:104:44]
-  reg  [15:0]  io_resp_bits_len_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:105:34]
-  reg  [1:0]   io_resp_bits_cmd_id_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:106:37]
-  reg  [6:0]   io_resp_bits_bytes_read_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:107:41]
+  reg  [31:0]  io_resp_bits_scale_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:107:36]
+  reg  [15:0]  io_resp_bits_repeats_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:108:38]
+  reg  [7:0]   io_resp_bits_pixel_repeats_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:109:44]
+  reg  [15:0]  io_resp_bits_len_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:110:34]
+  reg  [1:0]   io_resp_bits_cmd_id_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:111:37]
+  reg  [6:0]   io_resp_bits_bytes_read_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:112:41]
   always @(posedge clock) begin	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9]
     if (_io_resp_bits_bytes_read_T) begin	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35]
       xactTracker_io_peek_xactid_buf <= _core_io_beatData_bits_xactid;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24, generators/gemmini/src/main/scala/gemmini/Util.scala:90:24]
-      io_resp_bits_scale_r <= _xactTracker_io_peek_entry_scale;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29, :102:36]
-      io_resp_bits_repeats_r <= _xactTracker_io_peek_entry_repeats;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29, :103:38]
-      io_resp_bits_pixel_repeats_r <= _xactTracker_io_peek_entry_pixel_repeats;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29, :104:44]
-      io_resp_bits_len_r <= _xactTracker_io_peek_entry_len;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29, :105:34]
-      io_resp_bits_cmd_id_r <= _xactTracker_io_peek_entry_cmd_id;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29, :106:37]
-      io_resp_bits_bytes_read_r <= _xactTracker_io_peek_entry_bytes_to_read;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29, :107:41]
+      io_resp_bits_scale_r <= _xactTracker_io_peek_entry_scale;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29, :107:36]
+      io_resp_bits_repeats_r <= _xactTracker_io_peek_entry_repeats;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29, :108:38]
+      io_resp_bits_pixel_repeats_r <= _xactTracker_io_peek_entry_pixel_repeats;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29, :109:44]
+      io_resp_bits_len_r <= _xactTracker_io_peek_entry_len;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29, :110:34]
+      io_resp_bits_cmd_id_r <= _xactTracker_io_peek_entry_cmd_id;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29, :111:37]
+      io_resp_bits_bytes_read_r <= _xactTracker_io_peek_entry_bytes_to_read;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29, :112:41]
     end
   end // always @(posedge)
   `ifdef ENABLE_INITIAL_REG_	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9]
@@ -274,12 +274,12 @@ module StreamReader(	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60
           _RANDOM[i] = `RANDOM;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9]
         end	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9]
         xactTracker_io_peek_xactid_buf = _RANDOM[2'h0][4:0];	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, generators/gemmini/src/main/scala/gemmini/Util.scala:90:24]
-        io_resp_bits_scale_r = {_RANDOM[2'h0][31:5], _RANDOM[2'h1][4:0]};	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :102:36, generators/gemmini/src/main/scala/gemmini/Util.scala:90:24]
-        io_resp_bits_repeats_r = _RANDOM[2'h1][20:5];	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :102:36, :103:38]
-        io_resp_bits_pixel_repeats_r = _RANDOM[2'h1][28:21];	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :102:36, :104:44]
-        io_resp_bits_len_r = {_RANDOM[2'h1][31:29], _RANDOM[2'h2][12:0]};	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :102:36, :105:34]
-        io_resp_bits_cmd_id_r = _RANDOM[2'h2][14:13];	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :105:34, :106:37]
-        io_resp_bits_bytes_read_r = _RANDOM[2'h2][21:15];	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :105:34, :107:41]
+        io_resp_bits_scale_r = {_RANDOM[2'h0][31:5], _RANDOM[2'h1][4:0]};	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :107:36, generators/gemmini/src/main/scala/gemmini/Util.scala:90:24]
+        io_resp_bits_repeats_r = _RANDOM[2'h1][20:5];	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :107:36, :108:38]
+        io_resp_bits_pixel_repeats_r = _RANDOM[2'h1][28:21];	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :107:36, :109:44]
+        io_resp_bits_len_r = {_RANDOM[2'h1][31:29], _RANDOM[2'h2][12:0]};	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :107:36, :110:34]
+        io_resp_bits_cmd_id_r = _RANDOM[2'h2][14:13];	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :110:34, :111:37]
+        io_resp_bits_bytes_read_r = _RANDOM[2'h2][21:15];	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :110:34, :112:41]
       `endif // RANDOMIZE_REG_INIT
     end // initial
     `ifdef FIRRTL_AFTER_INITIAL	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9]
@@ -356,8 +356,8 @@ module StreamReader(	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60
     .io_req_bits_block_stride          (io_req_bits_block_stride),
     .io_req_bits_cmd_id                (io_req_bits_cmd_id),
     .io_reserve_valid                  (_core_io_reserve_valid),
-    .io_reserve_ready                  (_xactTracker_io_alloc_ready),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-    .io_reserve_xactid                 (_xactTracker_io_alloc_xactid),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
+    .io_reserve_ready                  (_xactTracker_io_alloc_ready),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+    .io_reserve_xactid                 (_xactTracker_io_alloc_xactid),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
     .io_reserve_entry_shift            (_core_io_reserve_entry_shift),
     .io_reserve_entry_addr             (_core_io_reserve_entry_addr),
     .io_reserve_entry_is_acc           (_core_io_reserve_entry_is_acc),
@@ -371,7 +371,7 @@ module StreamReader(	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60
     .io_reserve_entry_spad_row_offset  (_core_io_reserve_entry_spad_row_offset),
     .io_reserve_entry_bytes_to_read    (_core_io_reserve_entry_bytes_to_read),
     .io_reserve_entry_cmd_id           (_core_io_reserve_entry_cmd_id),
-    .io_beatData_ready                 (_beatPacker_io_in_ready),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:76:28]
+    .io_beatData_ready                 (_beatPacker_io_in_ready),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:81:28]
     .io_beatData_valid                 (_core_io_beatData_valid),
     .io_beatData_bits_xactid           (_core_io_beatData_bits_xactid),
     .io_beatData_bits_data             (_core_io_beatData_bits_data),
@@ -389,7 +389,7 @@ module StreamReader(	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60
     .io_counter_external_values_4      (io_counter_external_values_4),
     .io_counter_external_reset         (io_counter_external_reset)
   );	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24]
-  XactTracker xactTracker (	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
+  XactTracker xactTracker (	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
     .clock                           (clock),
     .reset                           (reset),
     .io_alloc_valid                  (_core_io_reserve_valid),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24]
@@ -409,7 +409,7 @@ module StreamReader(	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60
     .io_alloc_entry_bytes_to_read    (_core_io_reserve_entry_bytes_to_read),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24]
     .io_alloc_entry_cmd_id           (_core_io_reserve_entry_cmd_id),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24]
     .io_peek_xactid                  (_io_resp_bits_bytes_read_T ? _core_io_beatData_bits_xactid : xactTracker_io_peek_xactid_buf),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24, generators/gemmini/src/main/scala/gemmini/Util.scala:90:24, :91:8, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-    .io_peek_pop                     (_beatPacker_io_in_ready & _core_io_beatData_valid & _core_io_beatData_bits_last),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24, :76:28, :85:54, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+    .io_peek_pop                     (_beatPacker_io_in_ready & _core_io_beatData_valid & _core_io_beatData_bits_last),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24, :81:28, :90:54, src/main/scala/chisel3/util/Decoupled.scala:51:35]
     .io_peek_entry_shift             (_xactTracker_io_peek_entry_shift),
     .io_peek_entry_addr              (_xactTracker_io_peek_entry_addr),
     .io_peek_entry_is_acc            (_xactTracker_io_peek_entry_is_acc),
@@ -426,21 +426,21 @@ module StreamReader(	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60
     .io_busy                         (io_busy),
     .io_counter_external_values_6    (io_counter_external_values_6),
     .io_counter_external_reset       (io_counter_external_reset)
-  );	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-  BeatMerger beatPacker (	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:76:28]
+  );	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+  BeatMerger beatPacker (	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:81:28]
     .clock                        (clock),
     .reset                        (reset),
     .io_req_ready                 (_beatPacker_io_req_ready),
     .io_req_valid                 (_core_io_beatData_valid),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24]
-    .io_req_bits_shift            (_xactTracker_io_peek_entry_shift),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-    .io_req_bits_addr             (_xactTracker_io_peek_entry_addr),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-    .io_req_bits_is_acc           (_xactTracker_io_peek_entry_is_acc),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-    .io_req_bits_accumulate       (_xactTracker_io_peek_entry_accumulate),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-    .io_req_bits_has_acc_bitwidth (_xactTracker_io_peek_entry_has_acc_bitwidth),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-    .io_req_bits_block_stride     (_xactTracker_io_peek_entry_block_stride),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
-    .io_req_bits_spad_row_offset  (_xactTracker_io_peek_entry_spad_row_offset),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
+    .io_req_bits_shift            (_xactTracker_io_peek_entry_shift),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+    .io_req_bits_addr             (_xactTracker_io_peek_entry_addr),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+    .io_req_bits_is_acc           (_xactTracker_io_peek_entry_is_acc),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+    .io_req_bits_accumulate       (_xactTracker_io_peek_entry_accumulate),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+    .io_req_bits_has_acc_bitwidth (_xactTracker_io_peek_entry_has_acc_bitwidth),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+    .io_req_bits_block_stride     (_xactTracker_io_peek_entry_block_stride),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
+    .io_req_bits_spad_row_offset  (_xactTracker_io_peek_entry_spad_row_offset),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
     .io_req_bits_lg_len_req       (_core_io_beatData_bits_lg_len_req),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24]
-    .io_req_bits_bytes_to_read    (_xactTracker_io_peek_entry_bytes_to_read),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:74:29]
+    .io_req_bits_bytes_to_read    (_xactTracker_io_peek_entry_bytes_to_read),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:79:29]
     .io_in_ready                  (_beatPacker_io_in_ready),
     .io_in_valid                  (_core_io_beatData_valid),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24]
     .io_in_bits                   (_core_io_beatData_bits_data),	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:56:24]
@@ -516,12 +516,12 @@ module StreamReader(	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60
     .io_out_bits_mask_62          (io_resp_bits_mask_62),
     .io_out_bits_mask_63          (io_resp_bits_mask_63),
     .io_out_bits_last             (io_resp_bits_last)
-  );	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:76:28]
-  assign io_resp_bits_scale = io_resp_bits_scale_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :102:36]
-  assign io_resp_bits_repeats = io_resp_bits_repeats_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :103:38]
-  assign io_resp_bits_pixel_repeats = {8'h0, io_resp_bits_pixel_repeats_r};	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :104:{32,44}]
-  assign io_resp_bits_len = io_resp_bits_len_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :105:34]
-  assign io_resp_bits_bytes_read = {1'h0, io_resp_bits_bytes_read_r};	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :107:{29,41}]
-  assign io_resp_bits_cmd_id = {6'h0, io_resp_bits_cmd_id_r};	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :106:{25,37}]
+  );	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:81:28]
+  assign io_resp_bits_scale = io_resp_bits_scale_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :107:36]
+  assign io_resp_bits_repeats = io_resp_bits_repeats_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :108:38]
+  assign io_resp_bits_pixel_repeats = {8'h0, io_resp_bits_pixel_repeats_r};	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :109:{32,44}]
+  assign io_resp_bits_len = io_resp_bits_len_r;	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :110:34]
+  assign io_resp_bits_bytes_read = {1'h0, io_resp_bits_bytes_read_r};	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :112:{29,41}]
+  assign io_resp_bits_cmd_id = {6'h0, io_resp_bits_cmd_id_r};	// @[generators/gemmini/src/main/scala/gemmini/DMA.scala:60:9, :111:{25,37}]
 endmodule
 
