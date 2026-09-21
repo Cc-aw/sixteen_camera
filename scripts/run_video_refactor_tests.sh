@@ -71,13 +71,17 @@ run_verilator tb_camera_axis_to_stream_recovery \
     rtl/video/camera/camera_axis_to_stream.sv \
     sim/tb_camera_axis_to_stream_recovery.sv
 
+run_verilator tb_video_control_bridge \
+    rtl/interfaces/axi_lite_if.sv \
+    rtl/common/cdc/cdc_mailbox.sv \
+    rtl/control/telemetry/tensor_telemetry_cdc.sv \
+    rtl/video/framebuffer/multi_channel_framebuffer_ctrl.sv \
+    rtl/video/video_control_bridge.sv \
+    sim/tb_video_control_bridge.sv
+
 run_iverilog tb_multi_channel_frame_manager_writer_handshake \
     rtl/video/framebuffer/multi_channel_frame_manager.sv \
     sim/tb_multi_channel_frame_manager_writer_handshake.sv
-
-run_iverilog tb_multi_channel_frame_manager_ai_snapshot \
-    rtl/video/framebuffer/multi_channel_frame_manager.sv \
-    sim/tb_multi_channel_frame_manager_ai_snapshot.sv
 
 run_verilator tb_mosaic_frame_reader_16ch \
     rtl/interfaces/axi4_if.sv \

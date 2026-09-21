@@ -231,32 +231,51 @@ foreach command {
     }
 }
 
-# Hand-written synthesis RTL.  Deliberately exclude rtl/ip and rtl/soc here:
-# XCI and generated SoC collateral are registered in their own phases.
-set sc_rtl_files {}
-foreach subdir {
-    rtl/interfaces
-    rtl/bus
-    rtl/control
-    rtl/memory
-    rtl/si5338
-    rtl/video
-    rtl/ai
-} {
-    set sc_rtl_files [concat $sc_rtl_files \
-        [::sixteen_camera_setup::collect_hdl_files \
-            [file join $sc_repo_root $subdir]]]
+# Hand-written synthesis RTL is an explicit whitelist. XCI and generated SoC
+# collateral are registered in their own phases below.
+set sc_rtl_manifest [file join $sc_repo_root build rtl_manifest.tcl]
+if {![file exists $sc_rtl_manifest]} {
+    error "Missing production RTL manifest: $sc_rtl_manifest"
 }
-lappend sc_rtl_files [file join $sc_repo_root rtl top_wrapper.sv]
+unset -nocomplain RTL_SOURCES
+source $sc_rtl_manifest
+if {![info exists RTL_SOURCES] || [llength $RTL_SOURCES] == 0} {
+    error "Production RTL manifest is empty: $sc_rtl_manifest"
+}
+set sc_rtl_files {}
+foreach relative_path $RTL_SOURCES {
+    lappend sc_rtl_files [file normalize [file join $sc_repo_root $relative_path]]
+}
 
-# The DDR-read batch preprocessor is retired from the production design. Its
-# sources remain in the repository only for the historical bit-exact tests.
-foreach retired_name {batch_preprocess_engine.sv frame_preprocess_accel.sv} {
-    set retired_path [file normalize [file join $sc_repo_root rtl ai preprocess $retired_name]]
-    set sc_rtl_files [lsearch -all -inline -not -exact $sc_rtl_files $retired_path]
-    set registered [get_files -all -quiet $retired_path]
-    if {[llength $registered] != 0} {
-        remove_files $registered
+# Remove stale hand-written/imported RTL entries retained by an older project.
+# This makes membership in the manifest authoritative without touching IP or
+# generated SoC collateral.
+set sc_rtl_roots [list \
+    [file normalize [file join $sc_repo_root rtl common]] \
+    [file normalize [file join $sc_repo_root rtl interfaces]] \
+    [file normalize [file join $sc_repo_root rtl bus]] \
+    [file normalize [file join $sc_repo_root rtl control]] \
+    [file normalize [file join $sc_repo_root rtl memory]] \
+    [file normalize [file join $sc_repo_root rtl si5338]] \
+    [file normalize [file join $sc_repo_root rtl video]] \
+    [file normalize [file join $sc_repo_root rtl ai]]]
+set sc_imported_rtl_marker "/prj/sixteen_camera.srcs/sources_1/imports/rtl/"
+foreach sc_file [get_files -quiet -of_objects [get_filesets sources_1]] {
+    if {[catch {set sc_name [file normalize [get_property NAME $sc_file]]}]} {
+        continue
+    }
+    set sc_is_handwritten 0
+    foreach sc_root $sc_rtl_roots {
+        if {[string first "${sc_root}/" $sc_name] == 0} {
+            set sc_is_handwritten 1
+            break
+        }
+    }
+    if {[string first $sc_imported_rtl_marker $sc_name] >= 0} {
+        set sc_is_handwritten 1
+    }
+    if {$sc_is_handwritten && [lsearch -exact $sc_rtl_files $sc_name] < 0} {
+        remove_files $sc_file
     }
 }
 

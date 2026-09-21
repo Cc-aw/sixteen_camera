@@ -127,7 +127,7 @@ module ddr_frame_reader #(
                             (axis_pair == 2'd3))))) &&
                           !fifo_empty;
     wire flush_stale_word = !active && !fifo_empty;
-    wire [12:0] debug_fifo_count = 13'(fifo_count);
+    wire [12:0] debug_fifo_count = fifo_count[12:0];
 
     function automatic [DESC_PTR_WIDTH-1:0] next_desc_ptr;
         input [DESC_PTR_WIDTH-1:0] pointer;

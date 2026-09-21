@@ -70,7 +70,7 @@ set_property IOSTANDARD LVCMOS18 [get_ports {uart_rxd uart_txd}]
 set_false_path -to [get_pins {u_control_soc/ddr_calib_sync_reg[0]/D}]
 
 set_false_path -to [get_pins -hierarchical -filter \
-    {NAME =~ */u_video_framebuffer/u_control/ack_sync_1_reg/D}]
+    {NAME =~ */u_video_framebuffer/u_control_bridge/u_control/ack_sync_1_reg/D}]
 
 # DDR UI reset is an asynchronous-assert/synchronous-release reset generated
 # by ddr_reset_sync. The synchronizer clock and recovery/removal checks remain
@@ -186,14 +186,6 @@ add_cells_to_pblock [get_pblocks pblock_camera_capture_slr1] \
     [get_cells -hierarchical -regexp \
         {.*g_camera_frontend\[[4-7]\]\.(u_camera/u_pclk_recovery|u_event_bridge)(/.*)?}]
 
-# The raw DVP and output-pad probes are sampled through explicit two-stage
-# synchronizers in the 100 MHz diagnostic domain.  Time only the second stage;
-# the asynchronous source-to-first-stage arcs are CDC paths by construction.
-set_false_path -to [get_pins -hierarchical -filter \
-    {NAME =~ *sample_sync_1_reg*/D}]
-set_false_path -to [get_pins -hierarchical -filter \
-    {NAME =~ *pad_sync_1_reg*/D}]
-
 # Camera control and diagnostic requests cross into the 300 MHz capture domain
 # through explicit two-stage synchronizers.  Only their first-stage D pins are
 # asynchronous; the second stage remains normally timed so placement still
@@ -201,10 +193,7 @@ set_false_path -to [get_pins -hierarchical -filter \
 # than declaring the complete 24/100/300 MHz clock domains asynchronous.
 set_false_path -to [get_pins -hierarchical -filter \
     {NAME =~ */capture_enable_sync1_reg/D || \
-     NAME =~ */recovery_sample_offset_sync1_reg*/D || \
      NAME =~ */diag_clear_video_sync1_reg/D || \
-     NAME =~ */stats_snapshot_video_sync1_reg/D || \
-     NAME =~ *u_camera_cdc/diag_clear_sync1_reg/D || \
      NAME =~ *u_camera_stream/diag_clear_sync1_reg/D}]
 
 # Each OV7670 frontend publishes a 32-bit geometry snapshot together with a
@@ -220,27 +209,10 @@ set_false_path \
         {NAME =~ */geometry_data_sync1_reg*/D || \
          NAME =~ */geometry_toggle_sync1_reg/D}]
 
-# The framebuffer control interface uses a bundled-data request/acknowledge
-# CDC. Configuration registers are held unchanged while cfg_request_toggle
-# differs from the returned acknowledgement.  The request passes through two
-# UI-clock synchronizer stages, so keep an explicit 10 ns propagation budget
-# for the bundled data rather than applying the unrelated 100 MHz to 300 MHz
-# setup relationship.
-set_false_path -to [get_pins -hierarchical -filter \
-    {NAME =~ */u_video_framebuffer/u_manager/cfg_sync_1_reg/D}]
-set_false_path -to [get_pins -hierarchical -filter \
-    {NAME =~ */u_video_framebuffer/u_manager/select_sync_1_reg*/D || \
-     NAME =~ */u_video_framebuffer/u_manager/mode_sync_1_reg/D}]
-# Constrain only paths launched by the 100 MHz bundled configuration source
-# and captured by the active configuration registers.  Some validation terms
-# are implemented on FDRE R/S/CE pins rather than D, so naming only D pins
-# leaves false inter-clock setup checks behind.  The source-qualified cell
-# endpoints cover every implementation choice without excluding any ordinary
-# 300 MHz path within the frame manager.
-set_false_path \
-    -from [get_clocks clk_100m_p] \
-    -to [get_pins -hierarchical -regexp \
-        {.*u_video_framebuffer/u_manager/active_(width|height|stride_bytes|buffer_count|slot_mask|slot_bases)_reg.*/(D|R|S|CE)}]
+# Framebuffer configuration, selection and mode are now captured by coherent
+# mailboxes in video_control_bridge.  All signals downstream of that bridge,
+# including the manager's legacy staging registers, are synchronous to the
+# video clock and therefore need no CDC timing exception here.
 
 # OV7670 controller diagnostics are asynchronous snapshots transferred by
 # u_ctrl_diag_cdc into the AXI-Lite clock domain. Physical optimization may

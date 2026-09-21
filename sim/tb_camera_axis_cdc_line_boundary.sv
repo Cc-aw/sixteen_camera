@@ -10,7 +10,6 @@ module tb_camera_axis_cdc_line_boundary;
     reg frame_start = 1'b0;
     reg line_last = 1'b0;
     reg line_end = 1'b0;
-    wire [31:0] line_flush_count;
     axis_video_if #(.DATA_WIDTH(48)) axis();
     reg [47:0] captured [0:7];
     reg captured_last [0:7];
@@ -25,11 +24,7 @@ module tb_camera_axis_cdc_line_boundary;
         .pixel_valid(pixel_valid), .pixel_ready(pixel_ready),
         .pixel_data(pixel_data), .frame_start(frame_start),
         .line_last(line_last), .line_end(line_end),
-        .diag_clear_toggle(1'b0),
         .ddr_clk(clk), .ddr_resetn(resetn),
-        .diag_fire_count(), .diag_sof_count(), .diag_eol_count(),
-        .diag_fifo_full_stall_count(), .diag_ready_low_count(),
-        .diag_fifo_max_level(), .diag_line_flush_count(line_flush_count),
         .m_axis(axis)
     );
 
@@ -121,8 +116,6 @@ module tb_camera_axis_cdc_line_boundary;
             captured[4] != {24'h000023,24'h000022} || !captured_last[4] ||
             captured[5] != {24'h000041,24'h000040} || !captured_last[5])
             $fatal(1, "line packing/cross-line isolation failed");
-        if (line_flush_count != 1)
-            $fatal(1, "line_flush_count=%0d expected 1", line_flush_count);
         $display("TB_CAMERA_AXIS_CDC_LINE_BOUNDARY=PASS");
         $finish;
     end

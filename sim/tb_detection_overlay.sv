@@ -74,7 +74,7 @@ module tb_detection_overlay;
         for (y = 0; y < 1080; y = y + 1)
             send_beat(48'h112233_445566, y == 0, 1'b1);
 
-        if (dut.active_label[0][23:0] !== {8'h67, 8'h6f, 8'h64})
+        if (dut.metadata_mem[5'h10][52 +: 24] !== {8'h67, 8'h6f, 8'h64})
             $fatal(1, "label did not promote atomically with box");
         if (!dut.pixel_hits_label(11'd0, 11'd0, 11'd0, 11'd0,
                                   4'd0, cfg_labels[127:0]))

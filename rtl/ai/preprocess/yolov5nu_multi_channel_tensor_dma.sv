@@ -24,9 +24,6 @@ module yolov5nu_multi_channel_tensor_dma #(
     input  wire [4:0]               admission_limit,
     input  wire                     release_pulse,
     input  wire [31:0]              release_mask,
-    input  wire                     diagnostic_start,
-    input  wire [3:0]               diagnostic_channel,
-    input  wire [31:0]              diagnostic_addr,
     input  wire [CHANNELS*48-1:0]   tap_data,
     input  wire [CHANNELS-1:0]      tap_accept,
     input  wire [CHANNELS-1:0]      tap_sof,
@@ -48,13 +45,6 @@ module yolov5nu_multi_channel_tensor_dma #(
     output wire [CHANNELS*32-1:0]   admission_skip_counts,
     output wire [CHANNELS*32-1:0]   overflow_counts,
 
-    output wire                     diagnostic_busy,
-    output reg                      diagnostic_completed,
-    output reg                      diagnostic_error,
-    output reg  [3:0]               diagnostic_done_channel,
-    output reg  [31:0]              diagnostic_frame_id,
-    output reg  [31:0]              diagnostic_bytes,
-    output reg  [31:0]              diagnostic_overflows,
 
     output reg  [15:0]              perf_outstanding_current,
     output reg  [15:0]              perf_outstanding_max,
@@ -107,7 +97,6 @@ module yolov5nu_multi_channel_tensor_dma #(
     reg [3:0] flush_count [0:CHANNELS-1];
 
     reg ctx_active [0:CHANNELS-1];
-    reg ctx_diagnostic [0:CHANNELS-1];
     reg ctx_bad [0:CHANNELS-1];
     reg ctx_plan_done [0:CHANNELS-1];
     reg ctx_slot [0:CHANNELS-1];
@@ -144,16 +133,11 @@ module yolov5nu_multi_channel_tensor_dma #(
     reg [31:0] stream_version [0:CHANNELS-1];
     reg [63:0] capture_cycle;
 
-    reg diagnostic_armed;
-    reg [3:0] diagnostic_channel_q;
-    reg [31:0] diagnostic_addr_q;
-
     reg [31:0] desc_addr [0:DESCRIPTOR_DEPTH-1];
     reg [31:0] desc_beat [0:DESCRIPTOR_DEPTH-1];
     reg [8:0] desc_beats [0:DESCRIPTOR_DEPTH-1];
     reg [CHANNEL_WIDTH-1:0] desc_channel [0:DESCRIPTOR_DEPTH-1];
     reg desc_last [0:DESCRIPTOR_DEPTH-1];
-    reg desc_diagnostic [0:DESCRIPTOR_DEPTH-1];
     reg desc_slot [0:DESCRIPTOR_DEPTH-1];
     reg [DESC_PTR_WIDTH-1:0] alloc_ptr, aw_ptr, w_ptr, b_ptr;
     reg [DESC_COUNT_WIDTH-1:0] desc_count;
@@ -187,7 +171,6 @@ module yolov5nu_multi_channel_tensor_dma #(
     reg [15:0] probe_age_count;
     reg [31:0] probe_plan_beat;
     reg [31:0] probe_base;
-    reg probe_diagnostic;
     reg probe_slot;
     reg selected_valid;
     reg [CHANNEL_WIDTH-1:0] selected_channel;
@@ -201,7 +184,6 @@ module yolov5nu_multi_channel_tensor_dma #(
     reg [31:0] schedule_addr;
     reg [31:0] schedule_beat;
     reg schedule_last;
-    reg schedule_diagnostic;
     reg schedule_slot;
     integer i, finish_index, admission_index;
     integer scheduler_candidate;
@@ -280,11 +262,9 @@ module yolov5nu_multi_channel_tensor_dma #(
         for (finish_index = 0; finish_index < CHANNELS;
              finish_index = finish_index + 1)
             if (ctx_active[finish_index] &&
-                !ctx_diagnostic[finish_index] &&
                 ((ctx_bad[finish_index] &&
                   channel_desc_pending[finish_index] == 0) ||
                  (b_fire && desc_last[b_ptr] &&
-                  !desc_diagnostic[b_ptr] &&
                   b_channel == CHANNEL_WIDTH'(finish_index))))
                 production_finish_count = production_finish_count + 1'b1;
     end
@@ -305,7 +285,7 @@ module yolov5nu_multi_channel_tensor_dma #(
         for (admission_index = 0; admission_index < CHANNELS;
              admission_index = admission_index + 1) begin
             admission_eligible[admission_index] =
-                production_enable && !diagnostic_armed &&
+                production_enable &&
                 admission_enable_mask[admission_index] &&
                 !ctx_active[admission_index] &&
                 flush_count[admission_index] == 0 &&
@@ -335,7 +315,7 @@ module yolov5nu_multi_channel_tensor_dma #(
         // Allocation is off the SOF-to-packer path. Advancing the candidate
         // every clock fills all available permits within one channel rotation.
         admission_rr_advance = 1'b0;
-        if (production_enable && !diagnostic_armed &&
+        if (production_enable &&
             admission_capacity == admission_capacity_q &&
             admission_active_after + admission_permit_count <
                 admission_capacity) begin
@@ -360,12 +340,8 @@ module yolov5nu_multi_channel_tensor_dma #(
     generate
         for (genvar ch = 0; ch < CHANNELS; ch++) begin : g_frontend
             wire start_production = admission_grant[ch];
-            wire start_diagnostic = diagnostic_armed &&
-                diagnostic_channel_q == 4'(ch) && !ctx_active[ch] &&
-                flush_count[ch] == 0 && tap_accept[ch] && tap_sof[ch];
             wire capture_input = tap_accept[ch] &&
-                                 (ctx_active[ch] || start_production ||
-                                  start_diagnostic);
+                                 (ctx_active[ch] || start_production);
             wire frontend_resetn = resetn && flush_count[ch] == 0;
 
             yolov5nu_tensor_stream_packer #(
@@ -443,10 +419,8 @@ module yolov5nu_multi_channel_tensor_dma #(
 
             assign ready_mask[ch] = ready0[ch];
             assign ready_mask[ch+16] = ready1[ch];
-            assign writing_mask[ch] = ctx_active[ch] &&
-                                      !ctx_diagnostic[ch] && !ctx_slot[ch];
-            assign writing_mask[ch+16] = ctx_active[ch] &&
-                                         !ctx_diagnostic[ch] && ctx_slot[ch];
+            assign writing_mask[ch] = ctx_active[ch] && !ctx_slot[ch];
+            assign writing_mask[ch+16] = ctx_active[ch] && ctx_slot[ch];
             assign error_mask[ch] = error0[ch];
             assign error_mask[ch+16] = error1[ch];
             assign slot_frame_ids[ch*32 +: 32] = frame0[ch];
@@ -467,10 +441,6 @@ module yolov5nu_multi_channel_tensor_dma #(
         end
     endgenerate
 
-    assign diagnostic_busy = diagnostic_armed ||
-        (diagnostic_channel_q < CHANNELS &&
-         ctx_active[diagnostic_channel_q] &&
-         ctx_diagnostic[diagnostic_channel_q]);
     assign perf_channel_fifo_level =
         {{(32-FIFO_COUNT_WIDTH){1'b0}}, fifo_count[perf_channel_index]};
     assign perf_channel_fifo_peak = fifo_peak[perf_channel_index];
@@ -585,7 +555,6 @@ module yolov5nu_multi_channel_tensor_dma #(
             schedule_addr <= 0;
             schedule_beat <= 0;
             schedule_last <= 1'b0;
-            schedule_diagnostic <= 1'b0;
             schedule_slot <= 1'b0;
             probe_valid <= 1'b0;
             probe_channel <= '0;
@@ -594,17 +563,11 @@ module yolov5nu_multi_channel_tensor_dma #(
             probe_age_count <= 0;
             probe_plan_beat <= 0;
             probe_base <= 0;
-            probe_diagnostic <= 1'b0;
             probe_slot <= 1'b0;
             admission_rr <= '0;
             admission_permit <= '0;
             admission_capacity_q <= ACTIVE_COUNT_WIDTH'(1);
             production_active_count <= '0;
-            diagnostic_armed <= 0; diagnostic_channel_q <= 0;
-            diagnostic_addr_q <= 0; diagnostic_completed <= 0;
-            diagnostic_error <= 0; diagnostic_done_channel <= 0;
-            diagnostic_frame_id <= 0; diagnostic_bytes <= 0;
-            diagnostic_overflows <= 0;
             perf_outstanding_current <= 0; perf_outstanding_max <= 0;
             perf_source_starvation <= 0; perf_aw_stall_cycles <= 0;
             perf_w_stall_cycles <= 0; perf_w_transfer_cycles <= 0;
@@ -612,7 +575,7 @@ module yolov5nu_multi_channel_tensor_dma #(
             perf_bursts_completed <= 0; perf_response_errors <= 0;
             capture_cycle <= 0;
             for (i = 0; i < CHANNELS; i = i + 1) begin
-                ctx_active[i] <= 0; ctx_diagnostic[i] <= 0;
+                ctx_active[i] <= 0;
                 ctx_bad[i] <= 0; ctx_plan_done[i] <= 0; ctx_slot[i] <= 0;
                 ctx_base[i] <= 0; ctx_frame_id[i] <= 0;
                 ctx_timestamp[i] <= 0; ctx_version[i] <= 0;
@@ -655,7 +618,6 @@ module yolov5nu_multi_channel_tensor_dma #(
             probe_age_count <= age_count[scheduler_candidate];
             probe_plan_beat <= ctx_plan_beat[scheduler_candidate];
             probe_base <= ctx_base[scheduler_candidate];
-            probe_diagnostic <= ctx_diagnostic[scheduler_candidate];
             probe_slot <= ctx_slot[scheduler_candidate];
             // Register the complete scheduling proposal before it reaches
             // descriptor allocation and per-channel accounting.  The prior
@@ -668,28 +630,12 @@ module yolov5nu_multi_channel_tensor_dma #(
                 schedule_addr <= selected_addr;
                 schedule_beat <= selected_beat;
                 schedule_last <= selected_last;
-                schedule_diagnostic <= probe_diagnostic;
                 schedule_slot <= probe_slot;
             end
             if (!production_enable)
                 admission_rr <= '0;
             else if (admission_rr_advance)
                 admission_rr <= next_channel(admission_rr);
-            if (diagnostic_start && !production_enable && !diagnostic_busy) begin
-                diagnostic_armed <= 1'b1;
-                diagnostic_channel_q <= diagnostic_channel;
-                diagnostic_addr_q <= diagnostic_addr;
-                diagnostic_done_channel <= diagnostic_channel;
-                diagnostic_completed <= 1'b0;
-                diagnostic_error <= 1'b0;
-                diagnostic_bytes <= 0;
-                if (diagnostic_channel >= CHANNELS || diagnostic_addr[4:0]) begin
-                    diagnostic_armed <= 1'b0;
-                    diagnostic_completed <= 1'b1;
-                    diagnostic_error <= 1'b1;
-                end
-            end
-
             perf_outstanding_current <= 16'(b_pending_count);
             if (b_pending_count > perf_outstanding_max)
                 perf_outstanding_max <= 16'(b_pending_count);
@@ -738,7 +684,6 @@ module yolov5nu_multi_channel_tensor_dma #(
                 desc_beats[alloc_ptr] <= schedule_beats;
                 desc_channel[alloc_ptr] <= schedule_channel;
                 desc_last[alloc_ptr] <= schedule_last;
-                desc_diagnostic[alloc_ptr] <= schedule_diagnostic;
                 desc_slot[alloc_ptr] <= schedule_slot;
                 alloc_ptr <= next_ptr(alloc_ptr);
                 ctx_plan_beat[schedule_channel] <=
@@ -790,7 +735,6 @@ module yolov5nu_multi_channel_tensor_dma #(
 
                 if (admission_grant[i]) begin
                         ctx_active[i] <= 1'b1;
-                        ctx_diagnostic[i] <= 1'b0;
                         ctx_bad[i] <= tap_error[i];
                         ctx_plan_done[i] <= 1'b0;
                         ctx_slot[i] <= ready0[i];
@@ -807,7 +751,7 @@ module yolov5nu_multi_channel_tensor_dma #(
                         channel_desc_pending[i] <= 0;
                         if (!ready0[i]) error0[i] <= 0;
                         else error1[i] <= 0;
-                end else if (production_enable && !diagnostic_armed &&
+                end else if (production_enable &&
                              admission_enable_mask[i] && tap_accept[i] &&
                              tap_sof[i]) begin
                     if (!ctx_active[i] && flush_count[i] == 0 &&
@@ -821,38 +765,14 @@ module yolov5nu_multi_channel_tensor_dma #(
                         missed_count[i] <= missed_count[i] + 1'b1;
                 end
 
-                if (diagnostic_armed && diagnostic_channel_q == 4'(i) &&
-                    tap_accept[i] && tap_sof[i] && !ctx_active[i] &&
-                    flush_count[i] == 0) begin
-                    ctx_active[i] <= 1'b1;
-                    ctx_diagnostic[i] <= 1'b1;
-                    ctx_bad[i] <= tap_error[i];
-                    ctx_plan_done[i] <= 1'b0;
-                    ctx_slot[i] <= 1'b0;
-                    ctx_base[i] <= diagnostic_addr_q;
-                    ctx_frame_id[i] <= tap_frame_id[i*32 +: 32];
-                    ctx_timestamp[i] <= capture_cycle;
-                    ctx_version[i] <= 0;
-                    ctx_error_code[i] <= tap_error[i] ?
-                                             SLOT_ERR_STREAM : 8'd0;
-                    ctx_plan_beat[i] <= 0;
-                    reserved_beats[i] <= 0;
-                    channel_desc_pending[i] <= 0;
-                    diagnostic_frame_id <= tap_frame_id[i*32 +: 32];
-                    diagnostic_armed <= 1'b0;
-                end
-
                 if (ctx_active[i] && tap_accept[i] &&
                     !packer_input_ready[i]) begin
                     ctx_bad[i] <= 1'b1;
                     ctx_error_code[i] <=
                         ctx_error_code[i] | SLOT_ERR_OVERFLOW;
                     overflow_count[i] <= overflow_count[i] + 1'b1;
-                    if (ctx_diagnostic[i])
-                        diagnostic_overflows <= diagnostic_overflows + 1'b1;
                 end
-                if (ctx_active[i] && !ctx_diagnostic[i] &&
-                    !production_enable) begin
+                if (ctx_active[i] && !production_enable) begin
                     ctx_bad[i] <= 1'b1;
                     ctx_error_code[i] <=
                         ctx_error_code[i] | SLOT_ERR_CANCEL;
@@ -883,11 +803,7 @@ module yolov5nu_multi_channel_tensor_dma #(
                     ctx_plan_done[i] <= 1'b0;
                     reserved_beats[i] <= 0;
                     flush_count[i] <= 4'd8;
-                    if (ctx_diagnostic[i]) begin
-                        diagnostic_completed <= 1'b1;
-                        diagnostic_error <= 1'b1;
-                        diagnostic_bytes <= 0;
-                    end else if (ctx_slot[i]) begin
+                    if (ctx_slot[i]) begin
                         frame1[i] <= ctx_frame_id[i];
                         timestamp1[i] <= ctx_timestamp[i];
                         version1[i] <= ctx_version[i];
@@ -921,11 +837,7 @@ module yolov5nu_multi_channel_tensor_dma #(
                     ctx_active[b_channel] <= 1'b0;
                     ctx_plan_done[b_channel] <= 1'b0;
                     reserved_beats[b_channel] <= 0;
-                    if (desc_diagnostic[b_ptr]) begin
-                        diagnostic_completed <= 1'b1;
-                        diagnostic_error <= b_completion_error;
-                        diagnostic_bytes <= FRAME_BYTES;
-                    end else if (desc_slot[b_ptr]) begin
+                    if (desc_slot[b_ptr]) begin
                         frame1[b_channel] <= ctx_frame_id[b_channel];
                         timestamp1[b_channel] <= ctx_timestamp[b_channel];
                         version1[b_channel] <= ctx_version[b_channel];

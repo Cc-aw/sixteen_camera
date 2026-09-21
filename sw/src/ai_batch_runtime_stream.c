@@ -639,23 +639,6 @@ void ai_batch_runtime_init(void)
     memset(&runtime, 0, sizeof(runtime));
     ai_result_manager_init(&runtime.results);
     ai_model_backend_init();
-    /*
-     * The production DMA uses fixed 640x480x3 slots.  Keep the control
-     * block's descriptor address mirror aligned with that physical layout,
-     * including when this ELF is loaded onto a bitstream whose reset value
-     * still reflects the removed 416x416 preprocessing path.
-     */
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_ARENA0_BASE,
-                 TENSOR_ARENA0_PHYS_BASE);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_ARENA1_BASE,
-                 TENSOR_ARENA1_PHYS_BASE);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_MEMBER_STRIDE,
-                 TENSOR_MEMBER_STRIDE);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_MEMBER_BYTES,
-                 TENSOR_MEMBER_BYTES);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_FORMAT,
-                 FRAMEBUFFER_PRE_FORMAT_640X480);
-    mmio_fence();
     runtime.next_job_id = UINT64_C(1) << 60;
 }
 

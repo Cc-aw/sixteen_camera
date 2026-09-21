@@ -16,26 +16,58 @@ module detection_overlay #(
     output wire [47:0] m_tdata, output wire m_tvalid,
     input wire m_tready, output wire m_tuser, output wire m_tlast
 );
-    localparam integer TOTAL_BOXES = STREAMS * BOXES_PER_STREAM;
+    localparam integer META_WIDTH = 180;
+    localparam integer META_X_MIN_LSB = 0;
+    localparam integer META_Y_MIN_LSB = 11;
+    localparam integer META_X_MAX_LSB = 22;
+    localparam integer META_Y_MAX_LSB = 33;
+    localparam integer META_CLASS_LSB = 44;
+    localparam integer META_LABEL_LSB = 52;
+    localparam integer ENTRY_COUNT_LSB = BOXES_PER_STREAM * META_WIDTH;
+    localparam integer ENTRY_WIDTH = ENTRY_COUNT_LSB + 4;
     localparam [10:0] TILE_WIDTH=11'd480, TILE_HEIGHT=11'd270;
     localparam [10:0] LABEL_WIDTH=11'd128, LABEL_HEIGHT=11'd16;
 
-    reg [10:0] shadow_x_min[0:TOTAL_BOXES-1], shadow_y_min[0:TOTAL_BOXES-1];
-    reg [10:0] shadow_x_max[0:TOTAL_BOXES-1], shadow_y_max[0:TOTAL_BOXES-1];
-    reg [7:0] shadow_class[0:TOTAL_BOXES-1];
-    reg [127:0] shadow_label[0:TOTAL_BOXES-1];
-    reg [3:0] shadow_count[0:STREAMS-1];
-    reg [10:0] active_x_min[0:TOTAL_BOXES-1], active_y_min[0:TOTAL_BOXES-1];
-    reg [10:0] active_x_max[0:TOTAL_BOXES-1], active_y_max[0:TOTAL_BOXES-1];
-    reg [7:0] active_class[0:TOTAL_BOXES-1];
-    reg [127:0] active_label[0:TOTAL_BOXES-1];
-    reg [3:0] active_count[0:STREAMS-1];
+    // One packed 32-entry memory replaces the former active/shadow register
+    // arrays. Address bit 4 selects one of two frame banks and bits 3:0 select
+    // the stream. A frame-boundary bank swap is atomic and avoids copying or
+    // resetting more than 46k metadata flip-flops.
+    (* ram_style = "distributed" *) reg [ENTRY_WIDTH-1:0]
+        metadata_mem [0:2*STREAMS-1];
+    reg [STREAMS-1:0] active_bank;
+    reg [STREAMS-1:0] active_valid;
     reg [STREAMS-1:0] pending_streams;
+
+    reg [3:0] stage0_stream;
+    wire [4:0] stage0_metadata_addr =
+        {active_bank[stage0_stream], stage0_stream};
+    wire [ENTRY_WIDTH-1:0] stage0_metadata_entry =
+        metadata_mem[stage0_metadata_addr];
+    wire [3:0] stage0_active_count = active_valid[stage0_stream] ?
+        stage0_metadata_entry[ENTRY_COUNT_LSB +: 4] : 4'd0;
+    wire [META_WIDTH-1:0] active_metadata [0:BOXES_PER_STREAM-1];
+    wire [ENTRY_WIDTH-1:0] cfg_metadata_entry;
+    assign cfg_metadata_entry[ENTRY_COUNT_LSB +: 4] =
+        cfg_count > BOXES_PER_STREAM ? BOXES_PER_STREAM : cfg_count;
+    genvar metadata_box;
+    generate
+        for (metadata_box = 0; metadata_box < BOXES_PER_STREAM;
+             metadata_box = metadata_box + 1) begin : g_metadata_read
+            assign active_metadata[metadata_box] =
+                stage0_metadata_entry[metadata_box*META_WIDTH +: META_WIDTH];
+            assign cfg_metadata_entry[metadata_box*META_WIDTH +: META_WIDTH] =
+                {cfg_labels[metadata_box*128+:128],
+                 cfg_boxes[metadata_box*64+44+:8],
+                 cfg_boxes[metadata_box*64+33+:11],
+                 cfg_boxes[metadata_box*64+22+:11],
+                 cfg_boxes[metadata_box*64+11+:11],
+                 cfg_boxes[metadata_box*64+:11]};
+        end
+    endgenerate
 
     reg [10:0] input_x, input_y;
     reg [47:0] stage0_data;
     reg [10:0] stage0_x, stage0_y;
-    reg [3:0] stage0_stream;
     reg stage0_valid, stage0_user, stage0_last;
 
     reg [47:0] stage1_data;
@@ -59,7 +91,7 @@ module detection_overlay #(
 
     reg [47:0] output_data;
     reg output_valid, output_user, output_last;
-    integer index, stream, box, selected_index;
+    integer index, stream, box;
 
     function automatic [23:0] class_color(input [7:0] class_id);
         begin
@@ -240,42 +272,19 @@ module detection_overlay #(
         if (!resetn) begin
             input_x<=0; input_y<=0; stage0_valid<=0; stage1_valid<=0;
             stage2_valid<=0; output_valid<=0; output_data<=0; output_user<=0;
-            output_last<=0; pending_streams<=0;
-            for(stream=0;stream<STREAMS;stream=stream+1) begin
-                shadow_count[stream]<=0; active_count[stream]<=0;
-            end
-            for(index=0;index<TOTAL_BOXES;index=index+1) begin
-                shadow_x_min[index]<=0; shadow_y_min[index]<=0;
-                shadow_x_max[index]<=0; shadow_y_max[index]<=0;
-                shadow_class[index]<=0; shadow_label[index]<=0;
-                active_x_min[index]<=0; active_y_min[index]<=0;
-                active_x_max[index]<=0; active_y_max[index]<=0;
-                active_class[index]<=0; active_label[index]<=0;
-            end
+            output_last<=0; pending_streams<=0; active_bank<=0;
+            active_valid<=0;
         end else begin
             if (cfg_commit&&cfg_stream<STREAMS) begin
-                shadow_count[cfg_stream]<=cfg_count>BOXES_PER_STREAM?BOXES_PER_STREAM:cfg_count;
+                metadata_mem[{~active_bank[cfg_stream],cfg_stream}]<=
+                    cfg_metadata_entry;
                 pending_streams[cfg_stream]<=1;
-                for(index=0;index<BOXES_PER_STREAM;index=index+1) begin
-                    shadow_x_min[cfg_stream*BOXES_PER_STREAM+index]<=cfg_boxes[index*64+:11];
-                    shadow_y_min[cfg_stream*BOXES_PER_STREAM+index]<=cfg_boxes[index*64+11+:11];
-                    shadow_x_max[cfg_stream*BOXES_PER_STREAM+index]<=cfg_boxes[index*64+22+:11];
-                    shadow_y_max[cfg_stream*BOXES_PER_STREAM+index]<=cfg_boxes[index*64+33+:11];
-                    shadow_class[cfg_stream*BOXES_PER_STREAM+index]<=cfg_boxes[index*64+44+:8];
-                    shadow_label[cfg_stream*BOXES_PER_STREAM+index]<=cfg_labels[index*128+:128];
-                end
             end
             if(s_tvalid&&s_tready&&s_tlast&&(s_tuser?11'd0:input_y)==FRAME_HEIGHT-1) begin
                 for(stream=0;stream<STREAMS;stream=stream+1) if(pending_streams[stream]) begin
-                    active_count[stream]<=shadow_count[stream]; pending_streams[stream]<=0;
-                    for(index=0;index<BOXES_PER_STREAM;index=index+1) begin
-                        active_x_min[stream*BOXES_PER_STREAM+index]<=shadow_x_min[stream*BOXES_PER_STREAM+index];
-                        active_y_min[stream*BOXES_PER_STREAM+index]<=shadow_y_min[stream*BOXES_PER_STREAM+index];
-                        active_x_max[stream*BOXES_PER_STREAM+index]<=shadow_x_max[stream*BOXES_PER_STREAM+index];
-                        active_y_max[stream*BOXES_PER_STREAM+index]<=shadow_y_max[stream*BOXES_PER_STREAM+index];
-                        active_class[stream*BOXES_PER_STREAM+index]<=shadow_class[stream*BOXES_PER_STREAM+index];
-                        active_label[stream*BOXES_PER_STREAM+index]<=shadow_label[stream*BOXES_PER_STREAM+index];
-                    end
+                    active_bank[stream]<=~active_bank[stream];
+                    active_valid[stream]<=1'b1;
+                    pending_streams[stream]<=0;
                 end
             end
             if(output_ready) begin
@@ -300,17 +309,16 @@ module detection_overlay #(
                 if(stage0_valid) begin
                     stage1_data<=stage0_data; stage1_user<=stage0_user; stage1_last<=stage0_last;
                     for(box=0;box<BOXES_PER_STREAM;box=box+1) begin
-                        selected_index=stage0_stream*BOXES_PER_STREAM+box;
-                        stage1_label_hit0[box]<=enable&&box<active_count[stage0_stream]&&pixel_hits_label(stage0_x,stage0_y,active_x_min[selected_index],active_y_min[selected_index],stage0_stream,active_label[selected_index]);
-                        stage1_label_hit1[box]<=enable&&box<active_count[stage0_stream]&&pixel_hits_label(stage0_x+1'b1,stage0_y,active_x_min[selected_index],active_y_min[selected_index],stage0_stream,active_label[selected_index]);
-                        stage1_hits0[box]<=enable&&box<active_count[stage0_stream]&&(pixel_hits_box(stage0_x,stage0_y,active_x_min[selected_index],active_y_min[selected_index],active_x_max[selected_index],active_y_max[selected_index])||pixel_hits_label(stage0_x,stage0_y,active_x_min[selected_index],active_y_min[selected_index],stage0_stream,active_label[selected_index]));
-                        stage1_hits1[box]<=enable&&box<active_count[stage0_stream]&&(pixel_hits_box(stage0_x+1'b1,stage0_y,active_x_min[selected_index],active_y_min[selected_index],active_x_max[selected_index],active_y_max[selected_index])||pixel_hits_label(stage0_x+1'b1,stage0_y,active_x_min[selected_index],active_y_min[selected_index],stage0_stream,active_label[selected_index]));
-                        stage1_char0[box]<=label_char_at(active_label[selected_index],stage0_x,label_x_for(active_x_min[selected_index],stage0_stream));
-                        stage1_char1[box]<=label_char_at(active_label[selected_index],stage0_x+1'b1,label_x_for(active_x_min[selected_index],stage0_stream));
-                        stage1_char_x0[box]<=stage0_x-label_x_for(active_x_min[selected_index],stage0_stream);
-                        stage1_char_x1[box]<=stage0_x+1'b1-label_x_for(active_x_min[selected_index],stage0_stream);
-                        stage1_label_y[box]<=stage0_y-label_y_for(active_y_min[selected_index],stage0_stream);
-                        stage1_class[box]<=active_class[selected_index];
+                        stage1_label_hit0[box]<=enable&&box<stage0_active_count&&pixel_hits_label(stage0_x,stage0_y,active_metadata[box][META_X_MIN_LSB+:11],active_metadata[box][META_Y_MIN_LSB+:11],stage0_stream,active_metadata[box][META_LABEL_LSB+:128]);
+                        stage1_label_hit1[box]<=enable&&box<stage0_active_count&&pixel_hits_label(stage0_x+1'b1,stage0_y,active_metadata[box][META_X_MIN_LSB+:11],active_metadata[box][META_Y_MIN_LSB+:11],stage0_stream,active_metadata[box][META_LABEL_LSB+:128]);
+                        stage1_hits0[box]<=enable&&box<stage0_active_count&&(pixel_hits_box(stage0_x,stage0_y,active_metadata[box][META_X_MIN_LSB+:11],active_metadata[box][META_Y_MIN_LSB+:11],active_metadata[box][META_X_MAX_LSB+:11],active_metadata[box][META_Y_MAX_LSB+:11])||pixel_hits_label(stage0_x,stage0_y,active_metadata[box][META_X_MIN_LSB+:11],active_metadata[box][META_Y_MIN_LSB+:11],stage0_stream,active_metadata[box][META_LABEL_LSB+:128]));
+                        stage1_hits1[box]<=enable&&box<stage0_active_count&&(pixel_hits_box(stage0_x+1'b1,stage0_y,active_metadata[box][META_X_MIN_LSB+:11],active_metadata[box][META_Y_MIN_LSB+:11],active_metadata[box][META_X_MAX_LSB+:11],active_metadata[box][META_Y_MAX_LSB+:11])||pixel_hits_label(stage0_x+1'b1,stage0_y,active_metadata[box][META_X_MIN_LSB+:11],active_metadata[box][META_Y_MIN_LSB+:11],stage0_stream,active_metadata[box][META_LABEL_LSB+:128]));
+                        stage1_char0[box]<=label_char_at(active_metadata[box][META_LABEL_LSB+:128],stage0_x,label_x_for(active_metadata[box][META_X_MIN_LSB+:11],stage0_stream));
+                        stage1_char1[box]<=label_char_at(active_metadata[box][META_LABEL_LSB+:128],stage0_x+1'b1,label_x_for(active_metadata[box][META_X_MIN_LSB+:11],stage0_stream));
+                        stage1_char_x0[box]<=stage0_x-label_x_for(active_metadata[box][META_X_MIN_LSB+:11],stage0_stream);
+                        stage1_char_x1[box]<=stage0_x+1'b1-label_x_for(active_metadata[box][META_X_MIN_LSB+:11],stage0_stream);
+                        stage1_label_y[box]<=stage0_y-label_y_for(active_metadata[box][META_Y_MIN_LSB+:11],stage0_stream);
+                        stage1_class[box]<=active_metadata[box][META_CLASS_LSB+:8];
                     end
                 end else begin stage1_user<=0; stage1_last<=0; end
             end

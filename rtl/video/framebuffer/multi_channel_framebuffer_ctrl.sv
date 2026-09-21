@@ -19,22 +19,6 @@ module multi_channel_framebuffer_ctrl #(
     output reg [31:0] cfg_buffers_per_channel,
     output reg [CHANNELS*32-1:0] cfg_channel_bases,
     output reg [31:0] cfg_buffer_stride_bytes,
-    output reg [31:0] preprocess_arena0_base,
-    output reg [31:0] preprocess_arena1_base,
-    output reg [31:0] preprocess_member_stride,
-    output reg [31:0] preprocess_member_bytes,
-    output reg        preprocess_format_640x480,
-    output reg        tensor_sidecar_req_toggle,
-    output reg [3:0]  tensor_sidecar_channel,
-    output reg [31:0] tensor_sidecar_addr,
-    input wire        tensor_sidecar_ack_toggle,
-    input wire        tensor_sidecar_busy,
-    input wire        tensor_sidecar_completed,
-    input wire        tensor_sidecar_error,
-    input wire [3:0]  tensor_sidecar_done_channel,
-    input wire [31:0] tensor_sidecar_frame_id,
-    input wire [31:0] tensor_sidecar_bytes,
-    input wire [31:0] tensor_sidecar_overflows,
     output reg tensor_production_enable,
     output reg [15:0] tensor_production_admission_mask,
     output reg [4:0] tensor_production_admission_limit,
@@ -68,51 +52,6 @@ module multi_channel_framebuffer_ctrl #(
         cfg_display_channel,
     output reg cfg_display_mode,
     output reg cfg_hdmi_capture_enable,
-    output reg ai_snapshot_req_toggle,
-    output reg ai_release_req_toggle,
-    output reg [CHANNELS-1:0] ai_release_mask,
-    output reg ai_meta_req_toggle,
-    output reg [((CHANNELS <= 1) ? 1 : $clog2(CHANNELS))-1:0]
-        ai_meta_index,
-    input wire ai_snapshot_ack_toggle,
-    input wire ai_release_ack_toggle,
-    input wire ai_meta_ack_toggle,
-    input wire ai_snapshot_active,
-    input wire [CHANNELS-1:0] ai_snapshot_valid_mask,
-    input wire [CHANNELS-1:0] ai_snapshot_fresh_mask,
-    input wire [CHANNELS-1:0] ai_held_mask,
-    input wire [31:0] ai_meta_addr,
-    input wire [63:0] ai_meta_frame_id,
-    input wire [31:0] ai_meta_source_frame_id,
-    input wire [63:0] ai_meta_timestamp,
-    input wire [31:0] ai_meta_version,
-    input wire [63:0] ai_snapshot_batch_id,
-    input wire [31:0] ai_snapshot_count,
-    input wire [31:0] ai_release_count,
-    input wire [31:0] ai_error_count,
-    output reg preprocess_start_req_toggle,
-    output reg preprocess_recycle_req_toggle,
-    output reg [1:0] preprocess_recycle_mask,
-    input wire preprocess_start_ack_toggle,
-    input wire preprocess_recycle_ack_toggle,
-    input wire preprocess_busy,
-    input wire [1:0] preprocess_ready_mask,
-    input wire preprocess_active_arena,
-    input wire [4:0] preprocess_active_channel,
-    input wire [4:0] preprocess_completed_channels,
-    input wire [31:0] preprocess_active_tensor_base,
-    input wire [63:0] preprocess_arena0_batch_id,
-    input wire [63:0] preprocess_arena1_batch_id,
-    input wire [CHANNELS-1:0] preprocess_arena0_valid_mask,
-    input wire [CHANNELS-1:0] preprocess_arena1_valid_mask,
-    input wire [CHANNELS-1:0] preprocess_arena0_fresh_mask,
-    input wire [CHANNELS-1:0] preprocess_arena1_fresh_mask,
-    input wire [31:0] preprocess_last_batch_cycles,
-    input wire [31:0] preprocess_last_read_beats,
-    input wire [31:0] preprocess_last_write_beats,
-    input wire [31:0] preprocess_start_count,
-    input wire [31:0] preprocess_complete_count,
-    input wire [31:0] preprocess_error_count,
     output reg overlay_commit_toggle,
     output reg [3:0] overlay_stream,
     output reg [3:0] overlay_count,
@@ -174,46 +113,6 @@ module multi_channel_framebuffer_ctrl #(
     localparam [8:0] REG_HDMI_TRANSPORT_MALFORMED = 9'h174;
     localparam [8:0] REG_HDMI_FRAME0 = 9'h180;
     localparam [8:0] REG_HDMI_OVERFLOW0 = 9'h1a0;
-    localparam [8:0] REG_AI_CONTROL = 9'h1c0;
-    localparam [8:0] REG_AI_STATUS = 9'h1c4;
-    localparam [8:0] REG_AI_RELEASE_MASK = 9'h1c8;
-    localparam [8:0] REG_AI_VALID_MASK = 9'h1cc;
-    localparam [8:0] REG_AI_FRESH_MASK = 9'h1d0;
-    localparam [8:0] REG_AI_HELD_MASK = 9'h1d4;
-    localparam [8:0] REG_AI_META_INDEX = 9'h1d8;
-    localparam [8:0] REG_AI_META_ADDR = 9'h1dc;
-    localparam [8:0] REG_AI_META_FRAME_LO = 9'h1e0;
-    localparam [8:0] REG_AI_META_FRAME_HI = 9'h1e4;
-    localparam [8:0] REG_AI_META_TIME_LO = 9'h1e8;
-    localparam [8:0] REG_AI_META_TIME_HI = 9'h1ec;
-    localparam [8:0] REG_AI_META_VERSION = 9'h1f0;
-    localparam [8:0] REG_AI_BATCH_LO = 9'h1f4;
-    localparam [8:0] REG_AI_BATCH_HI = 9'h1f8;
-    localparam [9:0] REG_AI_DIAG = 10'h1fc;
-    localparam [9:0] REG_PRE_CONTROL = 10'h200;
-    localparam [9:0] REG_PRE_STATUS = 10'h204;
-    localparam [9:0] REG_PRE_RECYCLE_MASK = 10'h208;
-    localparam [9:0] REG_PRE_PROGRESS = 10'h20c;
-    localparam [9:0] REG_PRE_ACTIVE_BASE = 10'h210;
-    localparam [9:0] REG_PRE_ARENA0_BATCH_LO = 10'h220;
-    localparam [9:0] REG_PRE_ARENA0_BATCH_HI = 10'h224;
-    localparam [9:0] REG_PRE_ARENA1_BATCH_LO = 10'h228;
-    localparam [9:0] REG_PRE_ARENA1_BATCH_HI = 10'h22c;
-    localparam [9:0] REG_PRE_ARENA0_VALID = 10'h230;
-    localparam [9:0] REG_PRE_ARENA1_VALID = 10'h234;
-    localparam [9:0] REG_PRE_ARENA0_FRESH = 10'h238;
-    localparam [9:0] REG_PRE_ARENA1_FRESH = 10'h23c;
-    localparam [9:0] REG_PRE_LAST_CYCLES = 10'h240;
-    localparam [9:0] REG_PRE_LAST_READ = 10'h244;
-    localparam [9:0] REG_PRE_LAST_WRITE = 10'h248;
-    localparam [9:0] REG_PRE_START_COUNT = 10'h24c;
-    localparam [9:0] REG_PRE_COMPLETE_COUNT = 10'h250;
-    localparam [9:0] REG_PRE_ERROR_COUNT = 10'h254;
-    localparam [9:0] REG_PRE_ARENA0_BASE = 10'h280;
-    localparam [9:0] REG_PRE_ARENA1_BASE = 10'h284;
-    localparam [9:0] REG_PRE_MEMBER_STRIDE = 10'h288;
-    localparam [9:0] REG_PRE_MEMBER_BYTES = 10'h28c;
-    localparam [9:0] REG_PRE_FORMAT = 10'h290;
     localparam [9:0] REG_OVERLAY_CONTROL = 10'h260;
     localparam [9:0] REG_OVERLAY_STREAM = 10'h264;
     localparam [9:0] REG_OVERLAY_COUNT = 10'h268;
@@ -225,14 +124,6 @@ module multi_channel_framebuffer_ctrl #(
     localparam [9:0] REG_OVERLAY_LABEL1 = 10'h298;
     localparam [9:0] REG_OVERLAY_LABEL2 = 10'h29c;
     localparam [9:0] REG_OVERLAY_LABEL3 = 10'h2a0;
-    localparam [9:0] REG_TENSOR_CONTROL = 10'h2b0;
-    localparam [9:0] REG_TENSOR_CHANNEL = 10'h2b4;
-    localparam [9:0] REG_TENSOR_ADDR = 10'h2b8;
-    localparam [9:0] REG_TENSOR_STATUS = 10'h2bc;
-    localparam [9:0] REG_TENSOR_FRAME_ID = 10'h2c0;
-    localparam [9:0] REG_TENSOR_BYTES = 10'h2c4;
-    localparam [9:0] REG_TENSOR_OVERFLOWS = 10'h2c8;
-    localparam [9:0] REG_AI_META_SOURCE_FRAME = 10'h2cc;
     localparam [9:0] REG_TENSOR_PROD_CONTROL = 10'h2d0;
     localparam [9:0] REG_TENSOR_PROD_RELEASE = 10'h2d4;
     localparam [9:0] REG_TENSOR_PROD_READY = 10'h2d8;
@@ -264,6 +155,9 @@ module multi_channel_framebuffer_ctrl #(
     localparam [9:0] REG_TENSOR_PROD_ADMISSION_MASK = 10'h344;
     localparam [9:0] REG_TENSOR_PROD_ADMISSION_LIMIT = 10'h348;
     localparam [9:0] REG_TENSOR_PROD_ADMISSION_SKIP = 10'h34c;
+    localparam [31:0] TENSOR_ARENA0_BASE = 32'h3000_0000;
+    localparam [31:0] TENSOR_ARENA1_BASE = 32'h3100_0000;
+    localparam [31:0] TENSOR_MEMBER_STRIDE = 32'h000e_1000;
 
     reg [9:0] awaddr_hold;
     reg [31:0] wdata_hold;
@@ -288,19 +182,8 @@ module multi_channel_framebuffer_ctrl #(
     wire [31:0] write_data = w_pending ? wdata_hold : axil.wdata;
     wire [3:0] write_strb = w_pending ? wstrb_hold : axil.wstrb;
     wire cfg_busy = (cfg_request_toggle != ack_sync_2);
-    wire ai_snapshot_busy =
-        (ai_snapshot_req_toggle != ai_snapshot_ack_toggle);
-    wire ai_release_busy =
-        (ai_release_req_toggle != ai_release_ack_toggle);
-    wire ai_meta_busy = (ai_meta_req_toggle != ai_meta_ack_toggle);
-    wire preprocess_start_busy =
-        preprocess_start_req_toggle != preprocess_start_ack_toggle;
-    wire preprocess_recycle_busy =
-        preprocess_recycle_req_toggle != preprocess_recycle_ack_toggle;
     wire overlay_commit_busy =
         overlay_commit_toggle != overlay_commit_ack_toggle;
-    wire tensor_sidecar_req_busy =
-        tensor_sidecar_req_toggle != tensor_sidecar_ack_toggle;
     wire write_is_channel_base = (write_addr >= REG_CHANNEL_BASE0) &&
         (write_addr < REG_CHANNEL_BASE0 + CHANNELS*4) &&
         (write_addr[1:0] == 2'b00);
@@ -367,14 +250,6 @@ module multi_channel_framebuffer_ctrl #(
             cfg_buffers_per_channel <= 32'd5;
             cfg_channel_bases <= DEFAULT_CHANNEL_BASES;
             cfg_buffer_stride_bytes <= 32'h0040_0000;
-            preprocess_arena0_base <= 32'h3000_0000;
-            preprocess_arena1_base <= 32'h3100_0000;
-            preprocess_member_stride <= 32'h000e_1000;
-            preprocess_member_bytes <= 32'h0007_ec00;
-            preprocess_format_640x480 <= 1'b0;
-            tensor_sidecar_req_toggle <= 1'b0;
-            tensor_sidecar_channel <= 4'd0;
-            tensor_sidecar_addr <= 32'h3100_0000;
             tensor_production_enable <= 1'b0;
             tensor_production_admission_mask <= CAMERA_PRESENT_MASK;
             tensor_production_admission_limit <= 5'd1;
@@ -386,14 +261,6 @@ module multi_channel_framebuffer_ctrl #(
             // single-channel debug path.
             cfg_display_mode <= 1'b0;
             cfg_hdmi_capture_enable <= 1'b0;
-            ai_snapshot_req_toggle <= 1'b0;
-            ai_release_req_toggle <= 1'b0;
-            ai_release_mask <= {CHANNELS{1'b0}};
-            ai_meta_req_toggle <= 1'b0;
-            ai_meta_index <= {CHANNEL_WIDTH{1'b0}};
-            preprocess_start_req_toggle <= 1'b0;
-            preprocess_recycle_req_toggle <= 1'b0;
-            preprocess_recycle_mask <= 2'b00;
             overlay_commit_toggle <= 1'b0;
             overlay_stream <= 4'd0;
             overlay_count <= 4'd0;
@@ -448,77 +315,8 @@ module multi_channel_framebuffer_ctrl #(
                         cfg_display_mode <= write_data[0];
                     REG_HDMI_CONTROL: if (write_strb[0])
                         cfg_hdmi_capture_enable <= write_data[0];
-                    REG_AI_CONTROL: if (write_strb[0]) begin
-                        if (write_data[0] && !write_data[1] &&
-                            !ai_snapshot_busy)
-                            ai_snapshot_req_toggle <=
-                                !ai_snapshot_req_toggle;
-                        if (write_data[1] && !write_data[0] &&
-                            !ai_release_busy)
-                            ai_release_req_toggle <=
-                                !ai_release_req_toggle;
-                    end
-                    REG_AI_RELEASE_MASK: if (!ai_release_busy)
-                        ai_release_mask <= write_data[CHANNELS-1:0];
-                    REG_AI_META_INDEX: if (write_strb[0] && !ai_meta_busy &&
-                                           (write_data < CHANNELS)) begin
-                        ai_meta_index <= write_data[CHANNEL_WIDTH-1:0];
-                        ai_meta_req_toggle <= !ai_meta_req_toggle;
-                    end
-                    REG_PRE_CONTROL: if (write_strb[0]) begin
-                        if (write_data[0] && !write_data[1] &&
-                            !preprocess_start_busy &&
-                            !tensor_production_enable &&
-                            tensor_production_quiescent)
-                            preprocess_start_req_toggle <=
-                                !preprocess_start_req_toggle;
-                        if (write_data[1] && !write_data[0] &&
-                            !preprocess_recycle_busy)
-                            preprocess_recycle_req_toggle <=
-                                !preprocess_recycle_req_toggle;
-                    end
-                    REG_PRE_RECYCLE_MASK: if (!preprocess_recycle_busy)
-                        preprocess_recycle_mask <= write_data[1:0];
-                    REG_PRE_ARENA0_BASE: if (!preprocess_busy &&
-                                              !preprocess_start_busy)
-                        preprocess_arena0_base <= apply_wstrb(
-                            preprocess_arena0_base, write_data, write_strb);
-                    REG_PRE_ARENA1_BASE: if (!preprocess_busy &&
-                                              !preprocess_start_busy)
-                        preprocess_arena1_base <= apply_wstrb(
-                            preprocess_arena1_base, write_data, write_strb);
-                    REG_PRE_MEMBER_STRIDE: if (!preprocess_busy &&
-                                                !preprocess_start_busy)
-                        preprocess_member_stride <= apply_wstrb(
-                            preprocess_member_stride, write_data, write_strb);
-                    REG_PRE_MEMBER_BYTES: if (!preprocess_busy &&
-                                               !preprocess_start_busy)
-                        preprocess_member_bytes <= apply_wstrb(
-                            preprocess_member_bytes, write_data, write_strb);
-                    REG_PRE_FORMAT: if (write_strb[0] && !preprocess_busy &&
-                                        !preprocess_start_busy)
-                        preprocess_format_640x480 <= write_data[0];
-                    REG_TENSOR_CONTROL: if (write_strb[0] && write_data[0] &&
-                                            !tensor_sidecar_req_busy &&
-                                            !tensor_sidecar_busy &&
-                                            !tensor_production_enable)
-                        tensor_sidecar_req_toggle <=
-                            !tensor_sidecar_req_toggle;
-                    REG_TENSOR_CHANNEL: if (write_strb[0] &&
-                                            !tensor_sidecar_req_busy &&
-                                            !tensor_sidecar_busy &&
-                                            write_data < CHANNELS)
-                        tensor_sidecar_channel <= write_data[3:0];
-                    REG_TENSOR_ADDR: if (!tensor_sidecar_req_busy &&
-                                            !tensor_sidecar_busy)
-                        tensor_sidecar_addr <= apply_wstrb(
-                            tensor_sidecar_addr, write_data, write_strb);
                     REG_TENSOR_PROD_CONTROL: if (write_strb[0]) begin
-                        if (!write_data[0] ||
-                            (!preprocess_busy && !preprocess_start_busy &&
-                             preprocess_ready_mask == 0 &&
-                             !tensor_sidecar_busy))
-                            tensor_production_enable <= write_data[0];
+                        tensor_production_enable <= write_data[0];
                         if (write_data[1] &&
                             !tensor_production_release_busy)
                             tensor_production_release_toggle <=
@@ -627,118 +425,6 @@ module multi_channel_framebuffer_ctrl #(
                     REG_DISPLAY_MODE: rdata <= {31'd0, cfg_display_mode};
                     REG_HDMI_CONTROL:
                         rdata <= {31'd0, cfg_hdmi_capture_enable};
-                    REG_AI_CONTROL:
-                        rdata <= {28'd0, ai_release_busy, ai_snapshot_busy,
-                                  ai_release_req_toggle,
-                                  ai_snapshot_req_toggle};
-                    REG_AI_STATUS:
-                        rdata <= {ai_error_count[15:0], 11'd0, ai_meta_busy,
-                                  (ai_error_count != 0), ai_snapshot_active,
-                                  ai_release_busy, ai_snapshot_busy};
-                    REG_AI_RELEASE_MASK:
-                        rdata <= {{(32-CHANNELS){1'b0}}, ai_release_mask};
-                    REG_AI_VALID_MASK:
-                        rdata <= {{(32-CHANNELS){1'b0}},
-                                  ai_snapshot_valid_mask};
-                    REG_AI_FRESH_MASK:
-                        rdata <= {{(32-CHANNELS){1'b0}},
-                                  ai_snapshot_fresh_mask};
-                    REG_AI_HELD_MASK:
-                        rdata <= {{(32-CHANNELS){1'b0}}, ai_held_mask};
-                    REG_AI_META_INDEX:
-                        rdata <= {{(32-CHANNEL_WIDTH){1'b0}}, ai_meta_index};
-                    REG_AI_META_ADDR:
-                        rdata <= ai_meta_addr;
-                    REG_AI_META_FRAME_LO:
-                        rdata <= ai_meta_frame_id[31:0];
-                    REG_AI_META_FRAME_HI:
-                        rdata <= ai_meta_frame_id[63:32];
-                    REG_AI_META_TIME_LO:
-                        rdata <= ai_meta_timestamp[31:0];
-                    REG_AI_META_TIME_HI:
-                        rdata <= ai_meta_timestamp[63:32];
-                    REG_AI_META_VERSION:
-                        rdata <= ai_meta_version;
-                    REG_AI_BATCH_LO: rdata <= ai_snapshot_batch_id[31:0];
-                    REG_AI_BATCH_HI: rdata <= ai_snapshot_batch_id[63:32];
-                    REG_AI_DIAG:
-                        rdata <= {ai_error_count[7:0],
-                                  ai_release_count[11:0],
-                                  ai_snapshot_count[11:0]};
-                    REG_PRE_CONTROL:
-                        rdata <= {28'd0, preprocess_recycle_busy,
-                                  preprocess_start_busy,
-                                  preprocess_recycle_req_toggle,
-                                  preprocess_start_req_toggle};
-                    REG_PRE_STATUS:
-                        rdata <= {preprocess_error_count[15:0], 10'd0,
-                                  preprocess_active_arena,
-                                  preprocess_ready_mask,
-                                  preprocess_busy,
-                                  preprocess_recycle_busy,
-                                  preprocess_start_busy};
-                    REG_PRE_RECYCLE_MASK:
-                        rdata <= {30'd0, preprocess_recycle_mask};
-                    REG_PRE_PROGRESS:
-                        rdata <= {21'd0, preprocess_completed_channels,
-                                  preprocess_active_channel,
-                                  preprocess_active_arena};
-                    REG_PRE_ACTIVE_BASE:
-                        rdata <= preprocess_active_tensor_base;
-                    REG_PRE_ARENA0_BATCH_LO:
-                        rdata <= preprocess_arena0_batch_id[31:0];
-                    REG_PRE_ARENA0_BATCH_HI:
-                        rdata <= preprocess_arena0_batch_id[63:32];
-                    REG_PRE_ARENA1_BATCH_LO:
-                        rdata <= preprocess_arena1_batch_id[31:0];
-                    REG_PRE_ARENA1_BATCH_HI:
-                        rdata <= preprocess_arena1_batch_id[63:32];
-                    REG_PRE_ARENA0_VALID:
-                        rdata <= {{(32-CHANNELS){1'b0}},
-                                  preprocess_arena0_valid_mask};
-                    REG_PRE_ARENA1_VALID:
-                        rdata <= {{(32-CHANNELS){1'b0}},
-                                  preprocess_arena1_valid_mask};
-                    REG_PRE_ARENA0_FRESH:
-                        rdata <= {{(32-CHANNELS){1'b0}},
-                                  preprocess_arena0_fresh_mask};
-                    REG_PRE_ARENA1_FRESH:
-                        rdata <= {{(32-CHANNELS){1'b0}},
-                                  preprocess_arena1_fresh_mask};
-                    REG_PRE_LAST_CYCLES:
-                        rdata <= preprocess_last_batch_cycles;
-                    REG_PRE_LAST_READ:
-                        rdata <= preprocess_last_read_beats;
-                    REG_PRE_LAST_WRITE:
-                        rdata <= preprocess_last_write_beats;
-                    REG_PRE_START_COUNT:
-                        rdata <= preprocess_start_count;
-                    REG_PRE_COMPLETE_COUNT:
-                        rdata <= preprocess_complete_count;
-                    REG_PRE_ERROR_COUNT:
-                        rdata <= preprocess_error_count;
-                    REG_PRE_ARENA0_BASE: rdata <= preprocess_arena0_base;
-                    REG_PRE_ARENA1_BASE: rdata <= preprocess_arena1_base;
-                    REG_PRE_MEMBER_STRIDE: rdata <= preprocess_member_stride;
-                    REG_PRE_MEMBER_BYTES: rdata <= preprocess_member_bytes;
-                    REG_PRE_FORMAT: rdata <= {31'd0, preprocess_format_640x480};
-                    REG_TENSOR_CONTROL:
-                        rdata <= {30'd0, tensor_sidecar_req_busy,
-                                  tensor_sidecar_req_toggle};
-                    REG_TENSOR_CHANNEL:
-                        rdata <= {28'd0, tensor_sidecar_channel};
-                    REG_TENSOR_ADDR: rdata <= tensor_sidecar_addr;
-                    REG_TENSOR_STATUS:
-                        rdata <= {24'd0, tensor_sidecar_done_channel,
-                                  tensor_sidecar_req_busy,
-                                  tensor_sidecar_error,
-                                  tensor_sidecar_completed,
-                                  tensor_sidecar_busy};
-                    REG_TENSOR_FRAME_ID: rdata <= tensor_sidecar_frame_id;
-                    REG_TENSOR_BYTES: rdata <= tensor_sidecar_bytes;
-                    REG_TENSOR_OVERFLOWS: rdata <= tensor_sidecar_overflows;
-                    REG_AI_META_SOURCE_FRAME:
-                        rdata <= ai_meta_source_frame_id;
                     REG_TENSOR_PROD_CONTROL:
                         rdata <= {30'd0, tensor_production_release_busy,
                                   tensor_production_enable};
@@ -800,10 +486,10 @@ module multi_channel_framebuffer_ctrl #(
                         rdata <= {28'd0, tensor_production_index[3:0]};
                     REG_TENSOR_PROD_ADDR:
                         rdata <= (tensor_production_index[4] ?
-                                  preprocess_arena1_base :
-                                  preprocess_arena0_base) +
+                                  TENSOR_ARENA1_BASE :
+                                  TENSOR_ARENA0_BASE) +
                                  tensor_production_index[3:0] *
-                                 preprocess_member_stride;
+                                 TENSOR_MEMBER_STRIDE;
                     REG_TENSOR_PROD_STATE:
                         if (tensor_production_error_mask[
                                 tensor_production_index])

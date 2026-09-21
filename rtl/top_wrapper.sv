@@ -85,19 +85,12 @@ module top_wrapper (
     wire [7:0] ov7670_reset_n_drive;
     wire [7:0] ov7670_pwdn_drive;
     wire [7:0] ov7670_scl_drive;
-    wire [7:0] ov7670_xclk_pad;
-    wire [7:0] ov7670_reset_n_pad;
-    wire [7:0] ov7670_pwdn_pad;
-    wire [7:0] ov7670_scl_pad;
-    wire [479:0] camera_axis_diag;
     wire [255:0] camera_malformed_counts;
     wire hdmi_capture_enable;
     wire [31:0] hdmi_transport_frame_count;
     wire [31:0] hdmi_transport_malformed_count;
     wire [255:0] hdmi_channel_overflow_counts;
     wire [255:0] hdmi_channel_frame_counts;
-    wire camera_sys_init_done = sys_rstn && c0_init_calib_complete &&
-                                camera_pll_locked;
 
     genvar camera_io_index;
     generate
@@ -109,22 +102,22 @@ module top_wrapper (
             );
             IOBUF u_xclk_iobuf (
                 .I(ov7670_xclk_drive[camera_io_index]),
-                .O(ov7670_xclk_pad[camera_io_index]), .T(1'b0),
+                .O(), .T(1'b0),
                 .IO(cam_xclk[camera_io_index])
             );
             IOBUF u_reset_n_iobuf (
                 .I(ov7670_reset_n_drive[camera_io_index]),
-                .O(ov7670_reset_n_pad[camera_io_index]), .T(1'b0),
+                .O(), .T(1'b0),
                 .IO(cam_rst_n[camera_io_index])
             );
             IOBUF u_pwdn_iobuf (
                 .I(ov7670_pwdn_drive[camera_io_index]),
-                .O(ov7670_pwdn_pad[camera_io_index]), .T(1'b0),
+                .O(), .T(1'b0),
                 .IO(cam_pwdn[camera_io_index])
             );
             IOBUF u_scl_iobuf (
                 .I(ov7670_scl_drive[camera_io_index]),
-                .O(ov7670_scl_pad[camera_io_index]), .T(1'b0),
+                .O(), .T(1'b0),
                 .IO(cam_scl[camera_io_index])
             );
         end
@@ -184,7 +177,6 @@ module top_wrapper (
         .hdmi_transport_malformed_count(hdmi_transport_malformed_count),
         .hdmi_channel_overflow_counts(hdmi_channel_overflow_counts),
         .hdmi_channel_frame_counts(hdmi_channel_frame_counts),
-        .camera_axis_diag(camera_axis_diag),
         .malformed_counts(camera_malformed_counts),
         .video_axis(ddr_video_axis),
         .capture_clk(capture_clk), .capture_resetn(capture_resetn),
@@ -192,7 +184,7 @@ module top_wrapper (
     );
 
     camera_hdmi_subsystem u_camera_hdmi (
-        .sys_rstn(sys_rstn), .sys_init_done(camera_sys_init_done),
+        .sys_rstn(sys_rstn),
         .camera_ref_clk(camera_ref_clk),
         .mmio_axi(soc_mmio_axi), .display_axis(ddr_video_axis),
         .camera_capture_channels(camera_capture_channels),
@@ -215,7 +207,6 @@ module top_wrapper (
         .hdmi_clkchip_scl(hdmi_clkchip_scl), .hdmi_clkchip_sda(hdmi_clkchip_sda),
         .hdmi_clkchip_lol(hdmi_clkchip_lol), .hdmi_clkchip_int(hdmi_clkchip_int),
         .hdmi_clkchip_rst(hdmi_clkchip_rst),
-        .camera_axis_diag(camera_axis_diag),
         .malformed_counts(camera_malformed_counts),
         .hdmi_transport_frame_count(hdmi_transport_frame_count),
         .hdmi_transport_malformed_count(hdmi_transport_malformed_count),
@@ -224,9 +215,6 @@ module top_wrapper (
         .cam_rst_n(ov7670_reset_n_drive),
         .cam_pwdn(ov7670_pwdn_drive), .cam_scl(ov7670_scl_drive),
         .cam_sda(cam_sda), .cam_xclk(ov7670_xclk_drive),
-        .cam_xclk_pad(ov7670_xclk_pad),
-        .cam_rst_n_pad(ov7670_reset_n_pad),
-        .cam_pwdn_pad(ov7670_pwdn_pad), .cam_scl_pad(ov7670_scl_pad),
         .cam_pclk(ov7670_pclk_ibuf),
         .cam_vsync(cam_vsync), .cam_href(cam_href), .cam_data(cam_data),
         .camera_pll_locked(camera_pll_locked),

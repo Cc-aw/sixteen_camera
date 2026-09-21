@@ -16,16 +16,8 @@ module camera_axis_cdc #(
     input  wire         frame_start,
     input  wire         line_last,
     input  wire         line_end,
-    input  wire         diag_clear_toggle,
     input  wire         ddr_clk,
     input  wire         ddr_resetn,
-    output reg  [31:0]  diag_fire_count,
-    output reg  [31:0]  diag_sof_count,
-    output reg  [31:0]  diag_eol_count,
-    output reg  [31:0]  diag_fifo_full_stall_count,
-    output reg  [31:0]  diag_ready_low_count,
-    output reg  [31:0]  diag_fifo_max_level,
-    output reg  [31:0]  diag_line_flush_count,
     axis_video_if.source m_axis
 );
     localparam integer COUNT_WIDTH = $clog2(FIFO_DEPTH) + 1;
@@ -58,12 +50,6 @@ module camera_axis_cdc #(
     wire fifo_rd_en = !fifo_empty && !output_skid_valid_q &&
                       !fifo_reset && !fifo_rd_rst_busy;
     wire output_pop = output_valid_q && m_axis.tready && ddr_resetn;
-    wire [COUNT_WIDTH-1:0] buffered_level = unused_wr_count +
-        COUNT_WIDTH'(output_valid_q) + COUNT_WIDTH'(output_skid_valid_q);
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg diag_clear_sync1;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg diag_clear_sync2;
-    reg diag_clear_seen;
-    wire diag_clear = (diag_clear_sync2 != diag_clear_seen);
 
     // Register the complete camera event before the RGB pair packer.  The
     // recovered pixel_ce in the OV7670 frontend used to feed the packer's
@@ -165,42 +151,6 @@ module camera_axis_cdc #(
                     else
                         pixel_x <= pixel_x + 1'b1;
                 end
-            end
-        end
-    end
-
-    // Camera-domain backpressure telemetry. These counters observe the
-    // producer-side FIFO directly, before the asynchronous clock crossing.
-    always @(posedge camera_clk) begin
-        if (!camera_resetn || !camera_enable || fifo_reset ||
-            fifo_wr_rst_busy) begin
-            diag_fifo_full_stall_count <= 32'd0;
-            diag_ready_low_count <= 32'd0;
-            diag_fifo_max_level <= 32'd0;
-            diag_line_flush_count <= 32'd0;
-            diag_clear_sync1 <= 1'b0;
-            diag_clear_sync2 <= 1'b0;
-            diag_clear_seen <= 1'b0;
-        end else begin
-            diag_clear_sync1 <= diag_clear_toggle;
-            diag_clear_sync2 <= diag_clear_sync1;
-            if (pixel_valid && fifo_full)
-                diag_fifo_full_stall_count <=
-                    diag_fifo_full_stall_count + 1'b1;
-            if (pixel_valid && !pixel_ready)
-                diag_ready_low_count <= diag_ready_low_count + 1'b1;
-            if (buffered_level > diag_fifo_max_level[COUNT_WIDTH-1:0])
-                diag_fifo_max_level <= {{(32-COUNT_WIDTH){1'b0}},
-                                         buffered_level};
-            if (line_end &&
-                (have_first || (pixel_x != {X_WIDTH{1'b0}})))
-                diag_line_flush_count <= diag_line_flush_count + 1'b1;
-            if (diag_clear) begin
-                diag_clear_seen <= diag_clear_sync2;
-                diag_fifo_full_stall_count <= 32'd0;
-                diag_ready_low_count <= 32'd0;
-                diag_fifo_max_level <= 32'd0;
-                diag_line_flush_count <= 32'd0;
             end
         end
     end
@@ -307,18 +257,6 @@ module camera_axis_cdc #(
     assign pixel_ready = camera_resetn && camera_enable && input_run_q &&
                          packer_run_q && !fifo_reset && !fifo_wr_rst_busy &&
                          (!have_first || !fifo_full);
-
-    always @(posedge camera_clk) begin
-        if (!ddr_resetn) begin
-            diag_fire_count <= 0;
-            diag_sof_count <= 0;
-            diag_eol_count <= 0;
-        end else if (output_pop) begin
-            diag_fire_count <= diag_fire_count + 1'b1;
-            if (output_data_q[48]) diag_sof_count <= diag_sof_count + 1'b1;
-            if (output_data_q[49]) diag_eol_count <= diag_eol_count + 1'b1;
-        end
-    end
 
     wire unused = &{1'b0, fifo_empty, unused_wr_count, ddr_clk};
 endmodule

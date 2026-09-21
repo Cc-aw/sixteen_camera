@@ -18,7 +18,6 @@ module camera_axis_to_stream #(
     video_stream_if.source m_stream,
     input wire diag_clear_toggle,
     output reg [31:0] malformed_frame_count,
-    output wire [255:0] diag_counts,
     output reg [31:0] timeout_abort_count
 );
     localparam integer BEATS_PER_LINE = FRAME_WIDTH / 2;
@@ -48,15 +47,6 @@ module camera_axis_to_stream #(
     reg out_eof;
     reg out_error;
     reg [FRAME_ID_WIDTH-1:0] out_frame_id;
-
-    reg [31:0] unexpected_sof_count;
-    reg [31:0] early_eol_count;
-    reg [31:0] missing_eol_count;
-    reg [31:0] aborted_frame_count;
-    reg [31:0] discarded_beat_count;
-    reg [31:0] padded_beat_count;
-    reg [31:0] good_frame_count;
-    reg [31:0] resync_frame_count;
 
     (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg diag_clear_sync1;
     (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg diag_clear_sync2;
@@ -93,12 +83,6 @@ module camera_axis_to_stream #(
     assign m_stream.frame_id = out_frame_id;
     assign m_stream.error = out_error;
 
-    // Word order is the camera MMIO ABI at offsets 0xe4 through 0x100.
-    assign diag_counts = {resync_frame_count, good_frame_count,
-                          padded_beat_count, discarded_beat_count,
-                          aborted_frame_count, missing_eol_count,
-                          early_eol_count, unexpected_sof_count};
-
     always @(posedge s_axis.aclk) begin
         if (!s_axis.aresetn) begin
             state <= WAIT_SOF;
@@ -115,14 +99,6 @@ module camera_axis_to_stream #(
             out_error <= 1'b0;
             out_frame_id <= {FRAME_ID_WIDTH{1'b0}};
             malformed_frame_count <= 32'd0;
-            unexpected_sof_count <= 32'd0;
-            early_eol_count <= 32'd0;
-            missing_eol_count <= 32'd0;
-            aborted_frame_count <= 32'd0;
-            discarded_beat_count <= 32'd0;
-            padded_beat_count <= 32'd0;
-            good_frame_count <= 32'd0;
-            resync_frame_count <= 32'd0;
             timeout_abort_count <= 32'd0;
             diag_clear_sync1 <= 1'b0;
             diag_clear_sync2 <= 1'b0;
@@ -150,10 +126,7 @@ module camera_axis_to_stream #(
                 out_eof <= expected_eof;
                 out_error <= 1'b1;
                 out_frame_id <= frame_id;
-                unexpected_sof_count <= unexpected_sof_count + 1'b1;
-                aborted_frame_count <= aborted_frame_count + 1'b1;
                 malformed_frame_count <= malformed_frame_count + 1'b1;
-                padded_beat_count <= padded_beat_count + 1'b1;
                 recovery_pending <= 1'b1;
                 if (expected_eof) begin
                     x_beat <= {X_WIDTH{1'b0}};
@@ -175,9 +148,7 @@ module camera_axis_to_stream #(
                 out_eof <= expected_eof;
                 out_error <= 1'b1;
                 out_frame_id <= frame_id;
-                aborted_frame_count <= aborted_frame_count + 1'b1;
                 malformed_frame_count <= malformed_frame_count + 1'b1;
-                padded_beat_count <= padded_beat_count + 1'b1;
                 timeout_abort_count <= timeout_abort_count + 1'b1;
                 recovery_pending <= 1'b1;
                 no_data_count <= {WATCHDOG_WIDTH{1'b0}};
@@ -198,7 +169,6 @@ module camera_axis_to_stream #(
                 out_eof <= expected_eof;
                 out_error <= 1'b1;
                 out_frame_id <= frame_id;
-                padded_beat_count <= padded_beat_count + 1'b1;
                 if (expected_eof) begin
                     state <= WAIT_SOF;
                     x_beat <= {X_WIDTH{1'b0}};
@@ -211,7 +181,6 @@ module camera_axis_to_stream #(
                 end
             end else if (accept) begin
                 if ((state == WAIT_SOF) && !s_axis.tuser) begin
-                    discarded_beat_count <= discarded_beat_count + 1'b1;
                     recovery_pending <= 1'b1;
                     x_beat <= {X_WIDTH{1'b0}};
                     y_line <= {Y_WIDTH{1'b0}};
@@ -226,7 +195,6 @@ module camera_axis_to_stream #(
                         frame_id <= frame_id + 1'b1;
                         out_frame_id <= frame_id + 1'b1;
                         if (recovery_pending) begin
-                            resync_frame_count <= resync_frame_count + 1'b1;
                             recovery_pending <= 1'b0;
                         end
                     end else begin
@@ -234,17 +202,11 @@ module camera_axis_to_stream #(
                     end
 
                     if (line_fault) begin
-                        if (s_axis.tlast)
-                            early_eol_count <= early_eol_count + 1'b1;
-                        else
-                            missing_eol_count <= missing_eol_count + 1'b1;
-                        aborted_frame_count <= aborted_frame_count + 1'b1;
                         malformed_frame_count <= malformed_frame_count + 1'b1;
                         recovery_pending <= 1'b1;
                         state <= expected_eof ? WAIT_SOF : PAD;
                     end else if (expected_eof) begin
                         state <= WAIT_SOF;
-                        good_frame_count <= good_frame_count + 1'b1;
                     end else begin
                         state <= FRAME;
                     end
@@ -265,14 +227,6 @@ module camera_axis_to_stream #(
             if (diag_clear) begin
                 diag_clear_seen <= diag_clear_sync2;
                 malformed_frame_count <= 32'd0;
-                unexpected_sof_count <= 32'd0;
-                early_eol_count <= 32'd0;
-                missing_eol_count <= 32'd0;
-                aborted_frame_count <= 32'd0;
-                discarded_beat_count <= 32'd0;
-                padded_beat_count <= 32'd0;
-                good_frame_count <= 32'd0;
-                resync_frame_count <= 32'd0;
                 timeout_abort_count <= 32'd0;
             end
         end

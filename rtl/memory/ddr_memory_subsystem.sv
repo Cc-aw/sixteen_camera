@@ -32,7 +32,6 @@ module ddr_memory_subsystem #(
     video_stream_if.sink camera_capture_channels [8],
     video_stream_if.sink hdmi_capture_channels [8],
     output wire hdmi_capture_enable,
-    input wire [479:0] camera_axis_diag,
     input wire [255:0] malformed_counts,
     input wire [31:0] hdmi_transport_frame_count,
     input wire [31:0] hdmi_transport_malformed_count,
@@ -84,13 +83,9 @@ module ddr_memory_subsystem #(
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) writer_video_axi();
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) reader_video_axi();
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
-        preprocess_read_video_axi();
-    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
-        preprocess_write_video_axi();
+        tensor_write_video_axi();
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) writer_ui_axi();
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) reader_ui_axi();
-    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
-        preprocess_read_ui_axi();
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(5))
         fbus_write_soc_axi();
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(5))
@@ -212,17 +207,13 @@ module ddr_memory_subsystem #(
         .s_axi(reader_video_axi), .ui_clk(ddr_ui_clk),
         .ui_resetn(ddr_resetn), .m_axi(reader_ui_axi)
     );
-    axi4_ui_read_cdc u_preprocess_read_ui_cdc (
-        .s_axi(preprocess_read_video_axi), .ui_clk(ddr_ui_clk),
-        .ui_resetn(ddr_resetn), .m_axi(preprocess_read_ui_axi)
-    );
     // Match demo/ai: framebuffer reads stay on the non-coherent DDR S02
     // read channel, while completed input tensors enter the SoC through its
     // coherent FBus.  The bridge also applies the bit-31 CPU memory alias.
     axi4_write_cdc #(
         .FBUS_WRITE_ID(24), .FBUS_WRITE_ID_COUNT(8)
-    ) u_preprocess_fbus_write_cdc (
-        .s_axi(preprocess_write_video_axi), .m_clk(soc_clk),
+    ) u_tensor_fbus_write_cdc (
+        .s_axi(tensor_write_video_axi), .m_clk(soc_clk),
         .m_resetn(soc_resetn), .m_axi(fbus_write_soc_axi)
     );
     postprocess_read_diagnostic #(
@@ -305,8 +296,7 @@ module ddr_memory_subsystem #(
         .hdmi_channel_frame_counts(hdmi_channel_frame_counts_video),
         .writer_axi(writer_video_axi),
         .reader_axi(reader_video_axi),
-        .preprocess_read_axi(preprocess_read_video_axi),
-        .preprocess_write_axi(preprocess_write_video_axi),
+        .tensor_write_axi(tensor_write_video_axi),
         .display_axis(video_axis),
         .writer_error(writer_error),
         .reader_error(reader_error),
@@ -413,8 +403,8 @@ module ddr_memory_subsystem #(
         .S01_AXI_rvalid(reader_ui_axi.rvalid),
         .S01_AXI_rready(reader_ui_axi.rready),
 
-        // S02 is read-only for preprocessing. Tensor writes use coherent
-        // FBus, so terminate the unused S02 write request channels.
+        // Retired preprocess no longer uses S02. Tensor writes use coherent
+        // FBus, so terminate every S02 request channel locally.
         .S02_AXI_awid(3'd0),
         .S02_AXI_awaddr(32'd0),
         .S02_AXI_awlen(8'd0),
@@ -436,24 +426,24 @@ module ddr_memory_subsystem #(
         .S02_AXI_bresp(),
         .S02_AXI_bvalid(),
         .S02_AXI_bready(1'b0),
-        .S02_AXI_arid(preprocess_read_ui_axi.arid),
-        .S02_AXI_araddr(preprocess_read_ui_axi.araddr),
-        .S02_AXI_arlen(preprocess_read_ui_axi.arlen),
-        .S02_AXI_arsize(preprocess_read_ui_axi.arsize),
-        .S02_AXI_arburst(preprocess_read_ui_axi.arburst),
-        .S02_AXI_arlock(preprocess_read_ui_axi.arlock),
-        .S02_AXI_arcache(preprocess_read_ui_axi.arcache),
-        .S02_AXI_arprot(preprocess_read_ui_axi.arprot),
-        .S02_AXI_arqos(preprocess_read_ui_axi.arqos),
+        .S02_AXI_arid(3'd0),
+        .S02_AXI_araddr(32'd0),
+        .S02_AXI_arlen(8'd0),
+        .S02_AXI_arsize(3'd0),
+        .S02_AXI_arburst(2'd0),
+        .S02_AXI_arlock(1'b0),
+        .S02_AXI_arcache(4'd0),
+        .S02_AXI_arprot(3'd0),
+        .S02_AXI_arqos(4'd0),
         .S02_AXI_arregion(4'h0),
-        .S02_AXI_arvalid(preprocess_read_ui_axi.arvalid),
-        .S02_AXI_arready(preprocess_read_ui_axi.arready),
-        .S02_AXI_rid(preprocess_read_ui_axi.rid),
-        .S02_AXI_rdata(preprocess_read_ui_axi.rdata),
-        .S02_AXI_rresp(preprocess_read_ui_axi.rresp),
-        .S02_AXI_rlast(preprocess_read_ui_axi.rlast),
-        .S02_AXI_rvalid(preprocess_read_ui_axi.rvalid),
-        .S02_AXI_rready(preprocess_read_ui_axi.rready),
+        .S02_AXI_arvalid(1'b0),
+        .S02_AXI_arready(),
+        .S02_AXI_rid(),
+        .S02_AXI_rdata(),
+        .S02_AXI_rresp(),
+        .S02_AXI_rlast(),
+        .S02_AXI_rvalid(),
+        .S02_AXI_rready(1'b0),
 
         .ddr4_rst(~sys_rstn),
         .ddr4_ui_clk(ddr_ui_clk),
@@ -462,6 +452,6 @@ module ddr_memory_subsystem #(
         .soc_clk_100m(unused_soc_clk_100m)
     );
 
-    wire unused_status = &{1'b0, camera_axis_diag, writer_error,
+    wire unused_status = &{1'b0, writer_error,
                            reader_error, reader_underflow};
 endmodule

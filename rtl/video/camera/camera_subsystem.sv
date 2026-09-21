@@ -5,7 +5,6 @@
 // below this boundary; the parent only connects control and video fabrics.
 module camera_subsystem (
     input wire sys_rstn,
-    input wire sys_init_done,
     input wire camera_ref_clk,
     input wire capture_clk,
     input wire capture_resetn,
@@ -19,17 +18,12 @@ module camera_subsystem (
     output wire [7:0] cam_scl,
     inout  wire [7:0] cam_sda,
     output wire [7:0] cam_xclk,
-    input  wire [7:0] cam_xclk_pad,
-    input  wire [7:0] cam_rst_n_pad,
-    input  wire [7:0] cam_pwdn_pad,
-    input  wire [7:0] cam_scl_pad,
     input  wire [7:0] cam_pclk,
     input  wire [7:0] cam_vsync,
     input  wire [7:0] cam_href,
     input  wire [63:0] cam_data,
 
     output wire camera_pll_locked,
-    output wire [479:0] camera_axis_diag,
     output wire [255:0] malformed_counts
 );
     localparam integer CAMERA_COUNT = 8;
@@ -71,21 +65,10 @@ module camera_subsystem (
     wire [7:0] camera_init_request;
     wire [7:0] camera_init_terminal;
     wire [7:0] camera_init_grant;
-    wire [7:0][383:0] camera_axis_diag_cam;
-    wire [383:0] camera_axis_diag_ddr;
-    wire [31:0] camera_cdc_fire_count [CAMERA_COUNT];
-    wire [31:0] camera_cdc_sof_count [CAMERA_COUNT];
-    wire [31:0] camera_cdc_eol_count [CAMERA_COUNT];
-    wire [31:0] camera_cdc_fifo_full_stall_count [CAMERA_COUNT];
-    wire [31:0] camera_cdc_ready_low_count [CAMERA_COUNT];
-    wire [31:0] camera_cdc_fifo_max_level [CAMERA_COUNT];
-    wire [31:0] camera_cdc_line_flush_count [CAMERA_COUNT];
     wire [31:0] camera_malformed_count [CAMERA_COUNT];
-    wire [31:0] camera_timeout_abort_count [CAMERA_COUNT];
     wire [31:0] camera_pad_error_count [CAMERA_COUNT];
     wire [31:0] camera_event_overflow_count [CAMERA_COUNT];
     wire [31:0] camera_event_overflow_video [CAMERA_COUNT];
-    wire [255:0] camera_stream_diag [CAMERA_COUNT];
     wire [7:0] camera_diag_clear_toggle;
 
     camera_clocking u_camera_clocking (
@@ -138,13 +121,12 @@ module camera_subsystem (
                 .MIN_FRAME_INTERVAL_CYCLES(200000),
                 .FRAME_RESYNC_TIMEOUT_CYCLES(2000000)
             ) u_camera (
-                .sys_rstn(sys_rstn), .sys_init_done(sys_init_done),
+                .sys_rstn(sys_rstn),
                 .ov7670_ctrl_clk(ov7670_ctrl_clk),
                 .init_grant(camera_init_grant[camera_index]),
                 .init_request(camera_init_request[camera_index]),
                 .init_terminal(camera_init_terminal[camera_index]),
                 .video_clk(capture_clk), .video_resetn(capture_resetn_local),
-                .pixel_clk(video_clk),
                 .camera_axil(camera_axil[camera_index]),
                 .ov7670_pclk(cam_pclk[camera_index]),
                 .ov7670_vsync(cam_vsync[camera_index]),
@@ -155,20 +137,8 @@ module camera_subsystem (
                 .cam_xclk(camera_xclk[camera_index]),
                 .cam_reset_n(camera_reset_n[camera_index]),
                 .cam_pwdn(camera_pwdn[camera_index]),
-                .cam_xclk_pad(cam_xclk_pad[camera_index]),
-                .cam_reset_n_pad(cam_rst_n_pad[camera_index]),
-                .cam_pwdn_pad(cam_pwdn_pad[camera_index]),
-                .cam_scl_pad(cam_scl_pad[camera_index]),
                 .event_valid(capture_event_valid[camera_index]),
                 .event_ready(capture_event_ready[camera_index]),
-                .diag_fifo_full_stall_count(
-                    camera_cdc_fifo_full_stall_count[camera_index]),
-                .diag_ready_low_count(camera_cdc_ready_low_count[camera_index]),
-                .diag_fifo_max_level(camera_cdc_fifo_max_level[camera_index]),
-                .diag_line_flush_count(camera_cdc_line_flush_count[camera_index]),
-                .stream_diag_counts(camera_stream_diag[camera_index]),
-                .stream_timeout_abort_count(
-                    camera_timeout_abort_count[camera_index]),
                 .diag_clear_toggle(camera_diag_clear_toggle[camera_index]),
                 .event_data(capture_event_data[camera_index]),
                 .event_byte_valid(capture_event_byte_valid[camera_index]),
@@ -179,8 +149,7 @@ module camera_subsystem (
                     capture_event_frame_boundary[camera_index]),
                 .event_fault(capture_event_fault[camera_index]),
                 .pixel_resetn(ov7670_pixel_resetn[camera_index]),
-                .pixel_enable(ov7670_pixel_enable[camera_index]),
-                .axis_diag(camera_axis_diag_cam[camera_index])
+                .pixel_enable(ov7670_pixel_enable[camera_index])
             );
 
             dvp_event_bridge #(.FIFO_DEPTH(1024)) u_event_bridge (
@@ -256,16 +225,7 @@ module camera_subsystem (
                 .frame_start(camera_frame_start[camera_index]),
                 .line_last(camera_line_last[camera_index]),
                 .line_end(camera_line_end[camera_index]),
-                .diag_clear_toggle(camera_diag_clear_toggle[camera_index]),
-                .diag_fifo_full_stall_count(
-                    camera_cdc_fifo_full_stall_count[camera_index]),
-                .diag_ready_low_count(camera_cdc_ready_low_count[camera_index]),
-                .diag_fifo_max_level(camera_cdc_fifo_max_level[camera_index]),
-                .diag_line_flush_count(camera_cdc_line_flush_count[camera_index]),
                 .ddr_clk(video_clk), .ddr_resetn(video_resetn),
-                .diag_fire_count(camera_cdc_fire_count[camera_index]),
-                .diag_sof_count(camera_cdc_sof_count[camera_index]),
-                .diag_eol_count(camera_cdc_eol_count[camera_index]),
                 .m_axis(camera_axis_from_cdc[camera_index])
             );
 
@@ -277,8 +237,7 @@ module camera_subsystem (
                 .m_stream(capture_channels[camera_index]),
                 .diag_clear_toggle(camera_diag_clear_toggle[camera_index]),
                 .malformed_frame_count(camera_malformed_count[camera_index]),
-                .diag_counts(camera_stream_diag[camera_index]),
-                .timeout_abort_count(camera_timeout_abort_count[camera_index])
+                .timeout_abort_count()
             );
 
             assign camera_pad_error_count[camera_index] =
@@ -294,12 +253,6 @@ module camera_subsystem (
     assign cam_xclk = camera_xclk;
     assign cam_rst_n = camera_reset_n;
     assign cam_pwdn = camera_pwdn;
-
-    assign camera_axis_diag_ddr = camera_axis_diag_cam[0];
-    assign camera_axis_diag = {camera_cdc_eol_count[0],
-                               camera_cdc_sof_count[0],
-                               camera_cdc_fire_count[0],
-                               camera_axis_diag_ddr};
 
     wire unused = &{1'b0, camera_line_last, capture_channels[0].ready,
                     capture_channels[1].ready, capture_channels[2].ready,
