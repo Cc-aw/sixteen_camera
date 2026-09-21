@@ -26,6 +26,10 @@ set RTL_SOURCES {
 
     rtl/control/control_soc_subsystem.sv
     rtl/control/telemetry/tensor_telemetry_cdc.sv
+    rtl/memory/ddr_platform.sv
+    rtl/memory/video_memory_ports.sv
+    rtl/memory/tensor_memory_bridge.sv
+    rtl/memory/postprocess_memory_bridge.sv
     rtl/memory/ddr_memory_subsystem.sv
 
     rtl/si5338/i2c_master.vhd
@@ -59,6 +63,7 @@ set RTL_SOURCES {
     rtl/video/framebuffer/multi_channel_framebuffer_ctrl.sv
     rtl/video/framebuffer/multi_channel_video_dma.sv
     rtl/video/frame_store/frame_store_subsystem.sv
+    rtl/video/frame_store/capture_ingress_bridge.sv
     rtl/video/display/display_subsystem.sv
 
     rtl/video/hdmi/hdmi_4k_spatial_demux.sv

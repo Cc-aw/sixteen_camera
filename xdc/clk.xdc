@@ -32,8 +32,8 @@ create_clock -period 10.000 -name clk_100m_p [get_ports clk_100m_p]
 # UI clock. Give it a stable name and preserve the real 2:1 relationship;
 # do not declare the complete 300/150 MHz domains asynchronous.
 create_generated_clock -name camera_video_clk -divide_by 2 \
-    -source [get_pins u_ddr_memory/u_camera_video_clk_div/I] \
-    [get_pins u_ddr_memory/u_camera_video_clk_div/O]
+    -source [get_pins u_ddr_memory/u_ddr_platform/u_camera_video_clk_div/I] \
+    [get_pins u_ddr_memory/u_ddr_platform/u_camera_video_clk_div/O]
 
 # Chipyard exposes its RISC-V JTAG TAP through Xilinx USER4 BSCAN.  The
 # generated JTAGTUNNEL contains state and edge counters clocked directly from
@@ -70,7 +70,7 @@ set_property IOSTANDARD LVCMOS18 [get_ports {uart_rxd uart_txd}]
 set_false_path -to [get_pins {u_control_soc/ddr_calib_sync_reg[0]/D}]
 
 set_false_path -to [get_pins -hierarchical -filter \
-    {NAME =~ */u_video_framebuffer/u_control_bridge/u_control/ack_sync_1_reg/D}]
+    {NAME =~ u_video_pipeline/u_control_bridge/u_control/ack_sync_1_reg/D}]
 
 # DDR UI reset is an asynchronous-assert/synchronous-release reset generated
 # by ddr_reset_sync. The synchronizer clock and recovery/removal checks remain
@@ -79,8 +79,10 @@ set_false_path -to [get_pins -hierarchical -filter \
 
 # MIG calibration asserts the reset synchronizer asynchronously. The CLR pin
 # intentionally has no recovery requirement against the calibration clock.
-set_false_path -to [get_pins {u_ddr_memory/ddr_reset_sync_reg[0]/CLR}]
-set_false_path -to [get_pins {u_ddr_memory/video_reset_sync_reg[0]/CLR}]
+set_false_path -to [get_pins \
+    {u_ddr_memory/u_ddr_platform/ddr_reset_sync_reg[0]/CLR}]
+set_false_path -to [get_pins \
+    {u_ddr_memory/u_ddr_platform/video_reset_sync_reg[0]/CLR}]
 
 # The functional oversampling receiver treats every DVP signal, including
 # PCLK, as asynchronous data into a 300 MHz IOB register.  Only the pad to the
