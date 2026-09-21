@@ -169,11 +169,17 @@ module yolov5nu_multi_channel_tensor_dma #(
 
     reg [CHANNEL_WIDTH-1:0] rr_channel;
     reg [CHANNEL_WIDTH-1:0] admission_rr;
+    reg [CHANNELS-1:0] admission_permit;
+    reg [CHANNELS-1:0] admission_permit_next;
+    reg [CHANNELS-1:0] admission_eligible;
     reg [CHANNELS-1:0] admission_grant;
-    reg admission_grant_valid;
+    reg [ACTIVE_COUNT_WIDTH-1:0] admission_grant_count;
+    reg [ACTIVE_COUNT_WIDTH-1:0] admission_permit_count;
+    reg admission_rr_advance;
     reg [ACTIVE_COUNT_WIDTH-1:0] production_active_count;
     reg [ACTIVE_COUNT_WIDTH-1:0] production_finish_count;
     reg [ACTIVE_COUNT_WIDTH-1:0] admission_capacity;
+    reg [ACTIVE_COUNT_WIDTH-1:0] admission_capacity_q;
     reg probe_valid;
     reg [CHANNEL_WIDTH-1:0] probe_channel;
     reg [FIFO_COUNT_WIDTH-1:0] probe_fifo_count;
@@ -197,8 +203,9 @@ module yolov5nu_multi_channel_tensor_dma #(
     reg schedule_last;
     reg schedule_diagnostic;
     reg schedule_slot;
-    integer i, finish_index;
+    integer i, finish_index, admission_index;
     integer scheduler_candidate;
+    integer admission_active_after;
     integer available, remaining, boundary, target;
 
     wire aw_fire = m_axi.awvalid && m_axi.awready;
@@ -237,6 +244,32 @@ module yolov5nu_multi_channel_tensor_dma #(
             next_channel = channel + 1'b1;
     endfunction
 
+    // A balanced reduction keeps admission accounting out of a sixteen-stage
+    // carry chain. CHANNELS is asserted to be 16 below.
+    function automatic [ACTIVE_COUNT_WIDTH-1:0] admission_mask_count(
+        input [CHANNELS-1:0] mask);
+        reg [1:0] pair_count [0:7];
+        reg [2:0] quad_count [0:3];
+        reg [3:0] octet_count [0:1];
+        begin
+            pair_count[0] = mask[0] + mask[1];
+            pair_count[1] = mask[2] + mask[3];
+            pair_count[2] = mask[4] + mask[5];
+            pair_count[3] = mask[6] + mask[7];
+            pair_count[4] = mask[8] + mask[9];
+            pair_count[5] = mask[10] + mask[11];
+            pair_count[6] = mask[12] + mask[13];
+            pair_count[7] = mask[14] + mask[15];
+            quad_count[0] = pair_count[0] + pair_count[1];
+            quad_count[1] = pair_count[2] + pair_count[3];
+            quad_count[2] = pair_count[4] + pair_count[5];
+            quad_count[3] = pair_count[6] + pair_count[7];
+            octet_count[0] = quad_count[0] + quad_count[1];
+            octet_count[1] = quad_count[2] + quad_count[3];
+            admission_mask_count = octet_count[0] + octet_count[1];
+        end
+    endfunction
+
     // Count production contexts at their registered start/finish boundaries.
     // Do not recompute this value from all ctx_active bits in the admission
     // cone: that old cross-channel reduction drove another channel's packer
@@ -256,29 +289,63 @@ module yolov5nu_multi_channel_tensor_dma #(
                 production_finish_count = production_finish_count + 1'b1;
     end
 
-    // admission_rr is a rotating token.  Only the token owner may start a
-    // production frame in a clock cycle.  A token whose channel is disabled,
-    // busy, flushing, or out of slots is advanced one position per cycle.
-    // Since SOFs are thousands of clocks apart, this preserves whole-frame
-    // fairness while the registered active count keeps unrelated channels
-    // out of the SOF-to-packer timing path.
+    // Reserve capture credits before SOF. The RR allocator visits one channel
+    // per clock, while each channel consumes its registered permit locally at
+    // SOF. This avoids requiring a one-cycle SOF to collide with a global
+    // token and permits several pre-authorized channels to start together.
     always @(*) begin
-        admission_grant = {CHANNELS{1'b0}};
-        admission_grant_valid = 1'b0;
         if (admission_limit == 0)
             admission_capacity = ACTIVE_COUNT_WIDTH'(1);
         else if (admission_limit > CHANNELS)
             admission_capacity = ACTIVE_COUNT_WIDTH'(CHANNELS);
         else
             admission_capacity = ACTIVE_COUNT_WIDTH'(admission_limit);
+
+        admission_eligible = '0;
+        for (admission_index = 0; admission_index < CHANNELS;
+             admission_index = admission_index + 1) begin
+            admission_eligible[admission_index] =
+                production_enable && !diagnostic_armed &&
+                admission_enable_mask[admission_index] &&
+                !ctx_active[admission_index] &&
+                flush_count[admission_index] == 0 &&
+                (!ready0[admission_index] || !ready1[admission_index]);
+        end
+
+        admission_grant = admission_permit & admission_eligible &
+                          tap_accept & tap_sof;
+        admission_permit_next = admission_permit & admission_eligible &
+                                ~admission_grant;
+        // A capacity change invalidates idle reservations atomically. This
+        // prevents stale permits from exceeding a newly lowered limit and is
+        // cheaper than selecting the first N bits through a serial trim cone.
+        if (admission_capacity != admission_capacity_q) begin
+            admission_grant = '0;
+            admission_permit_next = '0;
+        end
+        admission_grant_count = admission_mask_count(admission_grant);
+        admission_permit_count =
+            admission_mask_count(admission_permit_next);
+        admission_active_after = production_active_count +
+                                 admission_grant_count -
+                                 production_finish_count;
+        if (admission_active_after < 0)
+            admission_active_after = 0;
+
+        // Allocation is off the SOF-to-packer path. Advancing the candidate
+        // every clock fills all available permits within one channel rotation.
+        admission_rr_advance = 1'b0;
         if (production_enable && !diagnostic_armed &&
-            production_active_count < admission_capacity &&
-            admission_enable_mask[admission_rr] &&
-            tap_accept[admission_rr] && tap_sof[admission_rr] &&
-            !ctx_active[admission_rr] && flush_count[admission_rr] == 0 &&
-            (!ready0[admission_rr] || !ready1[admission_rr])) begin
-            admission_grant[admission_rr] = 1'b1;
-            admission_grant_valid = 1'b1;
+            admission_capacity == admission_capacity_q &&
+            admission_active_after + admission_permit_count <
+                admission_capacity) begin
+            admission_rr_advance = 1'b1;
+            if (admission_eligible[admission_rr] &&
+                !admission_permit_next[admission_rr] &&
+                !admission_grant[admission_rr]) begin
+                admission_permit_next[admission_rr] = 1'b1;
+                admission_permit_count = admission_permit_count + 1'b1;
+            end
         end
     end
 
@@ -530,6 +597,8 @@ module yolov5nu_multi_channel_tensor_dma #(
             probe_diagnostic <= 1'b0;
             probe_slot <= 1'b0;
             admission_rr <= '0;
+            admission_permit <= '0;
+            admission_capacity_q <= ACTIVE_COUNT_WIDTH'(1);
             production_active_count <= '0;
             diagnostic_armed <= 0; diagnostic_channel_q <= 0;
             diagnostic_addr_q <= 0; diagnostic_completed <= 0;
@@ -568,8 +637,10 @@ module yolov5nu_multi_channel_tensor_dma #(
             capture_cycle <= capture_cycle + 1'b1;
             production_active_count <= ACTIVE_COUNT_WIDTH'(
                 production_active_count +
-                ACTIVE_COUNT_WIDTH'(admission_grant_valid) -
+                admission_grant_count -
                 production_finish_count);
+            admission_permit <= admission_permit_next;
+            admission_capacity_q <= admission_capacity;
             rr_channel <= next_channel(rr_channel);
             // Probe one channel per clock.  The descriptor queue normally
             // stays ahead of W data, so a full 16-channel rotation fits in
@@ -602,11 +673,7 @@ module yolov5nu_multi_channel_tensor_dma #(
             end
             if (!production_enable)
                 admission_rr <= '0;
-            else if (admission_grant_valid ||
-                     !admission_enable_mask[admission_rr] ||
-                     ctx_active[admission_rr] ||
-                     flush_count[admission_rr] != 0 ||
-                     (ready0[admission_rr] && ready1[admission_rr]))
+            else if (admission_rr_advance)
                 admission_rr <= next_channel(admission_rr);
             if (diagnostic_start && !production_enable && !diagnostic_busy) begin
                 diagnostic_armed <= 1'b1;
@@ -900,8 +967,14 @@ module yolov5nu_multi_channel_tensor_dma #(
             if (b_pending_count > WRITE_OUTSTANDING)
                 $fatal(1, "tensor DMA outstanding credit overflow");
             if (production_finish_count > production_active_count +
-                (admission_grant_valid ? 1 : 0))
+                admission_grant_count)
                 $fatal(1, "tensor DMA production active-count underflow");
+            if ((admission_active_after >= admission_capacity &&
+                 admission_permit_count != 0) ||
+                (admission_active_after < admission_capacity &&
+                 admission_active_after + admission_permit_count >
+                    admission_capacity))
+                $fatal(1, "tensor DMA admission credit overflow");
         end
     end
 `endif

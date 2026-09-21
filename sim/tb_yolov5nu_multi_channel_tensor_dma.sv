@@ -38,6 +38,7 @@ module tb_yolov5nu_multi_channel_tensor_dma;
     integer max_outstanding = 0;
     integer full_bursts = 0;
     integer timeout;
+    integer first_permit;
 
     yolov5nu_multi_channel_tensor_dma #(
         .FRAME_WIDTH(32), .FRAME_HEIGHT(2), .FIFO_DEPTH(16),
@@ -133,10 +134,8 @@ module tb_yolov5nu_multi_channel_tensor_dma;
         end
     endtask
 
-    // Start CH1 and CH2 one clock apart.  The production arbiter deliberately
-    // accepts at most one SOF per clock so its timing does not grow with the
-    // channel count, while admission_limit still permits both frames to stay
-    // active and feed the shared DMA concurrently.
+    // Start CH1 and CH2 one clock apart. Both already hold registered permits,
+    // so neither SOF depends on the instantaneous RR allocator position.
     task automatic send_offset_frames(input integer frame0,
                                       input integer frame1);
         integer cycle_index;
@@ -218,6 +217,13 @@ module tb_yolov5nu_multi_channel_tensor_dma;
         resetn = 1'b1;
         repeat (20) @(posedge clk);
         production_enable = 1'b1;
+        timeout = 0;
+        while (dut.admission_permit[1:0] != 2'b11 && timeout < 100) begin
+            @(posedge clk);
+            timeout = timeout + 1;
+        end
+        if (dut.admission_permit[1:0] != 2'b11)
+            $fatal(1, "admission permits were not preallocated");
         send_offset_frames(100, 200);
         @(negedge clk);
         tap_accept = 0;
@@ -251,16 +257,15 @@ module tb_yolov5nu_multi_channel_tensor_dma;
         if (max_outstanding < 2)
             $fatal(1, "shared DMA never issued multiple outstanding bursts");
 
-        // The strict rotating token may still be passing channels that were
-        // busy when the first capture completed.  Wait until it parks on CH1
-        // before presenting the next one-shot test frame.
+        // Completed channels remain eligible for their second slots. Wait for
+        // both permits, then present SOFs without aligning them to RR state.
         timeout = 0;
-        while (dut.admission_rr != 0 && timeout < 100) begin
+        while (dut.admission_permit[1:0] != 2'b11 && timeout < 100) begin
             @(posedge clk);
             timeout = timeout + 1;
         end
-        if (dut.admission_rr != 0)
-            $fatal(1, "admission token did not return to channel 0");
+        if (dut.admission_permit[1:0] != 2'b11)
+            $fatal(1, "second-slot permits were not preallocated");
         send_offset_frames(101, 201);
         @(negedge clk);
         tap_accept = 0;
@@ -283,42 +288,58 @@ module tb_yolov5nu_multi_channel_tensor_dma;
             slot_error_codes[17*8 +: 8] != 0)
             $fatal(1, "second slot generation metadata mismatch");
 
-        // With one admission credit, simultaneous SOFs must alternate rather
-        // than repeatedly selecting a fixed channel.  Rejected complete
-        // frames are expected load shedding, not FIFO overflow.
+        // Restart with one credit. The permit remains stable while the other
+        // channel presents an earlier SOF, proving start does not require an
+        // RR/SOF collision. After retirement, RR must permit the other channel.
+        production_enable = 1'b0;
+        repeat (2) @(posedge clk);
         release_slots(32'h0003_0003);
         admission_limit = 5'd1;
+        production_enable = 1'b1;
         timeout = 0;
-        while (dut.admission_rr != 0 && timeout < 100) begin
+        while (dut.admission_permit[1:0] == 0 && timeout < 100) begin
             @(posedge clk);
             timeout = timeout + 1;
         end
-        if (dut.admission_rr != 0)
-            $fatal(1, "limited-admission token did not park on channel 0");
-        send_staggered_frame(102, 202, 1);
+        if (dut.admission_permit[1:0] == 0 ||
+            dut.admission_permit[1:0] == 2'b11)
+            $fatal(1, "limited admission did not produce one permit");
+        first_permit = dut.admission_permit[0] ? 0 : 1;
+        send_staggered_frame(102, 202, 1-first_permit);
         @(negedge clk);
         tap_accept = 0; tap_sof = 0; tap_eol = 0; tap_eof = 0;
         timeout = 0;
-        while (ready_mask[0] == 0 && timeout < 1000) begin
+        while (ready_mask[first_permit] == 0 && timeout < 1000) begin
             @(posedge clk);
             timeout = timeout + 1;
         end
-        if (ready_mask[0] == 0 || ready_mask[1] != 0 ||
-            slot_frame_ids[0 +: 32] != 102)
-            $fatal(1, "first limited admission was not channel 0");
-        release_slots(32'h0000_0001);
+        if (ready_mask[first_permit] == 0 ||
+            ready_mask[1-first_permit] != 0)
+            $fatal(1, "first limited admission selected the wrong channel");
+        if ((first_permit == 0 && slot_frame_ids[0 +: 32] != 102) ||
+            (first_permit == 1 && slot_frame_ids[32 +: 32] != 202))
+            $fatal(1, "first limited admission metadata mismatch");
+        release_slots(32'(1 << first_permit));
 
-        send_staggered_frame(103, 203, 0);
-        @(negedge clk);
-        tap_accept = 0; tap_sof = 0; tap_eol = 0; tap_eof = 0;
         timeout = 0;
-        while (ready_mask[1] == 0 && timeout < 1000) begin
+        while (!dut.admission_permit[1-first_permit] && timeout < 100) begin
             @(posedge clk);
             timeout = timeout + 1;
         end
-        if (ready_mask[1] == 0 || ready_mask[0] != 0 ||
-            slot_frame_ids[32 +: 32] != 203)
-            $fatal(1, "second limited admission was not channel 1");
+        if (!dut.admission_permit[1-first_permit])
+            $fatal(1, "limited admission did not advance fairly");
+
+        send_staggered_frame(103, 203, first_permit);
+        @(negedge clk);
+        tap_accept = 0; tap_sof = 0; tap_eol = 0; tap_eof = 0;
+        timeout = 0;
+        while (ready_mask[1-first_permit] == 0 && timeout < 1000) begin
+            @(posedge clk);
+            timeout = timeout + 1;
+        end
+        if (ready_mask[1-first_permit] == 0 ||
+            ready_mask[first_permit] != 0)
+            $fatal(1, "second limited admission did not alternate");
         if (admission_skip_counts[0 +: 32] != 1 ||
             admission_skip_counts[32 +: 32] != 1 ||
             overflow_counts[0 +: 64] != 0)

@@ -634,7 +634,8 @@ static void tensor_production_toggle(void)
                  FRAMEBUFFER_TENSOR_PROD_ADMISSION_MASK,
                  CAMERA_PRESENT_MASK);
     mmio_write32(FRAMEBUFFER_BASE +
-                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT, 1U);
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT,
+                 TENSOR_PRODUCTION_ADMISSION_LIMIT);
     mmio_fence();
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL,
                  FRAMEBUFFER_TENSOR_PROD_ENABLE);
@@ -646,7 +647,7 @@ static void tensor_production_toggle(void)
     }
     tensor_production_mode = 1U;
     tensor_production_report_cycle = read_cycle();
-    console_puts("TENSOR PROD enabled, one capture at a time, press m to drain\r\n");
+    console_puts("TENSOR PROD enabled, multi-channel capture, press m to drain\r\n");
 }
 
 static void tensor_production_init(void)
@@ -658,7 +659,8 @@ static void tensor_production_init(void)
                  FRAMEBUFFER_TENSOR_PROD_ADMISSION_MASK,
                  CAMERA_PRESENT_MASK);
     mmio_write32(FRAMEBUFFER_BASE +
-                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT, 1U);
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT,
+                 TENSOR_PRODUCTION_ADMISSION_LIMIT);
     mmio_fence();
     uint64_t start = read_cycle();
     while (mmio_read32(FRAMEBUFFER_BASE +
