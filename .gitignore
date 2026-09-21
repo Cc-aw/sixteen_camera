@@ -20,6 +20,7 @@ prj/*.ip_user_files/
 prj/*.runs/
 prj/*.sim/
 prj/backup_*/
+prj/*.rpt
 
 # Generated/reference copies outside the active project
 demo/
