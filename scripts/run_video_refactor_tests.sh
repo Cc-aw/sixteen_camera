@@ -79,10 +79,25 @@ run_verilator tb_camera_axis_to_stream_recovery \
 run_verilator tb_video_control_bridge \
     rtl/interfaces/axi_lite_if.sv \
     rtl/common/cdc/cdc_mailbox.sv \
+    rtl/control/csr/video_csr.sv \
+    rtl/control/csr/frame_csr.sv \
+    rtl/control/csr/tensor_csr.sv \
+    rtl/control/csr/overlay_csr.sv \
+    rtl/control/csr/telemetry_csr.sv \
     rtl/control/telemetry/tensor_telemetry_cdc.sv \
     rtl/video/framebuffer/multi_channel_framebuffer_ctrl.sv \
     rtl/video/video_control_bridge.sv \
     sim/tb_video_control_bridge.sv
+
+run_verilator tb_video_csr_partition \
+    rtl/interfaces/axi_lite_if.sv \
+    rtl/control/csr/video_csr.sv \
+    rtl/control/csr/frame_csr.sv \
+    rtl/control/csr/tensor_csr.sv \
+    rtl/control/csr/overlay_csr.sv \
+    rtl/control/csr/telemetry_csr.sv \
+    rtl/video/framebuffer/multi_channel_framebuffer_ctrl.sv \
+    sim/tb_video_csr_partition.sv
 
 run_iverilog tb_multi_channel_frame_manager_writer_handshake \
     rtl/video/framebuffer/multi_channel_frame_manager.sv \

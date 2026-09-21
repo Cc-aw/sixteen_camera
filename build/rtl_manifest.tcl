@@ -25,6 +25,11 @@ set RTL_SOURCES {
     rtl/bus/video_peripheral_fabric.sv
 
     rtl/control/control_soc_subsystem.sv
+    rtl/control/csr/video_csr.sv
+    rtl/control/csr/frame_csr.sv
+    rtl/control/csr/tensor_csr.sv
+    rtl/control/csr/overlay_csr.sv
+    rtl/control/csr/telemetry_csr.sv
     rtl/control/telemetry/tensor_telemetry_cdc.sv
     rtl/memory/ddr_platform.sv
     rtl/memory/video_memory_ports.sv

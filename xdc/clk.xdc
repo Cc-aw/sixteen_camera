@@ -70,7 +70,7 @@ set_property IOSTANDARD LVCMOS18 [get_ports {uart_rxd uart_txd}]
 set_false_path -to [get_pins {u_control_soc/ddr_calib_sync_reg[0]/D}]
 
 set_false_path -to [get_pins -hierarchical -filter \
-    {NAME =~ u_video_pipeline/u_control_bridge/u_control/ack_sync_1_reg/D}]
+    {NAME =~ u_video_pipeline/u_control_bridge/u_control/u_frame_csr/ack_sync_1_reg/D}]
 
 # DDR UI reset is an asynchronous-assert/synchronous-release reset generated
 # by ddr_reset_sync. The synchronizer clock and recovery/removal checks remain

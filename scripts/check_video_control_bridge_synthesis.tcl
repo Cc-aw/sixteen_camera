@@ -2,6 +2,11 @@ set repo_dir [file dirname [file dirname [file normalize [info script]]]]
 foreach source {
     rtl/interfaces/axi_lite_if.sv
     rtl/common/cdc/cdc_mailbox.sv
+    rtl/control/csr/video_csr.sv
+    rtl/control/csr/frame_csr.sv
+    rtl/control/csr/tensor_csr.sv
+    rtl/control/csr/overlay_csr.sv
+    rtl/control/csr/telemetry_csr.sv
     rtl/control/telemetry/tensor_telemetry_cdc.sv
     rtl/video/framebuffer/multi_channel_framebuffer_ctrl.sv
     rtl/video/video_control_bridge.sv
