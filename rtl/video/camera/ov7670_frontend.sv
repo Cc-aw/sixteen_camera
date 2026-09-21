@@ -667,16 +667,6 @@ module ov7670_frontend #(
     output wire pixel_resetn,
     output wire pixel_enable
 );
-    function automatic [31:0] gray_to_binary(input [31:0] gray);
-        integer bit_index;
-        begin
-            gray_to_binary[31] = gray[31];
-            for (bit_index = 30; bit_index >= 0; bit_index = bit_index - 1)
-                gray_to_binary[bit_index] = gray_to_binary[bit_index + 1] ^
-                                            gray[bit_index];
-        end
-    endfunction
-
     reg [31:0] pclk_cycle_count = 32'd0;
     reg [31:0] input_frame_count = 32'd0;
     reg [31:0] input_line_count = 32'd0;
@@ -689,51 +679,14 @@ module ov7670_frontend #(
     reg [15:0] current_frame_lines = 16'd0;
     reg [15:0] last_frame_lines = 16'd0;
     reg [31:0] geometry_snapshot_pclk = 32'd0;
-    reg geometry_toggle_pclk = 1'b0;
-    reg [31:0] geometry_snapshot_axil = 32'd0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg [31:0] geometry_data_sync1 = 32'd0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg [31:0] geometry_data_sync2 = 32'd0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg geometry_toggle_sync1 = 1'b0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg geometry_toggle_sync2 = 1'b0;
-    reg geometry_toggle_seen = 1'b0;
-    reg geometry_capture_pending = 1'b0;
     reg diag_vsync_d = 1'b0;
     reg diag_href_d = 1'b0;
     reg [HREF_FILTER_CYCLES*8-1:0] href_data_pipe =
         {HREF_FILTER_CYCLES*8{1'b0}};
-    // The complete DVP bus is sampled by the 300 MHz DDR UI clock.  The first
-    // stage is forced into the input IOB and the second stage keeps PCLK,
-    // HREF, VSYNC and D[7:0] aligned.  PCLK is data in this architecture; it
-    // is never used as a fabric clock.
-    (* IOB = "TRUE", ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg [7:0] dvp_data_iob = 8'd0;
-    (* IOB = "TRUE", ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg       dvp_href_iob = 1'b0;
-    (* IOB = "TRUE", ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg       dvp_vsync_iob = 1'b0;
-    (* IOB = "TRUE", ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg       dvp_pclk_iob = 1'b0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg [7:0] dvp_data_sync = 8'd0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg       dvp_href_sync = 1'b0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg       dvp_vsync_sync = 1'b0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg dvp_pclk_sync = 1'b0;
-    // The FMC pins and the recovery logic occupy adjacent SLRs.  Keep the
-    // metastability-catching stage beside the IOB (constrained in clk.xdc),
-    // then cross the already-synchronous, fully aligned bus through this
-    // ordinary pipeline stage.  This avoids using an inter-SLR route as the
-    // actual asynchronous sampling aperture.
-    reg [7:0] dvp_data_pipe = 8'd0;
-    reg       dvp_href_pipe = 1'b0;
-    reg       dvp_vsync_pipe = 1'b0;
-    reg       dvp_pclk_pipe = 1'b0;
+    wire [7:0] dvp_data_pipe;
+    wire       dvp_href_pipe;
+    wire       dvp_vsync_pipe;
+    wire       dvp_pclk_pipe;
 
     wire pixel_ce;
     wire [7:0] recovered_data;
@@ -800,7 +753,6 @@ module ov7670_frontend #(
     wire hw_init_failed;
     wire hw_capture_enable;
     wire [415:0] ctrl_diag_24m;
-    wire [63:0] ctrl_health_axil;
     reg [6:1] control_bits;
     reg reinit_toggle;
     wire [3:0] control_24m;
@@ -808,6 +760,10 @@ module ov7670_frontend #(
     wire [15:0] control_write_word;
     wire [31:0] control_write_data;
     wire [3:0] control_write_strb;
+    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
+    reg capture_enable_sync1 = 1'b0;
+    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
+    reg capture_enable_sync2 = 1'b0;
 
     xpm_cdc_array_single #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
@@ -860,75 +816,46 @@ module ov7670_frontend #(
         end
     end
 
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(1), .WIDTH(64)
-    ) u_ctrl_diag_cdc (
-        .src_clk(ov7670_ctrl_clk),
-        .src_in({ctrl_diag_24m[415:384], ctrl_diag_24m[31:0]}),
-        .dest_clk(camera_axil.aclk), .dest_out(ctrl_health_axil)
+    wire [31:0] ctrl_status0_axil;
+    wire [31:0] ctrl_status1_axil;
+    wire [31:0] capture_status0_axil;
+    wire [31:0] capture_frame_count_axil;
+    wire [31:0] capture_overflow_count_axil;
+    wire [31:0] capture_lock_loss_count_axil;
+    wire [31:0] capture_geometry_axil;
+
+    camera_telemetry u_camera_telemetry (
+        .ctrl_clk(ov7670_ctrl_clk), .ctrl_resetn(sys_rstn),
+        .ctrl_status0_src(ctrl_diag_24m[31:0]),
+        .ctrl_status1_src(ctrl_diag_24m[415:384]),
+        .capture_clk(video_clk), .capture_resetn(video_resetn),
+        .capture_enable(capture_enable_sync2),
+        .pclk_locked(pclk_recovery_locked),
+        .pclk_state(pclk_recovery_state),
+        .pclk_period(pclk_period_est_fp),
+        .frame_count(input_frame_count),
+        .overflow_count(input_overflow_count),
+        .lock_loss_count(pclk_lock_loss_count),
+        .geometry(geometry_snapshot_pclk),
+        .axil_clk(camera_axil.aclk), .axil_resetn(camera_axil.aresetn),
+        .ctrl_status0(ctrl_status0_axil),
+        .ctrl_status1(ctrl_status1_axil),
+        .capture_status0(capture_status0_axil),
+        .capture_frame_count(capture_frame_count_axil),
+        .capture_overflow_count(capture_overflow_count_axil),
+        .capture_lock_loss_count(capture_lock_loss_count_axil),
+        .capture_geometry(capture_geometry_axil)
     );
-
-    wire [31:0] input_frame_gray = input_frame_count ^
-                                   (input_frame_count >> 1);
-    wire [31:0] input_overflow_gray = input_overflow_count ^
-                                      (input_overflow_count >> 1);
-    wire [31:0] lock_loss_gray = pclk_lock_loss_count ^
-                                 (pclk_lock_loss_count >> 1);
-    wire [127:0] camera_health_source = {
-        lock_loss_gray, input_overflow_gray, input_frame_gray,
-        4'd0, pclk_period_est_fp, pclk_recovery_state,
-        pclk_recovery_locked, hw_capture_enable
-    };
-    wire [127:0] camera_health_axil;
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(1), .WIDTH(128)
-    ) u_camera_health_cdc (
-        .src_clk(video_clk), .src_in(camera_health_source),
-        .dest_clk(camera_axil.aclk), .dest_out(camera_health_axil)
-    );
-
-    // Geometry is a bundled value crossing from PCLK to AXI. The source
-    // snapshot changes only once per completed frame; the toggle announces
-    // that change, and AXI captures the synchronized data one cycle later.
-    always @(posedge camera_axil.aclk) begin
-        if (!camera_axil.aresetn) begin
-            geometry_data_sync1 <= 32'd0;
-            geometry_data_sync2 <= 32'd0;
-            geometry_toggle_sync1 <= 1'b0;
-            geometry_toggle_sync2 <= 1'b0;
-            geometry_toggle_seen <= 1'b0;
-            geometry_capture_pending <= 1'b0;
-            geometry_snapshot_axil <= 32'd0;
-        end else begin
-            geometry_data_sync1 <= geometry_snapshot_pclk;
-            geometry_data_sync2 <= geometry_data_sync1;
-            geometry_toggle_sync1 <= geometry_toggle_pclk;
-            geometry_toggle_sync2 <= geometry_toggle_sync1;
-
-            if (geometry_toggle_sync2 != geometry_toggle_seen) begin
-                geometry_toggle_seen <= geometry_toggle_sync2;
-                geometry_capture_pending <= 1'b1;
-            end else if (geometry_capture_pending) begin
-                geometry_snapshot_axil <= geometry_data_sync2;
-                geometry_capture_pending <= 1'b0;
-            end
-        end
-    end
 
     wire [8*32-1:0] diagnostic_words;
-    assign diagnostic_words[0*32 +: 32] = ctrl_health_axil[31:0];
+    assign diagnostic_words[0*32 +: 32] = ctrl_status0_axil;
     assign diagnostic_words[1*32 +: 32] = {25'd0, control_bits, 1'b0};
-    assign diagnostic_words[2*32 +: 32] = camera_health_axil[31:0];
-    assign diagnostic_words[3*32 +: 32] =
-        gray_to_binary(camera_health_axil[63:32]);
-    assign diagnostic_words[4*32 +: 32] =
-        gray_to_binary(camera_health_axil[95:64]);
-    assign diagnostic_words[5*32 +: 32] = geometry_snapshot_axil;
-    assign diagnostic_words[6*32 +: 32] =
-        gray_to_binary(camera_health_axil[127:96]);
-    assign diagnostic_words[7*32 +: 32] = ctrl_health_axil[63:32];
+    assign diagnostic_words[2*32 +: 32] = capture_status0_axil;
+    assign diagnostic_words[3*32 +: 32] = capture_frame_count_axil;
+    assign diagnostic_words[4*32 +: 32] = capture_overflow_count_axil;
+    assign diagnostic_words[5*32 +: 32] = capture_geometry_axil;
+    assign diagnostic_words[6*32 +: 32] = capture_lock_loss_count_axil;
+    assign diagnostic_words[7*32 +: 32] = ctrl_status1_axil;
     ov7670_axil_regs #(.WORDS(8)) u_diagnostics (
         .axil(camera_axil), .read_words(diagnostic_words),
         .write_pulse(control_write_pulse),
@@ -938,10 +865,6 @@ module ov7670_frontend #(
     // Synchronize the controller's enable into the 300 MHz capture domain.
     // The IOB input flops intentionally have no reset so reset routing cannot
     // prevent packing at the pins.
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg capture_enable_sync1 = 1'b0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg capture_enable_sync2 = 1'b0;
     // video_resetn is already asserted until DDR calibration completes and
     // is synchronously released in video_clk before it reaches this channel.
     // Do not re-combine the raw system/calibration status here: doing so
@@ -949,12 +872,15 @@ module ov7670_frontend #(
     // remains disabled until the SCCB controller reports initialization OK.
     wire capture_resetn = video_resetn && capture_enable_sync2;
 
-    always @(posedge video_clk) begin
-        dvp_data_iob <= ov7670_data;
-        dvp_href_iob <= ov7670_href;
-        dvp_vsync_iob <= ov7670_vsync;
-        dvp_pclk_iob <= ov7670_pclk;
-    end
+    dvp_input_sampler u_input_sampler (
+        .capture_clk(video_clk),
+        .dvp_pclk(ov7670_pclk), .dvp_vsync(ov7670_vsync),
+        .dvp_href(ov7670_href), .dvp_data(ov7670_data),
+        .sampled_pclk(dvp_pclk_pipe),
+        .sampled_vsync(dvp_vsync_pipe),
+        .sampled_href(dvp_href_pipe),
+        .sampled_data(dvp_data_pipe)
+    );
 
     always @(posedge video_clk) begin
         if (!video_resetn) begin
@@ -964,21 +890,6 @@ module ov7670_frontend #(
             capture_enable_sync1 <= hw_capture_enable;
             capture_enable_sync2 <= capture_enable_sync1;
         end
-    end
-
-    // These are payload/alignment stages, not state. They are ignored while
-    // the recovery FSM is reset, and their declaration initializers cover
-    // configuration startup. Keeping reset off them avoids routing the local
-    // run/reset control back across the deliberate SLR pipeline.
-    always @(posedge video_clk) begin
-        dvp_data_sync <= dvp_data_iob;
-        dvp_href_sync <= dvp_href_iob;
-        dvp_vsync_sync <= dvp_vsync_iob;
-        dvp_pclk_sync <= dvp_pclk_iob;
-        dvp_data_pipe <= dvp_data_sync;
-        dvp_href_pipe <= dvp_href_sync;
-        dvp_vsync_pipe <= dvp_vsync_sync;
-        dvp_pclk_pipe <= dvp_pclk_sync;
     end
 
     wire diag_clear_video =
@@ -1254,10 +1165,8 @@ module ov7670_frontend #(
     always @(posedge video_clk) begin
         if (!capture_resetn) begin
             geometry_snapshot_pclk <= 32'd0;
-            geometry_toggle_pclk <= 1'b0;
         end else if (pixel_ce && vsync_qualified && !diag_vsync_d) begin
             geometry_snapshot_pclk <= {current_frame_lines, last_line_bytes};
-            geometry_toggle_pclk <= ~geometry_toggle_pclk;
         end
     end
 

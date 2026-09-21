@@ -31,6 +31,11 @@ run_iverilog tb_dvp_href_line_guard \
     rtl/video/camera/dvp_href_line_guard.sv \
     sim/tb_dvp_href_line_guard.sv
 
+run_verilator tb_camera_telemetry \
+    rtl/common/cdc/cdc_mailbox.sv \
+    rtl/video/camera/camera_telemetry.sv \
+    sim/tb_camera_telemetry.sv
+
 run_verilator tb_camera_axis_cdc_line_boundary \
     rtl/interfaces/axis_video_if.sv \
     rtl/video/camera/camera_axis_cdc.sv \

@@ -36,38 +36,17 @@ module camera_subsystem (
     wire [7:0] camera_frame_start;
     wire [7:0] camera_line_last;
     wire [7:0] camera_line_end;
-    wire [7:0] capture_event_valid;
-    wire [7:0] capture_event_ready;
-    wire [7:0][7:0] capture_event_data;
-    wire [7:0] capture_event_byte_valid;
-    wire [7:0] capture_event_line_start;
-    wire [7:0] capture_event_line_last;
-    wire [7:0] capture_event_line_end;
-    wire [7:0] capture_event_frame_boundary;
-    wire [7:0] capture_event_fault;
-    wire [7:0] video_event_valid;
-    wire [7:0] video_event_ready;
-    wire [7:0][7:0] video_event_data;
-    wire [7:0] video_event_byte_valid;
-    wire [7:0] video_event_line_start;
-    wire [7:0] video_event_line_last;
-    wire [7:0] video_event_line_end;
-    wire [7:0] video_event_frame_boundary;
-    wire [7:0] video_event_resync;
-    wire [7:0] video_event_fault_pulse;
     wire [7:0] camera_scl;
     tri  [7:0] camera_sda;
     wire [7:0] camera_xclk;
     wire [7:0] camera_reset_n;
     wire [7:0] camera_pwdn;
-    wire [7:0] ov7670_pixel_resetn;
-    wire [7:0] ov7670_pixel_enable;
+    wire [7:0] camera_enable_video;
     wire [7:0] camera_init_request;
     wire [7:0] camera_init_terminal;
     wire [7:0] camera_init_grant;
     wire [31:0] camera_malformed_count [CAMERA_COUNT];
     wire [31:0] camera_pad_error_count [CAMERA_COUNT];
-    wire [31:0] camera_event_overflow_count [CAMERA_COUNT];
     wire [31:0] camera_event_overflow_video [CAMERA_COUNT];
     wire [7:0] camera_diag_clear_toggle;
 
@@ -87,130 +66,33 @@ module camera_subsystem (
     generate
         for (camera_index = 0; camera_index < CAMERA_COUNT;
              camera_index = camera_index + 1) begin : g_camera_frontend
-            (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-            reg [1:0] capture_resetn_local_sync = 2'b00;
-            wire capture_resetn_local = capture_resetn_local_sync[1];
-            (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-            reg [1:0] pixel_enable_video_sync = 2'b00;
-
-            // Treat the domain reset as an asynchronous assertion and only
-            // release it through the two local capture-clock stages. This
-            // removes a same-cycle reset-data route from the DDR SLR into
-            // every camera region while retaining deterministic assertion.
-            always @(posedge capture_clk or negedge capture_resetn) begin
-                if (!capture_resetn)
-                    capture_resetn_local_sync <= 2'b00;
-                else
-                    capture_resetn_local_sync <=
-                        {capture_resetn_local_sync[0], 1'b1};
-            end
-
-            always @(posedge video_clk) begin
-                if (!video_resetn)
-                    pixel_enable_video_sync <= 2'b00;
-                else
-                    pixel_enable_video_sync <=
-                        {pixel_enable_video_sync[0],
-                         ov7670_pixel_enable[camera_index]};
-            end
-
-            ov7670_frontend #(
-                .VSYNC_FILTER_CYCLES(256),
-                .HREF_FILTER_CYCLES(16),
-                .MIN_FRAME_LINES(470),
-                .MIN_FRAME_INTERVAL_CYCLES(200000),
-                .FRAME_RESYNC_TIMEOUT_CYCLES(2000000)
-            ) u_camera (
-                .sys_rstn(sys_rstn),
-                .ov7670_ctrl_clk(ov7670_ctrl_clk),
+            camera_channel u_channel (
+                .sys_rstn(sys_rstn), .ctrl_clk(ov7670_ctrl_clk),
                 .init_grant(camera_init_grant[camera_index]),
                 .init_request(camera_init_request[camera_index]),
                 .init_terminal(camera_init_terminal[camera_index]),
-                .video_clk(capture_clk), .video_resetn(capture_resetn_local),
+                .capture_clk(capture_clk), .capture_resetn(capture_resetn),
+                .video_clk(video_clk), .video_resetn(video_resetn),
                 .camera_axil(camera_axil[camera_index]),
-                .ov7670_pclk(cam_pclk[camera_index]),
-                .ov7670_vsync(cam_vsync[camera_index]),
-                .ov7670_href(cam_href[camera_index]),
-                .ov7670_data(cam_data[camera_index*8 +: 8]),
+                .cam_pclk(cam_pclk[camera_index]),
+                .cam_vsync(cam_vsync[camera_index]),
+                .cam_href(cam_href[camera_index]),
+                .cam_data(cam_data[camera_index*8 +: 8]),
                 .cam_scl(camera_scl[camera_index]),
                 .cam_sda(camera_sda[camera_index]),
                 .cam_xclk(camera_xclk[camera_index]),
                 .cam_reset_n(camera_reset_n[camera_index]),
                 .cam_pwdn(camera_pwdn[camera_index]),
-                .event_valid(capture_event_valid[camera_index]),
-                .event_ready(capture_event_ready[camera_index]),
-                .diag_clear_toggle(camera_diag_clear_toggle[camera_index]),
-                .event_data(capture_event_data[camera_index]),
-                .event_byte_valid(capture_event_byte_valid[camera_index]),
-                .event_line_start(capture_event_line_start[camera_index]),
-                .event_line_last(capture_event_line_last[camera_index]),
-                .event_line_end(capture_event_line_end[camera_index]),
-                .event_frame_boundary(
-                    capture_event_frame_boundary[camera_index]),
-                .event_fault(capture_event_fault[camera_index]),
-                .pixel_resetn(ov7670_pixel_resetn[camera_index]),
-                .pixel_enable(ov7670_pixel_enable[camera_index])
-            );
-
-            dvp_event_bridge #(.FIFO_DEPTH(1024)) u_event_bridge (
-                .capture_clk(capture_clk),
-                .capture_resetn(capture_resetn_local),
-                .capture_enable(ov7670_pixel_enable[camera_index]),
-                .event_valid(capture_event_valid[camera_index]),
-                .event_ready(capture_event_ready[camera_index]),
-                .event_data(capture_event_data[camera_index]),
-                .event_byte_valid(capture_event_byte_valid[camera_index]),
-                .event_line_start(capture_event_line_start[camera_index]),
-                .event_line_last(capture_event_line_last[camera_index]),
-                .event_line_end(capture_event_line_end[camera_index]),
-                .event_frame_boundary(
-                    capture_event_frame_boundary[camera_index]),
-                .event_fault(capture_event_fault[camera_index]),
-                .video_clk(video_clk), .video_resetn(video_resetn),
-                .video_event_valid(video_event_valid[camera_index]),
-                .video_event_ready(video_event_ready[camera_index]),
-                .video_event_data(video_event_data[camera_index]),
-                .video_byte_valid(video_event_byte_valid[camera_index]),
-                .video_line_start(video_event_line_start[camera_index]),
-                .video_line_last(video_event_line_last[camera_index]),
-                .video_line_end(video_event_line_end[camera_index]),
-                .video_frame_boundary(
-                    video_event_frame_boundary[camera_index]),
-                .video_resync(video_event_resync[camera_index]),
-                .video_fault_pulse(video_event_fault_pulse[camera_index]),
-                .overflow_count(camera_event_overflow_count[camera_index])
-            );
-
-            camera_pixel_assembler u_pixel_assembler (
-                .video_clk(video_clk), .video_resetn(video_resetn),
-                .camera_enable(pixel_enable_video_sync[1]),
-                .event_valid(video_event_valid[camera_index]),
-                .event_ready(video_event_ready[camera_index]),
-                .event_data(video_event_data[camera_index]),
-                .event_byte_valid(video_event_byte_valid[camera_index]),
-                .event_line_start(video_event_line_start[camera_index]),
-                .event_line_last(video_event_line_last[camera_index]),
-                .event_line_end(video_event_line_end[camera_index]),
-                .event_frame_boundary(
-                    video_event_frame_boundary[camera_index]),
-                .event_resync(video_event_resync[camera_index]),
-                .fault_pulse(video_event_fault_pulse[camera_index]),
                 .pixel_valid(camera_pixel_valid[camera_index]),
                 .pixel_ready(camera_pixel_ready[camera_index]),
                 .pixel_data(camera_pixel_data[camera_index]),
                 .frame_start(camera_frame_start[camera_index]),
                 .line_last(camera_line_last[camera_index]),
-                .line_end(camera_line_end[camera_index])
-            );
-
-            xpm_cdc_array_single #(
-                .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-                .SRC_INPUT_REG(1), .WIDTH(32)
-            ) u_event_overflow_diag_cdc (
-                .src_clk(capture_clk),
-                .src_in(camera_event_overflow_count[camera_index]),
-                .dest_clk(video_clk),
-                .dest_out(camera_event_overflow_video[camera_index])
+                .line_end(camera_line_end[camera_index]),
+                .camera_enable_video(camera_enable_video[camera_index]),
+                .overflow_count_video(
+                    camera_event_overflow_video[camera_index]),
+                .diag_clear_toggle(camera_diag_clear_toggle[camera_index])
             );
 
             camera_axis_cdc #(
@@ -218,7 +100,7 @@ module camera_subsystem (
             ) u_camera_cdc (
                 .camera_clk(video_clk),
                 .camera_resetn(video_resetn),
-                .camera_enable(pixel_enable_video_sync[1]),
+                .camera_enable(camera_enable_video[camera_index]),
                 .pixel_valid(camera_pixel_valid[camera_index]),
                 .pixel_ready(camera_pixel_ready[camera_index]),
                 .pixel_data(camera_pixel_data[camera_index]),

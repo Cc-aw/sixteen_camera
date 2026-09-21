@@ -36,11 +36,14 @@ set RTL_SOURCES {
 
     rtl/video/camera/camera_axis_cdc.sv
     rtl/video/camera/camera_axis_to_stream.sv
+    rtl/video/camera/camera_channel.sv
     rtl/video/camera/camera_clocking.sv
     rtl/video/camera/camera_pixel_assembler.sv
     rtl/video/camera/camera_subsystem.sv
+    rtl/video/camera/camera_telemetry.sv
     rtl/video/camera/dvp_event_bridge.sv
     rtl/video/camera/dvp_href_line_guard.sv
+    rtl/video/camera/dvp_input_sampler.sv
     rtl/video/camera/dvp_pclk_recovery.sv
     rtl/video/camera/ov7670_frontend.sv
     rtl/video/camera/ov7670_init_scheduler.sv

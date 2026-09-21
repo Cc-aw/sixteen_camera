@@ -138,36 +138,36 @@ resize_pblock [get_pblocks pblock_dvp_sync_ch01] -add CLOCKREGION_X4Y13
 set_property IS_SOFT true [get_pblocks pblock_dvp_sync_ch01]
 add_cells_to_pblock [get_pblocks pblock_dvp_sync_ch01] \
     [get_cells -hierarchical -regexp \
-        {.*g_camera_frontend\[[0-1]\]\.u_camera/dvp_(data|href|vsync|pclk)_sync_reg.*}]
+        {.*g_camera_frontend\[[0-1]\]\.u_channel/u_frontend/u_input_sampler/dvp_(data|href|vsync|pclk)_sync_reg.*}]
 
 create_pblock pblock_dvp_sync_ch23
 resize_pblock [get_pblocks pblock_dvp_sync_ch23] -add CLOCKREGION_X4Y12
 set_property IS_SOFT true [get_pblocks pblock_dvp_sync_ch23]
 add_cells_to_pblock [get_pblocks pblock_dvp_sync_ch23] \
     [get_cells -hierarchical -regexp \
-        {.*g_camera_frontend\[[2-3]\]\.u_camera/dvp_(data|href|vsync|pclk)_sync_reg.*}]
+        {.*g_camera_frontend\[[2-3]\]\.u_channel/u_frontend/u_input_sampler/dvp_(data|href|vsync|pclk)_sync_reg.*}]
 
 create_pblock pblock_dvp_sync_ch45
 resize_pblock [get_pblocks pblock_dvp_sync_ch45] -add CLOCKREGION_X4Y9
 set_property IS_SOFT true [get_pblocks pblock_dvp_sync_ch45]
 add_cells_to_pblock [get_pblocks pblock_dvp_sync_ch45] \
     [get_cells -hierarchical -regexp \
-        {.*g_camera_frontend\[[4-5]\]\.u_camera/dvp_(data|href|vsync|pclk)_sync_reg.*}]
+        {.*g_camera_frontend\[[4-5]\]\.u_channel/u_frontend/u_input_sampler/dvp_(data|href|vsync|pclk)_sync_reg.*}]
 
 create_pblock pblock_dvp_sync_ch67
 resize_pblock [get_pblocks pblock_dvp_sync_ch67] -add CLOCKREGION_X4Y8
 set_property IS_SOFT true [get_pblocks pblock_dvp_sync_ch67]
 add_cells_to_pblock [get_pblocks pblock_dvp_sync_ch67] \
     [get_cells -hierarchical -regexp \
-        {.*g_camera_frontend\[[6-7]\]\.u_camera/dvp_(data|href|vsync|pclk)_sync_reg.*}]
+        {.*g_camera_frontend\[[6-7]\]\.u_channel/u_frontend/u_input_sampler/dvp_(data|href|vsync|pclk)_sync_reg.*}]
 
 add_cells_to_pblock [get_pblocks pblock_dvp_bridge_slr2] \
     [get_cells -hierarchical -regexp \
-        {.*g_camera_frontend\[[0-3]\]\.u_camera/dvp_(data|href|vsync|pclk)_pipe_reg.*}]
+        {.*g_camera_frontend\[[0-3]\]\.u_channel/u_frontend/u_input_sampler/sampled_(data|href|vsync|pclk)_reg.*}]
 
 add_cells_to_pblock [get_pblocks pblock_dvp_pipe_slr1] \
     [get_cells -hierarchical -regexp \
-        {.*g_camera_frontend\[[4-7]\]\.u_camera/dvp_(data|href|vsync|pclk)_pipe_reg.*}]
+        {.*g_camera_frontend\[[4-7]\]\.u_channel/u_frontend/u_input_sampler/sampled_(data|href|vsync|pclk)_reg.*}]
 
 # Preserve the routed P4 locality of the high-speed recovery/event producers.
 # Only these tightly coupled capture-side blocks are guided; the large 150 MHz
@@ -177,14 +177,14 @@ resize_pblock [get_pblocks pblock_camera_capture_slr2] -add SLR2
 set_property IS_SOFT true [get_pblocks pblock_camera_capture_slr2]
 add_cells_to_pblock [get_pblocks pblock_camera_capture_slr2] \
     [get_cells -hierarchical -regexp \
-        {.*g_camera_frontend\[[0-3]\]\.(u_camera/u_pclk_recovery|u_event_bridge)(/.*)?}]
+        {.*g_camera_frontend\[[0-3]\]\.u_channel/(u_frontend/u_pclk_recovery|u_event_bridge)(/.*)?}]
 
 create_pblock pblock_camera_capture_slr1
 resize_pblock [get_pblocks pblock_camera_capture_slr1] -add SLR1
 set_property IS_SOFT true [get_pblocks pblock_camera_capture_slr1]
 add_cells_to_pblock [get_pblocks pblock_camera_capture_slr1] \
     [get_cells -hierarchical -regexp \
-        {.*g_camera_frontend\[[4-7]\]\.(u_camera/u_pclk_recovery|u_event_bridge)(/.*)?}]
+        {.*g_camera_frontend\[[4-7]\]\.u_channel/(u_frontend/u_pclk_recovery|u_event_bridge)(/.*)?}]
 
 # Camera control and diagnostic requests cross into the 300 MHz capture domain
 # through explicit two-stage synchronizers.  Only their first-stage D pins are
@@ -196,30 +196,16 @@ set_false_path -to [get_pins -hierarchical -filter \
      NAME =~ */diag_clear_video_sync1_reg/D || \
      NAME =~ *u_camera_stream/diag_clear_sync1_reg/D}]
 
-# Each OV7670 frontend publishes a 32-bit geometry snapshot together with a
-# toggle. The source values change only once per completed frame and remain
-# stable while the toggle passes through two AXI-clock synchronizer stages;
-# the destination waits one additional AXI clock before consuming the bus.
-# Suppress the meaningless asynchronous clock-phase setup/hold checks only at
-# each first-stage synchronizer. ASYNC_REG placement keeps both stages local;
-# the frame-long source stability and delayed toggle capture provide the
-# bundled-data settling interval.
+# Camera diagnostics cross as indexed, handshake-protected mailbox records.
+# Cut only the asynchronous inputs of each first synchronizer stage; payload
+# is held stable until the destination acknowledges the record.
 set_false_path \
     -to [get_pins -hierarchical -filter \
-        {NAME =~ */geometry_data_sync1_reg*/D || \
-         NAME =~ */geometry_toggle_sync1_reg/D}]
+        {NAME =~ */u_camera_telemetry/*/request_sync_reg[0]/D || \
+         NAME =~ */u_camera_telemetry/*/payload_sync1_reg*/D || \
+         NAME =~ */u_camera_telemetry/*/acknowledge_sync_reg[0]/D}]
 
 # Framebuffer configuration, selection and mode are now captured by coherent
 # mailboxes in video_control_bridge.  All signals downstream of that bridge,
 # including the manager's legacy staging registers, are synchronous to the
 # video clock and therefore need no CDC timing exception here.
-
-# OV7670 controller diagnostics are asynchronous snapshots transferred by
-# u_ctrl_diag_cdc into the AXI-Lite clock domain. Physical optimization may
-# replicate and rename the XPM stages, so constrain the source clock and the
-# diagnostic readback endpoints instead of depending on generated cell names.
-set_false_path \
-    -from [get_clocks -of_objects [get_pins \
-        u_camera_hdmi/u_camera_subsystem/u_camera_clocking/u_ov7670_clk_wiz/inst/mmcme4_adv_inst/CLKOUT0]] \
-    -to [get_pins -hierarchical -filter \
-        {NAME =~ */u_diagnostics/rdata_reg*/D}]
