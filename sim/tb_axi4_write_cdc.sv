@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module tb_axi4_write_cdc #(parameter integer TEST_REMAP_ID = 31);
+module tb_axi4_write_cdc;
     reg s_clk = 1'b0;
     reg m_clk = 1'b0;
     reg s_resetn = 1'b0;
@@ -13,17 +13,32 @@ module tb_axi4_write_cdc #(parameter integer TEST_REMAP_ID = 31);
     reg m_bvalid;
     reg [4:0] m_bid;
     reg [1:0] m_bresp;
-    reg m_aw_seen;
-    reg [32:0] m_awaddr_seen;
-    reg [4:0] m_awid_seen;
-    reg [4:0] m_current_id;
-    reg m_w_seen;
-    reg [255:0] m_wdata_seen;
-    reg m_wlast_seen;
+    integer destination_aw_count;
+    integer destination_w_count;
+    integer source_b_count;
     integer timeout;
+    reg destination_w_active;
 
-    axi4_write_cdc #(.FIFO_ADDR_WIDTH(4), .FBUS_WRITE_ID(TEST_REMAP_ID)) dut (
-        .s_axi(s_axi), .m_clk(m_clk), .m_resetn(m_resetn), .m_axi(m_axi)
+    wire [31:0] perf_aw_count, perf_w_count, perf_b_count;
+    wire [31:0] perf_aw_stall_cycles, perf_w_stall_cycles;
+    wire [31:0] perf_b_stall_cycles;
+    wire [31:0] perf_outstanding_current, perf_outstanding_max;
+    wire [31:0] perf_write_id_mask, perf_protocol_errors;
+
+    axi4_write_cdc #(
+        .FIFO_ADDR_WIDTH(4), .FBUS_WRITE_ID(24),
+        .FBUS_WRITE_ID_COUNT(8)
+    ) dut (
+        .s_axi(s_axi), .m_clk(m_clk), .m_resetn(m_resetn), .m_axi(m_axi),
+        .perf_aw_count(perf_aw_count), .perf_w_count(perf_w_count),
+        .perf_b_count(perf_b_count),
+        .perf_aw_stall_cycles(perf_aw_stall_cycles),
+        .perf_w_stall_cycles(perf_w_stall_cycles),
+        .perf_b_stall_cycles(perf_b_stall_cycles),
+        .perf_outstanding_current(perf_outstanding_current),
+        .perf_outstanding_max(perf_outstanding_max),
+        .perf_write_id_mask(perf_write_id_mask),
+        .perf_protocol_errors(perf_protocol_errors)
     );
 
     assign s_axi.aclk = s_clk;
@@ -34,133 +49,102 @@ module tb_axi4_write_cdc #(parameter integer TEST_REMAP_ID = 31);
     assign m_axi.bresp = m_bresp;
     assign m_axi.bvalid = m_bvalid;
     assign m_axi.arready = 1'b0;
-    assign m_axi.rid = 4'd0;
+    assign m_axi.rid = 5'd0;
     assign m_axi.rdata = 256'd0;
     assign m_axi.rresp = 2'b00;
     assign m_axi.rlast = 1'b0;
     assign m_axi.rvalid = 1'b0;
 
+    function automatic [2:0] original_id(input integer index);
+        case (index)
+        0: original_id = 3'd5;
+        1: original_id = 3'd2;
+        2: original_id = 3'd7;
+        3: original_id = 3'd1;
+        4: original_id = 3'd4;
+        5: original_id = 3'd3;
+        6: original_id = 3'd6;
+        default: original_id = 3'd0;
+        endcase
+    endfunction
+
     always @(posedge m_clk) begin
         if (!m_resetn) begin
-            m_bvalid <= 1'b0;
-            m_bid <= 4'd0;
-            m_bresp <= 2'b00;
-            m_aw_seen <= 1'b0;
-            m_awaddr_seen <= 33'd0;
-            m_awid_seen <= 4'd0;
-            m_current_id <= 4'd0;
-            m_w_seen <= 1'b0;
-            m_wdata_seen <= 256'd0;
-            m_wlast_seen <= 1'b0;
+            destination_aw_count <= 0;
+            destination_w_count <= 0;
+            destination_w_active <= 1'b0;
         end else begin
             if (m_axi.awvalid && m_axi.awready) begin
-                m_aw_seen <= 1'b1;
-                m_awaddr_seen <= m_axi.awaddr;
-                m_awid_seen <= m_axi.awid;
-                m_current_id <= m_axi.awid;
+                if (destination_w_active)
+                    $fatal(1, "AW accepted before previous WLAST");
+                if (m_axi.awid !== 5'(24 + destination_aw_count) ||
+                    m_axi.awaddr !==
+                        (33'(32'h3000_0000 + destination_aw_count * 32) |
+                         33'h0_8000_0000) || m_axi.awlen !== 8'd0)
+                    $fatal(1, "destination AW mismatch index=%0d id=%0d addr=%h",
+                           destination_aw_count, m_axi.awid, m_axi.awaddr);
+                destination_w_active <= 1'b1;
+                destination_aw_count <= destination_aw_count + 1;
             end
             if (m_axi.wvalid && m_axi.wready) begin
-                m_w_seen <= 1'b1;
-                m_wdata_seen <= m_axi.wdata;
-                m_wlast_seen <= m_axi.wlast;
-            end
-            if (m_axi.wvalid && m_axi.wready && m_axi.wlast) begin
-                m_bvalid <= 1'b1;
-                m_bid <= m_current_id;
-                m_bresp <= 2'b00;
-            end else if (m_bvalid && m_axi.bready) begin
-                m_bvalid <= 1'b0;
+                if (!destination_w_active || !m_axi.wlast ||
+                    m_axi.wdata !== 256'(destination_w_count + 1))
+                    $fatal(1, "destination W mismatch index=%0d",
+                           destination_w_count);
+                destination_w_active <= 1'b0;
+                destination_w_count <= destination_w_count + 1;
             end
         end
     end
 
-    task automatic send_single_write(
-        input [31:0] address,
-        input [2:0] id,
-        input [255:0] data
-    );
+    always @(posedge s_clk) begin
+        if (!s_resetn)
+            source_b_count <= 0;
+        else if (s_axi.bvalid && s_axi.bready) begin
+            if (s_axi.bid !== original_id(source_b_count))
+                $fatal(1, "source BID order mismatch index=%0d got=%0d",
+                       source_b_count, s_axi.bid);
+            if (s_axi.bresp !== (source_b_count == 2 ? 2'b10 : 2'b00))
+                $fatal(1, "source BRESP mismatch index=%0d got=%0d",
+                       source_b_count, s_axi.bresp);
+            source_b_count <= source_b_count + 1;
+        end
+    end
+
+    task automatic send_single_write(input integer index);
         begin
             @(negedge s_clk);
-            s_axi.awid = id;
-            s_axi.awaddr = address;
+            s_axi.awid = original_id(index);
+            s_axi.awaddr = 32'h3000_0000 + index * 32;
             s_axi.awlen = 8'd0;
             s_axi.awsize = 3'd5;
             s_axi.awburst = 2'b01;
-            s_axi.awlock = 1'b0;
-            s_axi.awcache = 4'd0;
-            s_axi.awprot = 3'd0;
-            s_axi.awqos = 4'd0;
             s_axi.awvalid = 1'b1;
-            timeout = 0;
-            do begin
-                @(posedge s_clk);
-                timeout = timeout + 1;
-                if (timeout > 100)
-                    $fatal(1, "source AW timeout");
-            end while (!s_axi.awready);
+            while (!s_axi.awready)
+                @(negedge s_clk);
             @(negedge s_clk);
             s_axi.awvalid = 1'b0;
-
-            s_axi.wdata = data;
+            s_axi.wdata = 256'(index + 1);
             s_axi.wstrb = 32'hffff_ffff;
             s_axi.wlast = 1'b1;
             s_axi.wvalid = 1'b1;
-            timeout = 0;
-            do begin
-                @(posedge s_clk);
-                timeout = timeout + 1;
-                if (timeout > 100)
-                    $fatal(1, "source W timeout");
-            end while (!s_axi.wready);
+            while (!s_axi.wready)
+                @(negedge s_clk);
             @(negedge s_clk);
             s_axi.wvalid = 1'b0;
         end
     endtask
 
-    task automatic expect_write(input [32:0] expected_address,
-                                input [2:0] expected_id,
-                                input [255:0] expected_data);
+    task automatic send_response(input [4:0] id, input [1:0] response);
         begin
-            timeout = 0;
-            while (!m_aw_seen || m_awaddr_seen !== expected_address) begin
-                @(posedge m_clk);
-                timeout = timeout + 1;
-                if (timeout > 200)
-                    $fatal(1, "destination AW timeout");
-            end
-            if (m_awaddr_seen !== expected_address ||
-                m_awid_seen !== (TEST_REMAP_ID >= 0 ? 5'(TEST_REMAP_ID) : {2'b0, expected_id}))
-                $fatal(1, "FBus address/id mismatch: addr=%h id=%h",
-                       m_awaddr_seen, m_awid_seen);
-
-            timeout = 0;
-            while (!m_w_seen || m_wdata_seen !== expected_data) begin
-                @(posedge m_clk);
-                timeout = timeout + 1;
-                if (timeout > 200)
-                    $fatal(1, "destination W timeout");
-            end
-            if (m_wdata_seen !== expected_data || !m_wlast_seen)
-                $fatal(1, "FBus write payload mismatch");
-        end
-    endtask
-
-    task automatic expect_response(input [2:0] expected_id);
-        begin
-            timeout = 0;
-            while (!s_axi.bvalid) begin
-                @(posedge s_clk);
-                timeout = timeout + 1;
-                if (timeout > 200)
-                    $fatal(1, "source B timeout");
-            end
-            if (s_axi.bid !== expected_id || s_axi.bresp !== 2'b00)
-                $fatal(1, "source B mismatch: got id=%0d resp=%0d expected id=%0d",
-                       s_axi.bid, s_axi.bresp, expected_id);
-            s_axi.bready = 1'b1;
-            @(posedge s_clk);
-            @(negedge s_clk);
-            s_axi.bready = 1'b0;
+            @(negedge m_clk);
+            m_bid = id;
+            m_bresp = response;
+            m_bvalid = 1'b1;
+            while (!m_axi.bready)
+                @(negedge m_clk);
+            @(negedge m_clk);
+            m_bvalid = 1'b0;
         end
     endtask
 
@@ -168,8 +152,8 @@ module tb_axi4_write_cdc #(parameter integer TEST_REMAP_ID = 31);
         s_axi.awid = 3'd0;
         s_axi.awaddr = 32'd0;
         s_axi.awlen = 8'd0;
-        s_axi.awsize = 3'd0;
-        s_axi.awburst = 2'd0;
+        s_axi.awsize = 3'd5;
+        s_axi.awburst = 2'b01;
         s_axi.awlock = 1'b0;
         s_axi.awcache = 4'd0;
         s_axi.awprot = 3'd0;
@@ -179,22 +163,68 @@ module tb_axi4_write_cdc #(parameter integer TEST_REMAP_ID = 31);
         s_axi.wstrb = 32'd0;
         s_axi.wlast = 1'b0;
         s_axi.wvalid = 1'b0;
-        s_axi.bready = 1'b0;
-        repeat (4) @(posedge s_clk);
+        s_axi.bready = 1'b1;
+        m_bvalid = 1'b0;
+        m_bid = 5'd0;
+        m_bresp = 2'b00;
+
+        repeat (5) @(negedge s_clk);
         s_resetn = 1'b1;
-        repeat (4) @(posedge m_clk);
+        repeat (5) @(negedge m_clk);
         m_resetn = 1'b1;
 
-        send_single_write(32'h3000_0020, 3'd5, 256'h1234);
-        expect_write(33'h0_b000_0020, 3'd5, 256'h1234);
-        expect_response(3'd5);
-        send_single_write(32'h3000_0040, 3'd2, 256'h5678);
-        expect_write(33'h0_b000_0040, 3'd2, 256'h5678);
-        expect_response(3'd2);
-        send_single_write(32'h3000_0060, 3'd7, 256'h9abc);
-        expect_write(33'h0_b000_0060, 3'd7, 256'h9abc);
-        expect_response(3'd7);
-        $display("tb_axi4_write_cdc PASS remap=%0d", TEST_REMAP_ID);
+        for (integer write_index = 0; write_index < 8;
+             write_index = write_index + 1)
+            send_single_write(write_index);
+
+        timeout = 0;
+        while (destination_aw_count != 8 || destination_w_count != 8) begin
+            @(posedge m_clk);
+            timeout = timeout + 1;
+            if (timeout > 300)
+                $fatal(1, "destination write timeout AW=%0d W=%0d",
+                       destination_aw_count, destination_w_count);
+        end
+        if (perf_outstanding_max !== 32'd8 ||
+            perf_outstanding_current !== 32'd8)
+            $fatal(1, "eight writes not outstanding: cur=%0d max=%0d",
+                   perf_outstanding_current, perf_outstanding_max);
+
+        // Cross-ID B order is intentionally scrambled. ID 26 carries SLVERR.
+        send_response(5'd31, 2'b00);
+        send_response(5'd29, 2'b00);
+        send_response(5'd30, 2'b00);
+        send_response(5'd24, 2'b00);
+        send_response(5'd26, 2'b10);
+        send_response(5'd25, 2'b00);
+        send_response(5'd27, 2'b00);
+        send_response(5'd28, 2'b00);
+
+        timeout = 0;
+        while (source_b_count != 8) begin
+            @(posedge s_clk);
+            timeout = timeout + 1;
+            if (timeout > 300)
+                $fatal(1, "ordered source B timeout count=%0d", source_b_count);
+        end
+        repeat (4) @(posedge m_clk);
+        if (perf_aw_count !== 32'd8 || perf_w_count !== 32'd8 ||
+            perf_b_count !== 32'd8 || perf_outstanding_current !== 0 ||
+            perf_outstanding_max !== 8 ||
+            perf_write_id_mask !== 32'hff00_0000 ||
+            perf_protocol_errors !== 0)
+            $fatal(1, "counter mismatch AW/W/B=%0d/%0d/%0d cur/max=%0d/%0d mask=%h proto=%0d",
+                   perf_aw_count, perf_w_count, perf_b_count,
+                   perf_outstanding_current, perf_outstanding_max,
+                   perf_write_id_mask, perf_protocol_errors);
+        $display("AXI4_WRITE_CDC_MULTI_OUTSTANDING=PASS AW=%0d W=%0d B=%0d max=%0d mask=%h",
+                 perf_aw_count, perf_w_count, perf_b_count,
+                 perf_outstanding_max, perf_write_id_mask);
         $finish;
+    end
+
+    initial begin
+        #200000;
+        $fatal(1, "CDC test timeout");
     end
 endmodule

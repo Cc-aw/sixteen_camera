@@ -677,7 +677,8 @@ void ai_batch_runtime_set_enabled(uint32_t enabled)
                  FRAMEBUFFER_TENSOR_PROD_ADMISSION_MASK,
                  CAMERA_PRESENT_MASK);
     mmio_write32(FRAMEBUFFER_BASE +
-                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT, 1U);
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT,
+                 TENSOR_PRODUCTION_ADMISSION_LIMIT);
     mmio_fence();
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL,
                  FRAMEBUFFER_TENSOR_PROD_ENABLE);
