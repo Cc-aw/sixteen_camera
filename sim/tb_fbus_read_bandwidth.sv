@@ -70,6 +70,7 @@ module tb_fbus_read_bandwidth #(
     integer next_sequence = 0;
     integer selected_id;
     integer selected_sequence;
+    integer eligible_responses;
     integer round_robin_id = 0;
     integer pending_count = 0;
     integer max_pending = 0;
@@ -95,8 +96,12 @@ module tb_fbus_read_bandwidth #(
     always @* begin
         selected_id = -1;
         selected_sequence = RESPONSE_MODE == 1 ? -1 : 32'h7fff_ffff;
+        eligible_responses = 0;
         if (RESPONSE_MODE == 2) begin
             for (integer offset = 0; offset < 32; offset++) begin
+                if (response_active[(round_robin_id + offset) % 32] &&
+                    response_due[(round_robin_id + offset) % 32] <= tick)
+                    eligible_responses = eligible_responses + 1;
                 if (selected_id < 0 &&
                     response_active[(round_robin_id + offset) % 32] &&
                     response_due[(round_robin_id + offset) % 32] <= tick)
@@ -104,6 +109,8 @@ module tb_fbus_read_bandwidth #(
             end
         end else begin
             for (integer id = 0; id < 32; id++) begin
+                if (response_active[id] && response_due[id] <= tick)
+                    eligible_responses = eligible_responses + 1;
                 if (response_active[id] && response_due[id] <= tick &&
                     ((RESPONSE_MODE == 1 &&
                       response_sequence[id] > selected_sequence) ||
@@ -114,6 +121,15 @@ module tb_fbus_read_bandwidth #(
                 end
             end
         end
+        // I: Ready cross-ID responses and the observed-reordering state.
+        // P: Accumulate two eligible responses before starting a requested
+        //    reordering mode, so low-latency cases cannot drain in issue order.
+        // O: Deterministic reverse/beat-interleaved response coverage.
+        // A: hlk
+        // T: 2026-09-22 14:47:13 +0800
+        if (RESPONSE_MODE != 0 && !out_of_order_seen &&
+            eligible_responses < 2)
+            selected_id = -1;
     end
 
     wire ar_gate = AR_STALL_PERIOD == 0 ||
