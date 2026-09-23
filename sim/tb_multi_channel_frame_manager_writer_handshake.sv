@@ -1,6 +1,8 @@
 `timescale 1ns/1ps
 
-module tb_multi_channel_frame_manager_writer_handshake;
+module tb_multi_channel_frame_manager_writer_handshake #(
+    parameter integer COMPACT = 0
+);
     localparam integer CHANNELS = 1;
 
     reg ui_clk = 1'b0;
@@ -10,12 +12,13 @@ module tb_multi_channel_frame_manager_writer_handshake;
     reg cfg_request_toggle = 1'b0;
     wire cfg_ack_toggle;
     reg cfg_enable = 1'b1;
-    reg [31:0] cfg_width = 32'd640;
-    reg [31:0] cfg_height = 32'd480;
-    reg [31:0] cfg_stride_bytes = 32'd2560;
-    reg [31:0] cfg_buffers_per_channel = 32'd5;
+    reg [31:0] cfg_width = COMPACT ? 32'd368 : 32'd640;
+    reg [31:0] cfg_height = COMPACT ? 32'd270 : 32'd480;
+    reg [31:0] cfg_stride_bytes = COMPACT ? 32'd736 : 32'd2560;
+    reg [31:0] cfg_buffers_per_channel = COMPACT ? 32'd4 : 32'd5;
     reg [31:0] cfg_channel_bases = 32'h1000_0000;
-    reg [31:0] cfg_buffer_stride_bytes = 32'h0020_0000;
+    reg [31:0] cfg_buffer_stride_bytes = COMPACT ?
+        32'h0004_0000 : 32'h0020_0000;
     reg cfg_display_channel = 1'b0;
     reg cfg_display_mode = 1'b1;
 
@@ -46,6 +49,7 @@ module tb_multi_channel_frame_manager_writer_handshake;
 
     multi_channel_frame_manager #(
         .CHANNELS(CHANNELS),
+        .PIXEL_BYTES(COMPACT ? 2 : 4),
         .MAX_BUFFERS_PER_CHANNEL(5)
     ) dut (
         .ui_clk(ui_clk),
@@ -108,8 +112,10 @@ module tb_multi_channel_frame_manager_writer_handshake;
             writer_acquire = 1'b0;
             @(posedge ui_clk);
             #1;
-            if (!status[14])
-                $fatal(1, "manager did not commit accepted grant");
+        if (!status[14])
+            $fatal(1, "manager did not commit accepted grant");
+            if (writer_base != cfg_channel_bases)
+                $fatal(1, "first slot address mismatch %08x", writer_base);
         end
     endtask
 

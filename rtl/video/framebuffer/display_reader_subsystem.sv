@@ -1,8 +1,7 @@
 `timescale 1ns/1ps
 
-// Keeps the verified full-screen reader intact and selects it or the mosaic
-// reader for one complete output frame. Both engines share one read-only AXI
-// port and one AXI4-Stream output.
+// Selects compact RGB565 full-screen or mosaic presentation for one complete
+// output frame. Both readers share one read-only AXI port and AXIS output.
 module display_reader_subsystem #(
     parameter integer CHANNELS = 16,
     parameter integer SOURCE_WIDTH = 640,
@@ -56,15 +55,22 @@ module display_reader_subsystem #(
     wire [31:0] full_debug_base;
     wire [31:0] full_debug_status;
     wire [31:0] mosaic_debug_status;
+    reg [19:0] output_beats_q;
+    reg output_done_q;
+    localparam [19:0] FRAME_LAST_BEAT = 20'd1036799;
 
     assign buffer_acquire = !active && full_acquire && mosaic_acquire;
-    assign buffer_done = active && (active_mosaic ? mosaic_done : full_done);
+    // The source reader finishes before the overlay's final pipeline beats.
+    // Keep the frame lease and mode selection until HDMI accepts the last
+    // post-overlay beat.
+    assign buffer_done = output_done_q;
     assign axi_error = active_mosaic ? mosaic_error : full_error;
     assign fifo_underflow = active_mosaic ? mosaic_underflow : full_underflow;
     assign debug_active_base = active_mosaic ? 32'd0 : full_debug_base;
-    assign debug_status = active_mosaic ?
-                          {1'b0, mosaic_debug_status[30:0]} :
-                          full_debug_status;
+    assign debug_status = {axi_error, active, active_mosaic,
+                           fifo_underflow,
+                           active_mosaic ? mosaic_debug_status[27:0] :
+                                           full_debug_status[27:0]};
 
     always @(posedge clk) begin
         if (!resetn) begin
@@ -72,47 +78,43 @@ module display_reader_subsystem #(
             active_mosaic <= 1'b1;
             full_grant <= 1'b0;
             mosaic_grant <= 1'b0;
+            output_beats_q <= 0;
+            output_done_q <= 1'b0;
         end else begin
             full_grant <= 1'b0;
             mosaic_grant <= 1'b0;
+            output_done_q <= 1'b0;
             if (!active && buffer_grant) begin
                 active <= 1'b1;
+                output_beats_q <= 0;
                 active_mosaic <= !buffer_mode;
                 if (buffer_mode)
                     full_grant <= 1'b1;
                 else
                     mosaic_grant <= 1'b1;
             end
-            if (buffer_done)
+            if (active && m_axis.tvalid && m_axis.tready) begin
+                output_beats_q <= output_beats_q + 1'b1;
+                if (output_beats_q == FRAME_LAST_BEAT)
+                    output_done_q <= 1'b1;
+            end
+            if (output_done_q)
                 active <= 1'b0;
         end
     end
 
-    ddr_frame_reader #(
-        .BURST_MAX_BEATS(BURST_MAX_BEATS),
-        .READ_OUTSTANDING(READ_OUTSTANDING),
-        .DESCRIPTOR_DEPTH(READ_DESCRIPTOR_DEPTH)
-    ) u_full_reader (
+    full_rgb565_reader u_full_reader (
         .clk(clk), .resetn(resetn),
         .buffer_acquire(full_acquire), .buffer_grant(full_grant),
         .buffer_base(buffer_base), .buffer_done(full_done),
-        .frame_width(frame_width), .frame_height(frame_height),
-        .frame_stride_bytes(frame_stride_bytes), .m_axi(full_axi),
+        .m_axi(full_axi),
         .m_axis(full_axis), .axi_error(full_error),
         .fifo_underflow(full_underflow),
         .debug_active_base(full_debug_base),
         .debug_status(full_debug_status)
     );
 
-    mosaic_frame_reader #(
-        .CHANNELS(CHANNELS),
-        .SOURCE_WIDTH(SOURCE_WIDTH),
-        .SOURCE_HEIGHT(SOURCE_HEIGHT),
-        .SOURCE_STRIDE_BYTES(SOURCE_STRIDE_BYTES),
-        .BURST_MAX_BEATS(BURST_MAX_BEATS),
-        .READ_OUTSTANDING(READ_OUTSTANDING),
-        .DESCRIPTOR_DEPTH(READ_DESCRIPTOR_DEPTH)
-    ) u_mosaic_reader (
+    mosaic_rgb565_reader #(.CHANNELS(CHANNELS)) u_mosaic_reader (
         .clk(clk), .resetn(resetn),
         .buffer_acquire(mosaic_acquire), .buffer_grant(mosaic_grant),
         .buffer_bases(buffer_bases),

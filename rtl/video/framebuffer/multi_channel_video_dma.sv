@@ -8,6 +8,7 @@ module multi_channel_video_dma #(
     parameter integer FRAME_WIDTH = 1920,
     parameter integer FRAME_HEIGHT = 1080,
     parameter integer FRAME_STRIDE_BYTES = FRAME_WIDTH * 4,
+    parameter integer PIXEL_BYTES = 4,
     parameter integer FIFO_DEPTH = 1024,
     parameter integer BURST_MAX_BEATS = 64,
     parameter integer FRAME_ID_WIDTH = 32,
@@ -37,7 +38,7 @@ module multi_channel_video_dma #(
     output reg  [31:0] perf_bursts_completed,
     output reg  [31:0] perf_response_errors
 );
-    localparam integer WORDS_PER_LINE = FRAME_WIDTH / 8;
+    localparam integer WORDS_PER_LINE = FRAME_WIDTH * PIXEL_BYTES / 32;
     localparam integer FIFO_COUNT_WIDTH = $clog2(FIFO_DEPTH) + 1;
     localparam integer CHANNEL_WIDTH = (CHANNELS <= 1) ?
                                        1 : $clog2(CHANNELS);
@@ -128,22 +129,41 @@ module multi_channel_video_dma #(
         genvar status_ch;
         for (status_ch = 0; status_ch < CHANNELS;
              status_ch = status_ch + 1) begin : g_channels
-            channel_write_fifo #(
-                .FIFO_DEPTH(FIFO_DEPTH),
-                .FRAME_ID_WIDTH(FRAME_ID_WIDTH)
-            ) u_fifo (
-                .s_stream(channels[status_ch]),
-                .rd_en(fifo_rd_en[status_ch]),
-                .rd_data(fifo_data[status_ch]),
-                .rd_sof(fifo_sof[status_ch]),
-                .rd_eol(fifo_eol[status_ch]),
-                .rd_eof(fifo_eof[status_ch]),
-                .rd_frame_id(fifo_frame_id[status_ch]),
-                .rd_error(fifo_error_bit[status_ch]),
-                .empty(fifo_empty[status_ch]),
-                .full(fifo_full[status_ch]),
-                .data_count(fifo_count[status_ch])
-            );
+            if (PIXEL_BYTES == 2) begin : g_rgb565
+                display_frame_packer #(
+                    .FIFO_DEPTH(FIFO_DEPTH),
+                    .FRAME_ID_WIDTH(FRAME_ID_WIDTH)
+                ) u_fifo (
+                    .s_stream(channels[status_ch]),
+                    .rd_en(fifo_rd_en[status_ch]),
+                    .rd_data(fifo_data[status_ch]),
+                    .rd_sof(fifo_sof[status_ch]),
+                    .rd_eol(fifo_eol[status_ch]),
+                    .rd_eof(fifo_eof[status_ch]),
+                    .rd_frame_id(fifo_frame_id[status_ch]),
+                    .rd_error(fifo_error_bit[status_ch]),
+                    .empty(fifo_empty[status_ch]),
+                    .full(fifo_full[status_ch]),
+                    .data_count(fifo_count[status_ch])
+                );
+            end else begin : g_xrgb8888
+                channel_write_fifo #(
+                    .FIFO_DEPTH(FIFO_DEPTH),
+                    .FRAME_ID_WIDTH(FRAME_ID_WIDTH)
+                ) u_fifo (
+                    .s_stream(channels[status_ch]),
+                    .rd_en(fifo_rd_en[status_ch]),
+                    .rd_data(fifo_data[status_ch]),
+                    .rd_sof(fifo_sof[status_ch]),
+                    .rd_eol(fifo_eol[status_ch]),
+                    .rd_eof(fifo_eof[status_ch]),
+                    .rd_frame_id(fifo_frame_id[status_ch]),
+                    .rd_error(fifo_error_bit[status_ch]),
+                    .empty(fifo_empty[status_ch]),
+                    .full(fifo_full[status_ch]),
+                    .data_count(fifo_count[status_ch])
+                );
+            end
             assign buffer_acquire[status_ch] =
                 !ctx_active[status_ch] && !ctx_drop[status_ch] &&
                 !fifo_empty[status_ch] && fifo_sof[status_ch];
@@ -226,8 +246,9 @@ module multi_channel_video_dma #(
 
     initial begin
         if (CHANNELS < 1 || CHANNELS > 16 ||
-            (FRAME_WIDTH % 8) != 0 || FRAME_HEIGHT <= 0 ||
-            (FRAME_STRIDE_BYTES < FRAME_WIDTH*4) ||
+            (PIXEL_BYTES != 2 && PIXEL_BYTES != 4) ||
+            ((FRAME_WIDTH*PIXEL_BYTES) % 32) != 0 || FRAME_HEIGHT <= 0 ||
+            (FRAME_STRIDE_BYTES < FRAME_WIDTH*PIXEL_BYTES) ||
             ((FRAME_STRIDE_BYTES % 32) != 0) ||
             BURST_MAX_BEATS < 1 || BURST_MAX_BEATS > 256 ||
             FIFO_DEPTH < BURST_MAX_BEATS || WRITE_OUTSTANDING < 1 ||

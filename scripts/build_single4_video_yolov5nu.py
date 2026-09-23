@@ -2,6 +2,7 @@
 """Build a one-worker DIM4 video YOLOv5nu ELF without editing dual-DIM16 sources."""
 
 from pathlib import Path
+import argparse
 import hashlib
 import shutil
 import subprocess
@@ -24,6 +25,10 @@ def replace_once(path: Path, old: str, new: str) -> None:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", type=Path, default=OUTPUT,
+                        help="ELF destination; the default keeps the existing name")
+    output = parser.parse_args().output.resolve()
     params = PARAMS.read_text()
     if "#define DIM 4" not in params or "#define XCUSTOM_ACC 3" not in params:
         raise RuntimeError("generated parameters are not DIM4/custom3")
@@ -88,9 +93,10 @@ def main() -> None:
     built_elf = WORK / "build/hdmi_tx_test.elf"
     if not built_elf.is_file():
         raise RuntimeError(f"build did not create {built_elf}")
-    shutil.copy2(built_elf, OUTPUT)
-    digest = hashlib.sha256(OUTPUT.read_bytes()).hexdigest()
-    print(f"SINGLE4_VIDEO_ELF={OUTPUT}")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(built_elf, output)
+    digest = hashlib.sha256(output.read_bytes()).hexdigest()
+    print(f"SINGLE4_VIDEO_ELF={output}")
     print(f"SINGLE4_VIDEO_SHA256={digest}")
     print("SINGLE4_VIDEO_BUILD=PASS")
 

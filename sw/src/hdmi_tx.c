@@ -373,28 +373,28 @@ static int init_reference_clock(void)
 static void framebuffer_configure(void)
 {
     static const uint32_t channel_bases[VIDEO_CHANNEL_COUNT] = {
-        UINT32_C(0x08000000), UINT32_C(0x0A000000),
-        UINT32_C(0x0C000000), UINT32_C(0x0E000000),
-        UINT32_C(0x10000000), UINT32_C(0x12000000),
-        UINT32_C(0x14000000), UINT32_C(0x16000000),
-        UINT32_C(0x18000000), UINT32_C(0x1A000000),
-        UINT32_C(0x1C000000), UINT32_C(0x1E000000),
-        UINT32_C(0x20000000), UINT32_C(0x22000000),
-        UINT32_C(0x24000000), UINT32_C(0x26000000)
+        UINT32_C(0x08000000), UINT32_C(0x08100000),
+        UINT32_C(0x08200000), UINT32_C(0x08300000),
+        UINT32_C(0x08400000), UINT32_C(0x08500000),
+        UINT32_C(0x08600000), UINT32_C(0x08700000),
+        UINT32_C(0x08800000), UINT32_C(0x08900000),
+        UINT32_C(0x08A00000), UINT32_C(0x08B00000),
+        UINT32_C(0x08C00000), UINT32_C(0x08D00000),
+        UINT32_C(0x08E00000), UINT32_C(0x08F00000)
     };
 
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_CONTROL, 0U);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_WIDTH, 640U);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_HEIGHT, 480U);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_STRIDE, 2560U);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_COUNT, 5U);
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_WIDTH, 368U);
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_HEIGHT, 270U);
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_STRIDE, 736U);
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_COUNT, 4U);
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_DISPLAY_CH,
                  FRAMEBUFFER_READER_STOP_TEST ?
                      READER_STOP_LOCAL_CHANNEL : 0U);
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_DISPLAY_MODE,
                  FRAMEBUFFER_READER_STOP_TEST ? 1U : 0U);
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_HDMI_CONTROL, 0U);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_BUFFER_STRIDE, 0x00400000U);
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_BUFFER_STRIDE, 0x00040000U);
     for (uint32_t channel = 0U; channel < VIDEO_CHANNEL_COUNT; ++channel)
         mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_BASE0 + channel * 4U,
                      channel_bases[channel]);
@@ -404,7 +404,7 @@ static void framebuffer_configure(void)
 #if FRAMEBUFFER_READER_STOP_TEST
     line("framebuffer: writers enabled; DDR reader stopped on empty CH3");
 #else
-    line("framebuffer: sixteen VGA five-buffer pools; 4x4 mosaic selected");
+    line("framebuffer: sixteen 360x270 RGB565 four-buffer pools; 4x4 mosaic selected");
 #endif
 }
 
@@ -759,8 +759,6 @@ void hdmi_tx_print_status(void)
     video_perf_capture(&perf_snapshot);
     uint32_t reader_debug =
         mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_READER_DEBUG);
-    uint32_t display_mode =
-        mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_DISPLAY_MODE);
     uint32_t display_channel = mmio_read32(FRAMEBUFFER_BASE +
                                            FRAMEBUFFER_DISPLAY_CH) + 1U;
     uint32_t displayed = mmio_read32(FRAMEBUFFER_BASE +
@@ -769,26 +767,13 @@ void hdmi_tx_print_status(void)
                                         FRAMEBUFFER_PRESENT_MASK);
     uint32_t reader_underflow = mmio_read32(FRAMEBUFFER_BASE +
                                             FRAMEBUFFER_UNDERFLOW);
-    uint32_t reader_axi_error = display_mode == 0U ?
-                                ((reader_debug >> 30) & 1U) :
-                                ((reader_debug >> 31) & 1U);
-    uint32_t reader_active = display_mode == 0U ?
-                             ((reader_debug >> 28) & 1U) :
-                             ((reader_debug >> 30) & 1U);
-    uint32_t reader_display = display_mode == 0U ?
-                              ((reader_debug >> 27) & 1U) :
-                              ((reader_debug >> 29) & 1U);
-    uint32_t reader_state = display_mode == 0U ?
-                            ((reader_debug >> 24) & 7U) :
-                            ((reader_debug >> 25) & 7U);
-    uint32_t reader_fifo = display_mode == 0U ?
-                           ((reader_debug >> 20) & 0xFU) :
-                           ((reader_debug >> 12) & 0x1FFFU);
-    uint32_t reader_line = display_mode == 0U ?
-                           ((reader_debug >> 10) & 0x3FFU) :
-                           (reader_debug & 0x3FFU);
-    uint32_t reader_x = display_mode == 0U ?
-                        (reader_debug & 0x3FFU) : 0U;
+    uint32_t reader_axi_error = (reader_debug >> 31) & 1U;
+    uint32_t reader_active = (reader_debug >> 30) & 1U;
+    uint32_t reader_display = (reader_debug >> 29) & 1U;
+    uint32_t reader_state = (reader_debug >> 4) & 7U;
+    uint32_t reader_phase = (reader_debug >> 2) & 3U;
+    uint32_t reader_line = (reader_debug >> 17) & 0x7FFU;
+    uint32_t reader_x = (reader_debug >> 7) & 0x3FFU;
     uint32_t vphy_pll_type = (uint32_t)XVphy_GetPllType(
         &vphy, 0U, XVPHY_DIR_TX, XVPHY_CHANNEL_ID_CH1);
     uint32_t vphy_ref_measured = XVphy_ClkDetGetRefClkFreqHz(
@@ -829,12 +814,12 @@ void hdmi_tx_print_status(void)
     console_puts(" displayed="); console_put_u32(displayed);
     console_puts(" present="); console_put_hex32(present_mask);
     console_puts(" underflow="); console_put_u32(reader_underflow);
-    console_puts(" reader(axi/active/display/state/fifo/line/x)=");
+    console_puts(" reader(axi/active/mosaic/fill/phase/line/x)=");
     console_put_u32(reader_axi_error);
     console_putc('/'); console_put_u32(reader_active);
     console_putc('/'); console_put_u32(reader_display);
     console_putc('/'); console_put_u32(reader_state);
-    console_putc('/'); console_put_u32(reader_fifo);
+    console_putc('/'); console_put_u32(reader_phase);
     console_putc('/'); console_put_u32(reader_line);
     console_putc('/'); console_put_u32(reader_x);
     console_puts("\r\n");

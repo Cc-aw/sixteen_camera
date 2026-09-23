@@ -72,6 +72,12 @@ set RTL_SOURCES {
     rtl/video/framebuffer/multi_channel_video_dma.sv
     rtl/video/frame_store/frame_store_subsystem.sv
     rtl/video/frame_store/capture_ingress_bridge.sv
+    rtl/video/display/rgb888_to_rgb565.sv
+    rtl/video/display/rgb565_to_rgb888.sv
+    rtl/video/display/display_scaler.sv
+    rtl/video/display/display_frame_packer.sv
+    rtl/video/display/full_rgb565_reader.sv
+    rtl/video/display/mosaic_rgb565_reader.sv
     rtl/video/display/display_subsystem.sv
 
     rtl/video/hdmi/hdmi_4k_spatial_demux.sv

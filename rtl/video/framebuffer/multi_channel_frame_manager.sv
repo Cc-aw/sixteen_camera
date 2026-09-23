@@ -7,6 +7,7 @@
 // the current display.
 module multi_channel_frame_manager #(
     parameter integer CHANNELS = 3,
+    parameter integer PIXEL_BYTES = 4,
     parameter integer MAX_BUFFERS_PER_CHANNEL = 5
 ) (
     input  wire                              ui_clk,
@@ -212,9 +213,9 @@ module multi_channel_frame_manager #(
                     (cfg_buffers_per_channel <= MAX_BUFFERS_PER_CHANNEL) &&
                     (cfg_width != 0) && (cfg_height != 0) &&
                     (cfg_width[2:0] == 0) &&
-                    (cfg_stride_bytes >= cfg_width*4) &&
+                    (cfg_stride_bytes >= cfg_width*PIXEL_BYTES) &&
                     (cfg_stride_bytes[4:0] == 0) &&
-                    (cfg_buffer_stride_bytes >= cfg_stride_bytes) &&
+                    (cfg_buffer_stride_bytes >= cfg_stride_bytes*cfg_height) &&
                     (cfg_buffer_stride_bytes[4:0] == 0))
                 begin
                     active_buffer_count <= cfg_buffers_per_channel[2:0];

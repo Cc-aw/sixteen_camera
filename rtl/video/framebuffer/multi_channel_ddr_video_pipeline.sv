@@ -96,6 +96,18 @@ module multi_channel_ddr_video_pipeline #(
     wire [CHANNELS-1:0] tensor_tap_eol, tensor_tap_eof, tensor_tap_error;
     wire [CHANNELS*32-1:0] tensor_tap_frame_id;
 
+    // The canonical stream is still 640x480 RGB888 for AI.  Only the
+    // display-owned path changes geometry and representation before DDR.
+    video_stream_if #(.DATA_WIDTH(32), .STREAM_ID_WIDTH(4))
+        display_channels [CHANNELS]();
+    for (genvar display_ch = 0; display_ch < CHANNELS;
+         display_ch++) begin : g_display_scaler
+        display_scaler u_scaler (
+            .s_video(capture_channels[display_ch]),
+            .m_video(display_channels[display_ch])
+        );
+    end
+
     video_control_bridge #(
         .CHANNELS(CHANNELS), .GLOBAL_CHANNEL_BASE(GLOBAL_CHANNEL_BASE),
         .CAMERA_PRESENT_MASK(CAMERA_PRESENT_MASK),
@@ -163,14 +175,15 @@ module multi_channel_ddr_video_pipeline #(
     );
 
     frame_store_subsystem #(
-        .CHANNELS(CHANNELS), .FRAME_WIDTH(FRAME_WIDTH),
-        .FRAME_HEIGHT(FRAME_HEIGHT), .FRAME_STRIDE_BYTES(FRAME_STRIDE_BYTES),
+        .CHANNELS(CHANNELS), .FRAME_WIDTH(368),
+        .FRAME_HEIGHT(270), .FRAME_STRIDE_BYTES(736),
+        .PIXEL_BYTES(2),
         .BURST_MAX_BEATS(BURST_MAX_BEATS),
         .WRITE_OUTSTANDING(WRITE_OUTSTANDING),
         .WRITE_DESCRIPTOR_DEPTH(WRITE_DESCRIPTOR_DEPTH)
     ) u_frame_store (
         .clk(video_clk), .resetn(video_resetn),
-        .capture_channels(capture_channels), .writer_axi(writer_axi),
+        .capture_channels(display_channels), .writer_axi(writer_axi),
         .cfg_request_toggle(cfg_request_toggle), .cfg_ack_toggle(cfg_ack_toggle),
         .cfg_enable(cfg_enable), .cfg_width(cfg_width), .cfg_height(cfg_height),
         .cfg_stride_bytes(cfg_stride_bytes),
@@ -249,8 +262,8 @@ module multi_channel_ddr_video_pipeline #(
     );
 
     display_subsystem #(
-        .CHANNELS(CHANNELS), .SOURCE_WIDTH(FRAME_WIDTH),
-        .SOURCE_HEIGHT(FRAME_HEIGHT), .SOURCE_STRIDE_BYTES(FRAME_STRIDE_BYTES),
+        .CHANNELS(CHANNELS), .SOURCE_WIDTH(368),
+        .SOURCE_HEIGHT(270), .SOURCE_STRIDE_BYTES(736),
         .BURST_MAX_BEATS(BURST_MAX_BEATS),
         .READ_OUTSTANDING(READ_OUTSTANDING),
         .READ_DESCRIPTOR_DEPTH(READ_DESCRIPTOR_DEPTH)

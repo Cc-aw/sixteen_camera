@@ -8,6 +8,7 @@ module frame_store_subsystem #(
     parameter integer FRAME_WIDTH = 640,
     parameter integer FRAME_HEIGHT = 480,
     parameter integer FRAME_STRIDE_BYTES = FRAME_WIDTH * 4,
+    parameter integer PIXEL_BYTES = 4,
     parameter integer BURST_MAX_BEATS = 64,
     parameter integer WRITE_OUTSTANDING = 8,
     parameter integer WRITE_DESCRIPTOR_DEPTH = 16
@@ -61,7 +62,9 @@ module frame_store_subsystem #(
     wire [CHANNELS-1:0] frame_done;
     wire [CHANNELS-1:0] frame_error;
 
-    multi_channel_frame_manager #(.CHANNELS(CHANNELS)) u_manager (
+    multi_channel_frame_manager #(
+        .CHANNELS(CHANNELS), .PIXEL_BYTES(PIXEL_BYTES)
+    ) u_manager (
         .ui_clk(clk), .ui_resetn(resetn),
         .cfg_request_toggle(cfg_request_toggle),
         .cfg_ack_toggle(cfg_ack_toggle), .cfg_enable(cfg_enable),
@@ -91,6 +94,7 @@ module frame_store_subsystem #(
         .CHANNELS(CHANNELS), .FRAME_WIDTH(FRAME_WIDTH),
         .FRAME_HEIGHT(FRAME_HEIGHT),
         .FRAME_STRIDE_BYTES(FRAME_STRIDE_BYTES),
+        .PIXEL_BYTES(PIXEL_BYTES),
         .BURST_MAX_BEATS(BURST_MAX_BEATS),
         .WRITE_OUTSTANDING(WRITE_OUTSTANDING),
         .DESCRIPTOR_DEPTH(WRITE_DESCRIPTOR_DEPTH)
