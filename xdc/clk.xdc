@@ -171,22 +171,34 @@ add_cells_to_pblock [get_pblocks pblock_dvp_pipe_slr1] \
     [get_cells -hierarchical -regexp \
         {.*g_camera_frontend\[[4-7]\]\.u_channel/u_frontend/u_input_sampler/sampled_(data|href|vsync|pclk)_reg.*}]
 
-# Preserve the routed P4 locality of the high-speed recovery/event producers.
-# Only these tightly coupled capture-side blocks are guided; the large 150 MHz
-# buffers and video processing remain free for the placer to balance globally.
+# Keep the recovery decision logic and event producer in their nearby SLR.
+# Telemetry is a registered sink and may be placed independently. Do not add
+# the recovery parent hierarchy to the pblock: that would pull telemetry in.
 create_pblock pblock_camera_capture_slr2
 resize_pblock [get_pblocks pblock_camera_capture_slr2] -add SLR2
 set_property IS_SOFT true [get_pblocks pblock_camera_capture_slr2]
+set capture_core_slr2 [get_cells -hierarchical -regexp \
+    {.*g_camera_frontend\[[0-3]\]\.u_channel/u_frontend/u_pclk_recovery/.*}]
+set capture_core_slr2 [filter $capture_core_slr2 \
+    {NAME !~ *u_telemetry*}]
+add_cells_to_pblock [get_pblocks pblock_camera_capture_slr2] \
+    $capture_core_slr2
 add_cells_to_pblock [get_pblocks pblock_camera_capture_slr2] \
     [get_cells -hierarchical -regexp \
-        {.*g_camera_frontend\[[0-3]\]\.u_channel/(u_frontend/u_pclk_recovery|u_event_bridge)(/.*)?}]
+        {.*g_camera_frontend\[[0-3]\]\.u_channel/u_event_bridge(/.*)?}]
 
 create_pblock pblock_camera_capture_slr1
 resize_pblock [get_pblocks pblock_camera_capture_slr1] -add SLR1
 set_property IS_SOFT true [get_pblocks pblock_camera_capture_slr1]
+set capture_core_slr1 [get_cells -hierarchical -regexp \
+    {.*g_camera_frontend\[[4-7]\]\.u_channel/u_frontend/u_pclk_recovery/.*}]
+set capture_core_slr1 [filter $capture_core_slr1 \
+    {NAME !~ *u_telemetry*}]
+add_cells_to_pblock [get_pblocks pblock_camera_capture_slr1] \
+    $capture_core_slr1
 add_cells_to_pblock [get_pblocks pblock_camera_capture_slr1] \
     [get_cells -hierarchical -regexp \
-        {.*g_camera_frontend\[[4-7]\]\.u_channel/(u_frontend/u_pclk_recovery|u_event_bridge)(/.*)?}]
+        {.*g_camera_frontend\[[4-7]\]\.u_channel/u_event_bridge(/.*)?}]
 
 # Camera control and diagnostic requests cross into the 300 MHz capture domain
 # through explicit two-stage synchronizers.  Only their first-stage D pins are

@@ -294,7 +294,7 @@ module ov7670_frontend #(
         .ACQUIRE_WINDOW(4), .LOCK_WINDOW(2), .RECOVERY_WINDOW(4),
         .MAX_HOLDOVER(1),
         .PERIOD_IIR_SHIFT(3),
-        .DATA_HISTORY_DEPTH(6), .DEFAULT_DATA_SAMPLE_OFFSET(2)
+        .DATA_HISTORY_DEPTH(8), .DEFAULT_DATA_SAMPLE_OFFSET(2)
     ) u_pclk_recovery (
         .clk_300m(video_clk), .resetn(capture_resetn),
         .diag_clear(diag_clear_video),
