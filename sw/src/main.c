@@ -1,501 +1,351 @@
 #include <stdint.h>
 
 #include "ai_batch_runtime.h"
-#include "ai_frame_snapshot.h"
-#include "ai_model_backend.h"
 #include "ai_overlay.h"
 #include "ai_postprocess_diag.h"
 #include "ai_runtime_bridge.h"
 #ifdef AI_MODEL_YOLOV5NU
 #include "ai_yolov5nu_selftest.h"
 #endif
-#include "camera_config.h"
-#include "camera_video.h"
 #include "clock_chip.h"
 #include "console.h"
 #include "hdmi_tx.h"
 #include "mmio.h"
 #include "platform.h"
-#include "tinyyolov2_runtime.h"
 #include "video_service.h"
 
-#define AI_POST_BANDWIDTH_ITERATIONS UINT32_C(256)
-#define AI_POST_SWEEP_ITERATIONS     UINT32_C(16)
-#define AI_POST_PLATFORM_GATE_MBPS   UINT32_C(600)
-
-typedef struct {
-    uint32_t active;
-    AiBatchRuntimeStatus runtime_start;
-    AiModelPeStats pe_start;
-    uint32_t sweep;
-    uint32_t sweep_index;
-} AiPostprocessBandwidthUiState;
-
-static const uint16_t ai_post_burst_sweep_bytes[] = {
-    64U, 128U, 256U, 512U, 1024U, 2048U, 4096U
-};
-
-static AiPostprocessBandwidthUiState bandwidth_test;
-static uint32_t tensor_sidecar_channel;
-static uint32_t tensor_sidecar_test_active;
-static uint32_t tensor_sidecar_seen_clear;
 static uint32_t tensor_production_mode;
 static uint32_t tensor_production_done[VIDEO_CHANNEL_COUNT];
 static uint32_t tensor_production_last_frame[VIDEO_CHANNEL_COUNT];
 static uint64_t tensor_production_report_cycle;
 
+#define BOARD_BANDWIDTH_ITERATIONS UINT32_C(256)
+#define BOARD_BANDWIDTH_BURST_BYTES UINT32_C(64)
+#define BOARD_WRITE_ONLY_CYCLES (SOC_CLOCK_HZ * UINT64_C(10))
+#define BOARD_BW_CONCURRENT UINT32_C(1)
+#define BOARD_BW_READ_ONLY UINT32_C(2)
+#define BOARD_BW_RAW_CONCURRENT UINT32_C(3)
+
+typedef struct {
+    uint32_t active;
+    uint64_t start_cycle;
+    uint32_t write_beats;
+    uint32_t write_bursts;
+    uint32_t write_completed;
+    uint32_t write_aw_stall;
+    uint32_t write_w_stall;
+    uint32_t write_b_wait;
+    uint32_t saved_admission_limit;
+    AiBatchRuntimeStatus runtime_start;
+} BoardBandwidthState;
+
+static BoardBandwidthState board_bandwidth;
+
+typedef struct {
+    uint32_t active;
+    uint32_t draining;
+    uint64_t start_cycle;
+    uint32_t write_beats;
+    uint32_t write_bursts;
+    uint32_t write_completed;
+    uint32_t write_starvation;
+    uint32_t write_aw_stall;
+    uint32_t write_w_stall;
+    uint32_t write_b_wait;
+    uint32_t saved_admission_limit;
+} BoardWriteOnlyState;
+
+static BoardWriteOnlyState board_write_only;
+
 static void print_help(void)
 {
-    console_puts("Commands: s=status, p=per-frame profile, o=overlay, d=dog inference, t=YOLOv5nu dual test, T=postprocess compare, g=Graph+PPU timing, u=PPU reader status, U=toggle PPU reader, a=snapshot, n=stream tensor capture, N=next tensor channel, m=16-stream tensor soak, v=PP coherence, w=PP bandwidth, W=PP burst sweep, i=stream AI runtime, b=BIST, r=restart, c=clock ID, h=help\r\n");
-}
-
-static void ai_postprocess_reader_print(void)
-{
 #ifdef AI_MODEL_YOLOV5NU
-    uint32_t status = ai_postprocess_ppu_reader_status();
-    console_puts("AI PPU reader requested/active/busy/error/backing=");
-    console_puts((status & 1U) != 0U ? "local" : "fbus");
-    console_putc('/');
-    console_puts((status & 2U) != 0U ? "local" : "fbus");
-    console_putc('/');
-    console_put_u32((status >> 2) & 1U);
-    console_putc('/');
-    console_put_u32((status >> 3) & 1U);
-    console_putc('/');
-    status = ai_postprocess_ppu_backing_status();
-    if ((status & 2U) == 0U)
-        console_puts("unknown");
-    else if ((status & 1U) != 0U)
-        console_puts("uram+ddr");
-    else
-        console_puts("uram-only");
-    console_puts("\r\n");
+    console_puts("Commands: t=fixed image dual Gemmini test, u/U=fixed image sequential Gemmini test (0,1/1,0), T=fixed image Gemmini+PPU test, ");
 #else
-    console_puts("AI PPU reader requires the YOLOv5nu build\r\n");
+    console_puts("Commands: ");
 #endif
+    console_puts("R=FBus read-only BW, W=tensor write-only BW (10s), C=raw tensor/FBus concurrent BW, b=AI concurrent BW, s=status, o=overlay test, p=profile, m=tensor soak, i=AI runtime, r=restart, c=clock ID, h=help\r\n");
 }
 
-static void ai_postprocess_reader_toggle(void)
+static uint32_t bandwidth_mbps(uint64_t bytes, uint64_t cycles)
 {
-#ifdef AI_MODEL_YOLOV5NU
-    uint32_t local;
-    int status;
-    if (ai_batch_runtime_is_enabled() != 0U ||
-        ai_batch_runtime_is_idle() == 0U ||
-        ai_postprocess_diag_is_active() != 0U) {
-        console_puts("AI PPU reader: disable AI and wait for drain first\r\n");
-        return;
-    }
-    local = ai_postprocess_ppu_reader_local_enabled();
-    status = ai_postprocess_ppu_reader_select_local(local == 0U ? 1U : 0U);
-    if (status != 0) {
-        console_puts("AI PPU reader switch failed status=");
-        console_put_u32((uint32_t)(-status));
-        console_puts("\r\n");
-        return;
-    }
-    ai_postprocess_reader_print();
-#else
-    console_puts("AI PPU reader requires the YOLOv5nu build\r\n");
-#endif
+    return cycles == 0U ? 0U :
+        (uint32_t)((bytes * (SOC_CLOCK_HZ / UINT64_C(1000000))) / cycles);
 }
 
-static void ai_overlay_fixed_box_test(void)
+static void board_bandwidth_begin(void)
 {
-    static const AiDetectionResult test_result = {
-        .stream_id = 0U,
-        .count = 1U,
-        .detections = {{
-            .x_min = 64,
-            .y_min = 64,
-            .x_max = 352,
-            .y_max = 352,
-            .score_q15 = 32767U,
-            .class_id = 11U
-        }}
-    };
-
-    if (ai_batch_runtime_is_enabled() != 0U ||
-        ai_batch_runtime_is_idle() == 0U) {
-        console_puts("OVERLAY TEST: press i to disable AI and wait for drain first\r\n");
-        return;
-    }
-
-    int status = ai_overlay_try_submit(&test_result);
-    if (status > 0)
-        console_puts("OVERLAY TEST committed: CH1 dog label model_xyxy=64,64,352,352\r\n");
-    else if (status == 0)
-        console_puts("OVERLAY TEST busy; press o again\r\n");
-    else
-        console_puts("OVERLAY TEST submit failed\r\n");
-}
-
-static void ai_builtin_dog_test(void)
-{
-#ifdef AI_MODEL_YOLOV5NU
-    console_puts("DOG TEST belongs to the TinyYOLOv2 build; use make AI_MODEL=yolov2\r\n");
-#else
-    if (ai_batch_runtime_is_enabled() != 0U ||
-        ai_batch_runtime_is_idle() == 0U) {
-        console_puts("DOG TEST: press i to disable AI and wait for drain first\r\n");
-        return;
-    }
-
-    console_puts("DOG TEST begin (embedded validated dog.jpg tensor)\r\n");
-    int passed = tinyyolov2_run_builtin_dog();
-    tinyyolov2_set_diagnostics(0);
-    console_puts(passed != 0 ?
-                 "DOG TEST PASS: dog detected\r\n" :
-                 "DOG TEST FAIL: dog not detected\r\n");
-#endif
-}
-
-static void ai_snapshot_smoke_test(void)
-{
-    static AiFrameSnapshot snapshot;
-    int result = ai_frame_snapshot_acquire(&snapshot);
-    if (result != 0) {
-        console_puts("AI SNAP acquire failed=");
-        console_put_u32((uint32_t)(-result));
-        console_puts("\r\n");
-        return;
-    }
-
-    console_puts("AI SNAP batch=");
-    console_put_hex64(snapshot.batch_id);
-    console_puts(" valid/fresh=");
-    console_put_hex32(snapshot.valid_mask);
-    console_putc('/');
-    console_put_hex32(snapshot.fresh_mask);
-    console_puts("\r\n");
-
-    for (uint32_t channel = 0U; channel < VIDEO_CHANNEL_COUNT; ++channel) {
-        if ((snapshot.valid_mask & (UINT32_C(1) << channel)) == 0U)
-            continue;
-        const AiFrameMetadata *member = &snapshot.members[channel];
-        console_puts("  AI CH");
-        console_put_u32(channel + 1U);
-        console_puts(" addr/frame/ver=");
-        console_put_hex32(member->frame_addr);
-        console_putc('/');
-        console_put_hex64(member->frame_id);
-        console_putc('/');
-        console_put_hex32(member->version);
-        console_puts("\r\n");
-    }
-
-    result = ai_frame_snapshot_release(snapshot.valid_mask);
-    console_puts(result == 0 ? "AI SNAP release OK\r\n" :
-                            "AI SNAP release FAILED\r\n");
-}
-
-static void ai_postprocess_coherence_test(void)
-{
-    AiPostprocessDiagStressResult result;
-    const uint32_t iterations = 1000U;
-
-    console_puts("AI POST coherence stress begin iterations=");
-    console_put_u32(iterations);
-    console_puts("\r\n");
-    int status = ai_postprocess_diag_coherence_stress(iterations, &result);
-    if (status != 0) {
-        console_puts("AI POST coherence FAIL completed/iteration/status=");
-        console_put_u32(result.iterations_completed);
-        console_putc('/');
-        console_put_u32(result.failed_iteration);
-        console_putc('/');
-        console_put_u32((uint32_t)(-result.status));
-        console_puts(" expected/observed/flags=");
-        console_put_hex32(result.expected_crc32);
-        console_putc('/');
-        console_put_hex32(result.observed_crc32);
-        console_putc('/');
-        console_put_hex32(result.error_flags);
-        console_puts("\r\n");
-        return;
-    }
-
-    console_puts("AI POST coherence PASS iterations/avg/max cycles=");
-    console_put_u32(result.iterations_completed);
-    console_putc('/');
-    console_put_u32((uint32_t)(result.total_cycles / iterations));
-    console_putc('/');
-    console_put_u32((uint32_t)result.maximum_cycles);
-    console_puts("\r\n");
-}
-
-static void ai_postprocess_bandwidth_begin(uint32_t sweep)
-{
-    uint32_t iterations = sweep != 0U ? AI_POST_SWEEP_ITERATIONS :
-                                       AI_POST_BANDWIDTH_ITERATIONS;
-    uint32_t burst_bytes = sweep != 0U ? ai_post_burst_sweep_bytes[0] :
-                                        UINT32_C(64);
-    if (bandwidth_test.active != 0U) {
-        console_puts("AI POST bandwidth test already running\r\n");
+    if (board_bandwidth.active != 0U) {
+        console_puts("BOARD BW already running\r\n");
         return;
     }
     if (ai_batch_runtime_is_enabled() == 0U) {
-        console_puts("AI POST bandwidth requires active AI runtime; press i first\r\n");
+        console_puts("BOARD BW requires active AI runtime; press i first\r\n");
         return;
     }
 
-    console_puts(sweep != 0U ?
-        "AI POST burst sweep prepare bytes/iterations/burstB=" :
-        "AI POST bandwidth prepare bytes/iterations/burstB=");
-    console_put_u32(AI_POSTPROCESS_BANDWIDTH_BYTES);
-    console_putc('/');
-    console_put_u32(iterations);
-    console_putc('/');
-    console_put_u32(burst_bytes);
-    console_puts("\r\n");
-    int status = ai_postprocess_bandwidth_start(iterations, burst_bytes);
+    int status = ai_postprocess_bandwidth_start(
+        BOARD_BANDWIDTH_ITERATIONS, BOARD_BANDWIDTH_BURST_BYTES);
     if (status != 0) {
-        if (status == -2 || status == -3) {
-            console_puts("AI POST identity id/cap/expected=");
-            console_put_hex32(ai_postprocess_diag_read_id());
-            console_putc('/');
-            console_put_hex32(ai_postprocess_diag_read_capability());
-            console_putc('/');
-            console_put_hex32(AI_POSTPROCESS_DIAG_ID);
-            console_putc('/');
-            console_put_hex32(AI_POSTPROCESS_DIAG_P1C_CAPABILITY);
-            console_puts("\r\n");
-        }
-        if (status == -3)
-            console_puts("AI POST bandwidth requires P1C bitstream capability\r\n");
-        console_puts("AI POST bandwidth start failed=");
-        console_put_u32((uint32_t)(-status));
+        console_puts("BOARD BW reader start failed status/id/cap=");
+        if (status < 0)
+            console_putc('-');
+        console_put_u32((uint32_t)(status < 0 ? -status : status));
+        console_putc('/');
+        console_put_hex32(ai_postprocess_diag_read_id());
+        console_putc('/');
+        console_put_hex32(ai_postprocess_diag_read_capability());
         console_puts("\r\n");
         return;
     }
-    ai_batch_runtime_get_status(&bandwidth_test.runtime_start);
-    ai_model_backend_get_pe_stats(&bandwidth_test.pe_start);
-    bandwidth_test.active = 1U;
-    bandwidth_test.sweep = sweep;
-    bandwidth_test.sweep_index = 0U;
-    console_puts("AI POST bandwidth running with preprocess + Gemmini DMA\r\n");
+
+    board_bandwidth = (BoardBandwidthState){0};
+    board_bandwidth.active = BOARD_BW_CONCURRENT;
+    board_bandwidth.start_cycle = read_cycle();
+    board_bandwidth.write_beats = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_W_TRANSFER);
+    board_bandwidth.write_bursts = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_BURSTS);
+    board_bandwidth.write_completed = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_COMPLETED);
+    board_bandwidth.write_aw_stall = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_AW_STALL);
+    board_bandwidth.write_w_stall = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_W_STALL);
+    board_bandwidth.write_b_wait = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_B_WAIT);
+    board_bandwidth.saved_admission_limit = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT);
+    mmio_write32(FRAMEBUFFER_BASE +
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT,
+                 LOCAL_CAMERA_COUNT);
+    mmio_fence();
+    ai_batch_runtime_get_status(&board_bandwidth.runtime_start);
+    console_puts("BOARD BW running read_bytes/iterations/burstB=");
+    console_put_u32(AI_POSTPROCESS_BANDWIDTH_BYTES);
+    console_putc('/');
+    console_put_u32(BOARD_BANDWIDTH_ITERATIONS);
+    console_putc('/');
+    console_put_u32(BOARD_BANDWIDTH_BURST_BYTES);
+    console_puts(" write_admission=");
+    console_put_u32(LOCAL_CAMERA_COUNT);
+    console_puts("\r\n");
 }
 
-static void ai_postprocess_bandwidth_service(void)
+static void board_read_bandwidth_begin(void)
 {
-    AiPostprocessBandwidthResult result;
-    AiBatchRuntimeStatus runtime_end;
-    AiModelPeStats pe_end;
-    uint32_t mbps;
-    uint32_t efficiency_permille;
-    uint32_t preprocess_delta;
-    uint32_t job_delta;
-    uint32_t busy_skip_delta;
-    uint32_t passed;
-
-    if (bandwidth_test.active == 0U)
+    if (board_bandwidth.active != 0U || board_write_only.active != 0U) {
+        console_puts("BOARD BW already running\r\n");
         return;
-    int status = ai_postprocess_bandwidth_poll(&result);
+    }
+    if (ai_batch_runtime_is_enabled() != 0U ||
+        ai_batch_runtime_is_idle() == 0U || tensor_production_mode != 0U) {
+        console_puts("BOARD READ-ONLY requires AI/tensor producer idle\r\n");
+        return;
+    }
+    int status = ai_postprocess_bandwidth_start(
+        BOARD_BANDWIDTH_ITERATIONS, BOARD_BANDWIDTH_BURST_BYTES);
+    if (status != 0) {
+        console_puts("BOARD READ-ONLY start failed\r\n");
+        return;
+    }
+    board_bandwidth = (BoardBandwidthState){0};
+    board_bandwidth.active = BOARD_BW_READ_ONLY;
+    board_bandwidth.start_cycle = read_cycle();
+    console_puts("BOARD READ-ONLY running bytes/iterations/burstB=");
+    console_put_u32(AI_POSTPROCESS_BANDWIDTH_BYTES);
+    console_putc('/');
+    console_put_u32(BOARD_BANDWIDTH_ITERATIONS);
+    console_putc('/');
+    console_put_u32(BOARD_BANDWIDTH_BURST_BYTES);
+    console_puts("\r\n");
+}
+
+static void board_raw_concurrent_begin(void)
+{
+    if (board_bandwidth.active != 0U || board_write_only.active != 0U) {
+        console_puts("BOARD BW already running\r\n");
+        return;
+    }
+    if (ai_batch_runtime_is_enabled() != 0U ||
+        ai_batch_runtime_is_idle() == 0U || tensor_production_mode != 0U) {
+        console_puts("BOARD RAW CONCURRENT requires AI/tensor producer idle\r\n");
+        return;
+    }
+    int status = ai_postprocess_bandwidth_start(
+        BOARD_BANDWIDTH_ITERATIONS, BOARD_BANDWIDTH_BURST_BYTES);
+    if (status != 0) {
+        console_puts("BOARD RAW CONCURRENT reader start failed\r\n");
+        return;
+    }
+
+    board_bandwidth = (BoardBandwidthState){0};
+    board_bandwidth.active = BOARD_BW_RAW_CONCURRENT;
+    board_bandwidth.start_cycle = read_cycle();
+    board_bandwidth.write_beats = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_W_TRANSFER);
+    board_bandwidth.write_bursts = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_BURSTS);
+    board_bandwidth.write_completed = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_COMPLETED);
+    board_bandwidth.write_aw_stall = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_AW_STALL);
+    board_bandwidth.write_w_stall = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_W_STALL);
+    board_bandwidth.write_b_wait = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_B_WAIT);
+    board_bandwidth.saved_admission_limit = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT);
+    mmio_write32(FRAMEBUFFER_BASE +
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_MASK,
+                 CAMERA_PRESENT_MASK);
+    mmio_write32(FRAMEBUFFER_BASE +
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT,
+                 LOCAL_CAMERA_COUNT);
+    mmio_fence();
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL,
+                 FRAMEBUFFER_TENSOR_PROD_ENABLE);
+    mmio_fence();
+    if ((mmio_read32(FRAMEBUFFER_BASE +
+                     FRAMEBUFFER_TENSOR_PROD_CONTROL) &
+         FRAMEBUFFER_TENSOR_PROD_ENABLE) == 0U) {
+        board_bandwidth.active = BOARD_BW_READ_ONLY;
+        console_puts("BOARD RAW CONCURRENT producer enable rejected\r\n");
+        return;
+    }
+    tensor_production_mode = 1U;
+    tensor_production_report_cycle = read_cycle();
+    console_puts("BOARD RAW CONCURRENT running read_bytes/iterations/burstB/write_admission=");
+    console_put_u32(AI_POSTPROCESS_BANDWIDTH_BYTES);
+    console_putc('/');
+    console_put_u32(BOARD_BANDWIDTH_ITERATIONS);
+    console_putc('/');
+    console_put_u32(BOARD_BANDWIDTH_BURST_BYTES);
+    console_putc('/');
+    console_put_u32(LOCAL_CAMERA_COUNT);
+    console_puts("\r\n");
+}
+
+static void board_bandwidth_service(void)
+{
+    AiPostprocessBandwidthResult read_result;
+    AiBatchRuntimeStatus runtime_end;
+    if (board_bandwidth.active == 0U)
+        return;
+
+    int status = ai_postprocess_bandwidth_poll(&read_result);
     if (status == 0)
         return;
 
-    bandwidth_test.active = 0U;
+    uint32_t mode = board_bandwidth.active;
+    uint64_t elapsed = read_cycle() - board_bandwidth.start_cycle;
+    uint32_t write_beats = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_W_TRANSFER) -
+        board_bandwidth.write_beats;
+    uint32_t write_bursts = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_BURSTS) -
+        board_bandwidth.write_bursts;
+    uint32_t write_completed = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_COMPLETED) -
+        board_bandwidth.write_completed;
+    uint32_t write_aw_stall = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_AW_STALL) -
+        board_bandwidth.write_aw_stall;
+    uint32_t write_w_stall = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_W_STALL) -
+        board_bandwidth.write_w_stall;
+    uint32_t write_b_wait = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_B_WAIT) -
+        board_bandwidth.write_b_wait;
+    uint64_t write_bytes = (uint64_t)write_beats * UINT64_C(32);
+    uint32_t write_mbps = bandwidth_mbps(write_bytes, elapsed);
+    uint32_t read_mbps = bandwidth_mbps(read_result.bytes_read,
+                                        read_result.active_cycles);
+    uint32_t read_efficiency = read_result.read_beats == 0U ? 0U :
+        (uint32_t)((read_result.bytes_read * UINT64_C(1000)) /
+                   (read_result.read_beats * UINT64_C(32)));
     ai_batch_runtime_get_status(&runtime_end);
-    ai_model_backend_get_pe_stats(&pe_end);
-    preprocess_delta = runtime_end.preprocess_count -
-                       bandwidth_test.runtime_start.preprocess_count;
-    job_delta = runtime_end.completed_job_count -
-                bandwidth_test.runtime_start.completed_job_count;
-    busy_skip_delta = pe_end.coherence_busy_skips -
-                      bandwidth_test.pe_start.coherence_busy_skips;
-    mbps = result.active_cycles == 0U ? 0U :
-        (uint32_t)((result.bytes_read * (SOC_CLOCK_HZ / UINT64_C(1000000))) /
-                   result.active_cycles);
-    efficiency_permille = result.read_beats == 0U ? 0U :
-        (uint32_t)((result.bytes_read * UINT64_C(1000)) /
-                   (result.read_beats * UINT64_C(32)));
-    passed = status > 0 &&
-             result.iterations_completed == result.iterations_requested && mbps >= AI_POST_PLATFORM_GATE_MBPS &&
-             result.crc_mismatches == 0U && result.timeout_count == 0U &&
-             result.axi_error_count == 0U &&
-             result.r_backpressure_cycles == 0U &&
-             result.max_outstanding_observed > 1U &&
-             result.max_reorder_occupancy > 1U &&
-             (result.active_id_mask_observed & UINT32_C(0xff)) ==
-                 UINT32_C(0xff) &&
-             preprocess_delta != 0U && job_delta != 0U;
+    if (mode == BOARD_BW_CONCURRENT ||
+        mode == BOARD_BW_RAW_CONCURRENT) {
+        mmio_write32(FRAMEBUFFER_BASE +
+                     FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT,
+                     board_bandwidth.saved_admission_limit);
+        mmio_fence();
+    }
+    board_bandwidth.active = 0U;
 
-    if (bandwidth_test.sweep != 0U)
-        console_puts("AI POST burst POINT burstB/MBps/bytes/cycles=");
-    else
-        console_puts(passed != 0U ?
-            "AI POST bandwidth PLATFORM PASS burstB/MBps/bytes/cycles=" :
-            "AI POST bandwidth PLATFORM NO-GO burstB/MBps/bytes/cycles=");
-    console_put_u32(result.burst_bytes);
-    console_putc('/');
-    console_put_u32(mbps);
-    console_putc('/');
-    console_put_hex64(result.bytes_read);
-    console_putc('/');
-    console_put_hex64(result.active_cycles);
-    console_puts("\r\nAI POST bandwidth stall(ar/rwait/rbp)=" );
-    console_put_hex64(result.ar_stall_cycles);
-    console_putc('/');
-    console_put_hex64(result.r_wait_cycles);
-    console_putc('/');
-    console_put_hex64(result.r_backpressure_cycles);
-    console_puts(" bursts/beats/eff_permille=");
-    console_put_hex64(result.ar_requests);
-    console_putc('/');
-    console_put_hex64(result.read_beats);
-    console_putc('/');
-    console_put_u32(efficiency_permille);
-    console_puts(" max_outstanding=");
-    console_put_u32(result.max_outstanding_observed);
-    console_puts(" reorder/id_mask=");
-    console_put_u32(result.max_reorder_occupancy);
-    console_putc('/');
-    console_put_hex32(result.active_id_mask_observed);
-    console_puts("\r\nAI POST bandwidth verify(iter/crc/timeout/axi/flags)=");
-    console_put_u32(result.iterations_completed);
-    console_putc('/');
-    console_put_u32(result.crc_mismatches);
-    console_putc('/');
-    console_put_u32(result.timeout_count);
-    console_putc('/');
-    console_put_u32(result.axi_error_count);
-    console_putc('/');
-    console_put_hex32(result.error_flags);
-    console_puts(" crc(expected/observed)=");
-    console_put_hex32(result.expected_crc32);
-    console_putc('/');
-    console_put_hex32(result.observed_crc32);
-    console_puts(" overlap(pre/job/busy_skip/valid_mask)=");
-    console_put_u32(preprocess_delta);
-    console_putc('/');
-    console_put_u32(job_delta);
-    console_putc('/');
-    console_put_u32(busy_skip_delta);
-    console_putc('/');
-    console_put_hex32(runtime_end.last_valid_mask);
-    console_puts("\r\n");
+    if (mode == BOARD_BW_CONCURRENT ||
+        mode == BOARD_BW_RAW_CONCURRENT) {
+        console_puts(mode == BOARD_BW_RAW_CONCURRENT ?
+                     "BOARD RAW CONCURRENT WRITE MBps/bytes/cycles/beats=" :
+                     "BOARD BW WRITE MBps/bytes/cycles/beats=");
+        console_put_u32(write_mbps);
+        console_putc('/');
+        console_put_hex64(write_bytes);
+        console_putc('/');
+        console_put_hex64(elapsed);
+        console_putc('/');
+        console_put_u32(write_beats);
+        console_puts(" bursts(i/c)=");
+        console_put_u32(write_bursts);
+        console_putc('/');
+        console_put_u32(write_completed);
+        console_puts(" stall(aw/w/bwait)=");
+        console_put_u32(write_aw_stall);
+        console_putc('/');
+        console_put_u32(write_w_stall);
+        console_putc('/');
+        console_put_u32(write_b_wait);
+        console_puts("\r\n");
+    }
 
-    console_puts("AI POST bandwidth exit(code/completed/requested/busy_retries)=");
-    if (status < 0) console_putc('-');
+    if (mode == BOARD_BW_RAW_CONCURRENT) {
+        tensor_production_mode = 2U;
+        mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL, 0U);
+        mmio_fence();
+    }
+
+    console_puts(mode == BOARD_BW_READ_ONLY ?
+                 "BOARD READ-ONLY status/MBps/bytes/cycles=" :
+                 mode == BOARD_BW_RAW_CONCURRENT ?
+                 "BOARD RAW CONCURRENT READ status/MBps/bytes/cycles=" :
+                 "BOARD BW READ status/MBps/bytes/cycles=");
+    if (status < 0)
+        console_putc('-');
     console_put_u32((uint32_t)(status < 0 ? -status : status));
     console_putc('/');
-    console_put_u32(result.iterations_completed);
+    console_put_u32(read_mbps);
     console_putc('/');
-    console_put_u32(result.iterations_requested);
+    console_put_hex64(read_result.bytes_read);
     console_putc('/');
-    console_put_u32(result.busy_retries);
-    console_puts("\r\n");
-
-    if (bandwidth_test.sweep != 0U && status > 0 &&
-        result.crc_mismatches == 0U && result.timeout_count == 0U &&
-        result.axi_error_count == 0U &&
-        bandwidth_test.sweep_index + 1U <
-            sizeof(ai_post_burst_sweep_bytes) /
-            sizeof(ai_post_burst_sweep_bytes[0])) {
-        bandwidth_test.sweep_index++;
-        uint32_t next_burst =
-            ai_post_burst_sweep_bytes[bandwidth_test.sweep_index];
-        status = ai_postprocess_bandwidth_start(
-            AI_POST_SWEEP_ITERATIONS, next_burst);
-        if (status == 0) {
-            bandwidth_test.active = 1U;
-            console_puts("AI POST burst sweep running burstB=");
-            console_put_u32(next_burst);
-            console_puts("\r\n");
-            return;
-        }
-        console_puts("AI POST burst sweep restart failed=");
-        console_put_u32((uint32_t)(-status));
-        console_puts("\r\n");
-    } else if (bandwidth_test.sweep != 0U) {
-        console_puts(status > 0 ? "AI POST burst sweep DONE\r\n" :
-                                  "AI POST burst sweep ABORTED\r\n");
-    }
-}
-
-static void tensor_sidecar_begin_test(void)
-{
-    uint32_t status = mmio_read32(FRAMEBUFFER_BASE +
-                                  FRAMEBUFFER_TENSOR_STATUS);
-    uint32_t ai_enabled = ai_batch_runtime_is_enabled();
-    uint32_t ai_idle = ai_batch_runtime_is_idle();
-    if (tensor_sidecar_test_active != 0U || tensor_production_mode != 0U ||
-        ai_enabled != 0U ||
-        ai_idle == 0U ||
-        (status & FRAMEBUFFER_TENSOR_STATUS_BUSY) != 0U) {
-        console_puts("TENSOR SIDECAR blocked active/ai_enable/ai_idle/tensor=");
-        console_put_u32(tensor_sidecar_test_active);
-        console_putc('/');
-        console_put_u32(ai_enabled);
-        console_putc('/');
-        console_put_u32(ai_idle);
-        console_putc('/');
-        console_put_hex32(status);
-        console_puts("\r\n");
-        return;
-    }
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_CHANNEL,
-                 tensor_sidecar_channel);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_ADDR,
-                 TENSOR_SIDECAR_DIAG_PHYS_BASE);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_CONTROL, 1U);
-    tensor_sidecar_test_active = 1U;
-    tensor_sidecar_seen_clear = 0U;
-    console_puts("TENSOR SIDECAR armed channel/address=");
-    console_put_u32(tensor_sidecar_channel + 1U);
+    console_put_hex64(read_result.active_cycles);
+    console_puts(" stall(ar/rwait/rbp)=");
+    console_put_hex64(read_result.ar_stall_cycles);
     console_putc('/');
-    console_put_hex32(TENSOR_SIDECAR_DIAG_PHYS_BASE);
-    console_puts("\r\n");
-}
-
-
-static void tensor_sidecar_service(void)
-{
-    if (tensor_sidecar_test_active == 0U)
-        return;
-    uint32_t status = mmio_read32(FRAMEBUFFER_BASE +
-                                  FRAMEBUFFER_TENSOR_STATUS);
-    if ((status & FRAMEBUFFER_TENSOR_STATUS_DONE) == 0U)
-        tensor_sidecar_seen_clear = 1U;
-    if (tensor_sidecar_seen_clear == 0U ||
-        (status & FRAMEBUFFER_TENSOR_STATUS_DONE) == 0U ||
-        (status & FRAMEBUFFER_TENSOR_STATUS_BUSY) != 0U)
-        return;
-    tensor_sidecar_test_active = 0U;
-    uint32_t bytes = mmio_read32(FRAMEBUFFER_BASE +
-                                 FRAMEBUFFER_TENSOR_BYTES);
-    uint32_t frame_id = mmio_read32(FRAMEBUFFER_BASE +
-                                    FRAMEBUFFER_TENSOR_FRAME_ID);
-    uint32_t overflows = mmio_read32(FRAMEBUFFER_BASE +
-                                     FRAMEBUFFER_TENSOR_OVERFLOWS);
-    uint32_t hash = UINT32_C(2166136261);
-    uint32_t nonzero = 0U;
-    if ((status & FRAMEBUFFER_TENSOR_STATUS_ERROR) == 0U &&
-        bytes == TENSOR_MEMBER_BYTES) {
-        volatile const uint8_t *tensor =
-            (volatile const uint8_t *)AI_DDR_CPU_ALIAS(
-                TENSOR_SIDECAR_DIAG_PHYS_BASE);
-        for (uint32_t index = 0U; index < bytes; ++index) {
-            uint8_t value = tensor[index];
-            hash = (hash ^ value) * UINT32_C(16777619);
-            nonzero += value != 0U;
-        }
-    }
-    console_puts((status & FRAMEBUFFER_TENSOR_STATUS_ERROR) == 0U &&
-                 bytes == TENSOR_MEMBER_BYTES && nonzero != 0U ?
-                 "TENSOR SIDECAR PASS ch/frame/bytes/hash/nonzero/overflows=" :
-                 "TENSOR SIDECAR FAIL ch/frame/bytes/hash/nonzero/overflows=");
-    console_put_u32(((status >> 4) & 15U) + 1U);
+    console_put_hex64(read_result.r_wait_cycles);
     console_putc('/');
-    console_put_u32(frame_id);
+    console_put_hex64(read_result.r_backpressure_cycles);
+    console_puts(" max(out/reorder)/id/eff=");
+    console_put_u32(read_result.max_outstanding_observed);
     console_putc('/');
-    console_put_u32(bytes);
+    console_put_u32(read_result.max_reorder_occupancy);
     console_putc('/');
-    console_put_hex32(hash);
+    console_put_hex32(read_result.active_id_mask_observed);
     console_putc('/');
-    console_put_u32(nonzero);
+    console_put_u32(read_efficiency);
+    console_puts("\r\nBOARD BW VERIFY iter/crc/timeout/axi/flags jobs=");
+    console_put_u32(read_result.iterations_completed);
     console_putc('/');
-    console_put_u32(overflows);
+    console_put_u32(read_result.crc_mismatches);
+    console_putc('/');
+    console_put_u32(read_result.timeout_count);
+    console_putc('/');
+    console_put_u32(read_result.axi_error_count);
+    console_putc('/');
+    console_put_hex32(read_result.error_flags);
+    console_putc(' ');
+    console_put_u32(runtime_end.completed_job_count -
+                    board_bandwidth.runtime_start.completed_job_count);
     console_puts("\r\n");
 }
 
@@ -589,7 +439,8 @@ static void tensor_production_service(void)
         }
         console_puts("TENSOR PROD done CH1..16=");
         for (uint32_t channel = 0U; channel < VIDEO_CHANNEL_COUNT; ++channel) {
-            if (channel != 0U) console_putc(',');
+            if (channel != 0U)
+                console_putc(',');
             console_put_u32(tensor_production_done[channel]);
         }
         console_puts(" missed/admit_skip/no_slot/overflow/error=");
@@ -618,11 +469,8 @@ static void tensor_production_toggle(void)
     }
     if (tensor_production_mode != 0U)
         return;
-    if (tensor_sidecar_test_active != 0U ||
-        ai_batch_runtime_is_enabled() != 0U ||
-        ai_batch_runtime_is_idle() == 0U ||
-        mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_STATUS) &
-            FRAMEBUFFER_TENSOR_STATUS_BUSY) {
+    if (ai_batch_runtime_is_enabled() != 0U ||
+        ai_batch_runtime_is_idle() == 0U) {
         console_puts("TENSOR PROD: disable AI and drain all arenas first\r\n");
         return;
     }
@@ -634,7 +482,8 @@ static void tensor_production_toggle(void)
                  FRAMEBUFFER_TENSOR_PROD_ADMISSION_MASK,
                  CAMERA_PRESENT_MASK);
     mmio_write32(FRAMEBUFFER_BASE +
-                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT, 1U);
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT,
+                 TENSOR_PRODUCTION_ADMISSION_LIMIT);
     mmio_fence();
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL,
                  FRAMEBUFFER_TENSOR_PROD_ENABLE);
@@ -646,7 +495,7 @@ static void tensor_production_toggle(void)
     }
     tensor_production_mode = 1U;
     tensor_production_report_cycle = read_cycle();
-    console_puts("TENSOR PROD enabled, one capture at a time, press m to drain\r\n");
+    console_puts("TENSOR PROD enabled, multi-channel capture, press m to drain\r\n");
 }
 
 static void tensor_production_init(void)
@@ -658,7 +507,8 @@ static void tensor_production_init(void)
                  FRAMEBUFFER_TENSOR_PROD_ADMISSION_MASK,
                  CAMERA_PRESENT_MASK);
     mmio_write32(FRAMEBUFFER_BASE +
-                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT, 1U);
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT,
+                 TENSOR_PRODUCTION_ADMISSION_LIMIT);
     mmio_fence();
     uint64_t start = read_cycle();
     while (mmio_read32(FRAMEBUFFER_BASE +
@@ -691,6 +541,134 @@ static void tensor_production_init(void)
     }
 }
 
+static void board_write_only_begin(void)
+{
+    if (board_write_only.active != 0U || board_bandwidth.active != 0U) {
+        console_puts("BOARD BW already running\r\n");
+        return;
+    }
+    if (ai_batch_runtime_is_enabled() != 0U ||
+        ai_batch_runtime_is_idle() == 0U || tensor_production_mode != 0U) {
+        console_puts("BOARD WRITE-ONLY requires AI/tensor producer idle\r\n");
+        return;
+    }
+
+    board_write_only = (BoardWriteOnlyState){0};
+    board_write_only.start_cycle = read_cycle();
+    board_write_only.write_beats = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_W_TRANSFER);
+    board_write_only.write_bursts = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_BURSTS);
+    board_write_only.write_completed = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_COMPLETED);
+    board_write_only.write_starvation = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_STARVATION);
+    board_write_only.write_aw_stall = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_AW_STALL);
+    board_write_only.write_w_stall = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_W_STALL);
+    board_write_only.write_b_wait = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_B_WAIT);
+    board_write_only.saved_admission_limit = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT);
+
+    mmio_write32(FRAMEBUFFER_BASE +
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_MASK,
+                 CAMERA_PRESENT_MASK);
+    mmio_write32(FRAMEBUFFER_BASE +
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT,
+                 LOCAL_CAMERA_COUNT);
+    mmio_fence();
+    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL,
+                 FRAMEBUFFER_TENSOR_PROD_ENABLE);
+    mmio_fence();
+    if ((mmio_read32(FRAMEBUFFER_BASE +
+                     FRAMEBUFFER_TENSOR_PROD_CONTROL) &
+         FRAMEBUFFER_TENSOR_PROD_ENABLE) == 0U) {
+        console_puts("BOARD WRITE-ONLY enable rejected\r\n");
+        return;
+    }
+    tensor_production_mode = 1U;
+    tensor_production_report_cycle = read_cycle();
+    board_write_only.active = 1U;
+    console_puts("BOARD WRITE-ONLY running seconds/admission/burstB=10/");
+    console_put_u32(LOCAL_CAMERA_COUNT);
+    console_puts("/64\r\n");
+}
+
+static void board_write_only_service(void)
+{
+    if (board_write_only.active == 0U)
+        return;
+    if (board_write_only.draining == 0U &&
+        read_cycle() - board_write_only.start_cycle >=
+        BOARD_WRITE_ONLY_CYCLES) {
+        board_write_only.draining = 1U;
+        tensor_production_mode = 2U;
+        mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL, 0U);
+        mmio_fence();
+    }
+    if (board_write_only.draining == 0U || tensor_production_mode != 0U)
+        return;
+
+    uint64_t elapsed = read_cycle() - board_write_only.start_cycle;
+    uint32_t beats = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_W_TRANSFER) -
+        board_write_only.write_beats;
+    uint32_t bursts = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_BURSTS) -
+        board_write_only.write_bursts;
+    uint32_t completed = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_COMPLETED) -
+        board_write_only.write_completed;
+    uint32_t starvation = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_STARVATION) -
+        board_write_only.write_starvation;
+    uint32_t aw_stall = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_AW_STALL) -
+        board_write_only.write_aw_stall;
+    uint32_t w_stall = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_W_STALL) -
+        board_write_only.write_w_stall;
+    uint32_t b_wait = mmio_read32(
+        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_DMA_B_WAIT) -
+        board_write_only.write_b_wait;
+    uint64_t bytes = (uint64_t)beats * UINT64_C(32);
+
+    mmio_write32(FRAMEBUFFER_BASE +
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT,
+                 board_write_only.saved_admission_limit);
+    mmio_fence();
+    board_write_only.active = 0U;
+    console_puts("BOARD WRITE-ONLY MBps/bytes/cycles/beats=");
+    console_put_u32(bandwidth_mbps(bytes, elapsed));
+    console_putc('/');
+    console_put_hex64(bytes);
+    console_putc('/');
+    console_put_hex64(elapsed);
+    console_putc('/');
+    console_put_u32(beats);
+    console_puts(" bursts(i/c)=");
+    console_put_u32(bursts);
+    console_putc('/');
+    console_put_u32(completed);
+    console_puts(" out/max/starve=");
+    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
+                                FRAMEBUFFER_TENSOR_DMA_OUTSTANDING));
+    console_putc('/');
+    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
+                                FRAMEBUFFER_TENSOR_DMA_OUTSTANDING_MAX));
+    console_putc('/');
+    console_put_u32(starvation);
+    console_puts(" stall(aw/w/bwait)=");
+    console_put_u32(aw_stall);
+    console_putc('/');
+    console_put_u32(w_stall);
+    console_putc('/');
+    console_put_u32(b_wait);
+    console_puts("\r\n");
+}
+
 int main(void)
 {
     int video_status;
@@ -698,6 +676,9 @@ int main(void)
     console_puts("\r\n8x OV7670 -> shared DMA -> DDR -> HDMI TX\r\n");
     console_puts("CH1-CH8 local + CH9-CH16 HDMI in 4x4 1080p60 mosaic\r\n");
     console_puts("All OV7670 initialization is hardware controlled\r\n");
+#ifdef FBUS_BANDWIDTH_DIAGNOSTIC
+    console_puts("Dedicated FBus bandwidth diagnostic firmware\r\n");
+#endif
 
     video_status = video_service_init();
     if (video_status != 0)
@@ -711,17 +692,55 @@ int main(void)
     for (;;) {
         video_service_poll();
         ai_batch_runtime_poll();
-        ai_postprocess_bandwidth_service();
-        tensor_sidecar_service();
+        board_bandwidth_service();
         tensor_production_service();
+        board_write_only_service();
         int command = console_getc_nonblock();
         if (tensor_production_mode != 0U && command >= 0 &&
-            command != 'm' && command != 's' &&
-            command != 'N' && command != 'h') {
+            command != 'm' && command != 's' && command != 'h') {
             console_puts("TENSOR PROD active; press m and wait for drain\r\n");
             continue;
         }
         switch (command) {
+#ifdef AI_MODEL_YOLOV5NU
+        case 't':
+        case 'u':
+        case 'U':
+        case 'T':
+            if (ai_batch_runtime_is_idle() == 0U ||
+                tensor_production_mode != 0U ||
+                board_bandwidth.active != 0U ||
+                board_write_only.active != 0U) {
+                console_puts("YOLOV5NU TEST: wait for AI and bandwidth tests to drain\r\n");
+                break;
+            }
+            if (command == 't')
+                (void)ai_yolov5nu_correctness_test();
+            else if (command == 'u' || command == 'U')
+                (void)ai_yolov5nu_sequential_correctness_test(command == 'U');
+            else
+                (void)ai_yolov5nu_graph_post_benchmark();
+            break;
+#endif
+        case 'C':
+            board_raw_concurrent_begin();
+            break;
+        case 'R':
+            board_read_bandwidth_begin();
+            break;
+        case 'W':
+            board_write_only_begin();
+            break;
+        case 'o': {
+            int result = ai_overlay_draw_test_pattern();
+            console_puts(result == 0 ?
+                         "OVERLAY TEST: CH1-CH16 boxes submitted\r\n" :
+                         "OVERLAY TEST: submit failed\r\n");
+            break;
+        }
+        case 'b':
+            board_bandwidth_begin();
+            break;
         case 's':
             ai_batch_runtime_print_status();
             break;
@@ -732,83 +751,8 @@ int main(void)
             else
                 ai_batch_runtime_print_frame_profiles();
             break;
-        case 'o':
-            ai_overlay_fixed_box_test();
-            break;
-        case 'd':
-            ai_builtin_dog_test();
-            break;
-        case 't':
-#ifdef AI_MODEL_YOLOV5NU
-            if (ai_batch_runtime_is_enabled() != 0U ||
-                ai_batch_runtime_is_idle() == 0U)
-                console_puts("YOLOV5NU TEST: disable AI and wait for drain first\r\n");
-            else
-                (void)ai_yolov5nu_correctness_test();
-#else
-            console_puts("YOLOV5NU TEST requires the default yolov5nu build\r\n");
-#endif
-            break;
-        case 'T':
-#ifdef AI_MODEL_YOLOV5NU
-            if (ai_batch_runtime_is_enabled() != 0U ||
-                ai_batch_runtime_is_idle() == 0U ||
-                ai_postprocess_diag_is_active() != 0U)
-                console_puts("YOLOV5NU POST BENCH: disable AI and wait for drain first\r\n");
-            else
-                (void)ai_yolov5nu_postprocess_benchmark();
-#else
-            console_puts("YOLOV5NU POST BENCH requires the default yolov5nu build\r\n");
-#endif
-            break;
-        case 'g':
-#ifdef AI_MODEL_YOLOV5NU
-            if (ai_batch_runtime_is_enabled() != 0U ||
-                ai_batch_runtime_is_idle() == 0U ||
-                ai_postprocess_diag_is_active() != 0U)
-                console_puts("YOLOV5NU PIPE BENCH: disable AI and wait for drain first\r\n");
-            else
-                (void)ai_yolov5nu_graph_post_benchmark();
-#else
-            console_puts("YOLOV5NU PIPE BENCH requires the default yolov5nu build\r\n");
-#endif
-            break;
-        case 'u':
-            ai_postprocess_reader_print();
-            break;
-        case 'U':
-            ai_postprocess_reader_toggle();
-            break;
-        case 'a':
-            if (ai_batch_runtime_is_idle() != 0U)
-                ai_snapshot_smoke_test();
-            else
-                console_puts("AI runtime busy; disable and wait for drain\r\n");
-            break;
-        case 'n':
-            tensor_sidecar_begin_test();
-            break;
         case 'm':
             tensor_production_toggle();
-            break;
-        case 'N':
-            tensor_sidecar_channel =
-                (tensor_sidecar_channel + 1U) % VIDEO_CHANNEL_COUNT;
-            console_puts("TENSOR SIDECAR selected channel=");
-            console_put_u32(tensor_sidecar_channel + 1U);
-            console_puts("\r\n");
-            break;
-        case 'v':
-            if (ai_batch_runtime_is_idle() != 0U)
-                ai_postprocess_coherence_test();
-            else
-                console_puts("AI runtime busy; disable and wait for drain\r\n");
-            break;
-        case 'w':
-            ai_postprocess_bandwidth_begin(0U);
-            break;
-        case 'W':
-            ai_postprocess_bandwidth_begin(1U);
             break;
         case 'i':
             if (tensor_production_mode != 0U &&
@@ -829,11 +773,6 @@ int main(void)
             else
                 console_puts("Video pipeline ready\r\n");
             break;
-        case 'b': {
-            const CameraConfig *ov7670 = camera_config_by_channel(1U);
-            (void)camera_ov7670_run_bist(ov7670);
-            break;
-        }
         case 'c': {
             uint16_t device_id = 0U;
             int result = clock_chip_read_id(&device_id);

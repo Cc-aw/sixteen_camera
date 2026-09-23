@@ -74,7 +74,7 @@ module tb_detection_overlay;
         for (y = 0; y < 1080; y = y + 1)
             send_beat(48'h112233_445566, y == 0, 1'b1);
 
-        if (dut.active_label[0][23:0] !== {8'h67, 8'h6f, 8'h64})
+        if (dut.metadata_mem[5'h10][52 +: 24] !== {8'h67, 8'h6f, 8'h64})
             $fatal(1, "label did not promote atomically with box");
         if (!dut.pixel_hits_label(11'd0, 11'd0, 11'd0, 11'd0,
                                   4'd0, cfg_labels[127:0]))
@@ -105,6 +105,50 @@ module tb_detection_overlay;
         end
         m_tready = 1'b1;
         @(posedge clk); #1;
+
+        // Reset the raster and verify human-visible CH5 (zero-based stream 4)
+        // at its real mosaic origin in the second row, first column.
+        resetn = 1'b0;
+        repeat (3) @(posedge clk);
+        resetn = 1'b1;
+        cfg_stream = 4;
+        cfg_count = 1;
+        cfg_boxes = 512'd0;
+        cfg_labels = 1024'd0;
+        cfg_boxes[0 +: 11] = 11'd60;
+        cfg_boxes[11 +: 11] = 11'd270;
+        cfg_boxes[22 +: 11] = 11'd100;
+        cfg_boxes[33 +: 11] = 11'd300;
+        cfg_boxes[44 +: 8] = 8'd1;
+        cfg_labels[0 +: 8] = "b";
+        cfg_labels[8 +: 8] = "o";
+        cfg_labels[16 +: 8] = "x";
+        @(posedge clk); #1; cfg_commit = 1'b1;
+        @(posedge clk); #1; cfg_commit = 1'b0;
+
+        for (y = 0; y < 1080; y = y + 1)
+            send_beat(48'h112233_445566, y == 0, 1'b1);
+        if (!dut.active_valid[4] || dut.active_bank[4] != 1'b1)
+            $fatal(1, "CH5 metadata did not become active");
+
+        // Reach y=270 and x=60 (two pixels per input beat).
+        for (y = 0; y < 270; y = y + 1)
+            send_beat(48'h112233_445566, y == 0, 1'b1);
+        for (y = 0; y < 30; y = y + 1)
+            send_beat(48'h112233_445566, 1'b0, 1'b0);
+        repeat (4) @(posedge clk);
+        m_tready = 1'b0;
+        send_beat(48'h112233_445566, 1'b0, 1'b0);
+        wait_cycles = 0;
+        while (!m_tvalid && wait_cycles < 8) begin
+            @(posedge clk); #1;
+            wait_cycles = wait_cycles + 1;
+        end
+        if (!m_tvalid)
+            $fatal(1, "CH5 overlay output missing");
+        if (m_tdata != 48'hff3030_ff3030)
+            $fatal(1, "CH5 box border not drawn: %012x", m_tdata);
+
         $display("TB_DETECTION_OVERLAY=PASS");
         $finish;
     end

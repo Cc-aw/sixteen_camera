@@ -86,6 +86,11 @@ static uint32_t hardware_ready(void)
     return mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_READY);
 }
 
+static uint32_t hardware_error(void)
+{
+    return mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_ERROR);
+}
+
 static void record_error(int error)
 {
     runtime.status.error_count++;
@@ -164,7 +169,7 @@ static int release_slot(uint32_t slot)
                  FRAMEBUFFER_TENSOR_PROD_RELEASE_GO);
     mmio_fence();
     start = read_cycle();
-    while ((hardware_ready() & bit) != 0U ||
+    while (((hardware_ready() | hardware_error()) & bit) != 0U ||
            (mmio_read32(FRAMEBUFFER_BASE +
                         FRAMEBUFFER_TENSOR_PROD_CONTROL) &
             FRAMEBUFFER_TENSOR_PROD_RELEASE_GO) != 0U) {
@@ -202,6 +207,16 @@ static void service_overlay(void)
 
 static void service_result_ttl(void)
 {
+    /*
+     * A channel is revisited much less frequently than once per second when
+     * all cameras share the inference workers.  Keep the latest result while
+     * streaming; the next result for that channel (including count == 0)
+     * replaces it.  The TTL remains useful after streaming is disabled so a
+     * stopped runtime cannot leave stale boxes on screen indefinitely.
+     */
+    if (runtime.status.enabled != 0U)
+        return;
+
     uint64_t now = read_cycle();
     for (uint32_t stream = 0U; stream < VIDEO_CHANNEL_COUNT; ++stream) {
         AiStreamRuntimeStatus *status = &runtime.streams[stream];
@@ -639,23 +654,6 @@ void ai_batch_runtime_init(void)
     memset(&runtime, 0, sizeof(runtime));
     ai_result_manager_init(&runtime.results);
     ai_model_backend_init();
-    /*
-     * The production DMA uses fixed 640x480x3 slots.  Keep the control
-     * block's descriptor address mirror aligned with that physical layout,
-     * including when this ELF is loaded onto a bitstream whose reset value
-     * still reflects the removed 416x416 preprocessing path.
-     */
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_ARENA0_BASE,
-                 TENSOR_ARENA0_PHYS_BASE);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_ARENA1_BASE,
-                 TENSOR_ARENA1_PHYS_BASE);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_MEMBER_STRIDE,
-                 TENSOR_MEMBER_STRIDE);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_MEMBER_BYTES,
-                 TENSOR_MEMBER_BYTES);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_PRE_FORMAT,
-                 FRAMEBUFFER_PRE_FORMAT_640X480);
-    mmio_fence();
     runtime.next_job_id = UINT64_C(1) << 60;
 }
 
@@ -673,11 +671,20 @@ void ai_batch_runtime_set_enabled(uint32_t enabled)
         record_error(-48);
         return;
     }
+    uint32_t error_mask = hardware_error();
+    for (uint32_t slot = 0U; slot < AI_TENSOR_SLOT_COUNT; ++slot) {
+        if ((error_mask & (UINT32_C(1) << slot)) != 0U &&
+            release_slot(slot) != 0) {
+            record_error(-50);
+            return;
+        }
+    }
     mmio_write32(FRAMEBUFFER_BASE +
                  FRAMEBUFFER_TENSOR_PROD_ADMISSION_MASK,
                  CAMERA_PRESENT_MASK);
     mmio_write32(FRAMEBUFFER_BASE +
-                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT, 1U);
+                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT,
+                 TENSOR_PRODUCTION_ADMISSION_LIMIT);
     mmio_fence();
     mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL,
                  FRAMEBUFFER_TENSOR_PROD_ENABLE);
@@ -931,8 +938,24 @@ void ai_batch_runtime_print_status(void)
         console_puts(" det=");
         if (result == 0)
             console_puts("none");
-        else
+        else {
             console_put_u32(result->count);
+            if (result->count != 0U) {
+                const AiDetection *detection = &result->detections[0];
+                console_puts(" first(class/score/xyxy)=");
+                console_put_u32(detection->class_id);
+                console_putc('/');
+                console_put_u32(detection->score_q15);
+                console_putc('/');
+                console_put_u32((uint32_t)detection->x_min);
+                console_putc(',');
+                console_put_u32((uint32_t)detection->y_min);
+                console_putc(',');
+                console_put_u32((uint32_t)detection->x_max);
+                console_putc(',');
+                console_put_u32((uint32_t)detection->y_max);
+            }
+        }
         console_puts("\r\n");
     }
 }

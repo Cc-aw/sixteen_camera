@@ -13545,6 +13545,426 @@
   },
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation.selected.bits.opb.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation.selected.bits.opb.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation.selected.bits.opa.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation.selected.bits.opa.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE.opb.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE.opb.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE.opa.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE.opa.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_203.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_203.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_204.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_204.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_206.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_210",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_212",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_216.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_220",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_222",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_228.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_228.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_229.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_229.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_231.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_235",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_237",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_241.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_245",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_247",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation.selected_1.bits.opb.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation.selected_1.bits.opb.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation.selected_1.bits.opa.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation.selected_1.bits.opa.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_255.opb.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_255.opb.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_255.opa.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_255.opa.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_490.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_490.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_491.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_491.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_493.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_497",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_499",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_503.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_507",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_509",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_515.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_515.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_516.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_516.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_518.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_522",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_524",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_528.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_532",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_534",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation.selected_2.bits.opb.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation.selected_2.bits.opb.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation.selected_2.bits.opa.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation.selected_2.bits.opa.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_542.opb.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_542.opb.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_542.opa.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_542.opa.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_729.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_729.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_730.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_730.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_732.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_736",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_738",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_742.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_746",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_748",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_754.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_754.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_755.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_755.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_757.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_761",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_763",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_767.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_771",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation._selected_WIRE_773",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
     "target": "TaihangSoCFPGATestHarness.LoopConvLdBias.state",
     "enumTypeName": "gemmini.LoopConvLdBias$State"
   },
@@ -16167,6 +16587,426 @@
   {
     "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
     "target": "TaihangSoCFPGATestHarness.ReservationStation_1._issue_entry_WIRE_773",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1.selected.bits.opb.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1.selected.bits.opb.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1.selected.bits.opa.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1.selected.bits.opa.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE.opb.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE.opb.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE.opa.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE.opa.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_203.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_203.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_204.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_204.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_206.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_210",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_212",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_216.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_220",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_222",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_228.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_228.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_229.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_229.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_231.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_235",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_237",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_241.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_245",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_247",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1.selected_1.bits.opb.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1.selected_1.bits.opb.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1.selected_1.bits.opa.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1.selected_1.bits.opa.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_255.opb.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_255.opb.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_255.opa.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_255.opa.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_490.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_490.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_491.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_491.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_493.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_497",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_499",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_503.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_507",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_509",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_515.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_515.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_516.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_516.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_518.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_522",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_524",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_528.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_532",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_534",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1.selected_2.bits.opb.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1.selected_2.bits.opb.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1.selected_2.bits.opa.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1.selected_2.bits.opa.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_542.opb.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_542.opb.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_542.opa.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_542.opa.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_729.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_729.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_730.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_730.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_732.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_736",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_738",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_742.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_746",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_748",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_754.bits.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_754.bits.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_755.end.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_755.start.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_757.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_761",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_763",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_767.norm_cmd",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_771",
+    "enumTypeName": "gemmini.NormCmd"
+  },
+  {
+    "class": "chisel3.experimental.EnumAnnotations$EnumComponentAnnotation",
+    "target": "TaihangSoCFPGATestHarness.ReservationStation_1._selected_WIRE_773",
     "enumTypeName": "gemmini.NormCmd"
   },
   {

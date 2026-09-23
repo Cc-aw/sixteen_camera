@@ -16,21 +16,18 @@ verilator --binary --timing -Wno-fatal \
   sim/tb_axi4_channel_join.sv
 "$test_tmp/channel_join/Vtb_axi4_channel_join"
 
-for remap in 31 -1; do
-  verilator --binary --timing -Wno-fatal \
-    --top-module tb_axi4_write_cdc -GTEST_REMAP_ID="$remap" \
-    --Mdir "$test_tmp/write_cdc_$remap" \
-    rtl/interfaces/axi4_if.sv rtl/bus/cdc_payload_fifo.sv \
-    rtl/bus/axi4_write_cdc.sv sim/tb_axi4_write_cdc.sv
-  "$test_tmp/write_cdc_$remap/Vtb_axi4_write_cdc"
+verilator --binary --timing -Wno-fatal \
+  --top-module tb_axi4_write_cdc --Mdir "$test_tmp/write_cdc" \
+  rtl/interfaces/axi4_if.sv rtl/bus/cdc_payload_fifo.sv \
+  rtl/bus/axi4_write_cdc.sv sim/tb_axi4_write_cdc.sv
+"$test_tmp/write_cdc/Vtb_axi4_write_cdc"
 
-  verilator --binary --timing -Wno-fatal \
-    --top-module tb_axi4_write_cdc_stress -GTEST_REMAP_ID="$remap" \
-    --Mdir "$test_tmp/write_cdc_stress_$remap" \
-    rtl/interfaces/axi4_if.sv rtl/bus/cdc_payload_fifo.sv \
-    rtl/bus/axi4_write_cdc.sv sim/tb_axi4_write_cdc_stress.sv
-  "$test_tmp/write_cdc_stress_$remap/Vtb_axi4_write_cdc_stress"
-done
+verilator --binary --timing -Wno-fatal \
+  --top-module tb_axi4_write_cdc_stress \
+  --Mdir "$test_tmp/write_cdc_stress" \
+  rtl/interfaces/axi4_if.sv rtl/bus/cdc_payload_fifo.sv \
+  rtl/bus/axi4_write_cdc.sv sim/tb_axi4_write_cdc_stress.sv
+"$test_tmp/write_cdc_stress/Vtb_axi4_write_cdc_stress"
 
 verilator --binary --timing -Wno-fatal \
   --top-module tb_fbus_read_engine --Mdir "$test_tmp/fbus_read" \

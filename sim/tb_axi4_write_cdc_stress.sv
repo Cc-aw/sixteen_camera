@@ -1,7 +1,7 @@
 `timescale 1ps/1ps
 
 module tb_axi4_write_cdc_stress #(
-    parameter integer TEST_REMAP_ID = 31,
+    parameter integer TEST_REMAP_ID = 24,
     parameter integer TRANSACTIONS = 256
 );
     // Production clocks: camera_video_clk ~= 150.06 MHz, SoC/FBus = 100 MHz.
@@ -37,7 +37,7 @@ module tb_axi4_write_cdc_stress #(
 
     axi4_write_cdc #(
         .FIFO_ADDR_WIDTH(4), .FBUS_WRITE_ID(TEST_REMAP_ID),
-        .MAX_OUTSTANDING(8)
+        .FBUS_WRITE_ID_COUNT(8)
     ) dut (
         .s_axi(s_axi), .m_clk(m_clk), .m_resetn(m_resetn), .m_axi(m_axi)
     );
@@ -111,8 +111,8 @@ module tb_axi4_write_cdc_stress #(
             if (m_axi.awvalid && m_axi.awready) begin
                 if (m_axi.awaddr !==
                         {1'b0, source_address(aw_received) | 32'h8000_0000} ||
-                    m_axi.awid !== (TEST_REMAP_ID >= 0 ?
-                        5'(TEST_REMAP_ID) : {2'b00, aw_received[2:0]}))
+                    m_axi.awid !== 5'(TEST_REMAP_ID +
+                                      (aw_received % 8)))
                     $fatal(1, "destination AW mismatch index=%0d addr=%h id=%0d",
                            aw_received, m_axi.awaddr, m_axi.awid);
                 destination_ids[aw_received] <= m_axi.awid;

@@ -9,7 +9,6 @@ module tb_camera_axis_to_stream_recovery;
     axis_video_if #(.DATA_WIDTH(48)) input_axis();
     video_stream_if #(.DATA_WIDTH(48)) output_stream();
     wire [31:0] malformed_count;
-    wire [255:0] diag_counts;
     wire [31:0] timeout_abort_count;
     integer output_beat = 0;
     integer output_frames = 0;
@@ -26,7 +25,7 @@ module tb_camera_axis_to_stream_recovery;
     ) dut (
         .s_axis(input_axis), .m_stream(output_stream),
         .diag_clear_toggle(clear_toggle),
-        .malformed_frame_count(malformed_count), .diag_counts(diag_counts),
+        .malformed_frame_count(malformed_count),
         .timeout_abort_count(timeout_abort_count)
     );
 
@@ -142,19 +141,13 @@ module tb_camera_axis_to_stream_recovery;
         wait_frames(8);
         if (completed_error[7]) $fatal(1, "post-timeout frame marked bad");
 
-        if (malformed_count != 4 || diag_counts[31:0] != 1 ||
-            diag_counts[63:32] != 1 || diag_counts[95:64] != 1 ||
-            diag_counts[127:96] != 4 || diag_counts[159:128] != 1 ||
-            diag_counts[191:160] != 19 || diag_counts[223:192] != 4 ||
-            diag_counts[255:224] != 4)
-            $fatal(1, "diagnostic counters wrong: mal=%0d diag=%064x",
-                   malformed_count, diag_counts);
+        if (malformed_count != 4)
+            $fatal(1, "malformed counter wrong: %0d", malformed_count);
 
         // MMIO clear crosses as a toggle and must not reset functional state.
         @(negedge clk); clear_toggle = ~clear_toggle;
         repeat (5) @(posedge clk);
-        if (malformed_count != 0 || diag_counts != 0 ||
-            timeout_abort_count != 0)
+        if (malformed_count != 0 || timeout_abort_count != 0)
             $fatal(1, "diagnostic clear failed");
 
         $display("TB_CAMERA_AXIS_TO_STREAM_RECOVERY=PASS");

@@ -3,7 +3,6 @@
 // Integration boundary for the camera ingress and HDMI subsystems.
 module camera_hdmi_subsystem (
     input wire sys_rstn,
-    input wire sys_init_done,
     input wire camera_ref_clk,
     axi4_if.slave mmio_axi,
     axis_video_if.sink display_axis,
@@ -22,10 +21,6 @@ module camera_hdmi_subsystem (
     output wire [7:0] cam_scl,
     inout wire [7:0] cam_sda,
     output wire [7:0] cam_xclk,
-    input wire [7:0] cam_xclk_pad,
-    input wire [7:0] cam_rst_n_pad,
-    input wire [7:0] cam_pwdn_pad,
-    input wire [7:0] cam_scl_pad,
     input wire [7:0] cam_pclk,
     input wire [7:0] cam_vsync,
     input wire [7:0] cam_href,
@@ -55,7 +50,6 @@ module camera_hdmi_subsystem (
     input wire hdmi_clkchip_int,
     output wire hdmi_clkchip_rst,
     output wire camera_pll_locked,
-    output wire [479:0] camera_axis_diag,
     output wire [255:0] malformed_counts,
     output wire [7:0] video_interrupts,
     output wire [31:0] hdmi_transport_frame_count,
@@ -97,7 +91,7 @@ module camera_hdmi_subsystem (
     );
 
     camera_subsystem u_camera_subsystem (
-        .sys_rstn(sys_rstn), .sys_init_done(sys_init_done),
+        .sys_rstn(sys_rstn),
         .camera_ref_clk(camera_ref_clk), .capture_clk(capture_clk),
         .capture_resetn(capture_resetn),
         .video_clk(video_clk), .video_resetn(video_resetn),
@@ -105,11 +99,8 @@ module camera_hdmi_subsystem (
         .capture_channels(camera_capture_channels),
         .cam_rst_n(cam_rst_n), .cam_pwdn(cam_pwdn), .cam_scl(cam_scl),
         .cam_sda(cam_sda), .cam_xclk(cam_xclk),
-        .cam_xclk_pad(cam_xclk_pad), .cam_rst_n_pad(cam_rst_n_pad),
-        .cam_pwdn_pad(cam_pwdn_pad), .cam_scl_pad(cam_scl_pad),
         .cam_pclk(cam_pclk), .cam_vsync(cam_vsync), .cam_href(cam_href),
         .cam_data(cam_data), .camera_pll_locked(camera_pll_locked),
-        .camera_axis_diag(camera_axis_diag),
         .malformed_counts(malformed_counts)
     );
 endmodule

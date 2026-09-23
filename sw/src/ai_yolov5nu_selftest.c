@@ -172,6 +172,48 @@ int ai_yolov5nu_correctness_test(void)
     return 1;
 }
 
+int ai_yolov5nu_sequential_correctness_test(int reverse_order)
+{
+    struct yolov5nu_dim16_result results[YOLOV5NU_DIM16_WORKER_COUNT];
+    int passed = 1;
+
+    memset(results, 0, sizeof(results));
+    console_puts(reverse_order ?
+        "YOLOV5NU_SEQ_TEST_BEGIN image=025 order=1,0\r\n" :
+        "YOLOV5NU_SEQ_TEST_BEGIN image=025 order=0,1\r\n");
+    for (uint32_t index = 0U;
+         index < YOLOV5NU_DIM16_WORKER_COUNT; ++index) {
+        uint32_t worker = reverse_order ?
+            YOLOV5NU_DIM16_WORKER_COUNT - 1U - index : index;
+        uint64_t start = read_cycle();
+        if (yolov5nu_dim16_worker_start_reference(worker) < 0) {
+            console_puts("YOLOV5NU_SEQ_TEST_RESULT FAIL reason=start\r\n");
+            return 0;
+        }
+        for (;;) {
+            int status = yolov5nu_dim16_worker_poll(worker,
+                                                     &results[worker]);
+            if (status == YOLOV5NU_DIM16_DONE)
+                break;
+            if (status != YOLOV5NU_DIM16_RUNNING ||
+                read_cycle() - start > SELFTEST_TIMEOUT_CYCLES) {
+                console_puts("YOLOV5NU_SEQ_TEST_RESULT FAIL reason=poll_or_timeout\r\n");
+                return 0;
+            }
+        }
+        int worker_passed = result_matches_reference(&results[worker]);
+        print_worker_result(worker, &results[worker], worker_passed);
+        if (!worker_passed)
+            passed = 0;
+    }
+    if (!results_equal(&results[0], &results[1]))
+        passed = 0;
+    console_puts(passed ?
+        "YOLOV5NU_SEQ_TEST_RESULT PASS reference=bit_exact\r\n" :
+        "YOLOV5NU_SEQ_TEST_RESULT FAIL reason=reference_or_worker_mismatch\r\n");
+    return passed;
+}
+
 // The benchmark starts both implementations at the same six raw Gemmini
 // heads. PPU wall time includes cache publication, MMIO and result reads;
 // the CPU time is the existing software head/Decode/NMS worker path.

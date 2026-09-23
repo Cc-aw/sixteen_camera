@@ -4,7 +4,7 @@
 
 #include "ai_detection.h"
 #include "ai_head_slot_queue.h"
-#include "ai_postprocess_diag.h"
+#include "cache_ops.h"
 #include "console.h"
 #include "mmio.h"
 #include "yolov5nu_dim16_dual.h"
@@ -124,8 +124,7 @@ static void start_hardware_postprocess(AiHeadSlot *slot)
     // shows that dirty Head cache lines may still not have reached the AXI
     // router. Flush before either reader so the URAM mirror and DDR shadow
     // both contain the completed payload before the PPU command is issued.
-    ai_postprocess_diag_flush_range((void *)head,
-                                    YOLOV5NU_HEAD_PAYLOAD_BYTES);
+    cache_flush_range((void *)head, YOLOV5NU_HEAD_PAYLOAD_BYTES);
     // The FBus bridge applies the bit-31 coherent DDR alias itself.
     mmio_write32(POSTPROCESS_DIAG_BASE + PPU_CLASS0,
                  (uint32_t)descriptor->class_addr[0]);

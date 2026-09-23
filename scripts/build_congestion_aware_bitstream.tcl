@@ -25,6 +25,9 @@ if {[get_property PROGRESS $synth_run] ne "100%"} {
 if {[llength [get_runs -quiet $run_name]] != 0} {
     delete_runs [get_runs $run_name]
 }
+if {[file isdirectory $run_dir]} {
+    file delete -force $run_dir
+}
 create_run $run_name -parent_run synth_1 -flow {Vivado Implementation 2023} \
     -strategy {Vivado Implementation Defaults} -constrset constrs_1
 set impl_run [get_runs $run_name]
@@ -36,7 +39,8 @@ launch_runs $impl_run -to_step write_bitstream -jobs 8
 wait_on_run $impl_run
 
 set impl_status [get_property STATUS $impl_run]
-if {![file isfile $run_bitstream] || [file size $run_bitstream] == 0} {
+if {[get_property PROGRESS $impl_run] ne "100%" ||
+    ![file isfile $run_bitstream] || [file size $run_bitstream] == 0} {
     error "Bitstream generation failed: $impl_status"
 }
 

@@ -31,6 +31,11 @@ run_iverilog tb_dvp_href_line_guard \
     rtl/video/camera/dvp_href_line_guard.sv \
     sim/tb_dvp_href_line_guard.sv
 
+run_verilator tb_camera_telemetry \
+    rtl/common/cdc/cdc_mailbox.sv \
+    rtl/video/camera/camera_telemetry.sv \
+    sim/tb_camera_telemetry.sv
+
 run_verilator tb_camera_axis_cdc_line_boundary \
     rtl/interfaces/axis_video_if.sv \
     rtl/video/camera/camera_axis_cdc.sv \
@@ -71,13 +76,32 @@ run_verilator tb_camera_axis_to_stream_recovery \
     rtl/video/camera/camera_axis_to_stream.sv \
     sim/tb_camera_axis_to_stream_recovery.sv
 
+run_verilator tb_video_control_bridge \
+    rtl/interfaces/axi_lite_if.sv \
+    rtl/common/cdc/cdc_mailbox.sv \
+    rtl/control/csr/video_csr.sv \
+    rtl/control/csr/frame_csr.sv \
+    rtl/control/csr/tensor_csr.sv \
+    rtl/control/csr/overlay_csr.sv \
+    rtl/control/csr/telemetry_csr.sv \
+    rtl/control/telemetry/tensor_telemetry_cdc.sv \
+    rtl/video/framebuffer/multi_channel_framebuffer_ctrl.sv \
+    rtl/video/video_control_bridge.sv \
+    sim/tb_video_control_bridge.sv
+
+run_verilator tb_video_csr_partition \
+    rtl/interfaces/axi_lite_if.sv \
+    rtl/control/csr/video_csr.sv \
+    rtl/control/csr/frame_csr.sv \
+    rtl/control/csr/tensor_csr.sv \
+    rtl/control/csr/overlay_csr.sv \
+    rtl/control/csr/telemetry_csr.sv \
+    rtl/video/framebuffer/multi_channel_framebuffer_ctrl.sv \
+    sim/tb_video_csr_partition.sv
+
 run_iverilog tb_multi_channel_frame_manager_writer_handshake \
     rtl/video/framebuffer/multi_channel_frame_manager.sv \
     sim/tb_multi_channel_frame_manager_writer_handshake.sv
-
-run_iverilog tb_multi_channel_frame_manager_ai_snapshot \
-    rtl/video/framebuffer/multi_channel_frame_manager.sv \
-    sim/tb_multi_channel_frame_manager_ai_snapshot.sv
 
 run_verilator tb_mosaic_frame_reader_16ch \
     rtl/interfaces/axi4_if.sv \

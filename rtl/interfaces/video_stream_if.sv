@@ -31,4 +31,3 @@ interface video_stream_if #(
         output ready
     );
 endinterface
-

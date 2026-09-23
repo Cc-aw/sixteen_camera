@@ -258,7 +258,8 @@ int main(void)
     assert(ai_batch_runtime_is_idle() != 0U);
     ai_batch_runtime_set_enabled(1U);
     assert(ai_batch_runtime_is_enabled() != 0U);
-    assert(admission_mask == CAMERA_PRESENT_MASK && admission_limit == 1U);
+    assert(admission_mask == CAMERA_PRESENT_MASK &&
+           admission_limit == TENSOR_PRODUCTION_ADMISSION_LIMIT);
     publish_slot(0U, 10U);
     publish_slot(16U, 12U);
     publish_slot(1U, 15U);

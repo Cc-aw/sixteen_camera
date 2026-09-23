@@ -637,14 +637,12 @@ module ov7670_frontend #(
     parameter integer FRAME_RESYNC_TIMEOUT_CYCLES = 2000000
 ) (
     input wire sys_rstn,
-    input wire sys_init_done,
     input wire ov7670_ctrl_clk,
     input wire init_grant,
     output wire init_request,
     output wire init_terminal,
     input wire video_clk,
     input wire video_resetn,
-    input wire pixel_clk,
     axi_lite_if.slave camera_axil,
 
     input wire ov7670_pclk,
@@ -656,19 +654,8 @@ module ov7670_frontend #(
     output wire cam_xclk,
     output wire cam_reset_n,
     output wire cam_pwdn,
-    input wire cam_xclk_pad,
-    input wire cam_reset_n_pad,
-    input wire cam_pwdn_pad,
-    input wire cam_scl_pad,
-
     output wire event_valid,
     input wire event_ready,
-    input wire [31:0] diag_fifo_full_stall_count,
-    input wire [31:0] diag_ready_low_count,
-    input wire [31:0] diag_fifo_max_level,
-    input wire [31:0] diag_line_flush_count,
-    input wire [255:0] stream_diag_counts,
-    input wire [31:0] stream_timeout_abort_count,
     output reg diag_clear_toggle,
     output wire [7:0] event_data,
     output wire event_byte_valid,
@@ -678,19 +665,8 @@ module ov7670_frontend #(
     output wire event_frame_boundary,
     output wire event_fault,
     output wire pixel_resetn,
-    output wire pixel_enable,
-    output wire [383:0] axis_diag
+    output wire pixel_enable
 );
-    function automatic [31:0] gray_to_binary(input [31:0] gray);
-        integer bit_index;
-        begin
-            gray_to_binary[31] = gray[31];
-            for (bit_index = 30; bit_index >= 0; bit_index = bit_index - 1)
-                gray_to_binary[bit_index] = gray_to_binary[bit_index + 1] ^
-                                            gray[bit_index];
-        end
-    endfunction
-
     reg [31:0] pclk_cycle_count = 32'd0;
     reg [31:0] input_frame_count = 32'd0;
     reg [31:0] input_line_count = 32'd0;
@@ -703,64 +679,14 @@ module ov7670_frontend #(
     reg [15:0] current_frame_lines = 16'd0;
     reg [15:0] last_frame_lines = 16'd0;
     reg [31:0] geometry_snapshot_pclk = 32'd0;
-    reg geometry_toggle_pclk = 1'b0;
-    reg [31:0] geometry_snapshot_axil = 32'd0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg [31:0] geometry_data_sync1 = 32'd0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg [31:0] geometry_data_sync2 = 32'd0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg geometry_toggle_sync1 = 1'b0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg geometry_toggle_sync2 = 1'b0;
-    reg geometry_toggle_seen = 1'b0;
-    reg geometry_capture_pending = 1'b0;
     reg diag_vsync_d = 1'b0;
     reg diag_href_d = 1'b0;
-    reg raw_href_d = 1'b0;
-    reg [31:0] raw_href_count = 32'd0;
-    reg [31:0] qualified_href_count = 32'd0;
-    reg [31:0] short_href_count = 32'd0;
-    reg [31:0] min_href_high_width = 32'hffffffff;
-    reg [31:0] current_href_high_width = 32'd0;
-    reg [31:0] last_href_high_width = 32'd0;
-    reg raw_vsync_d = 1'b0;
-    reg [31:0] raw_vsync_edges = 32'd0;
-    reg [31:0] filtered_vsync_edges = 32'd0;
-    reg [31:0] short_vsync_count = 32'd0;
-    reg [31:0] min_vsync_high_width = 32'hffffffff;
-    reg [31:0] current_vsync_high_width = 32'd0;
     reg [HREF_FILTER_CYCLES*8-1:0] href_data_pipe =
         {HREF_FILTER_CYCLES*8{1'b0}};
-    // The complete DVP bus is sampled by the 300 MHz DDR UI clock.  The first
-    // stage is forced into the input IOB and the second stage keeps PCLK,
-    // HREF, VSYNC and D[7:0] aligned.  PCLK is data in this architecture; it
-    // is never used as a fabric clock.
-    (* IOB = "TRUE", ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg [7:0] dvp_data_iob = 8'd0;
-    (* IOB = "TRUE", ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg       dvp_href_iob = 1'b0;
-    (* IOB = "TRUE", ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg       dvp_vsync_iob = 1'b0;
-    (* IOB = "TRUE", ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg       dvp_pclk_iob = 1'b0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg [7:0] dvp_data_sync = 8'd0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg       dvp_href_sync = 1'b0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg       dvp_vsync_sync = 1'b0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg dvp_pclk_sync = 1'b0;
-    // The FMC pins and the recovery logic occupy adjacent SLRs.  Keep the
-    // metastability-catching stage beside the IOB (constrained in clk.xdc),
-    // then cross the already-synchronous, fully aligned bus through this
-    // ordinary pipeline stage.  This avoids using an inter-SLR route as the
-    // actual asynchronous sampling aperture.
-    reg [7:0] dvp_data_pipe = 8'd0;
-    reg       dvp_href_pipe = 1'b0;
-    reg       dvp_vsync_pipe = 1'b0;
-    reg       dvp_pclk_pipe = 1'b0;
+    wire [7:0] dvp_data_pipe;
+    wire       dvp_href_pipe;
+    wire       dvp_vsync_pipe;
+    wire       dvp_pclk_pipe;
 
     wire pixel_ce;
     wire [7:0] recovered_data;
@@ -769,56 +695,12 @@ module ov7670_frontend #(
     wire pclk_recovery_locked;
     wire [1:0] pclk_recovery_state;
     wire [23:0] pclk_period_est_fp;
-    wire [15:0] pclk_last_interval;
-    wire [15:0] pclk_interval_min;
-    wire [15:0] pclk_interval_max;
-    wire [23:0] pclk_phase_error_fp;
-    wire [23:0] pclk_phase_error_max_fp;
-    wire [31:0] pclk_candidate_count;
-    wire [31:0] pclk_valid_count;
-    wire [31:0] pclk_glitch_count;
-    wire [31:0] pclk_missing_count;
-    wire [31:0] pclk_holdover_count;
-    wire [31:0] pclk_holdover_recovered_count;
-    wire [31:0] pclk_harmonic_reject_count;
     wire [31:0] pclk_lock_loss_count;
-    wire [31:0] pclk_data_unstable_count;
-    wire [15:0] pclk_short_high_count;
-    wire [15:0] pclk_short_low_count;
-    wire [23:0] pclk_candidate_period_est_fp;
-    wire [15:0] pclk_raw_candidate_interval;
-    wire [31:0] pclk_period_range_fault_count;
-    wire [31:0] pclk_half_period_candidate_count;
-    wire [31:0] pclk_too_early_count;
-    wire [31:0] pclk_too_late_count;
-    wire [31:0] pclk_invalid_interval_count;
-    wire [5:0] pclk_lock_score;
-    wire [3:0] pclk_recovery_confirm_count;
-    wire [3:0] pclk_last_loss_reason;
-    wire [31:0] pclk_data_stable_count;
-    wire [63:0] pclk_candidate_count64;
-    wire [63:0] pclk_valid_count64;
-    wire [63:0] pclk_pixel_ce_count64;
     wire pclk_loss_event;
-    wire [23:0] pclk_period_at_loss;
-    wire [23:0] pclk_candidate_period_at_loss;
-    wire [23:0] pclk_phase_error_at_loss;
-    wire [15:0] pclk_interval_at_loss;
     // Board-qualified sampling tap. Keep this fixed at tap 2; runtime tap
     // switching is intentionally disabled to remove a high-fanout 300 MHz
     // control path from the PCLK recovery datapath.
     localparam logic [2:0] FIXED_SAMPLE_OFFSET = 3'd2;
-    reg [15:0] pclk_line_current = 16'd0;
-    reg [15:0] pclk_line_last = 16'd0;
-    reg [15:0] pclk_line_min = 16'hffff;
-    reg [15:0] pclk_line_max = 16'd0;
-    reg [31:0] pclk_line_good_count = 32'd0;
-    reg [31:0] pclk_line_short_count = 32'd0;
-    reg [31:0] pclk_line_long_count = 32'd0;
-    reg [15:0] pclk_line_count_at_loss = 16'd0;
-    reg [63:0] pclk_pixel_count_at_loss = 64'd0;
-    reg integrity_href_d = 1'b0;
-    reg [15:0] integrity_line_samples = 16'd0;
     // VSYNC is a frame-rate signal, so a valid level persists for many PCLK
     // cycles. Counter-based hysteresis allows a substantially stronger filter
     // without building a wide reduction tree in every camera channel.
@@ -838,16 +720,6 @@ module ov7670_frontend #(
     (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
     reg diag_clear_video_sync2 = 1'b0;
     reg diag_clear_video_seen = 1'b0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg stats_snapshot_video_sync1 = 1'b0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg stats_snapshot_video_sync2 = 1'b0;
-    reg stats_snapshot_video_seen = 1'b0;
-    reg stats_snapshot_ack_video = 1'b0;
-    reg [40*32-1:0] pclk_snapshot_video = {40*32{1'b0}};
-    wire [40*32-1:0] pclk_snapshot_axil;
-    wire stats_snapshot_ack_axil;
-    localparam integer HREF_SHORT_THRESHOLD = HREF_FILTER_CYCLES * 2;
     localparam integer HREF_RUN_WIDTH =
         (HREF_FILTER_CYCLES <= 2) ? 1 : $clog2(HREF_FILTER_CYCLES);
     reg [HREF_RUN_WIDTH-1:0] href_high_run = {HREF_RUN_WIDTH{1'b0}};
@@ -857,13 +729,6 @@ module ov7670_frontend #(
     wire href_guard_line_start;
     wire href_guard_last_byte;
     wire href_guard_line_end;
-    wire href_guard_active;
-    wire href_guard_discarding;
-    wire [31:0] href_guard_recovered_count;
-    wire [31:0] href_guard_flush_count;
-    wire [5:0] href_guard_gap_last;
-    wire [5:0] href_guard_gap_max;
-    wire [10:0] href_guard_flush_position;
 
     initial begin
         if (SENSOR_WIDTH != 640 || SENSOR_HEIGHT != 480 ||
@@ -888,17 +753,17 @@ module ov7670_frontend #(
     wire hw_init_failed;
     wire hw_capture_enable;
     wire [415:0] ctrl_diag_24m;
-    wire [415:0] ctrl_diag_axil;
     reg [6:1] control_bits;
     reg reinit_toggle;
-    reg diag_clear_pulse;
-    reg [5:0] probe_control;
-    reg stats_snapshot_toggle;
     wire [3:0] control_24m;
     wire control_write_pulse;
     wire [15:0] control_write_word;
     wire [31:0] control_write_data;
     wire [3:0] control_write_strb;
+    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
+    reg capture_enable_sync1 = 1'b0;
+    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
+    reg capture_enable_sync2 = 1'b0;
 
     xpm_cdc_array_single #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
@@ -924,15 +789,13 @@ module ov7670_frontend #(
         .diag(ctrl_diag_24m)
     );
     wire normal_scl = control_bits[4] ? control_bits[5] : hw_scl;
-    assign cam_xclk = probe_control[0] ? probe_control[1] : hw_xclk;
-    assign cam_reset_n = probe_control[0] ? probe_control[2] : hw_reset_n;
-    assign cam_pwdn = probe_control[0] ? probe_control[3] : hw_pwdn;
-    assign cam_scl = probe_control[0] ? probe_control[4] : normal_scl;
+    assign cam_xclk = hw_xclk;
+    assign cam_reset_n = hw_reset_n;
+    assign cam_pwdn = hw_pwdn;
+    assign cam_scl = normal_scl;
     IOBUF u_ov7670_sda_iobuf (
-        .I(probe_control[0] ? 1'b0 :
-           (control_bits[4] ? 1'b0 : hw_sda_o)), .O(hw_sda_in),
-        .T(probe_control[0] ? probe_control[5] :
-           (control_bits[4] ? control_bits[6] : hw_sda_t)),
+        .I(control_bits[4] ? 1'b0 : hw_sda_o), .O(hw_sda_in),
+        .T(control_bits[4] ? control_bits[6] : hw_sda_t),
         .IO(cam_sda)
     );
 
@@ -940,527 +803,60 @@ module ov7670_frontend #(
         if (!camera_axil.aresetn) begin
             control_bits <= 6'd0;
             reinit_toggle <= 1'b0;
-            diag_clear_pulse <= 1'b0;
             diag_clear_toggle <= 1'b0;
-            probe_control <= 6'd0;
-            stats_snapshot_toggle <= 1'b0;
         end else begin
-            diag_clear_pulse <= 1'b0;
-            if (control_write_pulse && control_write_word == 16'd15 &&
+            if (control_write_pulse && control_write_word == 16'd1 &&
                 control_write_strb[0]) begin
                 control_bits <= control_write_data[6:1];
                 if (control_write_data[0])
                     reinit_toggle <= !reinit_toggle;
                 if (control_write_data[7])
-                    diag_clear_pulse <= 1'b1;
-                if (control_write_data[7])
                     diag_clear_toggle <= !diag_clear_toggle;
-                // control_write_data[10:8] is retained as a reserved,
-                // read-compatible field; sampling remains fixed at tap 2.
-            end
-            if (control_write_pulse && control_write_word == 16'd30 &&
-                control_write_strb[0])
-                probe_control <= control_write_data[5:0];
-            if (control_write_pulse && control_write_word == 16'd76 &&
-                control_write_strb[0])
-                stats_snapshot_toggle <= !stats_snapshot_toggle;
-        end
-    end
-
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(1), .WIDTH(416)
-    ) u_ctrl_diag_cdc (
-        .src_clk(ov7670_ctrl_clk), .src_in(ctrl_diag_24m),
-        .dest_clk(camera_axil.aclk), .dest_out(ctrl_diag_axil)
-    );
-
-    wire [255:0] pclk_diag_source = {
-        current_frame_lines[11:0], current_line_bytes[11:0],
-        recovered_vsync, recovered_href, diag_vsync_d, diag_href_d, 4'd0,
-        last_frame_lines, last_line_bytes,
-        input_overflow_count ^ (input_overflow_count >> 1),
-        input_pixel_count ^ (input_pixel_count >> 1),
-        input_byte_count ^ (input_byte_count >> 1),
-        input_line_count ^ (input_line_count >> 1),
-        input_frame_count ^ (input_frame_count >> 1),
-        pclk_cycle_count ^ (pclk_cycle_count >> 1)
-    };
-    wire [255:0] pclk_diag_axil;
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(1), .WIDTH(256)
-    ) u_pclk_diag_cdc (
-        .src_clk(video_clk), .src_in(pclk_diag_source),
-        .dest_clk(camera_axil.aclk), .dest_out(pclk_diag_axil)
-    );
-
-    // HREF counters are diagnostic telemetry.  They are kept separate from
-    // the atomic geometry snapshot because they are intentionally live
-    // counters rather than frame-boundary values.
-    wire [159:0] href_diag_source = {
-        last_href_high_width, min_href_high_width, short_href_count,
-        qualified_href_count, raw_href_count
-    };
-    wire [159:0] href_diag_axil;
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(1), .WIDTH(160)
-    ) u_href_diag_cdc (
-        .src_clk(video_clk), .src_in(href_diag_source),
-        .dest_clk(camera_axil.aclk), .dest_out(href_diag_axil)
-    );
-
-    wire [127:0] vsync_diag_source = {
-        min_vsync_high_width, short_vsync_count,
-        filtered_vsync_edges, raw_vsync_edges
-    };
-    wire [127:0] vsync_diag_axil;
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(1), .WIDTH(128)
-    ) u_vsync_diag_cdc (
-        .src_clk(video_clk), .src_in(vsync_diag_source),
-        .dest_clk(camera_axil.aclk), .dest_out(vsync_diag_axil)
-    );
-
-    wire [95:0] cdc_diag_source = {
-        diag_fifo_max_level, diag_ready_low_count,
-        diag_fifo_full_stall_count
-    };
-    wire [95:0] cdc_diag_axil;
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(1), .WIDTH(96)
-    ) u_cdc_diag_cdc (
-        .src_clk(pixel_clk), .src_in(cdc_diag_source),
-        .dest_clk(camera_axil.aclk), .dest_out(cdc_diag_axil)
-    );
-
-    // Geometry is a bundled value crossing from PCLK to AXI. The source
-    // snapshot changes only once per completed frame; the toggle announces
-    // that change, and AXI captures the synchronized data one cycle later.
-    always @(posedge camera_axil.aclk) begin
-        if (!camera_axil.aresetn) begin
-            geometry_data_sync1 <= 32'd0;
-            geometry_data_sync2 <= 32'd0;
-            geometry_toggle_sync1 <= 1'b0;
-            geometry_toggle_sync2 <= 1'b0;
-            geometry_toggle_seen <= 1'b0;
-            geometry_capture_pending <= 1'b0;
-            geometry_snapshot_axil <= 32'd0;
-        end else begin
-            geometry_data_sync1 <= geometry_snapshot_pclk;
-            geometry_data_sync2 <= geometry_data_sync1;
-            geometry_toggle_sync1 <= geometry_toggle_pclk;
-            geometry_toggle_sync2 <= geometry_toggle_sync1;
-
-            if (geometry_toggle_sync2 != geometry_toggle_seen) begin
-                geometry_toggle_seen <= geometry_toggle_sync2;
-                geometry_capture_pending <= 1'b1;
-            end else if (geometry_capture_pending) begin
-                geometry_snapshot_axil <= geometry_data_sync2;
-                geometry_capture_pending <= 1'b0;
             end
         end
     end
 
-    // Independent 100 MHz sampler.  These counters remain valid even when
-    // the external PCLK is absent, noisy, or connected to the wrong pin.
-    wire [11:0] sample_async = {hw_sda_in, ov7670_href, ov7670_vsync,
-                                ov7670_pclk, ov7670_data};
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg [11:0] sample_sync_1;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg [11:0] sample_sync_2;
-    reg [11:0] sample_sync_d;
-    reg [31:0] os_sample_count;
-    reg [31:0] os_pclk_edges;
-    reg [31:0] os_vsync_edges;
-    reg [31:0] os_href_edges;
-    reg [31:0] os_href_pclk_edges;
-    reg [31:0] os_vh_overlap;
-    reg [11:0] os_seen_high;
-    reg [11:0] os_seen_low;
-    reg [7:0] os_data_toggle;
-    reg [7:0] os_data_previous;
-    reg [15:0] os_current_line_pclks;
-    reg [15:0] os_last_line_pclks;
-    reg [15:0] os_current_frame_lines;
-    reg [15:0] os_last_frame_lines;
-    reg [15:0] os_pclk_period;
-    reg [15:0] os_pclk_period_min;
-    reg [15:0] os_pclk_period_max;
-    reg os_period_valid;
+    wire [31:0] ctrl_status0_axil;
+    wire [31:0] ctrl_status1_axil;
+    wire [31:0] capture_status0_axil;
+    wire [31:0] capture_frame_count_axil;
+    wire [31:0] capture_overflow_count_axil;
+    wire [31:0] capture_lock_loss_count_axil;
+    wire [31:0] capture_geometry_axil;
 
-    // Read the actual FPGA pads, rather than the pre-IOBUF drive nets.  This
-    // detects pin contention and verifies that each output buffer is active.
-    wire [4:0] pad_async = {hw_sda_in, cam_scl_pad, cam_pwdn_pad,
-                            cam_reset_n_pad, cam_xclk_pad};
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg [4:0] pad_sync_1;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *) reg [4:0] pad_sync_2;
-    reg [4:0] pad_sync_d;
-    reg [4:0] pad_seen_high;
-    reg [4:0] pad_seen_low;
-    reg [31:0] pad_xclk_edges;
-    reg [31:0] pad_reset_edges;
-    reg [31:0] pad_pwdn_edges;
-    reg [31:0] pad_scl_edges;
-    reg [31:0] pad_sda_edges;
-
-    wire os_pclk_rise = sample_sync_2[8] && !sample_sync_d[8];
-    wire os_vsync_rise = sample_sync_2[9] && !sample_sync_d[9];
-    wire os_href_rise = sample_sync_2[10] && !sample_sync_d[10];
-    wire os_href_fall = !sample_sync_2[10] && sample_sync_d[10];
-
-    always @(posedge camera_axil.aclk) begin
-        if (!camera_axil.aresetn) begin
-            sample_sync_1 <= 12'd0;
-            sample_sync_2 <= 12'd0;
-            sample_sync_d <= 12'd0;
-            pad_sync_1 <= 5'd0;
-            pad_sync_2 <= 5'd0;
-            pad_sync_d <= 5'd0;
-        end else begin
-            sample_sync_1 <= sample_async;
-            sample_sync_2 <= sample_sync_1;
-            sample_sync_d <= sample_sync_2;
-            pad_sync_1 <= pad_async;
-            pad_sync_2 <= pad_sync_1;
-            pad_sync_d <= pad_sync_2;
-        end
-    end
-
-    always @(posedge camera_axil.aclk) begin
-        if (!camera_axil.aresetn || diag_clear_pulse) begin
-            os_sample_count <= 32'd0;
-            os_pclk_edges <= 32'd0;
-            os_vsync_edges <= 32'd0;
-            os_href_edges <= 32'd0;
-            os_href_pclk_edges <= 32'd0;
-            os_vh_overlap <= 32'd0;
-            os_seen_high <= 12'd0;
-            os_seen_low <= 12'd0;
-            os_data_toggle <= 8'd0;
-            os_data_previous <= sample_sync_2[7:0];
-            os_current_line_pclks <= 16'd0;
-            os_last_line_pclks <= 16'd0;
-            os_current_frame_lines <= 16'd0;
-            os_last_frame_lines <= 16'd0;
-            os_pclk_period <= 16'd0;
-            os_pclk_period_min <= 16'hffff;
-            os_pclk_period_max <= 16'd0;
-            os_period_valid <= 1'b0;
-            pad_seen_high <= 5'd0;
-            pad_seen_low <= 5'd0;
-            pad_xclk_edges <= 32'd0;
-            pad_reset_edges <= 32'd0;
-            pad_pwdn_edges <= 32'd0;
-            pad_scl_edges <= 32'd0;
-            pad_sda_edges <= 32'd0;
-        end else begin
-            os_sample_count <= os_sample_count + 1'b1;
-            os_seen_high <= os_seen_high | sample_sync_2;
-            os_seen_low <= os_seen_low | ~sample_sync_2;
-            pad_seen_high <= pad_seen_high | pad_sync_2;
-            pad_seen_low <= pad_seen_low | ~pad_sync_2;
-            if (pad_sync_2[0] != pad_sync_d[0])
-                pad_xclk_edges <= pad_xclk_edges + 1'b1;
-            if (pad_sync_2[1] != pad_sync_d[1])
-                pad_reset_edges <= pad_reset_edges + 1'b1;
-            if (pad_sync_2[2] != pad_sync_d[2])
-                pad_pwdn_edges <= pad_pwdn_edges + 1'b1;
-            if (pad_sync_2[3] != pad_sync_d[3])
-                pad_scl_edges <= pad_scl_edges + 1'b1;
-            if (pad_sync_2[4] != pad_sync_d[4])
-                pad_sda_edges <= pad_sda_edges + 1'b1;
-            if (os_pclk_period != 16'hffff)
-                os_pclk_period <= os_pclk_period + 1'b1;
-            if (sample_sync_2[9] && sample_sync_2[10])
-                os_vh_overlap <= os_vh_overlap + 1'b1;
-
-            if (os_vsync_rise) begin
-                os_vsync_edges <= os_vsync_edges + 1'b1;
-                os_last_frame_lines <= os_current_frame_lines;
-                os_current_frame_lines <= 16'd0;
-            end
-            if (os_href_rise) begin
-                os_href_edges <= os_href_edges + 1'b1;
-                os_current_frame_lines <= os_current_frame_lines + 1'b1;
-                os_current_line_pclks <= 16'd0;
-            end
-            if (os_href_fall)
-                os_last_line_pclks <= os_current_line_pclks;
-
-            if (os_pclk_rise) begin
-                os_pclk_edges <= os_pclk_edges + 1'b1;
-                if (os_period_valid) begin
-                    if (os_pclk_period < os_pclk_period_min)
-                        os_pclk_period_min <= os_pclk_period;
-                    if (os_pclk_period > os_pclk_period_max)
-                        os_pclk_period_max <= os_pclk_period;
-                end
-                os_pclk_period <= 16'd0;
-                os_period_valid <= 1'b1;
-                if (sample_sync_2[10]) begin
-                    os_href_pclk_edges <= os_href_pclk_edges + 1'b1;
-                    os_current_line_pclks <= os_href_rise ? 16'd1 :
-                                             os_current_line_pclks + 1'b1;
-                    os_data_toggle <= os_data_toggle |
-                                      (sample_sync_2[7:0] ^ os_data_previous);
-                    os_data_previous <= sample_sync_2[7:0];
-                end
-            end
-        end
-    end
-
-    wire [255:0] stream_diag_gray_source;
-    wire [255:0] stream_diag_gray_axil;
-    genvar stream_diag_word;
-    generate
-        for (stream_diag_word = 0; stream_diag_word < 8;
-             stream_diag_word = stream_diag_word + 1) begin : g_stream_diag_gray
-            wire [31:0] binary_count =
-                stream_diag_counts[stream_diag_word*32 +: 32];
-            assign stream_diag_gray_source[stream_diag_word*32 +: 32] =
-                binary_count ^ (binary_count >> 1);
-        end
-    endgenerate
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(1), .WIDTH(256)
-    ) u_stream_diag_cdc (
-        .src_clk(pixel_clk), .src_in(stream_diag_gray_source),
-        .dest_clk(camera_axil.aclk), .dest_out(stream_diag_gray_axil)
+    camera_telemetry u_camera_telemetry (
+        .ctrl_clk(ov7670_ctrl_clk), .ctrl_resetn(sys_rstn),
+        .ctrl_status0_src(ctrl_diag_24m[31:0]),
+        .ctrl_status1_src(ctrl_diag_24m[415:384]),
+        .capture_clk(video_clk), .capture_resetn(video_resetn),
+        .capture_enable(capture_enable_sync2),
+        .pclk_locked(pclk_recovery_locked),
+        .pclk_state(pclk_recovery_state),
+        .pclk_period(pclk_period_est_fp),
+        .frame_count(input_frame_count),
+        .overflow_count(input_overflow_count),
+        .lock_loss_count(pclk_lock_loss_count),
+        .geometry(geometry_snapshot_pclk),
+        .axil_clk(camera_axil.aclk), .axil_resetn(camera_axil.aresetn),
+        .ctrl_status0(ctrl_status0_axil),
+        .ctrl_status1(ctrl_status1_axil),
+        .capture_status0(capture_status0_axil),
+        .capture_frame_count(capture_frame_count_axil),
+        .capture_overflow_count(capture_overflow_count_axil),
+        .capture_lock_loss_count(capture_lock_loss_count_axil),
+        .capture_geometry(capture_geometry_axil)
     );
 
-    wire [31:0] rejected_vsync_gray_source =
-        rejected_vsync_count ^ (rejected_vsync_count >> 1);
-    wire [31:0] line_flush_gray_source =
-        diag_line_flush_count ^ (diag_line_flush_count >> 1);
-    wire [31:0] rejected_vsync_gray_axil;
-    wire [31:0] line_flush_gray_axil;
-    wire [63:0] ingress_extra_gray_axil;
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(1), .WIDTH(32)
-    ) u_rejected_vsync_diag_cdc (
-        .src_clk(video_clk), .src_in(rejected_vsync_gray_source),
-        .dest_clk(camera_axil.aclk), .dest_out(rejected_vsync_gray_axil)
-    );
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(1), .WIDTH(32)
-    ) u_line_flush_diag_cdc (
-        .src_clk(pixel_clk), .src_in(line_flush_gray_source),
-        .dest_clk(camera_axil.aclk), .dest_out(line_flush_gray_axil)
-    );
-    assign ingress_extra_gray_axil = {rejected_vsync_gray_axil,
-                                      line_flush_gray_axil};
-
-    wire [95:0] href_guard_diag_source = {
-        4'd0, href_guard_gap_max, href_guard_flush_position,
-        href_guard_gap_last, href_guard_discarding, href_guard_active, 3'd0,
-        href_guard_flush_count ^ (href_guard_flush_count >> 1),
-        href_guard_recovered_count ^ (href_guard_recovered_count >> 1)
-    };
-    wire [95:0] href_guard_diag_axil;
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(1), .WIDTH(96)
-    ) u_href_guard_diag_cdc (
-        .src_clk(video_clk), .src_in(href_guard_diag_source),
-        .dest_clk(camera_axil.aclk), .dest_out(href_guard_diag_axil)
-    );
-
-    wire [31:0] timeout_abort_gray_source =
-        stream_timeout_abort_count ^ (stream_timeout_abort_count >> 1);
-    wire [31:0] timeout_abort_gray_axil;
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(1), .WIDTH(32)
-    ) u_timeout_abort_diag_cdc (
-        .src_clk(pixel_clk), .src_in(timeout_abort_gray_source),
-        .dest_clk(camera_axil.aclk), .dest_out(timeout_abort_gray_axil)
-    );
-
-    wire [31:0] pclk_candidate_gray = pclk_candidate_count ^
-                                       (pclk_candidate_count >> 1);
-    wire [31:0] pclk_valid_gray = pclk_valid_count ^
-                                   (pclk_valid_count >> 1);
-    wire [31:0] pclk_glitch_gray = pclk_glitch_count ^
-                                    (pclk_glitch_count >> 1);
-    wire [31:0] pclk_missing_gray = pclk_missing_count ^
-                                     (pclk_missing_count >> 1);
-    wire [31:0] pclk_recovery_status = {
-        pclk_recovery_locked, pclk_recovery_state,
-        FIXED_SAMPLE_OFFSET,
-        pclk_holdover_count[5:0], pclk_last_interval[5:0],
-        pclk_period_est_fp[13:0]
-    };
-    // Four Gray-coded monotonic counters plus one compact status word keep the
-    // recovery telemetry bounded to the same five-word budget as the previous
-    // oversampling monitor.
-    wire [159:0] pclk_quality_source = {
-        pclk_recovery_status, pclk_missing_gray, pclk_glitch_gray,
-        pclk_valid_gray, pclk_candidate_gray
-    };
-    wire [159:0] pclk_quality_axil;
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(0), .WIDTH(160)
-    ) u_pclk_quality_diag_cdc (
-        .src_clk(video_clk), .src_in(pclk_quality_source),
-        .dest_clk(camera_axil.aclk), .dest_out(pclk_quality_axil)
-    );
-
-    // Extended recovery telemetry is intentionally separate from the compact
-    // fast status block so the established register offsets remain stable.
-    wire [255:0] pclk_extended_source = {
-        pclk_data_unstable_count ^ (pclk_data_unstable_count >> 1),
-        pclk_interval_min, pclk_interval_max,
-        8'd0, pclk_phase_error_max_fp,
-        pclk_short_high_count, pclk_short_low_count,
-        pclk_harmonic_reject_count ^ (pclk_harmonic_reject_count >> 1),
-        pclk_holdover_recovered_count ^
-            (pclk_holdover_recovered_count >> 1),
-        pclk_holdover_count ^ (pclk_holdover_count >> 1),
-        pclk_lock_loss_count ^ (pclk_lock_loss_count >> 1)
-    };
-    wire [255:0] pclk_extended_axil;
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(0), .WIDTH(256)
-    ) u_pclk_extended_diag_cdc (
-        .src_clk(video_clk), .src_in(pclk_extended_source),
-        .dest_clk(camera_axil.aclk), .dest_out(pclk_extended_axil)
-    );
-
-    wire [120*32-1:0] diagnostic_words;
-    assign diagnostic_words[0*32 +: 32] = ctrl_diag_axil[31:0];
-    assign diagnostic_words[1*32 +: 32] = ctrl_diag_axil[63:32];
-    assign diagnostic_words[2*32 +: 32] = ctrl_diag_axil[95:64];
-    assign diagnostic_words[3*32 +: 32] = ctrl_diag_axil[127:96];
-    assign diagnostic_words[4*32 +: 32] = ctrl_diag_axil[159:128];
-    assign diagnostic_words[5*32 +: 32] = ctrl_diag_axil[191:160];
-    assign diagnostic_words[6*32 +: 32] =
-        gray_to_binary(ctrl_diag_axil[223:192]);
-    assign diagnostic_words[7*32 +: 32] =
-        gray_to_binary(pclk_diag_axil[31:0]);
-    assign diagnostic_words[8*32 +: 32] =
-        gray_to_binary(pclk_diag_axil[63:32]);
-    assign diagnostic_words[9*32 +: 32] =
-        gray_to_binary(pclk_diag_axil[95:64]);
-    assign diagnostic_words[10*32 +: 32] =
-        gray_to_binary(pclk_diag_axil[127:96]);
-    assign diagnostic_words[11*32 +: 32] =
-        gray_to_binary(pclk_diag_axil[159:128]);
-    assign diagnostic_words[12*32 +: 32] =
-        gray_to_binary(pclk_diag_axil[191:160]);
-    assign diagnostic_words[13*32 +: 32] = geometry_snapshot_axil;
-    assign diagnostic_words[14*32 +: 32] = pclk_diag_axil[255:224];
-    assign diagnostic_words[15*32 +: 32] = {25'd0, control_bits, 1'b0};
-    assign diagnostic_words[16*32 +: 32] = {20'd0, sample_sync_2};
-    assign diagnostic_words[17*32 +: 32] = os_sample_count;
-    assign diagnostic_words[18*32 +: 32] = os_pclk_edges;
-    assign diagnostic_words[19*32 +: 32] = os_vsync_edges;
-    assign diagnostic_words[20*32 +: 32] = os_href_edges;
-    assign diagnostic_words[21*32 +: 32] = os_href_pclk_edges;
-    assign diagnostic_words[22*32 +: 32] =
-        gray_to_binary(pclk_quality_axil[31:0]);
-    assign diagnostic_words[23*32 +: 32] =
-        gray_to_binary(pclk_quality_axil[63:32]);
-    assign diagnostic_words[24*32 +: 32] =
-        gray_to_binary(pclk_quality_axil[95:64]);
-    assign diagnostic_words[25*32 +: 32] =
-        gray_to_binary(pclk_quality_axil[127:96]);
-    assign diagnostic_words[26*32 +: 32] = pclk_quality_axil[159:128];
-    assign diagnostic_words[27*32 +: 32] = {24'd0, os_data_toggle};
-    assign diagnostic_words[28*32 +: 32] =
-        {23'd0, hw_init_failed, hw_capture_enable, hw_init_done, hw_sda_in,
-         control_bits[6:4], 2'd0};
-    assign diagnostic_words[29*32 +: 32] = 32'hb1570001;
-    assign diagnostic_words[30*32 +: 32] = {26'd0, probe_control};
-    assign diagnostic_words[31*32 +: 32] = {
-        11'd0, probe_control[5:1], 3'd0,
-        hw_sda_in, cam_scl_pad, cam_pwdn_pad, cam_reset_n_pad, cam_xclk_pad,
-        3'd0, pad_sync_2
-    };
-    assign diagnostic_words[32*32 +: 32] = pad_xclk_edges;
-    assign diagnostic_words[33*32 +: 32] = pad_reset_edges;
-    assign diagnostic_words[34*32 +: 32] = pad_pwdn_edges;
-    assign diagnostic_words[35*32 +: 32] = pad_scl_edges;
-    assign diagnostic_words[36*32 +: 32] = pad_sda_edges;
-    assign diagnostic_words[37*32 +: 32] =
-        {17'd0, pad_seen_low, 5'd0, pad_seen_high};
-    assign diagnostic_words[38*32 +: 32] = 32'h50414432;
-    assign diagnostic_words[39*32 +: 32] = href_diag_axil[31:0];
-    assign diagnostic_words[40*32 +: 32] = href_diag_axil[63:32];
-    assign diagnostic_words[41*32 +: 32] = href_diag_axil[95:64];
-    assign diagnostic_words[42*32 +: 32] = href_diag_axil[127:96];
-    assign diagnostic_words[43*32 +: 32] = href_diag_axil[159:128];
-    assign diagnostic_words[44*32 +: 32] = vsync_diag_axil[31:0];
-    assign diagnostic_words[45*32 +: 32] = vsync_diag_axil[63:32];
-    assign diagnostic_words[46*32 +: 32] = vsync_diag_axil[95:64];
-    assign diagnostic_words[47*32 +: 32] = vsync_diag_axil[127:96];
-    assign diagnostic_words[48*32 +: 32] = cdc_diag_axil[31:0];
-    assign diagnostic_words[49*32 +: 32] = cdc_diag_axil[63:32];
-    assign diagnostic_words[50*32 +: 32] = cdc_diag_axil[95:64];
-    assign diagnostic_words[51*32 +: 32] = ctrl_diag_axil[255:224];
-    assign diagnostic_words[52*32 +: 32] = ctrl_diag_axil[287:256];
-    assign diagnostic_words[53*32 +: 32] = ctrl_diag_axil[319:288];
-    assign diagnostic_words[54*32 +: 32] = ctrl_diag_axil[351:320];
-    assign diagnostic_words[55*32 +: 32] = ctrl_diag_axil[383:352];
-    assign diagnostic_words[56*32 +: 32] = ctrl_diag_axil[415:384];
-    assign diagnostic_words[57*32 +: 32] =
-        gray_to_binary(stream_diag_gray_axil[31:0]);
-    assign diagnostic_words[58*32 +: 32] =
-        gray_to_binary(stream_diag_gray_axil[63:32]);
-    assign diagnostic_words[59*32 +: 32] =
-        gray_to_binary(stream_diag_gray_axil[95:64]);
-    assign diagnostic_words[60*32 +: 32] =
-        gray_to_binary(stream_diag_gray_axil[127:96]);
-    assign diagnostic_words[61*32 +: 32] =
-        gray_to_binary(stream_diag_gray_axil[159:128]);
-    assign diagnostic_words[62*32 +: 32] =
-        gray_to_binary(stream_diag_gray_axil[191:160]);
-    assign diagnostic_words[63*32 +: 32] =
-        gray_to_binary(stream_diag_gray_axil[223:192]);
-    assign diagnostic_words[64*32 +: 32] =
-        gray_to_binary(stream_diag_gray_axil[255:224]);
-    assign diagnostic_words[65*32 +: 32] =
-        gray_to_binary(ingress_extra_gray_axil[31:0]);
-    assign diagnostic_words[66*32 +: 32] =
-        gray_to_binary(ingress_extra_gray_axil[63:32]);
-    assign diagnostic_words[67*32 +: 32] =
-        gray_to_binary(timeout_abort_gray_axil);
-    assign diagnostic_words[68*32 +: 32] =
-        gray_to_binary(pclk_extended_axil[31:0]);
-    assign diagnostic_words[69*32 +: 32] =
-        gray_to_binary(pclk_extended_axil[63:32]);
-    assign diagnostic_words[70*32 +: 32] =
-        gray_to_binary(pclk_extended_axil[95:64]);
-    assign diagnostic_words[71*32 +: 32] =
-        gray_to_binary(pclk_extended_axil[127:96]);
-    assign diagnostic_words[72*32 +: 32] = pclk_extended_axil[159:128];
-    assign diagnostic_words[73*32 +: 32] = pclk_extended_axil[191:160];
-    assign diagnostic_words[74*32 +: 32] = pclk_extended_axil[223:192];
-    assign diagnostic_words[75*32 +: 32] =
-        gray_to_binary(pclk_extended_axil[255:224]);
-    assign diagnostic_words[76*32 +: 32] =
-        {30'd0, stats_snapshot_ack_axil, stats_snapshot_toggle};
-    generate
-        genvar snapshot_word;
-        for (snapshot_word = 0; snapshot_word < 40;
-             snapshot_word = snapshot_word + 1) begin : g_snapshot_words
-            assign diagnostic_words[(77+snapshot_word)*32 +: 32] =
-                pclk_snapshot_axil[snapshot_word*32 +: 32];
-        end
-    endgenerate
-    assign diagnostic_words[117*32 +: 32] =
-        gray_to_binary(href_guard_diag_axil[31:0]);
-    assign diagnostic_words[118*32 +: 32] =
-        gray_to_binary(href_guard_diag_axil[63:32]);
-    assign diagnostic_words[119*32 +: 32] = href_guard_diag_axil[95:64];
-    ov7670_axil_regs #(.WORDS(120)) u_diagnostics (
+    wire [8*32-1:0] diagnostic_words;
+    assign diagnostic_words[0*32 +: 32] = ctrl_status0_axil;
+    assign diagnostic_words[1*32 +: 32] = {25'd0, control_bits, 1'b0};
+    assign diagnostic_words[2*32 +: 32] = capture_status0_axil;
+    assign diagnostic_words[3*32 +: 32] = capture_frame_count_axil;
+    assign diagnostic_words[4*32 +: 32] = capture_overflow_count_axil;
+    assign diagnostic_words[5*32 +: 32] = capture_geometry_axil;
+    assign diagnostic_words[6*32 +: 32] = capture_lock_loss_count_axil;
+    assign diagnostic_words[7*32 +: 32] = ctrl_status1_axil;
+    ov7670_axil_regs #(.WORDS(8)) u_diagnostics (
         .axil(camera_axil), .read_words(diagnostic_words),
         .write_pulse(control_write_pulse),
         .write_word(control_write_word), .write_data(control_write_data),
@@ -1469,10 +865,6 @@ module ov7670_frontend #(
     // Synchronize the controller's enable into the 300 MHz capture domain.
     // The IOB input flops intentionally have no reset so reset routing cannot
     // prevent packing at the pins.
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg capture_enable_sync1 = 1'b0;
-    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
-    reg capture_enable_sync2 = 1'b0;
     // video_resetn is already asserted until DDR calibration completes and
     // is synchronously released in video_clk before it reaches this channel.
     // Do not re-combine the raw system/calibration status here: doing so
@@ -1480,12 +872,15 @@ module ov7670_frontend #(
     // remains disabled until the SCCB controller reports initialization OK.
     wire capture_resetn = video_resetn && capture_enable_sync2;
 
-    always @(posedge video_clk) begin
-        dvp_data_iob <= ov7670_data;
-        dvp_href_iob <= ov7670_href;
-        dvp_vsync_iob <= ov7670_vsync;
-        dvp_pclk_iob <= ov7670_pclk;
-    end
+    dvp_input_sampler u_input_sampler (
+        .capture_clk(video_clk),
+        .dvp_pclk(ov7670_pclk), .dvp_vsync(ov7670_vsync),
+        .dvp_href(ov7670_href), .dvp_data(ov7670_data),
+        .sampled_pclk(dvp_pclk_pipe),
+        .sampled_vsync(dvp_vsync_pipe),
+        .sampled_href(dvp_href_pipe),
+        .sampled_data(dvp_data_pipe)
+    );
 
     always @(posedge video_clk) begin
         if (!video_resetn) begin
@@ -1495,21 +890,6 @@ module ov7670_frontend #(
             capture_enable_sync1 <= hw_capture_enable;
             capture_enable_sync2 <= capture_enable_sync1;
         end
-    end
-
-    // These are payload/alignment stages, not state. They are ignored while
-    // the recovery FSM is reset, and their declaration initializers cover
-    // configuration startup. Keeping reset off them avoids routing the local
-    // run/reset control back across the deliberate SLR pipeline.
-    always @(posedge video_clk) begin
-        dvp_data_sync <= dvp_data_iob;
-        dvp_href_sync <= dvp_href_iob;
-        dvp_vsync_sync <= dvp_vsync_iob;
-        dvp_pclk_sync <= dvp_pclk_iob;
-        dvp_data_pipe <= dvp_data_sync;
-        dvp_href_pipe <= dvp_href_sync;
-        dvp_vsync_pipe <= dvp_vsync_sync;
-        dvp_pclk_pipe <= dvp_pclk_sync;
     end
 
     wire diag_clear_video =
@@ -1556,194 +936,22 @@ module ov7670_frontend #(
         .pclk_locked(pclk_recovery_locked),
         .recovery_state(pclk_recovery_state),
         .period_est_fp(pclk_period_est_fp),
-        .last_interval(pclk_last_interval),
-        .interval_min(pclk_interval_min), .interval_max(pclk_interval_max),
-        .phase_error_fp(pclk_phase_error_fp),
-        .phase_error_max_fp(pclk_phase_error_max_fp),
-        .candidate_count(pclk_candidate_count),
-        .valid_count(pclk_valid_count),
-        .glitch_count(pclk_glitch_count),
-        .missing_count(pclk_missing_count),
-        .holdover_count(pclk_holdover_count),
-        .holdover_recovered_count(pclk_holdover_recovered_count),
-        .harmonic_reject_count(pclk_harmonic_reject_count),
+        .last_interval(), .interval_min(), .interval_max(),
+        .phase_error_fp(), .phase_error_max_fp(),
+        .candidate_count(), .valid_count(), .glitch_count(),
+        .missing_count(), .holdover_count(), .holdover_recovered_count(),
+        .harmonic_reject_count(),
         .lock_loss_count(pclk_lock_loss_count),
-        .data_unstable_count(pclk_data_unstable_count),
-        .short_high_count(pclk_short_high_count),
-        .short_low_count(pclk_short_low_count),
-        .candidate_period_est_fp(pclk_candidate_period_est_fp),
-        .raw_candidate_interval(pclk_raw_candidate_interval),
-        .period_range_fault_count(pclk_period_range_fault_count),
-        .half_period_candidate_count(pclk_half_period_candidate_count),
-        .too_early_count(pclk_too_early_count),
-        .too_late_count(pclk_too_late_count),
-        .invalid_interval_count(pclk_invalid_interval_count),
-        .lock_score(pclk_lock_score),
-        .recovery_confirm_count(pclk_recovery_confirm_count),
-        .last_loss_reason(pclk_last_loss_reason),
-        .data_stable_count(pclk_data_stable_count),
-        .candidate_count64(pclk_candidate_count64),
-        .valid_count64(pclk_valid_count64),
-        .pixel_ce_count64(pclk_pixel_ce_count64),
+        .data_unstable_count(), .short_high_count(), .short_low_count(),
+        .candidate_period_est_fp(), .raw_candidate_interval(),
+        .period_range_fault_count(), .half_period_candidate_count(),
+        .too_early_count(), .too_late_count(), .invalid_interval_count(),
+        .lock_score(), .recovery_confirm_count(), .last_loss_reason(),
+        .data_stable_count(), .candidate_count64(), .valid_count64(),
+        .pixel_ce_count64(),
         .loss_event(pclk_loss_event),
-        .period_at_loss(pclk_period_at_loss),
-        .candidate_period_at_loss(pclk_candidate_period_at_loss),
-        .phase_error_at_loss(pclk_phase_error_at_loss),
-        .interval_at_loss(pclk_interval_at_loss)
-    );
-
-    // End-to-end byte integrity at the recovered PCLK boundary.  HREF is
-    // observed continuously, while only pixel_ce contributes a byte.  This
-    // still closes a short line if PCLK disappears immediately after HREF.
-    always @(posedge video_clk) begin
-        if (!capture_resetn) begin
-            integrity_href_d <= 1'b0;
-            integrity_line_samples <= 16'd0;
-            pclk_line_good_count <= 32'd0;
-            pclk_line_short_count <= 32'd0;
-            pclk_line_long_count <= 32'd0;
-            pclk_line_max <= 16'd0;
-            pclk_line_count_at_loss <= 16'd0;
-            pclk_pixel_count_at_loss <= 64'd0;
-        end else begin
-            integrity_href_d <= recovered_href;
-            if (recovered_href && !integrity_href_d)
-                integrity_line_samples <= 16'd0;
-            if (pixel_ce && recovered_href &&
-                integrity_line_samples != 16'hffff)
-                integrity_line_samples <= integrity_line_samples + 1'b1;
-            if (!recovered_href && integrity_href_d) begin
-                if (integrity_line_samples == 16'(SENSOR_WIDTH * 2))
-                    pclk_line_good_count <= pclk_line_good_count + 1'b1;
-                else if (integrity_line_samples < 16'(SENSOR_WIDTH * 2))
-                    pclk_line_short_count <= pclk_line_short_count + 1'b1;
-                else
-                    pclk_line_long_count <= pclk_line_long_count + 1'b1;
-                if (integrity_line_samples > pclk_line_max)
-                    pclk_line_max <= integrity_line_samples;
-                integrity_line_samples <= 16'd0;
-            end
-            if (diag_clear_video) begin
-                pclk_line_good_count <= 32'd0;
-                pclk_line_short_count <= 32'd0;
-                pclk_line_long_count <= 32'd0;
-                pclk_line_max <= 16'd0;
-                pclk_line_count_at_loss <= 16'd0;
-                pclk_pixel_count_at_loss <= 64'd0;
-            end else if (pclk_loss_event) begin
-                pclk_line_count_at_loss <= integrity_line_samples;
-                pclk_pixel_count_at_loss <= pclk_pixel_ce_count64;
-            end
-        end
-    end
-
-    // Atomic long-test statistics.  Software toggles MMIO word 76; all
-    // shadow words are captured on one 300 MHz edge and remain stable until
-    // the next request.  The acknowledgement uses an extra synchronizer stage
-    // so the shadow data has settled before software observes completion.
-    wire [40*32-1:0] pclk_snapshot_live;
-    assign pclk_snapshot_live[0*32 +: 32] = pclk_candidate_count64[31:0];
-    assign pclk_snapshot_live[1*32 +: 32] = pclk_candidate_count64[63:32];
-    assign pclk_snapshot_live[2*32 +: 32] = pclk_valid_count64[31:0];
-    assign pclk_snapshot_live[3*32 +: 32] = pclk_valid_count64[63:32];
-    assign pclk_snapshot_live[4*32 +: 32] = pclk_pixel_ce_count64[31:0];
-    assign pclk_snapshot_live[5*32 +: 32] = pclk_pixel_ce_count64[63:32];
-    assign pclk_snapshot_live[6*32 +: 32] =
-        {8'd0, pclk_candidate_period_est_fp};
-    assign pclk_snapshot_live[7*32 +: 32] = {8'd0, pclk_period_est_fp};
-    assign pclk_snapshot_live[8*32 +: 32] = {
-        8'd0, pclk_last_loss_reason, pclk_recovery_confirm_count,
-        pclk_lock_score, pclk_recovery_state, pclk_recovery_locked,
-        FIXED_SAMPLE_OFFSET, 4'd0};
-    assign pclk_snapshot_live[9*32 +: 32] =
-        {16'd0, pclk_raw_candidate_interval};
-    assign pclk_snapshot_live[10*32 +: 32] = pclk_period_range_fault_count;
-    assign pclk_snapshot_live[11*32 +: 32] = pclk_half_period_candidate_count;
-    assign pclk_snapshot_live[12*32 +: 32] = pclk_too_early_count;
-    assign pclk_snapshot_live[13*32 +: 32] = pclk_too_late_count;
-    assign pclk_snapshot_live[14*32 +: 32] = pclk_invalid_interval_count;
-    assign pclk_snapshot_live[15*32 +: 32] = pclk_data_stable_count;
-    assign pclk_snapshot_live[16*32 +: 32] = pclk_data_unstable_count;
-    assign pclk_snapshot_live[17*32 +: 32] = pclk_line_good_count;
-    assign pclk_snapshot_live[18*32 +: 32] = pclk_line_short_count;
-    assign pclk_snapshot_live[19*32 +: 32] = pclk_line_long_count;
-    assign pclk_snapshot_live[20*32 +: 32] =
-        {pclk_line_min, pclk_line_max};
-    assign pclk_snapshot_live[21*32 +: 32] =
-        {pclk_line_last, integrity_line_samples};
-    assign pclk_snapshot_live[22*32 +: 32] =
-        {pclk_short_high_count, pclk_short_low_count};
-    assign pclk_snapshot_live[23*32 +: 32] = pclk_harmonic_reject_count;
-    assign pclk_snapshot_live[24*32 +: 32] = pclk_glitch_count;
-    assign pclk_snapshot_live[25*32 +: 32] = pclk_missing_count;
-    assign pclk_snapshot_live[26*32 +: 32] = pclk_holdover_count;
-    assign pclk_snapshot_live[27*32 +: 32] = pclk_holdover_recovered_count;
-    assign pclk_snapshot_live[28*32 +: 32] = pclk_lock_loss_count;
-    assign pclk_snapshot_live[29*32 +: 32] =
-        {8'd0, pclk_phase_error_max_fp};
-    assign pclk_snapshot_live[30*32 +: 32] =
-        {pclk_interval_min, pclk_interval_max};
-    assign pclk_snapshot_live[31*32 +: 32] =
-        {16'd0, pclk_raw_candidate_interval};
-    assign pclk_snapshot_live[32*32 +: 32] =
-        {8'd0, pclk_period_at_loss};
-    assign pclk_snapshot_live[33*32 +: 32] =
-        {8'd0, pclk_candidate_period_at_loss};
-    assign pclk_snapshot_live[34*32 +: 32] =
-        {8'd0, pclk_phase_error_at_loss};
-    assign pclk_snapshot_live[35*32 +: 32] =
-        {16'd0, pclk_interval_at_loss};
-    assign pclk_snapshot_live[36*32 +: 32] =
-        {16'd0, pclk_line_count_at_loss};
-    assign pclk_snapshot_live[37*32 +: 32] =
-        pclk_pixel_count_at_loss[31:0];
-    assign pclk_snapshot_live[38*32 +: 32] =
-        pclk_pixel_count_at_loss[63:32];
-    // Reserved for the optional automatic tap-scan state/error summary.
-    assign pclk_snapshot_live[39*32 +: 32] = 32'd0;
-
-    always @(posedge video_clk) begin
-        if (!video_resetn) begin
-            stats_snapshot_video_sync1 <= 1'b0;
-            stats_snapshot_video_sync2 <= 1'b0;
-            stats_snapshot_video_seen <= 1'b0;
-            stats_snapshot_ack_video <= 1'b0;
-        end else begin
-            stats_snapshot_video_sync1 <= stats_snapshot_toggle;
-            stats_snapshot_video_sync2 <= stats_snapshot_video_sync1;
-            if (stats_snapshot_video_sync2 != stats_snapshot_video_seen) begin
-                pclk_snapshot_video <= pclk_snapshot_live;
-                stats_snapshot_video_seen <= stats_snapshot_video_sync2;
-                stats_snapshot_ack_video <= stats_snapshot_video_sync2;
-            end
-        end
-    end
-
-    // xpm_cdc_array_single supports at most 1024 bits per instance. Both
-    // slices originate from the same frozen shadow register and share the
-    // acknowledgement, so splitting the transport preserves atomicity.
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(0), .WIDTH(32*32)
-    ) u_pclk_snapshot_cdc_low (
-        .src_clk(video_clk), .src_in(pclk_snapshot_video[0 +: 32*32]),
-        .dest_clk(camera_axil.aclk),
-        .dest_out(pclk_snapshot_axil[0 +: 32*32])
-    );
-    xpm_cdc_array_single #(
-        .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(0), .WIDTH(8*32)
-    ) u_pclk_snapshot_cdc_high (
-        .src_clk(video_clk), .src_in(pclk_snapshot_video[32*32 +: 8*32]),
-        .dest_clk(camera_axil.aclk),
-        .dest_out(pclk_snapshot_axil[32*32 +: 8*32])
-    );
-    xpm_cdc_single #(
-        .DEST_SYNC_FF(3), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
-        .SRC_INPUT_REG(1)
-    ) u_pclk_snapshot_ack_cdc (
-        .src_clk(video_clk), .src_in(stats_snapshot_ack_video),
-        .dest_clk(camera_axil.aclk), .dest_out(stats_snapshot_ack_axil)
+        .period_at_loss(), .candidate_period_at_loss(),
+        .phase_error_at_loss(), .interval_at_loss()
     );
 
     always @(posedge video_clk) begin
@@ -1877,12 +1085,9 @@ module ov7670_frontend #(
         .line_start(href_guard_line_start),
         .line_last_byte(href_guard_last_byte),
         .line_end(href_guard_line_end),
-        .diag_gap_recovered_count(href_guard_recovered_count),
-        .diag_flush_count(href_guard_flush_count),
-        .diag_gap_last(href_guard_gap_last),
-        .diag_gap_max(href_guard_gap_max),
-        .diag_flush_position(href_guard_flush_position),
-        .active(href_guard_active), .discarding(href_guard_discarding)
+        .diag_gap_recovered_count(), .diag_flush_count(),
+        .diag_gap_last(), .diag_gap_max(), .diag_flush_position(),
+        .active(), .discarding()
     );
 
     // Ordered recovery events are the only payload leaving the 300 MHz
@@ -1902,76 +1107,6 @@ module ov7670_frontend #(
     assign event_valid = capture_enable_sync2 &&
                          (event_byte_valid || event_line_end ||
                           event_frame_boundary || event_fault);
-
-    always @(posedge video_clk) begin
-        if (!capture_resetn) begin
-            raw_href_d <= 1'b0;
-            raw_href_count <= 32'd0;
-            qualified_href_count <= 32'd0;
-            short_href_count <= 32'd0;
-            min_href_high_width <= 32'hffffffff;
-            current_href_high_width <= 32'd0;
-            last_href_high_width <= 32'd0;
-            raw_vsync_d <= 1'b0;
-            raw_vsync_edges <= 32'd0;
-            filtered_vsync_edges <= 32'd0;
-            short_vsync_count <= 32'd0;
-            min_vsync_high_width <= 32'hffffffff;
-            current_vsync_high_width <= 32'd0;
-            pclk_line_current <= 16'd0;
-            pclk_line_last <= 16'd0;
-            pclk_line_min <= 16'hffff;
-        end else if (pixel_ce) begin
-            raw_href_d <= recovered_href;
-            if (recovered_href && !raw_href_d) begin
-                raw_href_count <= raw_href_count + 1'b1;
-                current_href_high_width <= 32'd1;
-                pclk_line_current <= 16'd1;
-            end else if (recovered_href) begin
-                if (current_href_high_width != 32'hffffffff)
-                    current_href_high_width <= current_href_high_width + 1'b1;
-                if (pclk_line_current != 16'hffff)
-                    pclk_line_current <= pclk_line_current + 1'b1;
-            end
-            if (!recovered_href && raw_href_d) begin
-                last_href_high_width <= current_href_high_width;
-                if (current_href_high_width < min_href_high_width)
-                    min_href_high_width <= current_href_high_width;
-                if (current_href_high_width < HREF_SHORT_THRESHOLD)
-                    short_href_count <= short_href_count + 1'b1;
-                current_href_high_width <= 32'd0;
-                pclk_line_last <= pclk_line_current;
-                if (pclk_line_current < pclk_line_min)
-                    pclk_line_min <= pclk_line_current;
-                pclk_line_current <= 16'd0;
-            end
-            if (href_filtered && !diag_href_d)
-                qualified_href_count <= qualified_href_count + 1'b1;
-
-            raw_vsync_d <= recovered_vsync;
-            if (recovered_vsync && !raw_vsync_d) begin
-                raw_vsync_edges <= raw_vsync_edges + 1'b1;
-                current_vsync_high_width <= 32'd1;
-            end else if (recovered_vsync &&
-                         current_vsync_high_width != 32'hffffffff) begin
-                current_vsync_high_width <= current_vsync_high_width + 1'b1;
-            end
-            if (!recovered_vsync && raw_vsync_d) begin
-                if (current_vsync_high_width < min_vsync_high_width)
-                    min_vsync_high_width <= current_vsync_high_width;
-                if (current_vsync_high_width < VSYNC_FILTER_CYCLES)
-                    short_vsync_count <= short_vsync_count + 1'b1;
-                current_vsync_high_width <= 32'd0;
-            end
-            if (vsync_qualified && !diag_vsync_d)
-                filtered_vsync_edges <= filtered_vsync_edges + 1'b1;
-
-            if (diag_clear_video) begin
-                pclk_line_last <= 16'd0;
-                pclk_line_min <= 16'hffff;
-            end
-        end
-    end
 
     always @(posedge video_clk) begin
         if (!capture_resetn) begin
@@ -2030,19 +1165,11 @@ module ov7670_frontend #(
     always @(posedge video_clk) begin
         if (!capture_resetn) begin
             geometry_snapshot_pclk <= 32'd0;
-            geometry_toggle_pclk <= 1'b0;
         end else if (pixel_ce && vsync_qualified && !diag_vsync_d) begin
             geometry_snapshot_pclk <= {current_frame_lines, last_line_bytes};
-            geometry_toggle_pclk <= ~geometry_toggle_pclk;
         end
     end
 
-    assign axis_diag = {
-        32'd0, 32'd0, input_overflow_count,
-        32'd0, 32'd0, 32'd0,
-        32'd0, 32'd0, 32'd0,
-        input_line_count, input_frame_count, input_pixel_count
-    };
     wire unused = &{1'b0, FRAME_WIDTH, FRAME_HEIGHT, LEFT_MARGIN,
-                    TOP_MARGIN, video_clk, sys_init_done};
+                    TOP_MARGIN, video_clk};
 endmodule

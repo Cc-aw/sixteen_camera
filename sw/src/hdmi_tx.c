@@ -27,22 +27,10 @@
 #define READER_STOP_LOCAL_CHANNEL    2U
 #define DDR_UI_CLOCK_HZ              UINT64_C(300000000)
 
-#define CAMERA_FRAME_COUNT_OFFSET    0x20U
-#define CAMERA_RX_DIAG_BASE          0xE4U
-#define CAMERA_RX_DIAG_WORDS         11U
-#define CAMERA_PCLKREC_CAND_OFFSET   0x58U
-#define CAMERA_PCLKREC_VALID_OFFSET  0x5CU
-#define CAMERA_PCLKREC_GLITCH_OFFSET 0x60U
-#define CAMERA_PCLKREC_MISSING_OFFSET 0x64U
-#define CAMERA_PCLKREC_STATUS_OFFSET 0x68U
-#define CAMERA_PCLKREC_LOCKLOSS_OFFSET 0x110U
-#define CAMERA_PCLKREC_HOLD_OFFSET     0x114U
-#define CAMERA_PCLKREC_HOLDREC_OFFSET  0x118U
-#define CAMERA_PCLKREC_HARMONIC_OFFSET 0x11CU
-#define CAMERA_PCLK_SNAPSHOT_BASE        0x134U
-#define CAMERA_HREF_GUARD_RECOVERED      0x1D4U
-#define CAMERA_HREF_GUARD_FLUSH          0x1D8U
-#define CAMERA_HREF_GUARD_STATUS         0x1DCU
+#define CAMERA_PCLK_STATUS_OFFSET    0x08U
+#define CAMERA_FRAME_COUNT_OFFSET    0x0CU
+#define CAMERA_OVERFLOW_OFFSET       0x10U
+#define CAMERA_LOCK_LOSS_OFFSET      0x18U
 
 #define VPHY_RX_MMCM_CTRL       UINT32_C(0x140)
 #define VPHY_MMCM_LOCKED        UINT32_C(0x200)
@@ -91,19 +79,9 @@ typedef struct {
     uint32_t writer_frames[LOCAL_CAMERA_COUNT];
     uint32_t malformed[LOCAL_CAMERA_COUNT];
     uint32_t input_frames[LOCAL_CAMERA_COUNT];
-    uint32_t rx_diag[LOCAL_CAMERA_COUNT][CAMERA_RX_DIAG_WORDS];
-    uint64_t pclk_candidate[LOCAL_CAMERA_COUNT];
-    uint64_t pclk_valid[LOCAL_CAMERA_COUNT];
-    uint32_t pclk_glitch[LOCAL_CAMERA_COUNT];
-    uint32_t pclk_missing[LOCAL_CAMERA_COUNT];
     uint32_t pclk_status[LOCAL_CAMERA_COUNT];
     uint32_t pclk_lockloss[LOCAL_CAMERA_COUNT];
-    uint32_t pclk_hold[LOCAL_CAMERA_COUNT];
-    uint32_t pclk_hold_recovered[LOCAL_CAMERA_COUNT];
-    uint32_t pclk_harmonic[LOCAL_CAMERA_COUNT];
-    uint32_t href_guard_recovered[LOCAL_CAMERA_COUNT];
-    uint32_t href_guard_flush[LOCAL_CAMERA_COUNT];
-    uint32_t href_guard_status[LOCAL_CAMERA_COUNT];
+    uint32_t overflow[LOCAL_CAMERA_COUNT];
 } VideoPerfSnapshot;
 
 static XV_HdmiRxSs rx_ss;
@@ -489,44 +467,18 @@ static void video_perf_capture(VideoPerfSnapshot *snapshot)
 
     for (size_t index = 0U; index < camera_config_count; ++index) {
         uintptr_t camera_base = camera_configs[index].csi_base;
-        (void)camera_video_snapshot(&camera_configs[index]);
         snapshot->writer_frames[index] = mmio_read32(
             FRAMEBUFFER_BASE + FRAMEBUFFER_WRITER_COUNT(index));
         snapshot->malformed[index] = mmio_read32(
             FRAMEBUFFER_BASE + FRAMEBUFFER_MALFORMED(index));
         snapshot->input_frames[index] = mmio_read32(
             camera_base + CAMERA_FRAME_COUNT_OFFSET);
-        snapshot->pclk_candidate[index] =
-            (uint64_t)mmio_read32(camera_base + CAMERA_PCLK_SNAPSHOT_BASE) |
-            ((uint64_t)mmio_read32(camera_base + CAMERA_PCLK_SNAPSHOT_BASE + 4U)
-             << 32);
-        snapshot->pclk_valid[index] =
-            (uint64_t)mmio_read32(camera_base + CAMERA_PCLK_SNAPSHOT_BASE + 8U) |
-            ((uint64_t)mmio_read32(camera_base + CAMERA_PCLK_SNAPSHOT_BASE + 12U)
-             << 32);
-        snapshot->pclk_glitch[index] = mmio_read32(
-            camera_base + CAMERA_PCLK_SNAPSHOT_BASE + 24U * 4U);
-        snapshot->pclk_missing[index] = mmio_read32(
-            camera_base + CAMERA_PCLK_SNAPSHOT_BASE + 25U * 4U);
         snapshot->pclk_status[index] = mmio_read32(
-            camera_base + CAMERA_PCLKREC_STATUS_OFFSET);
+            camera_base + CAMERA_PCLK_STATUS_OFFSET);
         snapshot->pclk_lockloss[index] = mmio_read32(
-            camera_base + CAMERA_PCLK_SNAPSHOT_BASE + 28U * 4U);
-        snapshot->pclk_hold[index] = mmio_read32(
-            camera_base + CAMERA_PCLK_SNAPSHOT_BASE + 26U * 4U);
-        snapshot->pclk_hold_recovered[index] = mmio_read32(
-            camera_base + CAMERA_PCLK_SNAPSHOT_BASE + 27U * 4U);
-        snapshot->pclk_harmonic[index] = mmio_read32(
-            camera_base + CAMERA_PCLK_SNAPSHOT_BASE + 23U * 4U);
-        snapshot->href_guard_recovered[index] = mmio_read32(
-            camera_base + CAMERA_HREF_GUARD_RECOVERED);
-        snapshot->href_guard_flush[index] = mmio_read32(
-            camera_base + CAMERA_HREF_GUARD_FLUSH);
-        snapshot->href_guard_status[index] = mmio_read32(
-            camera_base + CAMERA_HREF_GUARD_STATUS);
-        for (size_t word = 0U; word < CAMERA_RX_DIAG_WORDS; ++word)
-            snapshot->rx_diag[index][word] = mmio_read32(
-                camera_base + CAMERA_RX_DIAG_BASE + word * sizeof(uint32_t));
+            camera_base + CAMERA_LOCK_LOSS_OFFSET);
+        snapshot->overflow[index] = mmio_read32(
+            camera_base + CAMERA_OVERFLOW_OFFSET);
     }
 }
 
@@ -586,53 +538,25 @@ static void video_perf_print_delta(const VideoPerfSnapshot *current)
                                        previous_perf.writer_frames[index];
         uint32_t delta_malformed = current->malformed[index] -
                                    previous_perf.malformed[index];
-        uint32_t rx[CAMERA_RX_DIAG_WORDS];
-        for (size_t word = 0U; word < CAMERA_RX_DIAG_WORDS; ++word)
-            rx[word] = current->rx_diag[index][word] -
-                       previous_perf.rx_diag[index][word];
-
         console_puts("DELTA CH");
         console_put_u32(camera_configs[index].global_channel);
         console_puts(" in/wr/mal="); console_put_u32(delta_input_frames);
         console_putc('/'); console_put_u32(delta_writer_frames);
         console_putc('/'); console_put_u32(delta_malformed);
-        console_puts(" err(abort/flush)="); console_put_u32(rx[3]);
-        console_putc('/'); console_put_u32(rx[8]);
-        uint32_t delta_pclk_candidate = (uint32_t)(
-            current->pclk_candidate[index] -
-            previous_perf.pclk_candidate[index]);
-        uint32_t delta_pclk_valid = (uint32_t)(
-            current->pclk_valid[index] - previous_perf.pclk_valid[index]);
-        uint32_t delta_pclk_glitch = current->pclk_glitch[index] -
-                                     previous_perf.pclk_glitch[index];
-        uint32_t delta_pclk_missing = current->pclk_missing[index] -
-                                      previous_perf.pclk_missing[index];
         uint32_t delta_pclk_loss = current->pclk_lockloss[index] -
                                    previous_perf.pclk_lockloss[index];
+        uint32_t delta_overflow = current->overflow[index] -
+                                  previous_perf.overflow[index];
         uint32_t pclk_status = current->pclk_status[index];
-        uint32_t period_fp = pclk_status & UINT32_C(0x3fff);
-        console_puts(" pclk(c/v/g/m/l)=");
-        console_put_u32(delta_pclk_candidate);
-        console_putc('/'); console_put_u32(delta_pclk_valid);
-        console_putc('/'); console_put_u32(delta_pclk_glitch);
-        console_putc('/'); console_put_u32(delta_pclk_missing);
-        console_putc('/'); console_put_u32(delta_pclk_loss);
-        console_puts(" lock/state="); console_put_u32(pclk_status >> 31);
-        console_putc('/'); console_put_u32((pclk_status >> 29) & 3U);
+        uint32_t period_fp = pclk_status >> 4;
+        console_puts(" pclk(loss/overflow)=");
+        console_put_u32(delta_pclk_loss);
+        console_putc('/'); console_put_u32(delta_overflow);
+        console_puts(" lock/state="); console_put_u32((pclk_status >> 1) & 1U);
+        console_putc('/'); console_put_u32((pclk_status >> 2) & 3U);
         console_puts(" period="); console_put_u32(period_fp >> 8);
         console_putc('.');
         console_put_u32(((period_fp & UINT32_C(0xff)) * 100U) >> 8);
-        uint32_t href_guard_status = current->href_guard_status[index];
-        console_puts(" href(gap/pos/r/f)=");
-        console_put_u32((href_guard_status >> 5) & UINT32_C(0x3f));
-        console_putc('/');
-        console_put_u32((href_guard_status >> 11) & UINT32_C(0x7ff));
-        console_putc('/');
-        console_put_u32(current->href_guard_recovered[index] -
-                        previous_perf.href_guard_recovered[index]);
-        console_putc('/');
-        console_put_u32(current->href_guard_flush[index] -
-                        previous_perf.href_guard_flush[index]);
         console_puts("\r\n");
     }
 
@@ -962,26 +886,6 @@ void hdmi_tx_print_status(void)
     console_puts(" capture=");
     console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
                                 FRAMEBUFFER_HDMI_CONTROL) & 1U);
-    console_puts("\r\n");
-    console_puts("AI snapshot(active/busy valid/fresh/held diag)=");
-    {
-        uint32_t ai_status = mmio_read32(FRAMEBUFFER_BASE +
-                                         FRAMEBUFFER_AI_STATUS);
-        console_put_u32((ai_status >> 2) & 1U);
-        console_putc('/');
-        console_put_u32(ai_status & 3U);
-    }
-    console_putc(' ');
-    console_put_hex32(mmio_read32(FRAMEBUFFER_BASE +
-                                  FRAMEBUFFER_AI_VALID_MASK));
-    console_putc('/');
-    console_put_hex32(mmio_read32(FRAMEBUFFER_BASE +
-                                  FRAMEBUFFER_AI_FRESH_MASK));
-    console_putc('/');
-    console_put_hex32(mmio_read32(FRAMEBUFFER_BASE +
-                                  FRAMEBUFFER_AI_HELD_MASK));
-    console_putc(' ');
-    console_put_hex32(mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_AI_DIAG));
     console_puts("\r\n");
     console_puts("\r\n");
     video_perf_print_delta(&perf_snapshot);

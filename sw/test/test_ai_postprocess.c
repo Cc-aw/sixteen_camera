@@ -130,6 +130,13 @@ static void test_display_map(void)
     assert(overlay.boxes[0].y_min == 0U);
     assert(overlay.boxes[0].y_max == 270U);
 
+    result.stream_id = 4U;
+    assert(ai_display_map_mosaic(&result, &overlay) == 0);
+    assert(overlay.boxes[0].x_min == 60U);
+    assert(overlay.boxes[0].x_max == 420U);
+    assert(overlay.boxes[0].y_min == 270U);
+    assert(overlay.boxes[0].y_max == 540U);
+
     result.stream_id = 15U;
     assert(ai_display_map_mosaic(&result, &overlay) == 0);
     assert(overlay.boxes[0].x_min == 1500U);

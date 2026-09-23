@@ -70,6 +70,14 @@ module top_wrapper (
         camera_capture_channels [8]();
     video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
         hdmi_capture_channels [8]();
+    video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
+        all_capture_channels [16]();
+    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
+        writer_video_axi();
+    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
+        reader_video_axi();
+    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3))
+        tensor_write_video_axi();
     axi_lite_if #(.ADDR_WIDTH(17)) framebuffer_axil();
     axi_lite_if #(.ADDR_WIDTH(18)) postprocess_axil();
     wire [7:0] video_interrupts;
@@ -85,19 +93,20 @@ module top_wrapper (
     wire [7:0] ov7670_reset_n_drive;
     wire [7:0] ov7670_pwdn_drive;
     wire [7:0] ov7670_scl_drive;
-    wire [7:0] ov7670_xclk_pad;
-    wire [7:0] ov7670_reset_n_pad;
-    wire [7:0] ov7670_pwdn_pad;
-    wire [7:0] ov7670_scl_pad;
-    wire [479:0] camera_axis_diag;
     wire [255:0] camera_malformed_counts;
     wire hdmi_capture_enable;
     wire [31:0] hdmi_transport_frame_count;
     wire [31:0] hdmi_transport_malformed_count;
     wire [255:0] hdmi_channel_overflow_counts;
     wire [255:0] hdmi_channel_frame_counts;
-    wire camera_sys_init_done = sys_rstn && c0_init_calib_complete &&
-                                camera_pll_locked;
+    wire [511:0] all_malformed_counts_video;
+    wire [31:0] hdmi_transport_frame_count_video;
+    wire [31:0] hdmi_transport_malformed_count_video;
+    wire [255:0] hdmi_channel_frame_counts_video;
+    wire hdmi_capture_enable_video;
+    wire writer_error;
+    wire reader_error;
+    wire reader_underflow;
 
     genvar camera_io_index;
     generate
@@ -109,22 +118,22 @@ module top_wrapper (
             );
             IOBUF u_xclk_iobuf (
                 .I(ov7670_xclk_drive[camera_io_index]),
-                .O(ov7670_xclk_pad[camera_io_index]), .T(1'b0),
+                .O(), .T(1'b0),
                 .IO(cam_xclk[camera_io_index])
             );
             IOBUF u_reset_n_iobuf (
                 .I(ov7670_reset_n_drive[camera_io_index]),
-                .O(ov7670_reset_n_pad[camera_io_index]), .T(1'b0),
+                .O(), .T(1'b0),
                 .IO(cam_rst_n[camera_io_index])
             );
             IOBUF u_pwdn_iobuf (
                 .I(ov7670_pwdn_drive[camera_io_index]),
-                .O(ov7670_pwdn_pad[camera_io_index]), .T(1'b0),
+                .O(), .T(1'b0),
                 .IO(cam_pwdn[camera_io_index])
             );
             IOBUF u_scl_iobuf (
                 .I(ov7670_scl_drive[camera_io_index]),
-                .O(ov7670_scl_pad[camera_io_index]), .T(1'b0),
+                .O(), .T(1'b0),
                 .IO(cam_scl[camera_io_index])
             );
         end
@@ -148,6 +157,58 @@ module top_wrapper (
         .mem_axi(soc_mem_axi),
         .mmio_axi(soc_mmio_axi),
         .fbus_axi(soc_fbus_axi)
+    );
+
+    capture_ingress_bridge u_capture_ingress_bridge (
+        .capture_clk(capture_clk), .capture_resetn(capture_resetn),
+        .video_clk(video_clk), .video_resetn(video_resetn),
+        .camera_channels(camera_capture_channels),
+        .hdmi_channels(hdmi_capture_channels),
+        .capture_channels(all_capture_channels),
+        .camera_malformed_counts(camera_malformed_counts),
+        .hdmi_transport_frame_count(hdmi_transport_frame_count),
+        .hdmi_transport_malformed_count(hdmi_transport_malformed_count),
+        .hdmi_channel_overflow_counts(hdmi_channel_overflow_counts),
+        .hdmi_channel_frame_counts(hdmi_channel_frame_counts),
+        .malformed_counts_video(all_malformed_counts_video),
+        .hdmi_transport_frame_count_video(hdmi_transport_frame_count_video),
+        .hdmi_transport_malformed_count_video(
+            hdmi_transport_malformed_count_video),
+        .hdmi_channel_frame_counts_video(hdmi_channel_frame_counts_video),
+        .hdmi_capture_enable_video(hdmi_capture_enable_video),
+        .hdmi_capture_enable(hdmi_capture_enable)
+    );
+
+    multi_channel_ddr_video_pipeline #(
+        .CHANNELS(16), .GLOBAL_CHANNEL_BASE(0),
+        .CAMERA_PRESENT_MASK(16'hffff),
+        .FRAME_WIDTH(640), .FRAME_HEIGHT(480),
+        .FRAME_STRIDE_BYTES(2560),
+        .DEFAULT_CHANNEL_BASES({
+            32'h2600_0000, 32'h2400_0000,
+            32'h2200_0000, 32'h2000_0000,
+            32'h1e00_0000, 32'h1c00_0000,
+            32'h1a00_0000, 32'h1800_0000,
+            32'h1600_0000, 32'h1400_0000,
+            32'h1200_0000, 32'h1000_0000,
+            32'h0e00_0000, 32'h0c00_0000,
+            32'h0a00_0000, 32'h0800_0000
+        })
+    ) u_video_pipeline (
+        .init_done(c0_init_calib_complete),
+        .video_clk(video_clk), .video_resetn(video_resetn),
+        .control_axil(framebuffer_axil),
+        .capture_channels(all_capture_channels),
+        .malformed_counts(all_malformed_counts_video),
+        .hdmi_capture_enable(hdmi_capture_enable_video),
+        .hdmi_transport_frame_count(hdmi_transport_frame_count_video),
+        .hdmi_transport_malformed_count(
+            hdmi_transport_malformed_count_video),
+        .hdmi_channel_frame_counts(hdmi_channel_frame_counts_video),
+        .writer_axi(writer_video_axi), .reader_axi(reader_video_axi),
+        .tensor_write_axi(tensor_write_video_axi),
+        .display_axis(ddr_video_axis), .writer_error(writer_error),
+        .reader_error(reader_error), .reader_underflow(reader_underflow)
     );
 
     ddr_memory_subsystem #(
@@ -176,23 +237,15 @@ module top_wrapper (
         .soc_mem_axi(soc_mem_axi),
         .fbus_axi(soc_fbus_axi),
         .postprocess_axil(postprocess_axil),
-        .framebuffer_axil(framebuffer_axil),
-        .camera_capture_channels(camera_capture_channels),
-        .hdmi_capture_channels(hdmi_capture_channels),
-        .hdmi_capture_enable(hdmi_capture_enable),
-        .hdmi_transport_frame_count(hdmi_transport_frame_count),
-        .hdmi_transport_malformed_count(hdmi_transport_malformed_count),
-        .hdmi_channel_overflow_counts(hdmi_channel_overflow_counts),
-        .hdmi_channel_frame_counts(hdmi_channel_frame_counts),
-        .camera_axis_diag(camera_axis_diag),
-        .malformed_counts(camera_malformed_counts),
-        .video_axis(ddr_video_axis),
+        .writer_video_axi(writer_video_axi),
+        .reader_video_axi(reader_video_axi),
+        .tensor_write_video_axi(tensor_write_video_axi),
         .capture_clk(capture_clk), .capture_resetn(capture_resetn),
         .video_clk(video_clk), .video_resetn(video_resetn)
     );
 
     camera_hdmi_subsystem u_camera_hdmi (
-        .sys_rstn(sys_rstn), .sys_init_done(camera_sys_init_done),
+        .sys_rstn(sys_rstn),
         .camera_ref_clk(camera_ref_clk),
         .mmio_axi(soc_mmio_axi), .display_axis(ddr_video_axis),
         .camera_capture_channels(camera_capture_channels),
@@ -215,7 +268,6 @@ module top_wrapper (
         .hdmi_clkchip_scl(hdmi_clkchip_scl), .hdmi_clkchip_sda(hdmi_clkchip_sda),
         .hdmi_clkchip_lol(hdmi_clkchip_lol), .hdmi_clkchip_int(hdmi_clkchip_int),
         .hdmi_clkchip_rst(hdmi_clkchip_rst),
-        .camera_axis_diag(camera_axis_diag),
         .malformed_counts(camera_malformed_counts),
         .hdmi_transport_frame_count(hdmi_transport_frame_count),
         .hdmi_transport_malformed_count(hdmi_transport_malformed_count),
@@ -224,12 +276,12 @@ module top_wrapper (
         .cam_rst_n(ov7670_reset_n_drive),
         .cam_pwdn(ov7670_pwdn_drive), .cam_scl(ov7670_scl_drive),
         .cam_sda(cam_sda), .cam_xclk(ov7670_xclk_drive),
-        .cam_xclk_pad(ov7670_xclk_pad),
-        .cam_rst_n_pad(ov7670_reset_n_pad),
-        .cam_pwdn_pad(ov7670_pwdn_pad), .cam_scl_pad(ov7670_scl_pad),
         .cam_pclk(ov7670_pclk_ibuf),
         .cam_vsync(cam_vsync), .cam_href(cam_href), .cam_data(cam_data),
         .camera_pll_locked(camera_pll_locked),
         .video_interrupts(video_interrupts)
     );
+
+    wire unused_memory_status = &{1'b0, writer_error, reader_error,
+                                  reader_underflow};
 endmodule

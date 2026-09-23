@@ -5,5 +5,6 @@
 
 /* Returns one when committed, zero while the hardware mailbox is busy. */
 int ai_overlay_try_submit(const AiDetectionResult *result);
+int ai_overlay_draw_test_pattern(void);
 
 #endif

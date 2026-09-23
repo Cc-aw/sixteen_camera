@@ -13,7 +13,6 @@ module tb_camera_axis_cdc_backpressure;
     reg ready_q = 1'b0;
     reg random_ready = 1'b0;
     reg [15:0] lfsr = 16'h1ace;
-    wire [31:0] fifo_max_level;
     axis_video_if #(.DATA_WIDTH(48)) axis();
 
     reg [49:0] expected [0:255];
@@ -21,7 +20,6 @@ module tb_camera_axis_cdc_backpressure;
     integer expected_read = 0;
     integer timeout;
     integer beat;
-    integer near_full_level;
     reg stalled = 1'b0;
     reg [49:0] stalled_payload;
 
@@ -34,11 +32,7 @@ module tb_camera_axis_cdc_backpressure;
         .pixel_valid(pixel_valid), .pixel_ready(pixel_ready),
         .pixel_data(pixel_data), .frame_start(frame_start),
         .line_last(line_last), .line_end(line_end),
-        .diag_clear_toggle(1'b0),
         .ddr_clk(clk), .ddr_resetn(resetn),
-        .diag_fire_count(), .diag_sof_count(), .diag_eol_count(),
-        .diag_fifo_full_stall_count(), .diag_ready_low_count(),
-        .diag_fifo_max_level(fifo_max_level), .diag_line_flush_count(),
         .m_axis(axis)
     );
 
@@ -138,9 +132,6 @@ module tb_camera_axis_cdc_backpressure;
         for (beat = 80; beat < 89; beat = beat + 1)
             send_pair(beat, 1'b0, beat == 88);
         repeat (12) @(posedge clk);
-        if (fifo_max_level < 8)
-            $fatal(1, "near-full occupancy not reached: %0d", fifo_max_level);
-        near_full_level = fifo_max_level;
         @(negedge clk); ready_q = 1'b1;
         repeat (9) begin
             @(posedge clk);
@@ -168,8 +159,7 @@ module tb_camera_axis_cdc_backpressure;
         send_pair(93, 1'b1, 1'b1);
         wait_consumed(94);
 
-        $display("TB_CAMERA_AXIS_CDC_BACKPRESSURE=PASS max_level=%0d",
-                 near_full_level);
+        $display("TB_CAMERA_AXIS_CDC_BACKPRESSURE=PASS");
         $finish;
     end
 endmodule
