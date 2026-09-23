@@ -211,3 +211,12 @@ set_false_path \
 # mailboxes in video_control_bridge.  All signals downstream of that bridge,
 # including the manager's legacy staging registers, are synchronous to the
 # video clock and therefore need no CDC timing exception here.
+# The mailbox inputs themselves are asynchronous first-stage samples.  Cut
+# only those D pins; keep the second synchronizer stage and all destination
+# payload consumers timed.  Without this exception the 100/150 MHz clocks are
+# incorrectly compared at near-coincident edges, producing thousands of
+# apparent setup violations on stable, handshake-protected payload bits.
+set_false_path -to [get_pins -hierarchical -filter \
+    {NAME =~ *u_video_pipeline/u_control_bridge/*/request_sync_reg[0]/D || \
+     NAME =~ *u_video_pipeline/u_control_bridge/*/payload_sync1_reg*/D || \
+     NAME =~ *u_video_pipeline/u_control_bridge/*/acknowledge_sync_reg[0]/D}]

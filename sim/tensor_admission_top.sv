@@ -29,10 +29,6 @@ module tensor_admission_top (
     wire [255:0] slot_error_codes;
     wire [511:0] no_slot_counts, missed_frame_counts;
     wire [511:0] admission_skip_counts, overflow_counts;
-    wire diagnostic_busy, diagnostic_completed, diagnostic_error;
-    wire [3:0] diagnostic_done_channel;
-    wire [31:0] diagnostic_frame_id, diagnostic_bytes;
-    wire [31:0] diagnostic_overflows;
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) axi();
 
     integer aw_count;
@@ -58,8 +54,7 @@ module tensor_admission_top (
         .admission_enable_mask(admission_enable_mask),
         .admission_limit(admission_limit),
         .release_pulse(1'b0), .release_mask(32'd0),
-        .diagnostic_start(1'b0), .diagnostic_channel(4'd0),
-        .diagnostic_addr(32'd0), .tap_data(tap_data),
+        .tap_data(tap_data),
         .tap_accept(tap_accept), .tap_sof(tap_sof), .tap_eol(tap_eol),
         .tap_eof(tap_eof), .tap_frame_id(tap_frame_id),
         .tap_error(16'd0), .ready_mask(ready_mask),
@@ -70,13 +65,7 @@ module tensor_admission_top (
         .no_slot_counts(no_slot_counts),
         .missed_frame_counts(missed_frame_counts),
         .admission_skip_counts(admission_skip_counts),
-        .overflow_counts(overflow_counts), .diagnostic_busy(diagnostic_busy),
-        .diagnostic_completed(diagnostic_completed),
-        .diagnostic_error(diagnostic_error),
-        .diagnostic_done_channel(diagnostic_done_channel),
-        .diagnostic_frame_id(diagnostic_frame_id),
-        .diagnostic_bytes(diagnostic_bytes),
-        .diagnostic_overflows(diagnostic_overflows),
+        .overflow_counts(overflow_counts),
         .perf_outstanding_current(), .perf_outstanding_max(),
         .perf_source_starvation(), .perf_aw_stall_cycles(),
         .perf_w_stall_cycles(), .perf_w_transfer_cycles(),

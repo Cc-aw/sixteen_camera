@@ -398,6 +398,18 @@ module video_control_bridge #(
                 overlay_transfer_index_cpu <= 3'd0;
                 overlay_seen_cpu <= overlay_toggle_cpu;
             end
+            if (overlay_done) begin
+                if (overlay_last_pending_cpu)
+                    overlay_ack_cpu <= overlay_seen_cpu;
+                overlay_last_pending_cpu <= 1'b0;
+            end
+            /*
+             * A mailbox completion and acceptance of the next record can
+             * occur in the same CPU cycle.  Process completion first so the
+             * newly accepted record's "last" marker wins.  The opposite
+             * priority loses the marker for record 7 and leaves the overlay
+             * CSR busy forever after its first commit.
+             */
             if (overlay_send && overlay_ready) begin
                 overlay_last_pending_cpu <=
                     overlay_transfer_index_cpu == 3'd7;
@@ -406,11 +418,6 @@ module video_control_bridge #(
                 else
                     overlay_transfer_index_cpu <=
                         overlay_transfer_index_cpu + 1'b1;
-            end
-            if (overlay_done) begin
-                if (overlay_last_pending_cpu)
-                    overlay_ack_cpu <= overlay_seen_cpu;
-                overlay_last_pending_cpu <= 1'b0;
             end
         end
     end

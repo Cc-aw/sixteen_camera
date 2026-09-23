@@ -26,6 +26,7 @@ prj/*.rpt
 demo/
 
 # Software and simulator build products
+captures/
 sw/build/
 obj_dir/
 xsim.dir/

@@ -36,6 +36,7 @@ module tb_video_control_bridge;
     reg [31:0] release_mask_seen = 0;
     reg [31:0] overlay_xy_seen = 0;
     reg [31:0] overlay_label_seen = 0;
+    integer overlay_commit_count = 0;
     always @(posedge video_clk) begin
         if (tensor_release_pulse) begin
             release_seen <= 1'b1;
@@ -43,6 +44,7 @@ module tb_video_control_bridge;
         end
         if (overlay_commit) begin
             overlay_seen <= 1'b1;
+            overlay_commit_count <= overlay_commit_count + 1;
             overlay_xy_seen <= overlay_boxes[31:0];
             overlay_label_seen <= overlay_labels[31:0];
         end
@@ -186,6 +188,35 @@ module tb_video_control_bridge;
             overlay_xy_seen != 32'h1122_3344 ||
             overlay_label_seen != 32'h5566_7788)
             $fatal(1, "overlay mailbox was not atomic");
+
+        // Exercise the path used by runtime polling: wait for the first
+        // acknowledgement, then submit a different stream immediately.
+        timeout = 0;
+        while (dut.overlay_ack_cpu != dut.overlay_toggle_cpu &&
+               timeout < 100) begin
+            @(posedge cpu_clk); timeout = timeout + 1;
+        end
+        if (dut.overlay_ack_cpu != dut.overlay_toggle_cpu)
+            $fatal(1, "first overlay acknowledgement missing");
+        axil_write(16'h0264, 32'd4);
+        axil_write(16'h0268, 32'd2);
+        axil_write(16'h026c, 32'd0);
+        axil_write(16'h0270, 32'ha1b2_c3d4);
+        axil_write(16'h0294, 32'h2067_6f64);
+        axil_write(16'h026c, 32'd1);
+        axil_write(16'h0270, 32'h1234_5678);
+        axil_write(16'h0294, 32'h2074_6163);
+        axil_write(16'h0260, 32'd1);
+        timeout = 0;
+        while (overlay_commit_count < 2 && timeout < 150) begin
+            @(posedge video_clk); timeout = timeout + 1;
+        end
+        if (overlay_commit_count != 2 || overlay_stream != 4 ||
+            overlay_count != 2 || overlay_boxes[31:0] != 32'ha1b2_c3d4 ||
+            overlay_boxes[64 +: 32] != 32'h1234_5678 ||
+            overlay_labels[31:0] != 32'h2067_6f64 ||
+            overlay_labels[128 +: 32] != 32'h2074_6163)
+            $fatal(1, "sequential overlay stream commit failed");
 
         repeat (250) @(posedge cpu_clk);
         if (dut.manager_status_cpu != 32'h1357_9bdf ||

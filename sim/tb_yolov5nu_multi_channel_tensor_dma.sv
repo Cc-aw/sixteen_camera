@@ -25,10 +25,6 @@ module tb_yolov5nu_multi_channel_tensor_dma;
     wire [255:0] slot_error_codes;
     wire [511:0] no_slot_counts, missed_frame_counts;
     wire [511:0] admission_skip_counts, overflow_counts;
-    wire diagnostic_busy, diagnostic_completed, diagnostic_error;
-    wire [3:0] diagnostic_done_channel;
-    wire [31:0] diagnostic_frame_id, diagnostic_bytes;
-    wire [31:0] diagnostic_overflows;
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) axi();
 
     integer aw_count = 0;
@@ -39,6 +35,22 @@ module tb_yolov5nu_multi_channel_tensor_dma;
     integer full_bursts = 0;
     integer timeout;
     integer first_permit;
+    integer stress_frame;
+
+    function automatic bit inside_test_slot(input [31:0] addr,
+                                            input [31:0] burst_bytes);
+        reg [31:0] base;
+        begin
+            inside_test_slot = 0;
+            for (integer arena = 0; arena < 2; arena++)
+                for (integer channel = 0; channel < 2; channel++) begin
+                    base = (arena == 0 ? 32'h3000_0000 : 32'h3100_0000)
+                           + 32'(channel * 192);
+                    if (addr >= base && addr + burst_bytes <= base + 192)
+                        inside_test_slot = 1;
+                end
+        end
+    endfunction
 
     yolov5nu_multi_channel_tensor_dma #(
         .FRAME_WIDTH(32), .FRAME_HEIGHT(2), .FIFO_DEPTH(16),
@@ -50,8 +62,7 @@ module tb_yolov5nu_multi_channel_tensor_dma;
         .admission_enable_mask(admission_enable_mask),
         .admission_limit(admission_limit),
         .release_pulse(release_pulse), .release_mask(release_mask),
-        .diagnostic_start(1'b0), .diagnostic_channel(4'd0),
-        .diagnostic_addr(32'd0), .tap_data(tap_data),
+        .tap_data(tap_data),
         .tap_accept(tap_accept), .tap_sof(tap_sof), .tap_eol(tap_eol),
         .tap_eof(tap_eof), .tap_frame_id(tap_frame_id),
         .tap_error(tap_error), .ready_mask(ready_mask),
@@ -62,13 +73,7 @@ module tb_yolov5nu_multi_channel_tensor_dma;
         .no_slot_counts(no_slot_counts),
         .missed_frame_counts(missed_frame_counts),
         .admission_skip_counts(admission_skip_counts),
-        .overflow_counts(overflow_counts), .diagnostic_busy(diagnostic_busy),
-        .diagnostic_completed(diagnostic_completed),
-        .diagnostic_error(diagnostic_error),
-        .diagnostic_done_channel(diagnostic_done_channel),
-        .diagnostic_frame_id(diagnostic_frame_id),
-        .diagnostic_bytes(diagnostic_bytes),
-        .diagnostic_overflows(diagnostic_overflows),
+        .overflow_counts(overflow_counts),
         .perf_outstanding_current(), .perf_outstanding_max(),
         .perf_source_starvation(), .perf_aw_stall_cycles(),
         .perf_w_stall_cycles(), .perf_w_transfer_cycles(),
@@ -97,6 +102,8 @@ module tb_yolov5nu_multi_channel_tensor_dma;
                 $fatal(1, "burst exceeds configured maximum");
             if (axi.awaddr[11:0] + ((axi.awlen + 1) << 5) > 4096)
                 $fatal(1, "burst crosses 4 KiB boundary");
+            if (!inside_test_slot(axi.awaddr, 32'(axi.awlen + 1) * 32))
+                $fatal(1, "tensor DMA wrote outside tensor slots: %h", axi.awaddr);
             aw_count <= aw_count + 1;
             if (axi.awlen == 8'd3)
                 full_bursts <= full_bursts + 1;
@@ -344,8 +351,39 @@ module tb_yolov5nu_multi_channel_tensor_dma;
             admission_skip_counts[32 +: 32] != 1 ||
             overflow_counts[0 +: 64] != 0)
             $fatal(1, "admission accounting mismatch");
-        $display("tb_yolov5nu_multi_channel_tensor_dma PASS aw=%0d max_outstanding=%0d",
-                 aw_count, max_outstanding);
+
+        // The board fails only after many successful inferences. Reuse the
+        // two physical slots for long enough to exercise descriptor/slot
+        // pointers across numerous wraparounds, watching every AW address.
+        production_enable = 1'b0;
+        repeat (2) @(posedge clk);
+        release_slots(32'h0003_0003);
+        admission_limit = 5'd2;
+        production_enable = 1'b1;
+        for (stress_frame = 0; stress_frame < 128; stress_frame++) begin
+            timeout = 0;
+            while (dut.admission_permit[1:0] != 2'b11 && timeout < 100) begin
+                @(posedge clk);
+                timeout = timeout + 1;
+            end
+            if (dut.admission_permit[1:0] != 2'b11)
+                $fatal(1, "stress admission stalled at frame %0d", stress_frame);
+            send_offset_frames(1000 + stress_frame, 2000 + stress_frame);
+            @(negedge clk);
+            tap_accept = 0; tap_sof = 0; tap_eol = 0; tap_eof = 0;
+            timeout = 0;
+            while ($countones(ready_mask & 32'h0003_0003) != 2 &&
+                   timeout < 1000) begin
+                @(posedge clk);
+                timeout = timeout + 1;
+            end
+            if ($countones(ready_mask & 32'h0003_0003) != 2 ||
+                (error_mask & 32'h0003_0003) != 0)
+                $fatal(1, "stress frame failed at %0d", stress_frame);
+            release_slots(32'h0003_0003);
+        end
+        $display("tb_yolov5nu_multi_channel_tensor_dma PASS stress_frames=%0d aw=%0d max_outstanding=%0d",
+                 stress_frame, aw_count, max_outstanding);
         $finish;
     end
 endmodule

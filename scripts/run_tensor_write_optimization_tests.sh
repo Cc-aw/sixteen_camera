@@ -22,4 +22,6 @@ verilator --cc --exe --build -j 4 -Wno-fatal \
   "$repo_dir/sim/tensor_admission_main.cpp"
 "$test_tmp/admission/Vtensor_admission_top"
 
+python3 scripts/run_fbus_generated_write_path_test.py --ids 32 --latency 160
+
 echo "TENSOR_WRITE_OPTIMIZATION_TESTS=PASS"

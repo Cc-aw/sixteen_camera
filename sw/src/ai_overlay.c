@@ -76,3 +76,30 @@ int ai_overlay_try_submit(const AiDetectionResult *result)
                  FRAMEBUFFER_OVERLAY_CONTROL_COMMIT);
     return 1;
 }
+
+int ai_overlay_draw_test_pattern(void)
+{
+    for (uint32_t stream = 0U; stream < VIDEO_CHANNEL_COUNT; ++stream) {
+        AiDetectionResult result = {0};
+        result.stream_id = stream;
+        result.frame_id = 1U;
+        result.count = 1U;
+        result.detections[0].x_min = 80;
+        result.detections[0].y_min = 80;
+        result.detections[0].x_max = 560;
+        result.detections[0].y_max = 400;
+        result.detections[0].score_q15 = UINT16_C(32767);
+        result.detections[0].class_id = (uint8_t)stream;
+
+        uint64_t start = read_cycle();
+        int status;
+        do {
+            status = ai_overlay_try_submit(&result);
+            if (status < 0)
+                return status;
+            if (read_cycle() - start > SOC_CLOCK_HZ / UINT64_C(10))
+                return -2;
+        } while (status == 0);
+    }
+    return 0;
+}

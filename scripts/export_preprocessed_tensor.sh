@@ -11,8 +11,8 @@ PYTHON_BIN="${PYTHON_BIN:-/home/wzr/chipyard/.conda-env/bin/python}"
 ELF_FILE="${ELF_FILE:-$ROOT_DIR/sw/build/hdmi_tx_test.elf}"
 CAPTURE_DIR="${CAPTURE_DIR:-$ROOT_DIR/captures}"
 
-TENSOR_WIDTH=416
-TENSOR_HEIGHT=416
+TENSOR_WIDTH=640
+TENSOR_HEIGHT=480
 TENSOR_CHANNELS=3
 TENSOR_BYTES=$((TENSOR_WIDTH * TENSOR_HEIGHT * TENSOR_CHANNELS))
 TENSOR_MEMBER_STRIDE=$TENSOR_BYTES
@@ -26,14 +26,15 @@ usage()
     cat <<EOF
 用法: $0 <tensor_base> [channel]
 
-从当前视频固件的 tensor arena 导出一张 416x416 RGB PNG。
+从当前视频固件的 tensor arena 导出一张 640x480 RGB PNG。
 
   tensor_base  串口 'AI PRE arena/base' 打印的物理基地址：
                0x30000000 或 0x31000000
   channel      1..16，默认 1
 
-操作前先在串口关闭 AI，等待 drain 完成，然后输入 p。
-将 p 输出的 base 传给本脚本。脚本只会暂停 CPU 读取 DDR，
+操作前先在串口按 i 关闭 AI，并用 s 确认 enable/drain=0/0、
+writing=0。tensor_base 选择最近出现 READY 的 slot 所属 arena。
+脚本只会暂停 CPU 读取 DDR，
 不会下载 ELF 或 bitstream，读取完成后会恢复 CPU。
 EOF
 }
@@ -70,8 +71,8 @@ printf -v coherent_start_hex '0x%08x' "$coherent_start"
 printf -v coherent_end_hex '0x%08x' "$coherent_end"
 
 mkdir -p "$CAPTURE_DIR"
-RAW_FILE="$CAPTURE_DIR/ch${CHANNEL}_tensor_416x416_int8.raw"
-PNG_FILE="$CAPTURE_DIR/ch${CHANNEL}_tensor_416x416_rgb.png"
+RAW_FILE="$CAPTURE_DIR/ch${CHANNEL}_tensor_640x480_int8.raw"
+PNG_FILE="$CAPTURE_DIR/ch${CHANNEL}_tensor_640x480_rgb.png"
 
 cleanup()
 {
@@ -136,9 +137,9 @@ from PIL import Image
 
 raw_path, png_path = sys.argv[1:]
 tensor = np.fromfile(raw_path, dtype=np.uint8)
-if tensor.size != 416 * 416 * 3:
+if tensor.size != 640 * 480 * 3:
     raise SystemExit(f"unexpected tensor size: {tensor.size}")
-tensor = tensor.reshape(416, 416, 3)
+tensor = tensor.reshape(480, 640, 3)
 # FPGA quantization is unsigned RGB888 >> 1, stored in signed-int8 storage
 # but restricted to 0..127.  Expand it for normal PNG viewing.
 rgb = np.minimum(tensor.astype(np.uint16) * 2, 255).astype(np.uint8)

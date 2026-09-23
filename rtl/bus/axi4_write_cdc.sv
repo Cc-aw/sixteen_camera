@@ -54,9 +54,13 @@ module axi4_write_cdc #(
     wire free_id_found = !id_busy[alloc_ptr];
     wire [SLOT_WIDTH-1:0] free_slot = alloc_ptr;
 
-    wire response_id_in_range = FBUS_WRITE_ID < 0 ? 1'b1 :
-        {1'b0, m_axi.bid} >= 6'(FBUS_WRITE_ID) &&
+    wire response_id_at_or_above_base = FBUS_WRITE_ID == 0 ? 1'b1 :
+        {1'b0, m_axi.bid} >= 6'(FBUS_WRITE_ID);
+    wire response_id_below_limit =
+        FBUS_WRITE_ID + FBUS_WRITE_ID_COUNT == 32 ? 1'b1 :
         {1'b0, m_axi.bid} < 6'(FBUS_WRITE_ID + FBUS_WRITE_ID_COUNT);
+    wire response_id_in_range = FBUS_WRITE_ID < 0 ? 1'b1 :
+        response_id_at_or_above_base && response_id_below_limit;
     wire [SLOT_WIDTH-1:0] response_slot = FBUS_WRITE_ID >= 0 ?
         SLOT_WIDTH'(m_axi.bid - $bits(m_axi.bid)'(FBUS_WRITE_ID)) : '0;
     wire response_slot_available = response_id_in_range &&

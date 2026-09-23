@@ -9,12 +9,18 @@ module yolov5nu_multi_channel_tensor_dma #(
     parameter integer FRAME_WIDTH = 640,
     parameter integer FRAME_HEIGHT = 480,
     parameter integer FIFO_DEPTH = 2048,
-    parameter integer BASE_BURST_BEATS = 16,
-    parameter integer HIGH_BURST_BEATS = 32,
-    parameter integer MAX_BURST_BEATS = 64,
-    parameter integer WRITE_OUTSTANDING = 8,
+    // The coherent FBus adapter fragments writes at one 64-byte cache line.
+    // Ending the AXI burst at that boundary lets the CDC bridge rotate to a
+    // new physical ID instead of holding W on one ID while PutAcks return.
+    parameter integer BASE_BURST_BEATS = 2,
+    parameter integer HIGH_BURST_BEATS = 2,
+    parameter integer MAX_BURST_BEATS = 2,
+    parameter integer WRITE_OUTSTANDING = 32,
     parameter integer DESCRIPTOR_DEPTH = 32,
     parameter integer AGE_THRESHOLD = 4096,
+    // About 33 ms at the production 150 MHz clock. A truncated input frame
+    // must not hold the sole admission credit forever.
+    parameter integer CAPTURE_STALL_TIMEOUT = 5000000,
     parameter [31:0] SLOT_STRIDE = 32'd921600
 ) (
     input  wire                     clk,
@@ -116,6 +122,7 @@ module yolov5nu_multi_channel_tensor_dma #(
     reg [31:0] missed_count [0:CHANNELS-1];
     reg [31:0] admission_skip_count [0:CHANNELS-1];
     reg [31:0] overflow_count [0:CHANNELS-1];
+    reg [31:0] capture_stall_count [0:CHANNELS-1];
     reg ready0 [0:CHANNELS-1];
     reg ready1 [0:CHANNELS-1];
     reg error0 [0:CHANNELS-1];
@@ -164,6 +171,8 @@ module yolov5nu_multi_channel_tensor_dma #(
     reg [ACTIVE_COUNT_WIDTH-1:0] production_finish_count;
     reg [ACTIVE_COUNT_WIDTH-1:0] admission_capacity;
     reg [ACTIVE_COUNT_WIDTH-1:0] admission_capacity_q;
+    reg [4:0] admission_limit_q;
+    reg production_enable_q;
     reg probe_valid;
     reg [CHANNEL_WIDTH-1:0] probe_channel;
     reg [FIFO_COUNT_WIDTH-1:0] probe_fifo_count;
@@ -198,7 +207,18 @@ module yolov5nu_multi_channel_tensor_dma #(
                             b_fire;
     wire credit_available = b_pending_count <
                             DESC_COUNT_WIDTH'(WRITE_OUTSTANDING) || b_fire;
-    wire allocate_fire = schedule_valid && descriptor_space;
+    // A pipelined proposal may become stale while descriptor space is full or
+    // while overflow handling marks its context bad.  Recheck all accounting
+    // at the commit point so stale proposals cannot reserve missing payload.
+    wire [16:0] schedule_required_beats =
+        {1'b0, reserved_beats[schedule_channel]} + 17'(schedule_beats);
+    wire schedule_context_valid = ctx_active[schedule_channel] &&
+        !ctx_bad[schedule_channel] && !ctx_plan_done[schedule_channel] &&
+        schedule_beat == ctx_plan_beat[schedule_channel] &&
+        17'(fifo_count[schedule_channel]) >= schedule_required_beats;
+    wire allocate_fire = schedule_valid && schedule_context_valid &&
+                         descriptor_space;
+    wire schedule_drop = schedule_valid && !schedule_context_valid;
     wire w_desc_load = !w_desc_valid && w_pending_count != 0;
     wire [CHANNEL_WIDTH-1:0] w_channel = w_channel_q;
     wire [CHANNEL_WIDTH-1:0] b_channel = desc_channel[b_ptr];
@@ -208,9 +228,15 @@ module yolov5nu_multi_channel_tensor_dma #(
     wire w_fifo_eol = fifo_dout[w_channel][289];
     wire w_fifo_eof = fifo_dout[w_channel][290];
     wire w_fifo_error = fifo_dout[w_channel][291];
+    // AW cannot be withdrawn.  Once a bad context has lost payload promised
+    // to an issued descriptor, finish that burst with zero data so its B
+    // response can retire and error recovery cannot deadlock the write path.
+    wire w_abort_fill = w_desc_valid && fifo_empty[w_channel] &&
+                        ctx_bad[w_channel];
     wire [31:0] w_absolute_beat = w_beat_q + w_index;
     wire w_data_error = w_fire &&
-        (w_fifo_error || w_fifo_frame != ctx_frame_id[w_channel] ||
+        (w_abort_fill || w_fifo_error ||
+         w_fifo_frame != ctx_frame_id[w_channel] ||
          w_fifo_sof != (w_absolute_beat == 0) ||
          w_fifo_eol != ((w_absolute_beat % (FRAME_WIDTH*3/32)) ==
                         (FRAME_WIDTH*3/32)-1) ||
@@ -274,18 +300,18 @@ module yolov5nu_multi_channel_tensor_dma #(
     // SOF. This avoids requiring a one-cycle SOF to collide with a global
     // token and permits several pre-authorized channels to start together.
     always @(*) begin
-        if (admission_limit == 0)
+        if (admission_limit_q == 0)
             admission_capacity = ACTIVE_COUNT_WIDTH'(1);
-        else if (admission_limit > CHANNELS)
+        else if (admission_limit_q > CHANNELS)
             admission_capacity = ACTIVE_COUNT_WIDTH'(CHANNELS);
         else
-            admission_capacity = ACTIVE_COUNT_WIDTH'(admission_limit);
+            admission_capacity = ACTIVE_COUNT_WIDTH'(admission_limit_q);
 
         admission_eligible = '0;
         for (admission_index = 0; admission_index < CHANNELS;
              admission_index = admission_index + 1) begin
             admission_eligible[admission_index] =
-                production_enable &&
+                production_enable && production_enable_q &&
                 admission_enable_mask[admission_index] &&
                 !ctx_active[admission_index] &&
                 flush_count[admission_index] == 0 &&
@@ -306,16 +332,17 @@ module yolov5nu_multi_channel_tensor_dma #(
         admission_grant_count = admission_mask_count(admission_grant);
         admission_permit_count =
             admission_mask_count(admission_permit_next);
+        // Reclaim a completed context on the following clock, after the
+        // active-count register has observed its B response. Using the
+        // same-cycle finish count here put the descriptor B pointer and a
+        // channel-wide reduction on the permit-register timing path.
         admission_active_after = production_active_count +
-                                 admission_grant_count -
-                                 production_finish_count;
-        if (admission_active_after < 0)
-            admission_active_after = 0;
+                                 admission_grant_count;
 
         // Allocation is off the SOF-to-packer path. Advancing the candidate
         // every clock fills all available permits within one channel rotation.
         admission_rr_advance = 1'b0;
-        if (production_enable &&
+        if (production_enable && production_enable_q &&
             admission_capacity == admission_capacity_q &&
             admission_active_after + admission_permit_count <
                 admission_capacity) begin
@@ -474,10 +501,9 @@ module yolov5nu_multi_channel_tensor_dma #(
             selected_addr = probe_base + probe_plan_beat*32;
             selected_beat = probe_plan_beat;
             boundary = 128 - (selected_addr[11:5]);
-            // Normal traffic waits for a complete maximum-size burst.  Only
-            // an all-present frame tail or an aged channel may fall back to
-            // 32/16 beats; this prevents eager 16-beat draining from making
-            // the larger burst thresholds unreachable.
+            // Production defaults use one 64-byte FBus cache line per burst.
+            // The generic sizing remains for focused tests and alternative
+            // memory targets that override these parameters.
             if (remaining < MAX_BURST_BEATS && available >= remaining)
                 target = remaining;
             else if (available >= MAX_BURST_BEATS)
@@ -496,7 +522,7 @@ module yolov5nu_multi_channel_tensor_dma #(
 
     always @* begin
         fifo_rd_en = '0;
-        if (w_fire)
+        if (w_fire && !fifo_empty[w_channel])
             fifo_rd_en[w_channel] = 1'b1;
     end
 
@@ -512,10 +538,11 @@ module yolov5nu_multi_channel_tensor_dma #(
     assign m_axi.awprot = 3'b000;
     assign m_axi.awqos = 4'h6;
     assign m_axi.awvalid = aw_pending_count != 0 && credit_available;
-    assign m_axi.wdata = w_fifo_data;
+    assign m_axi.wdata = w_abort_fill ? 256'd0 : w_fifo_data;
     assign m_axi.wstrb = 32'hffff_ffff;
     assign m_axi.wlast = w_desc_valid && w_index == w_beats_q-1'b1;
-    assign m_axi.wvalid = w_desc_valid && !fifo_empty[w_channel];
+    assign m_axi.wvalid = w_desc_valid &&
+                          (!fifo_empty[w_channel] || ctx_bad[w_channel]);
     assign m_axi.bready = b_pending_count != 0;
     assign m_axi.arid = 3'd0;
     assign m_axi.araddr = 32'd0;
@@ -534,6 +561,7 @@ module yolov5nu_multi_channel_tensor_dma #(
             (FRAME_BYTES % 32) != 0 || SLOT_STRIDE < FRAME_BYTES ||
             SLOT_STRIDE[4:0] != 0 || FIFO_DEPTH < MAX_BURST_BEATS ||
             (FIFO_DEPTH & (FIFO_DEPTH-1)) != 0 ||
+            CAPTURE_STALL_TIMEOUT < 1 ||
             BASE_BURST_BEATS < 1 || BASE_BURST_BEATS > HIGH_BURST_BEATS ||
             HIGH_BURST_BEATS > MAX_BURST_BEATS ||
             WRITE_OUTSTANDING < 1 ||
@@ -567,6 +595,8 @@ module yolov5nu_multi_channel_tensor_dma #(
             admission_rr <= '0;
             admission_permit <= '0;
             admission_capacity_q <= ACTIVE_COUNT_WIDTH'(1);
+            admission_limit_q <= 5'd1;
+            production_enable_q <= 1'b0;
             production_active_count <= '0;
             perf_outstanding_current <= 0; perf_outstanding_max <= 0;
             perf_source_starvation <= 0; perf_aw_stall_cycles <= 0;
@@ -587,6 +617,7 @@ module yolov5nu_multi_channel_tensor_dma #(
                 no_slot_count[i] <= 0; missed_count[i] <= 0;
                 admission_skip_count[i] <= 0;
                 overflow_count[i] <= 0;
+                capture_stall_count[i] <= 0;
                 ready0[i] <= 0; ready1[i] <= 0;
                 error0[i] <= 0; error1[i] <= 0;
                 frame0[i] <= 0; frame1[i] <= 0;
@@ -604,6 +635,8 @@ module yolov5nu_multi_channel_tensor_dma #(
                 production_finish_count);
             admission_permit <= admission_permit_next;
             admission_capacity_q <= admission_capacity;
+            admission_limit_q <= admission_limit;
+            production_enable_q <= production_enable;
             rr_channel <= next_channel(rr_channel);
             // Probe one channel per clock.  The descriptor queue normally
             // stays ahead of W data, so a full 16-channel rotation fits in
@@ -623,7 +656,7 @@ module yolov5nu_multi_channel_tensor_dma #(
             // descriptor allocation and per-channel accounting.  The prior
             // direct path combined channel muxing, FIFO arithmetic, burst
             // sizing and a second per-channel update in one 150 MHz cycle.
-            if (!schedule_valid || allocate_fire) begin
+            if (!schedule_valid || allocate_fire || schedule_drop) begin
                 schedule_valid <= selected_valid;
                 schedule_channel <= selected_channel;
                 schedule_beats <= selected_beats;
@@ -724,6 +757,24 @@ module yolov5nu_multi_channel_tensor_dma #(
                         age_count[i] <= age_count[i] + 1'b1;
                 end
 
+                // If input disappears after SOF, a partial FIFO tail cannot
+                // form another descriptor. Bound that inactivity and enter
+                // the existing bad-frame drain/recovery path.
+                if (!ctx_active[i] || ctx_bad[i] || ctx_plan_done[i] ||
+                    tap_accept[i]) begin
+                    capture_stall_count[i] <= 0;
+                end else if (capture_stall_count[i] <
+                             32'(CAPTURE_STALL_TIMEOUT)) begin
+                    capture_stall_count[i] <=
+                        capture_stall_count[i] + 1'b1;
+                    if (capture_stall_count[i] ==
+                        32'(CAPTURE_STALL_TIMEOUT-1)) begin
+                        ctx_bad[i] <= 1'b1;
+                        ctx_error_code[i] <=
+                            ctx_error_code[i] | SLOT_ERR_STREAM;
+                    end
+                end
+
                 if (release_pulse) begin
                     if (release_mask[i]) begin
                         ready0[i] <= 0; error0[i] <= 0; error_code0[i] <= 0;
@@ -749,6 +800,7 @@ module yolov5nu_multi_channel_tensor_dma #(
                         ctx_plan_beat[i] <= 0;
                         reserved_beats[i] <= 0;
                         channel_desc_pending[i] <= 0;
+                        capture_stall_count[i] <= 0;
                         if (!ready0[i]) error0[i] <= 0;
                         else error1[i] <= 0;
                 end else if (production_enable &&
@@ -874,7 +926,7 @@ module yolov5nu_multi_channel_tensor_dma #(
             if (allocate_fire && schedule_addr[11:0] +
                 (schedule_beats << 5) > 4096)
                 $fatal(1, "tensor DMA descriptor crosses 4 KiB boundary");
-            if (w_fire && fifo_empty[w_channel])
+            if (w_fire && fifo_empty[w_channel] && !ctx_bad[w_channel])
                 $fatal(1, "tensor DMA W transfer without FIFO payload");
             if (b_pending_count > WRITE_OUTSTANDING)
                 $fatal(1, "tensor DMA outstanding credit overflow");

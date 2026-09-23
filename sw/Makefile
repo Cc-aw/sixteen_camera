@@ -13,6 +13,7 @@ SIZE    := $(TOOLCHAIN)size
 BUILD  := build
 TARGET := $(BUILD)/hdmi_tx_test
 AI_MODEL ?= yolov5nu
+BANDWIDTH_DIAGNOSTIC ?= 0
 
 # Reuse the board/IIC/clock code and the AMD 2023.2 BSP already validated by
 # the working 4k60 project. This project supplies its own TX-only config table.
@@ -38,6 +39,10 @@ CFLAGS := $(ARCH_FLAGS) -std=c11 -Os -g3 -ffreestanding -fno-builtin \
 	-I$(CURDIR)/yolov5/dim16_dual \
 	-I$(REFERENCE_SW)/include $(VENDOR_INCLUDES)
 
+ifeq ($(BANDWIDTH_DIAGNOSTIC),1)
+CFLAGS += -DFBUS_BANDWIDTH_DIAGNOSTIC=1
+endif
+
 ifeq ($(AI_MODEL),yolov5nu)
 CFLAGS += -DAI_MODEL_YOLOV5NU=1
 else ifneq ($(AI_MODEL),yolov2)
@@ -57,18 +62,19 @@ LOCAL_SOURCES := src/main.c src/console.c src/runtime.c src/board_runtime.c src/
 	src/video_service.c \
 	src/camera_config.c src/cache_ops.c \
 	src/ai_tensor_slot_pool.c \
+	src/ai_postprocess_diag.c \
 	src/ai_postprocess_scalar.c src/ai_result_manager.c src/ai_display_map.c \
 	src/ai_class_names.c \
 	src/ai_overlay.c
 
 ifeq ($(AI_MODEL),yolov5nu)
 LOCAL_SOURCES += src/ai_batch_runtime_stream.c \
-	src/ai_head_slot_queue.c src/ai_model_backend_yolov5nu.c
+	src/ai_head_slot_queue.c src/ai_model_backend_yolov5nu.c \
+	src/ai_yolov5nu_selftest.c
 
 MODEL_OBJECT := $(BUILD)/yolov5nu_dim16_dual.o
 else
 LOCAL_SOURCES += src/ai_preprocess.c src/ai_batch_runtime.c \
-	src/ai_postprocess_diag.c \
 	src/ai_model_backend_yolov2.c \
 	src/ai_inference_runtime.c src/ai_tinyyolov2_runtime_adapter.c
 MODEL_OBJECT := $(BUILD)/tinyyolov2.o

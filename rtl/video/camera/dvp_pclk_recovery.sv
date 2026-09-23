@@ -309,8 +309,12 @@ module dvp_pclk_recovery #(
     // declared until the wider recovery window has fully elapsed. Otherwise
     // a legitimate +3-sample edge is preceded by a synthetic HOLDOVER CE and
     // the line gains a duplicate byte.
+    // This branch only handles nonnegative phase error. Compare the raw
+    // positive difference directly so the deadline decision does not pass
+    // through a full-width conditional negate before the comparator.
     wire phase_window_closed = phase_due && !candidate_edge && !edge_event &&
-                               candidate_phase_abs > RECOVERY_WINDOW_FP;
+                               candidate_phase_error >
+                                   $signed(RECOVERY_WINDOW_FP);
     wire [FP_WIDTH-1:0] twice_candidate_period =
         candidate_period_est_fp << 1;
     wire [FP_WIDTH-1:0] harmonic_ratio_error =
