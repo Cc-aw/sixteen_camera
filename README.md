@@ -75,7 +75,10 @@ CH8~CH15 写入 DDR；模式不匹配或 RX 断开时自动关闭 HDMI 捕获。
 | `rtl/video/camera/` | OV7670 前端、PCLK 恢复与摄像头 CDC |
 | `rtl/video/hdmi/` | HDMI RX/TX 子系统与 4K 空间解包器 |
 | `rtl/video/framebuffer/` | 多通道 DMA、帧管理和 mosaic reader |
-| `rtl/soc/` | Rocket/Chipyard 控制 SoC 生成 RTL |
+| `generated/soc/` | 当前与归档的 Rocket/Chipyard 生成 RTL |
+| `generated/xilinx_ip/` | Vivado IP 配置及其生成产物 |
+| `legacy/` | 已退出生产综合路径的历史 RTL |
+| `build/*_manifest.tcl` | 生产 RTL、SoC、IP、XDC 来源清单 |
 | `xdc/` | VU13P、FMC、摄像头、DDR 和 HDMI 约束 |
 | `sim/` | PCLK、IIC、CDC、帧管理和 reader 测试平台 |
 | `sw/` | 裸机控制软件、OpenOCD/GDB 下载脚本 |

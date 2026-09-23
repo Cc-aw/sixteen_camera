@@ -9,8 +9,8 @@ verilator --binary --timing -Wno-fatal \
     --Mdir "$test_tmp/obj" \
     "$root/rtl/interfaces/axi4_if.sv" \
     "$root/rtl/ai/preprocess/yolov5nu_tensor_stream_packer.sv" \
-    "$root/rtl/rtl_old/yolov5nu_tensor_frame_writer.sv" \
-    "$root/rtl/rtl_old/yolov5nu_tensor_capture_sidecar.sv" \
+    "$root/legacy/rtl/yolov5nu_tensor_frame_writer.sv" \
+    "$root/legacy/rtl/yolov5nu_tensor_capture_sidecar.sv" \
     "$root/sim/tb_yolov5nu_tensor_capture_sidecar.sv" \
     >"$test_tmp/build.log"
 "$test_tmp/obj/Vtb_yolov5nu_tensor_capture_sidecar"

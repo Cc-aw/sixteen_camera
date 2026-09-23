@@ -32,18 +32,17 @@ proc ::sixteen_camera_setup::record_failure {category item message} {
     puts "${category}_WARN: $item : $message"
 }
 
-proc ::sixteen_camera_setup::collect_hdl_files {directory} {
+proc ::sixteen_camera_setup::collect_hdl_files {directory extensions} {
     set result {}
     if {![file isdirectory $directory]} {
         return $result
     }
     foreach entry [glob -nocomplain -directory $directory *] {
         if {[file isdirectory $entry]} {
-            set result [concat $result [collect_hdl_files $entry]]
+            set result [concat $result [collect_hdl_files $entry $extensions]]
         } else {
             set extension [string tolower [file extension $entry]]
-            if {[lsearch -exact {.v .sv .vh .svh .vhd .vhdl .mif .mem} \
-                                $extension] >= 0} {
+            if {[lsearch -exact $extensions $extension] >= 0} {
                 lappend result [file normalize $entry]
             }
         }
@@ -283,23 +282,19 @@ foreach path [lsort -unique $sc_rtl_files] {
     ::sixteen_camera_setup::safe_add_file RTL sources_1 $path
 }
 
-# The selected Rocket configuration is generated as one collateral unit.  All
-# Verilog/SystemVerilog/memory files in this one directory belong together.
-# Keep this aligned with control_soc_subsystem, which instantiates the
-# Gemmini-enabled TaihangSoCFPGATestHarness.
-set sc_soc_config \
-    tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitConfig
-set sc_soc_dir [file normalize [file join $sc_repo_root rtl soc \
-    $sc_soc_config gen-collateral]]
+# The selected Rocket configuration is generated as one collateral unit.
+source [file join $sc_repo_root build soc_manifest.tcl]
+set sc_soc_config $SOC_CONFIG
+set sc_soc_dir [file normalize [file join $sc_repo_root $SOC_COLLATERAL_DIR]]
 
 # The checked-in project can retain source entries from an earlier SoC switch.
 # Keeping two generated Chipyard collateral trees in one source set silently
 # overwrites common module definitions and makes the selected debug/JTAG
 # implementation ambiguous.  Remove only stale project entries; the generated
 # files on disk remain untouched.
-set sc_soc_root [file normalize [file join $sc_repo_root rtl soc]]
-set sc_soc_marker "/rtl/soc/"
-set sc_selected_soc_marker "/rtl/soc/${sc_soc_config}/"
+set sc_soc_marker "/generated/soc/"
+set sc_legacy_soc_marker "/rtl/soc/"
+set sc_selected_soc_marker "/generated/soc/${sc_soc_config}/"
 set sc_stale_soc_files {}
 foreach sc_file [get_files -quiet -of_objects [get_filesets sources_1]] {
     if {[catch {set sc_file_name [file normalize [get_property NAME $sc_file]]}]} {
@@ -307,7 +302,8 @@ foreach sc_file [get_files -quiet -of_objects [get_filesets sources_1]] {
     }
     # Match both repository-linked sources and copies below a Vivado imports
     # directory. Imported files do not begin with sc_soc_root.
-    if {[string first $sc_soc_marker $sc_file_name] >= 0 && \
+    if {([string first $sc_soc_marker $sc_file_name] >= 0 || \
+         [string first $sc_legacy_soc_marker $sc_file_name] >= 0) && \
         ([string first $sc_selected_soc_marker $sc_file_name] < 0 || \
          ![file exists $sc_file_name])} {
         lappend sc_stale_soc_files $sc_file
@@ -323,7 +319,8 @@ if {[llength $sc_stale_soc_files] != 0} {
     }
 }
 
-set sc_soc_files [::sixteen_camera_setup::collect_hdl_files $sc_soc_dir]
+set sc_soc_files [::sixteen_camera_setup::collect_hdl_files \
+    $sc_soc_dir $SOC_HDL_EXTENSIONS]
 if {[llength $sc_soc_files] == 0} {
     ::sixteen_camera_setup::record_failure SOC $sc_soc_dir \
         "no generated collateral files found"
@@ -333,20 +330,24 @@ if {[llength $sc_soc_files] == 0} {
     }
 }
 
-# Only the standalone IPs used by the current top-level baseline are added.
-set sc_ip_paths {
-    rtl/ip/axi_gpio_0/axi_gpio_0.xci
-    rtl/ip/axi_iic_0/axi_iic_0.xci
-    rtl/ip/clk_wiz_ov7670/clk_wiz_ov7670.xci
-    rtl/ip/rx_axis_reg_slice/rx_axis_reg_slice.xci
-    rtl/ip/tx_axis_reg_slice/tx_axis_reg_slice.xci
-    rtl/ip/tx_refclk_bufg/tx_refclk_bufg.xci
-    rtl/ip/tx_refclk_ibuf/tx_refclk_ibuf.xci
-    rtl/ip/v_hdmi_rx_ss_0/v_hdmi_rx_ss_0.xci
-    rtl/ip/v_hdmi_tx_ss_0/v_hdmi_tx_ss_0.xci
-    rtl/ip/vid_phy_controller_0/vid_phy_controller_0.xci
+# Only the standalone IPs in the production manifest are added.
+source [file join $sc_repo_root build ip_manifest.tcl]
+set sc_ip_files {}
+foreach relative_path $IP_SOURCES {
+    lappend sc_ip_files [file normalize [file join $sc_repo_root $relative_path]]
 }
-foreach relative_path $sc_ip_paths {
+foreach sc_file [get_files -quiet -of_objects [get_filesets sources_1]] {
+    if {[catch {set sc_name [file normalize [get_property NAME $sc_file]]}]} {
+        continue
+    }
+    if {[file extension $sc_name] eq ".xci" &&
+        ([string first "/rtl/ip/" $sc_name] >= 0 ||
+         [string first "/generated/xilinx_ip/" $sc_name] >= 0) &&
+        [lsearch -exact $sc_ip_files $sc_name] < 0} {
+        remove_files $sc_file
+    }
+}
+foreach relative_path $IP_SOURCES {
     set path [file join $sc_repo_root $relative_path]
     if {[::sixteen_camera_setup::safe_add_file IP sources_1 $path]} {
         ::sixteen_camera_setup::safe_generate_ip $path
@@ -357,15 +358,8 @@ foreach relative_path $sc_ip_paths {
 ::sixteen_camera_setup::setup_bd
 
 # Active baseline constraints only; archived pinout alternatives are omitted.
-set sc_xdc_paths {
-    xdc/clk.xdc
-    xdc/ddr.xdc
-    xdc/hdmi_tx.xdc
-    xdc/mipi.xdc
-    xdc/camera_sccb.xdc
-    xdc/vu13p_ov7670_8ch_fmc1_fmc2_j2_cam3_legacy_v3.xdc
-}
-foreach relative_path $sc_xdc_paths {
+source [file join $sc_repo_root build xdc_manifest.tcl]
+foreach relative_path $XDC_SOURCES {
     set path [file join $sc_repo_root $relative_path]
     if {[::sixteen_camera_setup::safe_add_file XDC constrs_1 $path]} {
         set object [get_files -all -quiet [file normalize $path]]

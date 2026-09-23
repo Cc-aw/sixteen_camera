@@ -8,7 +8,7 @@ import tempfile
 
 repo = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
-parser.add_argument('--collateral', type=Path, default=next((repo / 'rtl/soc').glob('tsmc*/gen-collateral')))
+parser.add_argument('--collateral', type=Path, default=next((repo / 'generated/soc').glob('tsmc*/gen-collateral')))
 parser.add_argument('--bytes', type=int, default=32768)
 parser.add_argument('--short-only', action='store_true')
 parser.add_argument('--min-mbps', type=int, default=0)
