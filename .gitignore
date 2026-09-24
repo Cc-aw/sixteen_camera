@@ -55,3 +55,5 @@ log/
 !generated/soc/**/*.model.mems.fir
 !generated/soc/**/*.top.mems.fir
 !generated/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/*.fir
+__pycache__/
+*.py[cod]

@@ -49,8 +49,9 @@ module axi4_write_cdc #(
     reg [1:0] descriptor_bresp [0:FBUS_WRITE_ID_COUNT-1];
 
     // Allocation and retirement both preserve AW order, so alloc_ptr always
-    // names the next reusable slot. It changes only on an AW handshake, which
-    // also keeps AWID stable throughout downstream backpressure.
+    // names the next reusable slot. The pointer explicitly wraps at
+    // FBUS_WRITE_ID_COUNT-1, allowing non-power-of-two ID partitions while
+    // keeping AWID stable throughout downstream backpressure.
     wire free_id_found = !id_busy[alloc_ptr];
     wire [SLOT_WIDTH-1:0] free_slot = alloc_ptr;
 
@@ -92,9 +93,8 @@ module axi4_write_cdc #(
 
     initial begin
         if (FBUS_WRITE_ID_COUNT < 1 ||
-            FBUS_WRITE_ID_COUNT > FIFO_DEPTH ||
-            (FBUS_WRITE_ID_COUNT & (FBUS_WRITE_ID_COUNT-1)) != 0)
-            $error("FBUS_WRITE_ID_COUNT must be a power of two within FIFO depth");
+            FBUS_WRITE_ID_COUNT > FIFO_DEPTH)
+            $error("FBUS_WRITE_ID_COUNT must be within FIFO depth");
         if (FBUS_WRITE_ID >= 0 &&
             FBUS_WRITE_ID + FBUS_WRITE_ID_COUNT > 32)
             $error("FBus write ID range exceeds the 5-bit AXI ID space");

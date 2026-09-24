@@ -9,11 +9,12 @@ module tensor_memory_bridge (
     axi4_if.master fbus_write_axi
 );
     axi4_write_cdc #(
-        // Read and write TL source tags carry an independent direction bit,
-        // so tensor writes may use all 32 AXI ID groups without reducing the
-        // postprocess reader's ID space.
-        .FIFO_ADDR_WIDTH(5), .FBUS_WRITE_ID(0),
-        .FBUS_WRITE_ID_COUNT(32)
+        // TLFIFOFixer groups by the AXI-ID portion of the TileLink source;
+        // its direction bit does not isolate reads from writes. Keep the
+        // writer in the upper ID partition so it cannot share a FIFO group
+        // with the reader (reader IDs 0..17, writer IDs 18..31).
+        .FIFO_ADDR_WIDTH(5), .FBUS_WRITE_ID(18),
+        .FBUS_WRITE_ID_COUNT(14)
     ) u_tensor_fbus_write_cdc (
         .s_axi(tensor_write_axi), .m_clk(soc_clk),
         .m_resetn(soc_resetn), .m_axi(fbus_write_axi)

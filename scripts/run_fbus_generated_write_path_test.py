@@ -9,7 +9,7 @@ from pathlib import Path
 repo = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
 parser.add_argument("--latency", type=int, default=160)
-parser.add_argument("--ids", type=int, choices=[8, 16, 32], default=8)
+parser.add_argument("--ids", type=int, choices=range(1, 33), default=14)
 parser.add_argument("--bytes", type=int, default=262144)
 args = parser.parse_args()
 collateral = next((repo / "generated/soc").glob("tsmc*/gen-collateral"))

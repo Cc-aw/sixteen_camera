@@ -5,7 +5,7 @@ root=$(cd "$(dirname "$0")/.." && pwd)
 test_tmp=$(mktemp -d /tmp/sixteen-camera-yolov5nu-post.XXXXXX)
 trap 'rm -rf "$test_tmp"' EXIT
 
-"$root/sw/test/run_ai_head_slot_queue_test.sh"
+bash "$root/sw/test/run_ai_head_slot_queue_test.sh"
 
 python3 "$root/scripts/generate_yolov5nu_class_reducer_vectors.py" \
   --reference "$root/sw/yolov5/generators/gemmini/software/gemmini-ort/models/detection/stage8_640x480_hardware_aware/hardware_integer_reference.npz" \

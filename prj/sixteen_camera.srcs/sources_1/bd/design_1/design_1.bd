@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0x4B11E1AABDDB62E6",
+      "boundary_crc": "0x4B11E1AA036F4783",
       "device": "xcvu13p-fhga2104-2-i",
       "gen_directory": "../../../../sixteen_camera.gen/sources_1/bd/design_1",
       "name": "design_1",
@@ -265,13 +265,13 @@
             "value": "64"
           },
           "NUM_READ_OUTSTANDING": {
-            "value": "1"
+            "value": "8"
           },
           "NUM_READ_THREADS": {
             "value": "1"
           },
           "NUM_WRITE_OUTSTANDING": {
-            "value": "1"
+            "value": "8"
           },
           "NUM_WRITE_THREADS": {
             "value": "1"
@@ -1245,6 +1245,10 @@
         "parameters": {
           "ASSOCIATED_BUSIF": {
             "value": "S00_AXI",
+            "value_src": "default"
+          },
+          "ASSOCIATED_RESET": {
+            "value": "S00_ARESETN",
             "value_src": "default"
           },
           "CLK_DOMAIN": {

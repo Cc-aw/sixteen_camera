@@ -236,9 +236,10 @@ module tb_fbus_generated_write_path #(
         run_case(16);
         run_case(4);
         run_case(2);
-        if (cycles2 >= cycles4 || cycles2 >= cycles16 ||
-            cycles2 >= cycles64 || bridge_stall2 >= bridge_stall4 ||
-            peak2 < WRITE_ID_COUNT)
+        if (peak2 < WRITE_ID_COUNT ||
+            (WRITE_ID_COUNT > 1 &&
+             (cycles2 >= cycles4 || cycles2 >= cycles16 ||
+              cycles2 >= cycles64 || bridge_stall2 >= bridge_stall4)))
             $fatal(1, "short-burst FBus concurrency was not demonstrated");
         $display("TB_FBUS_GENERATED_WRITE_PATH=PASS");
         $finish;

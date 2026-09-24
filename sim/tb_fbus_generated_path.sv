@@ -1,20 +1,21 @@
 `timescale 1ns/1ps
-// The real generated AXI/TL adapters feed a 64-bit, delayed, out-of-order
-// memory responder. This is a controlled concurrency test, not a DDR model.
+// The real generated AXI/TL adapters feed a delayed, out-of-order memory
+// responder. This is a controlled concurrency test, not a DDR model.
 module tb_fbus_generated_path #(
     parameter integer READER_SLOTS = 64,
     parameter integer BYTES = 32768,
-    parameter integer SHORT_ONLY = 0,
+    parameter bit SHORT_ONLY = 0,
     parameter integer MIN_MBPS = 0,
     parameter integer AXI_ID_WIDTH = 5,
-    parameter integer READ_ID_COUNT = 31,
-    parameter integer WRITE_ID = 31,
+    parameter integer READ_ID_COUNT = 18,
+    parameter integer FIRST_WRITE_ID = 18,
+    parameter integer WRITE_ID_COUNT = 14,
     parameter integer MEMORY_LATENCY = 48,
     parameter integer MEMORY_DATA_WIDTH = 64,
     parameter integer CONSUMER_PERIOD = 1,
     parameter integer MEMORY_GAP_CYCLES = 0,
-    parameter integer WRITE_TRAFFIC = 0,
-    parameter integer FAIR_MEMORY = 0,
+    parameter bit WRITE_TRAFFIC = 0,
+    parameter bit FAIR_MEMORY = 0,
     parameter integer CONTENTION_PERIOD = 0
 );
     reg clk = 0, resetn = 0, start = 0;
@@ -22,43 +23,72 @@ module tb_fbus_generated_path #(
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(AXI_ID_WIDTH)) axi();
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(AXI_ID_WIDTH)) read_axi();
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(AXI_ID_WIDTH)) write_axi();
+    axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) source_write_axi();
     axi4_channel_join join_channels (
         .clk(clk), .resetn(resetn), .read_axi(read_axi),
         .write_axi(write_axi), .m_axi(axi)
     );
-    reg [2:0] write_state = 0;
+    wire [31:0] write_outstanding_max;
+    wire [31:0] write_id_mask;
+    axi4_write_cdc #(
+        .FIFO_ADDR_WIDTH(5), .FBUS_WRITE_ID(FIRST_WRITE_ID),
+        .FBUS_WRITE_ID_COUNT(WRITE_ID_COUNT)
+    ) write_cdc (
+        .s_axi(source_write_axi), .m_clk(clk), .m_resetn(resetn),
+        .m_axi(write_axi), .perf_aw_count(), .perf_w_count(),
+        .perf_b_count(), .perf_aw_stall_cycles(), .perf_w_stall_cycles(),
+        .perf_b_stall_cycles(), .perf_outstanding_current(),
+        .perf_outstanding_max(write_outstanding_max),
+        .perf_write_id_mask(write_id_mask), .perf_protocol_errors()
+    );
+
+    reg [1:0] write_state = 0;
+    integer writes_issued = 0;
     integer writes_completed = 0;
-    assign write_axi.awid = AXI_ID_WIDTH'(WRITE_ID);
-    assign write_axi.awaddr = 33'h0b1000000;
-    assign write_axi.awlen = 1;
-    assign write_axi.awsize = 5;
-    assign write_axi.awburst = 1;
-    assign write_axi.awlock = 0;
-    assign write_axi.awcache = 2;
-    assign write_axi.awprot = 0;
-    assign write_axi.awqos = 0;
-    assign write_axi.awvalid = WRITE_TRAFFIC && write_state == 0 && busy;
-    assign write_axi.wvalid = write_state == 1 || write_state == 2;
-    assign write_axi.wdata = {32{8'h5a}};
-    assign write_axi.wstrb = '1;
-    assign write_axi.wlast = write_state == 2;
-    assign write_axi.bready = 1;
-    assign write_axi.arid = 0; assign write_axi.araddr = 0;
-    assign write_axi.arlen = 0; assign write_axi.arsize = 5;
-    assign write_axi.arburst = 1; assign write_axi.arlock = 0;
-    assign write_axi.arcache = 2; assign write_axi.arprot = 0;
-    assign write_axi.arqos = 0; assign write_axi.arvalid = 0;
-    assign write_axi.rready = 0;
+    assign source_write_axi.aclk = clk;
+    assign source_write_axi.aresetn = resetn;
+    assign source_write_axi.awid = 3'd0;
+    assign source_write_axi.awaddr = 32'h3100_0000 + 32'(writes_issued * 64);
+    assign source_write_axi.awlen = 1;
+    assign source_write_axi.awsize = 5;
+    assign source_write_axi.awburst = 1;
+    assign source_write_axi.awlock = 0;
+    assign source_write_axi.awcache = 2;
+    assign source_write_axi.awprot = 0;
+    assign source_write_axi.awqos = 0;
+    assign source_write_axi.awvalid = WRITE_TRAFFIC && write_state == 0 && busy;
+    assign source_write_axi.wvalid = write_state == 1 || write_state == 2;
+    assign source_write_axi.wdata = {32{8'h5a}};
+    assign source_write_axi.wstrb = '1;
+    assign source_write_axi.wlast = write_state == 2;
+    assign source_write_axi.bready = 1;
+    assign source_write_axi.arid = 0; assign source_write_axi.araddr = 0;
+    assign source_write_axi.arlen = 0; assign source_write_axi.arsize = 5;
+    assign source_write_axi.arburst = 1; assign source_write_axi.arlock = 0;
+    assign source_write_axi.arcache = 2; assign source_write_axi.arprot = 0;
+    assign source_write_axi.arqos = 0; assign source_write_axi.arvalid = 0;
+    assign source_write_axi.rready = 0;
     always @(posedge clk) begin
-        if (!resetn) begin write_state <= 0; writes_completed <= 0; end
+        if (!resetn) begin
+            write_state <= 0;
+            writes_issued <= 0;
+            writes_completed <= 0;
+        end
         else begin
-            if (write_axi.awvalid && write_axi.awready) write_state <= 1;
-            if (write_axi.wvalid && write_axi.wready) write_state <= write_state + 1'b1;
-            if (write_axi.bvalid) begin
-                if (write_axi.bresp != 0 || write_axi.bid != AXI_ID_WIDTH'(WRITE_ID))
+            if (source_write_axi.awvalid && source_write_axi.awready)
+                write_state <= 1;
+            if (source_write_axi.wvalid && source_write_axi.wready) begin
+                if (source_write_axi.wlast) begin
+                    write_state <= 0;
+                    writes_issued <= writes_issued + 1;
+                end else begin
+                    write_state <= write_state + 1'b1;
+                end
+            end
+            if (source_write_axi.bvalid) begin
+                if (source_write_axi.bresp != 0 || source_write_axi.bid != 0)
                     $fatal(1, "concurrent write response failed");
                 writes_completed <= writes_completed + 1;
-                write_state <= 0;
             end
         end
     end
@@ -188,7 +218,12 @@ module tb_fbus_generated_path #(
                 $fatal(1, "reader failed error=%b consumed=%0d", error, consumed);
             if (WRITE_TRAFFIC && writes_completed == 0)
                 $fatal(1, "concurrent write traffic was not exercised");
-            $display("FBUS_WRITES completed=%0d", writes_completed);
+            if (WRITE_TRAFFIC && write_outstanding_max < WRITE_ID_COUNT)
+                $fatal(1, "write ID partition was not filled max=%0d expected=%0d",
+                       write_outstanding_max, WRITE_ID_COUNT);
+            $display("FBUS_WRITES issued=%0d completed=%0d max=%0d mask=%08x",
+                     writes_issued, writes_completed, write_outstanding_max,
+                     write_id_mask);
             $display("FBUS_PATH burstB=%0d cycles=%0d peak_TL_requests=%0d MBps_at_100MHz=%0d",
                      limit*32, cycles, peak, BYTES*100/cycles);
         end
