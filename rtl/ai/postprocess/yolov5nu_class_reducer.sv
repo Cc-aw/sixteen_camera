@@ -65,7 +65,15 @@ module yolov5nu_class_reducer #(
     reg signed [7:0] fold_result_score;
     reg [6:0] fold_result_class;
 
-    assign s_ready = busy && !input_complete && !beat_active &&
+    // I: Current beat/group state, terminal marker and result backpressure.
+    // P: Accept the next beat while the final group of a nonterminal beat drains.
+    // O: A continuous four-cycle beat cadence without changing fold width.
+    // A: hlk
+    // T: 2026-09-22 10:48:34 +0800
+    wire final_group = beat_active &&
+        beat_group == GROUP_WIDTH'(GROUP_COUNT-1);
+    assign s_ready = busy && !input_complete &&
+                     (!beat_active || (final_group && !beat_last)) &&
                      (!result_valid || result_ready);
 
     initial begin
@@ -160,9 +168,21 @@ module yolov5nu_class_reducer #(
                 class_index <= fold_class_index;
                 best_score <= fold_best_score;
                 best_class <= fold_best_class;
-                beat_group <= beat_group + 1'b1;
-                if (beat_group == GROUP_WIDTH'(GROUP_COUNT-1))
-                    beat_active <= 1'b0;
+                // I: Final-group completion and a simultaneous input handshake.
+                // P: Retain the newly loaded beat, otherwise release the old beat.
+                // O: Group zero is ready on the cycle after a beat-to-beat handoff.
+                // A: hlk
+                // T: 2026-09-22 10:48:34 +0800
+                if (final_group) begin
+                    if (s_valid && s_ready) begin
+                        beat_group <= '0;
+                        beat_active <= 1'b1;
+                    end else begin
+                        beat_active <= 1'b0;
+                    end
+                end else begin
+                    beat_group <= beat_group + 1'b1;
+                end
 
                 if (fold_emits) begin
                     result_valid <= 1'b1;
