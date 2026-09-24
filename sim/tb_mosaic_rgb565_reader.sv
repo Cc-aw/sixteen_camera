@@ -1,11 +1,13 @@
 `timescale 1ns/1ps
 
 module tb_mosaic_rgb565_reader #(
-    parameter integer STALL_TEST = 0
+    parameter integer STALL_TEST = 0,
+    parameter integer RATE_TEST = 0
 );
     reg clk = 0;
     reg resetn = 0;
-    always #2 clk = ~clk;
+    // The production Display clock is 300.12 MHz / 2 = 150.06 MHz.
+    always #3.332 clk = ~clk;
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) axi();
     axis_video_if #(.DATA_WIDTH(48)) axis();
     wire buffer_acquire, buffer_done, axi_error, fifo_underflow;
@@ -23,6 +25,12 @@ module tb_mosaic_rgb565_reader #(
     integer release_cycle = 0;
     integer output_count = 0;
     integer row_start_cycle = 0;
+    integer bridge_level = 0;
+    integer bridge_phase = 0;
+    integer bridge_requests = 0;
+    integer bridge_underflows = 0;
+    reg bridge_running = 0;
+    reg source_done = 0;
     integer channel;
     integer output_x, output_y, tile, tile_x, source_x, source_y;
     reg [47:0] expected_pair;
@@ -65,7 +73,15 @@ module tb_mosaic_rgb565_reader #(
     assign axi.rlast = read_beat == read_len;
     assign axi.rvalid = read_active && (cycles % 5 != 1) &&
         (STALL_TEST == 0 || !stall_started || cycles >= release_cycle);
-    assign axis.tready = cycles % 13 != 3;
+    assign axis.tready = RATE_TEST != 0 ? bridge_level < 1024 :
+                         cycles % 13 != 3;
+    wire source_fire = axis.tvalid && axis.tready;
+    // At 150 MHz, 2222 source cycles model one 1080p60 line period.
+    // A dual-pixel HDMI sink requests 960 pairs in the first 1920 cycles.
+    wire bridge_request = RATE_TEST != 0 && bridge_running &&
+                          bridge_requests < 960*1080 &&
+                          bridge_phase < 1920 && !bridge_phase[0];
+    wire bridge_pop = bridge_request && bridge_level != 0;
 
     mosaic_rgb565_reader dut(
         .clk(clk), .resetn(resetn),
@@ -89,6 +105,30 @@ module tb_mosaic_rgb565_reader #(
 
     always @(posedge clk) if (resetn) begin
         cycles <= cycles + 1;
+        if (RATE_TEST != 0) begin
+            bridge_level <= bridge_level + (source_fire ? 1 : 0) -
+                            (bridge_pop ? 1 : 0);
+            if (!bridge_running && bridge_level >= 512)
+                bridge_running <= 1;
+            if (bridge_running && bridge_requests < 960*1080) begin
+                bridge_phase <= bridge_phase == 2221 ? 0 :
+                                bridge_phase + 1;
+                if (bridge_request) begin
+                    bridge_requests <= bridge_requests + 1;
+                    if (!bridge_pop)
+                        bridge_underflows <= bridge_underflows + 1;
+                end
+            end
+            if (bridge_requests == 960*1080) begin
+                if (bridge_underflows != 0 || !source_done ||
+                    output_count != 960*1080)
+                    $fatal(1,"bridge starved: underflows=%0d source=%0d done=%0b",
+                           bridge_underflows, output_count, source_done);
+                $display("TB_MOSAIC_RGB565_RATE=PASS outputs=%0d underflows=%0d",
+                         output_count, bridge_underflows);
+                $finish;
+            end
+        end
         if (STALL_TEST != 0 && !stall_started && dut.bank_ready[0] &&
             !dut.bank_ready[1] && dut.output_y == 0 && dut.output_x > 0) begin
             stall_started <= 1;
@@ -118,7 +158,8 @@ module tb_mosaic_rgb565_reader #(
             output_y = output_count / 960;
             if (output_x == 0)
                 row_start_cycle = cycles;
-            if (output_x == 959 && cycles - row_start_cycle > 1200)
+            if (RATE_TEST == 0 && output_x == 959 &&
+                cycles - row_start_cycle > 1200)
                 $fatal(1,"mosaic output rate too low: row=%0d cycles=%0d",
                        output_y, cycles - row_start_cycle);
             tile = output_x / 240;
@@ -143,9 +184,12 @@ module tb_mosaic_rgb565_reader #(
                 (STALL_TEST == 0 && underflow_seen != 0))
                 $fatal(1,"bad completion count=%0d error=%0b underflow=%0b",
                        output_count,axi_error,fifo_underflow);
-            $display("TB_MOSAIC_RGB565_READER=PASS outputs=%0d underflows=%0d",
-                     output_count,underflow_seen);
-            $finish;
+            source_done <= 1;
+            if (RATE_TEST == 0) begin
+                $display("TB_MOSAIC_RGB565_READER=PASS outputs=%0d underflows=%0d",
+                         output_count,underflow_seen);
+                $finish;
+            end
         end
         if (cycles > 5000000)
             $fatal(1,"timeout output=%0d debug=%08x",output_count,debug_status);

@@ -44,9 +44,12 @@
 该 bitstream 未通过时序签核。
 
 已在 `mosaic_rgb565_reader` 和 `full_rgb565_reader` 中加入可连续每周期
-发出一对像素的 BRAM/RGB 展开弹性流水。旧 reader 每对像素至少花三个
-300 MHz 周期；这项改动提高余量，但旧速率理论上已高于 1080p60
-所需的平均 62.208 M 对/秒，**不能据此断言黑屏根因已修复**。
+发出一对像素的 BRAM/RGB 展开弹性流水。后续核对 `ddr_platform`、
+`xdc/clk.xdc` 和综合日志后确认 reader 的 `video_clk` 实际为
+150.06 MHz（DDR UI 300.12 MHz 的二分频），旧 reader 每对像素
+至少花三个周期，上限约 50.02 M 对/秒，**低于** 1080p60 平均
+62.208 M 对/秒。新流水直接消除了这个确定的吞吐缺口，
+但仍需新版 bitstream 板测确认 HDMI bridge underflow 消失。
 Mosaic、全屏、DDR 停顿和 overlay 集成整帧定向仿真均通过，测试新增
 每行 1200 周期上限；集成 Reader 定向综合通过。该 RTL 变更尚未生成新 bitstream。
 
@@ -58,3 +61,29 @@ TX bridge underflow 串口消息限为前四次及之后的 2 的幂次，真实
 它可在当前 bitstream 上直接下载，不需要重新布局布线。
 待板端 `v` 输出确认写入、读取及 HDMI 状态后，再决定 RTL 变更是否需要
 进入下一次完整构建。
+
+### 板端 `v` 状态（2026-09-24）
+
+用户使用诊断 ELF 回报：TX 初始化、HPD、PHY、stream 均为 1；
+CH1–CH8 各写入约 191–192 帧，DMA AXI 响应错误 0；
+Mosaic reader 输出 386 帧、AXI 错误 0、reader underflow 0，
+而 HDMI AXIS bridge underflow 累计 33838（约每输出帧 88 次）。
+CH9–CH16 当前无 HDMI 输入帧且 HDMI capture=0。显示帧数约为
+本地摄像头写帧数的两倍，符合 30→60 fps 复用预期。
+这些数据把持续断供定位到 reader 后的 AXIS/HDMI 桥衔接，
+尚不能排除瞬时读停顿、HDMI 桥时序及整体 routed 时序违例。
+每路约 4335 次 malformed 计数来自上游 capture ingress 的
+`camera_malformed_counts`，不是 RGB565 packer 的错误计数；
+它与持续成功写帧同时出现，另行分析。
+
+已保留旧 bitstream 于 `/tmp/sixteen_camera_rgb565_reader_20260924_102253/previous_underflow.bit`。
+按用户要求，完整重建在综合过程中停止，**未启动 `impl_1`**；
+因此工程默认 bitstream 路径目前为空，板上仍是上一版配置。
+
+新增 150 MHz reader→1024 拍 HDMI FIFO→1080p60 消费节奏的
+整帧速率测试。旧三周期 Mosaic reader 在该测试中出现 146438 次
+模拟 bridge 欠流并失败；新弹性流水以 1036800 个像素对、0 次欠流通过。
+完整 Display 定向仿真再次全部通过，集成 Reader 定向综合先前已通过。
+另以 6.664 ns 时钟约束检查 Reader+overlay 综合网表，最差综合级
+setup slack 为 +4.000 ns，`DISPLAY_READER_150MHZ_SYNTHESIS=PASS`。
+该模拟覆盖持续吞吐及短时背压，不代替新版 bitstream 的板上验证。

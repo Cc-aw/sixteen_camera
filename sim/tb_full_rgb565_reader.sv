@@ -3,7 +3,7 @@
 module tb_full_rgb565_reader;
     reg clk = 0;
     reg resetn = 0;
-    always #2 clk = ~clk;
+    always #3.332 clk = ~clk;
     axi4_if #(.DATA_WIDTH(256), .ID_WIDTH(3)) axi();
     axis_video_if #(.DATA_WIDTH(48)) axis();
     wire buffer_acquire, buffer_done, axi_error, fifo_underflow;

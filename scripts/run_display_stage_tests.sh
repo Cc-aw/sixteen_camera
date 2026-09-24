@@ -39,6 +39,14 @@ verilator --binary --timing -Wno-fatal --top-module tb_mosaic_rgb565_reader \
     sim/tb_mosaic_rgb565_reader.sv > "$test_tmp/mosaic_stall_build.log" 2>&1
 "$test_tmp/mosaic_stall/Vtb_mosaic_rgb565_reader"
 
+verilator --binary --timing -Wno-fatal --top-module tb_mosaic_rgb565_reader \
+    -GRATE_TEST=1 --Mdir "$test_tmp/mosaic_rate" \
+    rtl/interfaces/axi4_if.sv rtl/interfaces/axis_video_if.sv \
+    rtl/video/display/rgb565_to_rgb888.sv \
+    rtl/video/display/mosaic_rgb565_reader.sv \
+    sim/tb_mosaic_rgb565_reader.sv > "$test_tmp/mosaic_rate_build.log" 2>&1
+"$test_tmp/mosaic_rate/Vtb_mosaic_rgb565_reader"
+
 verilator --binary --timing -Wno-fatal --top-module tb_full_rgb565_reader \
     --Mdir "$test_tmp/full" \
     rtl/interfaces/axi4_if.sv rtl/interfaces/axis_video_if.sv \
