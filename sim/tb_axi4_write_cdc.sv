@@ -141,9 +141,10 @@ module tb_axi4_write_cdc;
             m_bid = id;
             m_bresp = response;
             m_bvalid = 1'b1;
-            while (!m_axi.bready)
-                @(negedge m_clk);
-            @(negedge m_clk);
+            do
+                @(posedge m_clk);
+            while (!m_axi.bready);
+            #1;
             m_bvalid = 1'b0;
         end
     endtask

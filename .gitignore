@@ -50,3 +50,5 @@ log/
 *.swp
 .DS_Store
 *.fir
+__pycache__/
+*.py[cod]

@@ -2,7 +2,9 @@
 
 module tb_fbus_read_engine #(
     parameter integer SLOT_COUNT = 16,
-    parameter integer REORDER_SLOTS = 32
+    parameter integer REORDER_SLOTS = 32,
+    parameter integer READ_ID_COUNT = SLOT_COUNT,
+    parameter integer ID_WIDTH = 5
 );
     localparam integer ADDR_WIDTH = 33;
     localparam integer DATA_WIDTH = 256;
@@ -28,9 +30,10 @@ module tb_fbus_read_engine #(
     reg stream_ready = 1'b0;
     wire stream_last;
     axi4_if #(.ADDR_WIDTH(ADDR_WIDTH), .DATA_WIDTH(DATA_WIDTH),
-              .ID_WIDTH(4)) axi();
+              .ID_WIDTH(ID_WIDTH)) axi();
 
-    fbus_read_engine #(.ID_WIDTH(4), .MAX_OUTSTANDING(REORDER_SLOTS)) dut (
+    fbus_read_engine #(.ID_WIDTH(ID_WIDTH), .READ_ID_COUNT(READ_ID_COUNT),
+                       .MAX_OUTSTANDING(REORDER_SLOTS)) dut (
         .clk(clk), .resetn(resetn), .start(start), .base_addr(base_addr),
         .byte_count(byte_count), .busy(busy), .done(done), .error(error),
         .burst_beats_limit(burst_beats_limit),
@@ -59,10 +62,11 @@ module tb_fbus_read_engine #(
     reg [4:0] pending_count = 0;
     reg [5:0] response_holdoff = 0;
     reg rvalid = 1'b0;
-    reg [3:0] rid = 0;
+    reg [ID_WIDTH-1:0] rid = 0;
     reg [DATA_WIDTH-1:0] rdata = '0;
     reg rlast = 1'b0;
     reg out_of_order_seen = 1'b0;
+    reg lower_id_pending;
     integer selected_id;
 
     function automatic [DATA_WIDTH-1:0] memory_word(
@@ -76,12 +80,17 @@ module tb_fbus_read_engine #(
 
     always @* begin
         selected_id = -1;
+        lower_id_pending = 1'b0;
         // Highest ID wins. Once eight requests are queued this deliberately
         // completes later requests before ID 0 and exercises the reorder RAM.
         for (integer candidate = 0; candidate < SLOT_COUNT;
-             candidate = candidate + 1)
-            if (response_active[candidate])
+             candidate = candidate + 1) begin
+            if (response_active[candidate]) begin
                 selected_id = candidate;
+                if (candidate < 32'(rid))
+                    lower_id_pending = 1'b1;
+            end
+        end
     end
 
     wire ar_accept = axi.arvalid && axi.arready;
@@ -94,7 +103,7 @@ module tb_fbus_read_engine #(
     assign axi.rvalid = rvalid;
     assign axi.awready = 1'b0;
     assign axi.wready = 1'b0;
-    assign axi.bid = 4'd0;
+    assign axi.bid = '0;
     assign axi.bresp = 2'b00;
     assign axi.bvalid = 1'b0;
 
@@ -137,7 +146,7 @@ module tb_fbus_read_engine #(
                 rvalid <= 1'b0;
                 if (rlast) begin
                     response_active[rid[ID_INDEX_WIDTH-1:0]] <= 1'b0;
-                    if (rid != 0)
+                    if (lower_id_pending)
                         out_of_order_seen <= 1'b1;
                 end else begin
                     response_addr[rid[ID_INDEX_WIDTH-1:0]] <=
@@ -149,7 +158,7 @@ module tb_fbus_read_engine #(
 
             if (!rvalid && response_holdoff == 0 && selected_id >= 0 &&
                 (lfsr[2] || lfsr[7])) begin
-                rid <= 4'(selected_id);
+                rid <= ID_WIDTH'(selected_id);
                 rdata <= memory_word(response_addr[selected_id]);
                 rlast <= response_left[selected_id] == 1;
                 rvalid <= 1'b1;
@@ -236,7 +245,6 @@ module tb_fbus_read_engine #(
         if (request_addr[5][11:0] != 12'hfe0 || request_beats[5] != 1 ||
             request_addr[6][11:0] != 12'h000)
             $fatal(1, "4 KiB split mismatch");
-        out_of_order_seen = 1'b0;
         run_case(33'h0_1800_0000, 4096*SLOT_COUNT, 1'b0);
         if (max_outstanding_observed != SLOT_COUNT ||
             max_reorder_occupancy != SLOT_COUNT)

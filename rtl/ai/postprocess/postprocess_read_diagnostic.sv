@@ -237,8 +237,10 @@ module postprocess_read_diagnostic #(
         end
     endfunction
 
-    // ID 31 belongs to preprocess writes, avoiding cross-direction FIFO stalls.
-    fbus_read_engine #(.READ_ID_COUNT(31)) u_reader (
+    // Reader owns IDs 0..17. Writer owns IDs 18..31 because TLFIFOFixer
+    // groups by AXI ID and does not use the encoded direction bit as a
+    // separate ordering domain.
+    fbus_read_engine #(.READ_ID_COUNT(18)) u_reader (
         .clk(axil.aclk), .resetn(axil.aresetn),
         .start(start_reader ||
                (production_read_start && !local_active_q)),

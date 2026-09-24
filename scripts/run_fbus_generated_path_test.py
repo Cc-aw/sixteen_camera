@@ -43,10 +43,12 @@ id_match = re.search(r'input\s+\[(\d+):0\]\s+auto_axi4index_in_ar_bits_id', coup
 if not id_match:
     raise SystemExit('Missing generated FBus AXI ID width')
 axi_id_width = int(id_match[1]) + 1
-read_id_count = (1 << axi_id_width) - (0 if args.shared_write_id else 1)
-write_id = 0 if args.shared_write_id else (1 << axi_id_width)-1
+write_id_count = 1 if args.shared_write_id else min(14, (1 << axi_id_width) - 1)
+first_write_id = 0 if args.shared_write_id else (1 << axi_id_width) - write_id_count
+read_id_count = (1 << axi_id_width) if args.shared_write_id else first_write_id
 print(f"FBUS_TEST_CONFIG fbus_bits={memory_width} axi_id_bits={axi_id_width} "
-      f"read_ids={read_id_count} slots={args.slots} bytes={args.bytes} "
+      f"read_ids={read_id_count} write_ids={first_write_id}.."
+      f"{first_write_id + write_id_count - 1} slots={args.slots} bytes={args.bytes} "
       f"latency={args.latency} memory_gap={args.memory_gap} "
       f"fair_memory={args.fair_memory} writes={args.write_traffic} "
       f"consumer_period={args.consumer_period} min_MBps={args.min_mbps}", flush=True)
@@ -80,9 +82,9 @@ with tempfile.TemporaryDirectory(prefix='fbus-generated-') as directory:
     temp = Path(directory)
     (temp/'wrapper.sv').write_text(wrapper)
     cmd = ['verilator', '--binary', '--timing', '--assert', '-Wno-fatal',
-           '--top-module', 'tb_fbus_generated_path', f'-GREADER_SLOTS={args.slots}', f'-GBYTES={args.bytes}', f'-GSHORT_ONLY={int(args.short_only)}', f'-GMIN_MBPS={args.min_mbps}', f'-GFAIR_MEMORY={int(args.fair_memory)}', f'-GWRITE_TRAFFIC={int(args.write_traffic)}', f'-GAXI_ID_WIDTH={axi_id_width}', f'-GREAD_ID_COUNT={read_id_count}', f'-GWRITE_ID={write_id}',
+           '--top-module', 'tb_fbus_generated_path', f'-GREADER_SLOTS={args.slots}', f'-GBYTES={args.bytes}', f'-GSHORT_ONLY={int(args.short_only)}', f'-GMIN_MBPS={args.min_mbps}', f'-GFAIR_MEMORY={int(args.fair_memory)}', f'-GWRITE_TRAFFIC={int(args.write_traffic)}', f'-GAXI_ID_WIDTH={axi_id_width}', f'-GREAD_ID_COUNT={read_id_count}', f'-GFIRST_WRITE_ID={first_write_id}', f'-GWRITE_ID_COUNT={write_id_count}',
            f'-GMEMORY_LATENCY={args.latency}', f'-GMEMORY_GAP_CYCLES={args.memory_gap}', f'-GMEMORY_DATA_WIDTH={memory_width}', f'-GCONTENTION_PERIOD={args.contention_period}', f'-GCONSUMER_PERIOD={args.consumer_period}', '--Mdir', str(temp/'obj'), '-j', '4',
-           str(repo/'rtl/interfaces/axi4_if.sv'), str(repo/'rtl/bus/axi4_channel_join.sv'), str(repo/'rtl/ai/postprocess/fbus_read_engine.sv'),
+           str(repo/'rtl/interfaces/axi4_if.sv'), str(repo/'rtl/bus/cdc_payload_fifo.sv'), str(repo/'rtl/bus/axi4_write_cdc.sv'), str(repo/'rtl/bus/axi4_channel_join.sv'), str(repo/'rtl/ai/postprocess/fbus_read_engine.sv'),
            *[str(args.collateral/(name+'.sv')) for name in sorted(seen)],
            str(temp/'wrapper.sv'), str(repo/'sim/tb_fbus_generated_path.sv')]
     subprocess.run(cmd, check=True)

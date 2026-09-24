@@ -6,8 +6,8 @@ test_tmp=$(mktemp -d /tmp/sixteen-camera-postprocessor.XXXXXX)
 trap 'rm -rf -- "$test_tmp"' EXIT
 cd "$repo_dir"
 
-./sw/test/run_yolov2_fixed_ref_test.sh
-./sw/test/run_ai_postprocess_test.sh
+bash ./sw/test/run_yolov2_fixed_ref_test.sh
+bash ./sw/test/run_ai_postprocess_test.sh
 
 verilator --binary --timing -Wno-fatal \
   --top-module tb_axi4_channel_join --Mdir "$test_tmp/channel_join" \
@@ -31,6 +31,7 @@ verilator --binary --timing -Wno-fatal \
 
 verilator --binary --timing -Wno-fatal \
   --top-module tb_fbus_read_engine --Mdir "$test_tmp/fbus_read" \
+  -GSLOT_COUNT=18 -GREAD_ID_COUNT=18 -GID_WIDTH=5 \
   rtl/interfaces/axi4_if.sv \
   rtl/ai/postprocess/fbus_read_engine.sv \
   sim/tb_fbus_read_engine.sv
@@ -73,6 +74,6 @@ verilator --binary --timing -Wno-fatal \
   sim/tb_postprocess_read_diagnostic.sv
 "$test_tmp/read_diagnostic/Vtb_postprocess_read_diagnostic"
 
-./scripts/run_yolov5nu_postprocess_tests.sh
+bash ./scripts/run_yolov5nu_postprocess_tests.sh
 
 echo "AI_POSTPROCESSOR_TESTS=PASS"
