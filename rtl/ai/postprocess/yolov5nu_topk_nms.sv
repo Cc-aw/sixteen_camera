@@ -35,6 +35,9 @@ module yolov5nu_topk_nms #(
     localparam [3:0] ST_NMS_SCAN = 4'd8;
     localparam [3:0] ST_DONE = 4'd9;
     localparam [3:0] ST_NMS_EVAL = 4'd10;
+    localparam [3:0] ST_UP_READ = 4'd11;
+    localparam [3:0] ST_DOWN_READ = 4'd12;
+    localparam [3:0] ST_SORT_DOWN_READ = 4'd13;
 
     reg [3:0] state;
     reg [127:0] heap [0:CAPACITY-1];
@@ -47,6 +50,9 @@ module yolov5nu_topk_nms #(
     reg [8:0] nms_scan;
     reg [127:0] selected;
     reg [127:0] scan_entry;
+    reg [127:0] parent_entry;
+    reg [127:0] left_entry;
+    reg [127:0] right_entry;
     reg finish_pending;
 
     wire [8:0] left_child = hole * 2 + 1'b1;
@@ -86,7 +92,7 @@ module yolov5nu_topk_nms #(
 
     always @* begin
         if (right_child < heap_size &&
-            better(heap[left_child], heap[right_child]))
+            better(left_entry, right_entry))
             worse_child = right_child;
         else
             worse_child = left_child;
@@ -133,11 +139,11 @@ module yolov5nu_topk_nms #(
                         hole <= heap_size;
                         heap_size <= heap_size + 1'b1;
                         retained_count <= heap_size + 1'b1;
-                        state <= ST_UP;
+                        state <= ST_UP_READ;
                     end else if (better(candidate_data, heap[0])) begin
                         work <= candidate_data;
                         hole <= 9'd0;
-                        state <= ST_DOWN;
+                        state <= ST_DOWN_READ;
                     end
                 end else if (finish_pending || candidates_finished) begin
                     sort_size <= heap_size;
@@ -149,19 +155,31 @@ module yolov5nu_topk_nms #(
                     end
                 end
             end
+            ST_UP_READ: begin
+                parent_entry <= heap[hole != 0 ? (hole-1'b1)>>1 : 9'd0];
+                state <= ST_UP;
+            end
             ST_UP: begin
-                if (hole != 0 && better(heap[(hole-1'b1)>>1], work)) begin
-                    heap[hole] <= heap[(hole-1'b1)>>1];
+                if (hole != 0 && better(parent_entry, work)) begin
+                    heap[hole] <= parent_entry;
                     hole <= (hole-1'b1)>>1;
+                    state <= ST_UP_READ;
                 end else begin
                     heap[hole] <= work;
                     state <= ST_COLLECT;
                 end
             end
+            ST_DOWN_READ, ST_SORT_DOWN_READ: begin
+                left_entry <= heap[left_child < heap_size ? left_child : 9'd0];
+                right_entry <= heap[right_child < heap_size ? right_child : 9'd0];
+                state <= state == ST_SORT_DOWN_READ ? ST_SORT_DOWN : ST_DOWN;
+            end
             ST_DOWN, ST_SORT_DOWN: begin
-                if (left_child < heap_size && better(work, heap[worse_child])) begin
-                    heap[hole] <= heap[worse_child];
+                if (left_child < heap_size &&
+                    better(work, worse_child == right_child ? right_entry : left_entry)) begin
+                    heap[hole] <= worse_child == right_child ? right_entry : left_entry;
                     hole <= worse_child;
+                    state <= state == ST_SORT_DOWN ? ST_SORT_DOWN_READ : ST_DOWN_READ;
                 end else begin
                     heap[hole] <= work;
                     if (state == ST_SORT_DOWN) begin
@@ -183,7 +201,7 @@ module yolov5nu_topk_nms #(
                 hole <= 9'd0;
                 heap_size <= sort_size - 1'b1;
                 sort_size <= sort_size - 1'b1;
-                state <= ST_SORT_DOWN;
+                state <= ST_SORT_DOWN_READ;
             end
             ST_NMS_PICK: begin
                 if (nms_pick >= retained_count ||

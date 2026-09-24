@@ -66,7 +66,7 @@ trap cleanup EXIT INT TERM
 [[ -r "$GDB_COMMANDS" ]] || { echo "找不到 GDB 命令文件: $GDB_COMMANDS" >&2; exit 1; }
 
 if ((BUILD_FIRMWARE)); then
-    echo "[1/4] 编译双 Gemmini16 + 16 路视频固件..."
+    echo "[1/4] 编译当前视频固件..."
     make -C "$SCRIPT_DIR"
 else
     echo "[1/4] 使用已有固件。"
@@ -112,7 +112,7 @@ if ((ready == 0)); then
     exit 1
 fi
 
-echo "[3/4] 下载并启动双 Gemmini16 + 摄像头 HDMI 固件..."
+echo "[3/4] 下载并启动固件: $ELF_FILE"
 set +e
 PYTHONHOME="$GDB_PYTHONHOME" "$GDB_BIN" -q -batch "$ELF_FILE" -x "$GDB_COMMANDS"
 gdb_status=$?

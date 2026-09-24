@@ -1,5 +1,10 @@
 # sixteen_camera
 
+单 4×4 Gemmini 视频推理板测：先运行 `bash scripts/download_bitstream.sh`，
+再运行 `bash scripts/download_single4_video.sh` 下载 RGB565 诊断固件，
+串口运行 `tio-start`。下载前可用 `bash scripts/download_single4_video.sh --check`
+检查路径；脚本默认使用 `sw/build/gemmini_single4_video_yolov5nu_rgb565_diag.elf`。
+
 当前代码的完整架构见 [YOLOv5nu推理与全系统架构](doc/架构设计/YOLOv5nu推理与全系统架构.md)
 （2026-09-18）：以默认640×480 YOLOv5nu为主，覆盖双Gemmini16、32个流式Tensor Slot、
 双Head Slot、PPU1异步硬件后处理、16路视频、显示标签和验证边界。下文部分视频说明保留历史版本参数，

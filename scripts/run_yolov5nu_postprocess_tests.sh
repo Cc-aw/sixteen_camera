@@ -25,6 +25,12 @@ iverilog -g2012 -s tb_yolov5nu_topk_nms \
   "$root/sim/tb_yolov5nu_topk_nms.sv"
 vvp "$test_tmp/topk_nms"
 
+iverilog -g2012 -s tb_yolov5nu_topk_nms_capacity \
+  -o "$test_tmp/topk_nms_capacity" \
+  "$root/rtl/ai/postprocess/yolov5nu_topk_nms.sv" \
+  "$root/sim/tb_yolov5nu_topk_nms_capacity.sv"
+vvp "$test_tmp/topk_nms_capacity"
+
 iverilog -g2012 -s tb_yolov5nu_dfl_decoder \
   -o "$test_tmp/dfl_decoder" \
   "$root/rtl/ai/postprocess/yolov5nu_dfl_lut.sv" \
