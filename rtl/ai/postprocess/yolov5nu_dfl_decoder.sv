@@ -21,19 +21,27 @@ module yolov5nu_dfl_decoder (
     reg signed [7:0] maxima [0:3];
     reg [29:0] sums [0:3];
     reg [18:0] dot [0:3];
-    reg [32:0] remainder;
+    reg [32:0] remainder0, remainder1;
     reg [29:0] divisor;
-    reg [6:0] quotient;
+    reg [6:0] quotient0, quotient1;
     reg [2:0] divisor_bit;
     wire [1:0] edge_idx = lane[5:4];
     wire [3:0] bin = lane[3:0];
     wire signed [7:0] requant;
     wire [24:0] exponent;
     wire [7:0] difference = 8'(maxima[edge_idx] - requant);
+    wire signed [7:0] requant1;
+    wire [24:0] exponent1;
+    wire [7:0] difference1 = 8'(maxima[edge_idx] - requant1);
     yolov5nu_dfl_lut u_lut (
         .head(head_q), .raw(logits_q[lane*8 +: 8]),
         .exponent_difference(difference),
         .requant(requant), .exponent_q24(exponent)
+    );
+    yolov5nu_dfl_lut u_lut1 (
+        .head(head_q), .raw(logits_q[(lane+6'd1)*8 +: 8]),
+        .exponent_difference(difference1),
+        .requant(requant1), .exponent_q24(exponent1)
     );
 
     function automatic [7:0] weight(input [3:0] index);
@@ -76,6 +84,12 @@ module yolov5nu_dfl_decoder (
 
     assign busy = state != IDLE;
 
+    // I: one 512-bit four-edge DFL location and its start/ready handshake.
+    // P: process adjacent bins in two parallel lanes while preserving the
+    //    original maximum, sum, quotient, and nearest-even operations.
+    // O: four 8-bit distances with the original valid/busy timing contract.
+    // A: hlk
+    // T: 2026-09-22 13:48:30 +0800
     always @(posedge clk) begin
         if (!resetn) begin
             state <= IDLE;
@@ -112,32 +126,44 @@ module yolov5nu_dfl_decoder (
                 if (lane == 6'd63) state <= DOT_LOAD;
             end
             DOT_LOAD: begin
-                remainder <= {8'd0, exponent} * 33'd127;
+                remainder0 <= {8'd0, exponent} * 33'd127;
+                remainder1 <= {8'd0, exponent1} * 33'd127;
                 divisor <= sums[edge_idx];
-                quotient <= 0;
+                quotient0 <= 0;
+                quotient1 <= 0;
                 divisor_bit <= 3'd6;
                 state <= DIVIDE;
             end
             DIVIDE: begin
-                if ({4'd0, remainder} >=
+                if ({4'd0, remainder0} >=
                     ({7'd0, divisor} << divisor_bit)) begin
-                    remainder <= 33'({4'd0, remainder} -
+                    remainder0 <= 33'({4'd0, remainder0} -
                         ({7'd0, divisor} << divisor_bit));
-                    quotient[divisor_bit] <= 1'b1;
+                    quotient0[divisor_bit] <= 1'b1;
+                end
+                if ({4'd0, remainder1} >=
+                    ({7'd0, divisor} << divisor_bit)) begin
+                    remainder1 <= 33'({4'd0, remainder1} -
+                        ({7'd0, divisor} << divisor_bit));
+                    quotient1[divisor_bit] <= 1'b1;
                 end
                 if (divisor_bit == 0) state <= DOT_STORE;
                 else divisor_bit <= divisor_bit - 1'b1;
             end
             DOT_STORE: begin : accumulate
-                reg [18:0] next_dot;
-                next_dot = dot[edge_idx] +
-                    round_probability(quotient, remainder, divisor) *
+                reg [18:0] next_dot0;
+                reg [18:0] next_dot1;
+                next_dot0 = dot[edge_idx] +
+                    round_probability(quotient0, remainder0, divisor) *
                     weight(bin);
-                dot[edge_idx] <= next_dot;
-                if (bin == 4'd15)
-                    distances[edge_idx*8 +: 8] <= distance(next_dot);
-                lane <= lane + 1'b1;
-                if (lane == 6'd63) begin
+                next_dot1 = next_dot0 +
+                    round_probability(quotient1, remainder1, divisor) *
+                    weight(bin + 1'b1);
+                dot[edge_idx] <= next_dot1;
+                if (bin == 4'd14)
+                    distances[edge_idx*8 +: 8] <= distance(next_dot1);
+                lane <= lane + 6'd2;
+                if (lane == 6'd62) begin
                     valid <= 1;
                     state <= IDLE;
                 end else state <= DOT_LOAD;

@@ -43,6 +43,63 @@ module tb_postprocess_read_diagnostic;
     reg production_early_candidates = 1'b0;
     integer fbus_ar_count = 0;
     integer fbus_ar_before = 0;
+    integer cycle_counter = 0;
+    integer ppu_start_cycle = 0;
+    integer read_start_cycle = 0;
+    integer read_sequence = 0;
+    reg production_done_seen = 1'b0;
+    reg production_read_active = 1'b0;
+
+    // I: Existing PPU/reader ownership and valid/ready handshakes.
+    // P: Observe per-command and per-head timing for Local/FBus A/B tests.
+    // O: Timing-only log records; production RTL behavior is unchanged.
+    // A: hlk
+    // T: 2026-09-21
+    always @(posedge clk) begin
+        if (!resetn) begin
+            cycle_counter <= 0;
+            ppu_start_cycle <= 0;
+            read_start_cycle <= 0;
+            read_sequence <= 0;
+            production_done_seen <= 1'b0;
+            production_read_active <= 1'b0;
+        end else begin
+            cycle_counter <= cycle_counter + 1;
+            if (dut.production_start) begin
+                ppu_start_cycle <= cycle_counter;
+                production_done_seen <= 1'b0;
+                read_sequence <= 0;
+                fbus_ar_before <= fbus_ar_count;
+                $display("PPU_TIMING_START cycle=%0d source=%0d fbus_ar=%0d",
+                         cycle_counter, dut.local_active_q ? 1 : 0,
+                         fbus_ar_count);
+            end
+            if (dut.production_read_start) begin
+                read_start_cycle <= cycle_counter;
+                read_sequence <= read_sequence + 1;
+                production_read_active <= 1'b1;
+                $display("PPU_READ_START seq=%0d cycle=%0d source=%0d base=%h bytes=%0d",
+                         read_sequence + 1, cycle_counter,
+                         dut.local_active_q ? 1 : 0,
+                         dut.production_read_base, dut.production_read_bytes);
+            end
+            if (dut.reader_done && production_read_active) begin
+                production_read_active <= 1'b0;
+                $display("PPU_READ_DONE seq=%0d cycle=%0d latency=%0d source=%0d bytes=%0d fbus_ar=%0d",
+                         read_sequence, cycle_counter,
+                         cycle_counter - read_start_cycle,
+                         dut.local_active_q ? 1 : 0,
+                         dut.reader_bytes_read, fbus_ar_count);
+            end
+            if (dut.production_done && !production_done_seen) begin
+                production_done_seen <= 1'b1;
+                $display("PPU_TIMING_DONE cycle=%0d latency=%0d source=%0d fbus_ar_delta=%0d ppu_cycles=%0d",
+                         cycle_counter, cycle_counter - ppu_start_cycle,
+                         dut.local_active_q ? 1 : 0,
+                         fbus_ar_count - fbus_ar_before, dut.production_cycles);
+            end
+        end
+    end
 
     function automatic [255:0] memory_word(input [32:0] address);
         begin
