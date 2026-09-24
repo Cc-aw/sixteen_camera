@@ -15,6 +15,7 @@ module tb_full_rgb565_reader;
     reg [7:0] read_beat = 0;
     integer cycles = 0;
     integer outputs = 0;
+    integer row_start_cycle = 0;
     integer x, y, sx, sy;
     reg [47:0] expected_pair;
 
@@ -92,6 +93,11 @@ module tb_full_rgb565_reader;
         if (axis.tvalid && axis.tready) begin
             x = outputs % 960;
             y = outputs / 960;
+            if (x == 0)
+                row_start_cycle = cycles;
+            if (x == 959 && cycles - row_start_cycle > 1200)
+                $fatal(1,"full-screen output rate too low: row=%0d cycles=%0d",
+                       y, cycles - row_start_cycle);
             sx = ((x*3)/16)*2;
             sy = y/4;
             expected_pair = {expand(stored_pixel(sx+1,sy)),

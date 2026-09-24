@@ -173,7 +173,14 @@ static void tx_underflow_callback(void *ref)
 {
     (void)ref;
     ++state.underflows;
-    line("AXIS bridge underflow");
+    // Repeated HDMI underflow IRQs must not monopolize the Rocket console;
+    // keep the total visible in the video status command.
+    if (state.underflows <= 4U ||
+        (state.underflows & (state.underflows - 1U)) == 0U) {
+        console_puts("[video] AXIS bridge underflow count=");
+        console_put_u32(state.underflows);
+        console_puts("\r\n");
+    }
 }
 
 static void tx_overflow_callback(void *ref)
@@ -786,6 +793,8 @@ void hdmi_tx_print_status(void)
     console_puts(" tx_stream="); console_put_u32(state.tx_stream_up);
     console_puts(" video_frames=");
     console_put_u32(framebuffer_total_frames());
+    console_puts(" tx_underflows=");
+    console_put_u32(state.underflows);
     console_puts(" started="); console_put_u32(state.start_requested);
     console_puts(" fatal="); console_put_u32(state.fatal_error);
     console_puts("\r\nVPHY TX evt(init/ready)=");

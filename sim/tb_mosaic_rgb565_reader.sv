@@ -22,6 +22,7 @@ module tb_mosaic_rgb565_reader #(
     reg stall_started = 0;
     integer release_cycle = 0;
     integer output_count = 0;
+    integer row_start_cycle = 0;
     integer channel;
     integer output_x, output_y, tile, tile_x, source_x, source_y;
     reg [47:0] expected_pair;
@@ -115,6 +116,11 @@ module tb_mosaic_rgb565_reader #(
         if (axis.tvalid && axis.tready) begin
             output_x = output_count % 960;
             output_y = output_count / 960;
+            if (output_x == 0)
+                row_start_cycle = cycles;
+            if (output_x == 959 && cycles - row_start_cycle > 1200)
+                $fatal(1,"mosaic output rate too low: row=%0d cycles=%0d",
+                       output_y, cycles - row_start_cycle);
             tile = output_x / 240;
             tile_x = output_x % 240;
             source_x = (tile_x-30)*2;

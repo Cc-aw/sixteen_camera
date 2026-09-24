@@ -22,7 +22,7 @@ module mosaic_rgb565_reader #(
     localparam integer WORDS_PER_BANK = 4*WORDS_PER_LINE;
     localparam [2:0] F_IDLE=0, F_TILE=1, F_AR=2, F_R=3,
                      F_ZERO=4, F_NEXT=5;
-    localparam [1:0] O_WAIT=0, O_FETCH=1, O_READ=2, O_SEND=3;
+    localparam [1:0] O_WAIT=0, O_STREAM=1, O_DRAIN=2;
 
     (* ram_style = "block" *) reg [255:0] line_mem [0:2*WORDS_PER_BANK-1];
     reg [255:0] read_word_q;
@@ -61,6 +61,10 @@ module mosaic_rgb565_reader #(
     reg [9:0] output_x;
     reg [47:0] output_data_q;
     reg output_user_q, output_last_q;
+    reg output_valid_q, output_frame_last_q;
+    reg stage_valid_q, stage_black_q;
+    reg stage_user_q, stage_last_q, stage_frame_last_q;
+    wire pipeline_advance = !output_valid_q || m_axis.tready;
 
     wire fill_bank = fill_y[0];
     wire [3:0] fill_channel = {fill_tile_row, 2'b00} + {2'b00, fill_tile};
@@ -94,7 +98,7 @@ module mosaic_rgb565_reader #(
                            fill_state, output_state, 2'b00};
     assign m_axis.aclk = clk;
     assign m_axis.aresetn = resetn;
-    assign m_axis.tvalid = output_state == O_SEND;
+    assign m_axis.tvalid = output_valid_q;
     assign m_axis.tdata = output_data_q;
     assign m_axis.tuser = output_user_q;
     assign m_axis.tlast = output_last_q;
@@ -156,6 +160,13 @@ module mosaic_rgb565_reader #(
             output_data_q <= 0;
             output_user_q <= 0;
             output_last_q <= 0;
+            output_valid_q <= 0;
+            output_frame_last_q <= 0;
+            stage_valid_q <= 0;
+            stage_black_q <= 0;
+            stage_user_q <= 0;
+            stage_last_q <= 0;
+            stage_frame_last_q <= 0;
             buffer_done <= 0;
             axi_error <= 0;
             fifo_underflow <= 0;
@@ -176,6 +187,8 @@ module mosaic_rgb565_reader #(
                 output_y <= 0;
                 output_x <= 0;
                 output_state <= O_WAIT;
+                output_valid_q <= 0;
+                stage_valid_q <= 0;
                 axi_error <= 0;
                 fifo_underflow <= 0;
             end else if (frame_active) begin
@@ -234,48 +247,56 @@ module mosaic_rgb565_reader #(
                     default: fill_state <= F_IDLE;
                 endcase
 
-                case (output_state)
-                    O_WAIT: if (bank_ready[output_y[0]] &&
-                               bank_line[output_y[0]] == output_y)
-                        output_state <= O_FETCH;
-                    O_FETCH: begin
-                        output_user_q <= output_y == 0 && output_x == 0;
-                        output_last_q <= output_x == 959;
-                        if (output_black) begin
-                            output_data_q <= 0;
-                            output_state <= O_SEND;
-                        end else begin
-                            read_word_q <= line_mem[memory_address];
-                            lane_q <= image_pair[2:0];
-                            output_state <= O_READ;
-                        end
+                // One synchronous BRAM read and one RGB expansion stage are
+                // elastic as a unit.  Once a line is ready, a new pixel pair
+                // can be issued every 300 MHz cycle, including under stalls.
+                if (pipeline_advance) begin
+                    output_valid_q <= stage_valid_q;
+                    if (stage_valid_q) begin
+                        output_data_q <= stage_black_q ? 48'd0 : converted_pair;
+                        output_user_q <= stage_user_q;
+                        output_last_q <= stage_last_q;
+                        output_frame_last_q <= stage_frame_last_q;
                     end
-                    O_READ: begin
-                        output_data_q <= converted_pair;
-                        output_state <= O_SEND;
-                    end
-                    O_SEND: if (m_axis.tready) begin
-                        if (output_x == 959) begin
-                            output_x <= 0;
-                            bank_ready[output_y[0]] <= 0;
-                            if (output_y == 1079) begin
-                                output_y <= 0;
-                                output_state <= O_WAIT;
-                                frame_active <= 0;
-                                buffer_done <= 1;
-                            end else begin
-                                if (!bank_ready[!output_y[0]])
-                                    fifo_underflow <= 1;
-                                output_y <= output_y + 1'b1;
-                                output_state <= O_WAIT;
+                    stage_valid_q <= 0;
+                    case (output_state)
+                        O_WAIT: if (bank_ready[output_y[0]] &&
+                                   bank_line[output_y[0]] == output_y)
+                            output_state <= O_STREAM;
+                        O_STREAM: begin
+                            stage_valid_q <= 1;
+                            stage_black_q <= output_black;
+                            stage_user_q <= output_y == 0 && output_x == 0;
+                            stage_last_q <= output_x == 959;
+                            stage_frame_last_q <= output_y == 1079 &&
+                                                  output_x == 959;
+                            if (!output_black) begin
+                                read_word_q <= line_mem[memory_address];
+                                lane_q <= image_pair[2:0];
                             end
-                        end else begin
-                            output_x <= output_x + 1'b1;
-                            output_state <= O_FETCH;
+                            if (output_x == 959) begin
+                                output_x <= 0;
+                                bank_ready[output_y[0]] <= 0;
+                                if (output_y == 1079)
+                                    output_state <= O_DRAIN;
+                                else begin
+                                    if (!bank_ready[!output_y[0]])
+                                        fifo_underflow <= 1;
+                                    output_y <= output_y + 1'b1;
+                                    output_state <= O_WAIT;
+                                end
+                            end else
+                                output_x <= output_x + 1'b1;
                         end
-                    end
-                    default: output_state <= O_WAIT;
-                endcase
+                        default: ;
+                    endcase
+                end
+                if (output_valid_q && m_axis.tready &&
+                    output_frame_last_q) begin
+                    frame_active <= 0;
+                    buffer_done <= 1;
+                    output_state <= O_WAIT;
+                end
             end
         end
     end

@@ -18,7 +18,7 @@ module full_rgb565_reader (
     output wire [31:0]   debug_status
 );
     localparam [1:0] F_IDLE=0, F_AR=1, F_R=2, F_READY=3;
-    localparam [1:0] O_WAIT=0, O_FETCH=1, O_READ=2, O_SEND=3;
+    localparam [1:0] O_WAIT=0, O_STREAM=1, O_DRAIN=2;
     (* ram_style = "block" *) reg [255:0] line_mem [0:22];
     reg [255:0] read_word_q;
     reg [2:0] lane_q;
@@ -53,6 +53,9 @@ module full_rgb565_reader (
     reg [3:0] source_phase;
     reg [47:0] output_data_q;
     reg output_user_q, output_last_q;
+    reg output_valid_q, output_frame_last_q;
+    reg stage_valid_q, stage_user_q, stage_last_q, stage_frame_last_q;
+    wire pipeline_advance = !output_valid_q || m_axis.tready;
 
     wire [31:0] fill_addr = frame_base + line_offset +
                             {22'd0, fill_word, 5'd0};
@@ -71,7 +74,7 @@ module full_rgb565_reader (
     assign m_axis.aclk = clk;
     assign m_axis.aresetn = resetn;
     assign m_axis.tdata = output_data_q;
-    assign m_axis.tvalid = output_state == O_SEND;
+    assign m_axis.tvalid = output_valid_q;
     assign m_axis.tuser = output_user_q;
     assign m_axis.tlast = output_last_q;
 
@@ -124,6 +127,12 @@ module full_rgb565_reader (
             output_data_q <= 0;
             output_user_q <= 0;
             output_last_q <= 0;
+            output_valid_q <= 0;
+            output_frame_last_q <= 0;
+            stage_valid_q <= 0;
+            stage_user_q <= 0;
+            stage_last_q <= 0;
+            stage_frame_last_q <= 0;
             buffer_done <= 0;
             axi_error <= 0;
             fifo_underflow <= 0;
@@ -142,6 +151,8 @@ module full_rgb565_reader (
                 source_pair <= 0;
                 source_phase <= 0;
                 output_state <= O_WAIT;
+                output_valid_q <= 0;
+                stage_valid_q <= 0;
                 axi_error <= 0;
                 fifo_underflow <= 0;
             end else if (frame_active) begin
@@ -169,53 +180,60 @@ module full_rgb565_reader (
                     default: ;
                 endcase
 
-                case (output_state)
-                    O_WAIT: if (line_ready)
-                        output_state <= O_FETCH;
-                    O_FETCH: begin
-                        read_word_q <= line_mem[source_pair[7:3]];
-                        lane_q <= source_pair[2:0];
-                        output_user_q <= output_x == 0 && output_y == 0;
-                        output_last_q <= output_x == 959;
-                        output_state <= O_READ;
-                    end
-                    O_READ: begin
+                if (pipeline_advance) begin
+                    output_valid_q <= stage_valid_q;
+                    if (stage_valid_q) begin
                         output_data_q <= converted_pair;
-                        output_state <= O_SEND;
+                        output_user_q <= stage_user_q;
+                        output_last_q <= stage_last_q;
+                        output_frame_last_q <= stage_frame_last_q;
                     end
-                    O_SEND: if (output_fire) begin
-                        if (output_x == 959) begin
-                            output_x <= 0;
-                            source_pair <= 0;
-                            source_phase <= 0;
-                            if (output_y == 1079) begin
-                                frame_active <= 0;
-                                buffer_done <= 1;
-                                output_state <= O_WAIT;
-                            end else begin
-                                output_y <= output_y + 1'b1;
-                                output_state <= O_WAIT;
-                                if (output_y[1:0] == 2'd3) begin
-                                    source_y <= source_y + 1'b1;
-                                    line_offset <= line_offset + 32'd736;
-                                    fill_word <= 0;
-                                    line_ready <= 0;
-                                    fill_state <= F_AR;
+                    stage_valid_q <= 0;
+                    case (output_state)
+                        O_WAIT: if (line_ready)
+                            output_state <= O_STREAM;
+                        O_STREAM: begin
+                            read_word_q <= line_mem[source_pair[7:3]];
+                            lane_q <= source_pair[2:0];
+                            stage_valid_q <= 1;
+                            stage_user_q <= output_x == 0 && output_y == 0;
+                            stage_last_q <= output_x == 959;
+                            stage_frame_last_q <= output_y == 1079 &&
+                                                  output_x == 959;
+                            if (output_x == 959) begin
+                                output_x <= 0;
+                                source_pair <= 0;
+                                source_phase <= 0;
+                                output_state <= output_y == 1079 ?
+                                                O_DRAIN : O_WAIT;
+                                if (output_y != 1079) begin
+                                    output_y <= output_y + 1'b1;
+                                    if (output_y[1:0] == 2'd3) begin
+                                        source_y <= source_y + 1'b1;
+                                        line_offset <= line_offset + 32'd736;
+                                        fill_word <= 0;
+                                        line_ready <= 0;
+                                        fill_state <= F_AR;
+                                    end
                                 end
+                            end else begin
+                                output_x <= output_x + 1'b1;
+                                if ({1'b0, source_phase} + 5'd3 >= 5'd16) begin
+                                    source_phase <= 4'({1'b0, source_phase} +
+                                                       5'd3 - 5'd16);
+                                    source_pair <= source_pair + 1'b1;
+                                end else
+                                    source_phase <= source_phase + 4'd3;
                             end
-                        end else begin
-                            output_x <= output_x + 1'b1;
-                            if ({1'b0, source_phase} + 5'd3 >= 5'd16) begin
-                                source_phase <= 4'({1'b0, source_phase} +
-                                                   5'd3 - 5'd16);
-                                source_pair <= source_pair + 1'b1;
-                            end else
-                                source_phase <= source_phase + 4'd3;
-                            output_state <= O_FETCH;
                         end
-                    end
-                    default: output_state <= O_WAIT;
-                endcase
+                        default: ;
+                    endcase
+                end
+                if (output_fire && output_frame_last_q) begin
+                    frame_active <= 0;
+                    buffer_done <= 1;
+                    output_state <= O_WAIT;
+                end
             end
         end
     end

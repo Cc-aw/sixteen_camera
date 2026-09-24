@@ -32,3 +32,29 @@
 
 - 保持 4 slot。DISP-P5 的 4→3 评估需要上板采集 drop、writer FIFO 峰值、reader underflow、AXI stall 和 frame age；当前没有实测依据。
 - 本阶段未运行布局布线、未生成比特流、未上板。与已提交的 PCLK 阶段一起做最终时序和板测。
+
+## 2026-09-24 初次板测反馈与诊断准备
+
+2026-09-23 23:43 新 bitstream 生成成功（`BITSTREAM_BUILD=PASS`）。
+首次下载后用户反馈 HDMI 黑屏，串口反复输出
+`[video] AXIS bridge underflow`。该信息只证明 HDMI 输入桥取数不足，
+无法单独判断是写帧、DDR 读取、显示 reader，还是 TX 启动顺序造成。
+本次 routed timing summary 为 WNS -7.988 ns、TNS -243935.109 ns、
+145679 个 setup 失败端点，最坏路径在单 4×4 SoC 的 100 MHz 域；
+该 bitstream 未通过时序签核。
+
+已在 `mosaic_rgb565_reader` 和 `full_rgb565_reader` 中加入可连续每周期
+发出一对像素的 BRAM/RGB 展开弹性流水。旧 reader 每对像素至少花三个
+300 MHz 周期；这项改动提高余量，但旧速率理论上已高于 1080p60
+所需的平均 62.208 M 对/秒，**不能据此断言黑屏根因已修复**。
+Mosaic、全屏、DDR 停顿和 overlay 集成整帧定向仿真均通过，测试新增
+每行 1200 周期上限；集成 Reader 定向综合通过。该 RTL 变更尚未生成新 bitstream。
+
+软件增加 `v` 视频状态命令，打印 TX/reader/DMA/每路写帧计数；
+TX bridge underflow 串口消息限为前四次及之后的 2 的幂次，真实累计数在
+`v` 状态中保留。诊断固件为
+`sw/build/gemmini_single4_video_yolov5nu_rgb565_diag.elf`，SHA-256
+`12d90894dc61585c21ad5cc5c1a2b1a4ccad233696ec995f619e88c9d3dba742`。
+它可在当前 bitstream 上直接下载，不需要重新布局布线。
+待板端 `v` 输出确认写入、读取及 HDMI 状态后，再决定 RTL 变更是否需要
+进入下一次完整构建。
