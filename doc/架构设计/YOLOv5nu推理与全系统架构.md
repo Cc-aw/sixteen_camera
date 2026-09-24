@@ -64,9 +64,9 @@ RGB INT8，不再先写 framebuffer 再读回。两条支路在资源和生命
 | `rtl/control/control_soc_subsystem.sv` | Si5338 初始化、100 MHz SoC 时钟、DDR ready 后释放 CPU、SoC memory/MMIO/FBus/UART/JTAG 边界 |
 | `rtl/video/video_control_subsystem.sv` | MMIO、GPIO/IIC、摄像头与 HDMI 控制和视频流接口 |
 | `rtl/memory/ddr_memory_subsystem.sv` | MIG/BD、视频时钟分频、视频 AXI CDC、DDR 帧流水线、FBus 写桥和后处理读通道 |
-| `rtl/video/framebuffer/multi_channel_ddr_video_pipeline.sv` | 帧管理、视频 DMA、snapshot、流式 Tensor DMA、显示 reader、overlay 配置 CDC 的集成 |
+| `rtl/video/framebuffer/multi_channel_ddr_video_pipeline.sv` | frame store、tensor ingress、display 和 control bridge 的集成 shell |
 
-SoC collateral 当前选自 `rtl/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitConfig/gen-collateral/`。`setup_vivado.tcl` 使用同名配置并排除旧 SoC 文件。另一个 SmallRocket 目录是保留版本，不是当前顶层实例依据。
+SoC collateral 当前选自 `generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitConfig/gen-collateral/`。`build/soc_manifest.tcl` 固定当前配置，`setup_vivado.tcl` 排除旧 SoC 文件。另一个 SmallRocket 目录是保留版本，不是当前顶层实例依据。
 
 ### 2.1 时钟与复位
 

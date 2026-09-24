@@ -54,6 +54,9 @@ set RTL_SOURCES {
     rtl/video/camera/dvp_href_line_guard.sv
     rtl/video/camera/dvp_input_sampler.sv
     rtl/video/camera/dvp_pclk_recovery.sv
+    rtl/video/camera/dvp_pclk_telemetry.sv
+    rtl/video/camera/control/ov7670_init_ctrl.sv
+    rtl/video/camera/control/ov7670_regs.sv
     rtl/video/camera/ov7670_frontend.sv
     rtl/video/camera/ov7670_init_scheduler.sv
     rtl/video/camera/video_stream_cdc.sv

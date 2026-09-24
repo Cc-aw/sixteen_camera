@@ -167,8 +167,8 @@ module tb_dvp_pclk_recovery;
         if (!locked)
             $fatal(1, "jittered line lost lock state=%0d", state);
 
-        // Run through the 24-bit Q16.8 phase accumulator wrap. Modular signed
-        // subtraction must keep all clean edges valid across 0xffffff->0.
+        // Run through repeated fixed-point phase accumulator wraps. Modular
+        // signed subtraction must keep every clean edge valid across wrap.
         saved_ce = ce_count;
         saved_valid = valid_count;
         saved_glitch = glitch_count;
@@ -179,7 +179,7 @@ module tb_dvp_pclk_recovery;
             valid_count != saved_valid + 4500 ||
             glitch_count != saved_glitch ||
             missing_count != saved_missing || !locked)
-            $fatal(1, "Q16.8 wrap lost physical edges ce/valid/glitch/missing=%0d/%0d/%0d/%0d",
+            $fatal(1, "phase wrap lost physical edges ce/valid/glitch/missing=%0d/%0d/%0d/%0d",
                    ce_count - saved_ce, valid_count - saved_valid,
                    glitch_count - saved_glitch,
                    missing_count - saved_missing);
@@ -217,7 +217,9 @@ module tb_dvp_pclk_recovery;
         // missing-edge/holdover budget.
         saved_missing = missing_count;
         saved_holdover = holdover_count;
-        href = 1'b0; pclk = 1'b0; wait_clks(60);
+        // Exceed the 7-bit fast interval saturation point while PCLK is
+        // gated, then check that the next line still re-anchors correctly.
+        href = 1'b0; pclk = 1'b0; wait_clks(200);
         href = 1'b1;
         if (missing_count != saved_missing ||
             holdover_count != saved_holdover)
@@ -282,8 +284,13 @@ module tb_dvp_pclk_recovery;
 
         // Runtime history selection remains synthesizable for every tap; tap2
         // is restored as the operational default after the sweep.
-        for (i = 0; i < 5; i = i + 1) begin
+        for (i = 0; i < 8; i = i + 1) begin
             sample_offset = i[2:0];
+            #0.001;
+            if (dut.bounded_sample_offset !== i[2:0] ||
+                dut.sample_index !== ((i == 0) ? 3'd7 : 3'(8 - i)))
+                $fatal(1, "history tap %0d selected index %0d", i,
+                       dut.sample_index);
             send_cycle(2, 10);
             send_cycle(2, 10);
         end

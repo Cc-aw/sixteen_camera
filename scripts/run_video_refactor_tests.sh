@@ -25,6 +25,7 @@ run_verilator() {
 
 run_iverilog tb_dvp_pclk_recovery \
     rtl/video/camera/dvp_pclk_recovery.sv \
+    rtl/video/camera/dvp_pclk_telemetry.sv \
     sim/tb_dvp_pclk_recovery.sv
 
 run_iverilog tb_dvp_href_line_guard \

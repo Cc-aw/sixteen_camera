@@ -37,6 +37,8 @@ xsim.dir/
 *.hex
 *.dump
 *.map
+__pycache__/
+*.pyc
 
 # Local tool/cache state
 .git/
@@ -50,3 +52,6 @@ log/
 *.swp
 .DS_Store
 *.fir
+!generated/soc/**/*.model.mems.fir
+!generated/soc/**/*.top.mems.fir
+!generated/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/*.fir

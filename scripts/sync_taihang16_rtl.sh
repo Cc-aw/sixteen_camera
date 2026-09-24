@@ -6,7 +6,7 @@ chipyard_root="${CHIPYARD_ROOT:-/home/wzr/chipyard}"
 config=TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitConfig
 tree=tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.$config
 source_dir="$chipyard_root/fpga/generated-src/$tree/gen-collateral"
-target_dir="$repo_dir/rtl/soc/$tree/gen-collateral"
+target_dir="$repo_dir/generated/soc/$tree/gen-collateral"
 
 [[ -f "$source_dir/AXI4ToTL.sv" ]] || {
   echo "missing generated collateral: $source_dir" >&2

@@ -58,6 +58,10 @@ module dvp_event_bridge #(
                          capture_enable && (!drop_until_frame || restart_record);
     wire overflow_event = capture_enable &&
                           ((event_valid && fifo_full) || event_fault);
+    // The overflow counter is telemetry. Register its event before the wide
+    // saturating increment so FIFO/reset control cannot reach its CE in one
+    // 300 MHz cycle. Fault and drop control still react immediately.
+    reg overflow_event_q;
 
     assign fifo_din = {restart_record || event_fault,
                        event_frame_boundary, event_line_end,
@@ -79,17 +83,17 @@ module dvp_event_bridge #(
         if (!capture_resetn || !capture_enable) begin
             drop_until_frame <= 1'b1;
             overflow_count <= 32'd0;
+            overflow_event_q <= 1'b0;
             fault_req_toggle <= 1'b0;
             fault_pending <= 1'b0;
             fault_ack_sync <= 2'b00;
         end else begin
+            overflow_event_q <= overflow_event;
             fault_ack_sync <= {fault_ack_sync[0], fault_ack_toggle};
             if (fault_pending && fault_ack_sync[1] == fault_req_toggle)
                 fault_pending <= 1'b0;
             if (overflow_event) begin
                 drop_until_frame <= 1'b1;
-                if (overflow_count != 32'hffff_ffff)
-                    overflow_count <= overflow_count + 1'b1;
                 if (!fault_pending) begin
                     fault_req_toggle <= ~fault_req_toggle;
                     fault_pending <= 1'b1;
@@ -97,6 +101,8 @@ module dvp_event_bridge #(
             end else if (accept_record && restart_record) begin
                 drop_until_frame <= 1'b0;
             end
+            if (overflow_event_q && overflow_count != 32'hffff_ffff)
+                overflow_count <= overflow_count + 1'b1;
         end
     end
 

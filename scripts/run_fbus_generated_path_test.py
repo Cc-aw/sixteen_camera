@@ -9,7 +9,7 @@ import tempfile
 
 repo = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
-parser.add_argument('--collateral', type=Path, default=next((repo / 'rtl/soc').glob('tsmc*/gen-collateral')))
+parser.add_argument('--collateral', type=Path, default=next((repo / 'generated/soc').glob('tsmc*/gen-collateral')))
 parser.add_argument('--bytes', type=int, default=32768)
 parser.add_argument('--base-address', type=lambda value: int(value, 0),
                     default=0x0b2000000)
