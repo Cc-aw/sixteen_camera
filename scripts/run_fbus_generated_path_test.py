@@ -27,7 +27,10 @@ parser.add_argument('--write-traffic', action='store_true')
 parser.add_argument('--write-only', action='store_true')
 parser.add_argument('--write-count', type=int, default=64)
 parser.add_argument('--fair-memory', action='store_true')
-parser.add_argument('--baseline', action='store_true', help='allow a pre-change two-ID configuration')
+parser.add_argument('--require-eight', action='store_true',
+                    help='require peak_TL_requests >= 8 for this explicit gate test')
+parser.add_argument('--baseline', action='store_true',
+                    help='deprecated compatibility option; parameter scans are ungated by default')
 args = parser.parse_args()
 top = 'TLInterconnectCoupler_fbus_from_port_named_slave_port_axi4'
 seen = set()
@@ -109,6 +112,8 @@ with tempfile.TemporaryDirectory(prefix='fbus-generated-') as directory:
     if args.burst:
         cmd.insert(6, f'-GBURST_BEATS={args.burst}')
     subprocess.run(cmd, check=True)
-    require_eight = not args.baseline and not args.write_only
+    # The eight-request assertion is an explicit stress-test contract.  Parameter
+    # scans must report the measured peak instead of inheriting this gate.
+    require_eight = args.require_eight and not args.write_only
     subprocess.run([str(temp/'obj/Vtb_fbus_generated_path')] +
                    (['+require_eight'] if require_eight else []), check=True)

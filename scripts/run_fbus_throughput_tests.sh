@@ -3,10 +3,12 @@ set -euo pipefail
 repo_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 cd "$repo_dir"
 python3 scripts/run_fbus_generated_path_test.py \
-  --bytes 2116800 --short-only --consumer-period 4 --latency 48 --min-mbps 600
+  --bytes 2116800 --short-only --consumer-period 4 --latency 48 \
+  --min-mbps 600 --require-eight
 python3 scripts/run_fbus_generated_path_test.py \
   --bytes 2116800 --short-only --consumer-period 4 --latency 160 \
-  --memory-gap 6 --fair-memory --write-traffic --min-mbps 600
+  --memory-gap 6 --fair-memory --write-traffic --min-mbps 600 \
+  --require-eight
 # Adversarial fixed-priority service is a correctness stress, not a bounded
 # latency performance model. Report its bandwidth without hiding gate misses.
 python3 scripts/run_fbus_generated_path_test.py \
