@@ -46,6 +46,7 @@ static void write_label(uint32_t box_index, uint8_t class_id,
 
 int ai_overlay_try_submit(const AiDetectionResult *result)
 {
+    if (result != 0 && (result->flags & AI_RESULT_HARDWARE_OVERLAY)) return 1;
     AiOverlayResult overlay;
     if (ai_display_map_mosaic(result, &overlay) != 0)
         return -1;

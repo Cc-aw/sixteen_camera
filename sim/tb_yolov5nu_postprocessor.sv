@@ -20,6 +20,7 @@ module tb_yolov5nu_postprocessor;
     wire [12:0] positions_seen, candidates_seen;
     wire [15:0] nms_candidates_seen;
     wire [31:0] cycles;
+    wire [575:0] perf_values;
     reg [7:0] raw_classes [0:503999];
     reg [31:0] current_bytes, current_offset, consumed;
     reg current_class;
@@ -39,7 +40,7 @@ module tb_yolov5nu_postprocessor;
         .result_word(result_word), .result_count(result_count),
         .busy(busy), .done(done), .error(error),
         .positions_seen(positions_seen), .candidates_seen(candidates_seen),
-        .nms_candidates_seen(nms_candidates_seen), .cycles(cycles)
+        .nms_candidates_seen(nms_candidates_seen), .perf_values(perf_values), .cycles(cycles)
     );
 
     for (genvar byte_lane=0; byte_lane<32; byte_lane++) begin : g_data
@@ -99,6 +100,15 @@ module tb_yolov5nu_postprocessor;
         @(negedge clk);
         start=0;
         wait(done);
+        repeat (3) @(negedge clk);
+        if (perf_values[0+:32] != cycles || perf_values[11*32+:32] != nms_candidates_seen ||
+            perf_values[1*32+:32] != 15750 || perf_values[12*32+:32] != 256)
+            $fatal(1, "PPU phase counters inconsistent");
+        $display("PPU_PROFILE total=%0d class_read=%0d class_compute=%0d class_stall=%0d cutoff=%0d dfl_scan=%0d dfl_read=%0d dfl_compute=%0d sort=%0d nms=%0d result=%0d candidates=%0d",
+            perf_values[0+:32], perf_values[32+:32], perf_values[64+:32],
+            perf_values[96+:32], perf_values[128+:32], perf_values[160+:32],
+            perf_values[192+:32], perf_values[224+:32], perf_values[256+:32],
+            perf_values[288+:32], perf_values[320+:32], perf_values[352+:32]);
         if (error || positions_seen != 6300 ||
             (!dense && !empty_case && candidates_seen != 10) ||
             (dense && candidates_seen <= 256) ||

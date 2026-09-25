@@ -55,6 +55,7 @@ struct yolov5nu_dim16_profile {
     uint64_t fence_cycles;
 };
 
+void yolov5nu_dim16_set_head_callback(void (*callback)(unsigned, unsigned));
 void yolov5nu_dim16_dual_init(void);
 int yolov5nu_dim16_worker_is_idle(uint32_t worker_id);
 int yolov5nu_dim16_worker_start(uint32_t worker_id, const int8_t *input);

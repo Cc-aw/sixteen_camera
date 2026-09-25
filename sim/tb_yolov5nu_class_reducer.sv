@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module tb_yolov5nu_class_reducer;
+module tb_yolov5nu_class_reducer #(parameter FOLD_BYTES=16);
     localparam integer SCORE_BYTES = 80 * 6300;
     localparam integer BEATS = SCORE_BYTES / 32;
 
@@ -27,6 +27,7 @@ module tb_yolov5nu_class_reducer;
     integer send_beat;
     integer received;
     integer expected_candidates;
+    integer expected_total;
     integer cycle_count;
 
     always #5 clk = ~clk;
@@ -41,7 +42,7 @@ module tb_yolov5nu_class_reducer;
                 s_data[lane*8 +: 8] = scores[send_beat*32 + lane];
     end
 
-    yolov5nu_class_reducer dut (
+    yolov5nu_class_reducer #(.FOLD_BYTES(FOLD_BYTES)) dut (
         .clk(clk), .resetn(resetn), .start(start),
         .score_threshold(8'sd34),
         .s_data(s_data), .s_keep(s_keep), .s_valid(s_valid),
@@ -93,6 +94,25 @@ module tb_yolov5nu_class_reducer;
         cycle_count = 0;
         $readmemh("scores.mem", scores);
         $readmemh("expected.mem", expected);
+        if ($test$plusargs("synthetic")) begin
+            for (integer p=0;p<6300;p=p+1) begin
+                for (integer c=0;c<80;c=c+1) scores[p*80+c]=8'h80;
+                scores[p*80+(p%80)] = 8'(33+p%3);
+                scores[p*80+79] = 8'(33+p%3);
+                if (p%7==0) begin
+                    scores[p*80]=8'h7f;
+                    scores[p*80+79]=8'h7f;
+                end
+                if(p%11==0) for(integer c=0;c<80;c=c+1) scores[p*80+c]=8'h80;
+                expected[p] = 16'h0080;
+                for (integer c=0;c<80;c=c+1)
+                    if ($signed(scores[p*80+c]) > $signed(expected[p][7:0]))
+                        expected[p] = {1'b0,7'(c),scores[p*80+c]};
+                expected[p][15] = $signed(expected[p][7:0]) >= 34;
+            end
+        end
+        expected_total=0;
+        for (integer p=0;p<6300;p=p+1) expected_total+=int'(expected[p][15]);
         repeat (5) @(posedge clk);
         resetn = 1'b1;
         @(posedge clk);
@@ -104,7 +124,7 @@ module tb_yolov5nu_class_reducer;
         if (error || error_flags != 0)
             $fatal(1, "protocol error flags=%b", error_flags);
         if (received != 6300 || positions_seen != 6300 ||
-            candidates_seen != 10 || expected_candidates != 10)
+            candidates_seen != expected_total || expected_candidates != expected_total)
             $fatal(1,
                 "counts result/positions/candidates/observed=%0d/%0d/%0d/%0d",
                 received, positions_seen, candidates_seen,

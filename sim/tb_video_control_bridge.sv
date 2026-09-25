@@ -7,6 +7,11 @@ module tb_video_control_bridge;
     always #5 cpu_clk = ~cpu_clk;
     always #3 video_clk = ~video_clk;
 
+    reg ppu_overlay_valid=0;
+    wire ppu_overlay_ready;
+    reg [3:0] ppu_overlay_stream=6,ppu_overlay_count=1;
+    reg [511:0] ppu_overlay_boxes=512'h12345678;
+    reg [1023:0] ppu_overlay_labels=1024'habcdef01;
     reg cpu_resetn = 1'b0;
     reg video_resetn = 1'b0;
     axi_lite_if #(.ADDR_WIDTH(16)) axil();
@@ -55,6 +60,9 @@ module tb_video_control_bridge;
         .CAMERA_PRESENT_MASK(16'hffff),
         .DEFAULT_CHANNEL_BASES({16{32'h0800_0000}})
     ) dut (
+        .ppu_overlay_valid(ppu_overlay_valid),.ppu_overlay_ready(ppu_overlay_ready),
+        .ppu_overlay_stream(ppu_overlay_stream),.ppu_overlay_count(ppu_overlay_count),
+        .ppu_overlay_boxes(ppu_overlay_boxes),.ppu_overlay_labels(ppu_overlay_labels),
         .control_axil(axil), .video_clk(video_clk),
         .video_resetn(video_resetn),
         .cfg_request_toggle(cfg_request_toggle),
@@ -224,6 +232,14 @@ module tb_video_control_bridge;
             dut.hdmi_transport_frames_cpu != 32'h1234_5678)
             $fatal(1, "indexed telemetry refresh failed");
 
+        @(negedge cpu_clk);ppu_overlay_valid=1;
+        do @(posedge cpu_clk);while(!ppu_overlay_ready);
+        @(negedge cpu_clk);ppu_overlay_valid=0;
+        timeout=0;
+        while(overlay_commit_count<3 && timeout<200) begin @(posedge video_clk);timeout=timeout+1;end
+        if(overlay_commit_count!=3 || overlay_stream!=6 || overlay_count!=1 ||
+            overlay_boxes[31:0]!=32'h12345678 || overlay_labels[31:0]!=32'habcdef01)
+            $fatal(1,"hardware overlay mailbox not atomic");
         $display("TB_VIDEO_CONTROL_BRIDGE=PASS");
         $finish;
     end

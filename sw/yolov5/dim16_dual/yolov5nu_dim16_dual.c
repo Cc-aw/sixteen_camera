@@ -1840,6 +1840,8 @@ static void select_worker_memory(uint32_t worker_id) {
   conv_output_scratch = conv_output_scratches[worker_id];
 }
 
+static void (*head_callback)(unsigned, unsigned);
+void yolov5nu_dim16_set_head_callback(void (*callback)(unsigned, unsigned)) { head_callback = callback; }
 void yolov5nu_dim16_dual_init(void) {
   memset(worker_contexts, 0, sizeof(worker_contexts));
   gemmini_pool_active_worker = 0U;
@@ -3630,6 +3632,7 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
     uint64_t phase_start = yolo_profile_clock();
     tiled_conv_auto(1, 60, 80, 64, 64, 60, 80, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_175, yolov5nu_conv52_weights, yolov5nu_conv52_bias, raw_dfl0, NO_ACTIVATION, 0.00497773409f, 1, 0, 0, WS);
     gemmini_fence();
+    if (context->hardware_head && head_callback) head_callback(worker_id, 3);
     yolo_profile_add(PROFILE_CONV_GEMMINI, "CONV_GEMMINI", "/model.24/cv2.0/cv2.0.2/Conv", yolo_profile_clock() - phase_start);
     yolo_profile_add(PROFILE_CONV_OUT_LAYOUT, "CONV_OUT_LAYOUT", "/model.24/cv2.0/cv2.0.2/Conv", 0);
 
@@ -3647,6 +3650,7 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
     uint64_t phase_start = yolo_profile_clock();
     tiled_conv_auto(1, 60, 80, 80, 80, 60, 80, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_176, yolov5nu_conv53_weights, yolov5nu_conv53_bias, raw_class0, NO_ACTIVATION, 0.003811468887f, 1, 0, 0, WS);
     gemmini_fence();
+    if (context->hardware_head && head_callback) head_callback(worker_id, 0);
     yolo_profile_add(PROFILE_CONV_GEMMINI, "CONV_GEMMINI", "/model.24/cv3.0/cv3.0.2/Conv", yolo_profile_clock() - phase_start);
     yolo_profile_add(PROFILE_CONV_OUT_LAYOUT, "CONV_OUT_LAYOUT", "/model.24/cv3.0/cv3.0.2/Conv", 0);
 
@@ -3952,6 +3956,7 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
     uint64_t phase_start = yolo_profile_clock();
     tiled_conv_auto(1, 30, 40, 64, 64, 30, 40, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_211, yolov5nu_conv64_weights, yolov5nu_conv64_bias, raw_dfl1, NO_ACTIVATION, 0.006079990314f, 1, 0, 0, WS);
     gemmini_fence();
+    if (context->hardware_head && head_callback) head_callback(worker_id, 4);
     yolo_profile_add(PROFILE_CONV_GEMMINI, "CONV_GEMMINI", "/model.24/cv2.1/cv2.1.2/Conv", yolo_profile_clock() - phase_start);
     yolo_profile_add(PROFILE_CONV_OUT_LAYOUT, "CONV_OUT_LAYOUT", "/model.24/cv2.1/cv2.1.2/Conv", 0);
 
@@ -3969,6 +3974,7 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
     uint64_t phase_start = yolo_profile_clock();
     tiled_conv_auto(1, 30, 40, 80, 80, 30, 40, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_212, yolov5nu_conv65_weights, yolov5nu_conv65_bias, raw_class1, NO_ACTIVATION, 0.004823161851f, 1, 0, 0, WS);
     gemmini_fence();
+    if (context->hardware_head && head_callback) head_callback(worker_id, 1);
     yolo_profile_add(PROFILE_CONV_GEMMINI, "CONV_GEMMINI", "/model.24/cv3.1/cv3.1.2/Conv", yolo_profile_clock() - phase_start);
     yolo_profile_add(PROFILE_CONV_OUT_LAYOUT, "CONV_OUT_LAYOUT", "/model.24/cv3.1/cv3.1.2/Conv", 0);
 
@@ -4199,6 +4205,7 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
     uint64_t phase_start = yolo_profile_clock();
     tiled_conv_auto(1, 15, 20, 64, 64, 15, 20, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_239, yolov5nu_conv73_weights, yolov5nu_conv73_bias, raw_dfl2, NO_ACTIVATION, 0.007988214559f, 1, 0, 0, WS);
     gemmini_fence();
+    if (context->hardware_head && head_callback) head_callback(worker_id, 5);
     yolo_profile_add(PROFILE_CONV_GEMMINI, "CONV_GEMMINI", "/model.24/cv2.2/cv2.2.2/Conv", yolo_profile_clock() - phase_start);
     yolo_profile_add(PROFILE_CONV_OUT_LAYOUT, "CONV_OUT_LAYOUT", "/model.24/cv2.2/cv2.2.2/Conv", 0);
 
@@ -4216,6 +4223,7 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
     uint64_t phase_start = yolo_profile_clock();
     tiled_conv_auto(1, 15, 20, 80, 80, 15, 20, 1, 1, 1, 0, 1, false, false, false, false, false, tensor_240, yolov5nu_conv74_weights, yolov5nu_conv74_bias, raw_class2, NO_ACTIVATION, 0.004325870487f, 1, 0, 0, WS);
     gemmini_fence();
+    if (context->hardware_head && head_callback) head_callback(worker_id, 2);
     yolo_profile_add(PROFILE_CONV_GEMMINI, "CONV_GEMMINI", "/model.24/cv3.2/cv3.2.2/Conv", yolo_profile_clock() - phase_start);
     yolo_profile_add(PROFILE_CONV_OUT_LAYOUT, "CONV_OUT_LAYOUT", "/model.24/cv3.2/cv3.2.2/Conv", 0);
 

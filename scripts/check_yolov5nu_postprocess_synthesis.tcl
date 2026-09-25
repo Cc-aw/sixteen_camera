@@ -2,10 +2,22 @@ set root [file dirname [file dirname [file normalize [info script]]]]
 foreach source {
     yolov5nu_raw_class_lut.sv
     yolov5nu_dfl_lut.sv
+    yolov5nu_class_fold_tree.sv
+    yolov5nu_class_reducer_wide.sv
     yolov5nu_class_reducer.sv
+    yolov5nu_probability_pipeline.sv
+    yolov5nu_dfl_edge.sv
     yolov5nu_dfl_decoder.sv
     yolov5nu_bbox_decoder.sv
     yolov5nu_topk_nms.sv
+    ppu_perf_counters.sv
+    yolov5nu_candidate_buckets.sv
+    yolov5nu_nms.sv
+    yolov5nu_candidate_area.sv
+    yolov5nu_iou_pipeline.sv
+    yolov5nu_bucket_nms.sv
+    yolov5nu_bbox_lut.sv
+    yolov5nu_bbox_pipeline.sv
     yolov5nu_postprocessor.sv
 } {
     read_verilog -sv [file join $root rtl ai postprocess $source]

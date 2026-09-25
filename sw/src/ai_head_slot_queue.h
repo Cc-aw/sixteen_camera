@@ -34,6 +34,7 @@ typedef struct {
     AiHeadSlotState state;
     uint32_t slot_id;
     uint32_t error_status;
+    uint32_t producer_complete;
     AiHeadSlotDescriptor descriptor;
 } AiHeadSlot;
 
@@ -53,6 +54,7 @@ int ai_head_slot_acquire(AiHeadSlotQueue *queue, uint32_t worker_id,
                          uintptr_t output_base,
                          const AiModelFrameRequest *request,
                          uint32_t *slot_key);
+int ai_head_slot_admit(AiHeadSlotQueue *queue, uint32_t slot_key);
 int ai_head_slot_publish(AiHeadSlotQueue *queue, uint32_t slot_key);
 int ai_head_slot_start_next(AiHeadSlotQueue *queue, AiHeadSlot **slot);
 int ai_head_slot_complete(AiHeadSlotQueue *queue, uint32_t error_status);

@@ -96,11 +96,37 @@ set RTL_SOURCES {
     rtl/ai/postprocess/fbus_read_engine.sv
     rtl/ai/postprocess/head_local_reader.sv
     rtl/ai/postprocess/head_uram_store.sv
+    rtl/ai/postprocess/ppu_descriptor_fifo.sv
+    rtl/ai/postprocess/ppu_command_queue.sv
+    rtl/ai/postprocess/ppu_result_capture.sv
+    rtl/ai/postprocess/ppu_result_fifo.sv
+    rtl/ai/postprocess/ppu_overlay_label.sv
+    rtl/ai/postprocess/ppu_result_manager.sv
+    rtl/ai/postprocess/ppu_result_csr.sv
+    rtl/ai/postprocess/ppu_result_path.sv
+    rtl/ai/postprocess/ppu_queue_csr.sv
+    rtl/ai/postprocess/ppu_publication_csr.sv
+    rtl/ai/postprocess/ppu_publication_gate.sv
+    rtl/ai/postprocess/head_publication_manager.sv
+    rtl/ai/postprocess/ppu_cache_publish_engine.sv
+    rtl/ai/postprocess/ppu_publication_write_mux.sv
     rtl/ai/postprocess/postprocess_read_diagnostic.sv
     rtl/ai/postprocess/yolov5nu_bbox_decoder.sv
+    rtl/ai/postprocess/yolov5nu_class_fold_tree.sv
+    rtl/ai/postprocess/yolov5nu_class_reducer_wide.sv
     rtl/ai/postprocess/yolov5nu_class_reducer.sv
+    rtl/ai/postprocess/yolov5nu_probability_pipeline.sv
+    rtl/ai/postprocess/yolov5nu_dfl_edge.sv
     rtl/ai/postprocess/yolov5nu_dfl_decoder.sv
     rtl/ai/postprocess/yolov5nu_dfl_lut.sv
+    rtl/ai/postprocess/ppu_perf_counters.sv
+    rtl/ai/postprocess/yolov5nu_candidate_buckets.sv
+    rtl/ai/postprocess/yolov5nu_nms.sv
+    rtl/ai/postprocess/yolov5nu_candidate_area.sv
+    rtl/ai/postprocess/yolov5nu_iou_pipeline.sv
+    rtl/ai/postprocess/yolov5nu_bucket_nms.sv
+    rtl/ai/postprocess/yolov5nu_bbox_lut.sv
+    rtl/ai/postprocess/yolov5nu_bbox_pipeline.sv
     rtl/ai/postprocess/yolov5nu_postprocessor.sv
     rtl/ai/postprocess/yolov5nu_raw_class_lut.sv
     rtl/ai/postprocess/yolov5nu_topk_nms.sv

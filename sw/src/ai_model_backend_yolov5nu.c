@@ -4,6 +4,8 @@
 
 #include "ai_detection.h"
 #include "ai_head_slot_queue.h"
+#include "ai_ppu_publication.h"
+#include "ai_ppu_queue.h"
 #include "cache_ops.h"
 #include "console.h"
 #include "mmio.h"
@@ -120,11 +122,9 @@ static void start_hardware_postprocess(AiHeadSlot *slot)
     const AiHeadSlotDescriptor *descriptor = &slot->descriptor;
     uint32_t worker_id = descriptor->worker_id;
     uintptr_t head = AI_DDR_CPU_ALIAS(descriptor->base_addr);
-    // gemmini_fence() completes the accelerator command, but board testing
-    // shows that dirty Head cache lines may still not have reached the AXI
-    // router. Flush before either reader so the URAM mirror and DDR shadow
-    // both contain the completed payload before the PPU command is issued.
-    cache_flush_range((void *)head, YOLOV5NU_HEAD_PAYLOAD_BYTES);
+    int published = ai_ppu_publication_select(descriptor->base_addr);
+    if (published <= 0)
+        cache_flush_range((void *)head, YOLOV5NU_HEAD_PAYLOAD_BYTES);
     // The FBus bridge applies the bit-31 coherent DDR alias itself.
     mmio_write32(POSTPROCESS_DIAG_BASE + PPU_CLASS0,
                  (uint32_t)descriptor->class_addr[0]);
@@ -138,7 +138,7 @@ static void start_hardware_postprocess(AiHeadSlot *slot)
                  (uint32_t)descriptor->dfl_addr[1]);
     mmio_write32(POSTPROCESS_DIAG_BASE + PPU_DFL2,
                  (uint32_t)descriptor->dfl_addr[2]);
-    mmio_write32(POSTPROCESS_DIAG_BASE + PPU_CONTROL, 1U);
+    mmio_write32(POSTPROCESS_DIAG_BASE + PPU_CONTROL, published > 0 ? 0x101U : 1U);
     hardware_start_cycles = read_cycle();
     hardware_worker = worker_id;
 }
@@ -244,6 +244,22 @@ static void translate_result(uint32_t worker_id,
     }
 }
 
+static int service_hardware_postprocess(void);
+static void head_published(unsigned worker, unsigned head)
+{
+    if (worker >= AI_MODEL_WORKER_COUNT || !ai_ppu_publication_available()) return;
+    uint32_t key = worker_head_slot[worker];
+    AiHeadSlot *slot = ai_head_slot_get(&head_queue, key);
+    if (!slot) return;
+    ai_ppu_publication_publish(slot->descriptor.base_addr, 1U << head);
+    if (head == 0 && slot->state == AI_HEAD_SLOT_WRITING) {
+        head_ready_cycles[key] = read_cycle();
+        memset(&head_profiles[key], 0, sizeof(head_profiles[key]));
+        if (ai_head_slot_admit(&head_queue, key) == 0)
+            (void)service_hardware_postprocess();
+    }
+}
+
 void ai_model_backend_init(void)
 {
     memset(requests, 0, sizeof(requests));
@@ -255,6 +271,7 @@ void ai_model_backend_init(void)
     memset(head_ready_cycles, 0, sizeof(head_ready_cycles));
     memset(head_profiles, 0, sizeof(head_profiles));
     yolov5nu_dim16_dual_init();
+    yolov5nu_dim16_set_head_callback(head_published);
     hardware_present = mmio_read32(POSTPROCESS_DIAG_BASE + PPU_ID) ==
                        PPU_IDENT;
     hardware_worker = AI_MODEL_WORKER_COUNT;
@@ -269,6 +286,7 @@ void ai_model_backend_init(void)
     ai_head_slot_queue_init(&head_queue, AI_MODEL_WORKER_COUNT);
     for (uint32_t worker = 0U; worker < AI_MODEL_WORKER_COUNT; ++worker)
         worker_head_slot[worker] = AI_HEAD_SLOT_INVALID;
+    if (hardware_present) (void)ai_ppu_queue_init();
     initialized = 1U;
     console_puts(hardware_present ?
         "AI MODEL init OK (YOLOv5nu dual + hardware postprocess)\r\n" :
@@ -311,9 +329,20 @@ int ai_model_backend_submit(const AiModelFrameRequest *request)
         ai_head_slot_acquire(&head_queue, worker_id, request->output_addr,
                              request, &slot_key) != 0)
         return -3;
-    if (yolov5nu_dim16_worker_start(worker_id, input) < 0) {
-        if (slot_key != AI_HEAD_SLOT_INVALID)
+    if (hardware_present != 0U) {
+        const AiHeadSlot *slot = ai_head_slot_get_const(&head_queue, slot_key);
+        if (ai_ppu_publication_begin(slot->descriptor.base_addr) < 0) {
             (void)ai_head_slot_release_writing(&head_queue, slot_key);
+            return -3;
+        }
+    }
+    ai_ppu_queue_expect(request->stream_id, request->frame_id, request->version);
+    if (yolov5nu_dim16_worker_start(worker_id, input) < 0) {
+        if (slot_key != AI_HEAD_SLOT_INVALID) {
+            const AiHeadSlot *slot = ai_head_slot_get_const(&head_queue, slot_key);
+            ai_ppu_publication_abort(slot->descriptor.base_addr);
+            (void)ai_head_slot_release_writing(&head_queue, slot_key);
+        }
         return -2;
     }
     if (hardware_present != 0U) {
@@ -350,6 +379,42 @@ int ai_model_backend_submit(const AiModelFrameRequest *request)
     return 0;
 }
 
+/* Multiple hardware descriptors own independent software slots. Completion
+ * metadata is sufficient: boxes travel directly from PPU to the display. */
+static int service_queued_postprocess(void)
+{
+    AiPpuQueueResult r;
+    if (post_count < AI_MODEL_RESULT_QUEUE_CAPACITY && ai_ppu_queue_peek(&r)) {
+        AiHeadSlot *slot = ai_head_slot_get(&head_queue, r.bank);
+        if (!slot || slot->state != AI_HEAD_SLOT_PROCESSING ||
+            slot->descriptor.stream_id != r.stream || slot->descriptor.frame_id != r.frame ||
+            slot->descriptor.version != r.version ||
+            ai_ppu_publication_generation(slot->descriptor.base_addr) != r.generation) return -1;
+        if (!slot->producer_complete) return 0;
+        AiPostprocessCompletion *record = &post_completions[post_tail];
+        fill_post_completion(record, &slot->descriptor, (r.status & 1U) ? -2 : 0);
+        AiDetectionResult *result = &record->result;
+        result->job_id=slot->descriptor.job_id;result->frame_id=r.frame;
+        result->timestamp=slot->descriptor.timestamp;result->stream_id=r.stream;
+        result->worker_id=slot->descriptor.worker_id;result->version=r.version;result->count=r.count;
+        result->flags=AI_RESULT_HARDWARE_OVERLAY|AI_RESULT_METADATA_ONLY|((r.status&2U)?AI_RESULT_STALE:0U);
+        record->completion.profile=head_profiles[r.bank];
+        ai_ppu_queue_pop();
+        head_queue.active=r.bank;
+        if(ai_head_slot_complete(&head_queue,r.status)!=0) return -1;
+        post_tail=(post_tail+1U)%AI_MODEL_RESULT_QUEUE_CAPACITY;post_count++;
+    }
+    while(head_queue.ready_count && ai_ppu_queue_ready()) {
+        AiHeadSlot *slot;
+        if(ai_head_slot_start_next(&head_queue,&slot)!=1) return -1;
+        uint32_t key=head_queue.active;
+        head_profiles[key].ppu_queue_wait_cycles=read_cycle()-head_ready_cycles[key];
+        if(ai_ppu_queue_submit(&slot->descriptor)!=1) return -1;
+        head_queue.active=AI_HEAD_SLOT_INVALID;
+    }
+    return 0;
+}
+
 static int service_hardware_postprocess(void)
 {
     AiHeadSlot *slot;
@@ -359,12 +424,14 @@ static int service_hardware_postprocess(void)
     int queue_status;
     if (hardware_present == 0U)
         return 0;
+    if (ai_ppu_queue_active()) return service_queued_postprocess();
     if (hardware_worker != AI_MODEL_WORKER_COUNT) {
         slot = ai_head_slot_get(&head_queue, head_queue.active);
         if (slot == 0 || slot->state != AI_HEAD_SLOT_PROCESSING ||
             slot->descriptor.worker_id != hardware_worker)
             return -1;
         worker_id = hardware_worker;
+        if (!slot->producer_complete) { hardware_start_cycles = read_cycle(); return 0; }
         if (hardware_faulted != 0U)
             return 0;
         hw_status = mmio_read32(POSTPROCESS_DIAG_BASE + PPU_STATUS);
@@ -490,9 +557,14 @@ int ai_model_backend_poll_compute(uint32_t worker_id,
             running[worker_id] = 0U;
             return -2;
         }
+        ai_ppu_publication_publish(ai_head_slot_get_const(&head_queue, slot_key)->descriptor.base_addr, 63U);
         fill_compute_completion(worker_id, completion);
-        head_ready_cycles[slot_key] = read_cycle();
+        /* Class0 may already have admitted this slot while the graph ran. */
+        uint64_t queue_wait = head_profiles[slot_key].ppu_queue_wait_cycles;
+        if (!ai_ppu_publication_available()) head_ready_cycles[slot_key] = read_cycle();
         head_profiles[slot_key] = completion->profile;
+        if (ai_head_slot_get_const(&head_queue, slot_key)->state == AI_HEAD_SLOT_PROCESSING)
+            head_profiles[slot_key].ppu_queue_wait_cycles = queue_wait;
         if (AI_STREAM_HOTPATH_LOG != 0 && queue_log_count < 8U) {
             const AiHeadSlot *slot = ai_head_slot_get_const(&head_queue,
                                                             slot_key);
@@ -521,6 +593,14 @@ int ai_model_backend_poll_compute(uint32_t worker_id,
         return 1;
     }
     if (status != YOLOV5NU_DIM16_DONE) {
+        AiHeadSlot *failed_slot = ai_head_slot_get(&head_queue, worker_head_slot[worker_id]);
+        if (failed_slot) {
+            ai_ppu_publication_abort(failed_slot->descriptor.base_addr);
+            if (failed_slot->state == AI_HEAD_SLOT_WRITING)
+                (void)ai_head_slot_release_writing(&head_queue, worker_head_slot[worker_id]);
+            else
+                failed_slot->producer_complete = 1U; /* gate drains and reports fault */
+        }
         stages[worker_id] = YOLOV5_STAGE_ERROR;
         running[worker_id] = 0U;
         return -2;
@@ -565,6 +645,8 @@ uint32_t ai_model_backend_is_idle(void)
         head_queue.ready_count != 0U ||
         head_queue.active != AI_HEAD_SLOT_INVALID)
         return 0U;
+    for (uint32_t key = 0; key < AI_MODEL_WORKER_COUNT*2U; ++key)
+        if (head_queue.slots[key].state != AI_HEAD_SLOT_FREE) return 0U;
     for (uint32_t worker = 0U; worker < AI_MODEL_WORKER_COUNT; ++worker)
         if (running[worker] != 0U)
             return 0U;

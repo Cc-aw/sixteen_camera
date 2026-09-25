@@ -11,7 +11,19 @@ module postprocess_read_diagnostic #(
     output wire [14:0] local_read_req_word_addr,
     input  wire [255:0] local_read_rsp_data,
     input  wire       local_read_rsp_valid,
-    output wire       local_read_rsp_ready
+    output wire       local_read_rsp_ready,
+    output wire pub_enable,pub_allocate,pub_publish,pub_abort,pub_acquire,pub_release,
+    output wire [1:0] pub_bank,pub_lease_bank,
+    output wire [31:0] pub_version,pub_lease_version,
+    output wire [5:0] pub_mask,
+    input wire [3:0] pub_allocated,pub_reading,pub_fault,
+    input wire [127:0] pub_versions,
+    input wire [23:0] pub_ready_heads,pub_producer_heads,
+    input wire [31:0] pub_rejected,pub_cycles,pub_lines,
+    output wire ppu_overlay_valid,input wire ppu_overlay_ready,
+    output wire [3:0] ppu_overlay_stream,ppu_overlay_count,
+    output wire [511:0] ppu_overlay_boxes,output wire [1023:0] ppu_overlay_labels,
+    input wire pub_active
 );
     localparam logic [31:0] DIAG_ID = 32'h5050_4431; // "PPD1"
     localparam logic [31:0] CAPABILITY = 32'h0020_2305;
@@ -74,7 +86,9 @@ module postprocess_read_diagnostic #(
     logic production_owner;
     logic local_enable_q;
     logic local_active_q;
-    logic production_start;
+    wire production_start;
+    logic production_request,production_guarded;
+    wire core_busy,core_done,core_error;
     logic [32:0] production_class0, production_class1, production_class2;
     logic [32:0] production_dfl0, production_dfl1, production_dfl2;
     logic [4:0] production_result_index;
@@ -84,6 +98,7 @@ module postprocess_read_diagnostic #(
     wire [12:0] production_positions, production_candidates;
     wire [15:0] production_nms_candidates;
     wire [31:0] production_cycles;
+    wire [575:0] production_perf;
     wire production_read_start, production_stream_ready;
     wire [32:0] production_read_base;
     wire [31:0] production_read_bytes;
@@ -139,12 +154,14 @@ module postprocess_read_diagnostic #(
     assign stream_last = production_uses_local ? local_stream_last :
                          fbus_stream_last;
 
-    yolov5nu_postprocessor u_production (
+    wire [5:0] core_heads;
+    wire core_abort;
+    yolov5nu_postprocessor #(.ENABLE_HEAD_READY(1)) u_production (
         .clk(axil.aclk), .resetn(axil.aresetn),
-        .start(production_start),
-        .class0(production_class0), .class1(production_class1),
-        .class2(production_class2), .dfl0(production_dfl0),
-        .dfl1(production_dfl1), .dfl2(production_dfl2),
+        .start(production_start),.head_ready(core_heads),.abort_command(core_abort),
+        .class0(active_addresses[0+:33]), .class1(active_addresses[33+:33]),
+        .class2(active_addresses[66+:33]), .dfl0(active_addresses[99+:33]),
+        .dfl1(active_addresses[132+:33]), .dfl2(active_addresses[165+:33]),
         .read_start(production_read_start),
         .read_base(production_read_base),
         .read_bytes(production_read_bytes),
@@ -155,14 +172,73 @@ module postprocess_read_diagnostic #(
         .stream_valid(stream_valid && production_owner),
         .stream_last(stream_last),
         .stream_ready(production_stream_ready),
-        .result_index(production_result_index),
+        .result_index(queue_active?capture_index:production_result_index),
         .result_word(production_result),
-        .result_count(production_count), .busy(production_busy),
-        .done(production_done), .error(production_error),
+        .result_count(production_count), .busy(core_busy),
+        .done(core_done), .error(core_error),
         .positions_seen(production_positions),
         .candidates_seen(production_candidates),
         .nms_candidates_seen(production_nms_candidates),
-        .cycles(production_cycles)
+        .perf_values(production_perf), .cycles(production_cycles)
+    );
+
+    wire queue_enable,queue_enqueue,queue_pop,queue_ready,queue_active,queue_completion,queue_request;
+    wire [2:0] queue_count;wire [31:0] queue_rejected,queue_version,queue_flags,queue_read_data;
+    wire [3:0] queue_stream;wire [63:0] queue_frame;wire queue_read_hit;
+    wire [363:0] queue_descriptor;
+    wire [197:0] configured_addresses={production_dfl2,production_dfl1,production_dfl0,production_class2,production_class1,production_class0};
+    wire [197:0] active_addresses=queue_active?queue_descriptor[197:0]:configured_addresses;
+    ppu_queue_csr u_queue_csr(
+        .clk(axil.aclk),.resetn(axil.aresetn),.write_valid(!bvalid_q&&aw_pending&&w_pending),
+        .write_addr(awaddr_q[9:0]),.write_data(wdata_q),.write_strb(wstrb_q),.read_addr(axil.araddr[9:0]),
+        .admission_ready(queue_ready),.active(queue_active||production_busy),.completion_valid(queue_completion),
+        .queued(queue_count),.rejected(queue_rejected),.enable(queue_enable),.enqueue(queue_enqueue),
+        .completion_pop(queue_pop),.stream(queue_stream),.frame(queue_frame),.version(queue_version),.flags(queue_flags),
+        .active_descriptor(queue_descriptor),.read_hit(queue_read_hit),.read_data(queue_read_data));
+    ppu_command_queue u_queue(
+        .clk(axil.aclk),.resetn(axil.aresetn),.enable(queue_enable),.enqueue(queue_enqueue),
+        .descriptor({queue_flags,queue_version,queue_frame,queue_stream,pub_version,pub_bank,configured_addresses}),
+        .admission_ready(queue_ready),.queued(queue_count),.rejected(queue_rejected),
+        .active_descriptor(queue_descriptor),.request(queue_request),.engine_busy(production_busy),.engine_done(production_done),
+        .completion_ready(capture_complete),.completion_valid(queue_completion),.active(queue_active));
+
+    wire [4:0] capture_index;wire capture_complete,result_read_hit;wire [31:0] result_read_data;
+    ppu_result_path u_result_path(
+      .clk(axil.aclk),.resetn(axil.aresetn),.completion_valid(queue_completion),.completion_ready(capture_complete),
+      .descriptor(queue_descriptor),.result_count(production_count),.cycles(production_cycles),.error(production_error),
+      .result_index(capture_index),.result_word(production_result),
+      .write_valid(!bvalid_q&&aw_pending&&w_pending),.write_addr(awaddr_q[9:0]),.read_addr(axil.araddr[9:0]),
+      .write_data(wdata_q),.write_strb(wstrb_q),.read_hit(result_read_hit),.read_data(result_read_data),
+      .admission_valid(queue_enqueue&&queue_ready),.configured_stream(queue_stream),.configured_frame(queue_frame),.configured_version(queue_version),
+      .overlay_valid(ppu_overlay_valid),.overlay_ready(ppu_overlay_ready),.overlay_stream(ppu_overlay_stream),.overlay_count(ppu_overlay_count),
+      .overlay_boxes(ppu_overlay_boxes),.overlay_labels(ppu_overlay_labels));
+
+    wire publication_read_hit;
+    wire pub_manual_release,gate_release;
+    wire [1:0] gate_bank;
+    wire [31:0] gate_version;
+    assign pub_release=pub_manual_release || gate_release;
+    assign pub_lease_bank=pub_manual_release?pub_bank:gate_bank;
+    assign pub_lease_version=pub_manual_release?pub_version:gate_version;
+    wire [31:0] publication_read_data;
+    ppu_publication_csr u_publication_csr(
+        .clk(axil.aclk),.resetn(axil.aresetn),
+        .write_valid(!bvalid_q && aw_pending && w_pending),
+        .write_addr(awaddr_q[9:0]),.write_data(wdata_q),.write_strb(wstrb_q),
+        .read_addr(axil.araddr[9:0]),.read_hit(publication_read_hit),.read_data(publication_read_data),
+        .enable(pub_enable),.bank(pub_bank),.version(pub_version),
+        .allocate(pub_allocate),.publish(pub_publish),.abort_slot(pub_abort),.manual_release(pub_manual_release),.publish_mask(pub_mask),
+        .allocated(pub_allocated),.reading(pub_reading),.fault(pub_fault),.versions(pub_versions),
+        .ready_heads(pub_ready_heads),.producer_heads(pub_producer_heads),
+        .rejected_commands(pub_rejected),.clean_cycles(pub_cycles),.clean_lines(pub_lines),.clean_active(pub_active),.command_busy(production_busy)
+    );
+    ppu_publication_gate u_publication_gate(
+        .clk(axil.aclk),.resetn(axil.aresetn),.request(queue_request||production_request),.enable(queue_request||production_guarded),
+        .command_bank(queue_request?queue_descriptor[199:198]:pub_bank),.command_version(queue_request?queue_descriptor[231:200]:pub_version),.allocated(pub_allocated),.fault(pub_fault),
+        .versions(pub_versions),.ready_heads(pub_ready_heads),.publication_active(pub_active),
+        .lease_bank(gate_bank),.lease_version(gate_version),.acquire(pub_acquire),.release_slot(gate_release),
+        .core_heads(core_heads),.core_abort(core_abort),.core_start(production_start),.core_busy(core_busy),.core_done(core_done),.core_error(core_error),
+        .busy(production_busy),.done(production_done),.error(production_error)
     );
 
     function automatic [31:0] merge_wstrb(
@@ -337,7 +413,8 @@ module postprocess_read_diagnostic #(
             production_owner <= 1'b0;
             local_enable_q <= 1'b1;
             local_active_q <= 1'b1;
-            production_start <= 1'b0;
+            production_request <= 1'b0;
+            production_guarded <= 0;
             production_class0 <= 0;
             production_class1 <= 0;
             production_class2 <= 0;
@@ -347,7 +424,7 @@ module postprocess_read_diagnostic #(
             production_result_index <= 0;
         end else begin
             start_reader <= 1'b0;
-            production_start <= 1'b0;
+            production_request <= 1'b0;
             if (production_start) local_active_q <= local_enable_q;
             if (production_read_start) production_owner <= 1'b1;
             else if (reader_done) production_owner <= 1'b0;
@@ -386,8 +463,11 @@ module postprocess_read_diagnostic #(
                     burst_beats_q <= wdata_q[8:0];
                 // Queue the production command even if a diagnostic burst
                 // owns the reader; CLASS_LAUNCH waits for the whole read.
-                10'h100: if (wstrb_q[0] && wdata_q[0] &&
-                            !production_busy) production_start <= 1'b1;
+                10'h100: if (!queue_active && queue_count==0 && wstrb_q[0] && wdata_q[0] &&
+                            !production_busy) begin
+                    production_request <= 1'b1;
+                    production_guarded <= wstrb_q[1] && wdata_q[8];
+                end
                 10'h104: production_class0[31:0] <= merge_wstrb(
                     production_class0[31:0], wdata_q, wstrb_q);
                 10'h108: production_class1[31:0] <= merge_wstrb(
@@ -556,7 +636,26 @@ module postprocess_read_diagnostic #(
                 // bit 1 identifies the URAM Head store; bit 0 reports
                 // whether the build also mirrors Head writes into DDR.
                 10'h14c: rdata_q <= {30'd0, 1'b1, HEAD_SHADOW_DDR};
-                default: rdata_q <= 32'd0;
+                10'h150: rdata_q <= production_perf[0+:32];
+                10'h154: rdata_q <= production_perf[32+:32];
+                10'h158: rdata_q <= production_perf[64+:32];
+                10'h15c: rdata_q <= production_perf[96+:32];
+                10'h160: rdata_q <= production_perf[128+:32];
+                10'h164: rdata_q <= production_perf[160+:32];
+                10'h168: rdata_q <= production_perf[192+:32];
+                10'h16c: rdata_q <= production_perf[224+:32];
+                10'h170: rdata_q <= production_perf[256+:32];
+                10'h174: rdata_q <= production_perf[288+:32];
+                10'h178: rdata_q <= production_perf[320+:32];
+                10'h17c: rdata_q <= production_perf[352+:32];
+                10'h180: rdata_q <= production_perf[384+:32];
+                10'h184: rdata_q <= production_perf[416+:32];
+                10'h188: rdata_q <= production_perf[448+:32];
+                10'h18c: rdata_q <= production_perf[480+:32];
+                10'h190: rdata_q <= production_perf[512+:32];
+                10'h194: rdata_q <= production_perf[544+:32];
+
+                default: rdata_q <= publication_read_hit ? publication_read_data : queue_read_hit ? queue_read_data : result_read_hit ? result_read_data : 32'd0;
                 endcase
                 rvalid_q <= 1'b1;
             end else if (rvalid_q && axil.rready) begin

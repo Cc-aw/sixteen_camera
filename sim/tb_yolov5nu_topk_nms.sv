@@ -12,6 +12,7 @@ module tb_yolov5nu_topk_nms;
     logic [8:0] retained_count;
     logic [5:0] result_count;
 
+    wire sort_active, nms_active;
     yolov5nu_topk_nms #(.CAPACITY(4), .RESULT_LIMIT(3)) dut (.*);
 
     function automatic [127:0] pack(input int index, input int cls,

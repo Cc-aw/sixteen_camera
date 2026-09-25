@@ -15,6 +15,7 @@ module tb_yolov5nu_topk_nms_capacity;
     wire [5:0] result_count;
     integer received = 0;
 
+    wire sort_active, nms_active;
     yolov5nu_topk_nms #(.CAPACITY(256), .RESULT_LIMIT(10)) dut (.*);
 
     always @(posedge clk) if (result_valid && result_ready) begin

@@ -6,6 +6,9 @@
 #include "platform.h"
 
 #define AI_MAX_DETECTIONS 32U
+#define AI_RESULT_HARDWARE_OVERLAY 1U
+#define AI_RESULT_METADATA_ONLY 2U
+#define AI_RESULT_STALE 4U
 
 typedef struct {
     int16_t x_min;
@@ -25,6 +28,7 @@ typedef struct {
     uint32_t worker_id;
     uint32_t version;
     uint32_t count;
+    uint32_t flags;
     AiDetection detections[AI_MAX_DETECTIONS];
 } AiDetectionResult;
 

@@ -940,7 +940,9 @@ void ai_batch_runtime_print_status(void)
             console_puts("none");
         else {
             console_put_u32(result->count);
-            if (result->count != 0U) {
+            if (result->flags & AI_RESULT_METADATA_ONLY)
+                console_puts(" (hardware overlay)");
+            else if (result->count != 0U) {
                 const AiDetection *detection = &result->detections[0];
                 console_puts(" first(class/score/xyxy)=");
                 console_put_u32(detection->class_id);

@@ -64,7 +64,7 @@ static void print_help(void)
 #else
     console_puts("Commands: ");
 #endif
-    console_puts("R=FBus read-only BW, W=tensor write-only BW (10s), C=raw tensor/FBus concurrent BW, b=AI concurrent BW, s=AI status, v=video status, o=overlay test, p=profile, m=tensor soak, i=AI runtime, r=restart, c=clock ID, h=help\r\n");
+    console_puts("R=FBus read-only BW, W=tensor write-only BW (10s), C=raw tensor/FBus concurrent BW, b=AI concurrent BW, s=AI status, v=video status, o=overlay test, p=profile, P=PPU phases, m=tensor soak, i=AI runtime, r=restart, c=clock ID, h=help\r\n");
 }
 
 static uint32_t bandwidth_mbps(uint64_t bytes, uint64_t cycles)
@@ -746,6 +746,9 @@ int main(void)
             break;
         case 'v':
             hdmi_tx_print_status();
+            break;
+        case 'P':
+            ai_postprocess_ppu_print_profile();
             break;
         case 'p':
             if (ai_batch_runtime_is_enabled() != 0U ||

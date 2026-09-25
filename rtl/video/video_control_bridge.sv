@@ -12,6 +12,9 @@ module video_control_bridge #(
     parameter [CHANNELS*32-1:0] DEFAULT_CHANNEL_BASES =
         {CHANNELS{32'h0800_0000}}
 ) (
+    input wire ppu_overlay_valid,output wire ppu_overlay_ready,
+    input wire [3:0] ppu_overlay_stream,ppu_overlay_count,
+    input wire [511:0] ppu_overlay_boxes,input wire [1023:0] ppu_overlay_labels,
     axi_lite_if.slave control_axil,
     input  wire video_clk,
     input  wire video_resetn,
@@ -155,6 +158,9 @@ module video_control_bridge #(
         .CAMERA_PRESENT_MASK(CAMERA_PRESENT_MASK),
         .DEFAULT_CHANNEL_BASES(DEFAULT_CHANNEL_BASES)
     ) u_control (
+        .ppu_overlay_valid(ppu_overlay_valid),.ppu_overlay_ready(ppu_overlay_ready),
+        .ppu_overlay_stream(ppu_overlay_stream),.ppu_overlay_count(ppu_overlay_count),
+        .ppu_overlay_boxes(ppu_overlay_boxes),.ppu_overlay_labels(ppu_overlay_labels),
         .axil(control_axil),
         .cfg_request_toggle(cfg_request_toggle_cpu),
         .cfg_enable(cfg_enable_cpu), .cfg_width(cfg_width_cpu),

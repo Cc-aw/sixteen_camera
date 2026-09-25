@@ -179,6 +179,9 @@ module top_wrapper (
         .hdmi_capture_enable(hdmi_capture_enable)
     );
 
+    wire ppu_overlay_valid,ppu_overlay_ready;
+    wire [3:0] ppu_overlay_stream,ppu_overlay_count;
+    wire [511:0] ppu_overlay_boxes;wire [1023:0] ppu_overlay_labels;
     multi_channel_ddr_video_pipeline #(
         .CHANNELS(16), .GLOBAL_CHANNEL_BASE(0),
         .CAMERA_PRESENT_MASK(16'hffff),
@@ -197,6 +200,9 @@ module top_wrapper (
     ) u_video_pipeline (
         .init_done(c0_init_calib_complete),
         .video_clk(video_clk), .video_resetn(video_resetn),
+        .ppu_overlay_valid(ppu_overlay_valid),.ppu_overlay_ready(ppu_overlay_ready),
+        .ppu_overlay_stream(ppu_overlay_stream),.ppu_overlay_count(ppu_overlay_count),
+        .ppu_overlay_boxes(ppu_overlay_boxes),.ppu_overlay_labels(ppu_overlay_labels),
         .control_axil(framebuffer_axil),
         .capture_channels(all_capture_channels),
         .malformed_counts(all_malformed_counts_video),
@@ -236,6 +242,9 @@ module top_wrapper (
         .soc_resetn(soc_resetn),
         .soc_mem_axi(soc_mem_axi),
         .fbus_axi(soc_fbus_axi),
+        .ppu_overlay_valid(ppu_overlay_valid),.ppu_overlay_ready(ppu_overlay_ready),
+        .ppu_overlay_stream(ppu_overlay_stream),.ppu_overlay_count(ppu_overlay_count),
+        .ppu_overlay_boxes(ppu_overlay_boxes),.ppu_overlay_labels(ppu_overlay_labels),
         .postprocess_axil(postprocess_axil),
         .writer_video_axi(writer_video_axi),
         .reader_video_axi(reader_video_axi),

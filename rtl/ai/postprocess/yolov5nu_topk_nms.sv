@@ -18,6 +18,7 @@ module yolov5nu_topk_nms #(
     output reg          result_valid,
     input  wire         result_ready,
     output reg          result_last,
+    output wire         sort_active, nms_active,
     output reg          busy,
     output reg          done,
     output reg  [15:0]  candidates_seen,
@@ -98,6 +99,10 @@ module yolov5nu_topk_nms #(
             worse_child = left_child;
     end
 
+    assign sort_active = state == ST_SORT_SWAP || state == ST_SORT_DOWN ||
+                         state == ST_SORT_DOWN_READ;
+    assign nms_active = state == ST_NMS_PICK || state == ST_NMS_OUTPUT ||
+                        state == ST_NMS_SCAN || state == ST_NMS_EVAL;
     assign candidate_ready = state == ST_COLLECT && !finish_pending;
 
     always @(posedge clk) begin

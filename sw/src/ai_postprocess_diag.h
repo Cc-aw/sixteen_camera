@@ -60,6 +60,7 @@ typedef struct {
     uint32_t busy_retries;
 } AiPostprocessBandwidthResult;
 
+void ai_postprocess_ppu_print_profile(void);
 int ai_postprocess_diag_probe(void);
 uint32_t ai_postprocess_diag_read_id(void);
 uint32_t ai_postprocess_diag_read_capability(void);

@@ -90,6 +90,13 @@ int main(void)
     assert(ai_head_slot_release_writing(&queue, key0) == 0);
     assert(ai_head_slot_release_writing(&queue, key1) == 0);
 
+    assert(ai_head_slot_acquire(&queue, 0U, UINT32_C(0x32000000), &worker0, &key0) == 0);
+    assert(ai_head_slot_admit(&queue, key0) == 0);
+    assert(ai_head_slot_start_next(&queue, &active) == 1);
+    assert(ai_head_slot_complete(&queue, 0) < 0);
+    assert(ai_head_slot_publish(&queue, key0) == 0);
+    assert(queue.ready_count == 0);
+    assert(ai_head_slot_complete(&queue, 0) == 0);
     puts("AI head slot queue PASS");
     return 0;
 }

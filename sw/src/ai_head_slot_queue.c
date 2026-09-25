@@ -86,12 +86,13 @@ int ai_head_slot_acquire(AiHeadSlotQueue *queue, uint32_t worker_id,
     slot->descriptor.dfl_addr[2] = slot->descriptor.base_addr +
         YOLOV5NU_HEAD_DFL2_OFFSET;
     slot->error_status = 0U;
+    slot->producer_complete = 0U;
     slot->state = AI_HEAD_SLOT_WRITING;
     *slot_key = make_slot_key(worker_id, selected);
     return 0;
 }
 
-int ai_head_slot_publish(AiHeadSlotQueue *queue, uint32_t slot_key)
+int ai_head_slot_admit(AiHeadSlotQueue *queue, uint32_t slot_key)
 {
     AiHeadSlot *slot = ai_head_slot_get(queue, slot_key);
     uint32_t capacity;
@@ -104,6 +105,15 @@ int ai_head_slot_publish(AiHeadSlotQueue *queue, uint32_t slot_key)
     queue->ready[queue->ready_tail] = slot_key;
     queue->ready_tail = (queue->ready_tail + 1U) % capacity;
     queue->ready_count++;
+    return 0;
+}
+
+int ai_head_slot_publish(AiHeadSlotQueue *queue, uint32_t slot_key)
+{
+    AiHeadSlot *slot = ai_head_slot_get(queue, slot_key);
+    if (!slot || slot->producer_complete || slot->state == AI_HEAD_SLOT_FREE) return -1;
+    if (slot->state == AI_HEAD_SLOT_WRITING && ai_head_slot_admit(queue, slot_key) != 0) return -2;
+    slot->producer_complete = 1U;
     return 0;
 }
 
@@ -139,7 +149,7 @@ int ai_head_slot_complete(AiHeadSlotQueue *queue, uint32_t error_status)
     if (queue == 0 || queue->active == AI_HEAD_SLOT_INVALID)
         return -1;
     slot = ai_head_slot_get(queue, queue->active);
-    if (slot == 0 || slot->state != AI_HEAD_SLOT_PROCESSING)
+    if (slot == 0 || slot->state != AI_HEAD_SLOT_PROCESSING || !slot->producer_complete)
         return -2;
     worker_id = slot->descriptor.worker_id;
     slot->error_status = error_status;

@@ -5,6 +5,9 @@ module ddr_memory_subsystem #(
     // this parameter available for a one-line rollback bitstream.
     parameter bit HEAD_SHADOW_DDR = 1'b0
 ) (
+    output wire ppu_overlay_valid,input wire ppu_overlay_ready,
+    output wire [3:0] ppu_overlay_stream,ppu_overlay_count,
+    output wire [511:0] ppu_overlay_boxes,output wire [1023:0] ppu_overlay_labels,
     input  wire        sys_rstn,
     input  wire        c0_sys_clk_p,
     input  wire        c0_sys_clk_n,
@@ -67,6 +70,9 @@ module ddr_memory_subsystem #(
         .soc_mem_axi(soc_mem_axi),
         .tensor_fbus_write_axi(fbus_write_soc_axi),
         .soc_ddr_axi(soc_ddr_axi), .fbus_axi(fbus_axi),
+        .ppu_overlay_valid(ppu_overlay_valid),.ppu_overlay_ready(ppu_overlay_ready),
+        .ppu_overlay_stream(ppu_overlay_stream),.ppu_overlay_count(ppu_overlay_count),
+        .ppu_overlay_boxes(ppu_overlay_boxes),.ppu_overlay_labels(ppu_overlay_labels),
         .postprocess_axil(postprocess_axil)
     );
 

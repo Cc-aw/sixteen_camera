@@ -1,6 +1,7 @@
 #include "ai_postprocess_diag.h"
 
 #include "mmio.h"
+#include "console.h"
 #include "platform.h"
 
 #define DIAG_CAPABILITY       0x04U
@@ -456,4 +457,22 @@ int ai_postprocess_bandwidth_poll(AiPostprocessBandwidthResult *result)
     bandwidth.waiting = 1U;
     bandwidth.wait_start = read_cycle();
     return 0;
+}
+
+void ai_postprocess_ppu_print_profile(void)
+{
+    static const char *const names[18] = {
+        "total", "class_read", "class_compute", "class_stall", "cutoff",
+        "dfl_scan", "dfl_read", "dfl_compute", "sort", "nms", "result",
+        "candidates", "hist_clear", "dfl_backpressure", "class_candidates",
+        "reader_wait", "reader_command_gap", "max_candidates"
+    };
+    console_puts("PPU_PROFILE");
+    for (unsigned i = 0; i < 18U; ++i) {
+        console_putc(' ');
+        console_puts(names[i]);
+        console_putc('=');
+        console_put_u32(mmio_read32(POSTPROCESS_DIAG_BASE + 0x150U + 4U*i));
+    }
+    console_puts("\r\n");
 }

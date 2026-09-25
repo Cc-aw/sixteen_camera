@@ -11,6 +11,9 @@ module multi_channel_framebuffer_ctrl #(
     parameter [CHANNELS*32-1:0] DEFAULT_CHANNEL_BASES =
         {CHANNELS{32'h0800_0000}}
 ) (
+    input wire ppu_overlay_valid,output wire ppu_overlay_ready,
+    input wire [3:0] ppu_overlay_stream,ppu_overlay_count,
+    input wire [511:0] ppu_overlay_boxes,input wire [1023:0] ppu_overlay_labels,
     axi_lite_if.slave axil,
     output wire cfg_request_toggle,
     output wire cfg_enable,
@@ -244,6 +247,10 @@ module multi_channel_framebuffer_ctrl #(
     );
 
     overlay_csr #(.CHANNELS(CHANNELS)) u_overlay_csr (
+        .ppu_overlay_valid(ppu_overlay_valid),.ppu_overlay_ready(ppu_overlay_ready),
+        .ppu_overlay_stream(ppu_overlay_stream),.ppu_overlay_count(ppu_overlay_count),
+        .ppu_overlay_boxes(ppu_overlay_boxes),.ppu_overlay_labels(ppu_overlay_labels),
+
         .clk(axil.aclk), .resetn(axil.aresetn),
         .write_valid(write_complete), .write_addr(write_addr),
         .write_data(write_data), .write_strb(write_strb),

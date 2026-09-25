@@ -16,6 +16,7 @@ void ai_result_manager_init(AiResultManager *manager)
         manager->latest[stream].worker_id = 0U;
         manager->latest[stream].version = 0U;
         manager->latest[stream].count = 0U;
+        manager->latest[stream].flags = 0U;
     }
 }
 
@@ -31,6 +32,7 @@ int ai_result_manager_publish(AiResultManager *manager,
         return -1;
     }
 
+    if (result->flags & AI_RESULT_STALE) { manager->stale_count++; return 0; }
     stream_mask = (uint16_t)(UINT16_C(1) << result->stream_id);
     if ((manager->valid_mask & stream_mask) != 0U) {
         const AiDetectionResult *latest =

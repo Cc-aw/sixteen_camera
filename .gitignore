@@ -57,3 +57,6 @@ log/
 !generated/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/*.fir
 __pycache__/
 *.py[cod]
+
+# PPU optimization regression cache and raw reports
+build/ppu_phase2/

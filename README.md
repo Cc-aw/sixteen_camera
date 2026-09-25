@@ -7,7 +7,7 @@
 - **视频输入**：8 路 OV7670 DVP 摄像头；另从一路 4K30 HDMI RGB888 输入中裁剪 8 路 640×480 视频。
 - **摄像头接收**：300 MHz 采样与 PCLK 恢复、HREF/VSYNC 滤波、跨时钟域传输和坏帧恢复。
 - **显示**：每路视频缩放为 360×270，按 RGB565 存入 DDR；16 路组成 1920×1080p60 的 4×4 mosaic。每路使用 4 个帧槽。
-- **AI**：独立生成 640×480×3 INT8 Tensor，通过 FBus 供 Gemmini 执行 YOLOv5nu 推理，并由硬件后处理器处理检测结果。
+- **AI**：独立生成 640×480×3 INT8 Tensor，通过 FBus 供 Gemmini 执行 YOLOv5nu 推理，硬件后处理器完成分类筛选、DFL、BBox 和 NMS，并通过任务/结果队列直接发布显示框。
 - **带宽与诊断**：FBus 读 ID 0～17、Tensor 写 ID 18～31；提供视频、AI 和带宽串口状态命令。
 
 ```text
@@ -40,11 +40,18 @@ python3 scripts/build_single4_video_yolov5nu.py
 
 ```bash
 bash scripts/download_bitstream.sh
-ELF_FILE=sw/build/gemmini_single4_video_yolov5nu.elf bash scripts/download_single4_video.sh
+bash scripts/download_single4_video.sh
 tio-start
 ```
 
-如需使用已有的 RGB565 诊断固件，直接运行 `bash scripts/download_single4_video.sh`。两个下载脚本均支持 `--check`，可先检查工具和文件路径。
+`sw/run.sh` 和 `scripts/download_software.sh` 默认也使用这版单 4×4 固件。双 16×16 使用相同 PPU 功能，独立构建与下载：
+
+```bash
+python3 scripts/build_dual16_video_yolov5nu.py
+bash scripts/download_dual16_video.sh
+```
+
+双 16×16 输出为 `sw/build/gemmini_dual16_video_yolov5nu.elf`，需匹配双 16×16 SoC。两个视频下载脚本支持 `--build` 和 `--check`；`ELF_FILE` 可覆盖文件路径。
 
 ## 串口命令
 
@@ -53,6 +60,7 @@ tio-start
 | `v` | 视频链路、帧缓存和 DMA 状态；再次输入可查看区间增量 |
 | `s` | AI runtime 状态 |
 | `i` | 启用或排空 AI stream runtime |
+| `P` | PPU 分阶段性能计数 |
 | `R` / `W` / `C` | FBus 读取、Tensor 写入、读写并发带宽诊断 |
 | `r` | 重新初始化视频链路 |
 | `c` | 读取板载时钟芯片 ID |

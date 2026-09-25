@@ -62,7 +62,7 @@ LOCAL_SOURCES := src/main.c src/console.c src/runtime.c src/board_runtime.c src/
 	src/video_service.c \
 	src/camera_config.c src/cache_ops.c \
 	src/ai_tensor_slot_pool.c \
-	src/ai_postprocess_diag.c \
+	src/ai_postprocess_diag.c src/ai_ppu_publication.c src/ai_ppu_queue.c \
 	src/ai_postprocess_scalar.c src/ai_result_manager.c src/ai_display_map.c \
 	src/ai_class_names.c \
 	src/ai_overlay.c

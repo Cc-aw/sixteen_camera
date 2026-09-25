@@ -19,6 +19,9 @@ module multi_channel_ddr_video_pipeline #(
     parameter integer READ_OUTSTANDING = 8,
     parameter integer READ_DESCRIPTOR_DEPTH = 8
 ) (
+    input wire ppu_overlay_valid,output wire ppu_overlay_ready,
+    input wire [3:0] ppu_overlay_stream,ppu_overlay_count,
+    input wire [511:0] ppu_overlay_boxes,input wire [1023:0] ppu_overlay_labels,
     input wire init_done,
     input wire video_clk,
     input wire video_resetn,
@@ -113,6 +116,9 @@ module multi_channel_ddr_video_pipeline #(
         .CAMERA_PRESENT_MASK(CAMERA_PRESENT_MASK),
         .DEFAULT_CHANNEL_BASES(DEFAULT_CHANNEL_BASES)
     ) u_control_bridge (
+        .ppu_overlay_valid(ppu_overlay_valid),.ppu_overlay_ready(ppu_overlay_ready),
+        .ppu_overlay_stream(ppu_overlay_stream),.ppu_overlay_count(ppu_overlay_count),
+        .ppu_overlay_boxes(ppu_overlay_boxes),.ppu_overlay_labels(ppu_overlay_labels),
         .control_axil(control_axil), .video_clk(video_clk),
         .video_resetn(video_resetn),
         .cfg_request_toggle(cfg_request_toggle),

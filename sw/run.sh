@@ -6,7 +6,13 @@ OPENOCD_BIN="${OPENOCD_BIN:-/home/wzr/riscv-openocd/src/openocd}"
 OPENOCD_CFG="${OPENOCD_CFG:-/home/wzr/chipyard/fpga/src/main/resources/myboard/openocd-bscan.cfg}"
 GDB_BIN="${GDB_BIN:-/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gdb}"
 GDB_PYTHONHOME="${GDB_PYTHONHOME:-/home/wzr/chipyard/.conda-env}"
-ELF_FILE="${ELF_FILE:-$SCRIPT_DIR/build/hdmi_tx_test.elf}"
+VIDEO_VARIANT="${VIDEO_VARIANT:-single4}"
+case "$VIDEO_VARIANT" in
+    single4) DEFAULT_ELF="$SCRIPT_DIR/build/gemmini_single4_video_yolov5nu.elf" ;;
+    dual16) DEFAULT_ELF="$SCRIPT_DIR/build/gemmini_dual16_video_yolov5nu.elf" ;;
+    *) echo "VIDEO_VARIANT 必须为 single4 或 dual16" >&2; exit 2 ;;
+esac
+ELF_FILE="${ELF_FILE:-$DEFAULT_ELF}"
 GDB_COMMANDS="$SCRIPT_DIR/openocd/load-hdmi-tx.gdb"
 OPENOCD_LOG="$SCRIPT_DIR/build/openocd.log"
 OPENOCD_PID=""
@@ -18,10 +24,11 @@ usage()
     cat <<EOF
 用法: $0 [--build|--no-build] [--check]
 
-  --build     下载前执行 make（仅在固件源码与当前 SoC 匹配时使用）
+  --build     下载前构建所选 SoC 的 PPU 视频固件
   --no-build  使用已有 ELF，不执行 make（默认）
   --check     只检查工具、配置和 ELF，不连接开发板
 
+默认单 4×4；双 16×16 使用 VIDEO_VARIANT=dual16。
 可通过 OPENOCD_BIN、OPENOCD_CFG、GDB_BIN、GDB_PYTHONHOME 和 ELF_FILE
 环境变量覆盖默认路径。
 EOF
@@ -67,7 +74,7 @@ trap cleanup EXIT INT TERM
 
 if ((BUILD_FIRMWARE)); then
     echo "[1/4] 编译当前视频固件..."
-    make -C "$SCRIPT_DIR"
+    python3 "$SCRIPT_DIR/../scripts/build_${VIDEO_VARIANT}_video_yolov5nu.py" --output "$ELF_FILE"
 else
     echo "[1/4] 使用已有固件。"
 fi

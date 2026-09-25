@@ -19,6 +19,9 @@ static void mmio_write32(uintptr_t address, uint32_t value)
 }
 static void mmio_fence(void) {}
 #include "../src/ai_postprocess_diag.c"
+void console_puts(const char *s) { (void)s; }
+void console_putc(char c) { (void)c; }
+void console_put_u32(uint32_t n) { (void)n; }
 static void reset_test(void)
 {
     memset(regs, 0, sizeof(regs));

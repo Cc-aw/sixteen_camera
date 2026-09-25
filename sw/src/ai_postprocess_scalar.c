@@ -281,6 +281,7 @@ int ai_postprocess_yolov5nu(const void *tensor,
     result->timestamp = timestamp;
     result->version = version;
     result->count = 0U;
+    result->flags = 0U;
 
     for (uint32_t anchor = 0U; anchor < desc->anchors; ++anchor) {
         int32_t best_score = INT32_MIN;
