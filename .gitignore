@@ -26,6 +26,7 @@ prj/backup_*/
 demo/
 
 # Software and simulator build products
+/build/
 captures/
 sw/build/
 obj_dir/
@@ -57,6 +58,3 @@ log/
 !generated/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/*.fir
 __pycache__/
 *.py[cod]
-
-# PPU optimization regression cache and raw reports
-build/ppu_phase2/
