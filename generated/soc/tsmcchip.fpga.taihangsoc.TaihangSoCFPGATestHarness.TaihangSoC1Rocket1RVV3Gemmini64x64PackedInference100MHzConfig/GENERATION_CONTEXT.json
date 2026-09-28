@@ -1,0 +1,14 @@
+{
+  "config": "tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini64x64PackedInference100MHzConfig",
+  "sub_project": "taihang_soc",
+  "generated_at_utc": "2026-09-28T02:27:58.880166+00:00",
+  "build_workspace": "/tmp/npu100-video-chipyard",
+  "source_workspace": {
+    "reference": "/home/wzr/chipyard",
+    "workspace": "/tmp/npu100-video-chipyard",
+    "scala_manifest_sha256": "5e3e6a336c455dcfcf0e68d4588963fc97f9c57dbad1511c2cfe6c33ba04947c",
+    "rocket_chip_policy": "preserve complete reference revision"
+  },
+  "build_sbt_sha256": "3ccea6ce89e50822abdfc8433b10e503dc7093b9347830c052ab079075676b4b",
+  "validation": "RTL structure, AXI ports, FBus ID groups; no Vivado implementation"
+}

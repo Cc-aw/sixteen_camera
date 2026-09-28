@@ -1,0 +1,63 @@
+--- 0918/Configs.scala
++++ npu100_video/Configs.scala
+@@ -16,21 +16,19 @@
+   freqMHz: Double = 100.0,
+   ddrSize: BigInt = BigInt(4) << 30,
+   memDataBits: Int = 256) extends Config(
++  new WithMergedVideoProductionRoCC ++
+   new WithMergedBatch2Interfaces ++
+   new WithMergedCompactL2 ++
+   new WithXCVU13PGemmini64x64PackedInferenceRamAXI4MemPassthrough ++
+   new WithXCVU13PGemmini64x64PackedInferenceRamUARTPassthrough ++
+-  new WithXCVU13PGemmini64x64PackedInferenceRamSPIPassthrough ++
+   new WithXCVU13PGemmini64x64PackedInferenceRamAXI4MemPunchthrough ++
+   new WithXCVU13PGemmini64x64PackedInferenceRamUARTPunchthrough ++
+-  new WithXCVU13PGemmini64x64PackedInferenceRamSPIPunchthrough ++
+   new WithXCVU13PGemmini64x64PackedInferenceRamJTAGTunnelDebug ++
+   new freechips.rocketchip.subsystem.WithNBitMemoryBus(memDataBits) ++
+   new chipyard.harness.WithHarnessBinderClockFreqMHz(freqMHz) ++
+   new chipyard.harness.WithAllClocksFromHarnessClockInstantiator ++
+   new chipyard.config.WithUniformBusFrequencies(freqMHz) ++
+   new chipyard.clocking.WithPassthroughClockGenerator ++
+-  new chipyard.config.WithSPI(address = 0x10031000) ++
+   new chipyard.config.WithUART(
+     baudrate = 115200,
+     address = 0x10020000,
+@@ -214,16 +212,34 @@
+   new freechips.rocketchip.rocket.WithNHugeCores(1) ++
+   new chipyard.config.AbstractConfig)
+ 
+-/** Preserve the Taihang external DMA master ingress and CPU MMIO contract. */
++/** Video Tensor writes use AXI IDs 18..31; PPU reads use IDs 0..17.
++  * Keep every ID in a separate FIFO group and retain two read slots per ID.
++  * The video/PPU MMIO aperture includes offsets through 0x13ffff.
++  */
+ class WithMergedBatch2Interfaces extends Config(
++  new WithMergedVideoFrontBus ++
+   new WithMergedAXI4InPassthrough ++
+   new WithMergedAXI4MMIOPassthrough ++
+-  new freechips.rocketchip.subsystem.WithCustomSlavePort(data_width = 256, id_bits = 4) ++
++  new freechips.rocketchip.subsystem.WithCustomSlavePort(
++    data_width = 256, id_bits = 5, source_bits = 7, fifo_bits = 5) ++
+   new freechips.rocketchip.subsystem.WithCustomMMIOPort(
+-    base_addr = BigInt("10040000", 16), base_size = BigInt("1000", 16),
++    base_addr = BigInt("10040000", 16), base_size = BigInt("200000", 16),
+     data_width = 64, id_bits = 4, maxXferBytes = 64))
+ 
+ class WithMergedCompactL2 extends Config((site, here, up) => {
+   case freechips.rocketchip.subsystem.InclusiveCacheKey =>
+     up(freechips.rocketchip.subsystem.InclusiveCacheKey).copy(memCycles = 8)
+ })
++
++/** Match the internal FBus beat to the 256-bit video DMA/PPU AXI interface. */
++class WithMergedVideoFrontBus extends Config((site, here, up) => {
++  case freechips.rocketchip.subsystem.FrontBusKey =>
++    up(freechips.rocketchip.subsystem.FrontBusKey, site).copy(beatBytes = 32)
++})
++
++/** Keep the current Rocket-Chip interfaces with normal production semantics. */
++class WithMergedVideoProductionRoCC extends Config((site, here, up) => {
++  case freechips.rocketchip.tile.LoopConvIngressDebugEscapeKey => false
++  case freechips.rocketchip.tile.RoCCBusyWriteBypassCSRsKey => Nil
++  case freechips.rocketchip.tile.RoCCMbusBypassPorts => Map.empty[Int, Set[Int]]
++})
