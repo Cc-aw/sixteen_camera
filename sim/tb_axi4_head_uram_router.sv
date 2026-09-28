@@ -10,8 +10,8 @@ module tb_axi4_head_uram_router #(
     localparam [32:0] BANK1_BASE = 33'h0_3200_1000;
     localparam [32:0] BANK2_BASE = 33'h0_3240_0000;
     localparam [32:0] BANK3_BASE = 33'h0_3240_1000;
-    localparam [4*33-1:0] BANK_BASES = {
-        BANK3_BASE, BANK2_BASE, BANK1_BASE, BANK0_BASE
+    localparam [6*33-1:0] BANK_BASES = {
+        33'h0_3280_1000, 33'h0_3280_0000, BANK3_BASE, BANK2_BASE, BANK1_BASE, BANK0_BASE
     };
 
     reg clk = 1'b0;
@@ -20,7 +20,7 @@ module tb_axi4_head_uram_router #(
 
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4)) s_axi();
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4)) ddr_axi();
-    reg [1:0] local_bank = 0;
+    reg [2:0] local_bank = 0;
     reg local_req_valid = 0;
     wire local_req_ready;
     reg [6:0] local_req_word_addr = 0;
@@ -42,7 +42,7 @@ module tb_axi4_head_uram_router #(
         .local_read_rsp_ready(local_rsp_ready)
     );
 
-    reg [7:0] expected [0:4*SLOT_BYTES-1];
+    reg [7:0] expected [0:6*SLOT_BYTES-1];
     integer ddr_aw_count = 0;
     integer ddr_w_count = 0;
     integer ddr_ar_count = 0;
@@ -288,7 +288,7 @@ module tb_axi4_head_uram_router #(
         end
     endtask
 
-    task automatic local_read(input [1:0] bank, input [6:0] word_addr,
+    task automatic local_read(input [2:0] bank, input [6:0] word_addr,
                               input integer expected_offset);
         begin
             @(negedge clk);
@@ -339,7 +339,7 @@ module tb_axi4_head_uram_router #(
         s_axi.arqos = 0;
         s_axi.arvalid = 0;
         s_axi.rready = 0;
-        for (integer index = 0; index < 4*SLOT_BYTES; index = index + 1)
+        for (integer index = 0; index < 6*SLOT_BYTES; index = index + 1)
             expected[index] = 0;
 
         repeat (5) @(negedge clk);
@@ -356,6 +356,18 @@ module tb_axi4_head_uram_router #(
         local_read(0, 7'd2, 64);
         local_read(1, 7'd3, 96);
 
+        head_write(33'h0_b280_0000+64, 1, 4, 64, 32'hffffffff, 32'hd4, 0, 0);
+        head_write(33'h0_3280_1000+96, 1, 5, 96, 32'hffffffff, 32'he5, 0, 0);
+        local_read(4, 7'd2, 64);local_read(5, 7'd3, 96);
+        if (!TEST_SHADOW_DDR) begin
+            head_read(33'h0_3280_0000+64, 1, 4, 64, 0);
+            head_read(33'h0_b280_1000+96, 1, 5, 96, 0);
+        end
+        for (integer invalid_bank=6; invalid_bank<8; invalid_bank++) begin
+            @(negedge clk);local_bank=3'(invalid_bank);local_req_valid=1;
+            repeat(4) begin @(negedge clk);if(local_req_ready || local_rsp_valid) $fatal(1,"invalid bank accepted");end
+            local_req_valid=0;
+        end
         // A burst beginning in a Head slot may not cross its boundary and
         // must not leak to DDR.
         if (!TEST_SHADOW_DDR) begin
@@ -373,7 +385,7 @@ module tb_axi4_head_uram_router #(
              (ddr_aw_count != 1 || ddr_w_count != 1 ||
               ddr_ar_count != 1)) ||
             (TEST_SHADOW_DDR &&
-             (ddr_aw_count != 3 || ddr_w_count != 7 ||
+             (ddr_aw_count != 5 || ddr_w_count != 9 ||
               ddr_ar_count != 1)) ||
             ddr_last_awaddr != 33'h0_3220_0040 ||
             ddr_last_araddr != 33'h0_3220_0080)

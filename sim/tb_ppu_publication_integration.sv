@@ -71,27 +71,27 @@ module tb_ppu_publication_integration #(parameter ABORT_CASE=0, parameter QUEUED
         repeat(5) @(negedge clk);resetn=1;
         if(MULTI_CASE) begin
             write32('h1a4,1);write32('h200,1);
-            for(integer bank=0;bank<4;bank=bank+1) begin
+            for(integer bank=0;bank<6;bank=bank+1) begin
                 base=32'h32000000+(bank/2)*32'h400000+(bank%2)*32'h100000;
                 write32('h1a8,bank);write32('h1ac,7+bank);write32('h1b0,1);
                 write32('h104,base);write32('h108,base+'h5dc00);write32('h10c,base+'h75300);
                 write32('h110,base+'h7b0c0);write32('h114,base+'hc60c0);write32('h118,base+'hd8cc0);
                 write32('h20c,bank);write32('h210,123+bank);write32('h218,9);write32('h204,1);
             end
-            for(integer bank=0;bank<4;bank=bank+1) begin
+            for(integer bank=0;bank<6;bank=bank+1) begin
                 write32('h1a8,bank);write32('h1ac,7+bank);write32('h1b0,'h3f00);
             end
-            for(integer bank=0;bank<4;bank=bank+1) begin
+            for(integer bank=0;bank<6;bank=bank+1) begin
                 value=0;while(!(value&1)) begin repeat(200) @(negedge clk);read32('h240,value);end
-                read32('h250,value);if(value!=bank) $fatal(1,"four-task FIFO order");
-                read32('h258,value);if(value!=123+bank) $fatal(1,"four-task frame");
-                read32('h268,value);if(value!=7+bank) $fatal(1,"four-task generation");
-                read32('h254,value);if(value!=(bank<<10)) $fatal(1,"four-task result status/count");
+                read32('h250,value);if(value!=bank) $fatal(1,"six-task FIFO order");
+                read32('h258,value);if(value!=123+bank) $fatal(1,"six-task frame");
+                read32('h268,value);if(value!=7+bank) $fatal(1,"six-task generation");
+                read32('h254,value);if(value!=(bank<<10)) $fatal(1,"six-task result status/count");
                 write32('h24c,1);
             end
-            if(lines!=56700 || dut.pub_allocated!=0) $fatal(1,"four-task ownership/visibility");
-            read32('h26c,value);if(value!=4) $fatal(1,"four-task overlay commits");
-            $display("PPU_FOUR_TASK_INTEGRATION=PASS workers=2 slots=4 heads=24 lines=56700 positions=25200");$finish;
+            if(lines!=85050 || dut.pub_allocated!=0) $fatal(1,"six-task ownership/visibility");
+            read32('h26c,value);if(value!=6) $fatal(1,"six-task overlay commits");
+            $display("PPU_SIX_TASK_INTEGRATION=PASS workers=3 slots=6 heads=36 lines=85050 positions=37800");$finish;
         end
         write32('h1a4,1);write32('h1a8,0);write32('h1ac,1);write32('h1b0,1);
         write32('h104,'h32000000);write32('h108,'h3205dc00);write32('h10c,'h32075300);

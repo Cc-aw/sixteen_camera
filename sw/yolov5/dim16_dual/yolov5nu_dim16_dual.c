@@ -15,8 +15,8 @@
 #include "yolov5nu_dim16_dual.h"
 #include "yolov5nu_head_layout.h"
 
-#if DIM != 16
-#error "This runtime requires the current DIM16 Gemmini parameters"
+#if DIM != YOLOV5NU_GEMMINI_DIM
+#error "Gemmini parameters do not match the selected video SoC"
 #endif
 
 #ifndef YOLOV5NU_LAYER_STATS
@@ -168,8 +168,10 @@ static uint32_t frame_counter_access(uint32_t worker_id, uint32_t config) {
   uint32_t placeholder = 0U;
   if (worker_id == 0U) {
     ROCC_INSTRUCTION(3, result, config, placeholder, k_COUNTER);
-  } else {
+  } else if (worker_id == 1U) {
     ROCC_INSTRUCTION(2, result, config, placeholder, k_COUNTER);
+  } else {
+    ROCC_INSTRUCTION(1, result, config, placeholder, k_COUNTER);
   }
   return result;
 }
@@ -572,7 +574,7 @@ static void gemmini_splitk_1x1_two_slice_i8(
     const acc_t *bias, elem_t *output, int positions, int slice_channels,
     int out_channels, float a0_scale, float a1_scale, float concat_scale,
     int act, float output_scale) {
-  if (slice_channels <= 0 || out_channels <= 0 || out_channels % DIM != 0) {
+  if (slice_channels <= 0 || out_channels <= 0) {
     printf("Stage 8C split-K geometry mismatch\n");
     exit(1);
   }
@@ -604,7 +606,7 @@ static void gemmini_splitk_1x1_two_slice_i8(
     sp_tiled_matmul_ws(
       a0 + row * slice_channels, weights, bias, NULL,
       a0_scale / concat_scale, MVIN_SCALE_IDENTITY, MVIN_SCALE_IDENTITY,
-      i_blocks, j_blocks, k_blocks, pad_i, 0, pad_k,
+      i_blocks, j_blocks, k_blocks, pad_i, j_blocks * DIM - out_channels, pad_k,
       slice_channels, out_channels, out_channels, out_channels,
       false, false, false, false, false, true, act, 0, 0);
     // The load scale is global state. Complete partial 0 before changing it;
@@ -618,7 +620,7 @@ static void gemmini_splitk_1x1_two_slice_i8(
       weights + slice_channels * out_channels, NULL,
       output + row * out_channels,
       a1_scale / concat_scale, MVIN_SCALE_IDENTITY, MVIN_SCALE_IDENTITY,
-      i_blocks, j_blocks, k_blocks, pad_i, 0, pad_k,
+      i_blocks, j_blocks, k_blocks, pad_i, j_blocks * DIM - out_channels, pad_k,
       slice_channels, out_channels, out_channels, out_channels,
       false, false, false, false, true, false, act, 0, 0);
     gemmini_fence();
@@ -632,7 +634,7 @@ static void gemmini_splitk_1x1_two_slice_i8_spad_reuse(
     const acc_t *bias, elem_t *output, int positions, int slice_channels,
     int out_channels, float a0_scale, float a1_scale, float concat_scale,
     int act, float output_scale, bool reuse_a) {
-  if (slice_channels <= 0 || out_channels <= 0 || out_channels % DIM != 0) {
+  if (slice_channels <= 0 || out_channels <= 0) {
     printf("Stage 8F split-K geometry mismatch\n");
     exit(1);
   }
@@ -669,7 +671,7 @@ static void gemmini_splitk_1x1_two_slice_i8_spad_reuse(
     sp_tiled_matmul_ws(
       reuse_a ? NULL : a0 + row * slice_channels, weights, bias, NULL,
       a0_scale / concat_scale, MVIN_SCALE_IDENTITY, MVIN_SCALE_IDENTITY,
-      i_blocks, j_blocks, k_blocks, pad_i, 0, pad_k,
+      i_blocks, j_blocks, k_blocks, pad_i, j_blocks * DIM - out_channels, pad_k,
       slice_channels, out_channels, out_channels, out_channels,
       false, false, false, false, false, true, act, a0_spad_id, 0);
     gemmini_fence();
@@ -681,7 +683,7 @@ static void gemmini_splitk_1x1_two_slice_i8_spad_reuse(
       weights + slice_channels * out_channels, NULL,
       output + row * out_channels,
       a1_scale / concat_scale, MVIN_SCALE_IDENTITY, MVIN_SCALE_IDENTITY,
-      i_blocks, j_blocks, k_blocks, pad_i, 0, pad_k,
+      i_blocks, j_blocks, k_blocks, pad_i, j_blocks * DIM - out_channels, pad_k,
       slice_channels, out_channels, out_channels, out_channels,
       false, false, false, false, true, false, act, a1_spad_id, 0);
     gemmini_fence();
@@ -699,8 +701,7 @@ static void gemmini_splitk_1x1_two_slice_two_consumer_spad_reuse_i8(
     const elem_t *silu_lut1, int out_channels1, float requant1,
     int positions, int slice_channels, float a0_scale, float a1_scale,
     float concat_scale, int act) {
-  if (slice_channels <= 0 || out_channels0 <= 0 || out_channels1 <= 0 ||
-      out_channels0 % DIM != 0 || out_channels1 % DIM != 0) {
+  if (slice_channels <= 0 || out_channels0 <= 0 || out_channels1 <= 0) {
     printf("Stage 8F pair split-K geometry mismatch\n");
     exit(1);
   }
@@ -736,7 +737,7 @@ static void gemmini_splitk_1x1_two_slice_two_consumer_spad_reuse_i8(
     sp_tiled_matmul_ws(
       a0 + row * slice_channels, weights0, bias0, NULL,
       a0_scale / concat_scale, MVIN_SCALE_IDENTITY, MVIN_SCALE_IDENTITY,
-      i_blocks0, j_blocks0, k_blocks, pad_i, 0, pad_k,
+      i_blocks0, j_blocks0, k_blocks, pad_i, j_blocks0 * DIM - out_channels0, pad_k,
       slice_channels, out_channels0, out_channels0, out_channels0,
       false, false, false, false, false, true, act, 1, 0);
     gemmini_fence();
@@ -752,7 +753,7 @@ static void gemmini_splitk_1x1_two_slice_two_consumer_spad_reuse_i8(
       weights0 + slice_channels * out_channels0, NULL,
       output0 + row * out_channels0,
       a1_scale / concat_scale, MVIN_SCALE_IDENTITY, MVIN_SCALE_IDENTITY,
-      i_blocks0, j_blocks0, k_blocks, pad_i, 0, pad_k,
+      i_blocks0, j_blocks0, k_blocks, pad_i, j_blocks0 * DIM - out_channels0, pad_k,
       slice_channels, out_channels0, out_channels0, out_channels0,
       false, false, false, false, true, false, act, 2, 0);
     gemmini_fence();
@@ -764,7 +765,7 @@ static void gemmini_splitk_1x1_two_slice_two_consumer_spad_reuse_i8(
     sp_tiled_matmul_ws(
       NULL, weights1, bias1, NULL,
       a0_scale / concat_scale, MVIN_SCALE_IDENTITY, MVIN_SCALE_IDENTITY,
-      i_blocks1, j_blocks1, k_blocks, pad_i, 0, pad_k,
+      i_blocks1, j_blocks1, k_blocks, pad_i, j_blocks1 * DIM - out_channels1, pad_k,
       slice_channels, out_channels1, out_channels1, out_channels1,
       false, false, false, false, false, true, act, 1, 0);
     gemmini_fence();
@@ -779,7 +780,7 @@ static void gemmini_splitk_1x1_two_slice_two_consumer_spad_reuse_i8(
       NULL, weights1 + slice_channels * out_channels1, NULL,
       output1 + row * out_channels1,
       a1_scale / concat_scale, MVIN_SCALE_IDENTITY, MVIN_SCALE_IDENTITY,
-      i_blocks1, j_blocks1, k_blocks, pad_i, 0, pad_k,
+      i_blocks1, j_blocks1, k_blocks, pad_i, j_blocks1 * DIM - out_channels1, pad_k,
       slice_channels, out_channels1, out_channels1, out_channels1,
       false, false, false, false, true, false, act, 2, 0);
     gemmini_fence();
@@ -791,7 +792,7 @@ static void gemmini_splitk_1x1_multi_slice_i8(
     const float input_scales[], int slice_count, const elem_t *weights,
     const acc_t *bias, elem_t *output, int positions, int out_channels,
     float concat_scale, int act, float output_scale) {
-  if (slice_count <= 1 || out_channels <= 0 || out_channels % DIM != 0) {
+  if (slice_count <= 1 || out_channels <= 0) {
     printf("Stage 8C multi-slice geometry mismatch\n");
     exit(1);
   }
@@ -842,7 +843,7 @@ static void gemmini_splitk_1x1_multi_slice_i8(
         first ? bias : NULL,
         last ? output + row * out_channels : NULL,
         input_scale, MVIN_SCALE_IDENTITY, MVIN_SCALE_IDENTITY,
-        i_blocks, j_blocks, k_blocks, pad_i, 0, pad_k,
+        i_blocks, j_blocks, k_blocks, pad_i, j_blocks * DIM - out_channels, pad_k,
         channels, out_channels, out_channels, out_channels,
         false, false, false, false, !first, first, act, 0, 0);
 #if defined(YOLOV5NU_STAGE8_MODE_8H_SPLITK_CONFIG_FENCE_MERGE)
@@ -1828,8 +1829,10 @@ static inline uint64_t read_worker_busy(uint32_t worker_id) {
   uint64_t value;
   if (worker_id == 0U)
     __asm__ volatile ("csrr %0, 0x7c2" : "=r" (value) :: "memory");
-  else
+  else if (worker_id == 1U)
     __asm__ volatile ("csrr %0, 0x7c3" : "=r" (value) :: "memory");
+  else
+    __asm__ volatile ("csrr %0, 0x7ca" : "=r" (value) :: "memory");
   return value & 1U;
 }
 

@@ -5,7 +5,7 @@ module postprocess_read_diagnostic #(
 ) (
     axi_lite_if.slave axil,
     axi4_if.master    m_axi,
-    output wire [1:0] local_read_bank,
+    output wire [2:0] local_read_bank,
     output wire       local_read_req_valid,
     input  wire       local_read_req_ready,
     output wire [14:0] local_read_req_word_addr,
@@ -13,12 +13,12 @@ module postprocess_read_diagnostic #(
     input  wire       local_read_rsp_valid,
     output wire       local_read_rsp_ready,
     output wire pub_enable,pub_allocate,pub_publish,pub_abort,pub_acquire,pub_release,
-    output wire [1:0] pub_bank,pub_lease_bank,
+    output wire [2:0] pub_bank,pub_lease_bank,
     output wire [31:0] pub_version,pub_lease_version,
     output wire [5:0] pub_mask,
-    input wire [3:0] pub_allocated,pub_reading,pub_fault,
-    input wire [127:0] pub_versions,
-    input wire [23:0] pub_ready_heads,pub_producer_heads,
+    input wire [5:0] pub_allocated,pub_reading,pub_fault,
+    input wire [191:0] pub_versions,
+    input wire [35:0] pub_ready_heads,pub_producer_heads,
     input wire [31:0] pub_rejected,pub_cycles,pub_lines,
     output wire ppu_overlay_valid,input wire ppu_overlay_ready,
     output wire [3:0] ppu_overlay_stream,ppu_overlay_count,
@@ -117,17 +117,19 @@ module postprocess_read_diagnostic #(
     wire local_stream_valid, local_stream_last;
     wire production_uses_local = production_owner && local_active_q;
 
-    function automatic [1:0] decode_local_bank(input [32:0] address);
+    function automatic [2:0] decode_local_bank(input [32:0] address);
         reg [31:0] canonical;
         begin
             canonical = address[31:0];
             canonical[31] = 1'b0;
             case (canonical[31:20])
-            12'h320: decode_local_bank = 2'd0;
-            12'h321: decode_local_bank = 2'd1;
-            12'h324: decode_local_bank = 2'd2;
-            12'h325: decode_local_bank = 2'd3;
-            default: decode_local_bank = 2'd0;
+            12'h320: decode_local_bank = 3'd0;
+            12'h321: decode_local_bank = 3'd1;
+            12'h324: decode_local_bank = 3'd2;
+            12'h325: decode_local_bank = 3'd3;
+            12'h328: decode_local_bank = 3'd4;
+            12'h329: decode_local_bank = 3'd5;
+            default: decode_local_bank = 3'd7;
             endcase
         end
     endfunction
@@ -185,7 +187,7 @@ module postprocess_read_diagnostic #(
     wire queue_enable,queue_enqueue,queue_pop,queue_ready,queue_active,queue_completion,queue_request;
     wire [2:0] queue_count;wire [31:0] queue_rejected,queue_version,queue_flags,queue_read_data;
     wire [3:0] queue_stream;wire [63:0] queue_frame;wire queue_read_hit;
-    wire [363:0] queue_descriptor;
+    wire [364:0] queue_descriptor;
     wire [197:0] configured_addresses={production_dfl2,production_dfl1,production_dfl0,production_class2,production_class1,production_class0};
     wire [197:0] active_addresses=queue_active?queue_descriptor[197:0]:configured_addresses;
     ppu_queue_csr u_queue_csr(
@@ -197,7 +199,7 @@ module postprocess_read_diagnostic #(
         .active_descriptor(queue_descriptor),.read_hit(queue_read_hit),.read_data(queue_read_data));
     ppu_command_queue u_queue(
         .clk(axil.aclk),.resetn(axil.aresetn),.enable(queue_enable),.enqueue(queue_enqueue),
-        .descriptor({queue_flags,queue_version,queue_frame,queue_stream,pub_version,pub_bank,configured_addresses}),
+        .descriptor({pub_bank[2],queue_flags,queue_version,queue_frame,queue_stream,pub_version,pub_bank[1:0],configured_addresses}),
         .admission_ready(queue_ready),.queued(queue_count),.rejected(queue_rejected),
         .active_descriptor(queue_descriptor),.request(queue_request),.engine_busy(production_busy),.engine_done(production_done),
         .completion_ready(capture_complete),.completion_valid(queue_completion),.active(queue_active));
@@ -215,7 +217,7 @@ module postprocess_read_diagnostic #(
 
     wire publication_read_hit;
     wire pub_manual_release,gate_release;
-    wire [1:0] gate_bank;
+    wire [2:0] gate_bank;
     wire [31:0] gate_version;
     assign pub_release=pub_manual_release || gate_release;
     assign pub_lease_bank=pub_manual_release?pub_bank:gate_bank;
@@ -234,7 +236,7 @@ module postprocess_read_diagnostic #(
     );
     ppu_publication_gate u_publication_gate(
         .clk(axil.aclk),.resetn(axil.aresetn),.request(queue_request||production_request),.enable(queue_request||production_guarded),
-        .command_bank(queue_request?queue_descriptor[199:198]:pub_bank),.command_version(queue_request?queue_descriptor[231:200]:pub_version),.allocated(pub_allocated),.fault(pub_fault),
+        .command_bank(queue_request?{queue_descriptor[364],queue_descriptor[199:198]}:pub_bank),.command_version(queue_request?queue_descriptor[231:200]:pub_version),.allocated(pub_allocated),.fault(pub_fault),
         .versions(pub_versions),.ready_heads(pub_ready_heads),.publication_active(pub_active),
         .lease_bank(gate_bank),.lease_version(gate_version),.acquire(pub_acquire),.release_slot(gate_release),
         .core_heads(core_heads),.core_abort(core_abort),.core_start(production_start),.core_busy(core_busy),.core_done(core_done),.core_error(core_error),

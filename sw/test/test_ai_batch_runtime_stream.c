@@ -252,6 +252,7 @@ static void publish_slot(uint32_t slot, uint32_t source_frame)
     ready |= UINT32_C(1) << slot;
 }
 
+#if AI_MODEL_WORKER_COUNT == 2U
 int main(void)
 {
     ai_batch_runtime_init();
@@ -364,3 +365,38 @@ int main(void)
            submit_count, release_count);
     return 0;
 }
+
+#else
+int main(void)
+{
+    ai_batch_runtime_init();
+    ai_batch_runtime_set_enabled(1);
+    for (uint32_t stream=0; stream<4; ++stream) publish_slot(stream, 100+stream);
+    ai_batch_runtime_poll();
+    assert(submit_count==3);
+    for (uint32_t w=0; w<3; ++w) {
+        assert(backend_running[w]);
+        assert(requests[w].worker_id==w);
+        assert(requests[w].output_addr==AI_MODEL_OUTPUT0_PHYS_BASE+w*AI_MODEL_OUTPUT_ARENA_BYTES);
+    }
+    uint32_t third_stream=requests[2].stream_id;
+    uint64_t third_frame=requests[2].frame_id;
+    compute_allowed[2]=1;
+    ai_batch_runtime_poll();
+    assert(submit_count==4 && release_count==1 && backend_running[2]);
+    assert(requests[2].frame_id!=third_frame);
+    assert(ai_batch_runtime_latest_result(third_stream)==NULL);
+    result_allowed[2]=1;
+    ai_batch_runtime_poll();
+    assert(ai_batch_runtime_latest_result(third_stream)->frame_id==third_frame);
+    assert(backend_running[2]);
+    ai_batch_runtime_set_enabled(0);
+    for (uint32_t w=0; w<3; ++w) { compute_allowed[w]=1;result_allowed[w]=1; }
+    for (uint32_t poll=0;poll<20;++poll) ai_batch_runtime_poll();
+    assert(ai_batch_runtime_is_idle() && ready==0 && release_count==4);
+    AiBatchRuntimeStatus status;ai_batch_runtime_get_status(&status);
+    assert(status.completed_job_count==4 && status.result_publish_count==4 && status.error_count==0);
+    puts("AI_BATCH_RUNTIME_STREAM=PASS workers=3 third_worker_reused_while_result_pending");
+    return 0;
+}
+#endif

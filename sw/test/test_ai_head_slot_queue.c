@@ -97,6 +97,28 @@ int main(void)
     assert(ai_head_slot_publish(&queue, key0) == 0);
     assert(queue.ready_count == 0);
     assert(ai_head_slot_complete(&queue, 0) == 0);
-    puts("AI head slot queue PASS");
+    ai_head_slot_queue_init(&queue, 3U);
+    uint32_t keys[6];
+    for (uint32_t bank = 0; bank < 6; ++bank) {
+        uint32_t worker = bank / 2;
+        AiModelFrameRequest req = make_request(worker, 100 + bank);
+        uintptr_t base = UINT32_C(0x32000000) + worker * UINT32_C(0x400000);
+        assert(ai_head_slot_acquire(&queue, worker, base, &req, &keys[bank]) == 0);
+        assert(keys[bank] == bank);
+        assert(ai_head_slot_get(&queue, bank)->descriptor.base_addr ==
+               base + (bank % 2) * UINT32_C(0x100000));
+        assert(ai_head_slot_publish(&queue, bank) == 0);
+    }
+    AiModelFrameRequest worker2 = make_request(2, 999);
+    assert(ai_head_slot_acquire(&queue, 2, UINT32_C(0x32800000), &worker2, &key0) == -2);
+    for (uint32_t bank = 0; bank < 6; ++bank) {
+        assert(ai_head_slot_start_next(&queue, &active) == 1);
+        assert(active->descriptor.worker_id == bank / 2);
+        assert(active->descriptor.job_id == 100 + bank);
+        assert(ai_head_slot_complete(&queue, 0) == 0);
+    }
+    assert(ai_head_slot_acquire(&queue, 2, UINT32_C(0x32800000), &worker2, &key0) == 0);
+    assert(key0 == 4);
+    puts("AI head slot queue PASS workers=3 slots=6");
     return 0;
 }

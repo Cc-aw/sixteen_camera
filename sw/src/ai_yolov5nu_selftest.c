@@ -125,11 +125,12 @@ int ai_yolov5nu_correctness_test(void)
     struct yolov5nu_dim16_result results[YOLOV5NU_DIM16_WORKER_COUNT];
     uint32_t done_mask = 0U;
     uint64_t start = read_cycle();
-    int passed0;
-    int passed1;
+    int all_passed = 1;
 
     memset(results, 0, sizeof(results));
-    console_puts("YOLOV5NU_TEST_BEGIN image=025 workers=2\r\n");
+    console_puts("YOLOV5NU_TEST_BEGIN image=025 workers=");
+    console_put_u32(YOLOV5NU_DIM16_WORKER_COUNT);
+    console_puts("\r\n");
     for (uint32_t worker = 0U;
          worker < YOLOV5NU_DIM16_WORKER_COUNT; ++worker) {
         if (yolov5nu_dim16_worker_start_reference(worker) < 0) {
@@ -138,7 +139,7 @@ int ai_yolov5nu_correctness_test(void)
         }
     }
 
-    while (done_mask != UINT32_C(3)) {
+    while (done_mask != ((UINT32_C(1) << YOLOV5NU_DIM16_WORKER_COUNT) - 1U)) {
         for (uint32_t worker = 0U;
              worker < YOLOV5NU_DIM16_WORKER_COUNT; ++worker) {
             uint32_t mask = UINT32_C(1) << worker;
@@ -159,16 +160,17 @@ int ai_yolov5nu_correctness_test(void)
         }
     }
 
-    passed0 = result_matches_reference(&results[0]);
-    passed1 = result_matches_reference(&results[1]);
-    print_worker_result(0U, &results[0], passed0);
-    print_worker_result(1U, &results[1], passed1);
-    if (passed0 == 0 || passed1 == 0 ||
-        results_equal(&results[0], &results[1]) == 0) {
-        console_puts("YOLOV5NU_TEST_RESULT FAIL reason=reference_or_dual_mismatch\r\n");
+    for (uint32_t worker = 0; worker < YOLOV5NU_DIM16_WORKER_COUNT; ++worker) {
+        int passed = result_matches_reference(&results[worker]);
+        print_worker_result(worker, &results[worker], passed);
+        if (!passed || !results_equal(&results[0], &results[worker]))
+            all_passed = 0;
+    }
+    if (!all_passed) {
+        console_puts("YOLOV5NU_TEST_RESULT FAIL reason=reference_or_worker_mismatch\r\n");
         return 0;
     }
-    console_puts("YOLOV5NU_TEST_RESULT PASS reference=bit_exact dual=bit_exact\r\n");
+    console_puts("YOLOV5NU_TEST_RESULT PASS reference=bit_exact workers=bit_exact\r\n");
     return 1;
 }
 

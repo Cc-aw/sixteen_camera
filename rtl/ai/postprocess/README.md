@@ -26,11 +26,11 @@ meets the standalone 100 MHz synthesis timing gate.
 
 ## Head URAM migration P2: standalone AXI router
 
-`axi4_head_uram_router.sv` owns four P1 stores for worker0/1 A/B. It decodes
-the unchanged `0x32000000`, `0x32100000`, `0x32400000`, and `0x32500000`
+`axi4_head_uram_router.sv` owns six P1 stores for worker0/1/2 A/B. It decodes
+`0x32000000`, `0x32100000`, `0x32400000`, `0x32500000`, `0x32800000`, and `0x32900000`
 physical windows and their bit31 CPU aliases. Head writes terminate locally
 with byte strobes preserved; Head AXI reads return the same URAM contents.
-Traffic outside those four 1 MiB slots, including the diagnostic gaps, is
+Traffic outside those six 1 MiB slots, including the diagnostic gaps, is
 forwarded to DDR without changing its AXI address, ID, attributes, data, or
 response.
 
@@ -42,7 +42,7 @@ standalone: the production `soc_mem_axi` still connects directly to DDR and
 the PPU still reads Head payload through FBus.
 
 Run `vivado -mode batch -source scripts/check_head_uram_p2_synthesis.tcl`
-to synthesize the production four-bank router and require exactly 128
+to synthesize the production six-bank router and require exactly 192
 URAM288 primitives plus positive standalone 100 MHz setup slack.
 
 ## Head URAM migration P3: production shadow and selectable local read
@@ -61,7 +61,7 @@ readers are idle; read bits 0/1/2/3 report enable, active source, local busy,
 and local error. This preserves the existing six-address descriptor ABI and
 A/B ownership protocol while providing an immediate DDR/FBus fallback.
 Run `vivado -mode batch -source scripts/check_head_uram_p3_synthesis.tcl`
-to enforce the 128-URAM and 100 MHz gates with shadow mode enabled.
+to enforce the 192-URAM and 100 MHz gates with shadow mode enabled.
 
 ## Head URAM migration P4.1: board control and publication boundary
 
@@ -86,7 +86,7 @@ The production memory subsystem now builds the router with
 `HEAD_SHADOW_DDR=0`. The proven 907,200-byte cache flush remains the producer
 publication boundary, but every Head writeback terminates in URAM and returns
 a local AXI B response instead of also waiting for DDR. CPU/FBus AXI reads of
-the four Head windows are served from URAM; non-Head traffic, including the
+the six Head windows are served from URAM; non-Head traffic, including the
 `0x32200000..0x323fffff` diagnostic range, continues to DDR unchanged.
 
 MMIO offset `0x14c` reports the compiled backing mode: bit 1 means that the

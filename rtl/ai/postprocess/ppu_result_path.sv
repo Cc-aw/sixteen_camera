@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 module ppu_result_path(
  input wire clk,resetn,completion_valid,output wire completion_ready,
- input wire [363:0] descriptor,input wire [5:0] result_count,input wire [31:0] cycles,input wire error,
+ input wire [364:0] descriptor,input wire [5:0] result_count,input wire [31:0] cycles,input wire error,
  output wire [4:0] result_index,input wire [127:0] result_word,
  input wire write_valid,input wire [9:0] write_addr,read_addr,input wire [31:0] write_data,input wire [3:0] write_strb,
  output wire read_hit,output wire [31:0] read_data,

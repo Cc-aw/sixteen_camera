@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-// Splits the SoC memory AXI into unchanged DDR traffic and four local Head
+// Splits the SoC memory AXI into unchanged DDR traffic and six local Head
 // slots. Bit 31 is ignored only for Head decode, matching the Rocket CPU DDR
 // alias. Transactions are serialized independently on the read and write
 // channels; this P2 implementation prioritizes correctness over throughput.
@@ -12,9 +12,11 @@ module axi4_head_uram_router #(
     // AXI reads remain DDR-backed, and only the dedicated local port reads
     // URAM.  DDR therefore remains a live, software-selectable fallback.
     parameter bit SHADOW_DDR = 1'b0,
-    parameter integer HEAD_BANK_COUNT = 4,
+    parameter integer HEAD_BANK_COUNT = 6,
     parameter integer SLOT_BYTES = 1024 * 1024,
     parameter [HEAD_BANK_COUNT*ADDR_WIDTH-1:0] HEAD_BASE_ADDRS = {
+        33'h0_3290_0000,
+        33'h0_3280_0000,
         33'h0_3250_0000,
         33'h0_3240_0000,
         33'h0_3210_0000,
@@ -305,7 +307,6 @@ module axi4_head_uram_router #(
         if (ADDR_WIDTH < 32 || DATA_WIDTH < 8 ||
             (DATA_WIDTH & (DATA_WIDTH - 1)) != 0 ||
             (DATA_WIDTH % 8) != 0 || HEAD_BANK_COUNT < 2 ||
-            (HEAD_BANK_COUNT & (HEAD_BANK_COUNT - 1)) != 0 ||
             SLOT_BYTES < BYTE_LANES ||
             (SLOT_BYTES & (SLOT_BYTES - 1)) != 0)
             $error("axi4_head_uram_router parameters are invalid");

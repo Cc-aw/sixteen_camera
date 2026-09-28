@@ -5,7 +5,7 @@
 module ppu_result_capture(
  input wire clk,resetn,completion_valid,
  output wire completion_ready,
- input wire [363:0] descriptor,
+ input wire [364:0] descriptor,
  input wire [5:0] result_count,input wire [31:0] cycles,input wire error,
  output reg [4:0] result_index,input wire [127:0] result_word,
  output wire valid,input wire ready,output reg [1567:0] record
@@ -19,7 +19,7 @@ module ppu_result_capture(
   0:if(completion_valid) begin
    record<=0;record[1285:1280]<=error?0:result_count;
    record[1343:1312]<=cycles;record[1375:1344]<={31'd0,error};
-   record[1541:1376]<=descriptor[363:198];result_index<=0;state<=1;
+   record[1541:1376]<=descriptor[363:198];record[1542]<=descriptor[364];result_index<=0;state<=1;
   end
   1:begin
    record[result_index*128+:128]<=error?128'd0:result_word;

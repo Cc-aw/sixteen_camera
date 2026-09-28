@@ -44,6 +44,8 @@ enum {
 #define PPU_STATUS_READ_BUSY UINT32_C(8)
 #define AI_STREAM_HOTPATH_LOG 0
 
+_Static_assert(AI_MODEL_WORKER_COUNT == YOLOV5NU_DIM16_WORKER_COUNT,
+               "backend and accelerator worker counts must match");
 _Static_assert(AI_MODEL_WORKER_COUNT <= AI_HEAD_SLOT_QUEUE_MAX_WORKERS,
                "head slot queue is smaller than the model worker pool");
 
@@ -289,8 +291,8 @@ void ai_model_backend_init(void)
     if (hardware_present) (void)ai_ppu_queue_init();
     initialized = 1U;
     console_puts(hardware_present ?
-        "AI MODEL init OK (YOLOv5nu dual + hardware postprocess)\r\n" :
-        "AI MODEL init OK (YOLOv5nu dual CPU postprocess)\r\n");
+        "AI MODEL init OK (YOLOv5nu worker pool + hardware postprocess)\r\n" :
+        "AI MODEL init OK (YOLOv5nu worker pool CPU postprocess)\r\n");
     if (hardware_present != 0U) {
         console_puts("AI PPU head reader enable/active/busy/error=");
         uint32_t reader = mmio_read32(POSTPROCESS_DIAG_BASE +

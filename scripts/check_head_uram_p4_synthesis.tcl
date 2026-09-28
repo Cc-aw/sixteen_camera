@@ -14,8 +14,8 @@ puts "HEAD_URAM_P4_URAM_COUNT=$uram_count"
 puts "HEAD_URAM_P4_BRAM_COUNT=$bram_count"
 report_utilization
 report_timing_summary -delay_type max -max_paths 5
-if {$uram_count != 128} {
-    error "Expected four 1 MiB P4 Head slots to infer 128 URAM288 primitives, got $uram_count"
+if {$uram_count != 192} {
+    error "Expected six 1 MiB P4 Head slots to infer 192 URAM288 primitives, got $uram_count"
 }
 if {$bram_count != 0} {
     error "Expected P4 Head slots to infer no BRAM primitives, got $bram_count"

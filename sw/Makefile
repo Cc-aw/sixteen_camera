@@ -1,7 +1,27 @@
 CHIPYARD ?= /home/wzr/chipyard
 TOOLCHAIN ?= $(CHIPYARD)/.conda-env/riscv-tools/bin/riscv64-unknown-elf-
 GEMMINI_TESTS := $(CHIPYARD)/generators/gemmini/software/gemmini-rocc-tests
+PROJECT_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/..)
+SOC_VARIANT ?= triple64
+ifeq ($(SOC_VARIANT),triple64)
+GEMMINI_ABI_ROOT := $(PROJECT_ROOT)/soc_shell/npu100_video/software/gemmini-rocc-tests
+SOC_CONFIG := tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini64x64PackedInference100MHzConfig
+GEMMINI_PARAMS := $(PROJECT_ROOT)/generated/soc/$(SOC_CONFIG)/gen-collateral/include/gemmini_params_64x64_ws_dual_int8_dsp_inference_ram_custom3_xcvu13p.h
+MODEL_WORKERS := 3
+MODEL_DIM := 64
+else ifeq ($(SOC_VARIANT),dual16)
+GEMMINI_ABI_ROOT := $(GEMMINI_TESTS)
 GEMMINI_PARAMS := $(GEMMINI_TESTS)/include/gemmini_params_taihang_16x16_packed_gemmini0.h
+MODEL_WORKERS := 2
+MODEL_DIM := 16
+else ifeq ($(SOC_VARIANT),single4)
+GEMMINI_ABI_ROOT := $(GEMMINI_TESTS)
+GEMMINI_PARAMS := $(GEMMINI_TESTS)/include/gemmini_params_taihang_single_4x4_packed.h
+MODEL_WORKERS := 1
+MODEL_DIM := 4
+else
+$(error Unknown SOC_VARIANT $(SOC_VARIANT))
+endif
 
 CC      := $(TOOLCHAIN)gcc
 OBJCOPY := $(TOOLCHAIN)objcopy
@@ -10,9 +30,14 @@ SIZE    := $(TOOLCHAIN)size
 
 .DEFAULT_GOAL := all
 
-BUILD  := build
+BUILD  := build/$(SOC_VARIANT)
 TARGET := $(BUILD)/hdmi_tx_test
 AI_MODEL ?= yolov5nu
+ifeq ($(SOC_VARIANT),triple64)
+ifneq ($(AI_MODEL),yolov5nu)
+$(error triple64 video firmware supports AI_MODEL=yolov5nu)
+endif
+endif
 BANDWIDTH_DIAGNOSTIC ?= 0
 
 # Reuse the board/IIC/clock code and the AMD 2023.2 BSP already validated by
@@ -34,10 +59,17 @@ VENDOR_INCLUDES := $(addprefix -I,$(VENDOR_DIRS))
 ARCH_FLAGS := -march=rv64gcv -mabi=lp64d -mcmodel=medany
 CFLAGS := $(ARCH_FLAGS) -std=c11 -Os -g3 -ffreestanding -fno-builtin \
 	-fno-common -fdata-sections -ffunction-sections -Wall -Wextra -Werror \
-	-DXV_CONFIG_LOG_DISABLE_ALL -Isrc -I$(GEMMINI_TESTS) \
+	-DXV_CONFIG_LOG_DISABLE_ALL -Isrc -I$(GEMMINI_ABI_ROOT) -I$(GEMMINI_TESTS) \
+	-DAI_MODEL_WORKER_COUNT=$(MODEL_WORKERS)U \
+	-DYOLOV5NU_DIM16_WORKER_COUNT=$(MODEL_WORKERS)U \
+	-DYOLOV5NU_GEMMINI_DIM=$(MODEL_DIM) \
 	-I$(CURDIR)/yolov2 \
 	-I$(CURDIR)/yolov5/dim16_dual \
 	-I$(REFERENCE_SW)/include $(VENDOR_INCLUDES)
+
+ifeq ($(SOC_VARIANT),single4)
+CFLAGS += -DSTREAM_MODEL_TIMEOUT_SECONDS=300
+endif
 
 ifeq ($(BANDWIDTH_DIAGNOSTIC),1)
 CFLAGS += -DFBUS_BANDWIDTH_DIAGNOSTIC=1
@@ -155,7 +187,7 @@ yolov5nu-regenerate:
 	python3 yolov5/dim16_dual/generate_runtime.py
 
 $(BUILD)/yolov5nu_dim16_dual.o: yolov5/dim16_dual/yolov5nu_dim16_dual.c \
-		yolov5/dim16_dual/yolov5nu_dim16_dual.h $(YOLOV5_PARAMS) | $(BUILD)
+		yolov5/dim16_dual/yolov5nu_dim16_dual.h $(YOLOV5_PARAMS) $(GEMMINI_PARAMS) | $(BUILD)
 	$(CC) $(CFLAGS) -include $(GEMMINI_PARAMS) -std=gnu11 -O2 \
 		-DBAREMETAL=1 -DYOLOV5NU_PROFILE=0 \
 		-DYOLOV5NU_FINAL_TENSOR_STATS=0 \
@@ -163,6 +195,9 @@ $(BUILD)/yolov5nu_dim16_dual.o: yolov5/dim16_dual/yolov5nu_dim16_dual.c \
 		-DGEMMINI_LOOPCONV_WORKER1_STATUS_CSR=0x7c5 \
 		-DGEMMINI_LOOPCONV_WORKER1_ACCEPTED_CSR=0x7c8 \
 		-DGEMMINI_LOOPCONV_WORKER1_RETIRED_CSR=0x7c9 \
+		-DGEMMINI_LOOPCONV_WORKER2_STATUS_CSR=0x7cb \
+		-DGEMMINI_LOOPCONV_WORKER2_ACCEPTED_CSR=0x7cc \
+		-DGEMMINI_LOOPCONV_WORKER2_RETIRED_CSR=0x7cd \
 		-Wno-error -Wno-sign-compare -Wno-unused-parameter \
 		-Wno-unused-variable -Wno-unused-function \
 		-I$(YOLOV5_GEN_ROOT) -I$(YOLOV5_IMAGENET) \

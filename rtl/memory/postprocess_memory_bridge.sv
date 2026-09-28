@@ -19,7 +19,7 @@ module postprocess_memory_bridge #(
 );
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(5))
         postprocess_read_axi();
-    wire [1:0] head_local_read_bank;
+    wire [2:0] head_local_read_bank;
     wire head_local_read_req_valid;
     wire head_local_read_req_ready;
     wire [14:0] head_local_read_req_word_addr;
@@ -29,12 +29,12 @@ module postprocess_memory_bridge #(
 
     axi4_if #(.ADDR_WIDTH(33),.DATA_WIDTH(256),.ID_WIDTH(5)) publication_axi(), combined_write_axi();
     wire pub_enable,pub_allocate,pub_publish,pub_abort,pub_acquire,pub_release;
-    wire [1:0] pub_bank,pub_lease_bank;
+    wire [2:0] pub_bank,pub_lease_bank;
     wire [31:0] pub_version,pub_lease_version;
     wire [5:0] pub_mask;
-    wire [3:0] pub_allocated,pub_reading,pub_fault;
-    wire [127:0] pub_versions;
-    wire [23:0] pub_ready_heads,pub_producer_heads;
+    wire [5:0] pub_allocated,pub_reading,pub_fault;
+    wire [191:0] pub_versions;
+    wire [35:0] pub_ready_heads,pub_producer_heads;
     wire [31:0] pub_rejected,pub_cycles,pub_lines;
     wire pub_active,clean_start,clean_abort,clean_busy,clean_done,clean_error;
     wire [32:0] clean_base;

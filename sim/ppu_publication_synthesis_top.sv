@@ -1,12 +1,12 @@
 `timescale 1ns/1ps
 module ppu_publication_synthesis_top(
     input wire clk,resetn,allocate,publish,abort_slot,release_slot,acquire,
-    input wire [1:0] command_bank,lease_bank,
+    input wire [2:0] command_bank,lease_bank,
     input wire [31:0] command_version,lease_version,
     input wire [5:0] publish_mask,
-    output wire [3:0] allocated,reading,fault,
-    output wire [127:0] versions,
-    output wire [23:0] ready_heads,producer_heads,
+    output wire [5:0] allocated,reading,fault,
+    output wire [191:0] versions,
+    output wire [35:0] ready_heads,producer_heads,
     output wire [31:0] rejected_commands,cycles,lines_completed,
     output wire active,
     input wire [4:0] tensor_awid,

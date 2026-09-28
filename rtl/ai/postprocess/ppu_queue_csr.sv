@@ -9,7 +9,7 @@ module ppu_queue_csr(
     output reg [3:0] stream,
     output reg [63:0] frame,
     output reg [31:0] version,flags,
-    input wire [363:0] active_descriptor,
+    input wire [364:0] active_descriptor,
     output reg read_hit,output reg [31:0] read_data
 );
     always @(posedge clk) begin
@@ -38,7 +38,7 @@ module ppu_queue_csr(
         10'h210:read_data=frame[31:0];10'h214:read_data=frame[63:32];
         10'h218:read_data=version;10'h21c:read_data=flags;
         10'h220:read_data=rejected;
-        10'h224:read_data={26'd0,active_descriptor[199:198],active_descriptor[235:232]};
+        10'h224:read_data={25'd0,active_descriptor[364],active_descriptor[199:198],active_descriptor[235:232]};
         10'h228:read_data=active_descriptor[267:236];
         10'h22c:read_data=active_descriptor[299:268];
         10'h230:read_data=active_descriptor[331:300];

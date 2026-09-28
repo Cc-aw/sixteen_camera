@@ -6,11 +6,12 @@ OPENOCD_BIN="${OPENOCD_BIN:-/home/wzr/riscv-openocd/src/openocd}"
 OPENOCD_CFG="${OPENOCD_CFG:-/home/wzr/chipyard/fpga/src/main/resources/myboard/openocd-bscan.cfg}"
 GDB_BIN="${GDB_BIN:-/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gdb}"
 GDB_PYTHONHOME="${GDB_PYTHONHOME:-/home/wzr/chipyard/.conda-env}"
-VIDEO_VARIANT="${VIDEO_VARIANT:-single4}"
+VIDEO_VARIANT="${VIDEO_VARIANT:-triple64}"
 case "$VIDEO_VARIANT" in
+    triple64) DEFAULT_ELF="$SCRIPT_DIR/build/gemmini_triple64_video_yolov5nu.elf" ;;
     single4) DEFAULT_ELF="$SCRIPT_DIR/build/gemmini_single4_video_yolov5nu.elf" ;;
     dual16) DEFAULT_ELF="$SCRIPT_DIR/build/gemmini_dual16_video_yolov5nu.elf" ;;
-    *) echo "VIDEO_VARIANT 必须为 single4 或 dual16" >&2; exit 2 ;;
+    *) echo "VIDEO_VARIANT 必须为 triple64、single4 或 dual16" >&2; exit 2 ;;
 esac
 ELF_FILE="${ELF_FILE:-$DEFAULT_ELF}"
 GDB_COMMANDS="$SCRIPT_DIR/openocd/load-hdmi-tx.gdb"
@@ -28,7 +29,7 @@ usage()
   --no-build  使用已有 ELF，不执行 make（默认）
   --check     只检查工具、配置和 ELF，不连接开发板
 
-默认单 4×4；双 16×16 使用 VIDEO_VARIANT=dual16。
+默认三路 64×64；旧镜像使用 VIDEO_VARIANT=single4 或 dual16。
 可通过 OPENOCD_BIN、OPENOCD_CFG、GDB_BIN、GDB_PYTHONHOME 和 ELF_FILE
 环境变量覆盖默认路径。
 EOF

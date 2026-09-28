@@ -2,10 +2,10 @@
 module tb_ppu_descriptor_fifo;
  reg clk=0;always #5 clk=~clk;
  reg resetn=0,enable=0,enqueue=0,engine_busy=0,engine_done=0,completion_ready=0;
- reg [363:0] descriptor=0;
+ reg [364:0] descriptor=0;
  wire admission_ready,request,completion_valid,active;wire [2:0] queued;
- wire [31:0] rejected;wire [363:0] active_descriptor;
- ppu_command_queue dut(.*);
+ wire [31:0] rejected;wire [364:0] active_descriptor;
+ ppu_command_queue #(.DEPTH(4)) dut(.*);
  task submit(input integer id);
   @(negedge clk);enqueue=1;descriptor=id;
   @(negedge clk);enqueue=0;

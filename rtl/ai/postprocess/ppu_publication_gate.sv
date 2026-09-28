@@ -3,13 +3,13 @@
 // launch the PPU on a partially visible head.
 module ppu_publication_gate (
     input wire clk,resetn,request,enable,
-    input wire [1:0] command_bank,
+    input wire [2:0] command_bank,
     input wire [31:0] command_version,
-    input wire [3:0] allocated,fault,
-    input wire [127:0] versions,
-    input wire [23:0] ready_heads,
+    input wire [5:0] allocated,fault,
+    input wire [191:0] versions,
+    input wire [35:0] ready_heads,
     input wire publication_active,
-    output reg [1:0] lease_bank,
+    output reg [2:0] lease_bank,
     output reg [31:0] lease_version,
     output reg acquire,release_slot,core_start,
     input wire core_busy,core_done,core_error,
@@ -20,8 +20,8 @@ module ppu_publication_gate (
     localparam [2:0] IDLE=0,WAIT_READY=1,LAUNCH=2,RUN=3,RELEASE=4;
     reg [2:0] state;
     reg guarded;
-    wire invalid_slot = !allocated[lease_bank] || versions[lease_bank*32+:32]!=lease_version || fault[lease_bank];
-    assign core_heads = guarded ? ready_heads[lease_bank*6+:6] : 6'h3f;
+    wire invalid_slot = lease_bank >= 6 || !allocated[lease_bank] || versions[lease_bank*32+:32]!=lease_version || fault[lease_bank];
+    assign core_heads = guarded ? (lease_bank < 6 ? ready_heads[lease_bank*6+:6] : 6'd0) : 6'h3f;
     assign core_abort = guarded && busy && invalid_slot;
     always @(posedge clk) begin
         if(!resetn) begin
@@ -37,7 +37,7 @@ module ppu_publication_gate (
                 else begin core_start<=1;state<=LAUNCH;end
             end
             WAIT_READY:begin
-                if(!allocated[lease_bank] || versions[lease_bank*32+:32]!=lease_version || fault[lease_bank]) begin
+                if(invalid_slot) begin
                     error<=1;state<=RELEASE;
                 end else if(ready_heads[lease_bank*6]) begin
                     acquire<=1;core_start<=1;state<=LAUNCH;
@@ -46,7 +46,7 @@ module ppu_publication_gate (
             LAUNCH:if(core_busy) state<=RUN;
             RUN:if(core_done) begin error<=core_error;state<=RELEASE;end
             RELEASE:if(!guarded || (!publication_active && (invalid_slot || core_heads==6'h3f))) begin
-                if(guarded && allocated[lease_bank] && versions[lease_bank*32+:32]==lease_version) release_slot<=1;
+                if(guarded && lease_bank < 6 && allocated[lease_bank] && versions[lease_bank*32+:32]==lease_version) release_slot<=1;
                 busy<=0;done<=1;state<=IDLE;
             end
             endcase

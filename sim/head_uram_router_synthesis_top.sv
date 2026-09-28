@@ -66,7 +66,7 @@ module head_uram_router_synthesis_top #(
     input  wire         d_rvalid,
     output wire         d_rready,
 
-    input  wire [1:0]   local_bank,
+    input  wire [2:0]   local_bank,
     input  wire         local_req_valid,
     output wire         local_req_ready,
     input  wire [14:0]  local_req_word_addr,

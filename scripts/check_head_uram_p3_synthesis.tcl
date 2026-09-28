@@ -12,8 +12,8 @@ set uram_count [llength [get_cells -hier -filter {REF_NAME =~ URAM288*}]]
 puts "HEAD_URAM_P3_URAM_COUNT=$uram_count"
 report_utilization
 report_timing_summary -delay_type max -max_paths 5
-if {$uram_count != 128} {
-    error "Expected four 1 MiB P3 Head slots to infer 128 URAM288 primitives, got $uram_count"
+if {$uram_count != 192} {
+    error "Expected six 1 MiB P3 Head slots to infer 192 URAM288 primitives, got $uram_count"
 }
 set worst_path [lindex [get_timing_paths -delay_type max -max_paths 1] 0]
 if {[llength $worst_path] == 0} {

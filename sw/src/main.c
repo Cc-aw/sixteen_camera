@@ -60,7 +60,7 @@ static BoardWriteOnlyState board_write_only;
 static void print_help(void)
 {
 #ifdef AI_MODEL_YOLOV5NU
-    console_puts("Commands: t=fixed image dual Gemmini test, u/U=fixed image sequential Gemmini test (0,1/1,0), T=fixed image Gemmini+PPU test, ");
+    console_puts("Commands: t=fixed image all-worker Gemmini test, u/U=fixed image sequential Gemmini test (forward/reverse), T=fixed image Gemmini+PPU test, ");
 #else
     console_puts("Commands: ");
 #endif

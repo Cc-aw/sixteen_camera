@@ -1,24 +1,25 @@
 `timescale 1ns/1ps
+// Bit [364] extends bank to three bits; existing metadata offsets stay fixed.
 // Descriptor ABI [197:0] addresses, [199:198] bank (worker/slot),
 // [231:200] slot generation, [235:232] stream, [299:236] frame,
 // [331:300] frame version, [363:332] flags.
-module ppu_command_queue(
+module ppu_command_queue #(parameter DEPTH=6)(
     input wire clk,resetn,enable,enqueue,
-    input wire [363:0] descriptor,
+    input wire [364:0] descriptor,
     output wire admission_ready,
     output wire [2:0] queued,
     output wire [31:0] rejected,
-    output reg [363:0] active_descriptor,
+    output reg [364:0] active_descriptor,
     output reg request,
     input wire engine_busy,engine_done,
     input wire completion_ready,
     output wire completion_valid,
     output wire active
 );
-    wire valid;wire [363:0] next_descriptor;
+    wire valid;wire [364:0] next_descriptor;
     reg [1:0] state;
     wire pop=enable && state==0 && !engine_busy && valid;
-    ppu_descriptor_fifo u_fifo(.clk(clk),.resetn(resetn),.in_valid(enqueue),
+    ppu_descriptor_fifo #(.DEPTH(DEPTH)) u_fifo(.clk(clk),.resetn(resetn),.in_valid(enqueue),
         .in_ready(admission_ready),.in_data(descriptor),.out_valid(valid),.out_ready(pop),
         .out_data(next_descriptor),.count(queued),.rejected(rejected));
     assign completion_valid=state==3;

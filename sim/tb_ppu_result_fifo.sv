@@ -2,7 +2,7 @@
 module tb_ppu_result_fifo;
  reg clk=0;always #5 clk=~clk;
  reg resetn=0,completion_valid=0,error=0,write_valid=0,admission_valid=0,overlay_ready=0;
- reg [363:0] descriptor=0;reg [5:0] result_count=1;reg [31:0] cycles=1234;
+ reg [364:0] descriptor=0;reg [5:0] result_count=1;reg [31:0] cycles=1234;
  wire completion_ready;wire [4:0] result_index;
  reg [127:0] result_word={28'd0,13'd7,7'd0,16'd16384,16'd480,16'd640,16'd0,16'd0};
  reg [9:0] write_addr=0,read_addr=0;reg [31:0] write_data=0;reg [3:0] write_strb=15;

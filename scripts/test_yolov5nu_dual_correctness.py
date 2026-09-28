@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run or parse the dual-Gemmini16 YOLOv5nu image025 correctness test."""
+"""Run or parse the multi-worker Gemmini YOLOv5nu image025 correctness test."""
 
 from __future__ import annotations
 
@@ -31,7 +31,7 @@ EXPECTED = {
 }
 
 WORKER_RE = re.compile(
-    r"YOLOV5NU_TEST worker=(?P<worker>[01]) status=(?P<status>PASS|FAIL) "
+    r"YOLOV5NU_TEST worker=(?P<worker>[0-2]) status=(?P<status>PASS|FAIL) "
     r"logits_sum=(?P<logits_sum>0x[0-9a-fA-F]+) "
     r"logits_fnv=(?P<logits_fnv>0x[0-9a-fA-F]+) "
     r"scores_sum=(?P<scores_sum>0x[0-9a-fA-F]+) "
@@ -46,6 +46,7 @@ WORKER_RE = re.compile(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--workers", type=int, choices=(1, 2, 3), default=3)
     source = parser.add_mutually_exclusive_group()
     source.add_argument("--port", default="/dev/ttyACM0",
                         help="UART device (default: /dev/ttyACM0)")
@@ -96,24 +97,20 @@ def capture_uart(port: str, baud: int, timeout: float, send: bool) -> str:
         os.close(descriptor)
 
 
-def validate(text: str) -> tuple[list[str], list[str]]:
+def validate(text: str, workers: int = 3) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
-    final_pass = (
-        "YOLOV5NU_TEST_RESULT PASS reference=bit_exact dual=bit_exact"
-        in text
-    )
+    final_pass = "YOLOV5NU_TEST_RESULT PASS reference=bit_exact workers=bit_exact" in text
+    if workers == 2:
+        final_pass |= "YOLOV5NU_TEST_RESULT PASS reference=bit_exact dual=bit_exact" in text
     records = {int(match.group("worker")): match.groupdict()
                for match in WORKER_RE.finditer(text)}
-    for worker in (0, 1):
+    for worker in range(workers):
         record = records.get(worker)
         if record is None:
             message = (f"worker {worker} detail line is missing or damaged "
                        "by UART capture")
-            if final_pass:
-                warnings.append(message)
-            else:
-                errors.append(message)
+            errors.append(message)
             continue
         if record["status"] != "PASS":
             errors.append(f"worker {worker} firmware status is FAIL")
@@ -145,16 +142,16 @@ def main() -> int:
         if options.save_log:
             options.save_log.parent.mkdir(parents=True, exist_ok=True)
             options.save_log.write_text(text)
-    errors, warnings = validate(text)
+    errors, warnings = validate(text, options.workers)
     for warning in warnings:
         print(f"WARN: {warning}", file=sys.stderr)
     if errors:
         for error in errors:
             print(f"FAIL: {error}", file=sys.stderr)
-        print("RESULT: FAIL - YOLOv5nu dual Gemmini16 correctness",
+        print("RESULT: FAIL - YOLOv5nu worker pool correctness",
               file=sys.stderr)
         return 1
-    print("RESULT: PASS - YOLOv5nu dual Gemmini16 bit-exact correctness")
+    print("RESULT: PASS - YOLOv5nu worker pool bit-exact correctness")
     return 0
 
 

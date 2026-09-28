@@ -1,7 +1,7 @@
 #include "ai_ppu_publication.h"
 #include "mmio.h"
 #include "platform.h"
-static uint32_t generations[4];
+static uint32_t generations[6];
 static int bank_of(uintptr_t base)
 {
     switch ((uint32_t)base & UINT32_C(0x7ff00000)) {
@@ -9,6 +9,8 @@ static int bank_of(uintptr_t base)
     case UINT32_C(0x32100000): return 1;
     case UINT32_C(0x32400000): return 2;
     case UINT32_C(0x32500000): return 3;
+    case UINT32_C(0x32800000): return 4;
+    case UINT32_C(0x32900000): return 5;
     default: return -1;
     }
 }

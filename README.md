@@ -1,6 +1,6 @@
 # sixteen_camera
 
-基于 Xilinx Virtex UltraScale+ VU13P 的 16 路视频采集、YOLOv5nu 推理与 HDMI 显示工程。当前 SoC 配置为 1 个 Rocket、1 个 RVV 和 1 个 4×4 Gemmini。
+基于 Xilinx Virtex UltraScale+ VU13P 的 16 路视频采集、YOLOv5nu 推理与 HDMI 显示工程。当前 SoC 配置为 1 个 Rocket、1 个 RVV 和 3 个 64×64 Gemmini（100 MHz），每个 worker 配 A/B 两个 Head 槽。
 
 ## 功能
 
@@ -22,36 +22,38 @@
 
 环境：Vivado 2023.2、RISC-V GCC/GDB、OpenOCD；仿真使用 iverilog 和 Verilator 5.x。
 
-使用仓库中的 Vivado 工程生成比特流：
+使用 0918 时序通过版本的实现策略生成三 worker 视频比特流：
 
 ```bash
-cd prj
-/mnt/data/Vivado/Vivado/2023.2/bin/vivado -mode batch -source build_bitstream.tcl
-cd ..
+bash scripts/build_triple64_video_bitstream.sh --check
+bash scripts/build_triple64_video_bitstream.sh
 ```
 
-比特流输出为 `prj/sixteen_camera.runs/impl_1/top_wrapper.bit`。单 4×4 视频推理固件使用独立脚本构建：
+比特流输出目录为 `build/bitstream_0918_video/<时间戳_PID>/`，终端打印完整 `VIDEO_BITSTREAM` 路径。
+实现策略、报告和可选参数见 [0918 构建说明](scripts/npu0918_video/README.md)。三路 64×64 视频推理固件使用独立脚本构建：
 
 ```bash
-python3 scripts/build_single4_video_yolov5nu.py
+python3 scripts/build_triple64_video_yolov5nu.py
 ```
 
-输出为 `sw/build/gemmini_single4_video_yolov5nu.elf`。下载比特流和固件：
+输出为 `sw/build/gemmini_triple64_video_yolov5nu.elf`。下载比特流和固件：
 
 ```bash
-bash scripts/download_bitstream.sh
-bash scripts/download_single4_video.sh
+bash scripts/download_bitstream.sh --bitstream /path/to/video_100m_3x64_0918.bit
+bash scripts/download_triple64_video.sh
 tio-start
 ```
 
-`sw/run.sh` 和 `scripts/download_software.sh` 默认也使用这版单 4×4 固件。双 16×16 使用相同 PPU 功能，独立构建与下载：
+`sw/run.sh` 和 `scripts/download_software.sh` 默认也使用这版三路 64×64 固件。双 16×16 使用相同 PPU 功能，独立构建与下载：
 
 ```bash
 python3 scripts/build_dual16_video_yolov5nu.py
 bash scripts/download_dual16_video.sh
 ```
 
-双 16×16 输出为 `sw/build/gemmini_dual16_video_yolov5nu.elf`，需匹配双 16×16 SoC。两个视频下载脚本支持 `--build` 和 `--check`；`ELF_FILE` 可覆盖文件路径。
+双 16×16 输出为 `sw/build/gemmini_dual16_video_yolov5nu.elf`，需匹配双 16×16 SoC。视频下载脚本支持 `--build` 和 `--check`；`ELF_FILE` 可覆盖文件路径。
+
+本次三 worker 适配、地址与验证记录见 [三 worker 集成说明](doc/three_worker_video.md)。
 
 ## 串口命令
 

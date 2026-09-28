@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 // Four immutable descriptors in admission order. Full rejects a doorbell;
 // dequeue is exclusively a ready/valid handshake. No overwrite or bypass.
-module ppu_descriptor_fifo #(parameter WIDTH=364, DEPTH=4)(
+module ppu_descriptor_fifo #(parameter WIDTH=365, DEPTH=4)(
     input wire clk,resetn,
     input wire in_valid, output wire in_ready,
     input wire [WIDTH-1:0] in_data,

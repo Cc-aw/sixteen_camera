@@ -3,7 +3,7 @@
 计算源码来自 `/home/zw/0918/npu-zw-100-timing`；生成环境来自用户的
 `/home/wzr/chipyard`。完整保留用户环境的 Rocket-Chip，包括 LazyRoCC、RocketCore、
 HasTiles、FBus 和 MMIO 配套修改。0918 LazyRoCC 仅保存在 `reference/` 供对照，
-不参与同步、编译和生成。当前视频工程生产 manifest 尚未切换。
+不参与同步、编译和生成。当前视频工程生产 manifest 已选择此三 worker 配置。
 
 ## 已完成的适配
 
@@ -77,7 +77,7 @@ generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rock
 ## 集成边界
 
 六个 Head 槽属于外部 `axi4_head_uram_router`、publication manager、PPU 和软件资源管理，
-不在本 SoC Scala 覆盖层中。这次不修改其四槽实现，也不切换当前板级工程。
-下一步需核对 `control_soc_subsystem.sv` 连接、选择新生成 RTL，并统一扩展六槽及三 worker 软件。
+不在本 SoC Scala 覆盖层中。板级工程已同步扩到六槽，并选择新生成 RTL；
+视频固件使用三 worker 调度，详见 `doc/three_worker_video.md`。
 原 standalone Vivado wrapper 若连接 SPI 端口，不能直接用于本配置。
 旧 0918 的 5 ps 时序通过结果不适用于修改后的 SoC，仍需重新实现。

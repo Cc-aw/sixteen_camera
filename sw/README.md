@@ -1,5 +1,8 @@
 # OV7670/OV5645 to HDMI firmware
 
+当前生产配置为 100 MHz、三路 64×64 Gemmini、六个 Head 槽，构建与地址说明见
+[三 worker 视频集成](../doc/three_worker_video.md)。以下早期单摄像头记录保留供参考。
+
 该裸机固件控制 CH4 OV7670 并行 RGB565 输入，经 DDR 帧缓存后，以
 1920x1080p60 RGB 输出到 HDMI。CH4 的 640x480 原始画面由 RTL 居中并补黑边，
 不做放大。本测试构建关闭 CH5/CH6 OV5645 前端以缩短综合和布局时间。

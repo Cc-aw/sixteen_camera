@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Turn the validated Stage8F program into a dual-DIM16 cooperative runtime."""
+"""Turn the validated Stage8F program into a cooperative video runtime for the selected Gemmini geometry."""
 
 from pathlib import Path
 
@@ -345,7 +345,54 @@ int yolov5nu_dim16_worker_poll(uint32_t worker_id,
   }
 }
 '''
-    return prefix + runtime
+    # Preserve the video profiling and incremental publication hooks when regenerating.
+    profile_start = prefix.index('#if YOLOV5NU_PROFILE\n#define YOLOV5NU_PROFILE_MAX_RECORDS')
+    profile_end = prefix.index('static uint64_t head_class_requant_cycles;')
+    prefix = prefix[:profile_start] + (HERE / 'worker_profile.c.inc').read_text() + prefix[profile_end:]
+    runtime = runtime.replace('void yolov5nu_dim16_dual_init(void) {',
+        'static void (*head_callback)(unsigned, unsigned);\n'
+        'void yolov5nu_dim16_set_head_callback(void (*callback)(unsigned, unsigned)) { head_callback = callback; }\n'
+        'void yolov5nu_dim16_dual_init(void) {')
+    runtime = runtime.replace('  gemmini_flush(0);', '  frame_counter_start(worker_id);\n  gemmini_flush(0);')
+    runtime = runtime.replace('uint32_t yolov5nu_dim16_worker_stage', '''int yolov5nu_dim16_worker_get_profile(
+    uint32_t worker_id, struct yolov5nu_dim16_profile *profile) {
+  if (worker_id >= YOLOV5NU_DIM16_WORKER_COUNT || profile == NULL)
+    return -1;
+  *profile = frame_profiles[worker_id];
+  return 0;
+}
+
+uint32_t yolov5nu_dim16_worker_stage''')
+    for index, tensor in enumerate(('raw_class0', 'raw_class1', 'raw_class2',
+                                    'raw_dfl0', 'raw_dfl1', 'raw_dfl2')):
+        lines = runtime.splitlines(True)
+        for n, line in enumerate(lines):
+            if 'tiled_conv_auto(' in line and ', ' + tensor + ',' in line:
+                assert lines[n+1].strip() == 'gemmini_fence();'
+                lines[n+1] += f'    if (context->hardware_head && head_callback) head_callback(worker_id, {index});\n'
+        runtime = ''.join(lines)
+    runtime = runtime.replace('      context->stage = YOLOV5NU_GRAPH_STAGE_COUNT;',
+        '      frame_counter_finish(worker_id);\n      context->stage = YOLOV5NU_GRAPH_STAGE_COUNT;')
+    return adapt_worker_geometry(prefix + runtime)
+
+
+def adapt_worker_geometry(source):
+    """Preserve strides while padding the last output tile for DIM64."""
+    source = source.replace('#if DIM != 16', '#if DIM != YOLOV5NU_GEMMINI_DIM')
+    source = source.replace('This runtime requires the current DIM16 Gemmini parameters',
+                            'Gemmini parameters do not match the selected video SoC')
+    source = source.replace('  } else {\n    ROCC_INSTRUCTION(2, result, config, placeholder, k_COUNTER);',
+        '  } else if (worker_id == 1U) {\n    ROCC_INSTRUCTION(2, result, config, placeholder, k_COUNTER);\n'
+        '  } else {\n    ROCC_INSTRUCTION(1, result, config, placeholder, k_COUNTER);')
+    source = source.replace('  else\n    __asm__ volatile ("csrr %0, 0x7c3" : "=r" (value) :: "memory");',
+        '  else if (worker_id == 1U)\n    __asm__ volatile ("csrr %0, 0x7c3" : "=r" (value) :: "memory");\n'
+        '  else\n    __asm__ volatile ("csrr %0, 0x7ca" : "=r" (value) :: "memory");')
+    source = source.replace(' || out_channels % DIM != 0', '')
+    source = source.replace(' ||\n      out_channels0 % DIM != 0 || out_channels1 % DIM != 0', '')
+    for suffix in ('', '0', '1'):
+        source = source.replace(f'j_blocks{suffix}, k_blocks, pad_i, 0, pad_k',
+            f'j_blocks{suffix}, k_blocks, pad_i, j_blocks{suffix} * DIM - out_channels{suffix}, pad_k')
+    return source
 
 
 if __name__ == "__main__":

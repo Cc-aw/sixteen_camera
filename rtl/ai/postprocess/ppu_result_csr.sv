@@ -27,7 +27,7 @@ module ppu_result_csr(
   10'h240:read_data={22'd0,observation_enable,result_count,observation_count,2'd0,observation_valid};
   10'h244:read_data={26'd0,index};
   10'h248:read_data=observation_valid?observation_record[index*32+:32]:0;
-  10'h250:read_data={30'd0,observation_record[1377:1376]};
+  10'h250:read_data={29'd0,observation_record[1542],observation_record[1377:1376]};
   10'h254:read_data={14'd0,observation_record[1347:1344],observation_record[1413:1410],4'd0,observation_record[1285:1280]};
   10'h258:read_data=observation_record[1445:1414];
   10'h25c:read_data=observation_record[1477:1446];
