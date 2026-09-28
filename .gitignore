@@ -21,6 +21,7 @@ prj/*.runs/
 prj/*.sim/
 prj/backup_*/
 *.rpt
+/reports/
 
 # Generated/reference copies outside the active project
 demo/
