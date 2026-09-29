@@ -584,7 +584,7 @@ HDMI TX 使用 1080p60 RGB 8 bpc、2 PPC。软件管理 HPD、clock lock、VPHY 
 
 ## 13. MMIO 地址与协议索引
 
-软件以 `sw/src/platform.h` 为地址权威。`video_mmio_fabric` 把 64-bit AXI 访问转换到32-bit AXI-Lite，支持当前 Taihang aperture 与旧视频 alias；顶层29-bit MMIO 地址先零扩展，完整窗口为2 MiB。
+软件以 `sw/src/platform/platform.h` 为地址权威。`video_mmio_fabric` 把 64-bit AXI 访问转换到32-bit AXI-Lite，支持当前 Taihang aperture 与旧视频 alias；顶层29-bit MMIO 地址先零扩展，完整窗口为2 MiB。
 
 | CPU 地址 | 功能 |
 | --- | --- |
@@ -683,7 +683,7 @@ PPU 阈值/shape/LUT 是固定模型实现，目前没有通用阈值配置寄�
 
 `ai_model_backend_gemcc.c`、`ai_model_backend_stub.c` 是替代接口实现，不在默认生产源清单中。`ai_inference_runtime.c` 和 `ai_tinyyolov2_runtime_adapter.c` 在 TinyYOLOv2 编译分支使用；`ai_runtime_bridge.c` 是兼容入口，不是YOLOv5nu主调度器。`sw/postprocess/fixed_ref/` 保存定点参考后处理及host验证，不意味着当前生产 TinyYOLOv2 已由硬件 PPU 完成。
 
-`dual_gemmini16_sw/` 是软件源码打包快照，含包内Gemmini依赖和tests；本仓库实际构建入口仍为 `sw/Makefile`。不能把软件快照当作带有Vivado/RTL的独立全工程。
+`legacy/software/dual_gemmini16/` 是软件源码打包快照，含包内Gemmini依赖和tests；本仓库实际构建入口仍为 `sw/Makefile`。不能把软件快照当作带有Vivado/RTL的独立全工程。
 
 ### 15.2 构建和下载
 
@@ -691,24 +691,24 @@ PPU 阈值/shape/LUT 是固定模型实现，目前没有通用阈值配置寄�
 # 默认 YOLOv5nu 固件
 make -C sw
 # 在已有兼容 bitstream 上更新 ELF
-./scripts/download_software.sh --build
+./scripts/program/download_software.sh --build
 # 检查下载工具和文件
-./scripts/download_software.sh --check
+./scripts/program/download_software.sh --check
 # 双 worker 自检固件入口；串口仍需人工按 t
-./scripts/run_yolov5nu_dual_correctness.sh
+./scripts/test/run_yolov5nu_dual_correctness.sh
 # 已保存 UART 日志离线核对
-python3 scripts/test_yolov5nu_dual_correctness.py --log uart.log
+python3 scripts/test/test_yolov5nu_dual_correctness.py --log uart.log
 ```
 
 输出为 `sw/build/hdmi_tx_test.{elf,bin,hex,dump,map}`。工具链为RV64GCV、LP64D、bare-metal；链接 `linker_ai_video.ld`。本地控制代码 `-Werror`，模型/vendor使用各自告警策略。依赖外部Chipyard Gemmini16参数头和相邻4K工程的板级IIC/clock/AMD BSP，仓库不是完全自包含构建。
 
 切换 `AI_MODEL` 使用相同build目录且更改预处理宏，为避免复用另一模型的旧object，应清理后完整重编译。仅软件变化可更换ELF；RTL/PPU/SoC变化必须重建匹配bitstream。下载脚本通过OpenOCD/BSCAN/GDB操作固件，不自动占用串口。
 
-硬件建立入口为根目录 `setup_vivado.tcl` 和 `prj/create_design_1.tcl`；实现入口为 `prj/build_bitstream.tcl`，下载入口为 `scripts/download_bitstream.sh`。SoC再生成/同步工具为 `scripts/configure_taihang16_p1c2.py`、`generate_taihang16_rtl.sh`、`sync_taihang16_rtl.sh`。XDC覆盖时钟、DDR、HDMI、摄像头引脚与CDC；文件名含mipi不代表当前启用了MIPI摄像头输入。
+硬件建立入口为根目录 `setup_vivado.tcl` 和 `prj/create_design_1.tcl`；实现入口为 `prj/build_bitstream.tcl`，下载入口为 `scripts/program/download_bitstream.sh`。SoC再生成/同步工具为 `scripts/generate/configure_taihang16_p1c2.py`、`generate_taihang16_rtl.sh`、`sync_taihang16_rtl.sh`。XDC覆盖时钟、DDR、HDMI、摄像头引脚与CDC；文件名含mipi不代表当前启用了MIPI摄像头输入。
 
 ### 15.3 模型生成与参考资源
 
-`sw/yolov5/` 保留模型导出、量化、hardware-aware参考、Stage0～8优化记录、RVV helper、Gemmini header、AOT源码和参数。硬件LUT及回归向量由 `scripts/generate_yolov5nu_postprocess_luts.py`、`generate_yolov5nu_class_reducer_vectors.py`、`generate_yolov5nu_dfl_vectors.py` 生成；这些是开发工具，不在板端主循环执行。
+`sw/yolov5/` 保留模型导出、量化、hardware-aware参考、Stage0～8优化记录、RVV helper、Gemmini header、AOT源码和参数。硬件LUT及回归向量由 `scripts/generate/generate_yolov5nu_postprocess_luts.py`、`generate_yolov5nu_class_reducer_vectors.py`、`generate_yolov5nu_dfl_vectors.py` 生成；这些是开发工具，不在板端主循环执行。
 
 **当前生成器存在维护边界：** `dim16_dual/generate_runtime.py` 会重新产生167-stage双worker代码，但本次核对该生成器没有包含当前C文件的 `hardware_head / use_hardware / HEAD_READY` 集成。直接运行 `make yolov5nu-regenerate` 可能覆盖这些手工扩展；不能把它写成无条件安全的一键更新流程。
 
@@ -718,16 +718,16 @@ python3 scripts/test_yolov5nu_dual_correctness.py --log uart.log
 
 | 范围 | 仓库证据/入口 | 能证明与不能证明 |
 | --- | --- | --- |
-| 视频采样/CDC/DMA/frame manager/mosaic | `scripts/run_video_refactor_tests.sh`，各sim testbench | 单元协议/恢复行为；不直接证明所有当前物理布线时序 |
-| 流式 Tensor/Slot/MMIO | `scripts/run_yolov5nu_multi_channel_tensor_dma_tests.sh`、`sw/test/run_ai_tensor_slot_pool_test.sh` | packer、burst、READY 发布和 Slot 生命周期 |
+| 视频采样/CDC/DMA/frame manager/mosaic | `scripts/test/run_video_refactor_tests.sh`，各sim testbench | 单元协议/恢复行为；不直接证明所有当前物理布线时序 |
+| 流式 Tensor/Slot/MMIO | `scripts/test/run_yolov5nu_multi_channel_tensor_dma_tests.sh`、`sw/test/run_ai_tensor_slot_pool_test.sh` | packer、burst、READY 发布和 Slot 生命周期 |
 | 流式 runtime | `sw/test/run_ai_batch_runtime_stream_test.sh` | latest-frame、EDF、双 worker、TTL、drain 和 compute/result 分离 |
 | Head Slot 队列 | `sw/test/run_ai_head_slot_queue_test.sh` | A/B Slot、READY/PROCESSING、metadata 和背压 |
 | snapshot/MMIO/overlay | `sim/tb_*ai_mmio*`、`tb_detection_overlay.sv` 等 | 保留所有权路径与显示提交协议 |
 | 公共后处理/定点参考 | `run_ai_postprocess_test.sh`、`run_yolov2_fixed_ref_test.sh` | CPU 侧参考算法，不执行真实 Gemmini |
-| PPU功能 | `scripts/run_yolov5nu_postprocess_tests.sh` | class reducer、Top-K/NMS、DFL、48组随机DFL、image025框、六descriptor集成与NMS corpus检查 |
-| FBus及PPU总回归 | `scripts/run_ai_postprocessor_tests.sh` | 包含channel join、乱序reader、MMIO diagnostic和上述PPU回归 |
-| PPU综合 | `scripts/check_postprocess_elaboration.tcl`、`check_yolov5nu_postprocess_synthesis.tcl` | elaboration/模块综合；不等于完整SoC布局布线通过 |
-| 双Gemmini网络 | `sw/src/ai_yolov5nu_selftest.c`、UART `t` | 固定image025的两个worker参考签名/检测一致性；本入口绕过PPU |
+| PPU功能 | `scripts/test/run_yolov5nu_postprocess_tests.sh` | class reducer、Top-K/NMS、DFL、48组随机DFL、image025框、六descriptor集成与NMS corpus检查 |
+| FBus及PPU总回归 | `scripts/test/run_ai_postprocessor_tests.sh` | 包含channel join、乱序reader、MMIO diagnostic和上述PPU回归 |
+| PPU综合 | `scripts/check/check_postprocess_elaboration.tcl`、`check_yolov5nu_postprocess_synthesis.tcl` | elaboration/模块综合；不等于完整SoC布局布线通过 |
+| 双Gemmini网络 | `sw/src/diagnostics/ai_yolov5nu_selftest.c`、UART `t` | 固定image025的两个worker参考签名/检测一致性；本入口绕过PPU |
 | 板级输入/推理 | 软件包README记录已通过双worker及真实视频验证 | 历史版本声明；须保留所测ELF/bitstream与UART日志才能复现当前版本结论 |
 
 image025自检的冻结参考如下：
@@ -765,7 +765,7 @@ AXI error 均为零，实测约 **351 MB/s @100 MHz**。它仍未达到项目设
 | `sw/test/run_ai_batch_runtime_stream_test.sh` | `AI_BATCH_RUNTIME_STREAM=PASS submit=6 release=9` |
 | `sw/test/run_ai_head_slot_queue_test.sh` | `AI head slot queue PASS` |
 | `sw/test/run_ai_postprocess_schedule_test.sh` | `AI postprocess scheduling PASS` |
-| `scripts/run_yolov5nu_postprocess_tests.sh` 分类归约 | PASS，6300 positions、10 candidates |
+| `scripts/test/run_yolov5nu_postprocess_tests.sh` 分类归约 | PASS，6300 positions、10 candidates |
 | Top-K/NMS、DFL uniform | PASS |
 | DFL float32参考对照 | PASS，48个随机locations |
 | image025 bbox/Top-K/NMS | PASS |
@@ -820,14 +820,14 @@ job/worker/stream/frame/version 完整校验；stream inflight 保持到 result 
 | [camera_subsystem.sv](../../rtl/video/camera/camera_subsystem.sv) | 当前生产采样/恢复参数与CDC |
 | [multi_channel_frame_manager.sv](../../rtl/video/framebuffer/multi_channel_frame_manager.sv) | slot、display、AI引用 |
 | [yolov5nu_multi_channel_tensor_dma.sv](../../rtl/ai/preprocess/yolov5nu_multi_channel_tensor_dma.sv) | 16 路流式 RGB INT8 生产、共享 DMA 与 32 Slot 发布 |
-| [ai_batch_runtime_stream.c](../../sw/src/ai_batch_runtime_stream.c) / [ai_tensor_slot_pool.c](../../sw/src/ai_tensor_slot_pool.c) | latest-frame、EDF、Tensor Slot、TTL、drain 和异步 completion |
-| [ai_head_slot_queue.c](../../sw/src/ai_head_slot_queue.c) / [yolov5nu_head_layout.h](../../sw/yolov5/dim16_dual/yolov5nu_head_layout.h) | 双 Head Slot 状态机、地址布局和 descriptor |
-| [ai_model_backend_yolov5nu.c](../../sw/src/ai_model_backend_yolov5nu.c) | compute/result 分离、PPU 队列、flush、result FIFO 和软件回退 |
+| [ai_batch_runtime_stream.c](../../sw/src/ai/runtime/ai_batch_runtime_stream.c) / [ai_tensor_slot_pool.c](../../sw/src/ai/runtime/ai_tensor_slot_pool.c) | latest-frame、EDF、Tensor Slot、TTL、drain 和异步 completion |
+| [ai_head_slot_queue.c](../../sw/src/ai/runtime/ai_head_slot_queue.c) / [yolov5nu_head_layout.h](../../sw/yolov5/dim16_dual/yolov5nu_head_layout.h) | 双 Head Slot 状态机、地址布局和 descriptor |
+| [ai_model_backend_yolov5nu.c](../../sw/src/ai/backend/ai_model_backend_yolov5nu.c) | compute/result 分离、PPU 队列、flush、result FIFO 和软件回退 |
 | [yolov5nu_dim16_dual.c](../../sw/yolov5/dim16_dual/yolov5nu_dim16_dual.c) | 167阶段生产图、算子调用、静态内存 |
 | [yolov5nu_postprocessor.sv](../../rtl/ai/postprocess/yolov5nu_postprocessor.sv) | 当前硬件六头后处理 |
-| [ai_result_manager.c](../../sw/src/ai_result_manager.c) / [ai_overlay.c](../../sw/src/ai_overlay.c) | 版本排序与标签提交 |
+| [ai_result_manager.c](../../sw/src/ai/postprocess/ai_result_manager.c) / [ai_overlay.c](../../sw/src/ai/postprocess/ai_overlay.c) | 版本排序与标签提交 |
 | [detection_overlay.sv](../../rtl/video/overlay/detection_overlay.sv) | 原子显示和字符流水线 |
-| [main.c](../../sw/src/main.c) / [platform.h](../../sw/src/platform.h) / [Makefile](../../sw/Makefile) | 命令、地址、生产源清单 |
+| [main.c](../../sw/src/main.c) / [platform.h](../../sw/src/platform/platform.h) / [Makefile](../../sw/Makefile) | 命令、地址、生产源清单 |
 | [P1C板测记录](../验证记录/AI_Postprocessor_P1C_Board_Validation.md) | 带宽原始日志和历史阶段结论 |
 | [YOLOv5nu算子数据流](../../sw/yolov5/docs/YOLOV5NU_640X480_OPERATOR_DATAFLOW.md) | 模型级算子清单；物理head布局以当前C实现为准 |
 

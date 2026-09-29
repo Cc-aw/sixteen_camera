@@ -13,7 +13,7 @@ and 460 failing endpoints. These clock-group figures include other 300 MHz
 logic and are not a PCLK-only signoff.
 
 Targeted reports were generated from the checkpoint with
-`scripts/report_pclk_capture_timing.tcl`:
+`scripts/timing/report_pclk_capture_timing.tcl`:
 
 | Path set | Result |
 | --- | --- |

@@ -2,9 +2,9 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "ai_display_map.h"
-#include "ai_postprocess.h"
-#include "ai_result_manager.h"
+#include "ai/postprocess/ai_display_map.h"
+#include "ai/postprocess/ai_postprocess.h"
+#include "ai/postprocess/ai_result_manager.h"
 
 #define Q16(value) ((int32_t)((value) * 65536))
 

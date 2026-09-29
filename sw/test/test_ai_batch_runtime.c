@@ -2,8 +2,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "ai_batch_runtime.h"
-#include "ai_preprocess.h"
+#include "ai/runtime/ai_batch_runtime.h"
+#include "ai/runtime/ai_preprocess.h"
 
 uint64_t test_cycle;
 

@@ -21,7 +21,7 @@ CHIPYARD_ROOT="$checkout" CONFIG="$config" CONFIG_PACKAGE="$package" MODEL="$mod
   bash "$root/fpga/scripts/generate_merged_batch2_rtl.sh"
 rtl="$checkout/fpga/generated-src/$package.$model.$config/gen-collateral"
 python3 "$root/tests/check_video_rtl.py" "$rtl" "$model"
-python3 "$root/../../scripts/check_fbus_id_groups.py" "$rtl"
+python3 "$root/../../scripts/check/check_fbus_id_groups.py" "$rtl"
 python3 "$root/fpga/scripts/manifest_0914.py" write --root "$root" --rtl "$rtl"
 python3 "$root/export_video_soc.py" "$rtl" "$checkout" "${NPU_SOC_EXPORT_ROOT:-$root/../../generated/soc}"
 printf 'NPU100_VIDEO_RTL=%s\n' "$rtl"

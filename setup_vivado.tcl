@@ -232,7 +232,7 @@ foreach command {
 
 # Hand-written synthesis RTL is an explicit whitelist. XCI and generated SoC
 # collateral are registered in their own phases below.
-set sc_rtl_manifest [file join $sc_repo_root build rtl_manifest.tcl]
+set sc_rtl_manifest [file join $sc_repo_root config manifests rtl_manifest.tcl]
 if {![file exists $sc_rtl_manifest]} {
     error "Missing production RTL manifest: $sc_rtl_manifest"
 }
@@ -283,7 +283,7 @@ foreach path [lsort -unique $sc_rtl_files] {
 }
 
 # The selected Rocket configuration is generated as one collateral unit.
-source [file join $sc_repo_root build soc_manifest.tcl]
+source [file join $sc_repo_root config manifests soc_manifest.tcl]
 set sc_soc_config $SOC_CONFIG
 set sc_soc_dir [file normalize [file join $sc_repo_root $SOC_COLLATERAL_DIR]]
 
@@ -331,7 +331,7 @@ if {[llength $sc_soc_files] == 0} {
 }
 
 # Only the standalone IPs in the production manifest are added.
-source [file join $sc_repo_root build ip_manifest.tcl]
+source [file join $sc_repo_root config manifests ip_manifest.tcl]
 set sc_ip_files {}
 foreach relative_path $IP_SOURCES {
     lappend sc_ip_files [file normalize [file join $sc_repo_root $relative_path]]
@@ -358,7 +358,7 @@ foreach relative_path $IP_SOURCES {
 ::sixteen_camera_setup::setup_bd
 
 # Active baseline constraints only; archived pinout alternatives are omitted.
-source [file join $sc_repo_root build xdc_manifest.tcl]
+source [file join $sc_repo_root config manifests xdc_manifest.tcl]
 foreach relative_path $XDC_SOURCES {
     set path [file join $sc_repo_root $relative_path]
     if {[::sixteen_camera_setup::safe_add_file XDC constrs_1 $path]} {

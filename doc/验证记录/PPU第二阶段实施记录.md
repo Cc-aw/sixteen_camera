@@ -133,11 +133,11 @@ Status bit0 为 core/publication error，bit1 为未发布（stale/error）。
 ### 验证入口
 
 ```bash
-PPU_TEST_CACHE="$PWD/build/ppu_phase2/cache" scripts/run_ai_postprocessor_tests.sh
-scripts/run_ppu_video_tests.sh
+PPU_TEST_CACHE="$PWD/build/ppu_phase2/cache" scripts/test/run_ai_postprocessor_tests.sh
+scripts/test/run_ppu_video_tests.sh
 bash sw/test/run_ai_ppu_queue_test.sh
-python3 scripts/build_single4_video_yolov5nu.py --output sw/build/gemmini_single4_video_ppu_phase2.elf
-/mnt/data/Vivado/Vivado/2023.2/bin/vivado -mode batch -source scripts/build_ppu_phase2_bitstream.tcl
+python3 scripts/build/build_single4_video_yolov5nu.py --output sw/build/gemmini_single4_video_ppu_phase2.elf
+/mnt/data/Vivado/Vivado/2023.2/bin/vivado -mode batch -source scripts/build/build_ppu_phase2_bitstream.tcl
 ```
 
 单 4×4 ELF 独立输出，原双 16 配置不变。板测尚未执行；固定 image025/corpus/live camera 和整机 routed timing 留待新 bitstream 完成后的上板验收。
@@ -148,7 +148,7 @@ python3 scripts/build_single4_video_yolov5nu.py --output sw/build/gemmini_single
 下载该文件时显式指定：
 
 ```bash
-ELF_FILE=sw/build/gemmini_single4_video_ppu_phase2.elf bash scripts/download_single4_video.sh
+ELF_FILE=sw/build/gemmini_single4_video_ppu_phase2.elf bash scripts/program/download_single4_video.sh
 ```
 
 各阶段独立综合资源与 WNS：[综合记录 CSV](ppu_phase2_synthesis.csv)。最后完整回归日志为 `build/ppu_phase2/P8_final.log`，已通过含 legacy 兼容与四任务集成的全部用例。

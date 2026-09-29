@@ -1,18 +1,18 @@
 #include <stdint.h>
 
-#include "ai_batch_runtime.h"
-#include "ai_overlay.h"
-#include "ai_postprocess_diag.h"
-#include "ai_runtime_bridge.h"
+#include "ai/runtime/ai_batch_runtime.h"
+#include "ai/postprocess/ai_overlay.h"
+#include "diagnostics/ai_postprocess_diag.h"
+#include "ai/runtime/ai_runtime_bridge.h"
 #ifdef AI_MODEL_YOLOV5NU
-#include "ai_yolov5nu_selftest.h"
+#include "diagnostics/ai_yolov5nu_selftest.h"
 #endif
 #include "clock_chip.h"
-#include "console.h"
-#include "hdmi_tx.h"
+#include "platform/console.h"
+#include "video/hdmi_tx.h"
 #include "mmio.h"
-#include "platform.h"
-#include "video_service.h"
+#include "platform/platform.h"
+#include "video/video_service.h"
 
 static uint32_t tensor_production_mode;
 static uint32_t tensor_production_done[VIDEO_CHANNEL_COUNT];

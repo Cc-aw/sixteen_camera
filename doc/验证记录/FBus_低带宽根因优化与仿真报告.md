@@ -152,17 +152,17 @@ WRITE_OUTSTANDING = 32
 
 | 文件 | 用途 |
 | --- | --- |
-| `sim/tb_axi4_write_cdc_nonpower.sv` | 验证 14 个非 2 次幂 ID 的循环分配、乱序 B 响应和顺序退休。 |
-| `sim/tb_fbus_generated_write_path.sv` | 对真实生成 `AXI4ToTL` 依赖闭包扫描 64/16/4/2-beat burst 和不同 ID 数。 |
-| `sim/tb_fbus_generated_path.sv` | 使用真实 writer CDC，并发产生 reader 0..17 与 writer 18..31 请求。 |
-| `sim/tb_fbus_read_engine.sv` | 参数化读 ID 数并加强跨 ID 乱序响应检查。 |
-| `sim/tb_ddr_axi_crossbar_throughput.sv` | 对真实 Xilinx AXI Crossbar RTL 做 acceptance=1/8 A/B 测试。 |
-| `sim/tb_fbus_production_concurrency.sv` | 同时产生固定容量的 64 B 读写流量，经过真实生成的 AXI4ToTL/TLFIFOFixer，并检查数据、RID/BID、RLAST、RRESP/BRESP、死锁、ID 重叠和内部 fixer stall。 |
-| `scripts/run_fbus_generated_write_path_test.py` | 自动提取当前 collateral 宽度并运行写路径扫描。 |
-| `scripts/run_fbus_generated_path_test.py` | 自动运行当前 collateral 的读写并发路径测试。 |
-| `scripts/run_tensor_write_optimization_tests.sh` | 汇总 writer CDC、14 ID、Tensor admission 和生成写路径回归。 |
-| `scripts/run_ddr_axi_crossbar_throughput_test.py` | 自动运行 Crossbar A/B 测试并计算带宽。 |
-| `scripts/run_fbus_production_concurrency_matrix.py` | 自动运行 16/16、18/14、20/12、共享 ID 与 acceptance=1/8 的八组生产并发矩阵。 |
+| `sim/memory/tb_axi4_write_cdc_nonpower.sv` | 验证 14 个非 2 次幂 ID 的循环分配、乱序 B 响应和顺序退休。 |
+| `sim/memory/tb_fbus_generated_write_path.sv` | 对真实生成 `AXI4ToTL` 依赖闭包扫描 64/16/4/2-beat burst 和不同 ID 数。 |
+| `sim/memory/tb_fbus_generated_path.sv` | 使用真实 writer CDC，并发产生 reader 0..17 与 writer 18..31 请求。 |
+| `sim/memory/tb_fbus_read_engine.sv` | 参数化读 ID 数并加强跨 ID 乱序响应检查。 |
+| `sim/memory/tb_ddr_axi_crossbar_throughput.sv` | 对真实 Xilinx AXI Crossbar RTL 做 acceptance=1/8 A/B 测试。 |
+| `sim/memory/tb_fbus_production_concurrency.sv` | 同时产生固定容量的 64 B 读写流量，经过真实生成的 AXI4ToTL/TLFIFOFixer，并检查数据、RID/BID、RLAST、RRESP/BRESP、死锁、ID 重叠和内部 fixer stall。 |
+| `scripts/test/run_fbus_generated_write_path_test.py` | 自动提取当前 collateral 宽度并运行写路径扫描。 |
+| `scripts/test/run_fbus_generated_path_test.py` | 自动运行当前 collateral 的读写并发路径测试。 |
+| `scripts/test/run_tensor_write_optimization_tests.sh` | 汇总 writer CDC、14 ID、Tensor admission 和生成写路径回归。 |
+| `scripts/test/run_ddr_axi_crossbar_throughput_test.py` | 自动运行 Crossbar A/B 测试并计算带宽。 |
+| `scripts/test/run_fbus_production_concurrency_matrix.py` | 自动运行 16/16、18/14、20/12、共享 ID 与 acceptance=1/8 的八组生产并发矩阵。 |
 
 ## 6. 仿真条件和结果
 
@@ -302,23 +302,23 @@ acceptance=8 的三种无重叠方案均超过验收线：写 442 MB/s、读 435
 ```bash
 export PATH=/media/tsmc/6a3f28f3-1a75-4d55-baf2-a6aa8be84a59/tny_data/chipyard/.conda-env/bin:$PATH
 
-python3 scripts/run_fbus_generated_write_path_test.py \
+python3 scripts/test/run_fbus_generated_write_path_test.py \
   --latency 160 --ids 1 --bytes 262144
 
-python3 scripts/run_fbus_generated_write_path_test.py \
+python3 scripts/test/run_fbus_generated_write_path_test.py \
   --latency 160 --ids 14 --bytes 262144
 
-python3 scripts/run_fbus_generated_path_test.py \
+python3 scripts/test/run_fbus_generated_path_test.py \
   --latency 160 --bytes 65536 --write-traffic --fair-memory --short-only
 
-python3 scripts/run_fbus_production_concurrency_matrix.py
+python3 scripts/test/run_fbus_production_concurrency_matrix.py
 
-bash scripts/run_tensor_write_optimization_tests.sh
+bash scripts/test/run_tensor_write_optimization_tests.sh
 ```
 
 Crossbar 专项测试需要 Vivado 2023.2：
 
 ```bash
-python3 scripts/run_ddr_axi_crossbar_throughput_test.py \
+python3 scripts/test/run_ddr_axi_crossbar_throughput_test.py \
   --transactions 4096 --latency 51 --source-period 24
 ```

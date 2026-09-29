@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "ai_head_slot_queue.h"
+#include "ai/runtime/ai_head_slot_queue.h"
 
 static AiModelFrameRequest make_request(uint32_t worker, uint64_t job)
 {

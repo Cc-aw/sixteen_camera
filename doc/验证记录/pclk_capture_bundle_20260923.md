@@ -42,7 +42,7 @@ has been run for these changes.
   bitstream with live video and YOLOv5nu inference: the UART status reported
   `jobs/done/post/pub=3/2/2/2`, `fault=0`, `err=0`, and a published CH4
   detection. This validates that board/firmware baseline, not the new PCLK RTL.
-- `scripts/run_video_refactor_tests.sh`: pass, including PCLK recovery,
+- `scripts/test/run_video_refactor_tests.sh`: pass, including PCLK recovery,
   event bridge overflow/resync, CDC, DMA, frame manager, and mosaic tests.
 - PCLK recovery test includes a 200-cycle HREF-gated PCLK gap, beyond the
   new seven-bit saturation point, and checks reacquisition.
@@ -53,7 +53,7 @@ has been run for these changes.
   1287 FF; the narrowed version uses 694 LUT / 1151 FF. The recovery core
   changed from 679 LUT / 437 FF to 516 LUT / 341 FF. Production pruning
   differs because most diagnostic ports are unconnected there.
-- The full `scripts/run_video_refactor_tests.sh` regression passed after the
+- The full `scripts/test/run_video_refactor_tests.sh` regression passed after the
   phase-width change. A side-by-side simulation using the same recovery test
   stimulus and a 24-bit reference matched `pixel_ce`, emitted pixel data,
   HREF/VSYNC, lock state, recovery state, and period estimate cycle by cycle.

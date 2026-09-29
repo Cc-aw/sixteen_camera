@@ -5,11 +5,11 @@
 ## 构建与下板
 
 ```bash
-bash scripts/run_yolov5nu_tensor_slot_ingest_tests.sh
+bash scripts/test/run_yolov5nu_tensor_slot_ingest_tests.sh
 make -C sw
 /mnt/data/Vivado/Vivado/2023.2/bin/vivado -mode batch \
-  -source scripts/build_tensor_production_bitstream.tcl
-bash scripts/download_bitstream.sh
+  -source scripts/build/build_tensor_production_bitstream.tcl
+bash scripts/program/download_bitstream.sh
 bash sw/run.sh --no-build
 ```
 

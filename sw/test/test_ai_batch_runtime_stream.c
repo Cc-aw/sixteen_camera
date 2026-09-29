@@ -3,13 +3,13 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "ai_batch_runtime.h"
-#include "ai_model_backend.h"
-#include "ai_overlay.h"
-#include "ai_postprocess.h"
-#include "ai_tensor_slot_pool.h"
+#include "ai/runtime/ai_batch_runtime.h"
+#include "ai/backend/ai_model_backend.h"
+#include "ai/postprocess/ai_overlay.h"
+#include "ai/postprocess/ai_postprocess.h"
+#include "ai/runtime/ai_tensor_slot_pool.h"
 #include "mmio.h"
-#include "platform.h"
+#include "platform/platform.h"
 
 uint64_t test_cycle;
 static uint32_t control, ready, writing, release_mask, selected_slot;

@@ -1,8 +1,8 @@
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
-#include "platform.h"
-#include "ai_ppu_queue.h"
+#include "platform/platform.h"
+#include "ai/postprocess/ai_ppu_queue.h"
 static uint32_t regs[256];
 uint64_t test_cycle;
 uint32_t mmio_read32(uintptr_t a) { assert(a>=POSTPROCESS_DIAG_BASE && a<POSTPROCESS_DIAG_BASE+1024); return regs[(a-POSTPROCESS_DIAG_BASE)/4]; }

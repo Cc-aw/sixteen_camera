@@ -21,8 +21,8 @@ AXI4ToTL、FBus reader 或 Tensor writer 的功能 RTL。
 | `design_1_auto_us_0.xci` | Vivado 自动把 S00 路径 256-to-512 bit upsizer 的接口 outstanding 元数据传播为 8。 |
 | `design_1_auto_cc_0.xci` | Vivado 自动把 S00 路径 100-to-300 MHz clock converter 的接口 outstanding 元数据传播为 8。 |
 | `prj/update_s00_outstanding.tcl` | 新增幂等更新脚本：打开工程、修改参数、校验 BD、重新生成 target，并核对结果。 |
-| `sim/tb_ddr_axi_crossbar_throughput.sv` | 新增真实 Xilinx AXI Crossbar RTL 的 acceptance=1/8 A/B 测试台。 |
-| `scripts/run_ddr_axi_crossbar_throughput_test.py` | 新增 Vivado RTL 编译、六组读写测试和带宽汇总脚本。 |
+| `sim/memory/tb_ddr_axi_crossbar_throughput.sv` | 新增真实 Xilinx AXI Crossbar RTL 的 acceptance=1/8 A/B 测试台。 |
+| `scripts/test/run_ddr_axi_crossbar_throughput_test.py` | 新增 Vivado RTL 编译、六组读写测试和带宽汇总脚本。 |
 
 这些 `.xci` 和生成 RTL 的变化由 Vivado 2023.2 重新生成，不是手工改写生成产物。
 
@@ -118,10 +118,10 @@ AXI4ToTL、FBus reader 或 Tensor writer 的功能 RTL。
 ## 7. 复现命令
 
 ```bash
-python3 scripts/run_ddr_axi_crossbar_throughput_test.py \
+python3 scripts/test/run_ddr_axi_crossbar_throughput_test.py \
   --transactions 4096 --latency 51 --source-period 24
 
-python3 scripts/run_ddr_axi_crossbar_throughput_test.py \
+python3 scripts/test/run_ddr_axi_crossbar_throughput_test.py \
   --transactions 4096 --latency 51 --source-period 6
 ```
 

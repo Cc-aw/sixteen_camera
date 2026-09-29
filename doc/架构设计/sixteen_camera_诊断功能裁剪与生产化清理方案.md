@@ -680,8 +680,8 @@ CSR
 生产软件删除：
 
 ```text
-sw/src/ai_frame_snapshot.c
-sw/src/ai_frame_snapshot.h
+sw/src/ai/runtime/ai_frame_snapshot.c
+sw/src/ai/runtime/ai_frame_snapshot.h
 ```
 
 production UART 删除：

@@ -94,13 +94,13 @@ collateral 已完成；乱序多 ID 仿真与软件构建通过。顶层 Vivado 
 - 给 `WithCustomSlavePort` 增加 `source_bits` 参数，默认值保持 4，避免影响
   其他配置。
 - 仅在本项目目标配置中设置 `source_bits = 7`。
-- 使用 `scripts/generate_taihang16_rtl.sh` 重新生成 SoC collateral。
+- 使用 `scripts/generate/generate_taihang16_rtl.sh` 重新生成 SoC collateral。
 - 静态确认生成后的 TL source 宽度从 4 bit 增加到 7 bit，且读 source 计数
   容量达到 64。
 
 实际生成结果仍由 `AXI4IdIndexer` 将 4-bit 外部 AXI ID 映射为两个物理 ID
 组，并通过 echo metadata 恢复外部 RID；每组读计数容量从 4 增加到 32，合计
-提供 64 个读 source。使用 `scripts/sync_taihang16_rtl.sh` 检查该结构并将生成
+提供 64 个读 source。使用 `scripts/generate/sync_taihang16_rtl.sh` 检查该结构并将生成
 结果同步到项目。
 
 ### 5.2 实现有序多 ID reader
@@ -146,13 +146,13 @@ diagnostic capability 已更新为 `0x00202105`，新增：
 
 ```bash
 # 软件、reader 与 diagnostic 回归
-scripts/run_ai_postprocessor_tests.sh
+scripts/test/run_ai_postprocessor_tests.sh
 make -C sw all
 
 # 修改 Chipyard 配置后重新生成本项目所用 SoC RTL
-scripts/configure_taihang16_p1c2.py --apply
-scripts/generate_taihang16_rtl.sh
-scripts/sync_taihang16_rtl.sh
+scripts/generate/configure_taihang16_p1c2.py --apply
+scripts/generate/generate_taihang16_rtl.sh
+scripts/generate/sync_taihang16_rtl.sh
 
 # 板端
 # 启动 AI runtime 后，在串口控制台输入：w
@@ -216,10 +216,10 @@ CRC 数据损坏。两点的 preprocess/job overlap 均为 0，不能作为并�
 顺序保证；不直接修改生成 RTL。配置补丁、生成和同步入口仍为：
 
 ```bash
-python3 scripts/configure_taihang16_p1c2.py --apply
-scripts/generate_taihang16_rtl.sh
-scripts/sync_taihang16_rtl.sh
-python3 scripts/run_fbus_generated_path_test.py
+python3 scripts/generate/configure_taihang16_p1c2.py --apply
+scripts/generate/generate_taihang16_rtl.sh
+scripts/generate/sync_taihang16_rtl.sh
+python3 scripts/test/run_fbus_generated_path_test.py
 ```
 
 同步前由 `check_fbus_id_groups.py` 检查实际 FBus coupling 实例，确认 ID
@@ -292,12 +292,12 @@ beat，对应当前 fast diagnostic 的 800 MB/s 消费上限。
 复现：
 
 ```bash
-bash scripts/run_fbus_throughput_tests.sh
-scripts/run_ai_postprocessor_tests.sh
+bash scripts/test/run_fbus_throughput_tests.sh
+scripts/test/run_ai_postprocessor_tests.sh
 make -C sw all
 # 可选：仅 reader 综合与顶层 RTL elaboration，均不生成 bitstream
-vivado -mode batch -source scripts/check_fbus_reader_synthesis.tcl
-vivado -mode batch -source scripts/check_postprocess_elaboration.tcl
+vivado -mode batch -source scripts/check/check_fbus_reader_synthesis.tcl
+vivado -mode batch -source scripts/check/check_postprocess_elaboration.tcl
 ```
 
 功能回归覆盖动态 ID 复用、reorder 占用超过未返回请求数、跨 ID 乱序及交错

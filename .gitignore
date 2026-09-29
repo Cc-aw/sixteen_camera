@@ -40,7 +40,7 @@ xsim.dir/
 *.dump
 *.map
 __pycache__/
-*.pyc
+*.py[cod]
 
 # Local tool/cache state
 .git/
@@ -57,8 +57,9 @@ log/
 !generated/soc/**/*.model.mems.fir
 !generated/soc/**/*.top.mems.fir
 !generated/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/*.fir
-__pycache__/
-*.py[cod]
+
+# Local overrides; copy config/tools.example.mk to config/tools.local.mk.
+/config/tools.local.mk
 
 # Local RTL rollback copies and Vivado clock report
 /generated/soc-backups/

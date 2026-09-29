@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include "platform.h"
+#include "platform/platform.h"
 #include "yolov5nu_head_layout.h"
 uint64_t test_cycle;
 static uint32_t regs[128];
@@ -18,7 +18,7 @@ static void mmio_write32(uintptr_t address, uint32_t value)
     if (address == POSTPROCESS_DIAG_BASE + 8 && (value & 1)) launches++;
 }
 static void mmio_fence(void) {}
-#include "../src/ai_postprocess_diag.c"
+#include "../src/diagnostics/ai_postprocess_diag.c"
 void console_puts(const char *s) { (void)s; }
 void console_putc(char c) { (void)c; }
 void console_put_u32(uint32_t n) { (void)n; }

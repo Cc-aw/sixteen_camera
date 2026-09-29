@@ -24,7 +24,7 @@
 
 ## 软件与容量
 
-`sw/src/hdmi_tx.c` 单独编译通过。新单 4×4 ELF 构建通过，SHA-256：`bf02be32c71f722b4d8775adee37dfcce39b783432bc3e642d7dfbd8fbf50fe2`。原 ELF SHA-256 仍为 `ae4ceb372e0c65b471bd0e17adf9a86e79bef29b01304eb73956d392a2c73df0`。
+`sw/src/video/hdmi_tx.c` 单独编译通过。新单 4×4 ELF 构建通过，SHA-256：`bf02be32c71f722b4d8775adee37dfcce39b783432bc3e642d7dfbd8fbf50fe2`。原 ELF SHA-256 仍为 `ae4ceb372e0c65b471bd0e17adf9a86e79bef29b01304eb73956d392a2c73df0`。
 
 按 16 路、输入 30 FPS、1080p60 Mosaic 计算，Display DDR 理论写入约 95.4 MB/s、读取约 190.8 MB/s，合计约 286.2 MB/s。该数值是布局参数推算，尚未用板上 AXI 计数器实测。
 

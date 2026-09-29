@@ -21,7 +21,7 @@ static void credit_granted(uint64_t elapsed);
 #define GEMMINI_LOOPCONV_CREDIT_WAIT_TIMEOUT_CYCLES 1000000000ULL
 #define GEMMINI_LOOPCONV_CREDIT_WAIT_TIMEOUT_HOOK(s, c) credit_timeout(s, c)
 #include "include/gemmini.h"
-#include "board_runtime.h"
+#include "board/board_runtime.h"
 
 _Static_assert(DIM == 64, "This test requires DIM64");
 unsigned gemmini_pool_active_worker;

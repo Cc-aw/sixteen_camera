@@ -3,11 +3,11 @@
 ## 可复现命令
 
 ```bash
-./scripts/run_video_refactor_tests.sh
+./scripts/test/run_video_refactor_tests.sh
 /mnt/data/Vivado/Vivado/2023.2/bin/vivado -mode batch -source prj/build_synthesis.tcl
 /mnt/data/Vivado/Vivado/2023.2/bin/vivado -mode batch -source prj/build_bitstream_from_synth.tcl
-/mnt/data/Vivado/Vivado/2023.2/bin/vivado -mode batch -source scripts/report_video_timing.tcl -tclargs -dcp <routed.dcp> -out_dir <report-dir>
-python3 scripts/summarize_video_timing.py <report-dir>
+/mnt/data/Vivado/Vivado/2023.2/bin/vivado -mode batch -source scripts/timing/report_video_timing.tcl -tclargs -dcp <routed.dcp> -out_dir <report-dir>
+python3 scripts/timing/summarize_video_timing.py <report-dir>
 ```
 
 ## P0

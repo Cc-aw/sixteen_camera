@@ -1579,8 +1579,8 @@ software scheduler
 每阶段至少跑：
 
 ```text
-scripts/run_yolov5nu_postprocess_tests.sh
-scripts/run_ai_postprocessor_tests.sh
+scripts/test/run_yolov5nu_postprocess_tests.sh
+scripts/test/run_ai_postprocessor_tests.sh
 ```
 
 必须继续覆盖：

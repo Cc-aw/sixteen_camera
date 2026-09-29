@@ -29,8 +29,8 @@ bank 0～5。命令 FIFO 深度增至六；结果 FIFO 保留背压，CPU 慢读
 ## 固件
 
 ```bash
-python3 scripts/build_triple64_video_yolov5nu.py
-bash scripts/download_triple64_video.sh --check
+python3 scripts/build/build_triple64_video_yolov5nu.py
+bash scripts/program/download_triple64_video.sh --check
 ```
 
 输出为 `sw/build/gemmini_triple64_video_yolov5nu.elf`。`sw/run.sh`、

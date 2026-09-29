@@ -21,11 +21,11 @@
 ## 构建前检查
 
 ```bash
-bash scripts/run_yolov5nu_multi_channel_tensor_dma_tests.sh
+bash scripts/test/run_yolov5nu_multi_channel_tensor_dma_tests.sh
 bash sw/test/run_ai_batch_runtime_stream_test.sh
 make -C sw
 /mnt/data/Vivado/Vivado/2023.2/bin/vivado -mode batch \
-  -source scripts/check_tensor_production_elaboration.tcl
+  -source scripts/check/check_tensor_production_elaboration.tcl
 ```
 
 这两项测试分别覆盖多通道 burst 调度、槽位发布/元数据，以及较旧 READY 帧丢弃、双 worker 派发、EDF 优先级、运行期间保留槽位、Result TTL 清框和停机排空。

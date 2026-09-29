@@ -30,7 +30,7 @@ SIZE    := $(TOOLCHAIN)size
 
 .DEFAULT_GOAL := all
 
-BUILD  := build/$(SOC_VARIANT)
+BUILD  := $(PROJECT_ROOT)/build/firmware/$(SOC_VARIANT)
 TARGET := $(BUILD)/hdmi_tx_test
 AI_MODEL ?= yolov5nu
 ifeq ($(SOC_VARIANT),triple64)
@@ -57,9 +57,11 @@ VENDOR_DIRS := \
 VENDOR_INCLUDES := $(addprefix -I,$(VENDOR_DIRS))
 
 ARCH_FLAGS := -march=rv64gcv -mabi=lp64d -mcmodel=medany
+# Project headers use paths relative to src/. AMD BSP headers additionally
+# require the fixed name xparameters.h, supplied by src/board ahead of the BSP.
 CFLAGS := $(ARCH_FLAGS) -std=c11 -Os -g3 -ffreestanding -fno-builtin \
 	-fno-common -fdata-sections -ffunction-sections -Wall -Wextra -Werror \
-	-DXV_CONFIG_LOG_DISABLE_ALL -Isrc -I$(GEMMINI_ABI_ROOT) -I$(GEMMINI_TESTS) \
+	-DXV_CONFIG_LOG_DISABLE_ALL -Isrc -Isrc/board -I$(GEMMINI_ABI_ROOT) -I$(GEMMINI_TESTS) \
 	-DAI_MODEL_WORKER_COUNT=$(MODEL_WORKERS)U \
 	-DYOLOV5NU_DIM16_WORKER_COUNT=$(MODEL_WORKERS)U \
 	-DYOLOV5NU_GEMMINI_DIM=$(MODEL_DIM) \
@@ -83,32 +85,32 @@ endif
 VENDOR_CFLAGS := $(filter-out -Werror,$(CFLAGS)) -Wno-unused-parameter \
 	-Wno-sign-compare -Wno-type-limits -Wno-unused-variable \
 	-Wno-incompatible-pointer-types -Wno-return-type -Wno-enum-conversion \
-	-include xparameters.h -include string.h
+	-include board/xparameters.h -include string.h
 ASFLAGS := $(ARCH_FLAGS) -g3
 LDFLAGS := $(ARCH_FLAGS) -nostdlib -nostartfiles -static -Wl,--gc-sections \
 	-Wl,-Map,$(TARGET).map -T linker_ai_video.ld -Wl,--wrap=malloc -Wl,--wrap=free
 LDLIBS := -lm -lgcc
 
-LOCAL_SOURCES := src/main.c src/console.c src/runtime.c src/board_runtime.c src/ai_runtime_bridge.c src/hdmi_tx.c \
-	src/xilinx_config.c src/board_gpio.c src/camera_video.c \
-	src/video_service.c \
-	src/camera_config.c src/cache_ops.c \
-	src/ai_tensor_slot_pool.c \
-	src/ai_postprocess_diag.c src/ai_ppu_publication.c src/ai_ppu_queue.c \
-	src/ai_postprocess_scalar.c src/ai_result_manager.c src/ai_display_map.c \
-	src/ai_class_names.c \
-	src/ai_overlay.c
+LOCAL_SOURCES := src/main.c src/platform/console.c src/platform/runtime.c src/board/board_runtime.c src/ai/runtime/ai_runtime_bridge.c src/video/hdmi_tx.c \
+	src/board/xilinx_config.c src/board/board_gpio.c src/video/camera_video.c \
+	src/video/video_service.c \
+	src/video/camera_config.c src/platform/cache_ops.c \
+	src/ai/runtime/ai_tensor_slot_pool.c \
+	src/diagnostics/ai_postprocess_diag.c src/ai/postprocess/ai_ppu_publication.c src/ai/postprocess/ai_ppu_queue.c \
+	src/ai/postprocess/ai_postprocess_scalar.c src/ai/postprocess/ai_result_manager.c src/ai/postprocess/ai_display_map.c \
+	src/ai/postprocess/ai_class_names.c \
+	src/ai/postprocess/ai_overlay.c
 
 ifeq ($(AI_MODEL),yolov5nu)
-LOCAL_SOURCES += src/ai_batch_runtime_stream.c \
-	src/ai_head_slot_queue.c src/ai_model_backend_yolov5nu.c \
-	src/ai_yolov5nu_selftest.c
+LOCAL_SOURCES += src/ai/runtime/ai_batch_runtime_stream.c \
+	src/ai/runtime/ai_head_slot_queue.c src/ai/backend/ai_model_backend_yolov5nu.c \
+	src/diagnostics/ai_yolov5nu_selftest.c
 
 MODEL_OBJECT := $(BUILD)/yolov5nu_dim16_dual.o
 else
-LOCAL_SOURCES += src/ai_preprocess.c src/ai_batch_runtime.c \
-	src/ai_model_backend_yolov2.c \
-	src/ai_inference_runtime.c src/ai_tinyyolov2_runtime_adapter.c
+LOCAL_SOURCES += src/ai/runtime/ai_preprocess.c src/ai/runtime/ai_batch_runtime.c \
+	src/ai/backend/ai_model_backend_yolov2.c \
+	src/ai/runtime/ai_inference_runtime.c src/ai/backend/ai_tinyyolov2_runtime_adapter.c
 MODEL_OBJECT := $(BUILD)/tinyyolov2.o
 endif
 BOARD_SOURCES := $(REFERENCE_SW)/src/axi_iic.c \
@@ -148,7 +150,7 @@ VENDOR_SOURCES := \
 LOCAL_OBJECTS := $(patsubst src/%.c,$(BUILD)/%.o,$(LOCAL_SOURCES))
 BOARD_OBJECTS := $(addprefix $(BUILD)/board_,$(notdir $(BOARD_SOURCES:.c=.o)))
 VENDOR_OBJECTS := $(addprefix $(BUILD)/vendor_,$(notdir $(VENDOR_SOURCES:.c=.o)))
-OBJECTS := $(BUILD)/startup.o $(LOCAL_OBJECTS) $(MODEL_OBJECT) $(BOARD_OBJECTS) $(VENDOR_OBJECTS)
+OBJECTS := $(BUILD)/platform/startup.o $(LOCAL_OBJECTS) $(MODEL_OBJECT) $(BOARD_OBJECTS) $(VENDOR_OBJECTS)
 
 .PHONY: all clean size check-tools yolov5nu-regenerate
 all: check-tools $(TARGET).elf $(TARGET).bin $(TARGET).hex $(TARGET).dump size
@@ -159,10 +161,13 @@ check-tools:
 $(BUILD):
 	mkdir -p $@
 
-$(BUILD)/startup.o: src/startup.S | $(BUILD)
+$(BUILD)/platform/startup.o: src/platform/startup.S | $(BUILD)
+	@mkdir -p $(@D)
 	$(CC) $(ASFLAGS) -MMD -MP -c $< -o $@
 
+# Preserve the source hierarchy for objects and dependency files.
 $(BUILD)/%.o: src/%.c | $(BUILD)
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
 $(BUILD)/tinyyolov2.o: yolov2/tinyyolov2.c yolov2/tinyyolov2_params.h \

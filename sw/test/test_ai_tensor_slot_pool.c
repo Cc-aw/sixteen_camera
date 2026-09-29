@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "ai_tensor_slot_pool.h"
+#include "ai/runtime/ai_tensor_slot_pool.h"
 
 int main(void)
 {

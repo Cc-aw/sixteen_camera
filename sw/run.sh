@@ -8,14 +8,14 @@ GDB_BIN="${GDB_BIN:-/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknow
 GDB_PYTHONHOME="${GDB_PYTHONHOME:-/home/wzr/chipyard/.conda-env}"
 VIDEO_VARIANT="${VIDEO_VARIANT:-triple64}"
 case "$VIDEO_VARIANT" in
-    triple64) DEFAULT_ELF="$SCRIPT_DIR/build/gemmini_triple64_video_yolov5nu.elf" ;;
-    single4) DEFAULT_ELF="$SCRIPT_DIR/build/gemmini_single4_video_yolov5nu.elf" ;;
-    dual16) DEFAULT_ELF="$SCRIPT_DIR/build/gemmini_dual16_video_yolov5nu.elf" ;;
+    triple64) DEFAULT_ELF="$SCRIPT_DIR/../build/firmware/gemmini_triple64_video_yolov5nu.elf" ;;
+    single4) DEFAULT_ELF="$SCRIPT_DIR/../build/firmware/gemmini_single4_video_yolov5nu.elf" ;;
+    dual16) DEFAULT_ELF="$SCRIPT_DIR/../build/firmware/gemmini_dual16_video_yolov5nu.elf" ;;
     *) echo "VIDEO_VARIANT 必须为 triple64、single4 或 dual16" >&2; exit 2 ;;
 esac
 ELF_FILE="${ELF_FILE:-$DEFAULT_ELF}"
 GDB_COMMANDS="$SCRIPT_DIR/openocd/load-hdmi-tx.gdb"
-OPENOCD_LOG="$SCRIPT_DIR/build/openocd.log"
+OPENOCD_LOG="$SCRIPT_DIR/../build/reports/program/openocd.log"
 OPENOCD_PID=""
 BUILD_FIRMWARE=0
 CHECK_ONLY=0
@@ -75,7 +75,7 @@ trap cleanup EXIT INT TERM
 
 if ((BUILD_FIRMWARE)); then
     echo "[1/4] 编译当前视频固件..."
-    python3 "$SCRIPT_DIR/../scripts/build_${VIDEO_VARIANT}_video_yolov5nu.py" --output "$ELF_FILE"
+    python3 "$SCRIPT_DIR/../scripts/build/build_${VIDEO_VARIANT}_video_yolov5nu.py" --output "$ELF_FILE"
 else
     echo "[1/4] 使用已有固件。"
 fi
@@ -93,7 +93,7 @@ if ss -ltn 2>/dev/null | grep -qE '[:.]3333[[:space:]]'; then
 fi
 
 echo "[2/4] 启动 OpenOCD（请先确保本工程 bitstream 已下载）..."
-mkdir -p "$SCRIPT_DIR/build"
+mkdir -p "$(dirname -- "$OPENOCD_LOG")"
 : >"$OPENOCD_LOG"
 "$OPENOCD_BIN" -f "$OPENOCD_CFG" >"$OPENOCD_LOG" 2>&1 &
 OPENOCD_PID=$!
