@@ -65,6 +65,11 @@ class StreamReader[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T
       val tlb = new FrontendTLBIO
       val busy = Output(Bool())
       val flush = Input(Bool())
+      /** IPOAT：Reader 死锁观测端口
+        * I：tracker、响应和总线握手；P：只读打包；O：四个 64-bit 页；
+        * A：王志瑞；T：2026-09-17。
+        */
+      val deadlock_debug = Output(Vec(4, UInt(64.W)))
 
       val counter = new CounterEventIO()
     })
@@ -116,6 +121,35 @@ class StreamReader[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T
     responseQueue.io.enq.bits.bytes_read := RegEnable(xactTracker.io.peek.entry.bytes_to_read, beatPacker.io.req.fire)
     responseQueue.io.enq.bits.last := beatPacker.io.out.bits.last
     io.resp <> responseQueue.io.deq
+    /** IPOAT：Reader tracker/进展快照
+      * I（Input 输入）：tracker 分配、末拍返回、行响应及 cmd_id。
+      * P（Process 处理）：维护观察用在途 mask、最近返回 cmd_id 和距上次进展周期数。
+      * O（Output 输出）：Reader 页0/1，并透传 core 的总线页2/3。
+      * A（Author 作者）：王志瑞
+      * T（Time 时间）：2026-09-17
+      */
+    val xactMask = RegInit(0.U(nXacts.W))
+    val xactAdd = Mux(core.module.io.reserve.fire(),
+      (1.U(nXacts.W) << core.module.io.reserve.xactid).asUInt, 0.U(nXacts.W))
+    val xactRemove = Mux(core.module.io.beatData.fire && core.module.io.beatData.bits.last,
+      (1.U(nXacts.W) << core.module.io.beatData.bits.xactid).asUInt, 0.U(nXacts.W))
+    xactMask := (xactMask & ~xactRemove) | xactAdd
+    val lastReturnedCmdId = RegInit(0.U(8.W))
+    when (io.resp.fire && io.resp.bits.last) { lastReturnedCmdId := io.resp.bits.cmd_id }
+    val debugCyclesSinceProgress = RegInit(0.U(32.W))
+    when (core.module.io.reserve.fire() || core.module.io.beatData.fire || io.resp.fire) {
+      debugCyclesSinceProgress := 0.U
+    }.elsewhen (io.busy && debugCyclesSinceProgress =/= "hffffffff".U) {
+      debugCyclesSinceProgress := debugCyclesSinceProgress + 1.U
+    }
+    io.deadlock_debug(0) := Cat(debugCyclesSinceProgress, 0.U(7.W), io.busy,
+      lastReturnedCmdId, PopCount(xactMask).pad(8)(7, 0), xactMask.pad(8)(7, 0))
+    io.deadlock_debug(1) := Cat(0.U(58.W), io.resp.fire, io.resp.ready, io.resp.valid,
+      io.req.fire, io.req.ready, io.req.valid)
+    io.deadlock_debug(2) := core.module.io.deadlock_debug(0)
+    io.deadlock_debug(3) := core.module.io.deadlock_debug(1)
+
+
 
     io.counter := DontCare
     io.counter.collect(core.module.io.counter)
@@ -162,6 +196,11 @@ class StreamReaderCore[T <: Data, U <: Data, V <: Data](config: GemminiArrayConf
       val tlb = new FrontendTLBIO
       val flush = Input(Bool())
       val counter = new CounterEventIO()
+      /** IPOAT：ReaderCore 总线观测端口
+        * I：请求状态、剩余字节及 TileLink A/D；P：只读打包；O：两个 64-bit 页；
+        * A：王志瑞；T：2026-09-17。
+        */
+      val deadlock_debug = Output(Vec(2, UInt(64.W)))
     })
 
     val s_idle :: s_req_new_block :: Nil = Enum(2)
@@ -298,6 +337,21 @@ class StreamReaderCore[T <: Data, U <: Data, V <: Data](config: GemminiArrayConf
         if (bytesRequested.getWidth >= log2Up(spadWidthBytes+1)) bytesRequested / spadWidthBytes.U(bytesRequested.getWidth.W) else 0.U)
     io.reserve.entry.spad_row_offset := Mux(req.has_acc_bitwidth, bytesRequested % accWidthBytes.U, bytesRequested % spadWidthBytes.U)
 
+    /** IPOAT：ReaderCore 请求/总线快照
+      * I（Input 输入）：当前请求 cmd_id、字节进度、reserve 与 TileLink A/D 握手及 source。
+      * P（Process 处理）：按固定字段布局组合，不驱动 DMA 状态机。
+      * O（Output 输出）：请求页与总线事务身份页。
+      * A（Author 作者）：王志瑞
+      * T（Time 时间）：2026-09-17
+      */
+    io.deadlock_debug(0) := Cat(0.U(12.W), req.cmd_id, bytesLeft.pad(16)(15, 0),
+      bytesRequested.pad(16)(15, 0), 0.U(8.W), state,
+      io.reserve.fire(), io.reserve.ready, io.reserve.valid)
+    io.deadlock_debug(1) := Cat(0.U(42.W),
+      tl.d.bits.source.pad(8)(7, 0), tl.a.bits.source.pad(8)(7, 0),
+      tl.d.fire, tl.d.ready, tl.d.valid,
+      tl.a.fire, tl.a.ready, tl.a.valid)
+
     when (untranslated_a.fire) {
       val next_vaddr = req.vaddr + read_bytes_read // send_size
       val new_page = next_vaddr(pgIdxBits-1, 0) === 0.U
@@ -409,6 +463,11 @@ class StreamWriter[T <: Data: Arithmetic](nXacts: Int, beatBits: Int, maxBytes: 
       val busy = Output(Bool())
       val flush = Input(Bool())
       val counter = new CounterEventIO()
+      /** IPOAT：Writer 死锁观测端口
+        * I：writer 状态、在途 mask、剩余工作及 TileLink A/D；P：只读打包；
+        * O：四个 64-bit 页；A：王志瑞；T：2026-09-17。
+        */
+      val deadlock_debug = Output(Vec(4, UInt(64.W)))
     })
 
     val (s_idle :: s_writing_new_block :: s_writing_beats :: Nil) = Enum(3)
@@ -601,6 +660,28 @@ class StreamWriter[T <: Data: Arithmetic](nXacts: Int, beatBits: Int, maxBytes: 
     }
 
     tl.d.ready := xactBusy.orR
+
+    /** IPOAT：Writer tracker/总线快照
+      * I（Input 输入）：请求接受、A/D 握手、xactBusy、字节/beat 余量及 source。
+      * P（Process 处理）：维护只读进展年龄并组合固定页，不干预发送或回收。
+      * O（Output 输出）：Writer 状态、请求、总线身份和工作余量四页。
+      * A（Author 作者）：王志瑞
+      * T（Time 时间）：2026-09-17
+      */
+    val debugCyclesSinceProgress = RegInit(0.U(32.W))
+    when (io.req.fire || untranslated_a.fire || tl.a.fire || tl.d.fire) {
+      debugCyclesSinceProgress := 0.U
+    }.elsewhen (io.busy && debugCyclesSinceProgress =/= "hffffffff".U) {
+      debugCyclesSinceProgress := debugCyclesSinceProgress + 1.U
+    }
+    io.deadlock_debug(0) := Cat(debugCyclesSinceProgress, 0.U(7.W), io.busy,
+      PopCount(xactBusy).pad(8)(7, 0), xactBusy.pad(8)(7, 0), bytesLeft.pad(8)(7, 0))
+    io.deadlock_debug(1) := Cat(0.U(48.W), state, beatsLeft.pad(8)(7, 0),
+      io.req.fire, io.req.ready, io.req.valid,
+      untranslated_a.fire, untranslated_a.ready, untranslated_a.valid)
+    io.deadlock_debug(2) := Cat(0.U(42.W), tl.a.bits.source.pad(8)(7, 0), tl.d.bits.source.pad(8)(7, 0),
+      tl.a.fire, tl.a.ready, tl.a.valid, tl.d.fire, tl.d.ready, tl.d.valid)
+    io.deadlock_debug(3) := Cat(0.U(32.W), bytesSent.pad(16)(15, 0), bytesLeft.pad(16)(15, 0))
 
     when (untranslated_a.fire) {
       when (state === s_writing_new_block) {

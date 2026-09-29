@@ -45,6 +45,7 @@ class DMACommandTracker[T <: Data](val nCmds: Int, val maxBytes: Int, tag_t: => 
     val cmd_completed = Decoupled(new CmdCompletedT(cmd_id_t.cloneType, tag_t.cloneType))
 
     val busy = Output(Bool())
+    val debug = Output(UInt(64.W))
   })
 
   class Entry extends Bundle {
@@ -108,6 +109,15 @@ class DMACommandTracker[T <: Data](val nCmds: Int, val maxBytes: Int, tag_t: => 
     assert(cmds(cmd_id).bytes_left >= io.request_returned.bits.bytes_read)
   }
 
+  // Lowest live slot: remaining bytes and identity, plus all occupied slots.
+  val debugValid = Wire(UInt(16.W))
+  debugValid := VecInit(cmds.map(_.valid)).asUInt
+  val debugId = Wire(UInt(8.W))
+  debugId := PriorityEncoder(debugValid)
+  io.debug := Cat(debugValid.pad(16)(15, 0), debugId.pad(8)(7, 0),
+    cmds(debugId).tag.asUInt.pad(8)(7, 0), cmds(debugId).bytes_left.pad(24)(23, 0),
+    0.U(1.W), io.busy, io.alloc.valid, io.alloc.ready, io.request_returned.valid,
+    io.cmd_completed.valid, io.cmd_completed.ready, complete_fire)
   cmds := next_cmds
 
   when (reset.asBool) {

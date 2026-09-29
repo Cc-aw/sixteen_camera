@@ -52,6 +52,11 @@ class ReservationStation[T <: Data : Arithmetic, U <: Data, V <: Data](config: G
     val matmul_st_completed = Output(UInt(log2Up(max_instructions_completed_per_type_per_cycle+1).W))
 
     val busy = Output(Bool())
+    /** IPOAT：预约站死锁观测端口
+      * I：LD/EX/ST entries、issue/completion 和占用率；P：只读打包且不回接控制；
+      * O：二十六个 64-bit 页；A：王志瑞；T：2026-09-19。
+      */
+    val deadlock_debug = Output(Vec(26, UInt(64.W)))
 
     val counter = new CounterEventIO()
   })
@@ -433,6 +438,27 @@ class ReservationStation[T <: Data : Arithmetic, U <: Data, V <: Data](config: G
     }
   }
 
+  /** IPOAT：预约站发射事件镜像
+    * I（Input 输入）：三类 issue 的 valid/fire/global ROB tag。
+    * P（Process 处理）：逐类镜像到固定索引，不改变选择器和 entry 状态。
+    * O（Output 输出）：用于快照的 issue valid/fire/tag。
+    * A（Author 作者）：王志瑞
+    * T（Time 时间）：2026-09-17
+    */
+  val debugIssueValid = WireInit(VecInit(Seq.fill(3)(false.B)))
+  val debugIssueFire = WireInit(VecInit(Seq.fill(3)(false.B)))
+  val debugIssueTag = WireInit(VecInit(Seq.fill(3)(0.U(8.W))))
+  // IPOAT：预约站最近一次发射/完成身份锁存。
+  // I（Input 输入）：LD/EX/ST 实际 issue.fire 及 completed.fire/global ROB tag。
+  // P（Process 处理）：按类型锁存最近发射 tag，并累计 seen mask；完成端锁存最近返回 tag。
+  // O（Output 输出）：即使冻结发生在事件后数千万拍，快照仍能关联最后推进的 RS 对象。
+  // A（Author 作者）：王志瑞
+  // T（Time 时间）：2026-09-19
+  val debugLastIssueTag = RegInit(VecInit(Seq.fill(3)(0.U(8.W))))
+  val debugIssueSeen = RegInit(0.U(3.W))
+  val debugLastCompletedTag = RegInit(0.U(8.W))
+  val debugCompletionSeen = RegInit(false.B)
+
   // Issue commands which are ready to be issued
   Seq((ldq, io.issue.ld, entries_ld), (exq, io.issue.ex, entries_ex), (stq, io.issue.st, entries_st))
     .foreach { case (q, io, entries_type) =>
@@ -449,6 +475,9 @@ class ReservationStation[T <: Data : Arithmetic, U <: Data, V <: Data](config: G
     io.cmd := issue_entry.bits.cmd
     // use the most significant 2 bits to indicate instruction type
     io.rob_id := global_issue_id
+    debugIssueValid(q) := io.valid
+    debugIssueFire(q) := io.fire
+    debugIssueTag(q) := global_issue_id
 
     val complete_on_issue = entries_type(issue_id).bits.complete_on_issue
     val from_conv_fsm = entries_type(issue_id).bits.cmd.from_conv_fsm
@@ -490,8 +519,17 @@ class ReservationStation[T <: Data : Arithmetic, U <: Data, V <: Data](config: G
     }
   }
 
+  for (q <- 0 until 3) {
+    when (debugIssueFire(q)) { debugLastIssueTag(q) := debugIssueTag(q) }
+  }
+  when (debugIssueFire.asUInt.orR) {
+    debugIssueSeen := debugIssueSeen | debugIssueFire.asUInt
+  }
+
   // Mark entries as completed once they've returned
   when (io.completed.fire) {
+    debugLastCompletedTag := io.completed.bits
+    debugCompletionSeen := true.B
     val type_width = log2Up(res_max_per_type)
     val queue_type = io.completed.bits(type_width + 1, type_width)
     val issue_id = io.completed.bits(type_width - 1, 0)
@@ -568,6 +606,95 @@ class ReservationStation[T <: Data : Arithmetic, U <: Data, V <: Data](config: G
     cycles_since_issue := cycles_since_issue + 1.U
   }
   assert(cycles_since_issue < PlusArg("gemmini_timeout", 10000), "pipeline stall")
+
+  // IPOAT：预约站诊断无进展计数器。
+  // I（Input 输入）：三类 issue、completed、busy。
+  // P（Process 处理）：任一进展或空闲清零，否则以 32-bit 饱和计数；不复用会回绕的 16-bit 断言计数器。
+  // O（Output 输出）：page5 可覆盖 2^26 自动冻结窗口并显示真实无进展时长。
+  // A（Author 作者）：王志瑞
+  // T（Time 时间）：2026-09-19
+  val debugCyclesSinceProgress = RegInit(0.U(32.W))
+  when (io.issue.ld.fire || io.issue.st.fire || io.issue.ex.fire || io.completed.fire || !io.busy) {
+    debugCyclesSinceProgress := 0.U
+  }.elsewhen (debugCyclesSinceProgress =/= "hffffffff".U) {
+    debugCyclesSinceProgress := debugCyclesSinceProgress + 1.U
+  }
+
+  /** IPOAT：预约站四页快照
+    * I（Input 输入）：LD/EX/ST 占用、当前候选、最近发射/完成 tag、满标志和 entry valid/issued。
+    * P（Process 处理）：将当前阻塞候选与历史最后进展身份压缩成四个 64-bit 只读页。
+    * O（Output 输出）：可冻结读取的预约站阻塞证据。
+    * A（Author 作者）：王志瑞
+    * T（Time 时间）：2026-09-17
+    */
+  val debugValidMask = Wire(UInt(64.W))
+  val debugIssuedMask = Wire(UInt(64.W))
+  debugValidMask := VecInit(entries.map(_.valid)).asUInt
+  debugIssuedMask := VecInit(entries.map(e => e.valid && e.bits.issued)).asUInt
+  io.deadlock_debug(0) := Cat(0.U(7.W), io.busy, debugCyclesSinceProgress,
+    utilization_st_q.pad(8), utilization_ex_q.pad(8), utilization_ld_q.pad(8))
+  io.deadlock_debug(1) := Cat(0.U(1.W), debugCompletionSeen, debugIssueSeen,
+    debugIssueValid.asUInt,
+    debugIssueTag(stq), debugIssueTag(exq), debugIssueTag(ldq),
+    debugLastIssueTag(stq), debugLastIssueTag(exq), debugLastIssueTag(ldq),
+    debugLastCompletedTag)
+  io.deadlock_debug(2) := Cat(0.U(48.W),
+    io.conv_st_completed.pad(4), io.conv_ex_completed.pad(4), io.conv_ld_completed.pad(4),
+    full_st, full_ex, full_ld, io.alloc.fire)
+  io.deadlock_debug(3) := Cat(PopCount(debugValidMask).pad(8)(7, 0),
+    PopCount(debugIssuedMask).pad(8)(7, 0),
+    debugValidMask.pad(24)(23, 0), debugIssuedMask.pad(24)(23, 0))
+
+  /** IPOAT：预约站逐 entry 生命周期快照
+    * I（Input 输入）：最多 64 个 LD/EX/ST entry 的 valid、issued、ready、来源、funct 和依赖数量。
+    * P（Process 处理）：每个 entry 压缩为 16 bit，按全部 LD、全部 EX、全部 ST 每页四项排列，尾部补零。
+    * O（Output 输出）：十六页逐项证据；本配置完整覆盖 LD16、EX32、ST8 共 56 个 entry。
+    * A（Author 作者）：王志瑞
+    * T（Time 时间）：2026-09-19
+    */
+  require(entries.size <= 64, "deadlock debug supports at most 64 reservation-station entries")
+  val debugEntrySummaries = entries.map { e =>
+    val dependencyCount = PopCount(e.bits.deps_ld) +& PopCount(e.bits.deps_ex) +&
+      PopCount(e.bits.deps_st)
+    Cat(e.valid, e.bits.issued, e.bits.ready(), e.bits.cmd.from_conv_fsm,
+      e.bits.cmd.cmd.inst.funct, dependencyCount.pad(5)(4, 0))
+  } ++ Seq.fill(64 - entries.size)(0.U(16.W))
+  for (page <- 0 until 16) {
+    io.deadlock_debug(page + 4) := VecInit(
+      debugEntrySummaries.slice(page * 4, page * 4 + 4)).asUInt
+  }
+
+  /** IPOAT：预约站阻塞 entry 的精确依赖对象
+    * I（Input 输入）：LD/EX/ST 每组第一个 valid、未发射、依赖未满足且来自 LoopConv 的 entry。
+    * P（Process 处理）：沿用预约站索引优先级各选一项，输出身份页及完整 LD/EX/ST dependency mask。
+    * O（Output 输出）：六页证据，直接指出未发射微命令正在等待哪些 ROB tag，而不只给依赖数量。
+    * A（Author 作者）：王志瑞
+    * T（Time 时间）：2026-09-19
+    */
+  val debugDependencyWidth = reservation_station_entries_ld + reservation_station_entries_ex +
+    reservation_station_entries_st
+  require(debugDependencyWidth <= 64,
+    "deadlock debug supports at most 64 dependency bits per reservation-station entry")
+  val debugEntryGroups = Seq(entries_ld, entries_ex, entries_st)
+  for ((group, queueIndex) <- debugEntryGroups.zipWithIndex) {
+    val blocked = group.map(e => e.valid && !e.bits.issued && !e.bits.ready() &&
+      e.bits.cmd.from_conv_fsm)
+    val selectedOH = PriorityEncoderOH(blocked)
+    val selected = Mux1H(selectedOH, group)
+    val found = blocked.reduce(_ || _)
+    val dependencyCountLd = PopCount(selected.bits.deps_ld)
+    val dependencyCountEx = PopCount(selected.bits.deps_ex)
+    val dependencyCountSt = PopCount(selected.bits.deps_st)
+    io.deadlock_debug(20 + queueIndex * 2) := Cat(0.U(4.W), found,
+      queueIndex.U(2.W), OHToUInt(selectedOH).pad(6)(5, 0),
+      selected.valid, selected.bits.issued, selected.bits.ready(), selected.bits.cmd.from_conv_fsm,
+      selected.bits.cmd.cmd.inst.funct, selected.bits.allocated_at.pad(16)(15, 0),
+      dependencyCountSt.pad(8)(7, 0), dependencyCountEx.pad(8)(7, 0),
+      dependencyCountLd.pad(8)(7, 0))
+    io.deadlock_debug(21 + queueIndex * 2) := Cat(
+      0.U((64 - debugDependencyWidth).W), selected.bits.deps_st.asUInt,
+      selected.bits.deps_ex.asUInt, selected.bits.deps_ld.asUInt)
+  }
 
   for (e <- entries) {
     dontTouch(e.bits.allocated_at)

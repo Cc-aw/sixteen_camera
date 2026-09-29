@@ -44,8 +44,14 @@ proc get_cells {args} {
     if {[lindex $args end] eq "REF_NAME == RocketTile"} { return $::mock_rocket }
     return $::mock_dsps
 }
-proc get_pins {args} { return clock_pin }
-proc get_clocks {args} { return soc_clock }
+proc get_pins {args} {
+    if {[lsearch -exact $args -of_objects] < 0} {
+        error "Clock audit must query input objects, not an RTL port name"
+    }
+    return renamed_clock_pin
+}
+set mock_clocks soc_clock
+proc get_clocks {args} { return $::mock_clocks }
 proc get_property {prop object} {
     if {$prop eq "PERIOD"} { return $::mock_period }
     return $object
@@ -71,6 +77,10 @@ set mock_period 4.0
 if {![catch {source [file join $flow placement_0918_video.tcl]} msg] ||
     ![string match *100*MHz* $msg]} { error "250 MHz configuration accepted" }
 set mock_period 10.0
+set mock_clocks {}
+if {![catch {source [file join $flow placement_0918_video.tcl]} msg] ||
+    ![string match *unconstrained* $msg]} { error "Unconstrained clock accepted" }
+set mock_clocks soc_clock
 set mock_dsps [lrange $mock_dsps 0 end-1]
 if {![catch {source [file join $flow placement_0918_video.tcl]} msg] ||
     ![string match *Expected*DSPs* $msg]} { error "Broken mesh accepted" }

@@ -23,6 +23,8 @@ class LoadController[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig
     val completed = Decoupled(UInt(log2Up(reservation_station_entries).W))
 
     val busy = Output(Bool())
+    val deadlock_debug = Output(UInt(64.W))
+    val dma_debug = Output(UInt(64.W))
 
     val counter = new CounterEventIO()
   })
@@ -94,6 +96,7 @@ class LoadController[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig
   val cmd_tracker = Module(new DMACommandTracker(nCmds, maxBytesInMatRequest, deps_t))
 
   io.busy := cmd.valid || cmd_tracker.io.busy
+  io.dma_debug := cmd_tracker.io.debug
 
   // DMA IO wiring
   io.dma.req.valid := (control_state === waiting_for_command && cmd.valid && DoLoad && cmd_tracker.io.alloc.ready) ||
@@ -128,6 +131,25 @@ class LoadController[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig
   io.completed.bits := cmd_tracker.io.cmd_completed.bits.tag.rob_id
 
   io.busy := cmd.valid || cmd_tracker.io.busy
+  io.dma_debug := cmd_tracker.io.debug
+
+  /** IPOAT：LoadController 命令到 DMA tracker 生命周期快照
+    * I（Input 输入）：控制状态、ROB/cmd_id、命令队列、DMA 请求/返回、tracker 分配/完成。
+    * P（Process 处理）：组合成固定 64-bit 只读页，不回接控制路径。
+    * O（Output 输出）：可判断已发射 LD tag 卡在控制器、DMA 还是 completion 出口。
+    * A（Author 作者）：王志瑞
+    * T（Time 时间）：2026-09-19
+    */
+  io.deadlock_debug := Cat(0.U(13.W), io.busy,
+    io.completed.fire, io.completed.ready, io.completed.valid,
+    cmd_tracker.io.alloc.fire(), cmd_tracker.io.alloc.ready, cmd_tracker.io.alloc.valid,
+    cmd_tracker.io.busy,
+    io.dma.resp.fire, true.B, io.dma.resp.valid,
+    io.dma.req.fire, io.dma.req.ready, io.dma.req.valid,
+    cmd.fire, cmd.ready, cmd.valid,
+    cmd_id.pad(8)(7, 0), row_counter.pad(8)(7, 0),
+    cmd.bits.rob_id.bits.pad(8)(7, 0), cmd.bits.rob_id.valid,
+    cmd.bits.cmd.inst.funct, control_state.pad(2))
 
   // Row counter
   when (io.dma.req.fire) {

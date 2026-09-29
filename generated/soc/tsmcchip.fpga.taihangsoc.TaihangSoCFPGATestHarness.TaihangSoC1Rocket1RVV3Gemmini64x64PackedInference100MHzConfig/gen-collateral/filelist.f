@@ -345,11 +345,11 @@ LoopMatmulStC.sv
 LoopMatmulStCSpad.sv
 WeightedArbiter.sv
 LoopMatmul.sv
-ram_16x247.sv
+ram_16x248.sv
 Queue16_GemminiCmd.sv
 DMACommandTracker.sv
 LoadController.sv
-ram_8x247.sv
+ram_8x248.sv
 Queue8_GemminiCmd.sv
 DMACommandTracker_1.sv
 StoreController.sv

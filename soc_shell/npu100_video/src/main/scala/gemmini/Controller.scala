@@ -34,6 +34,14 @@ class Gemmini[T <: Data : Arithmetic, U <: Data, V <: Data](val config: GemminiA
       config.loopConvAcceptedCsrId.toSeq.map(id =>
         CustomCSR(id, mask = (BigInt(1) << p(TileKey).core.xLen) - 1, init = Some(BigInt(0)))) ++
       config.loopConvRetiredCsrId.toSeq.map(id =>
+        CustomCSR(id, mask = (BigInt(1) << p(TileKey).core.xLen) - 1, init = Some(BigInt(0)))) ++
+      config.deadlockDebugControlCsrId.toSeq.map(id =>
+        CustomCSR(id, mask = (BigInt(1) << p(TileKey).core.xLen) - 1, init = Some(BigInt(0)))) ++
+      config.deadlockDebugStatusCsrId.toSeq.map(id =>
+        CustomCSR(id, mask = (BigInt(1) << p(TileKey).core.xLen) - 1, init = Some(BigInt(0)))) ++
+      config.deadlockDebugSelectCsrId.toSeq.map(id =>
+        CustomCSR(id, mask = (BigInt(1) << p(TileKey).core.xLen) - 1, init = Some(BigInt(0)))) ++
+      config.deadlockDebugDataCsrId.toSeq.map(id =>
         CustomCSR(id, mask = (BigInt(1) << p(TileKey).core.xLen) - 1, init = Some(BigInt(0))))) {
 
   Files.write(Paths.get(config.headerFilePath), config.generateHeader().getBytes(StandardCharsets.UTF_8))
@@ -265,7 +273,7 @@ class GemminiModule[T <: Data: Arithmetic, U <: Data, V <: Data]
   val max_exs = reservation_station_entries_ex
   val max_sts = reservation_station_entries_st
 
-  val (conv_cmd, loop_conv_unroller_busy, loop_conv_request_retire, loop_conv_running_slots) = if (has_loop_conv) withClock (gated_clock) { LoopConv(raw_cmd, reservation_station.io.conv_ld_completed, reservation_station.io.conv_st_completed, reservation_station.io.conv_ex_completed,
+  val (conv_cmd, loop_conv_unroller_busy, loop_conv_request_retire, loop_conv_running_slots, loop_conv_deadlock_debug) = if (has_loop_conv) withClock (gated_clock) { LoopConv(raw_cmd, reservation_station.io.conv_ld_completed, reservation_station.io.conv_st_completed, reservation_station.io.conv_ex_completed,
     meshRows*tileRows, coreMaxAddrBits, reservation_station_entries, max_lds, max_exs, max_sts, sp_banks * sp_bank_entries, acc_banks * acc_bank_entries,
     inputType.getWidth, accType.getWidth, dma_maxbytes,
     new ConfigMvinRs1(mvin_scale_t_bits, block_stride_bits, pixel_repeats_bits), new MvinRs2(mvin_rows_bits, mvin_cols_bits, local_addr_t),
@@ -274,7 +282,7 @@ class GemminiModule[T <: Data: Arithmetic, U <: Data, V <: Data]
     new PreloadRs(mvout_rows_bits, mvout_cols_bits, local_addr_t),
     new ComputeRs(mvin_rows_bits, mvin_cols_bits, local_addr_t), new ComputeRs(mvin_rows_bits, mvin_cols_bits, local_addr_t),
     has_training_convs, has_max_pool, has_first_layer_optimizations, has_dw_convs) }
-  else (raw_cmd, false.B, false.B, 0.U(2.W))
+  else (raw_cmd, false.B, false.B, 0.U(2.W), VecInit(Seq.fill(10)(0.U(64.W))))
 
   val (loop_cmd, loop_matmul_unroller_busy, loop_completed) = withClock (gated_clock) { LoopMatmul(if (has_loop_conv) conv_cmd else raw_cmd, reservation_station.io.matmul_ld_completed, reservation_station.io.matmul_st_completed, reservation_station.io.matmul_ex_completed,
     meshRows*tileRows, coreMaxAddrBits, reservation_station_entries, max_lds, max_exs, max_sts, sp_banks * sp_bank_entries, acc_banks * acc_bank_entries,
@@ -458,6 +466,29 @@ class GemminiModule[T <: Data: Arithmetic, U <: Data, V <: Data]
   reservation_station.io.completed.valid := reservation_station_completed_arb.io.out.valid
   reservation_station.io.completed.bits := reservation_station_completed_arb.io.out.bits
   reservation_station_completed_arb.io.out.ready := true.B
+  /** IPOAT：Controller 完成源历史账本
+    * I（Input 输入）：EX/LD/ST completion 与最终 completion arb 的实际事件及 ROB tag。
+    * P（Process 处理）：逐源锁存最后 tag 并累计低 8 位事件数，冻结时保留长期历史。
+    * O（Output 输出）：即使完成脉冲早于死锁快照，也能核对哪一路停止回传。
+    * A（Author 作者）：王志瑞
+    * T（Time 时间）：2026-09-19
+    */
+  val debugCompletionLastTag = RegInit(VecInit(Seq.fill(4)(0.U(8.W))))
+  val debugCompletionCount = RegInit(VecInit(Seq.fill(4)(0.U(8.W))))
+  val debugCompletionEvents = Seq(ex_controller.io.completed.valid,
+    load_controller.io.completed.fire, store_controller.io.completed.fire,
+    reservation_station_completed_arb.io.out.fire)
+  val debugCompletionTags = Seq(ex_controller.io.completed.bits,
+    load_controller.io.completed.bits, store_controller.io.completed.bits,
+    reservation_station_completed_arb.io.out.bits)
+  for (i <- 0 until 4) {
+    when (debugCompletionEvents(i)) {
+      debugCompletionLastTag(i) := debugCompletionTags(i)
+      debugCompletionCount(i) := debugCompletionCount(i) + 1.U
+    }
+  }
+
+
 
   // Wire up global RoCC signals
   val gemminiBusy = raw_cmd.valid || loop_conv_unroller_busy || loop_matmul_unroller_busy || reservation_station.io.busy || spad.module.io.busy || unrolled_cmd.valid || loop_cmd.valid || conv_cmd.valid
@@ -571,6 +602,133 @@ class GemminiModule[T <: Data: Arithmetic, U <: Data, V <: Data]
     retiredCsr.stall := false.B
     retiredCsr.set := true.B
     retiredCsr.sdata := loopConvRetiredCount
+  }
+
+  if (outer.config.deadlockDebugControlCsrId.isDefined) {
+    val debugCsrBase = outer.config.busyCsrId.toSeq.size +
+      outer.config.loopConvStatusCsrId.toSeq.size +
+      outer.config.loopConvAcceptedCsrId.toSeq.size +
+      outer.config.loopConvRetiredCsrId.toSeq.size
+    val debugControlCsr = io.csrs(debugCsrBase)
+    val debugStatusCsr = io.csrs(debugCsrBase + 1)
+    val debugSelectCsr = io.csrs(debugCsrBase + 2)
+    val debugDataCsr = io.csrs(debugCsrBase + 3)
+
+    debugControlCsr.stall := false.B
+    debugControlCsr.set := false.B
+    debugControlCsr.sdata := 0.U
+    debugStatusCsr.stall := false.B
+    debugStatusCsr.set := true.B
+    debugSelectCsr.stall := false.B
+    debugSelectCsr.set := false.B
+    debugSelectCsr.sdata := 0.U
+    debugDataCsr.stall := false.B
+    debugDataCsr.set := true.B
+
+    val live = Wire(Vec(80, UInt(64.W)))
+    live.foreach(_ := 0.U)
+    /** IPOAT：诊断签名升级为 ABI v8
+     * I（Input 输入）：新增 scale 首次异常页的诊断布局。
+     * P（Process 处理）：将版本号由 7 更新为 8，页数仍为 64，已有 page1–58 字段不变。
+     * O（Output 输出）：page0 签名 0x4442475f00090050，供软件识别扩展布局。
+     * A（Author 作者）：Codex
+     * T（Time 时间）：2026-09-23
+     */
+    live(0) := "h4442475f00090050".U // "DBG_", ABI v9, 80 pages
+    for (i <- 0 until 9) {
+      live(i + 1) := loop_conv_deadlock_debug(i)
+    }
+    for (i <- 0 until 20) { live(i + 10) := reservation_station.io.deadlock_debug(i) }
+    for (i <- 0 until 12) { live(i + 30) := spad.module.io.deadlock_debug(i) }
+    live(42) := Cat(0.U(25.W),
+      reservation_station_completed_arb.io.out.bits.pad(8),
+      reservation_station_completed_arb.io.out.fire,
+      store_controller.io.completed.bits.pad(8), store_controller.io.completed.fire,
+      load_controller.io.completed.bits.pad(8), load_controller.io.completed.fire,
+      ex_controller.io.completed.bits.pad(8), ex_controller.io.completed.valid)
+    live(43) := Cat(loopConvAcceptedCount(15, 0), loopConvRetiredCount(15, 0),
+      0.U(19.W), io.loopconv_assembler_partial, loop_conv_running_slots,
+      io.loopconv_request_queue_count(1, 0), loopConvOutstandingCount)
+    live(44) := Cat(0.U(59.W),
+      ex_controller.io.busy, store_controller.io.busy, load_controller.io.busy,
+      spad.module.io.busy, reservation_station.io.busy)
+    /** IPOAT：LazyRoCC 双边界 blocked-packet 自动快照触发（ABI v7）
+      * I（Input 输入）：Router 提供的连续阻塞周期、入口 RUN/serializer packet 阻塞来源及握手。
+      * P（Process 处理）：任一边界累计阻塞 2^26 周期后，无需 CPU 写 CSR 即冻结全部 64 页；
+      *                  100 MHz 下约 0.671 s，远大于本测试单次卷积的正常满槽等待。
+      * O（Output 输出）：page45 保存定宽 Router 状态，page46/47 保存 Gemmini 命令链、credit 和阻塞来源。
+      * A（Author 作者）：王志瑞
+      * T（Time 时间）：2026-09-19
+      */
+    val ingressBlockedCycles = io.loopconv_ingress_debug(63, 32)
+    val ingressBlockedRun = io.loopconv_ingress_debug(29)
+    val serializedPacketBlocked = io.loopconv_ingress_debug(30)
+    // Also freeze when all commands were submitted but a request never retires.
+    // No diagnostic signal feeds any functional ready/valid path.
+    val noProgress = RegInit(0.U(32.W))
+    val progress = loopConvRequestAccept || loopConvRequestRetire ||
+      reservation_station_completed_arb.io.out.fire || conv_cmd.fire
+    when(progress || loopConvOutstandingCount === 0.U) { noProgress := 0.U }
+      .elsewhen(!noProgress.andR) { noProgress := noProgress + 1.U }
+    val automaticFreezeTrigger = ingressBlockedCycles >= (1 << 26).U || noProgress >= (1 << 26).U
+    live(45) := io.loopconv_ingress_debug
+    live(46) := Cat(0.U(48.W), io.cmd.bits.inst.funct,
+      io.cmd.valid, io.cmd.ready, io.cmd.fire,
+      raw_cmd.valid, raw_cmd.ready, raw_cmd.fire,
+      conv_cmd.valid, conv_cmd.ready, conv_cmd.fire)
+    live(47) := Cat(0.U(47.W), loopConvOutstandingCount,
+      loop_conv_running_slots, io.loopconv_request_queue_count,
+      io.loopconv_assembler_partial, serializedPacketBlocked, ingressBlockedRun)
+    live(48) := load_controller.io.deadlock_debug
+    live(49) := store_controller.io.deadlock_debug
+    live(50) := ex_controller.io.deadlock_debug(0)
+    live(51) := ex_controller.io.deadlock_debug(1)
+    live(52) := Cat(Cat(debugCompletionCount.reverse),
+      Cat(debugCompletionLastTag.reverse))
+    for (i <- 0 until 6) { live(i + 53) := reservation_station.io.deadlock_debug(i + 20) }
+
+    /** IPOAT：page59–63 接入 scale 首次异常记录
+     * I（Input 输入）：Scratchpad 诊断索引 12–16。
+     * P（Process 处理）：映射到原保留的 page59–63；沿用原外层自动/手动冻结，内部首次异常锁存独立运行。
+     * O（Output 输出）：head 两个原始 mask、异常 lane 集合、首个事件与周期；外层 clear 不清内部记录。
+     * A（Author 作者）：Codex
+     * T（Time 时间）：2026-09-23
+     */
+    for (i <- 0 until 5) { live(i + 59) := spad.module.io.deadlock_debug(i + 12) }
+
+    for (i <- 0 until 4) { live(64 + i) := ex_controller.io.deadlock_debug(2 + i) }
+    for (i <- 0 until 4) { live(68 + i) := spad.module.io.deadlock_debug(17 + i) }
+    live(72) := Cat(noProgress, loopConvStatus(31, 0))
+    live(73) := loopConvAcceptedCount
+    live(74) := loopConvRetiredCount
+    live(75) := loop_conv_deadlock_debug(9)
+    live(76) := load_controller.io.dma_debug
+    live(77) := store_controller.io.dma_debug
+
+    val frozen = RegInit(false.B)
+    val automaticallyFrozen = RegInit(false.B)
+    val snapshot = Reg(Vec(80, UInt(64.W)))
+    val manualClear = debugControlCsr.wen && debugControlCsr.wdata(1)
+    val manualFreeze = debugControlCsr.wen && debugControlCsr.wdata(0)
+    when (manualClear) {
+      frozen := false.B
+      automaticallyFrozen := false.B
+    }.elsewhen (manualFreeze || (!frozen && automaticFreezeTrigger)) {
+      snapshot := live
+      frozen := true.B
+      automaticallyFrozen := automaticFreezeTrigger && !manualFreeze
+    }
+    val selected = debugSelectCsr.value(6, 0)
+    /** IPOAT：ABI v8 状态 CSR 编码
+     * I（Input 输入）：外层自动冻结标志、冻结状态及固定版本/页数。
+     * P（Process 处理）：保持原字段位置，在 ABI 字段写入 8，与 page0 签名同步。
+     * O（Output 输出）：软件可按原位段读取 frozen、pages=64、abi=8 与 automatic。
+     * A（Author 作者）：Codex
+     * T（Time 时间）：2026-09-23
+     */
+    debugStatusCsr.sdata := Cat(0.U(46.W), automaticallyFrozen,
+      9.U(8.W), 80.U(8.W), frozen)
+    debugDataCsr.sdata := Mux(selected < 80.U, Mux(frozen, snapshot(selected), live(selected)), 0.U)
   }
 
   io.interrupt := tlb.map(_.io.exp.map(_.interrupt).reduce(_ || _)).getOrElse(false.B)

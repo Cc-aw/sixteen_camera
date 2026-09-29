@@ -212,7 +212,10 @@ module RoccCommandRouter(	// @[generators/rocket-chip/src/main/scala/tile/LazyRo
   output [7:0]  io_loopconv_request_queue_count_2,	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:745:14]
   output        io_loopconv_assembler_partial_0,	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:745:14]
   output        io_loopconv_assembler_partial_1,	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:745:14]
-  output        io_loopconv_assembler_partial_2	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:745:14]
+  output        io_loopconv_assembler_partial_2,	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:745:14]
+  output [63:0] io_loopconv_ingress_debug_0,	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:745:14]
+  output [63:0] io_loopconv_ingress_debug_1,	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:745:14]
+  output [63:0] io_loopconv_ingress_debug_2	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:745:14]
 );
 
   wire _paths_2_io_in_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:760:38]
@@ -330,6 +333,7 @@ module RoccCommandRouter(	// @[generators/rocket-chip/src/main/scala/tile/LazyRo
     .io_request_accept          (io_loopconv_request_accept_0),
     .io_request_queue_count     (io_loopconv_request_queue_count_0),
     .io_assembler_partial       (io_loopconv_assembler_partial_0),
+    .io_ingress_debug           (io_loopconv_ingress_debug_0),
     .io_replay_release          (_paths_0_io_replay_release)
   );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:760:38]
   RegisteredIngressAtomicReserve paths_1 (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:760:38]
@@ -424,6 +428,7 @@ module RoccCommandRouter(	// @[generators/rocket-chip/src/main/scala/tile/LazyRo
     .io_request_accept          (io_loopconv_request_accept_1),
     .io_request_queue_count     (io_loopconv_request_queue_count_1),
     .io_assembler_partial       (io_loopconv_assembler_partial_1),
+    .io_ingress_debug           (io_loopconv_ingress_debug_1),
     .io_replay_release          (_paths_1_io_replay_release)
   );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:760:38]
   RegisteredIngressAtomicReserve paths_2 (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:760:38]
@@ -518,6 +523,7 @@ module RoccCommandRouter(	// @[generators/rocket-chip/src/main/scala/tile/LazyRo
     .io_request_accept          (io_loopconv_request_accept_2),
     .io_request_queue_count     (io_loopconv_request_queue_count_2),
     .io_assembler_partial       (io_loopconv_assembler_partial_2),
+    .io_ingress_debug           (io_loopconv_ingress_debug_2),
     .io_replay_release          (_paths_2_io_replay_release)
   );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:760:38]
   assign io_in_ready = matches_0 & _paths_0_io_in_ready | matches_1 & _paths_1_io_in_ready | matches_2 & _paths_2_io_in_ready | _paths_0_io_replay_release | _paths_1_io_replay_release | _paths_2_io_replay_release;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:447:41, :743:7, :760:38, :773:59, :782:21, :783:{47,72}]

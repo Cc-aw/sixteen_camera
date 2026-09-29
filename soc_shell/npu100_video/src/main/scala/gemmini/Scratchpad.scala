@@ -275,12 +275,15 @@ class Scratchpad[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T, 
 
       // Misc. ports
       val busy = Output(Bool())
+      val deadlock_debug = Output(Vec(21, UInt(64.W)))
       val flush = Input(Bool())
       val silu_lut_write = Flipped(Valid(new SiluLutWrite))
       val silu_lut_ready = Output(Bool())
       val counter = new CounterEventIO()
     })
 
+    val debugSpadHazards = WireInit(0.U(16.W))
+    val debugAccHazards = WireInit(0.U(16.W))
     val write_dispatch_q = Queue(io.dma.write.req)
     // Write norm/scale queues are necessary to maintain in-order requests to accumulator norm/scale units
     // Writes from main SPAD just flow directly between scale_q and issue_q, while writes
@@ -639,6 +642,7 @@ class Scratchpad[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T, 
         pending.io.readAddr := bio.read.req.bits.addr
         // An accepted DMA write may still be in the ordered buffer.
         spadBufferedReadHazards(i) := pending.io.readHazard
+        debugSpadHazards := spadBufferedReadHazards.asUInt
         exPendingSignals += pending.io.exPending
       }
       banks
@@ -867,6 +871,7 @@ class Scratchpad[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T, 
         pending.io.readAddr := bio.read.req.bits.addr
         // Export ordering hazard to the earlier read arbitration.
         accBufferedReadHazards(i) := pending.io.readHazard
+        debugAccHazards := accBufferedReadHazards.asUInt
         val exCommitPipe = RegInit(VecInit(Seq.fill(acc_latency)(false.B)))
         exCommitPipe(0) := bio.write.fire && pending.io.deq.bits.ex
         for (stage <- 1 until acc_latency) { exCommitPipe(stage) := exCommitPipe(stage - 1) }
@@ -875,6 +880,26 @@ class Scratchpad[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T, 
       banks
     }
 
+    for (i <- 0 until 4) {
+      io.deadlock_debug(i) := reader.module.io.deadlock_debug(i)
+      io.deadlock_debug(i + 4) := writer.module.io.deadlock_debug(i)
+      io.deadlock_debug(i + 8) := acc_scale_unit.io.deadlock_debug(i)
+    }
+    for (i <- 0 until 5) { io.deadlock_debug(i + 12) := acc_scale_unit.io.scale_fault_debug(i) }
+    io.deadlock_debug(17) := Cat(write_norm_q.io.count.pad(8), write_scale_q.io.count.pad(8),
+      write_issue_q.io.count.pad(8), scaleInput.io.count.pad(8), scaleOutput.io.count.pad(8),
+      mvinWriteBuffer.io.count.pad(8), zeroWriteBuffer.io.count.pad(8),
+      0.U(2.W), scaleInput.io.enq.fire, scaleInput.io.deq.fire,
+      scaleOutput.io.enq.fire, scaleOutput.io.deq.fire, writer.module.io.req.fire, io.writeback_idle)
+    io.deadlock_debug(18) := Cat(0.U(16.W), VecInit(exPendingSignals.toSeq).asUInt.pad(16),
+      debugSpadHazards, debugAccHazards)
+    def debugRows(event: Bool): UInt = {
+      val count = RegInit(0.U(32.W))
+      when(event) { count := count + 1.U }
+      count
+    }
+    io.deadlock_debug(19) := Cat(debugRows(scaleInput.io.enq.fire), debugRows(scaleOutput.io.deq.fire))
+    io.deadlock_debug(20) := Cat(debugRows(io.dma.read.resp.valid), debugRows(io.dma.write.resp.valid))
     io.writeback_idle := !exPendingSignals.reduce(_ || _)
 
     // Counter connection

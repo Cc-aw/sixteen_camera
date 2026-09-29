@@ -28,6 +28,8 @@ class AccumulatorScaleIO[T <: Data: Arithmetic, U <: Data](
   val out = Decoupled(new AccumulatorScaleResp[T](fullDataType, rDataType))
   val silu_lut_write = Flipped(Valid(new SiluLutWrite))
   val silu_lut_ready = Output(Bool())
+  val deadlock_debug = Output(Vec(4, UInt(64.W)))
+  val scale_fault_debug = Output(Vec(5, UInt(64.W)))
 }
 
 /**
@@ -492,6 +494,11 @@ class AccumulatorScale[T <: Data, U <: Data](
       }
     }
   }
+  io.deadlock_debug.foreach(_ := 0.U)
+  io.scale_fault_debug.foreach(_ := 0.U)
+  val laneIssues = WireInit(VecInit(Seq.fill(math.max(1, num_scale_units))(false.B)))
+  val laneCompletions = WireInit(VecInit(Seq.fill(math.max(1, num_scale_units))(false.B)))
+  val windowFull = WireInit(false.B)
   val out = Wire(Decoupled(new AccumulatorScaleResp[T](
     fullDataType, rDataType)(ev)))
 
@@ -555,6 +562,7 @@ class AccumulatorScale[T <: Data, U <: Data](
     val completed_masks = Reg(Vec(nEntries, Vec(width, Bool())))
     val head_oh = RegInit(1.U(nEntries.W))
     val tail_oh = RegInit(1.U(nEntries.W))
+    windowFull := regs.map(_.valid).reduce(_ && _)
     out.valid := Mux1H(head_oh.asBools, (regs zip completed_masks).map({case (r, c) => r.valid && c.reduce(_&&_)}))
     out.bits  := Mux1H(head_oh.asBools, out_regs)
     when (out.fire) {
@@ -709,6 +717,71 @@ class AccumulatorScale[T <: Data, U <: Data](
       }
     }
 
+    /** IPOAT：ABI v8 被动定位范围与事件汇聚
+     * I（Input 输入）：行宽、lane 数、entry 数、normalization 与 scheduler 参数。
+     * P（Process 处理）：仅为 64 列/64 lane/3 entry/无 normalization/legacy 启用检查；建立逐 lane 原因与身份总线。
+     * O（Output 输出）：诊断使能及事件线网；不反馈到功能 ready/valid、mask 更新或 reset。
+     * A（Author 作者）：Codex
+     * T（Time 时间）：2026-09-23
+     */
+    val diagnoseScale = width == 64 && num_scale_units == 64 &&
+      nEntries == 3 && !has_normalizations
+    val faultReasons = WireInit(VecInit(Seq.fill(num_scale_units)(0.U(8.W))))
+    val faultObserved = WireInit(VecInit(Seq.fill(num_scale_units)(0.U(16.W))))
+    val faultExpected = WireInit(VecInit(Seq.fill(num_scale_units)(0.U(16.W))))
+    val overdue = WireInit(VecInit(Seq.fill(nEntries)(false.B)))
+    if (diagnoseScale) {
+      /** IPOAT：全部发射后的完成超时检查
+       * I（Input 输入）：每个有效 entry 的 fired/completed mask。
+       * P（Process 处理）：仅在全部 fired 且尚未全部 completed 时累加饱和年龄；其余情况清零，阈值为 latency+4。
+       * O（Output 输出）：逐 entry overdue 标志，后续映射到缺失完成的 lane；不改变 entry 生命周期。
+       * A（Author 作者）：Codex
+       * T（Time 时间）：2026-09-23
+       */
+      for (e <- 0 until nEntries) {
+        val age = RegInit(0.U(8.W))
+        val pending = regs(e).valid && fired_masks(e).asUInt.andR && !completed_masks(e).asUInt.andR
+        when (!pending) { age := 0.U }
+          .elsewhen (!age.andR) { age := age + 1.U }
+        overdue(e) := pending && age >= (latency + 4).U
+      }
+      /** IPOAT：首次异常锁存与事件编码
+       * I（Input 输入）：逐 lane 原因/实际身份/期望身份、head 原始 mask 与自 reset 起的周期。
+       * P（Process 处理）：首次异常时选最低编号 lane，保存当拍所有异常 lane；sticky 后不再覆盖，硬件 reset 清除。
+       * O（Output 输出）：五个锁存页；事件为 sticky[63]、保留[62:56]、reason[55:48]、lane[47:40]、实际 entry/column[39:24]、期望 entry/column[23:8]、head[7:0]。
+       * A（Author 作者）：Codex
+       * T（Time 时间）：2026-09-23
+       */
+      val cycle = RegInit(0.U(64.W))
+      cycle := cycle + 1.U
+      val sticky = RegInit(false.B)
+      val saved = RegInit(VecInit(Seq.fill(5)(0.U(64.W))))
+      val bad = VecInit(faultReasons.map(_.orR)).asUInt
+      val lane = PriorityEncoder(bad)
+      val head = OHToUInt(head_oh)
+      val headFired = Mux1H(head_oh.asBools, fired_masks.map(_.asUInt))
+      val headCompleted = Mux1H(head_oh.asBools, completed_masks.map(_.asUInt))
+      when (!reset.asBool && !sticky && bad.orR) {
+        sticky := true.B
+        saved(0) := headFired
+        saved(1) := headCompleted
+        saved(2) := bad
+        saved(3) := Cat(1.U(1.W), 0.U(7.W), faultReasons(lane), lane.pad(8),
+          faultObserved(lane), faultExpected(lane), head.pad(8))
+        saved(4) := cycle
+      }
+      /** IPOAT：原始掩码与首次异常页输出
+       * I（Input 输入）：当前 head mask、首次异常保存值及 sticky 状态。
+       * P（Process 处理）：无异常时前两页读当前 head；异常后五页读保存值。head 可能不同于事件 entry，采样时间也可能早于外层快照。
+       * O（Output 输出）：page59–63；外层 debug CSR clear 不清除本地 sticky，需硬件 reset。
+       * A（Author 作者）：Codex
+       * T（Time 时间）：2026-09-23
+       */
+      io.scale_fault_debug(0) := Mux(sticky, saved(0), headFired)
+      io.scale_fault_debug(1) := Mux(sticky, saved(1), headCompleted)
+      for (p <- 2 until 5) { io.scale_fault_debug(p) := saved(p) }
+    }
+
     for (i <- 0 until num_scale_units) {
       val norm_supported = (i < num_units_with_norm) && has_normalizations
 
@@ -739,6 +812,84 @@ class AccumulatorScale[T <: Data, U <: Data](
         pipe.io.silu_data := 0.U
       }
       val pipe_out = pipe.io.out
+      laneIssues(i) := arbOut.valid
+        laneCompletions(i) := pipe_out.valid
+        if (diagnoseScale) {
+          /** IPOAT：仲裁握手至 arbOut 的一致性检查
+           * I（Input 输入）：实际 arbiter 输入 fire、对应 entry/column 与下一拍 arbOut。
+           * P（Process 处理）：从输入握手独立锁存 8-bit entry 加 8-bit column，比较下一拍 valid 与有效身份。
+           * O（Output 输出）：issueMismatch（reason bit0）；有效请求丢失时 actual 身份可能为旧值。
+           * A（Author 作者）：Codex
+           * T（Time 时间）：2026-09-23
+           */
+          def tag(id: UInt, index: UInt): UInt = Cat(id.pad(8), index.pad(8))
+          val grants = VecInit(arbIn.map(_.fire))
+          val grantValid = grants.asUInt.orR
+          val grantTag = Mux1H(grants, arbIn.map(x => tag(x.bits.id, x.bits.index)))
+          val issuedValid = RegNext(grantValid, false.B)
+          val issuedTag = RegEnable(grantTag, grantValid)
+          val issueMismatch = (issuedValid =/= arbOut.valid) ||
+            (issuedValid && arbOut.valid && issuedTag =/= tag(arbOut.bits.id, arbOut.bits.index))
+          /** IPOAT：固定延迟流水线身份检查
+           * I（Input 输入）：arbOut 的 valid/tag、AccScalePipe 输出及配置 latency。
+           * P（Process 处理）：建立相同延迟的期望 valid/tag，分别检查丢输出、多输出和有效身份不一致。
+           * O（Output 输出）：pipeMismatch（reason bit1）；额外输出时 expected tag 不代表有效请求，后续综合需检查影子链是否被合并。
+           * A（Author 作者）：Codex
+           * T（Time 时间）：2026-09-23
+           */
+          val expectedPipe = Pipe(arbOut.valid, tag(arbOut.bits.id, arbOut.bits.index), latency)
+          val observedTag = tag(pipe_out.bits.id, pipe_out.bits.index)
+          val pipeMismatch = (expectedPipe.valid =/= pipe_out.valid) ||
+            (expectedPipe.valid && pipe_out.valid && expectedPipe.bits =/= observedTag)
+          /** IPOAT：completion owner 与静态列归属检查
+           * I（Input 输入）：有效 completion 的 entry/column，以及 entry valid、fired、completed 状态。
+           * P（Process 处理）：检查 entry 范围、column 与 lane 一致性、owner 存活、已发射与未重复完成。
+           * O（Output 输出）：badOwner（reason bit2），通过 observed 身份定位异常返回。
+           * A（Author 作者）：Codex
+           * T（Time 时间）：2026-09-23
+           */
+          val badOwner = pipe_out.valid && (pipe_out.bits.id >= nEntries.U ||
+            pipe_out.bits.index =/= i.U || !regs(pipe_out.bits.id).valid ||
+            !fired_masks(pipe_out.bits.id)(i) || completed_masks(pipe_out.bits.id)(i))
+          /** IPOAT：发射与完成记账落地检查
+           * I（Input 输入）：上一拍 pipe 返回身份、上一拍仲裁输入握手身份与本拍两个 mask。
+           * P（Process 处理）：检查返回后的 completed 位和发射后的 fired 位；正常复用要在完成位已存在后才能发生。
+           * O（Output 输出）：completionLost（bit3）、firedLost（bit4），区分流水线事件与寄存器记账。
+           * A（Author 作者）：Codex
+           * T（Time 时间）：2026-09-23
+           */
+          val returned = RegNext(pipe_out.valid, false.B)
+          val returnedId = RegEnable(pipe_out.bits.id, pipe_out.valid)
+          val completionLost = returned && (returnedId >= nEntries.U || !completed_masks(returnedId)(i))
+          val issuedId = issuedTag(15, 8)
+          val firedLost = issuedValid && (issuedId >= nEntries.U || !fired_masks(issuedId)(i))
+          /** IPOAT：逐 lane 原因与事件身份优先级
+           * I（Input 输入）：各边界异常与 entry 超时后仍缺失的完成位。
+           * P（Process 处理）：原因可同时置位；身份选择优先级为 bit0/bit4、bit3、bit1/bit2、bit5，超时选最低编号 entry。
+           * O（Output 输出）：reason[5:0] 依次为超时、fired 未记账、completion 未记账、owner 异常、pipe 不匹配、仲裁不匹配；供首次锁存器采样。
+           * A（Author 作者）：Codex
+           * T（Time 时间）：2026-09-23
+           */
+          val missing = VecInit((0 until nEntries).map(e => overdue(e) && !completed_masks(e)(i)))
+          val missingId = PriorityEncoder(missing.asUInt)
+          faultReasons(i) := Cat(0.U(2.W), missing.asUInt.orR, firedLost,
+            completionLost, badOwner, pipeMismatch, issueMismatch)
+          faultObserved(i) := Mux(issueMismatch || firedLost, tag(arbOut.bits.id, arbOut.bits.index),
+            Mux(completionLost, tag(returnedId, i.U),
+              Mux(missing.asUInt.orR && !pipeMismatch && !badOwner, tag(missingId, i.U), observedTag)))
+          faultExpected(i) := Mux(issueMismatch || firedLost, issuedTag,
+            Mux(completionLost, tag(returnedId, i.U),
+              Mux(missing.asUInt.orR && !pipeMismatch && !badOwner, tag(missingId, i.U), expectedPipe.bits)))
+        }
+        when (pipe_out.valid) {
+          assert(pipe_out.bits.id < nEntries.U, "Scale completion slot out of range")
+          assert(pipe_out.bits.index < width.U, "Scale completion column out of range")
+          assert(regs(pipe_out.bits.id).valid, "Scale completion has no live owner")
+          assert(fired_masks(pipe_out.bits.id)(pipe_out.bits.index), "Scale completion was not issued")
+          assert(!completed_masks(pipe_out.bits.id)(pipe_out.bits.index), "Scale duplicate completion")
+        }
+
+
 
       for (j <- 0 until nEntries) {
         for (w <- 0 until width) {
@@ -769,9 +920,46 @@ class AccumulatorScale[T <: Data, U <: Data](
     when (reset.asBool) {
       regs.foreach(_.valid := false.B)
     }
+    /** IPOAT：AccScale entry 生命周期快照
+      * I（Input 输入）：各 entry valid、fired/completed mask、head/tail。
+      * P（Process 处理）：每个 entry 压缩为元素计数，保留环形指针。
+      * O（Output 输出）：页1窗口身份、页2发射计数、页3完成计数。
+      * A（Author 作者）：王志瑞
+      * T（Time 时间）：2026-09-17
+      */
+    val firedCounts = VecInit((0 until 3).map { i =>
+      if (i < nEntries) PopCount(fired_masks(i)).pad(8) else 0.U(8.W)
+    })
+    val completedCounts = VecInit((0 until 3).map { i =>
+      if (i < nEntries) PopCount(completed_masks(i)).pad(8) else 0.U(8.W)
+    })
+    val validMask = VecInit(regs.map(_.valid)).asUInt.pad(8)
+    io.deadlock_debug(1) := Cat(0.U(40.W), validMask, tail_oh.pad(8), head_oh.pad(8))
+    io.deadlock_debug(2) := Cat(0.U(40.W), firedCounts.asUInt)
+    io.deadlock_debug(3) := Cat(0.U(40.W), completedCounts.asUInt)
   }
 
   io.out <> out
+  /** IPOAT：AccScale 活性快照
+    * I（Input 输入）：in/out 握手、lane issue/completion、windowFull。
+    * P（Process 处理）：任一进展清零年龄，否则在活动窗口内饱和递增。
+    * O（Output 输出）：页0 的活性、背压和管线 valid 证据。
+    * A（Author 作者）：王志瑞
+    * T（Time 时间）：2026-09-17
+    */
+  val debugCyclesSinceProgress = RegInit(0.U(32.W))
+  when (io.in.fire || io.out.fire || laneIssues.asUInt.orR || laneCompletions.asUInt.orR) {
+    debugCyclesSinceProgress := 0.U
+  }.elsewhen ((io.in.valid || io.out.valid || windowFull) && debugCyclesSinceProgress =/= "hffffffff".U) {
+    debugCyclesSinceProgress := debugCyclesSinceProgress + 1.U
+  }
+  io.deadlock_debug(0) := Cat(debugCyclesSinceProgress,
+    laneCompletions.asUInt.pad(8)(7, 0), laneIssues.asUInt.pad(8)(7, 0),
+    0.U(9.W), windowFull,
+    io.out.fire, io.out.ready, io.out.valid,
+    io.in.fire, io.in.ready, io.in.valid)
+
+
 
   if (read_small_data)
     io.out.bits.data := out.bits.data

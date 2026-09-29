@@ -47,6 +47,11 @@ module head_local_reader #(
     reg [BYTE_LANES-1:0] response_keep_q;
     reg [BYTE_SHIFT:0] response_bytes_q;
     reg response_last_q;
+    reg [DATA_WIDTH-1:0] stream_data_q;
+    reg [BYTE_LANES-1:0] stream_keep_q;
+    reg [BYTE_SHIFT:0] stream_bytes_q;
+    reg stream_last_q;
+    reg stream_valid_q;
 
     reg [BYTE_SHIFT:0] issue_capacity;
     reg [BYTE_SHIFT:0] issue_bytes;
@@ -66,6 +71,7 @@ module head_local_reader #(
     end
 
     wire request_fire = memory_req_valid && memory_req_ready;
+    wire response_fire = memory_rsp_valid && memory_rsp_ready;
     wire stream_fire = stream_valid && stream_ready;
     wire [OFFSET_WIDTH:0] requested_end =
         {1'b0, base_addr[OFFSET_WIDTH-1:0]} +
@@ -75,11 +81,18 @@ module head_local_reader #(
     assign busy = busy_q;
     assign memory_req_valid = busy_q && issue_remaining_q != 0;
     assign memory_req_word_addr = issue_word_addr_q;
-    assign memory_rsp_ready = stream_ready;
-    assign stream_data = memory_rsp_data;
-    assign stream_keep = response_keep_q;
-    assign stream_valid = memory_rsp_valid;
-    assign stream_last = response_last_q;
+    // Break the URAM/bank-mux to class-reducer timing path while allowing a
+    // consumed response to be replaced in the same cycle.
+    assign memory_rsp_ready = !stream_valid_q || stream_ready;
+    assign stream_data = stream_data_q;
+    assign stream_keep = stream_keep_q;
+    assign stream_valid = stream_valid_q;
+    assign stream_last = stream_last_q;
+
+    always @(posedge clk) begin
+        if (response_fire)
+            stream_data_q <= memory_rsp_data;
+    end
 
     initial begin
         if (ADDR_WIDTH < OFFSET_WIDTH || DATA_WIDTH < 8 ||
@@ -103,8 +116,21 @@ module head_local_reader #(
             response_keep_q <= '0;
             response_bytes_q <= '0;
             response_last_q <= 1'b0;
+            stream_keep_q <= '0;
+            stream_bytes_q <= '0;
+            stream_last_q <= 1'b0;
+            stream_valid_q <= 1'b0;
         end else begin
             done <= 1'b0;
+
+            if (memory_rsp_ready) begin
+                stream_valid_q <= memory_rsp_valid;
+                if (response_fire) begin
+                    stream_keep_q <= response_keep_q;
+                    stream_bytes_q <= response_bytes_q;
+                    stream_last_q <= response_last_q;
+                end
+            end
 
             if (start && busy_q) begin
                 error <= 1'b1;
@@ -142,8 +168,8 @@ module head_local_reader #(
             end
 
             if (stream_fire) begin
-                bytes_read <= bytes_read + 32'(response_bytes_q);
-                if (response_last_q) begin
+                bytes_read <= bytes_read + 32'(stream_bytes_q);
+                if (stream_last_q) begin
                     busy_q <= 1'b0;
                     done <= 1'b1;
                 end

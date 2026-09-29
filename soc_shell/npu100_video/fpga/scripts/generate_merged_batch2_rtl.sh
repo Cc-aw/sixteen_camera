@@ -20,7 +20,9 @@ fi
 bash "$npu_root/fpga/scripts/sync_npu_sys_to_chipyard.sh"
 # Rebuild from source through Chipyard's normal SBT dependency graph. Do not
 # inject classes into an unknown cached generator assembly.
-make -C "$checkout/fpga" verilog \
+# Always ask SBT to verify source contents. A failed elaboration can leave an
+# assembly newer than a subsequently synchronized source with preserved mtime.
+make -C "$checkout/fpga" -W "$checkout/build.sbt" verilog \
   SUB_PROJECT="${SUB_PROJECT:-taihang_soc}" \
   SBT_PROJECT=chipyard_fpga MODEL="$model" VLOG_MODEL="$model" \
   MODEL_PACKAGE="$package" CONFIG_PACKAGE="$package" CONFIG="$config" \

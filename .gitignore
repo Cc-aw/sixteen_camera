@@ -59,3 +59,7 @@ log/
 !generated/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/*.fir
 __pycache__/
 *.py[cod]
+
+# Local RTL rollback copies and Vivado clock report
+/generated/soc-backups/
+/clockInfo.txt

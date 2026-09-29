@@ -249,8 +249,15 @@ extern void gemmini_pool_record_command(unsigned funct);
 #else
 #define GEMMINI_POOL_RECORD_COMMAND(funct) do { (void)(funct); } while (0)
 #endif
+#ifndef GEMMINI_POOL_COMMAND_ARGS_HOOK
+#define GEMMINI_POOL_COMMAND_ARGS_HOOK(funct, rs1, rs2) do { } while (0)
+#endif
+#ifndef GEMMINI_POOL_COMMAND_RETURN_HOOK
+#define GEMMINI_POOL_COMMAND_RETURN_HOOK(funct) do { (void)(funct); } while (0)
+#endif
 #define ROCC_INSTRUCTION_RS1_RS2(x, rs1, rs2, funct) { \
   GEMMINI_POOL_RECORD_COMMAND(funct); \
+  GEMMINI_POOL_COMMAND_ARGS_HOOK(funct, rs1, rs2); \
   if (gemmini_pool_active_worker == 0) { \
     ROCC_INSTRUCTION_0_R_R(3, rs1, rs2, funct); \
   } else if (gemmini_pool_active_worker == 1) { \
@@ -258,6 +265,7 @@ extern void gemmini_pool_record_command(unsigned funct);
   } else if (gemmini_pool_active_worker == 2) { \
     ROCC_INSTRUCTION_0_R_R(1, rs1, rs2, funct); \
   } else { __builtin_trap(); } \
+  GEMMINI_POOL_COMMAND_RETURN_HOOK(funct); \
 }
 #else
 #define GEMMINI_POOL_RECORD_COMMAND(funct) do { (void)(funct); } while (0)

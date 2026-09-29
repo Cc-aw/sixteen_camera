@@ -143,9 +143,18 @@ case class GemminiArrayConfig[T <: Data : Arithmetic, U <: Data, V <: Data](
                                                                              // 板上能够直接验证 accepted-retired==outstanding，而不会被综合优化掉。
                                                                              loopConvAcceptedCsrId: Option[Int] = None,
                                                                              loopConvRetiredCsrId: Option[Int] = None,
+                                                                             deadlockDebugControlCsrId: Option[Int] = None,
+                                                                             deadlockDebugStatusCsrId: Option[Int] = None,
+                                                                             deadlockDebugSelectCsrId: Option[Int] = None,
+                                                                             deadlockDebugDataCsrId: Option[Int] = None,
                                                                              loopConvSafeMax: Int = 4,
                                                                              fpgaScratchpadSlr: Option[Int] = None
                                                        ) {
+  private val debugIds = Seq(deadlockDebugControlCsrId, deadlockDebugStatusCsrId,
+    deadlockDebugSelectCsrId, deadlockDebugDataCsrId)
+  require(debugIds.forall(_.isDefined) || debugIds.forall(_.isEmpty), "all four diagnostic CSRs are required")
+  private val csrIds = Seq(busyCsrId, loopConvStatusCsrId, loopConvAcceptedCsrId, loopConvRetiredCsrId).flatten ++ debugIds.flatten
+  require(csrIds.distinct.size == csrIds.size, "duplicate Gemmini CSR")
   require(fpgaScratchpadSlr.forall(_ >= 0), "SLR indices must be non-negative")
   require(loopConvSafeMax > 0 && loopConvSafeMax <= 7)
   require(inputType.getWidth == weightType.getWidth)
@@ -401,6 +410,10 @@ case class GemminiArrayConfig[T <: Data : Arithmetic, U <: Data, V <: Data](
     require (opcodeid != -1 && opcodes.opcodes.size == 1)
     header ++= s"#define XCUSTOM_ACC $opcodeid\n"
 
+    deadlockDebugControlCsrId.foreach(id => header ++= f"#define GEMMINI_DEBUG_CONTROL_CSR 0x$id%03x\n")
+    deadlockDebugStatusCsrId.foreach(id => header ++= f"#define GEMMINI_DEBUG_STATUS_CSR 0x$id%03x\n")
+    deadlockDebugSelectCsrId.foreach(id => header ++= f"#define GEMMINI_DEBUG_SELECT_CSR 0x$id%03x\n")
+    deadlockDebugDataCsrId.foreach(id => header ++= f"#define GEMMINI_DEBUG_DATA_CSR 0x$id%03x\n")
     busyCsrId.foreach(id => header ++= f"#define GEMMINI_BUSY_CSR 0x$id%03x\n")
     loopConvStatusCsrId.foreach { id =>
       header ++= f"#define GEMMINI_LOOPCONV_STATUS_CSR 0x$id%03x\n"

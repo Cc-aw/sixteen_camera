@@ -291,14 +291,29 @@ module Rocket(	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scal
   input  [63:0]  io_rocc_csrs_1_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   input  [63:0]  io_rocc_csrs_2_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   input  [63:0]  io_rocc_csrs_3_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
-  input  [63:0]  io_rocc_csrs_4_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  output         io_rocc_csrs_4_wen,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  output [63:0]  io_rocc_csrs_4_wdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   input  [63:0]  io_rocc_csrs_5_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
-  input  [63:0]  io_rocc_csrs_6_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  output [63:0]  io_rocc_csrs_6_value,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   input  [63:0]  io_rocc_csrs_7_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   input  [63:0]  io_rocc_csrs_8_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   input  [63:0]  io_rocc_csrs_9_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   input  [63:0]  io_rocc_csrs_10_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   input  [63:0]  io_rocc_csrs_11_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  output         io_rocc_csrs_12_wen,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  output [63:0]  io_rocc_csrs_12_wdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  input  [63:0]  io_rocc_csrs_13_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  output [63:0]  io_rocc_csrs_14_value,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  input  [63:0]  io_rocc_csrs_15_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  input  [63:0]  io_rocc_csrs_16_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  input  [63:0]  io_rocc_csrs_17_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  input  [63:0]  io_rocc_csrs_18_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  input  [63:0]  io_rocc_csrs_19_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  output         io_rocc_csrs_20_wen,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  output [63:0]  io_rocc_csrs_20_wdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  input  [63:0]  io_rocc_csrs_21_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  output [63:0]  io_rocc_csrs_22_value,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  input  [63:0]  io_rocc_csrs_23_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   output         io_wfi,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   output         io_vector_status_dv,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   output [1:0]   io_vector_status_prv,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
@@ -830,6 +845,12 @@ module Rocket(	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scal
   wire              id_ctrl_vec = _v_decode_io_legal | _v_decode_io_vector;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:360:17, :361:30, :383:19, generators/saturn/src/main/scala/rocket/Configs.scala:35:35]
   wire              id_mem_busy = ~io_dmem_ordered | io_dmem_req_valid_0;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:410:{21,38}, :1171:41]
   wire              _io_rocc_cmd_valid_T = wb_reg_valid & wb_ctrl_rocc;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:250:20, :293:35, :414:53]
+  wire              _id_csr_rocc_write_T_20 = _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7D0;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:317:20, :422:31, :424:21]
+  wire              _id_csr_rocc_write_T_22 = _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7D2;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:317:20, :422:31, :424:21]
+  wire              _id_csr_rocc_write_T_12 = _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7D4;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:317:20, :422:31, :424:21]
+  wire              _id_csr_rocc_write_T_14 = _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7D6;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:317:20, :422:31, :424:21]
+  wire              _id_csr_rocc_write_T_4 = _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7D8;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:317:20, :422:31, :424:21]
+  wire              _id_csr_rocc_write_T_6 = _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7DA;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:317:20, :422:31, :424:21]
   wire              id_vec_busy = io_vector_backend_busy | io_vector_trap_check_busy;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:427:55]
   wire              bypass_sources_3_1 = mem_reg_valid & mem_ctrl_wxd;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:249:21, :270:36, :477:20]
   wire              _fp_data_hazard_ex_T_1 = ex_reg_inst[11:7] == _ibuf_io_inst_0_bits_inst_rs1;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:264:24, :317:20, :471:29, :479:82]
@@ -932,7 +953,7 @@ module Rocket(	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scal
   reg               rocc_blocked;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:1069:25]
   wire              _ctrl_stalld_T_32 =
     ex_reg_valid & (ex_ctrl_wxd & (hazard_targets_0_1 & _fp_data_hazard_ex_T_1 | hazard_targets_1_1 & _fp_data_hazard_ex_T_3 | hazard_targets_2_1 & _fp_data_hazard_ex_T_7) & ((|ex_ctrl_csr) | ex_ctrl_jalr | ex_ctrl_mem | ex_ctrl_mul | ex_ctrl_div | ex_ctrl_fp | ex_ctrl_rocc | ex_ctrl_vec) | id_ctrl_fp & ex_ctrl_wfd & (io_fpu_dec_ren1 & _fp_data_hazard_ex_T_1 | io_fpu_dec_ren2 & _fp_data_hazard_ex_T_3 | io_fpu_dec_ren3 & _ibuf_io_inst_0_bits_inst_rs3 == ex_reg_inst[11:7] | io_fpu_dec_wen & _fp_data_hazard_ex_T_7)) | mem_reg_valid & (data_hazard_mem & ((|mem_ctrl_csr) | mem_ctrl_mem & mem_mem_cmd_bh | mem_ctrl_mul | mem_ctrl_div | mem_ctrl_fp | mem_ctrl_rocc | mem_ctrl_vec) | id_ctrl_fp & mem_ctrl_wfd & (io_fpu_dec_ren1 & _fp_data_hazard_mem_T_1 | io_fpu_dec_ren2 & _fp_data_hazard_mem_T_3 | io_fpu_dec_ren3 & _ibuf_io_inst_0_bits_inst_rs3 == mem_reg_inst[11:7] | io_fpu_dec_wen & _fp_data_hazard_mem_T_7)) | wb_reg_valid & (wb_ctrl_wxd & (hazard_targets_0_1 & _fp_data_hazard_wb_T_1 | hazard_targets_1_1 & _fp_data_hazard_wb_T_3 | hazard_targets_2_1 & _fp_data_hazard_wb_T_7) & wb_set_sboard | id_ctrl_fp & wb_ctrl_wfd & (io_fpu_dec_ren1 & _fp_data_hazard_wb_T_1 | io_fpu_dec_ren2 & _fp_data_hazard_wb_T_3 | io_fpu_dec_ren3 & _ibuf_io_inst_0_bits_inst_rs3 == wb_reg_inst[11:7] | io_fpu_dec_wen & _fp_data_hazard_wb_T_7)) | hazard_targets_0_1 & _id_sboard_hazard_T[0] & ~(ll_wen & ll_waddr == _ibuf_io_inst_0_bits_inst_rs1) | hazard_targets_1_1 & _id_sboard_hazard_T_7[0] & ~(ll_wen & ll_waddr == _ibuf_io_inst_0_bits_inst_rs2) | hazard_targets_2_1 & _id_sboard_hazard_T_14[0] & ~(ll_wen & ll_waddr == _ibuf_io_inst_0_bits_inst_rd) | id_ctrl_vec & (ex_reg_valid & ex_reg_set_vconfig | mem_reg_valid & mem_reg_set_vconfig | _id_vconfig_hazard_T_3) | _csr_io_singleStep & (ex_reg_valid | mem_reg_valid | wb_reg_valid) | id_csr_en & _csr_io_decode_0_fp_csr & ~io_fpu_fcsr_rdy | id_csr_en & _csr_io_decode_0_vector_csr & id_vec_busy | id_ctrl_fp
-    & (io_fpu_dec_ren1 & _id_stall_fpu_T_20[0] | io_fpu_dec_ren2 & _id_stall_fpu_T_23[0] | io_fpu_dec_ren3 & _id_stall_fpu_T_26[0] | io_fpu_dec_wen & _id_stall_fpu_T_29[0]) | id_ctrl_mem & dcache_blocked_blocked & ~io_dmem_perf_grant | id_ctrl_rocc & rocc_blocked | id_ctrl_div & (~(_div_io_req_ready | _div_io_resp_valid & ~wb_wxd) | div_io_req_valid) | (io_rocc_busy | ex_reg_valid & ex_ctrl_rocc | mem_reg_valid & mem_ctrl_rocc | _io_rocc_cmd_valid_T) & (id_ctrl_fence | (_ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7CA | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7CB | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7CC | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7CD | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C3 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C5 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C8 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C9 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C2 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C4 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C6 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C7) & id_csr_en & ~id_csr_ren) | id_vec_busy & id_ctrl_fence | id_mem_busy & (id_ctrl_amo & _ibuf_io_inst_0_bits_inst_bits[25] | id_ctrl_fence_i | id_reg_fence & (id_ctrl_mem | id_ctrl_rocc)) | _csr_io_csr_stall | id_reg_pause;	// @[generators/rocket-chip/src/main/scala/rocket/IDecode.scala:66:42, generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:166:25, :248:20, :249:21, :250:20, :253:35, :264:24, :267:36, :270:36, :277:36, :280:36, :283:25, :293:35, :305:24, :317:20, :339:29, :347:19, :350:54, :352:54, :360:17, :361:30, :363:18, :364:20, :370:19, :376:19, :379:23, :380:21, :381:19, :383:19, :406:29, :410:38, :413:{19,35,51}, :414:{20,37,53}, :422:31, :425:{60,81}, :426:15, :427:55, :428:{46,64,86}, :429:{17,34}, :430:{17,33,46,65,81,97}, :471:29, :472:31, :473:29, :479:82, :529:19, :530:36, :774:29, :775:{35,53,69}, :799:26, :800:24, :801:26, :828:44, :830:14, :831:12, :908:47, :1010:42, :1011:42, :1012:42, :1022:{58,70}, :1025:{77,80}, :1029:{38,48,64,79,94,109,123,139}, :1030:{36,70}, :1031:{38,53,90}, :1032:{35,54,74}, :1038:{40,50,66,84,100,116,131,148}, :1039:{38,72}, :1040:{39,55,92}, :1041:{37,57,78}, :1043:39, :1044:{19,42}, :1045:{20,44}, :1049:{36,70}, :1050:{38,53,90}, :1051:{35,54,71}, :1065:22, :1066:63, :1067:13, :1069:25, :1073:{18,35,51,71}, :1074:23, :1075:{23,40,57,74}, :1076:{15,42,45,62}, :1077:{15,46,61}, :1078:{16,32}, :1079:{17,35}, :1080:{18,34}, :1081:{17,21,40,62,75}, :1082:15, :1083:17, :1084:22, :1329:{27,50}, :1344:35, generators/rocket-chip/src/main/scala/util/package.scala:82:59]
+    & (io_fpu_dec_ren1 & _id_stall_fpu_T_20[0] | io_fpu_dec_ren2 & _id_stall_fpu_T_23[0] | io_fpu_dec_ren3 & _id_stall_fpu_T_26[0] | io_fpu_dec_wen & _id_stall_fpu_T_29[0]) | id_ctrl_mem & dcache_blocked_blocked & ~io_dmem_perf_grant | id_ctrl_rocc & rocc_blocked | id_ctrl_div & (~(_div_io_req_ready | _div_io_resp_valid & ~wb_wxd) | div_io_req_valid) | (io_rocc_busy | ex_reg_valid & ex_ctrl_rocc | mem_reg_valid & mem_ctrl_rocc | _io_rocc_cmd_valid_T) & (id_ctrl_fence | (_ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7CA | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7CB | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7CC | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7CD | _id_csr_rocc_write_T_4 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7D9 | _id_csr_rocc_write_T_6 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7DB | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C3 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C5 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C8 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C9 | _id_csr_rocc_write_T_12 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7D5 | _id_csr_rocc_write_T_14 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7D7 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C2 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C4 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C6 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7C7 | _id_csr_rocc_write_T_20 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7D1 | _id_csr_rocc_write_T_22 | _ibuf_io_inst_0_bits_inst_bits[31:20] == 12'h7D3) & id_csr_en & ~id_csr_ren & ~(_id_csr_rocc_write_T_20 | _id_csr_rocc_write_T_22 | _id_csr_rocc_write_T_12 | _id_csr_rocc_write_T_14 | _id_csr_rocc_write_T_4 | _id_csr_rocc_write_T_6)) | id_vec_busy & id_ctrl_fence | id_mem_busy & (id_ctrl_amo & _ibuf_io_inst_0_bits_inst_bits[25] | id_ctrl_fence_i | id_reg_fence & (id_ctrl_mem | id_ctrl_rocc)) | _csr_io_csr_stall | id_reg_pause;	// @[generators/rocket-chip/src/main/scala/rocket/IDecode.scala:66:42, generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:166:25, :248:20, :249:21, :250:20, :253:35, :264:24, :267:36, :270:36, :277:36, :280:36, :283:25, :293:35, :305:24, :317:20, :339:29, :347:19, :350:54, :352:54, :360:17, :361:30, :363:18, :364:20, :370:19, :376:19, :379:23, :380:21, :381:19, :383:19, :406:29, :410:38, :413:{19,35,51}, :414:{20,37,53}, :422:31, :424:{21,53}, :425:{60,81}, :426:{15,30,33}, :427:55, :428:{46,64,86}, :429:{17,34}, :430:{17,33,46,65,81,97}, :471:29, :472:31, :473:29, :479:82, :529:19, :530:36, :774:29, :775:{35,53,69}, :799:26, :800:24, :801:26, :828:44, :830:14, :831:12, :908:47, :1010:42, :1011:42, :1012:42, :1022:{58,70}, :1025:{77,80}, :1029:{38,48,64,79,94,109,123,139}, :1030:{36,70}, :1031:{38,53,90}, :1032:{35,54,74}, :1038:{40,50,66,84,100,116,131,148}, :1039:{38,72}, :1040:{39,55,92}, :1041:{37,57,78}, :1043:39, :1044:{19,42}, :1045:{20,44}, :1049:{36,70}, :1050:{38,53,90}, :1051:{35,54,71}, :1065:22, :1066:63, :1067:13, :1069:25, :1073:{18,35,51,71}, :1074:23, :1075:{23,40,57,74}, :1076:{15,42,45,62}, :1077:{15,46,61}, :1078:{16,32}, :1079:{17,35}, :1080:{18,34}, :1081:{17,21,40,62,75}, :1082:15, :1083:17, :1084:22, :1329:{27,50}, :1344:35, generators/rocket-chip/src/main/scala/util/package.scala:82:59]
   wire              ctrl_killd = ~_ibuf_io_inst_0_valid | _ibuf_io_inst_0_bits_replay | ibuf_io_kill | _ctrl_stalld_T_32 | _csr_io_interrupt;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:313:35, :317:20, :347:19, :428:86, :429:34, :1073:{18,35,51,71}, :1074:23, :1075:74, :1076:62, :1077:61, :1078:32, :1079:35, :1080:34, :1082:15, :1083:17, :1084:22, :1087:{17,40,71,89,104}, :1329:50]
   reg               io_imem_progress_REG;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:1100:30]
   wire              io_ptw_sfence_valid_0 = wb_reg_valid & wb_reg_sfence;	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:293:35, :299:26, :1101:40]
@@ -1852,14 +1873,29 @@ module Rocket(	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scal
     .io_roccCSRs_1_sdata                         (io_rocc_csrs_1_sdata),
     .io_roccCSRs_2_sdata                         (io_rocc_csrs_2_sdata),
     .io_roccCSRs_3_sdata                         (io_rocc_csrs_3_sdata),
-    .io_roccCSRs_4_sdata                         (io_rocc_csrs_4_sdata),
+    .io_roccCSRs_4_wen                           (io_rocc_csrs_4_wen),
+    .io_roccCSRs_4_wdata                         (io_rocc_csrs_4_wdata),
     .io_roccCSRs_5_sdata                         (io_rocc_csrs_5_sdata),
-    .io_roccCSRs_6_sdata                         (io_rocc_csrs_6_sdata),
+    .io_roccCSRs_6_value                         (io_rocc_csrs_6_value),
     .io_roccCSRs_7_sdata                         (io_rocc_csrs_7_sdata),
     .io_roccCSRs_8_sdata                         (io_rocc_csrs_8_sdata),
     .io_roccCSRs_9_sdata                         (io_rocc_csrs_9_sdata),
     .io_roccCSRs_10_sdata                        (io_rocc_csrs_10_sdata),
-    .io_roccCSRs_11_sdata                        (io_rocc_csrs_11_sdata)
+    .io_roccCSRs_11_sdata                        (io_rocc_csrs_11_sdata),
+    .io_roccCSRs_12_wen                          (io_rocc_csrs_12_wen),
+    .io_roccCSRs_12_wdata                        (io_rocc_csrs_12_wdata),
+    .io_roccCSRs_13_sdata                        (io_rocc_csrs_13_sdata),
+    .io_roccCSRs_14_value                        (io_rocc_csrs_14_value),
+    .io_roccCSRs_15_sdata                        (io_rocc_csrs_15_sdata),
+    .io_roccCSRs_16_sdata                        (io_rocc_csrs_16_sdata),
+    .io_roccCSRs_17_sdata                        (io_rocc_csrs_17_sdata),
+    .io_roccCSRs_18_sdata                        (io_rocc_csrs_18_sdata),
+    .io_roccCSRs_19_sdata                        (io_rocc_csrs_19_sdata),
+    .io_roccCSRs_20_wen                          (io_rocc_csrs_20_wen),
+    .io_roccCSRs_20_wdata                        (io_rocc_csrs_20_wdata),
+    .io_roccCSRs_21_sdata                        (io_rocc_csrs_21_sdata),
+    .io_roccCSRs_22_value                        (io_rocc_csrs_22_value),
+    .io_roccCSRs_23_sdata                        (io_rocc_csrs_23_sdata)
   );	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:347:19]
   EarlyVectorDecode v_decode (	// @[generators/saturn/src/main/scala/rocket/Configs.scala:35:35]
     .io_inst               (_ibuf_io_inst_0_bits_inst_bits),	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:317:20]

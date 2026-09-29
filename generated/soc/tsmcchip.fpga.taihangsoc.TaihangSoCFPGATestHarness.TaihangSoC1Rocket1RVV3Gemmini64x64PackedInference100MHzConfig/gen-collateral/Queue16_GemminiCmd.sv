@@ -153,10 +153,11 @@ module Queue16_GemminiCmd(	// @[src/main/scala/chisel3/util/Decoupled.scala:243:
   output        io_deq_bits_cmd_status_hie,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output        io_deq_bits_cmd_status_sie,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output        io_deq_bits_cmd_status_uie,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output        io_deq_bits_rob_id_valid,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output [6:0]  io_deq_bits_rob_id_bits	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
 );
 
-  wire [246:0] _ram_ext_R0_data;	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
+  wire [247:0] _ram_ext_R0_data;	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
   reg  [3:0]   enq_ptr_value;	// @[src/main/scala/chisel3/util/Counter.scala:61:40]
   reg  [3:0]   deq_ptr_value;	// @[src/main/scala/chisel3/util/Counter.scala:61:40]
   reg          maybe_full;	// @[src/main/scala/chisel3/util/Decoupled.scala:259:27]
@@ -200,7 +201,7 @@ module Queue16_GemminiCmd(	// @[src/main/scala/chisel3/util/Decoupled.scala:243:
       `FIRRTL_AFTER_INITIAL	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7]
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  ram_16x247 ram_ext (	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
+  ram_16x248 ram_ext (	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
     .R0_addr (deq_ptr_value),	// @[src/main/scala/chisel3/util/Counter.scala:61:40]
     .R0_en   (1'h1),
     .R0_clk  (clock),
@@ -208,7 +209,7 @@ module Queue16_GemminiCmd(	// @[src/main/scala/chisel3/util/Decoupled.scala:243:
     .W0_addr (enq_ptr_value),	// @[src/main/scala/chisel3/util/Counter.scala:61:40]
     .W0_en   (do_enq),	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35]
     .W0_clk  (clock),
-    .W0_data ({io_enq_bits_rob_id_bits, io_enq_bits_cmd_status_uie, io_enq_bits_cmd_status_sie, io_enq_bits_cmd_status_hie, io_enq_bits_cmd_status_mie, io_enq_bits_cmd_status_upie, io_enq_bits_cmd_status_spie, io_enq_bits_cmd_status_ube, io_enq_bits_cmd_status_mpie, io_enq_bits_cmd_status_spp, io_enq_bits_cmd_status_vs, io_enq_bits_cmd_status_mpp, io_enq_bits_cmd_status_fs, io_enq_bits_cmd_status_xs, io_enq_bits_cmd_status_mprv, io_enq_bits_cmd_status_sum, io_enq_bits_cmd_status_mxr, io_enq_bits_cmd_status_tvm, io_enq_bits_cmd_status_tw, io_enq_bits_cmd_status_tsr, io_enq_bits_cmd_status_zero1, io_enq_bits_cmd_status_sd_rv32, io_enq_bits_cmd_status_uxl, io_enq_bits_cmd_status_sxl, io_enq_bits_cmd_status_sbe, io_enq_bits_cmd_status_mbe, io_enq_bits_cmd_status_gva, io_enq_bits_cmd_status_mpv, io_enq_bits_cmd_status_zero2, io_enq_bits_cmd_status_sd, io_enq_bits_cmd_status_v, io_enq_bits_cmd_status_prv, io_enq_bits_cmd_status_dv, io_enq_bits_cmd_status_dprv, io_enq_bits_cmd_status_isa, io_enq_bits_cmd_status_wfi, io_enq_bits_cmd_status_cease, io_enq_bits_cmd_status_debug, io_enq_bits_cmd_rs2, io_enq_bits_cmd_rs1, io_enq_bits_cmd_inst_funct})	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
+    .W0_data ({io_enq_bits_rob_id_bits, 1'h1, io_enq_bits_cmd_status_uie, io_enq_bits_cmd_status_sie, io_enq_bits_cmd_status_hie, io_enq_bits_cmd_status_mie, io_enq_bits_cmd_status_upie, io_enq_bits_cmd_status_spie, io_enq_bits_cmd_status_ube, io_enq_bits_cmd_status_mpie, io_enq_bits_cmd_status_spp, io_enq_bits_cmd_status_vs, io_enq_bits_cmd_status_mpp, io_enq_bits_cmd_status_fs, io_enq_bits_cmd_status_xs, io_enq_bits_cmd_status_mprv, io_enq_bits_cmd_status_sum, io_enq_bits_cmd_status_mxr, io_enq_bits_cmd_status_tvm, io_enq_bits_cmd_status_tw, io_enq_bits_cmd_status_tsr, io_enq_bits_cmd_status_zero1, io_enq_bits_cmd_status_sd_rv32, io_enq_bits_cmd_status_uxl, io_enq_bits_cmd_status_sxl, io_enq_bits_cmd_status_sbe, io_enq_bits_cmd_status_mbe, io_enq_bits_cmd_status_gva, io_enq_bits_cmd_status_mpv, io_enq_bits_cmd_status_zero2, io_enq_bits_cmd_status_sd, io_enq_bits_cmd_status_v, io_enq_bits_cmd_status_prv, io_enq_bits_cmd_status_dv, io_enq_bits_cmd_status_dprv, io_enq_bits_cmd_status_isa, io_enq_bits_cmd_status_wfi, io_enq_bits_cmd_status_cease, io_enq_bits_cmd_status_debug, io_enq_bits_cmd_rs2, io_enq_bits_cmd_rs1, io_enq_bits_cmd_inst_funct})	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
   );	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
   assign io_enq_ready = ~full;	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :262:24, :286:19]
   assign io_deq_valid = ~empty;	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :261:25, :285:19]
@@ -252,6 +253,7 @@ module Queue16_GemminiCmd(	// @[src/main/scala/chisel3/util/Decoupled.scala:243:
   assign io_deq_bits_cmd_status_hie = _ram_ext_R0_data[237];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
   assign io_deq_bits_cmd_status_sie = _ram_ext_R0_data[238];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
   assign io_deq_bits_cmd_status_uie = _ram_ext_R0_data[239];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
-  assign io_deq_bits_rob_id_bits = _ram_ext_R0_data[246:240];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_rob_id_valid = _ram_ext_R0_data[240];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_rob_id_bits = _ram_ext_R0_data[247:241];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
 endmodule
 

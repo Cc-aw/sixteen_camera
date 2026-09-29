@@ -23,6 +23,8 @@ class StoreController[T <: Data : Arithmetic, U <: Data, V <: Data](config: Gemm
     val completed = Decoupled(UInt(log2Up(reservation_station_entries).W))
 
     val busy = Output(Bool())
+    val deadlock_debug = Output(UInt(64.W))
+    val dma_debug = Output(UInt(64.W))
     val silu_lut_write = Valid(new SiluLutWrite)
     val silu_lut_ready = Input(Bool())
 
@@ -215,6 +217,25 @@ class StoreController[T <: Data : Arithmetic, U <: Data, V <: Data](config: Gemm
   io.completed.bits := cmd_tracker.io.cmd_completed.bits.tag.rob_id
 
   io.busy := cmd.valid || cmd_tracker.io.busy
+  io.dma_debug := cmd_tracker.io.debug
+
+  /** IPOAT：StoreController 命令到 DMA tracker 生命周期快照
+    * I（Input 输入）：控制状态、ROB/cmd_id、行块坐标、DMA 请求/返回、tracker 分配/完成。
+    * P（Process 处理）：只读压缩为 64-bit，不改变 Store/SiLU/AccScale 数据流。
+    * O（Output 输出）：可定位 ST tag 在命令生成、AccScale/DMA 接收或完成回传中的停点。
+    * A（Author 作者）：王志瑞
+    * T（Time 时间）：2026-09-19
+    */
+  io.deadlock_debug := Cat(0.U(5.W), io.busy,
+    io.completed.fire, io.completed.ready, io.completed.valid,
+    cmd_tracker.io.alloc.fire(), cmd_tracker.io.alloc.ready, cmd_tracker.io.alloc.valid,
+    cmd_tracker.io.busy,
+    io.dma.resp.fire, true.B, io.dma.resp.valid,
+    io.dma.req.fire, io.dma.req.ready, io.dma.req.valid,
+    cmd.fire, cmd.ready, cmd.valid,
+    cmd_id.pad(8)(7, 0), row_counter(7, 0), block_counter,
+    cmd.bits.rob_id.bits.pad(8)(7, 0), cmd.bits.rob_id.valid,
+    cmd.bits.cmd.inst.funct, control_state.asUInt.pad(2))
 
   // Row counter
   when (io.dma.req.fire) {

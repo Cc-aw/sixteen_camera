@@ -231,6 +231,7 @@ class LoopConvLdBias(block_size: Int, coreMaxAddrBits: Int, large_iterator_bitwi
     val wait_for_prev_loop = Input(Bool())
 
     val loop_id = Output(UInt(log2Up(concurrent_loops).W))
+    val deadlock_debug = Output(UInt(64.W))
   })
 
   object State extends ChiselEnum {
@@ -385,6 +386,17 @@ class LoopConvLdBias(block_size: Int, coreMaxAddrBits: Int, large_iterator_bitwi
     ocol := 0.U
     och := 0.U
   }
+
+  /** IPOAT：Bias 子生成器阻塞快照
+    * I（Input 输入）：状态、loop、等待/过载、pipeline 与当前迭代坐标。
+    * P（Process 处理）：只读压缩为 64-bit，不参与任何握手。
+    * O（Output 输出）：可区分依赖等待、RS 满和 pipeline 出口反压。
+    * A（Author 作者）：王志瑞
+    * T（Time 时间）：2026-09-19
+    */
+  io.deadlock_debug := Cat(0.U(24.W), b(7, 0), orow(7, 0), ocol(7, 0), och(7, 0),
+    state.asUInt.pad(2), io.loop_id, io.wait_for_prev_loop, io.rob_overloaded,
+    command_p.io.busy, io.cmd.valid, io.cmd.ready)
 }
 
 class LoopConvLdInputReq(val coreMaxAddrBits: Int, val large_iterator_bitwidth: Int, val small_iterator_bitwidth: Int, val tiny_iterator_bitwidth: Int, val max_acc_addr: Int, val concurrent_loops: Int)  extends Bundle {
@@ -415,6 +427,7 @@ class LoopConvLdInput(block_size: Int, coreMaxAddrBits: Int, large_iterator_bitw
     val wait_for_prev_loop = Input(Bool())
 
     val loop_id = Output(UInt(log2Up(concurrent_loops).W))
+    val deadlock_debug = Output(UInt(64.W))
   })
 
   object State extends ChiselEnum {
@@ -611,6 +624,17 @@ class LoopConvLdInput(block_size: Int, coreMaxAddrBits: Int, large_iterator_bitw
     icol := 0.S -& ((io.req.bits.inner_bounds.lpad +& io.req.bits.input_dilated) >> io.req.bits.input_dilated).zext
     ich := 0.S
   }
+
+  /** IPOAT：Input 子生成器阻塞快照
+    * I（Input 输入）：状态、依赖/RS 背压、pipeline 与 b/irow/icol/ich。
+    * P（Process 处理）：保留各坐标低 8 位并组合控制状态，仅作观察。
+    * O（Output 输出）：输入加载生成器停滞的精确位置和阻塞类别。
+    * A（Author 作者）：王志瑞
+    * T（Time 时间）：2026-09-19
+    */
+  io.deadlock_debug := Cat(0.U(24.W), b.asUInt.pad(8)(7, 0), irow.asUInt.pad(8)(7, 0),
+    icol.asUInt.pad(8)(7, 0), ich.asUInt.pad(8)(7, 0), state.asUInt.pad(2), io.loop_id,
+    io.wait_for_prev_loop, io.rob_overloaded, command_p.io.busy, io.cmd.valid, io.cmd.ready)
 }
 
 class LoopConvLdWeightReq(val coreMaxAddrBits: Int, val large_iterator_bitwidth: Int, val small_iterator_bitwidth: Int, val tiny_iterator_bitwidth: Int, val max_addr: Int, val concurrent_loops: Int)  extends Bundle {
@@ -640,6 +664,8 @@ class LoopConvLdWeight(block_size: Int, coreMaxAddrBits: Int, large_iterator_bit
     val wait_for_prev_loop = Input(Bool())
 
     val loop_id = Output(UInt(log2Up(concurrent_loops).W))
+    val deadlock_debug = Output(UInt(64.W))
+    // （Author 作者：王志瑞）：导出权重 LOAD2 的区间计算量，仅用于片上被动记录。
   })
 
   object State extends ChiselEnum {
@@ -836,6 +862,17 @@ class LoopConvLdWeight(block_size: Int, coreMaxAddrBits: Int, large_iterator_bit
     krow := 0.U
     och := 0.U
   }
+
+  /** IPOAT：Weight 子生成器阻塞快照
+    * I（Input 输入）：状态、依赖/RS 背压、pipeline 与 och/krow/kcol/kch。
+    * P（Process 处理）：低 8 位迭代坐标和握手状态只读打包。
+    * O（Output 输出）：权重加载生成器等待对象及最后迭代位置。
+    * A（Author 作者）：王志瑞
+    * T（Time 时间）：2026-09-19
+    */
+  io.deadlock_debug := Cat(0.U(24.W), och(7, 0), krow.pad(8)(7, 0), kcol.pad(8)(7, 0),
+    kch(7, 0), state.asUInt.pad(2), io.loop_id, io.wait_for_prev_loop,
+    io.rob_overloaded, command_p.io.busy, io.cmd.valid, io.cmd.ready)
 }
 
 class LoopConvExecuteReq(val large_iterator_bitwidth: Int, val small_iterator_bitwidth: Int, val tiny_iterator_bitwidth: Int, val max_addr: Int, val max_acc_addr: Int, val concurrent_loops: Int)  extends Bundle {
@@ -870,6 +907,7 @@ class LoopConvExecute(block_size: Int, large_iterator_bitwidth: Int, small_itera
     val rob_overloaded = Input(Bool())
 
     val loop_id = Output(UInt(log2Up(concurrent_loops).W))
+    val deadlock_debug = Output(UInt(64.W))
   })
 
   object State extends ChiselEnum {
@@ -1172,6 +1210,17 @@ class LoopConvExecute(block_size: Int, large_iterator_bitwidth: Int, small_itera
 
     new_weights := true.B
   }
+
+  /** IPOAT：Execute 子生成器阻塞快照
+    * I（Input 输入）：状态、load-ahead、RS/pipeline 背压和七级卷积迭代坐标。
+    * P（Process 处理）：控制位与各坐标低 8 位组合，不改变 PRELOAD/COMPUTE 调度。
+    * O（Output 输出）：执行生成器究竟等待 load、RS ready 还是内部 pipeline。
+    * A（Author 作者）：王志瑞
+    * T（Time 时间）：2026-09-19
+    */
+  io.deadlock_debug := Cat(b(7, 0), orow(7, 0), ocol(7, 0), och(7, 0),
+    krow.pad(8)(7, 0), kcol.pad(8)(7, 0), kch(7, 0), state.asUInt.pad(2),
+    io.loop_id, ld_ahead, io.rob_overloaded, command_p.io.busy, io.cmd.valid, io.cmd.ready)
 }
 
 class LoopConvStReq(val coreMaxAddrBits: Int, val large_iterator_bitwidth: Int, val small_iterator_bitwidth: Int, val tiny_iterator_bitwidth: Int, val max_acc_addr: Int, val concurrent_loops: Int)  extends Bundle {
@@ -1199,6 +1248,7 @@ class LoopConvSt(block_size: Int, coreMaxAddrBits: Int, large_iterator_bitwidth:
     val rob_overloaded = Input(Bool())
 
     val loop_id = Output(UInt(log2Up(concurrent_loops).W))
+    val deadlock_debug = Output(UInt(64.W))
   })
 
   object State extends ChiselEnum {
@@ -1445,9 +1495,21 @@ class LoopConvSt(block_size: Int, coreMaxAddrBits: Int, large_iterator_bitwidth:
     ocol := 0.U
     och := 0.U
   }
+
+  /** IPOAT：Store 子生成器阻塞快照
+    * I（Input 输入）：状态、execute-ahead、RS/pipeline 背压和 b/orow/ocol/och。
+    * P（Process 处理）：只读组合为固定 64-bit 页。
+    * O（Output 输出）：Store 生成器是否在等 EX、RS 或 pipeline 出口。
+    * A（Author 作者）：王志瑞
+    * T（Time 时间）：2026-09-19
+    */
+  io.deadlock_debug := Cat(0.U(24.W), b(7, 0), orow(7, 0), ocol(7, 0), och(7, 0),
+    state.asUInt.pad(3), io.loop_id, io.ex_completed, io.rob_overloaded,
+    command_p.io.busy, io.cmd.valid)
 }
 
 class LoopConvState(val block_size: Int, val large_iterator_bitwidth: Int, val small_iterator_bitwidth: Int, val tiny_iterator_bitwidth: Int, val coreMaxAddrBits: Int, val max_addr: Int, val max_acc_addr: Int) extends Bundle {
+  val request_seq = UInt(32.W)
   val outer_bounds = new LoopConvOuterBounds(large_iterator_bitwidth, small_iterator_bitwidth, tiny_iterator_bitwidth)
   val inner_bounds = new LoopConvInnerBounds(large_iterator_bitwidth, small_iterator_bitwidth, tiny_iterator_bitwidth)
 
@@ -1547,6 +1609,7 @@ class LoopConvState(val block_size: Int, val large_iterator_bitwidth: Int, val s
   }
 
   def reset(): Unit = {
+    request_seq := 0.U
     configured := false.B
     derive_pending := false.B
     deriving := false.B
@@ -1591,10 +1654,12 @@ class LoopConv (block_size: Int, coreMaxAddrBits: Int, reservation_station_size:
     val busy = Output(Bool())
     val request_retire = Output(Bool())
     val running_slot_count = Output(UInt(2.W))
+    val deadlock_debug = Output(Vec(10, UInt(64.W)))
   })
 
   // Create states
   val concurrent_loops = 2
+  val requestSeq = RegInit(0.U(32.W))
   val loops = Reg(Vec(concurrent_loops, new LoopConvState(block_size, large_iterator_bitwidth, small_iterator_bitwidth, tiny_iterator_bitwidth, coreMaxAddrBits, max_addr, max_acc_addr)))
   val head_loop_id = RegInit(0.U(log2Up(concurrent_loops).W))
   val tail_loop_id = (~head_loop_id).asUInt // This is the loop that we always try to configure if available
@@ -1782,6 +1847,10 @@ class LoopConv (block_size: Int, coreMaxAddrBits: Int, reservation_station_size:
       }
 
       is (LOOP_CONV_WS) {
+        when (cmd.fire) {
+          requestSeq := requestSeq + 1.U
+          loop_being_configured.request_seq := requestSeq
+        }
         loop_being_configured.no_bias := cmd.bits.cmd.rs1(0)
 
         // TODO we added a default value for max_pixels_per_row just to maintain backwards compatibility. we should deprecate and remove it later
@@ -1961,6 +2030,72 @@ class LoopConv (block_size: Int, coreMaxAddrBits: Int, reservation_station_size:
     head_loop_id := ~head_loop_id
   }
 
+  /** IPOAT：LoopConv 四页死锁快照
+    * I（Input 输入）：两个 slot 的序号/started/completed、五个子引擎握手、RS utilization 和完成计数。
+    * P（Process 处理）：计算阻塞原因位与距上次进展周期数；逻辑仅扇出观察，绝不回接 ready/valid。
+    * O（Output 输出）：页0全局状态、页1/2 slot0/1、页3子引擎及完成事件。
+    * A（Author 作者）：王志瑞
+    * T（Time 时间）：2026-09-17
+    */
+  val debugProgress = cmd.fire || io.out.fire || requestRetire ||
+    io.ld_completed.orR || io.ex_completed.orR || io.st_completed.orR ||
+    ld_bias.io.req.fire || ld_input.io.req.fire || ld_weights.io.req.fire ||
+    ex.io.req.fire || st.io.req.fire
+  val debugCyclesSinceProgress = RegInit(0.U(32.W))
+  when (debugProgress) {
+    debugCyclesSinceProgress := 0.U
+  }.elsewhen (io.busy && debugCyclesSinceProgress =/= "hffffffff".U) {
+    debugCyclesSinceProgress := debugCyclesSinceProgress + 1.U
+  }
+
+  def startedMask(l: LoopConvState): UInt = Cat(l.st_started, l.ex_started,
+    l.ld_weights_started, l.ld_input_started, l.ld_bias_started)
+  def completedMask(l: LoopConvState): UInt = Cat(l.st_completed, l.ex_completed,
+    l.ld_weights_completed, l.ld_input_completed, l.ld_bias_completed)
+  def slotBlockMask(id: Int): UInt = Cat(
+    loops(id).st_started && !loops(id).st_completed && !st.io.idle,
+    loops(id).ex_started && !loops(id).ex_completed && !ex.io.idle,
+    st.io.rob_overloaded,
+    ex.io.rob_overloaded,
+    ld_weights.io.wait_for_prev_loop || ld_input.io.wait_for_prev_loop || ld_bias.io.wait_for_prev_loop,
+    ld_weights.io.rob_overloaded || ld_input.io.rob_overloaded || ld_bias.io.rob_overloaded,
+    loops(id).configured && !loops(id).running,
+    !loops(id).configured)
+
+  io.deadlock_debug(0) := Cat(debugCyclesSinceProgress, requestSeq(7, 0),
+    io.out.fire,
+    arb.io.chosen, io.running_slot_count, tail_loop_id, head_loop_id,
+    st_utilization.pad(5), ex_utilization.pad(6), ld_utilization.pad(5))
+  for (i <- 0 until concurrent_loops) {
+    io.deadlock_debug(i + 1) := Cat(0.U(12.W), slotBlockMask(i),
+      completedMask(loops(i)), startedMask(loops(i)), loops(i).running,
+      loops(i).configured, loops(i).request_seq)
+  }
+  io.deadlock_debug(3) := Cat(0.U(27.W),
+    st.io.loop_id, ex.io.loop_id, ld_weights.io.loop_id, ld_input.io.loop_id, ld_bias.io.loop_id,
+    st.io.idle, ex.io.idle, ld_weights.io.idle, ld_input.io.idle, ld_bias.io.idle,
+    st.io.req.valid, st.io.req.ready, ex.io.req.valid, ex.io.req.ready,
+    ld_weights.io.req.valid, ld_weights.io.req.ready,
+    ld_input.io.req.valid, ld_input.io.req.ready,
+    ld_bias.io.req.valid, ld_bias.io.req.ready,
+    io.st_completed.pad(4), io.ex_completed.pad(4), io.ld_completed.pad(4))
+  /** IPOAT：五个子生成器详细页
+    * I（Input 输入）：Bias/Input/Weight/Execute/Store 各自的状态、迭代器和阻塞握手。
+    * P（Process 处理）：按固定顺序透传子模块的 64-bit 被动观测页。
+    * O（Output 输出）：deadlock_debug[4..8]，用于从未退休 slot 追到具体生成器等待条件。
+    * A（Author 作者）：王志瑞
+    * T（Time 时间）：2026-09-19
+    */
+  io.deadlock_debug(4) := ld_bias.io.deadlock_debug
+  io.deadlock_debug(5) := ld_input.io.deadlock_debug
+  io.deadlock_debug(6) := ld_weights.io.deadlock_debug
+  io.deadlock_debug(7) := ex.io.deadlock_debug
+  io.deadlock_debug(8) := st.io.deadlock_debug
+  io.deadlock_debug(9) := Cat(0.U(54.W),
+    derivedParamsPipe.io.in.valid, derivedParamsPipe.io.out.valid,
+    loops(1).deriving, loops(1).derive_pending, loops(1).configured, loops(1).running,
+    loops(0).deriving, loops(0).derive_pending, loops(0).configured, loops(0).running)
+
   // Resets
   when (reset.asBool) {
     loops.zipWithIndex.foreach { case (l, i) =>
@@ -1979,7 +2114,7 @@ object LoopConv {
             mvout_rs2_t: MvoutRs2, config_ex_rs1_t: ConfigExRs1, preload_rs1_t: PreloadRs, preload_rs2_t: PreloadRs,
             compute_rs1_t: ComputeRs, compute_rs2_t: ComputeRs, has_training_convs: Boolean, has_max_pool: Boolean,
             has_first_layer_optimizations: Boolean, has_dw_convs: Boolean)
-           (implicit p: Parameters): (DecoupledIO[GemminiCmd], Bool, Bool, UInt) = {
+           (implicit p: Parameters): (DecoupledIO[GemminiCmd], Bool, Bool, UInt, Vec[UInt]) = {
 
     val mod = Module(new LoopConv(block_size, coreMaxAddrBits, rob_size, max_lds, max_exs, max_sts,
       max_addr, max_acc_addr, input_w, acc_w, dma_max_bytes,
@@ -1990,7 +2125,7 @@ object LoopConv {
     mod.io.ld_completed := ld_completed
     mod.io.st_completed := st_completed
     mod.io.ex_completed := ex_completed
-    (mod.io.out, mod.io.busy, mod.io.request_retire, mod.io.running_slot_count)
+    (mod.io.out, mod.io.busy, mod.io.request_retire, mod.io.running_slot_count, mod.io.deadlock_debug)
   }
 
   def castDramOffset(dram_offset: UInt): UInt = {

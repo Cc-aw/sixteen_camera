@@ -4,11 +4,12 @@ set rockets [get_cells -hier -quiet -filter {REF_NAME == RocketTile}]
 if {[llength $rockets] != 1} { error "Expected exactly one RocketTile" }
 set root [get_property NAME $rockets]
 
-# Audit the clock at the actual RocketTile input: the video design has
-# multiple 100 MHz clocks, so a global PERIOD-only query is not unique.
-set clock_pin [get_pins -quiet ${root}/clock]
-if {[llength $clock_pin] != 1} { error "RocketTile clock pin not found" }
-set clocks [get_clocks -quiet -of_objects $clock_pin]
+# Rebuilt hierarchy can rename the clock port (saved_denied_reg in the
+# video checkpoint). Query clocks on the actual input objects instead of
+# relying on the RTL port name or selecting a global 100 MHz clock.
+set input_pins [get_pins -quiet -of_objects $rockets -filter {DIRECTION == IN}]
+if {[llength $input_pins] == 0} { error "RocketTile input pins not found" }
+set clocks [get_clocks -quiet -of_objects $input_pins]
 if {[llength $clocks] == 0} { error "RocketTile clock is unconstrained" }
 foreach c $clocks {
     if {abs([get_property PERIOD $c] - 10.000) > 0.002} {

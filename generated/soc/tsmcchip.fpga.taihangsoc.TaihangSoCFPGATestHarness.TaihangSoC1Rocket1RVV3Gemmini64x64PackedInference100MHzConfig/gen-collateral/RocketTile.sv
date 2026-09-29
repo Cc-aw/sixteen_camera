@@ -297,6 +297,15 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
   wire         _core_io_rocc_cmd_bits_status_mie;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
   wire         _core_io_rocc_cmd_bits_status_sie;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
   wire         _core_io_rocc_resp_ready;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+  wire         _core_io_rocc_csrs_4_wen;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+  wire [63:0]  _core_io_rocc_csrs_4_wdata;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+  wire [63:0]  _core_io_rocc_csrs_6_value;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+  wire         _core_io_rocc_csrs_12_wen;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+  wire [63:0]  _core_io_rocc_csrs_12_wdata;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+  wire [63:0]  _core_io_rocc_csrs_14_value;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+  wire         _core_io_rocc_csrs_20_wen;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+  wire [63:0]  _core_io_rocc_csrs_20_wdata;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+  wire [63:0]  _core_io_rocc_csrs_22_value;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
   wire         _core_io_wfi;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
   wire         _core_io_vector_status_dv;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
   wire [1:0]   _core_io_vector_status_prv;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
@@ -530,6 +539,9 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
   wire         _cmdRouter_io_loopconv_assembler_partial_0;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
   wire         _cmdRouter_io_loopconv_assembler_partial_1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
   wire         _cmdRouter_io_loopconv_assembler_partial_2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
+  wire [63:0]  _cmdRouter_io_loopconv_ingress_debug_0;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
+  wire [63:0]  _cmdRouter_io_loopconv_ingress_debug_1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
+  wire [63:0]  _cmdRouter_io_loopconv_ingress_debug_2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
   wire         _respArb_io_in_0_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
   wire         _respArb_io_in_1_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
   wire         _respArb_io_in_2_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
@@ -875,24 +887,28 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
   wire         _frontend_io_ptw_req_bits_valid;	// @[generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28]
   wire [26:0]  _frontend_io_ptw_req_bits_bits_addr;	// @[generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28]
   wire         _frontend_io_ptw_req_bits_bits_need_gpa;	// @[generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28]
-  wire         _applyOrElse_2_io_cmd_ready;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
-  wire         _applyOrElse_2_io_resp_valid;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
-  wire [4:0]   _applyOrElse_2_io_resp_bits_rd;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
-  wire [63:0]  _applyOrElse_2_io_resp_bits_data;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
-  wire         _applyOrElse_2_io_busy;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
-  wire [63:0]  _applyOrElse_2_io_csrs_0_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
-  wire [63:0]  _applyOrElse_2_io_csrs_1_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
-  wire [63:0]  _applyOrElse_2_io_csrs_2_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
-  wire [63:0]  _applyOrElse_2_io_csrs_3_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
-  wire         _applyOrElse_1_io_cmd_ready;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
-  wire         _applyOrElse_1_io_resp_valid;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
-  wire [4:0]   _applyOrElse_1_io_resp_bits_rd;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
-  wire [63:0]  _applyOrElse_1_io_resp_bits_data;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
-  wire         _applyOrElse_1_io_busy;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
-  wire [63:0]  _applyOrElse_1_io_csrs_0_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
-  wire [63:0]  _applyOrElse_1_io_csrs_1_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
-  wire [63:0]  _applyOrElse_1_io_csrs_2_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
-  wire [63:0]  _applyOrElse_1_io_csrs_3_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
+  wire         _applyOrElse_2_io_cmd_ready;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+  wire         _applyOrElse_2_io_resp_valid;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+  wire [4:0]   _applyOrElse_2_io_resp_bits_rd;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+  wire [63:0]  _applyOrElse_2_io_resp_bits_data;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+  wire         _applyOrElse_2_io_busy;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+  wire [63:0]  _applyOrElse_2_io_csrs_0_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+  wire [63:0]  _applyOrElse_2_io_csrs_1_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+  wire [63:0]  _applyOrElse_2_io_csrs_2_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+  wire [63:0]  _applyOrElse_2_io_csrs_3_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+  wire [63:0]  _applyOrElse_2_io_csrs_5_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+  wire [63:0]  _applyOrElse_2_io_csrs_7_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+  wire         _applyOrElse_1_io_cmd_ready;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+  wire         _applyOrElse_1_io_resp_valid;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+  wire [4:0]   _applyOrElse_1_io_resp_bits_rd;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+  wire [63:0]  _applyOrElse_1_io_resp_bits_data;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+  wire         _applyOrElse_1_io_busy;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+  wire [63:0]  _applyOrElse_1_io_csrs_0_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+  wire [63:0]  _applyOrElse_1_io_csrs_1_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+  wire [63:0]  _applyOrElse_1_io_csrs_2_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+  wire [63:0]  _applyOrElse_1_io_csrs_3_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+  wire [63:0]  _applyOrElse_1_io_csrs_5_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+  wire [63:0]  _applyOrElse_1_io_csrs_7_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
   wire         _applyOrElse_io_cmd_ready;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21]
   wire         _applyOrElse_io_resp_valid;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21]
   wire [4:0]   _applyOrElse_io_resp_bits_rd;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21]
@@ -902,6 +918,8 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
   wire [63:0]  _applyOrElse_io_csrs_1_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21]
   wire [63:0]  _applyOrElse_io_csrs_2_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21]
   wire [63:0]  _applyOrElse_io_csrs_3_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21]
+  wire [63:0]  _applyOrElse_io_csrs_5_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21]
+  wire [63:0]  _applyOrElse_io_csrs_7_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21]
   wire         _dcache_auto_out_a_valid;	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43]
   wire [2:0]   _dcache_auto_out_a_bits_opcode;	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43]
   wire [2:0]   _dcache_auto_out_a_bits_param;	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43]
@@ -1501,11 +1519,17 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_csrs_1_sdata                 (_applyOrElse_io_csrs_1_sdata),
     .io_csrs_2_sdata                 (_applyOrElse_io_csrs_2_sdata),
     .io_csrs_3_sdata                 (_applyOrElse_io_csrs_3_sdata),
+    .io_csrs_4_wen                   (_core_io_rocc_csrs_4_wen),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_csrs_4_wdata                 (_core_io_rocc_csrs_4_wdata),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_csrs_5_sdata                 (_applyOrElse_io_csrs_5_sdata),
+    .io_csrs_6_value                 (_core_io_rocc_csrs_6_value),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_csrs_7_sdata                 (_applyOrElse_io_csrs_7_sdata),
     .io_loopconv_request_accept      (_cmdRouter_io_loopconv_request_accept_0),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
     .io_loopconv_request_queue_count (_cmdRouter_io_loopconv_request_queue_count_0),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_loopconv_assembler_partial   (_cmdRouter_io_loopconv_assembler_partial_0)	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
+    .io_loopconv_assembler_partial   (_cmdRouter_io_loopconv_assembler_partial_0),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
+    .io_loopconv_ingress_debug       (_cmdRouter_io_loopconv_ingress_debug_0)	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
   );	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21]
-  Gemmini_1 applyOrElse_1 (	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
+  Gemmini_1 applyOrElse_1 (	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
     .clock                           (clock),
     .reset                           (reset),
     .auto_spad_id_out_a_ready        (auto_buffer_out_1_a_ready),
@@ -1586,11 +1610,17 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_csrs_1_sdata                 (_applyOrElse_1_io_csrs_1_sdata),
     .io_csrs_2_sdata                 (_applyOrElse_1_io_csrs_2_sdata),
     .io_csrs_3_sdata                 (_applyOrElse_1_io_csrs_3_sdata),
+    .io_csrs_4_wen                   (_core_io_rocc_csrs_12_wen),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_csrs_4_wdata                 (_core_io_rocc_csrs_12_wdata),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_csrs_5_sdata                 (_applyOrElse_1_io_csrs_5_sdata),
+    .io_csrs_6_value                 (_core_io_rocc_csrs_14_value),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_csrs_7_sdata                 (_applyOrElse_1_io_csrs_7_sdata),
     .io_loopconv_request_accept      (_cmdRouter_io_loopconv_request_accept_1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
     .io_loopconv_request_queue_count (_cmdRouter_io_loopconv_request_queue_count_1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_loopconv_assembler_partial   (_cmdRouter_io_loopconv_assembler_partial_1)	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  );	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
-  Gemmini_2 applyOrElse_2 (	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
+    .io_loopconv_assembler_partial   (_cmdRouter_io_loopconv_assembler_partial_1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
+    .io_loopconv_ingress_debug       (_cmdRouter_io_loopconv_ingress_debug_1)	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
+  );	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+  Gemmini_2 applyOrElse_2 (	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
     .clock                           (clock),
     .reset                           (reset),
     .auto_spad_id_out_a_ready        (auto_buffer_out_2_a_ready),
@@ -1671,10 +1701,16 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_csrs_1_sdata                 (_applyOrElse_2_io_csrs_1_sdata),
     .io_csrs_2_sdata                 (_applyOrElse_2_io_csrs_2_sdata),
     .io_csrs_3_sdata                 (_applyOrElse_2_io_csrs_3_sdata),
+    .io_csrs_4_wen                   (_core_io_rocc_csrs_20_wen),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_csrs_4_wdata                 (_core_io_rocc_csrs_20_wdata),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_csrs_5_sdata                 (_applyOrElse_2_io_csrs_5_sdata),
+    .io_csrs_6_value                 (_core_io_rocc_csrs_22_value),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_csrs_7_sdata                 (_applyOrElse_2_io_csrs_7_sdata),
     .io_loopconv_request_accept      (_cmdRouter_io_loopconv_request_accept_2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
     .io_loopconv_request_queue_count (_cmdRouter_io_loopconv_request_queue_count_2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_loopconv_assembler_partial   (_cmdRouter_io_loopconv_assembler_partial_2)	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  );	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
+    .io_loopconv_assembler_partial   (_cmdRouter_io_loopconv_assembler_partial_2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
+    .io_loopconv_ingress_debug       (_cmdRouter_io_loopconv_ingress_debug_2)	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
+  );	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
   Frontend frontend (	// @[generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28]
     .clock                                     (clock),
     .reset                                     (reset),
@@ -2480,7 +2516,7 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_out_0_bits_status_hie          (_cmdRouter_io_out_0_bits_status_hie),
     .io_out_0_bits_status_sie          (_cmdRouter_io_out_0_bits_status_sie),
     .io_out_0_bits_status_uie          (_cmdRouter_io_out_0_bits_status_uie),
-    .io_out_1_ready                    (_applyOrElse_1_io_cmd_ready),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
+    .io_out_1_ready                    (_applyOrElse_1_io_cmd_ready),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
     .io_out_1_valid                    (_cmdRouter_io_out_1_valid),
     .io_out_1_bits_inst_funct          (_cmdRouter_io_out_1_bits_inst_funct),
     .io_out_1_bits_inst_rs2            (_cmdRouter_io_out_1_bits_inst_rs2),
@@ -2529,7 +2565,7 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_out_1_bits_status_hie          (_cmdRouter_io_out_1_bits_status_hie),
     .io_out_1_bits_status_sie          (_cmdRouter_io_out_1_bits_status_sie),
     .io_out_1_bits_status_uie          (_cmdRouter_io_out_1_bits_status_uie),
-    .io_out_2_ready                    (_applyOrElse_2_io_cmd_ready),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
+    .io_out_2_ready                    (_applyOrElse_2_io_cmd_ready),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
     .io_out_2_valid                    (_cmdRouter_io_out_2_valid),
     .io_out_2_bits_inst_funct          (_cmdRouter_io_out_2_bits_inst_funct),
     .io_out_2_bits_inst_rs2            (_cmdRouter_io_out_2_bits_inst_rs2),
@@ -2587,25 +2623,28 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_loopconv_request_queue_count_2 (_cmdRouter_io_loopconv_request_queue_count_2),
     .io_loopconv_assembler_partial_0   (_cmdRouter_io_loopconv_assembler_partial_0),
     .io_loopconv_assembler_partial_1   (_cmdRouter_io_loopconv_assembler_partial_1),
-    .io_loopconv_assembler_partial_2   (_cmdRouter_io_loopconv_assembler_partial_2)
+    .io_loopconv_assembler_partial_2   (_cmdRouter_io_loopconv_assembler_partial_2),
+    .io_loopconv_ingress_debug_0       (_cmdRouter_io_loopconv_ingress_debug_0),
+    .io_loopconv_ingress_debug_1       (_cmdRouter_io_loopconv_ingress_debug_1),
+    .io_loopconv_ingress_debug_2       (_cmdRouter_io_loopconv_ingress_debug_2)
   );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
   SimpleHellaCacheIF dcIF (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
     .clock                           (clock),
     .reset                           (reset),
     .io_requestor_req_ready          (/* unused */),
     .io_requestor_req_valid          (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_addr      (40'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_requestor_req_bits_tag       (9'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_requestor_req_bits_cmd       (5'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
-    .io_requestor_req_bits_size      (3'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/subsystem/HierarchicalElement.scala:55:42, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
+    .io_requestor_req_bits_addr      (40'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_tag       (9'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_cmd       (5'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
+    .io_requestor_req_bits_size      (3'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/subsystem/HierarchicalElement.scala:55:42, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
     .io_requestor_req_bits_signed    (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_dprv      (2'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
+    .io_requestor_req_bits_dprv      (2'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
     .io_requestor_req_bits_dv        (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_phys      (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_no_alloc  (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_no_xcpt   (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_data      (128'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20, generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .io_requestor_req_bits_mask      (16'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_data      (128'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20, generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
+    .io_requestor_req_bits_mask      (16'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
     .io_requestor_resp_valid         (/* unused */),
     .io_requestor_resp_bits_tag      (/* unused */),
     .io_requestor_resp_bits_data_raw (/* unused */),
@@ -2652,18 +2691,18 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .reset                           (reset),
     .io_requestor_req_ready          (/* unused */),
     .io_requestor_req_valid          (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_addr      (40'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_requestor_req_bits_tag       (9'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_requestor_req_bits_cmd       (5'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
-    .io_requestor_req_bits_size      (3'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/subsystem/HierarchicalElement.scala:55:42, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
+    .io_requestor_req_bits_addr      (40'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_tag       (9'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_cmd       (5'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
+    .io_requestor_req_bits_size      (3'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/subsystem/HierarchicalElement.scala:55:42, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
     .io_requestor_req_bits_signed    (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_dprv      (2'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
+    .io_requestor_req_bits_dprv      (2'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
     .io_requestor_req_bits_dv        (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_phys      (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_no_alloc  (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_no_xcpt   (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_data      (128'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20, generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .io_requestor_req_bits_mask      (16'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_data      (128'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20, generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
+    .io_requestor_req_bits_mask      (16'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
     .io_requestor_resp_valid         (/* unused */),
     .io_requestor_resp_bits_tag      (/* unused */),
     .io_requestor_resp_bits_data_raw (/* unused */),
@@ -2697,9 +2736,9 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .clock            (clock),
     .reset            (reset),
     .io_enq_ready     (_respArb_io_in_1_q_io_enq_ready),
-    .io_enq_valid     (_applyOrElse_1_io_resp_valid),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
-    .io_enq_bits_rd   (_applyOrElse_1_io_resp_bits_rd),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
-    .io_enq_bits_data (_applyOrElse_1_io_resp_bits_data),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
+    .io_enq_valid     (_applyOrElse_1_io_resp_valid),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+    .io_enq_bits_rd   (_applyOrElse_1_io_resp_bits_rd),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+    .io_enq_bits_data (_applyOrElse_1_io_resp_bits_data),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
     .io_deq_ready     (_respArb_io_in_1_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
     .io_deq_valid     (_respArb_io_in_1_q_io_deq_valid),
     .io_deq_bits_rd   (_respArb_io_in_1_q_io_deq_bits_rd),
@@ -2710,18 +2749,18 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .reset                           (reset),
     .io_requestor_req_ready          (/* unused */),
     .io_requestor_req_valid          (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_addr      (40'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_requestor_req_bits_tag       (9'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_requestor_req_bits_cmd       (5'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
-    .io_requestor_req_bits_size      (3'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/subsystem/HierarchicalElement.scala:55:42, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
+    .io_requestor_req_bits_addr      (40'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_tag       (9'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_cmd       (5'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
+    .io_requestor_req_bits_size      (3'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/subsystem/HierarchicalElement.scala:55:42, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
     .io_requestor_req_bits_signed    (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_dprv      (2'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
+    .io_requestor_req_bits_dprv      (2'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
     .io_requestor_req_bits_dv        (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_phys      (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_no_alloc  (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_no_xcpt   (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_data      (128'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20, generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .io_requestor_req_bits_mask      (16'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_data      (128'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20, generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
+    .io_requestor_req_bits_mask      (16'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
     .io_requestor_resp_valid         (/* unused */),
     .io_requestor_resp_bits_tag      (/* unused */),
     .io_requestor_resp_bits_data_raw (/* unused */),
@@ -2755,9 +2794,9 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .clock            (clock),
     .reset            (reset),
     .io_enq_ready     (_respArb_io_in_2_q_io_enq_ready),
-    .io_enq_valid     (_applyOrElse_2_io_resp_valid),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
-    .io_enq_bits_rd   (_applyOrElse_2_io_resp_bits_rd),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
-    .io_enq_bits_data (_applyOrElse_2_io_resp_bits_data),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
+    .io_enq_valid     (_applyOrElse_2_io_resp_valid),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+    .io_enq_bits_rd   (_applyOrElse_2_io_resp_bits_rd),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+    .io_enq_bits_data (_applyOrElse_2_io_resp_bits_data),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
     .io_deq_ready     (_respArb_io_in_2_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
     .io_deq_valid     (_respArb_io_in_2_q_io_deq_valid),
     .io_deq_bits_rd   (_respArb_io_in_2_q_io_deq_bits_rd),
@@ -2966,19 +3005,34 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_rocc_resp_valid                          (_respArb_io_out_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
     .io_rocc_resp_bits_rd                        (_respArb_io_out_bits_rd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
     .io_rocc_resp_bits_data                      (_respArb_io_out_bits_data),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
-    .io_rocc_busy                                (_cmdRouter_io_busy | _applyOrElse_io_busy | _applyOrElse_1_io_busy | _applyOrElse_2_io_busy),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :175:21, :189:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:260:{49,95}]
+    .io_rocc_busy                                (_cmdRouter_io_busy | _applyOrElse_io_busy | _applyOrElse_1_io_busy | _applyOrElse_2_io_busy),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21, :179:21, :197:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:260:{49,95}]
     .io_rocc_csrs_0_sdata                        (_applyOrElse_io_csrs_0_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21]
     .io_rocc_csrs_1_sdata                        (_applyOrElse_io_csrs_1_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21]
     .io_rocc_csrs_2_sdata                        (_applyOrElse_io_csrs_2_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21]
     .io_rocc_csrs_3_sdata                        (_applyOrElse_io_csrs_3_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21]
-    .io_rocc_csrs_4_sdata                        (_applyOrElse_1_io_csrs_0_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
-    .io_rocc_csrs_5_sdata                        (_applyOrElse_1_io_csrs_1_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
-    .io_rocc_csrs_6_sdata                        (_applyOrElse_1_io_csrs_2_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
-    .io_rocc_csrs_7_sdata                        (_applyOrElse_1_io_csrs_3_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:175:21]
-    .io_rocc_csrs_8_sdata                        (_applyOrElse_2_io_csrs_0_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
-    .io_rocc_csrs_9_sdata                        (_applyOrElse_2_io_csrs_1_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
-    .io_rocc_csrs_10_sdata                       (_applyOrElse_2_io_csrs_2_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
-    .io_rocc_csrs_11_sdata                       (_applyOrElse_2_io_csrs_3_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:189:21]
+    .io_rocc_csrs_4_wen                          (_core_io_rocc_csrs_4_wen),
+    .io_rocc_csrs_4_wdata                        (_core_io_rocc_csrs_4_wdata),
+    .io_rocc_csrs_5_sdata                        (_applyOrElse_io_csrs_5_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21]
+    .io_rocc_csrs_6_value                        (_core_io_rocc_csrs_6_value),
+    .io_rocc_csrs_7_sdata                        (_applyOrElse_io_csrs_7_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:161:21]
+    .io_rocc_csrs_8_sdata                        (_applyOrElse_1_io_csrs_0_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+    .io_rocc_csrs_9_sdata                        (_applyOrElse_1_io_csrs_1_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+    .io_rocc_csrs_10_sdata                       (_applyOrElse_1_io_csrs_2_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+    .io_rocc_csrs_11_sdata                       (_applyOrElse_1_io_csrs_3_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+    .io_rocc_csrs_12_wen                         (_core_io_rocc_csrs_12_wen),
+    .io_rocc_csrs_12_wdata                       (_core_io_rocc_csrs_12_wdata),
+    .io_rocc_csrs_13_sdata                       (_applyOrElse_1_io_csrs_5_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+    .io_rocc_csrs_14_value                       (_core_io_rocc_csrs_14_value),
+    .io_rocc_csrs_15_sdata                       (_applyOrElse_1_io_csrs_7_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:179:21]
+    .io_rocc_csrs_16_sdata                       (_applyOrElse_2_io_csrs_0_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+    .io_rocc_csrs_17_sdata                       (_applyOrElse_2_io_csrs_1_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+    .io_rocc_csrs_18_sdata                       (_applyOrElse_2_io_csrs_2_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+    .io_rocc_csrs_19_sdata                       (_applyOrElse_2_io_csrs_3_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+    .io_rocc_csrs_20_wen                         (_core_io_rocc_csrs_20_wen),
+    .io_rocc_csrs_20_wdata                       (_core_io_rocc_csrs_20_wdata),
+    .io_rocc_csrs_21_sdata                       (_applyOrElse_2_io_csrs_5_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
+    .io_rocc_csrs_22_value                       (_core_io_rocc_csrs_22_value),
+    .io_rocc_csrs_23_sdata                       (_applyOrElse_2_io_csrs_7_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_64x64_packed_inference_ram/Configs.scala:197:21]
     .io_wfi                                      (_core_io_wfi),
     .io_vector_status_dv                         (_core_io_vector_status_dv),
     .io_vector_status_prv                        (_core_io_vector_status_prv),

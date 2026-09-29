@@ -12,6 +12,15 @@ bash scripts/build_triple64_video_bitstream.sh
 结果目录默认 `build/bitstream_0918_video/<时间戳_PID>/`，不覆盖旧结果。
 这条流程直接实现 `synth_opt.dcp`，不使用项目中的旧 `impl_1` 结果。
 
+若综合已完成、实现阶段失败，可复用该次综合检查点，在新目录继续实现：
+
+```bash
+RESUME_SYNTH_DCP="$PWD/build/bitstream_0918_video/<原运行目录>/synth_opt.dcp" \
+  bash scripts/build_triple64_video_bitstream.sh
+```
+
+仅在该检查点对应所需 RTL 和综合约束时使用；此模式不会重新综合源文件。
+
 ```bash
 export RESULTS_DIR="$PWD/build/video_0918_$(date +%Y%m%d_%H%M%S)"
 FINAL_JOBS=8 FINAL_THREADS=8 ROUTE_THREADS=4 \

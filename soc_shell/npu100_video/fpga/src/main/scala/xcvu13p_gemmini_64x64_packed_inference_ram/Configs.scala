@@ -161,6 +161,10 @@ class RocketSaturnGemmini64x64PackedInferenceRamMultiXCVU13PConfig extends Confi
           LazyModule(new gemmini.Gemmini(
             XCVU13PGemmini64x64PackedInferenceRamMultiConfigs.base.copy(
               opcodes = OpcodeSet.custom1,
+              deadlockDebugControlCsrId = Some(0x7d8),
+              deadlockDebugStatusCsrId = Some(0x7d9),
+              deadlockDebugSelectCsrId = Some(0x7da),
+              deadlockDebugDataCsrId = Some(0x7db),
               fpgaScratchpadSlr = Some(0),
               // IPOAT（王志瑞）：每个 worker 独占一组 CSR；custom1 使用预留扩展段。
               busyCsrId = Some(0x7ca),
@@ -175,6 +179,10 @@ class RocketSaturnGemmini64x64PackedInferenceRamMultiXCVU13PConfig extends Confi
           LazyModule(new gemmini.Gemmini(
             XCVU13PGemmini64x64PackedInferenceRamMultiConfigs.base.copy(
               opcodes = OpcodeSet.custom2,
+              deadlockDebugControlCsrId = Some(0x7d4),
+              deadlockDebugStatusCsrId = Some(0x7d5),
+              deadlockDebugSelectCsrId = Some(0x7d6),
+              deadlockDebugDataCsrId = Some(0x7d7),
               fpgaScratchpadSlr = Some(2),
               // IPOAT（王志瑞）：custom2 保持双 worker 板测使用的 CSR ABI。
               busyCsrId = Some(0x7c3),
@@ -189,6 +197,10 @@ class RocketSaturnGemmini64x64PackedInferenceRamMultiXCVU13PConfig extends Confi
           LazyModule(new gemmini.Gemmini(
             XCVU13PGemmini64x64PackedInferenceRamMultiConfigs.base.copy(
               opcodes = OpcodeSet.custom3,
+              deadlockDebugControlCsrId = Some(0x7d0),
+              deadlockDebugStatusCsrId = Some(0x7d1),
+              deadlockDebugSelectCsrId = Some(0x7d2),
+              deadlockDebugDataCsrId = Some(0x7d3),
               fpgaScratchpadSlr = Some(3),
               // IPOAT（王志瑞）：custom3 保持双 worker 板测使用的 CSR ABI。
               busyCsrId = Some(0x7c2),
@@ -240,6 +252,6 @@ class WithMergedVideoFrontBus extends Config((site, here, up) => {
 /** Keep the current Rocket-Chip interfaces with normal production semantics. */
 class WithMergedVideoProductionRoCC extends Config((site, here, up) => {
   case freechips.rocketchip.tile.LoopConvIngressDebugEscapeKey => false
-  case freechips.rocketchip.tile.RoCCBusyWriteBypassCSRsKey => Nil
+  case freechips.rocketchip.tile.RoCCBusyWriteBypassCSRsKey => Seq(0x7d0, 0x7d2, 0x7d4, 0x7d6, 0x7d8, 0x7da)
   case freechips.rocketchip.tile.RoCCMbusBypassPorts => Map.empty[Int, Set[Int]]
 })

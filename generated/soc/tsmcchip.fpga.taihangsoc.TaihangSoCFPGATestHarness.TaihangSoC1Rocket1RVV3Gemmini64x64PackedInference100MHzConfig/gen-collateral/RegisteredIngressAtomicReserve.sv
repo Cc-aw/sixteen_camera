@@ -153,6 +153,7 @@ module RegisteredIngressAtomicReserve(	// @[generators/rocket-chip/src/main/scal
   output        io_request_accept,	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:468:14]
   output [7:0]  io_request_queue_count,	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:468:14]
   output        io_assembler_partial,	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:468:14]
+  output [63:0] io_ingress_debug,	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:468:14]
   output        io_replay_release	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:468:14]
 );
 
@@ -834,10 +835,15 @@ module RegisteredIngressAtomicReserve(	// @[generators/rocket-chip/src/main/scal
   reg              ingressCommandBlocked;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:577:38]
   reg  [6:0]       blockedIngressFunct;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:578:36]
   wire             inputFire = normalInputReady & io_in_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:547:42, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire             blockedIngressCommand = ingressCommandBlocked | io_in_valid & ~normalInputReady;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:547:42, :577:38, :591:53, :592:{18,21}]
+  wire             blockedSerializedPacket = _stream_io_deq_valid & _stream_io_deq_bits_isLoopConv & ~io_out_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:528:22, :593:{53,78,81}]
+  reg  [31:0]      blockedRunCycles;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:595:33]
   wire             _blockedProtocolAllowed_T_3 = blockedIngressFunct == 7'h10;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:505:14, :578:36]
   wire             blockedIsRun = blockedIngressFunct == 7'hF;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:505:14, :578:36]
   wire             blockedIsPacket = _blockedProtocolAllowed_T_3 | blockedIngressFunct == 7'h11 | blockedIngressFunct == 7'h12 | blockedIngressFunct == 7'h13 | blockedIngressFunct == 7'h14 | blockedIngressFunct == 7'h15 | blockedIsRun;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:505:{14,34}, :578:36]
   wire             stream_io_enq_valid = io_in_valid & protocolAllowed & inputNeedsStreamEntry;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:543:38, :544:57, :546:45, :650:{38,57}]
+  wire             _io_ingress_debug_T_1 = _stream_io_enq_ready & stream_io_enq_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:528:22, :650:{38,57}, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire             io_request_accept_0 = _io_ingress_debug_T_1 & inputIsRun;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:505:14, :657:43, src/main/scala/chisel3/util/Decoupled.scala:51:35]
   wire [7:0][6:0]  _GEN = {{_stream_io_deq_bits_loopConvPacket_0_inst_funct}, {_stream_io_deq_bits_loopConvPacket_6_inst_funct}, {_stream_io_deq_bits_loopConvPacket_5_inst_funct}, {_stream_io_deq_bits_loopConvPacket_4_inst_funct}, {_stream_io_deq_bits_loopConvPacket_3_inst_funct}, {_stream_io_deq_bits_loopConvPacket_2_inst_funct}, {_stream_io_deq_bits_loopConvPacket_1_inst_funct}, {_stream_io_deq_bits_loopConvPacket_0_inst_funct}};	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:528:22, :664:21]
   wire [7:0][4:0]  _GEN_0 = {{_stream_io_deq_bits_loopConvPacket_0_inst_rs2}, {_stream_io_deq_bits_loopConvPacket_6_inst_rs2}, {_stream_io_deq_bits_loopConvPacket_5_inst_rs2}, {_stream_io_deq_bits_loopConvPacket_4_inst_rs2}, {_stream_io_deq_bits_loopConvPacket_3_inst_rs2}, {_stream_io_deq_bits_loopConvPacket_2_inst_rs2}, {_stream_io_deq_bits_loopConvPacket_1_inst_rs2}, {_stream_io_deq_bits_loopConvPacket_0_inst_rs2}};	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:528:22, :664:21]
   wire [7:0][4:0]  _GEN_1 = {{_stream_io_deq_bits_loopConvPacket_0_inst_rs1}, {_stream_io_deq_bits_loopConvPacket_6_inst_rs1}, {_stream_io_deq_bits_loopConvPacket_5_inst_rs1}, {_stream_io_deq_bits_loopConvPacket_4_inst_rs1}, {_stream_io_deq_bits_loopConvPacket_3_inst_rs1}, {_stream_io_deq_bits_loopConvPacket_2_inst_rs1}, {_stream_io_deq_bits_loopConvPacket_1_inst_rs1}, {_stream_io_deq_bits_loopConvPacket_0_inst_rs1}};	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:528:22, :664:21]
@@ -885,6 +891,8 @@ module RegisteredIngressAtomicReserve(	// @[generators/rocket-chip/src/main/scal
   wire [7:0]       _GEN_43 = {{_stream_io_deq_bits_loopConvPacket_0_status_hie}, {_stream_io_deq_bits_loopConvPacket_6_status_hie}, {_stream_io_deq_bits_loopConvPacket_5_status_hie}, {_stream_io_deq_bits_loopConvPacket_4_status_hie}, {_stream_io_deq_bits_loopConvPacket_3_status_hie}, {_stream_io_deq_bits_loopConvPacket_2_status_hie}, {_stream_io_deq_bits_loopConvPacket_1_status_hie}, {_stream_io_deq_bits_loopConvPacket_0_status_hie}};	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:528:22, :664:21]
   wire [7:0]       _GEN_44 = {{_stream_io_deq_bits_loopConvPacket_0_status_sie}, {_stream_io_deq_bits_loopConvPacket_6_status_sie}, {_stream_io_deq_bits_loopConvPacket_5_status_sie}, {_stream_io_deq_bits_loopConvPacket_4_status_sie}, {_stream_io_deq_bits_loopConvPacket_3_status_sie}, {_stream_io_deq_bits_loopConvPacket_2_status_sie}, {_stream_io_deq_bits_loopConvPacket_1_status_sie}, {_stream_io_deq_bits_loopConvPacket_0_status_sie}};	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:528:22, :664:21]
   wire [7:0]       _GEN_45 = {{_stream_io_deq_bits_loopConvPacket_0_status_uie}, {_stream_io_deq_bits_loopConvPacket_6_status_uie}, {_stream_io_deq_bits_loopConvPacket_5_status_uie}, {_stream_io_deq_bits_loopConvPacket_4_status_uie}, {_stream_io_deq_bits_loopConvPacket_3_status_uie}, {_stream_io_deq_bits_loopConvPacket_2_status_uie}, {_stream_io_deq_bits_loopConvPacket_1_status_uie}, {_stream_io_deq_bits_loopConvPacket_0_status_uie}};	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:528:22, :664:21]
+  wire             stream_io_deq_ready = io_out_ready & (~_stream_io_deq_bits_isLoopConv | headPacketLast);	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:528:22, :557:46, :667:{19,23,46}]
+  wire             _io_ingress_debug_T_3 = io_out_ready & _stream_io_deq_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:528:22, src/main/scala/chisel3/util/Decoupled.scala:51:35]
   wire             _GEN_46 = inputFire & inputIsPacket;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:505:34, :717:25, src/main/scala/chisel3/util/Decoupled.scala:51:35]
   `ifndef SYNTHESIS	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:729:11]
     always @(posedge clock) begin	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:729:11]
@@ -900,7 +908,7 @@ module RegisteredIngressAtomicReserve(	// @[generators/rocket-chip/src/main/scal
         if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:734:11]
           $fatal;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:734:11]
       end
-      if (io_out_ready & _stream_io_deq_valid & _stream_io_deq_bits_isLoopConv & ~reset & (&packetCommandIndex)) begin	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:528:22, :555:35, :729:11, :737:21, :738:{11,31}, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+      if (_io_ingress_debug_T_3 & _stream_io_deq_bits_isLoopConv & ~reset & (&packetCommandIndex)) begin	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:528:22, :555:35, :729:11, :737:21, :738:{11,31}, src/main/scala/chisel3/util/Decoupled.scala:51:35]
         if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:738:11]
           $error("Assertion failed: LoopConv request serializer command index exceeded packet size\n    at LazyRoCC.scala:738 assert(packetCommandIndex <= 6.U,\n");	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:738:11]
         if (`STOP_COND_)	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:738:11]
@@ -927,6 +935,7 @@ module RegisteredIngressAtomicReserve(	// @[generators/rocket-chip/src/main/scal
       packetCommandIndex <= 3'h0;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:555:35]
       ingressCommandBlocked <= 1'h0;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:577:38]
       blockedIngressFunct <= 7'h0;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:578:36]
+      blockedRunCycles <= 32'h0;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:595:33]
     end
     else begin	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7]
       if (_GEN_46) begin	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:717:25]
@@ -938,6 +947,12 @@ module RegisteredIngressAtomicReserve(	// @[generators/rocket-chip/src/main/scal
       ingressCommandBlocked <= _GEN_47 | ~inputFire & ingressCommandBlocked;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:577:38, :585:{27,49}, :586:27, :588:27, :589:27, src/main/scala/chisel3/util/Decoupled.scala:51:35]
       if (_GEN_47)	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:585:27]
         blockedIngressFunct <= io_in_bits_inst_funct;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:578:36]
+      if (blockedIngressCommand | blockedSerializedPacket) begin	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:591:53, :593:{53,78}, :594:42]
+        if (blockedRunCycles != 32'hFFFFFFFF)	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:595:33, :597:28]
+          blockedRunCycles <= blockedRunCycles + 32'h1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:595:33, :598:44]
+      end
+      else	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:594:42]
+        blockedRunCycles <= 32'h0;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:595:33]
     end
     if (_GEN_49) begin	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:535:28, :697:37, :698:25, :699:49]
       stagingCommands_0_inst_funct <= io_in_bits_inst_funct;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:535:28]
@@ -1350,13 +1365,13 @@ module RegisteredIngressAtomicReserve(	// @[generators/rocket-chip/src/main/scal
     `ifdef FIRRTL_BEFORE_INITIAL	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7]
       `FIRRTL_BEFORE_INITIAL	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7]
     `endif // FIRRTL_BEFORE_INITIAL
-    logic [31:0] _RANDOM[0:50];	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7]
+    logic [31:0] _RANDOM[0:51];	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7]
     initial begin	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7]
       `ifdef INIT_RANDOM_PROLOG_	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7]
         `INIT_RANDOM_PROLOG_	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7]
       `endif // INIT_RANDOM_PROLOG_
       `ifdef RANDOMIZE_REG_INIT	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7]
-        for (logic [5:0] i = 6'h0; i < 6'h33; i += 6'h1) begin
+        for (logic [5:0] i = 6'h0; i < 6'h34; i += 6'h1) begin
           _RANDOM[i] = `RANDOM;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7]
         end	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7]
         packetActive = _RANDOM[6'h0][0];	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7, :533:29]
@@ -1643,6 +1658,7 @@ module RegisteredIngressAtomicReserve(	// @[generators/rocket-chip/src/main/scal
         packetCommandIndex = {_RANDOM[6'h31][31:30], _RANDOM[6'h32][0]};	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7, :535:28, :555:35]
         ingressCommandBlocked = _RANDOM[6'h32][1];	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7, :555:35, :577:38]
         blockedIngressFunct = _RANDOM[6'h32][8:2];	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7, :555:35, :578:36]
+        blockedRunCycles = {_RANDOM[6'h32][31:10], _RANDOM[6'h33][9:0]};	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7, :555:35, :595:33]
       `endif // RANDOMIZE_REG_INIT
     end // initial
     `ifdef FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7]
@@ -2002,7 +2018,7 @@ module RegisteredIngressAtomicReserve(	// @[generators/rocket-chip/src/main/scal
     .io_enq_bits_loopConvPacket_6_status_spie    (io_in_bits_status_spie),
     .io_enq_bits_loopConvPacket_6_status_mie     (io_in_bits_status_mie),
     .io_enq_bits_loopConvPacket_6_status_sie     (io_in_bits_status_sie),
-    .io_deq_ready                                (io_out_ready & (~_stream_io_deq_bits_isLoopConv | headPacketLast)),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:528:22, :557:46, :667:{19,23,46}]
+    .io_deq_ready                                (stream_io_deq_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:667:19]
     .io_deq_valid                                (_stream_io_deq_valid),
     .io_deq_bits_isLoopConv                      (_stream_io_deq_bits_isLoopConv),
     .io_deq_bits_command_inst_funct              (_stream_io_deq_bits_command_inst_funct),
@@ -2433,9 +2449,10 @@ module RegisteredIngressAtomicReserve(	// @[generators/rocket-chip/src/main/scal
   assign io_out_bits_status_sie = _stream_io_deq_bits_isLoopConv ? _GEN_44[packetCommandIndex] : _stream_io_deq_bits_command_status_sie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7, :528:22, :555:35, :664:21]
   assign io_out_bits_status_uie = _stream_io_deq_bits_isLoopConv ? _GEN_45[packetCommandIndex] : _stream_io_deq_bits_command_status_uie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7, :528:22, :555:35, :664:21]
   assign io_busy = _stream_io_deq_valid | packetActive;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7, :528:22, :533:29, :724:34]
-  assign io_request_accept = _stream_io_enq_ready & stream_io_enq_valid & inputIsRun;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7, :505:14, :528:22, :650:{38,57}, :657:43, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  assign io_request_accept = io_request_accept_0;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7, :657:43]
   assign io_request_queue_count = {6'h0, _stream_io_count};	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7, :528:22, :658:26]
   assign io_assembler_partial = packetActive;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7, :533:29]
+  assign io_ingress_debug = {blockedRunCycles, 1'h0, blockedSerializedPacket, blockedIngressCommand, io_request_accept_0, io_in_valid, inputFire, inputIsRun, stream_io_enq_valid, _stream_io_enq_ready, _io_ingress_debug_T_1, _stream_io_deq_valid, stream_io_deq_ready, stream_io_deq_ready & _stream_io_deq_valid, _stream_io_deq_valid, io_out_ready, _io_ingress_debug_T_3, _stream_io_deq_bits_isLoopConv, headPacketLast, packetActive, packetCommandIndex, 1'h0, _stream_io_count, ingressCommandBlocked ? blockedIngressFunct : io_in_bits_inst_funct};	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7, :505:14, :528:22, :533:29, :555:35, :557:46, :577:38, :578:36, :591:53, :593:{53,78}, :595:33, :650:{38,57}, :657:43, :667:19, :683:26, :695:8, src/main/scala/chisel3/util/Decoupled.scala:51:35]
   assign io_replay_release = ingressCommandBlocked & (~packetActive & ~blockedIsPacket | ~packetActive & _blockedProtocolAllowed_T_3 | packetActive & blockedIngressFunct == acceptExpectedFunct) & (~(~blockedIsPacket | blockedIsRun) | _stream_io_enq_ready);	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:466:7, :505:{14,34}, :528:22, :533:29, :534:36, :543:6, :577:38, :578:36, :622:25, :625:{20,40}, :626:{22,66}, :627:{21,44}, :628:49, :629:52, :630:{6,31}, :634:27]
 endmodule
 

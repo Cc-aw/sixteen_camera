@@ -282,7 +282,8 @@ module BankedShallowQueue_1(	// @[generators/gemmini/src/main/scala/gemmini/Bank
   output [12:0] io_deq_bits_laddr_data,	// @[generators/gemmini/src/main/scala/gemmini/BankedShallowQueue.scala:80:14]
   output        io_deq_bits_last,	// @[generators/gemmini/src/main/scala/gemmini/BankedShallowQueue.scala:80:14]
   output [15:0] io_deq_bits_tag_cols,	// @[generators/gemmini/src/main/scala/gemmini/BankedShallowQueue.scala:80:14]
-  output [7:0]  io_deq_bits_tag_cmd_id	// @[generators/gemmini/src/main/scala/gemmini/BankedShallowQueue.scala:80:14]
+  output [7:0]  io_deq_bits_tag_cmd_id,	// @[generators/gemmini/src/main/scala/gemmini/BankedShallowQueue.scala:80:14]
+  output [1:0]  io_count	// @[generators/gemmini/src/main/scala/gemmini/BankedShallowQueue.scala:80:14]
 );
 
   wire [1:0]  _ShallowQueueRamSlice_36_2_io_count;	// @[generators/gemmini/src/main/scala/gemmini/BankedShallowQueue.scala:91:13]
@@ -607,5 +608,6 @@ module BankedShallowQueue_1(	// @[generators/gemmini/src/main/scala/gemmini/Bank
   assign io_deq_bits_last = _ShallowQueueRamSlice_64_2_4_io_deq_bits[3];	// @[generators/gemmini/src/main/scala/gemmini/BankedShallowQueue.scala:74:7, :91:13, :101:62]
   assign io_deq_bits_tag_cols = _ShallowQueueRamSlice_64_2_2_io_deq_bits[58:43];	// @[generators/gemmini/src/main/scala/gemmini/BankedShallowQueue.scala:74:7, :91:13, :101:62]
   assign io_deq_bits_tag_cmd_id = _ShallowQueueRamSlice_64_2_1_io_deq_bits[48:41];	// @[generators/gemmini/src/main/scala/gemmini/BankedShallowQueue.scala:74:7, :91:13, :101:62]
+  assign io_count = _ShallowQueueRamSlice_64_2_io_count;	// @[generators/gemmini/src/main/scala/gemmini/BankedShallowQueue.scala:74:7, :91:13]
 endmodule
 

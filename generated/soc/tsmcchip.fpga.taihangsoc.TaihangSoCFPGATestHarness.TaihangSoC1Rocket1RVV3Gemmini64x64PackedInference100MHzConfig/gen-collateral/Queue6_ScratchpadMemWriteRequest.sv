@@ -178,7 +178,8 @@ module Queue6_ScratchpadMemWriteRequest(	// @[src/main/scala/chisel3/util/Decoup
   output        io_deq_bits_status_sie,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output        io_deq_bits_status_uie,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output        io_deq_bits_pool_en,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
-  output        io_deq_bits_store_en	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output        io_deq_bits_store_en,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [2:0]  io_count	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
 );
 
   wire [366:0] _ram_ext_R0_data;	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
@@ -189,6 +190,7 @@ module Queue6_ScratchpadMemWriteRequest(	// @[src/main/scala/chisel3/util/Decoup
   wire         empty = ptr_match & ~maybe_full;	// @[src/main/scala/chisel3/util/Decoupled.scala:259:27, :260:33, :261:{25,28}]
   wire         full = ptr_match & maybe_full;	// @[src/main/scala/chisel3/util/Decoupled.scala:259:27, :260:33, :262:24]
   wire         do_enq = ~full & io_enq_valid;	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35, :262:24, :286:19]
+  wire [2:0]   _ptr_diff_T = enq_ptr_value - deq_ptr_value;	// @[src/main/scala/chisel3/util/Counter.scala:61:40, src/main/scala/chisel3/util/Decoupled.scala:309:32]
   wire         do_deq = io_deq_ready & ~empty;	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35, :261:25, :285:19]
   always @(posedge clock) begin	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7]
     if (reset) begin	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7]
@@ -295,5 +297,6 @@ module Queue6_ScratchpadMemWriteRequest(	// @[src/main/scala/chisel3/util/Decoup
   assign io_deq_bits_status_uie = _ram_ext_R0_data[364];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
   assign io_deq_bits_pool_en = _ram_ext_R0_data[365];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
   assign io_deq_bits_store_en = _ram_ext_R0_data[366];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_count = ptr_match ? (maybe_full ? 3'h6 : 3'h0) : deq_ptr_value > enq_ptr_value ? _ptr_diff_T - 3'h2 : _ptr_diff_T;	// @[src/main/scala/chisel3/util/Counter.scala:61:40, src/main/scala/chisel3/util/Decoupled.scala:243:7, :259:27, :260:33, :309:32, :314:20, :316:10, :317:{10,25,57}]
 endmodule
 

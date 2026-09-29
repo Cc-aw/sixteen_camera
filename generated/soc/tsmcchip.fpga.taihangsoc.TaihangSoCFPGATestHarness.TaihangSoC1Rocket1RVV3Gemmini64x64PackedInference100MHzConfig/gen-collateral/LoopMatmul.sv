@@ -1051,7 +1051,8 @@ module LoopMatmul(	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.sca
     .io_out_valid            (_arb_io_out_valid),
     .io_out_bits_inst_funct  (_arb_io_out_bits_inst_funct),
     .io_out_bits_rs1         (_arb_io_out_bits_rs1),
-    .io_out_bits_rs2         (_arb_io_out_bits_rs2)
+    .io_out_bits_rs2         (_arb_io_out_bits_rs2),
+    .io_chosen               (/* unused */)
   );	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:960:19]
   assign io_out_valid = loop_configured ? _arb_io_out_valid : _cmd_q_io_deq_valid & ~is_loop_config_cmd & _cmd_q_io_deq_bits_cmd_inst_funct != 7'h8;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :960:19, :982:49, :983:135, :992:{22,70,73,93,96}, src/main/scala/chisel3/util/Decoupled.scala:362:21]
   assign io_out_bits_cmd_inst_funct = loop_configured ? _arb_io_out_bits_inst_funct : _cmd_q_io_deq_bits_cmd_inst_funct;	// @[generators/gemmini/src/main/scala/gemmini/LoopMatmul.scala:892:7, :919:58, :960:19, :987:25, src/main/scala/chisel3/util/Decoupled.scala:362:21]

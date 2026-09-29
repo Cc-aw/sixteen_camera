@@ -232,3 +232,15 @@ set_false_path -to [get_pins -hierarchical -filter \
     {NAME =~ *u_video_pipeline/u_control_bridge/*/request_sync_reg[0]/D || \
      NAME =~ *u_video_pipeline/u_control_bridge/*/payload_sync1_reg*/D || \
      NAME =~ *u_video_pipeline/u_control_bridge/*/acknowledge_sync_reg[0]/D}]
+
+# The SoC FBus write bridge crosses independent 100 MHz SoC and 150 MHz
+# camera-video clocks. Its three FIFOs synchronize the remote reset and the
+# FIFO reset into the receiving domain. Only the first ASYNC_REG D pins are
+# asynchronous; keep each second stage and the FIFO handshake logic timed.
+set_false_path -to [get_pins -hierarchical -filter \
+    {NAME =~ */u_tensor_fbus_write_cdc/u_aw_fifo/fifo_reset_rsync_reg[0]/D || \
+     NAME =~ */u_tensor_fbus_write_cdc/u_w_fifo/fifo_reset_rsync_reg[0]/D || \
+     NAME =~ */u_tensor_fbus_write_cdc/u_b_fifo/fifo_reset_rsync_reg[0]/D || \
+     NAME =~ */u_tensor_fbus_write_cdc/u_aw_fifo/r_resetn_wsync_reg[0]/D || \
+     NAME =~ */u_tensor_fbus_write_cdc/u_w_fifo/r_resetn_wsync_reg[0]/D || \
+     NAME =~ */u_tensor_fbus_write_cdc/u_b_fifo/r_resetn_wsync_reg[0]/D}]
