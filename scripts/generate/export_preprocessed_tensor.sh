@@ -8,7 +8,7 @@ OPENOCD_CFG="${OPENOCD_CFG:-/home/wzr/chipyard/fpga/src/main/resources/myboard/o
 GDB_BIN="${GDB_BIN:-/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gdb}"
 GDB_PYTHONHOME="${GDB_PYTHONHOME:-/home/wzr/chipyard/.conda-env}"
 PYTHON_BIN="${PYTHON_BIN:-/home/wzr/chipyard/.conda-env/bin/python}"
-ELF_FILE="${ELF_FILE:-$ROOT_DIR/build/firmware/gemmini_${VIDEO_VARIANT:-triple64}_video_yolov5nu.elf}"
+ELF_FILE="${ELF_FILE:-$ROOT_DIR/build/firmware/gemmini_${VIDEO_VARIANT:-dual16}_video_yolov5nu.elf}"
 CAPTURE_DIR="${CAPTURE_DIR:-$ROOT_DIR/build/captures}"
 
 TENSOR_WIDTH=640

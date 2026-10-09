@@ -1,11 +1,8 @@
-# Generated and frozen integration inputs
+# SoC 集成示例与 IP 输入
 
-- `soc/`: Chipyard-generated collateral. The Taihang dual-Gemmini tree named
-  in `build/soc_manifest.tcl` is the only production SoC; the SmallRocket tree
-  is retained for historical comparison and must not enter synthesis.
-- `xilinx_ip/`: Vivado IP configurations and their adjacent generated output.
-  Only the XCI files in `build/ip_manifest.tcl` are registered by project setup.
+- `soc/`：双 Gemmini16 和单 Gemmini4 的冻结集成示例。它们提供现有 wrapper 的参考连接，不规定后续计算 SoC。
+- `xilinx_ip/`：Vivado IP 配置及相邻生成材料。仅 `config/manifests/ip_manifest.tcl` 中的 XCI 由工程 setup 注册。
 
-Do not edit generated RTL to fix functional behavior. Change its source in
-Chipyard or `soc_shell/`, regenerate, then use
-`scripts/sync_taihang16_rtl.sh` to update the frozen collateral.
+`config/manifests/soc_manifest.tcl` 默认选择 `dual16`。新的兼容 SoC 可放入 `soc/<配置名>/gen-collateral/`，通过 `SOC_CONFIG=<配置名>` 选择。
+
+生成 RTL 的功能修改应回到对应 SoC 源工程，再重新生成并同步。双 Gemmini16 的参考生成包位于 `soc_shell/`；同步入口为 `scripts/generate/sync_taihang16_rtl.sh`。

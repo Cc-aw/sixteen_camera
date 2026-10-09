@@ -100,10 +100,8 @@ static uint32_t frame_counter_access(uint32_t worker_id, uint32_t config) {
   uint32_t placeholder = 0U;
   if (worker_id == 0U) {
     ROCC_INSTRUCTION(3, result, config, placeholder, k_COUNTER);
-  } else if (worker_id == 1U) {
-    ROCC_INSTRUCTION(2, result, config, placeholder, k_COUNTER);
   } else {
-    ROCC_INSTRUCTION(1, result, config, placeholder, k_COUNTER);
+    ROCC_INSTRUCTION(2, result, config, placeholder, k_COUNTER);
   }
   return result;
 }

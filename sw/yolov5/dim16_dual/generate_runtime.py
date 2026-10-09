@@ -377,21 +377,10 @@ uint32_t yolov5nu_dim16_worker_stage''')
 
 
 def adapt_worker_geometry(source):
-    """Preserve strides while padding the last output tile for DIM64."""
+    """Validate the parameters against the selected integration example."""
     source = source.replace('#if DIM != 16', '#if DIM != YOLOV5NU_GEMMINI_DIM')
     source = source.replace('This runtime requires the current DIM16 Gemmini parameters',
                             'Gemmini parameters do not match the selected video SoC')
-    source = source.replace('  } else {\n    ROCC_INSTRUCTION(2, result, config, placeholder, k_COUNTER);',
-        '  } else if (worker_id == 1U) {\n    ROCC_INSTRUCTION(2, result, config, placeholder, k_COUNTER);\n'
-        '  } else {\n    ROCC_INSTRUCTION(1, result, config, placeholder, k_COUNTER);')
-    source = source.replace('  else\n    __asm__ volatile ("csrr %0, 0x7c3" : "=r" (value) :: "memory");',
-        '  else if (worker_id == 1U)\n    __asm__ volatile ("csrr %0, 0x7c3" : "=r" (value) :: "memory");\n'
-        '  else\n    __asm__ volatile ("csrr %0, 0x7ca" : "=r" (value) :: "memory");')
-    source = source.replace(' || out_channels % DIM != 0', '')
-    source = source.replace(' ||\n      out_channels0 % DIM != 0 || out_channels1 % DIM != 0', '')
-    for suffix in ('', '0', '1'):
-        source = source.replace(f'j_blocks{suffix}, k_blocks, pad_i, 0, pad_k',
-            f'j_blocks{suffix}, k_blocks, pad_i, j_blocks{suffix} * DIM - out_channels{suffix}, pad_k')
     return source
 
 

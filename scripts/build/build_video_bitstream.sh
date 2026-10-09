@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
-# Dispatch to existing flows with the same SoC selection as the firmware.
+# Build the video base with a selected SoC integration example.
 set -euo pipefail
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
-export SOC_VARIANT=${SOC_VARIANT:-triple64}
-flow=$(tclsh "$root/scripts/check/print_soc_collateral.tcl" --flow)
-if [[ "$flow" == triple64 ]]; then
-  exec bash "$root/scripts/build/build_triple64_video_bitstream.sh" "$@"
-fi
+export SOC_VARIANT=${SOC_VARIANT:-dual16}
 case "${1:-}" in
   --check) check_only=1 ;;
   '') check_only=0 ;;
@@ -25,7 +21,7 @@ if ((check_only)); then
 fi
 # All unified project-mutating entry points share the existing build lock.
 mkdir -p "$root/build"
-exec 9>"$root/build/npu0918_video.lock"
+exec 9>"$root/build/video_project.lock"
 flock -n 9 || { echo 'Another build is using the Vivado project' >&2; exit 2; }
 label=$SOC_VARIANT
 if [[ -n "${SOC_CONFIG:-}" ]]; then label=${SOC_CONFIG##*.}; fi

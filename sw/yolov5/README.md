@@ -1,10 +1,6 @@
 # YOLOv5nu 640×480 Stage 8F 软件迁入
 
-来源：`/mnt/data/fff/chipyard`，迁入日期：2026-09-09。当前为同事实现的原样快照，尚未完成本工程 Gemmini64 N6 适配或板测。所有源文件保留原内容、注释和版权；没有把同事代码的作者改为迁入者。
-
-## N6 适配进度（2026-09-10）
-
-[N6 独立软件适配](n6/README.md)已完成五图 ELF 编译和主机 split-K 检查，等待板测。下文关于“尚未适配”的描述保留为原样迁入时的状态说明；原始文件没有覆盖。
+来源：`/mnt/data/fff/chipyard`，迁入日期：2026-09-09。本目录保留迁入模型材料，当前视频软件适配位于 `dim16_dual/`。所有源文件保留原内容、注释和版权；没有把同事代码的作者改为迁入者。
 
 ## 已复制内容
 
@@ -40,7 +36,7 @@ Stage 8F 包含 76 个 Conv、69 个 fused SiLU、7 个共享尺度 Add、17 条
 - 最终 ONNX 通过 `onnx.checker.check_model`，输入输出形状符合上文。
 - 五图 AOT 的 shared Add / split-K / reuse / arena contract 全部符合 Stage 8F。
 - 使用迁入脚本、模型、manifest、图片重新生成 image025：C、参数头、memory JSON 三个文件与来源 AOT **逐字节一致**。结果见 `validation/results.json`。
-- 尚未为 N6 编译 ELF、运行 FPGA、修改 RTL 或生成比特流。
+- 上述迁入验证未运行本工程 FPGA、修改 RTL 或生成比特流。
 
 校验复制文件：
 
@@ -55,6 +51,6 @@ Python 生成依赖 NumPy、ONNX、Pillow；部分 host 验证另需 ONNX Runtim
 
 迁入脚本的历史默认值多为 320×320。当前目标只使用 `stage8_640x480_hardware_aware`，运行时显式指定 640×480、模型和 manifest；没有迁入所有历史阶段的模型产物。来源 manifest/log 中的绝对路径是溯源信息，仍保留原样。
 
-**适配前不能直接将同事 ELF 当作 N6 测试软件。** 来源 `include/gemmini_params.h` 为 DIM=32、BANK_NUM=4、BANK_ROWS=4096、ACC_ROWS=1024；本工程为 DIM=64 N6。还需核对动态 SiLU LUT 指令/配置、split-K 与 SPAD 容量、RVV 参数、UART 地址和时钟除数。原 Makefile 的 UART divisor=434 来自来源平台，不能无条件沿用到本工程 100 MHz 计时环境。
+来源 `include/gemmini_params.h` 的参数为 DIM=32、BANK_NUM=4、BANK_ROWS=4096、ACC_ROWS=1024。合并新的计算 SoC 时，应核对动态 SiLU LUT、split-K、SPAD 容量、RVV、UART、时钟和缓存协议；来源 ELF 不能直接作为新 SoC 的验收固件。
 
-下一步先做上述软件/硬件接口兼容性审计，再生成 N6 专用测试 ELF，并以整数参考检查正确性后分析真实网络瓶颈。原样快照作为对照保留。
+当前单/双 worker 视频运行时见 [dim16_dual/README.md](dim16_dual/README.md)。原始迁入材料作为模型与整数参考对照保留。

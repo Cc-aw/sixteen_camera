@@ -1,83 +1,83 @@
 # sixteen_camera
 
-基于 Xilinx Virtex UltraScale+ VU13P 的 16 路视频采集、YOLOv5nu 推理与 HDMI 显示工程。当前 SoC 配置为 1 个 Rocket、1 个 RVV 和 3 个 64×64 Gemmini（100 MHz），每个 worker 配 A/B 两个 Head 槽。
+面向 Xilinx VU13P 的十六路视频与 AI 外设底座，供 SoC 开发人员合并到计算系统，或将新的 SoC 合并进本工程。仓库负责板级视频、DDR 数据通路、Tensor 生产、硬件后处理、显示叠加及配套裸机软件；计算 SoC 通过明确的接口接入。
 
-## 功能
+`generated/soc/` 与 `soc_shell/` 中保留双 Gemmini16 和单 Gemmini4 的集成示例。默认 `dual16` 仅用于已有示例的构建与检查，不规定后续 SoC 的计算规模。Gemmini64、N6 和专用实现流程已移除。
 
-- **视频输入**：8 路 OV7670 DVP 摄像头；另从一路 4K30 HDMI RGB888 输入中裁剪 8 路 640×480 视频。
-- **摄像头接收**：300 MHz 采样与 PCLK 恢复、HREF/VSYNC 滤波、跨时钟域传输和坏帧恢复。
-- **显示**：每路视频缩放为 360×270，按 RGB565 存入 DDR；16 路组成 1920×1080p60 的 4×4 mosaic。每路使用 4 个帧槽。
-- **AI**：独立生成 640×480×3 INT8 Tensor，通过 FBus 供 Gemmini 执行 YOLOv5nu 推理，硬件后处理器完成分类筛选、DFL、BBox 和 NMS，并通过任务/结果队列直接发布显示框。
-- **带宽与诊断**：FBus 读 ID 0～17、Tensor 写 ID 18～31；提供视频、AI 和带宽串口状态命令。
+## 数据通路
+
+- 输入：8 路 OV7670 DVP，以及一路 4K30 HDMI RGB888 中裁剪出的 8 路 640×480 视频。
+- 显示：每路缩放为 360×270，按 RGB565 写入 DDR，每路四个帧槽；4×4 mosaic 输出 1920×1080p60。
+- AI 输入：视频流独立生成 640×480×3 NHWC RGB INT8 Tensor，共 32 个输入槽；通过现有 coherent FBus 写入。
+- 后处理：计算侧产生 YOLOv5nu raw heads，经 Head publication、URAM 和 PPU 完成分类筛选、DFL、BBox、NMS，再发布检测框与标签。
+- 软件：裸机运行时管理视频初始化、Tensor/Head 槽所有权、推理调度、PPU 队列和串口诊断。
 
 ```text
 8 × OV7670 ───────────────┐
-                          ├─ 16 路视频 ─┬─ RGB565 帧缓存 ─ 4×4 mosaic ─ HDMI TX
-4K30 HDMI ─ 裁剪 8 路视频 ┘             └─ INT8 Tensor ─ Gemmini ─ 后处理
+                          ├─ 16 路视频 ─┬─ RGB565 / DDR ─ mosaic ─ HDMI TX
+4K30 HDMI ─ 裁剪 8 路视频 ┘             └─ INT8 Tensor ─ 外部 SoC ─ Head / PPU ─ overlay
 ```
 
-显示帧在 DDR 中为 368×270 RGB565，其中 360×270 是有效图像，8 像素用于行对齐。HDMI 输入封装见 [4K30 空间封装规范](doc/接口规范/8路640x480视频在4K30_HDMI中的空间封装规范.md)；显示与采集实现见 [RGB565 与 PCLK 优化方案](doc/架构设计/sixteen_camera_Display_RGB565与PCLK_Capture优化方案.md)。
+显示缓存每行为 368 像素，其中 360 像素有效，其余用于对齐。输入封装见 [HDMI 空间封装规范](doc/接口规范/8路640x480视频在4K30_HDMI中的空间封装规范.md)。
 
-## 构建与运行
+## SoC 合并入口
 
-环境：Vivado 2023.2、RISC-V GCC/GDB、OpenOCD；仿真使用 iverilog 和 Verilator 5.x。
+板级顶层为 `rtl/top_wrapper.sv`，计算侧适配入口为 `rtl/control/control_soc_subsystem.sv`。
+现有连接契约包括 256-bit memory AXI、64-bit MMIO AXI、256-bit FBus AXI，以及 UART、复位和视频中断；具体地址/ID 位宽以顶层接口为准。
 
-使用 0918 时序通过版本的实现策略生成三 worker 视频比特流：
+- `config/manifests/rtl_manifest.tcl`：底座手写 RTL 白名单。
+- `config/manifests/soc_manifest.tcl`：选择计算侧生成 RTL。
+- `config/manifests/ip_manifest.tcl`、`xdc_manifest.tcl`：板级 IP 和约束。
+- `sw/src/platform/platform.h`：软件地址、时钟和外设寄存器。
+- `sw/src/ai/backend/`：模型请求/完成 ABI 与计算后端。
+
+新 SoC 放入 `generated/soc/<配置名>/gen-collateral/`，兼容现有 harness 接口时可直接用 `SOC_CONFIG=<配置名>` 选择。接口、时钟、缓存一致性或计算指令发生变化时，需要同步适配 wrapper、软件 ABI、参数头和约束。`SOC_CONFIG` 只选择硬件，不自动推导软件。
+
+通用 Head 队列和 PPU 保留多 worker 的资源管理能力；这不依赖某种 Gemmini 阵列尺寸。
+
+## 构建与验证
+
+环境：Vivado 2023.2、RISC-V GCC/GDB、OpenOCD；定向仿真使用 iverilog、Verilator。
+软件示例还依赖外部 Chipyard 和 HDMI BSP，路径覆盖见 `config/tools.example.mk`。
 
 ```bash
-bash scripts/build_triple64_video_bitstream.sh --check
-bash scripts/build_triple64_video_bitstream.sh
+make help
+make check
+make firmware                         # dual16 示例
+make bitstream                        # dual16 示例
+make check SOC_VARIANT=single4
+make bitstream SOC_CONFIG=<配置名>     # 新 SoC
+make test-software
+make test-tensor
+make test-video
+make test-ppu
 ```
 
-比特流输出目录为 `build/bitstream_0918_video/<时间戳_PID>/`，终端打印完整 `VIDEO_BITSTREAM` 路径。
-实现策略、报告和可选参数见 [0918 构建说明](scripts/npu0918_video/README.md)。三路 64×64 视频推理固件使用独立脚本构建：
+固件输出在 `build/firmware/`，比特流及本次报告输出在 `build/bitstream/<配置>/<运行标识>/`。输入清单通过、仿真通过、生成比特流和板级验收是不同状态，构建后应检查本次时序与 DRC。
+
+示例下载入口：
 
 ```bash
-python3 scripts/build_triple64_video_yolov5nu.py
+bash scripts/program/download_bitstream.sh --bitstream /path/to/video.bit
+bash scripts/program/download_dual16_video.sh --check
+bash scripts/program/download_dual16_video.sh
 ```
 
-输出为 `sw/build/gemmini_triple64_video_yolov5nu.elf`。下载比特流和固件：
+硬件与固件必须匹配。`sw/run.sh` 和 `download_software.sh` 默认使用 dual16；`VIDEO_VARIANT=single4` 选择单 worker 示例，`ELF_FILE` 可覆盖 ELF 路径。
 
-```bash
-bash scripts/download_bitstream.sh --bitstream /path/to/video_100m_3x64_0918.bit
-bash scripts/download_triple64_video.sh
-tio-start
-```
-
-`sw/run.sh` 和 `scripts/download_software.sh` 默认也使用这版三路 64×64 固件。双 16×16 使用相同 PPU 功能，独立构建与下载：
-
-```bash
-python3 scripts/build_dual16_video_yolov5nu.py
-bash scripts/download_dual16_video.sh
-```
-
-双 16×16 输出为 `sw/build/gemmini_dual16_video_yolov5nu.elf`，需匹配双 16×16 SoC。视频下载脚本支持 `--build` 和 `--check`；`ELF_FILE` 可覆盖文件路径。
-
-本次三 worker 适配、地址与验证记录见 [三 worker 集成说明](doc/three_worker_video.md)。
-
-## 串口命令
-
-| 命令 | 功能 |
-| --- | --- |
-| `v` | 视频链路、帧缓存和 DMA 状态；再次输入可查看区间增量 |
-| `s` | AI runtime 状态 |
-| `i` | 启用或排空 AI stream runtime |
-| `P` | PPU 分阶段性能计数 |
-| `R` / `W` / `C` | FBus 读取、Tensor 写入、读写并发带宽诊断 |
-| `r` | 重新初始化视频链路 |
-| `c` | 读取板载时钟芯片 ID |
-
-CH1～CH8 对应本地摄像头，CH9～CH16 对应 HDMI 裁剪通道。`PIPE ... tx_underflows` 与 `FB ... underflow` 分别表示 HDMI AXIS bridge 和 DDR reader 欠流。
-
-## 目录
+## 目录与文档
 
 | 路径 | 内容 |
 | --- | --- |
-| `rtl/video/` | 摄像头、HDMI、帧缓存与显示 RTL |
-| `rtl/ai/` | Tensor 数据通路与硬件后处理 |
-| `generated/soc/` | Rocket/Chipyard SoC RTL |
-| `build/*_manifest.tcl` | 构建使用的 RTL、SoC、IP 和约束清单 |
-| `sw/` | 裸机软件与下载脚本 |
-| `sim/` | 定向仿真测试平台 |
-| `prj/` | Vivado 工程与构建脚本 |
-| [`doc/`](doc/README.md) | 架构、接口与验证文档 |
+| `rtl/` | 视频、DDR、Tensor、PPU、控制与总线接口 |
+| `config/` | 生产输入清单与本机工具配置示例 |
+| `generated/` | 集成示例的生成 SoC RTL 和 Xilinx IP |
+| `soc_shell/` | 现有参考 SoC 生成材料 |
+| `sw/` | 裸机软件、模型、后端 ABI 和 host 测试 |
+| `scripts/`、`sim/` | 构建、下载、生成、检查和定向仿真 |
+| `legacy/` | 已退出生产清单的历史实现 |
+| `artifacts/` | 冻结的验证输入 |
+| `build/`、`reports/` | 本地产物和历史验证证据 |
+| [doc/](doc/README.md) | 架构、接口与验证导航 |
+
+使用入口和功能定位见 [项目入口与功能索引](doc/实现记录/项目入口与功能索引.md)。历史文档保留当时配置和验收范围，不代表新合并 SoC 已通过验证。

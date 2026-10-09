@@ -46,7 +46,7 @@ WORKER_RE = re.compile(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--workers", type=int, choices=(1, 2, 3), default=3)
+    parser.add_argument("--workers", type=int, choices=(1, 2, 3), default=2)
     source = parser.add_mutually_exclusive_group()
     source.add_argument("--port", default="/dev/ttyACM0",
                         help="UART device (default: /dev/ttyACM0)")
@@ -97,7 +97,7 @@ def capture_uart(port: str, baud: int, timeout: float, send: bool) -> str:
         os.close(descriptor)
 
 
-def validate(text: str, workers: int = 3) -> tuple[list[str], list[str]]:
+def validate(text: str, workers: int = 2) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
     final_pass = "YOLOV5NU_TEST_RESULT PASS reference=bit_exact workers=bit_exact" in text

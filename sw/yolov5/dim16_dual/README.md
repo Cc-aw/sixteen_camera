@@ -1,7 +1,7 @@
 # YOLOv5nu dual Gemmini16 runtime
 
 This directory adapts the imported 640x480 Stage8F YOLOv5nu AOT graph to the
-two Gemmini16 accelerators in this project. Worker 0 dispatches RoCC commands
+dual16 integration example; single4 uses the same graph with matching parameters. Worker 0 dispatches RoCC commands
 to custom3 and worker 1 dispatches to custom2. Each worker owns independent
 activation and convolution scratch memory.
 
@@ -21,7 +21,7 @@ FNV/checksum signatures, sparse DFL candidates, NMS output, and cross-worker
 equality. From the repository root, build and download with:
 
 ```sh
-scripts/run_yolov5nu_dual_correctness.sh
+scripts/test/run_yolov5nu_dual_correctness.sh
 ```
 
 The script deliberately does not open, read, or write the UART. Keep using
@@ -30,5 +30,5 @@ your own serial terminal and manually press `t` after download.
 An existing UART log can be checked without board access using:
 
 ```sh
-python3 scripts/test_yolov5nu_dual_correctness.py --log uart.log
+python3 scripts/test/test_yolov5nu_dual_correctness.py --log uart.log
 ```

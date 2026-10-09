@@ -1,1 +1,0 @@
-#include "gemmini_params_64x64_ws_dual_int8_dsp_inference_ram_custom3_xcvu13p.h"

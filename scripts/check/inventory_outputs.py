@@ -11,7 +11,6 @@ GROUPS = [
     ("build/reports", "综合、检查及下载记录；按验证用途保留"),
     ("build/captures", "板上抓取数据；不可当作编译缓存清理"),
     ("sw/build", "旧固件及缓存；旧路径保留，新构建写 build/firmware"),
-    ("build/bitstream_0918_video", "旧 triple64 构建和恢复检查点；保留"),
     ("build/ppu_phase2", "旧 PPU 综合、仿真及比特流混合记录；逐项判断"),
     ("build/sim_loopconv", "旧仿真及故障诊断证据；逐项判断"),
     ("build/twogemmini_audit", "旧 RTL 对比证据；保留"),

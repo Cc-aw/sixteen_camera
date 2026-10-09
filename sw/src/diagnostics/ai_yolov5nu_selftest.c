@@ -180,9 +180,14 @@ int ai_yolov5nu_sequential_correctness_test(int reverse_order)
     int passed = 1;
 
     memset(results, 0, sizeof(results));
-    console_puts(reverse_order ?
-        "YOLOV5NU_SEQ_TEST_BEGIN image=025 order=1,0\r\n" :
-        "YOLOV5NU_SEQ_TEST_BEGIN image=025 order=0,1\r\n");
+    console_puts("YOLOV5NU_SEQ_TEST_BEGIN image=025 order=");
+    for (uint32_t index = 0U; index < YOLOV5NU_DIM16_WORKER_COUNT; ++index) {
+        if (index != 0U)
+            console_putc(',');
+        console_put_u32(reverse_order ?
+            YOLOV5NU_DIM16_WORKER_COUNT - 1U - index : index);
+    }
+    console_puts("\r\n");
     for (uint32_t index = 0U;
          index < YOLOV5NU_DIM16_WORKER_COUNT; ++index) {
         uint32_t worker = reverse_order ?
@@ -208,8 +213,9 @@ int ai_yolov5nu_sequential_correctness_test(int reverse_order)
         if (!worker_passed)
             passed = 0;
     }
-    if (!results_equal(&results[0], &results[1]))
-        passed = 0;
+    for (uint32_t worker = 1U; worker < YOLOV5NU_DIM16_WORKER_COUNT; ++worker)
+        if (!results_equal(&results[0], &results[worker]))
+            passed = 0;
     console_puts(passed ?
         "YOLOV5NU_SEQ_TEST_RESULT PASS reference=bit_exact\r\n" :
         "YOLOV5NU_SEQ_TEST_RESULT FAIL reason=reference_or_worker_mismatch\r\n");

@@ -3,7 +3,7 @@
 PROJECT_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 -include $(PROJECT_ROOT)/config/tools.local.mk
 
-SOC_VARIANT ?= triple64
+SOC_VARIANT ?= dual16
 VIVADO_BIN ?= /mnt/data/Vivado/Vivado/2023.2/bin/vivado
 export SOC_VARIANT VIVADO_BIN
 export SOC_CONFIG
@@ -11,7 +11,7 @@ export SOC_CONFIG
 .PHONY: help check firmware bitstream elaborate test-tensor test-cache test-ppu test-video test-runtime test-software
 help:
 	@printf '%s\n' \
-	  'SOC_VARIANT=triple64 (default), single4 or dual16' \
+	  'SoC integration examples: SOC_VARIANT=dual16 (default) or single4' \
 	  'make check                          Validate selected source manifests' \
 	  'make firmware SOC_VARIANT=single4    Build matching YOLOv5nu firmware' \
 	  'make bitstream SOC_VARIANT=single4   Build matching video bitstream' \
@@ -31,7 +31,7 @@ check:
 
 firmware:
 	@test -z "$(SOC_CONFIG)" || { echo 'SOC_CONFIG selects hardware only; use SOC_VARIANT with a matching firmware ABI'; exit 2; }
-	@case "$(SOC_VARIANT)" in triple64|single4|dual16) ;; *) echo 'Firmware needs a supported SOC_VARIANT'; exit 2 ;; esac
+	@case "$(SOC_VARIANT)" in single4|dual16) ;; *) echo 'Firmware needs a supported SOC_VARIANT'; exit 2 ;; esac
 	cd "$(PROJECT_ROOT)" && python3 scripts/build/build_$(SOC_VARIANT)_video_yolov5nu.py
 
 bitstream:
@@ -40,7 +40,7 @@ bitstream:
 elaborate: check
 	@mkdir -p "$(PROJECT_ROOT)/build/reports/elaborate/$(SOC_VARIANT)"
 	cd "$(PROJECT_ROOT)/build/reports/elaborate/$(SOC_VARIANT)" && \
-	  flock "$(PROJECT_ROOT)/build/npu0918_video.lock" \
+	  flock "$(PROJECT_ROOT)/build/video_project.lock" \
 	  "$(VIVADO_BIN)" -mode batch -source "$(PROJECT_ROOT)/scripts/check/check_tensor_production_elaboration.tcl"
 
 test-tensor:

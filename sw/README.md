@@ -1,68 +1,39 @@
-# OV7670/OV5645 to HDMI firmware
+# 视频与 AI 底座裸机软件
 
-当前生产配置为 100 MHz、三路 64×64 Gemmini、六个 Head 槽，构建与地址说明见
-[三 worker 视频集成](../doc/three_worker_video.md)。以下早期单摄像头记录保留供参考。
+本目录提供板级初始化、摄像头/HDMI 服务、Tensor 与 Head 槽管理、YOLOv5nu 流式调度、PPU 和 overlay 驱动，以及 host 测试。SoC 计算实现通过 `src/ai/backend/` 接入。
 
-该裸机固件控制 CH4 OV7670 并行 RGB565 输入，经 DDR 帧缓存后，以
-1920x1080p60 RGB 输出到 HDMI。CH4 的 640x480 原始画面由 RTL 居中并补黑边，
-不做放大。本测试构建关闭 CH5/CH6 OV5645 前端以缩短综合和布局时间。
+## 集成示例
 
-初始化顺序：
+| 配置 | 计算示例 | ELF |
+| --- | --- | --- |
+| `dual16`（默认） | 双 Gemmini16 | `../build/firmware/gemmini_dual16_video_yolov5nu.elf` |
+| `single4` | 单 Gemmini4 | `../build/firmware/gemmini_single4_video_yolov5nu.elf` |
 
-1. GPIO 保持 OV5645 复位，释放 FMC-HDMI 时钟芯片复位；
-2. 板卡 AXI IIC 配置 8T49N241，初始化 VPHY、HDMI TX 和帧缓存；
-3. CH4 RTL 以精确 24 MHz 执行 ztachip 的倒计时和 SCCB 表，并输出 12 MHz XCLK；
-4. 软件只读取 CH4 硬件诊断，不控制其 `pwdn/reset_n/SCCB`；
-5. 收到首个完整 OV7670 摄像头帧后启动 HDMI TX。
+在项目根目录运行 `make firmware SOC_VARIANT=dual16` 或 `single4`。直接 `make -C sw` 的输出在 `build/firmware/<配置>/hdmi_tx_test.*`；根目录构建入口生成上表中的交付 ELF。
 
-摄像头软件寄存器窗口：
+软件依赖外部 RISC-V 工具链、Chipyard 的 Gemmini 头文件、参考 HDMI 工程的板级 IIC/时钟代码及 AMD 2023.2 BSP。通过根目录 `config/tools.local.mk` 或相应环境变量配置路径；示例见 `config/tools.example.mk`。
 
-| 外设 | 地址 |
-| --- | --- |
-| 帧缓存控制 | `0x4010_0000` |
-| CH4 OV7670 诊断 | `0x4011_1000` |
-| CH5 OV5645 SCCB GPIO | `0x4012_0000` |
-| CH6 OV5645 SCCB GPIO | `0x4013_0000` |
+`src/platform/platform.h` 定义软件时钟、地址和寄存器；`src/ai/backend/ai_model_abi.h` 定义任务/完成契约。合并新 SoC 时还要匹配 Gemmini 参数、指令 opcode、busy/credit CSR 和缓存发布协议。硬件的 `SOC_CONFIG` 选择不会自动生成这些软件配置。
 
-Gamma 首版写入 identity LUT，用于先验证摄像头到 HDMI 的数据链路，不改变像素值。
-
-编译：
+## 下载与检查
 
 ```bash
-make clean && make
+bash sw/run.sh --check
+bash sw/run.sh --build
+VIDEO_VARIANT=single4 bash sw/run.sh --check
+make test-software
 ```
 
-下载并运行：
+下载前需在 FPGA 中加载匹配的 bitstream。串口为 115200 8N1，输入 `h` 查看当前固件命令。`v` 查看视频，`s` 查看 AI 状态，`i` 启用或排空流式推理；诊断命令以源码帮助输出为准。
 
-```bash
-./run.sh
-```
+## 源码分层
 
-只检查工具路径、配置文件和固件是否就绪，不连接开发板：
+- `src/board/`、`src/platform/`：板级配置、启动、控制台、缓存与基础运行时。
+- `src/video/`：视频初始化和持续服务。
+- `src/ai/runtime/`：Tensor/Head 所有权、调度和生命周期。
+- `src/ai/backend/`：计算后端与 ABI。
+- `src/ai/postprocess/`：PPU、结果管理和 overlay。
+- `src/diagnostics/`：固定输入、后处理和带宽诊断。
+- `yolov5/dim16_dual/`：现有单/双 worker 的 YOLOv5nu 模型适配与生成器。
 
-```bash
-./run.sh --check
-```
-
-跳过编译，直接下载已有 ELF：
-
-```bash
-./run.sh --no-build
-```
-
-脚本使用 OpenOCD BSCAN 连接 Rocket Debug Module，因此执行前需要先将本工程
-bitstream 下载到 FPGA。若 Vivado Hardware Manager 仍占用 JTAG，请先断开其
-Hardware Target。
-
-硬件修改后重新生成并下载 bitstream：
-
-```bash
-cd ../prj
-/mnt/data/Vivado/Vivado/2023.2/bin/vivado -mode batch -source build_bitstream.tcl
-/mnt/data/Vivado/Vivado/2023.2/bin/vivado -mode batch -source program_bitstream.tcl
-```
-
-串口为 115200 8N1。输入 `s` 查看 OV7670 的时钟/复位阶段、SCCB
-ACK/NACK、PCLK/VSYNC/HREF、帧/行/字节/像素/溢出计数，以及其余视频链路
-状态；输入 `r` 重新初始化视频链路；输入 `c` 读取时钟芯片 ID。
-生成文件位于 `build/hdmi_tx_test.*`。
+YOLOv5nu 使用固定输入、模型和量化契约；迁入模型材料的来源说明见 [yolov5/README.md](yolov5/README.md)。
