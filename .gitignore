@@ -1,37 +1,20 @@
-# Vivado transient and generated data
-.Xil/
+# All build, simulation, board capture and historical outputs
+/build/
 **/.Xil/
+__pycache__/
+*.py[cod]
 *.jou
 *.log
 *.str
 *.pb
 *.rpx
+*.rpt
 *.dcp
 *.bit
 *.ltx
 *.wdb
 *.vcd
 *.vpd
-
-prj/*.cache/
-prj/*.gen/
-prj/*.hw/
-prj/*.ip_user_files/
-prj/*.runs/
-prj/*.sim/
-prj/backup_*/
-*.rpt
-/reports/
-
-# Generated/reference copies outside the active project
-demo/
-
-# Software and simulator build products
-/build/
-captures/
-sw/build/
-obj_dir/
-xsim.dir/
 *.o
 *.d
 *.elf
@@ -39,28 +22,22 @@ xsim.dir/
 *.hex
 *.dump
 *.map
-__pycache__/
-*.py[cod]
 
-# Local tool/cache state
-.git/
-.cache/
+# Direct GUI sessions may create transient data beside the checked-in project.
+/hw/vivado/*.cache/
+/hw/vivado/*.gen/
+/hw/vivado/*.hw/
+/hw/vivado/*.ip_user_files/
+/hw/vivado/*.runs/
+/hw/vivado/*.sim/
+
+# Tool state and machine-specific executable locations
+/tools/config/tools.local.mk
 .agents/
 .codex/
-log/
-
-# Editor/OS files
+.aws/
+.cache/
+.git/
 *~
 *.swp
 .DS_Store
-*.fir
-!generated/soc/**/*.model.mems.fir
-!generated/soc/**/*.top.mems.fir
-!generated/soc/chipyard.fpga.myboard.MyBoardFPGATestHarness.SmallRocketVideoDDR256MyBoardConfig/*.fir
-
-# Local overrides; copy config/tools.example.mk to config/tools.local.mk.
-/config/tools.local.mk
-
-# Local RTL rollback copies and Vivado clock report
-/generated/soc-backups/
-/clockInfo.txt

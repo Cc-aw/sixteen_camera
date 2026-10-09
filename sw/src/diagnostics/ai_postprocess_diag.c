@@ -153,10 +153,8 @@ static int ai_postprocess_diag_start_mode(uint64_t tensor_addr,
         return -1;
     status = mmio_read32(POSTPROCESS_DIAG_BASE + DIAG_STATUS);
     if (command.active != 0U || (status & DIAG_STATUS_BUSY) != 0U
-#ifdef AI_MODEL_YOLOV5NU
         || (mmio_read32(POSTPROCESS_DIAG_BASE + PPU_STATUS) &
             PPU_STATUS_BUSY) != 0U
-#endif
        )
         return -2;
 

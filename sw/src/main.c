@@ -4,9 +4,7 @@
 #include "ai/postprocess/ai_overlay.h"
 #include "diagnostics/ai_postprocess_diag.h"
 #include "ai/runtime/ai_runtime_bridge.h"
-#ifdef AI_MODEL_YOLOV5NU
 #include "diagnostics/ai_yolov5nu_selftest.h"
-#endif
 #include "clock_chip.h"
 #include "platform/console.h"
 #include "video/hdmi_tx.h"
@@ -59,11 +57,7 @@ static BoardWriteOnlyState board_write_only;
 
 static void print_help(void)
 {
-#ifdef AI_MODEL_YOLOV5NU
     console_puts("Commands: t=fixed image all-worker Gemmini test, u/U=fixed image sequential Gemmini test (forward/reverse), T=fixed image Gemmini+PPU test, ");
-#else
-    console_puts("Commands: ");
-#endif
     console_puts("R=FBus read-only BW, W=tensor write-only BW (10s), C=raw tensor/FBus concurrent BW, b=AI concurrent BW, s=AI status, v=video status, o=overlay test, p=profile, P=PPU phases, m=tensor soak, i=AI runtime, r=restart, c=clock ID, h=help\r\n");
 }
 
@@ -702,7 +696,6 @@ int main(void)
             continue;
         }
         switch (command) {
-#ifdef AI_MODEL_YOLOV5NU
         case 't':
         case 'u':
         case 'U':
@@ -721,7 +714,6 @@ int main(void)
             else
                 (void)ai_yolov5nu_graph_post_benchmark();
             break;
-#endif
         case 'C':
             board_raw_concurrent_begin();
             break;

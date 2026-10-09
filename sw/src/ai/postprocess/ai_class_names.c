@@ -1,6 +1,5 @@
 #include "ai/postprocess/ai_class_names.h"
 
-#ifdef AI_MODEL_YOLOV5NU
 static const char *const coco_names[80] = {
     "person", "bicycle", "car", "motorcycle", "airplane", "bus",
     "train", "truck", "boat", "traffic light", "fire hydrant",
@@ -22,11 +21,3 @@ const char *ai_class_name(uint8_t class_id)
 {
     return class_id < 80U ? coco_names[class_id] : "unknown";
 }
-#else
-#include "tinyyolov2_runtime.h"
-
-const char *ai_class_name(uint8_t class_id)
-{
-    return tinyyolov2_class_name((int)class_id);
-}
-#endif

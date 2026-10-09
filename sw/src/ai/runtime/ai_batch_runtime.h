@@ -5,6 +5,7 @@
 
 #include "ai/postprocess/ai_detection.h"
 #include "ai/runtime/ai_frame_snapshot.h"
+#include "platform/platform.h"
 
 typedef enum {
     AI_BATCH_FREE = 0,

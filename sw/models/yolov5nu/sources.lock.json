@@ -1,0 +1,50 @@
+{
+  "baseline_commit": "054a7a4",
+  "sources": [
+    {
+      "path": "sw/models/yolov5nu/aot/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile.c",
+      "origin": "sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/imagenet/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile.c",
+      "sha256": "56cb9a46f419bd6e6ca591b846310a4609d3bf579bba415b629cdd31001b2df1"
+    },
+    {
+      "path": "sw/models/yolov5nu/aot/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h",
+      "origin": "sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/imagenet/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h",
+      "sha256": "19d6ad52c6ccf0c392076f98de7d859d7d47c47d82589feac27f7e5b9a534b7f"
+    },
+    {
+      "path": "sw/models/yolov5nu/include/yolov5nu_silu_lut_rvv.h",
+      "origin": "sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/include/yolov5nu_silu_lut_rvv.h",
+      "sha256": "a7538206eafb6aa089b9271c02d54a2c92468418a3c38f607950af93de91b7ec"
+    },
+    {
+      "path": "sw/models/yolov5nu/include/yolov5nu_silu_opencv_rvv.h",
+      "origin": "sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/include/yolov5nu_silu_opencv_rvv.h",
+      "sha256": "074ed3d7b0d77051d6254ec0eb8fba67cb4ce9d6f495a3098d48b9799eb5b252"
+    },
+    {
+      "path": "sw/models/yolov5nu/include/yolov5nu_stage3_rvv.h",
+      "origin": "sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/include/yolov5nu_stage3_rvv.h",
+      "sha256": "574eafe8a0531d6027ac6a56b0489713e3b5183505bdab944e225e87822d1369"
+    },
+    {
+      "path": "sw/models/yolov5nu/include/yolov5nu_stage4_rvv.h",
+      "origin": "sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/include/yolov5nu_stage4_rvv.h",
+      "sha256": "c35588dff4d69c8f59391627aa4c23d81129ea315b060314ce1a707b9dcb0bbe"
+    },
+    {
+      "path": "tests/data/yolov5nu/hardware_integer_reference.json",
+      "origin": "sw/yolov5/generators/gemmini/software/gemmini-ort/models/detection/stage8_640x480_hardware_aware/hardware_integer_reference.json",
+      "sha256": "76f237afa84368c56c3db09c19dcc9d857a86782a2c465d9276ee92ae7293bd3"
+    },
+    {
+      "path": "tests/data/yolov5nu/hardware_integer_reference.npz",
+      "origin": "sw/yolov5/generators/gemmini/software/gemmini-ort/models/detection/stage8_640x480_hardware_aware/hardware_integer_reference.npz",
+      "sha256": "b4128dffb8ac0543a5a62f5dd6c2bab8d8c97b9f363588a69f05d8e571622226"
+    },
+    {
+      "path": "tests/data/yolov5nu/hardware_silu_luts.json",
+      "origin": "sw/yolov5/generators/gemmini/software/gemmini-ort/models/detection/stage8_640x480_hardware_aware/hardware_silu_luts.json",
+      "sha256": "b75c038dbd21a6b01f324ed6dc91e12566396d418c457b429ea1425097f5f525"
+    }
+  ]
+}

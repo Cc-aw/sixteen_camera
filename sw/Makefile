@@ -51,8 +51,7 @@ CFLAGS := $(ARCH_FLAGS) -std=c11 -Os -g3 -ffreestanding -fno-builtin \
 	-DAI_MODEL_WORKER_COUNT=$(MODEL_WORKERS)U \
 	-DYOLOV5NU_DIM16_WORKER_COUNT=$(MODEL_WORKERS)U \
 	-DYOLOV5NU_GEMMINI_DIM=$(MODEL_DIM) \
-	-I$(CURDIR)/yolov2 \
-	-I$(CURDIR)/yolov5/dim16_dual \
+	-I$(CURDIR)/models/yolov5nu/runtime \
 	-I$(REFERENCE_SW)/include $(VENDOR_INCLUDES)
 
 ifeq ($(SOC_VARIANT),single4)
@@ -65,8 +64,8 @@ endif
 
 ifeq ($(AI_MODEL),yolov5nu)
 CFLAGS += -DAI_MODEL_YOLOV5NU=1
-else ifneq ($(AI_MODEL),yolov2)
-$(error AI_MODEL must be yolov5nu or yolov2)
+else
+$(error Only AI_MODEL=yolov5nu is supported)
 endif
 VENDOR_CFLAGS := $(filter-out -Werror,$(CFLAGS)) -Wno-unused-parameter \
 	-Wno-sign-compare -Wno-type-limits -Wno-unused-variable \
@@ -93,11 +92,6 @@ LOCAL_SOURCES += src/ai/runtime/ai_batch_runtime_stream.c \
 	src/diagnostics/ai_yolov5nu_selftest.c
 
 MODEL_OBJECT := $(BUILD)/yolov5nu_dim16_dual.o
-else
-LOCAL_SOURCES += src/ai/runtime/ai_preprocess.c src/ai/runtime/ai_batch_runtime.c \
-	src/ai/backend/ai_model_backend_yolov2.c \
-	src/ai/runtime/ai_inference_runtime.c src/ai/backend/ai_tinyyolov2_runtime_adapter.c
-MODEL_OBJECT := $(BUILD)/tinyyolov2.o
 endif
 BOARD_SOURCES := $(REFERENCE_SW)/src/axi_iic.c \
 	$(REFERENCE_SW)/src/clock_chip.c
@@ -156,29 +150,15 @@ $(BUILD)/%.o: src/%.c | $(BUILD)
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
-$(BUILD)/tinyyolov2.o: yolov2/tinyyolov2.c yolov2/tinyyolov2_params.h \
-		yolov2/tinyyolov2_runtime.h yolov2/tinyyolov2_worker_pool.h \
-		yolov2/tinyyolov2_input_contract.h | $(BUILD)
-	$(CC) $(CFLAGS) -include $(GEMMINI_PARAMS) \
-		-std=gnu11 -O2 -DBAREMETAL=1 \
-		-DTINYYOLOV2_NO_STANDALONE_MAIN=1 -DTINYYOLOV2_GEMMINI_POOL=1 \
-		-DGEMMINI_POOL_NO_INTERNAL_FENCE=1 \
-		-DGEMMINI_LOOPCONV_CREDIT_ADMISSION=1 \
-		-DGEMMINI_LOOPCONV_WORKER1_STATUS_CSR=0x7c5 \
-		-DGEMMINI_LOOPCONV_WORKER1_ACCEPTED_CSR=0x7c8 \
-		-DGEMMINI_LOOPCONV_WORKER1_RETIRED_CSR=0x7c9 \
-		-Wno-error -Wno-sign-compare -Wno-unused-parameter \
-		-Wno-unused-variable -I$(CURDIR)/yolov2 -MMD -MP -c $< -o $@
-
-YOLOV5_GEN_ROOT := $(CURDIR)/yolov5/generators/gemmini/software/gemmini-rocc-tests
-YOLOV5_IMAGENET := $(YOLOV5_GEN_ROOT)/imagenet
+YOLOV5_GEN_ROOT := $(CURDIR)/models/yolov5nu
+YOLOV5_IMAGENET := $(YOLOV5_GEN_ROOT)/aot
 YOLOV5_PARAMS := $(YOLOV5_IMAGENET)/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h
 
 yolov5nu-regenerate:
-	python3 yolov5/dim16_dual/generate_runtime.py
+	python3 models/yolov5nu/runtime/generate_runtime.py
 
-$(BUILD)/yolov5nu_dim16_dual.o: yolov5/dim16_dual/yolov5nu_dim16_dual.c \
-		yolov5/dim16_dual/yolov5nu_dim16_dual.h $(YOLOV5_PARAMS) $(GEMMINI_PARAMS) | $(BUILD)
+$(BUILD)/yolov5nu_dim16_dual.o: models/yolov5nu/runtime/yolov5nu_dim16_dual.c \
+		models/yolov5nu/runtime/yolov5nu_dim16_dual.h $(YOLOV5_PARAMS) $(GEMMINI_PARAMS) | $(BUILD)
 	$(CC) $(CFLAGS) -include $(GEMMINI_PARAMS) -std=gnu11 -O2 \
 		-DBAREMETAL=1 -DYOLOV5NU_PROFILE=0 \
 		-DYOLOV5NU_FINAL_TENSOR_STATS=0 \
