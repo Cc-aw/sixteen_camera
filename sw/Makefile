@@ -1,6 +1,5 @@
-CHIPYARD ?= /home/wzr/chipyard
-TOOLCHAIN ?= $(CHIPYARD)/.conda-env/riscv-tools/bin/riscv64-unknown-elf-
-GEMMINI_TESTS := $(CHIPYARD)/generators/gemmini/software/gemmini-rocc-tests
+TOOLCHAIN ?= riscv64-unknown-elf-
+GEMMINI_TESTS := $(CURDIR)/third_party/gemmini
 PROJECT_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/..)
 SOC_VARIANT ?= dual16
 ifeq ($(SOC_VARIANT),dual16)
@@ -29,11 +28,9 @@ TARGET := $(BUILD)/hdmi_tx_test
 AI_MODEL ?= yolov5nu
 BANDWIDTH_DIAGNOSTIC ?= 0
 
-# Reuse the board/IIC/clock code and the AMD 2023.2 BSP already validated by
-# the working 4k60 project. This project supplies its own TX-only config table.
-REFERENCE_ROOT ?= ../../../ALL_MIPI_HDMI/4k/4k60to1k60
-REFERENCE_SW ?= $(REFERENCE_ROOT)/sw
-DEMO_BSP ?= $(REFERENCE_ROOT)/demo/11.FH1159/2_software/XCZU15EG/ZYNQMPSOC_15EG_HDMI_4K_LOOP/Vitis/exdes_wrapper/psu_cortexa53_0/standalone_psu_cortexa53_0/bsp/psu_cortexa53_0/libsrc
+# Validated board and AMD BSP source snapshots live in this repository.
+REFERENCE_SW := $(CURDIR)/third_party/board
+DEMO_BSP := $(CURDIR)/third_party/amd
 VENDOR_DIRS := \
 	$(DEMO_BSP)/video_common_v4_13/src \
 	$(DEMO_BSP)/v_hdmi_common_v1_7/src \
@@ -145,7 +142,7 @@ OBJECTS := $(BUILD)/platform/startup.o $(LOCAL_OBJECTS) $(MODEL_OBJECT) $(BOARD_
 all: check-tools $(TARGET).elf $(TARGET).bin $(TARGET).hex $(TARGET).dump size
 
 check-tools:
-	@test -x "$(CC)" || { echo "Missing compiler: $(CC)"; exit 1; }
+	@command -v "$(CC)" >/dev/null 2>&1 || { echo "Missing compiler: $(CC)"; exit 1; }
 
 $(BUILD):
 	mkdir -p $@
