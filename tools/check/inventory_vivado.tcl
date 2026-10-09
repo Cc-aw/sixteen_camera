@@ -3,7 +3,7 @@
 #
 # Usage:
 #   vivado -mode batch -source tools/check/inventory_vivado.tcl -tclargs \
-#     -project hw/vivado/sixteen_camera.xpr -out_dir reports/.../project_inventory
+#     -project hw/vivado/sixteen_camera.xpr -out_dir build/reports/project_inventory
 
 proc usage {} {
     puts "Usage: inventory_vivado.tcl -project <project.xpr> -out_dir <directory>"

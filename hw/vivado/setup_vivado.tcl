@@ -3,7 +3,7 @@
 # all repository paths are resolved relative to this script.
 #
 # Usage from the Vivado Tcl console:
-#   source /path/to/repository/setup_vivado.tcl
+#   source /path/to/repository/hw/vivado/setup_vivado.tcl
 #
 # The script is idempotent.  Individual source/IP/constraint failures are
 # collected and reported instead of aborting the remaining setup steps.
@@ -328,39 +328,26 @@ if {[llength $sc_soc_files] == 0} {
     }
 }
 
-# Only the standalone IPs in the production manifest are added.
+# Create only the standalone IPs in the production manifest. Their generated
+# files belong to Vivado; no source snapshot or output directory is required.
 source [file join $sc_repo_root hw manifests ip_manifest.tcl]
 set sc_ip_files {}
 foreach relative_path $IP_SOURCES {
-    set sc_ip_path [file normalize [file join $sc_repo_root $relative_path]]
-    if {[info exists sc_ip_work_dir]} {
-        file mkdir $sc_ip_work_dir
-        set sc_ip_copy [file join $sc_ip_work_dir [file tail [file dirname $sc_ip_path]]]
-        if {![file exists $sc_ip_copy]} {
-            file copy [file dirname $sc_ip_path] $sc_ip_copy
-        }
-        # Refresh the input configuration; other adjacent files are the
-        # validated snapshot until Vivado regenerates them in the build copy.
-        file copy -force $sc_ip_path [file join $sc_ip_copy [file tail $sc_ip_path]]
-        set sc_ip_path [file join $sc_ip_copy [file tail $sc_ip_path]]
-    }
-    lappend sc_ip_files $sc_ip_path
-}
-foreach sc_file [get_files -quiet -of_objects [get_filesets sources_1]] {
-    if {[catch {set sc_name [file normalize [get_property NAME $sc_file]]}]} {
+    set sc_ip_script [file join $sc_repo_root $relative_path]
+    set sc_ip_name [file rootname [file tail $relative_path]]
+    set sc_ip_existed [expr {[llength [get_ips -quiet $sc_ip_name]] != 0}]
+    if {[catch {source $sc_ip_script} message]} {
+        ::sixteen_camera_setup::record_failure IP $relative_path $message
         continue
     }
-    if {[file extension $sc_name] eq ".xci" &&
-        ([string first "/hw/rtl/ip/" $sc_name] >= 0 ||
-         [string first "/hw/ip/" $sc_name] >= 0) &&
-        [lsearch -exact $sc_ip_files $sc_name] < 0} {
-        remove_files $sc_file
+    set sc_ip_path [get_property IP_FILE [get_ips $sc_ip_name]]
+    lappend sc_ip_files $sc_ip_path
+    if {$sc_ip_existed} {
+        incr ::sixteen_camera_setup::existing(IP)
+    } else {
+        incr ::sixteen_camera_setup::added(IP)
     }
-}
-foreach path $sc_ip_files {
-    if {[::sixteen_camera_setup::safe_add_file IP sources_1 $path]} {
-        ::sixteen_camera_setup::safe_generate_ip $path
-    }
+    ::sixteen_camera_setup::safe_generate_ip $sc_ip_path
 }
 
 # Recreate the DDR block design when absent, otherwise validate and reuse it.

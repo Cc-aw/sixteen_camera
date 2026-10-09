@@ -2,10 +2,14 @@
 .DEFAULT_GOAL := help
 PROJECT_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 -include $(PROJECT_ROOT)/tools/config/tools.local.mk
+ifneq ($(strip $(VIVADO_PROJECT)),)
+override VIVADO_PROJECT := $(abspath $(VIVADO_PROJECT))
+endif
 
 SOC_VARIANT ?= dual16
 VIVADO_BIN ?= vivado
 export SOC_VARIANT VIVADO_BIN
+export VIVADO_PROJECT
 export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD_JTAG_SERIAL BITSTREAM_FILE
 
 .PHONY: help check firmware bitstream elaborate test-tensor test-cache test-ppu test-video test-runtime test-software
@@ -13,6 +17,7 @@ help:
 	@printf '%s\n' \
 	  'SoC integration examples: SOC_VARIANT=dual16 (default) or single4' \
 	  'make check                          Validate selected source manifests' \
+	  'make project                        Create/open local Vivado project from Tcl' \
 	  'make firmware SOC_VARIANT=single4    Build matching YOLOv5nu firmware' \
 	  'make bitstream SOC_VARIANT=single4   Build matching video bitstream' \
 	  'make bitstream SOC_CONFIG=<name>    Build any hw/soc/<name>/gen-collateral' \
@@ -27,6 +32,13 @@ help:
 	  'make check-deps                     Check source closure and installed tools' \
 	  'make outputs                        Inventory outputs and retention policy' \
 	  'Local tool overrides: tools/config/tools.local.mk (see tools.example.mk)'
+
+.PHONY: project
+project: check
+	@mkdir -p "$(PROJECT_ROOT)/build/reports/project"
+	cd "$(PROJECT_ROOT)/build/reports/project" && \
+	  flock "$(PROJECT_ROOT)/build/video_project.lock" \
+	  "$(VIVADO_BIN)" -mode batch -source "$(PROJECT_ROOT)/hw/vivado/create_project.tcl"
 
 check:
 	@cd "$(PROJECT_ROOT)" && tclsh tools/check/check_production_manifest.tcl

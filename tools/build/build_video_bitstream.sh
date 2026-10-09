@@ -10,8 +10,11 @@ case "${1:-}" in
 esac
 [[ $# -le 1 ]] || { echo 'Too many arguments' >&2; exit 2; }
 vivado=${VIVADO_BIN:-vivado}
+if [[ -n "${VIVADO_PROJECT:-}" ]]; then
+  export VIVADO_PROJECT="$(realpath -m "$VIVADO_PROJECT")"
+fi
 command -v "$vivado" >/dev/null 2>&1 || { echo "Missing Vivado: $vivado" >&2; exit 2; }
-[[ -f "$root/hw/vivado/sixteen_camera.xpr" ]] || { echo 'Missing Vivado project' >&2; exit 2; }
+[[ -f "$root/hw/vivado/create_project.tcl" ]] || { echo 'Missing project creation Tcl' >&2; exit 2; }
 version=$("$vivado" -version 2>/dev/null)
 [[ "$version" == *2023.2* ]] || { echo 'Vivado 2023.2 is required' >&2; exit 2; }
 tclsh "$root/tools/check/check_production_manifest.tcl"
@@ -31,8 +34,10 @@ cd "$results"
 "$vivado" -mode batch -source "$root/tools/build/build_default_video_bitstream.tcl" \
   -log "$results/build.log" -journal "$results/build.jou"
 # Keep the selected variant's result after another variant reuses the XPR.
-work_label=${SOC_CONFIG:-$SOC_VARIANT}
-bitstream="$root/build/vivado/$work_label/sixteen_camera.runs/impl_1/top_wrapper.bit"
+project=${VIVADO_PROJECT:-$root/hw/vivado/sixteen_camera.xpr}
+project=$(realpath -m "$project")
+project_name=$(basename "$project" .xpr)
+bitstream="$(dirname "$project")/$project_name.runs/impl_1/top_wrapper.bit"
 [[ -s "$bitstream" ]] || { echo 'Bitstream missing' >&2; exit 4; }
 cp "$bitstream" "$results/video_${label}.bit"
 tclsh "$root/tools/check/print_soc_collateral.tcl" --config > "$results/soc_config.txt"

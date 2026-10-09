@@ -16,9 +16,9 @@
 | --- | --- |
 | `hw/rtl/` | 底座手写 RTL、总线接口、视频与 AI 外设 |
 | `hw/constraints/` | 六份当前有效的板级约束 |
-| `hw/ip/` | Xilinx IP 配置和配套输入 |
+| `hw/ip/` | 十个 Xilinx IP 的重建 Tcl |
 | `hw/soc/` | dual16 / single4 生成 SoC 集成示例 |
-| `hw/vivado/`、`hw/manifests/` | XPR、DDR BD、建立脚本与生产输入清单 |
+| `hw/vivado/`、`hw/manifests/` | 工程/DDR BD 重建 Tcl 与生产输入清单 |
 | `sw/src/`、`sw/models/` | 裸机软件、计算后端和当前 YOLOv5nu 模型 |
 | `sw/third_party/` | 已验证的板级驱动、AMD BSP、Gemmini 头文件快照 |
 | `tools/` | 构建、下载、生成、检查、时序分析与工具配置 |
@@ -35,6 +35,7 @@
 ```bash
 make help
 make check-deps
+make project                        # 从 Tcl 创建本地 Vivado 工程
 make firmware                       # dual16
 make firmware SOC_VARIANT=single4
 make elaborate SOC_VARIANT=single4  # Vivado RTL elaboration
@@ -46,13 +47,13 @@ make test-ppu
 make test-cache SOC_VARIANT=single4
 ```
 
-固件在 `build/firmware/`。命令行 Vivado 工作工程及 IP/BD 生成物在 `build/vivado/<配置>/`；每次 bitstream 和报告另存至 `build/bitstream/<配置>/<运行标识>/`。直接打开 XPR 的 GUI 会在项目旁创建 Vivado 临时目录。
+固件在 `build/firmware/`。Vivado 工程默认在 `hw/vivado/sixteen_camera.xpr`；IP、BD、缓存和运行目录由 Vivado 管理，均不提交。用 `VIVADO_PROJECT=/path/to/example.xpr` 可指定其他工程位置，无需放入 `build/`。每次 bitstream 和报告另存至 `build/bitstream/<配置>/<运行标识>/`。
 
 ## SoC 合并与下载
 
 合并入口为 [top_wrapper.sv](hw/rtl/top_wrapper.sv) 和 [control_soc_subsystem.sv](hw/rtl/control/control_soc_subsystem.sv)。新 SoC 放入 `hw/soc/<配置名>/gen-collateral/`，兼容 harness 时用 `SOC_CONFIG=<配置名>` 选择硬件。软件 ABI、指令和缓存发布协议需要匹配；`SOC_CONFIG` 不自动选择固件。
 
-具体交接步骤见 [SoC 合并指南](docs/integration/soc-integration.md)，源码说明见 [软件说明](sw/README.md)，验证范围见 [重构验收记录](docs/validation/structure-refactor.md)。
+具体交接步骤见 [SoC 合并指南](docs/integration/soc-integration.md)，源码说明见 [软件说明](sw/README.md)，验证范围见 [重构验收记录](docs/validation/structure-refactor.md) 和 [Vivado Tcl 交付验收](docs/validation/vivado-tcl-delivery.md)。
 
 ```bash
 bash tools/program/download_bitstream.sh --bitstream /path/to/video.bit

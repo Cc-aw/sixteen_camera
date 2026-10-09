@@ -13,7 +13,8 @@ GROUPS = [
     ("build/captures", "板上抓取数据；保留"),
     ("build/history", "重构前的本地历史结果和抓取；保留"),
     ("hw/soc", "SoC 集成输入；保留"),
-    ("hw/ip", "Xilinx IP 配置及配套输入；保留"),
+    ("hw/ip", "IP 重建 Tcl；旧本地 IP 输出已忽略"),
+    ("hw/vivado", "源码 Tcl 与本地 Vivado 工程；生成物已忽略"),
 ]
 
 def main():

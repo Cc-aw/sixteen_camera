@@ -23,13 +23,28 @@ __pycache__/
 *.dump
 *.map
 
-# Direct GUI sessions may create transient data beside the checked-in project.
-/hw/vivado/*.cache/
-/hw/vivado/*.gen/
-/hw/vivado/*.hw/
-/hw/vivado/*.ip_user_files/
-/hw/vivado/*.runs/
-/hw/vivado/*.sim/
+# Vivado owns project files and generated output, wherever the project lives.
+*.xpr
+*.xci
+*.xcix
+*.bd
+*.bda
+*.srcs/
+*.cache/
+*.gen/
+*.hw/
+*.ip_user_files/
+*.runs/
+*.sim/
+*.hwh
+*.hwdef
+*.veo
+*.vho
+xsim.dir/
+vivado_pid*.zip
+usage_statistics_webtalk.*
+# Existing standalone IP output directories stay local; flat Tcl is source.
+/hw/ip/*/
 
 # Tool state and machine-specific executable locations
 /tools/config/tools.local.mk

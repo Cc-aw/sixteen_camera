@@ -310,6 +310,7 @@ proc create_root_design { parentCell } {
   set S00_ARESETN [ create_bd_port -dir I -type rst S00_ARESETN ]
   set S00_ACLK [ create_bd_port -dir I -type clk -freq_hz 100000000 S00_ACLK ]
   set_property -dict [ list \
+   CONFIG.ASSOCIATED_RESET {S00_ARESETN} \
    CONFIG.PHASE {0.00} \
  ] $S00_ACLK
   set soc_clk_100m [ create_bd_port -dir O -type clk soc_clk_100m ]
@@ -363,10 +364,10 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net S00_AXI_1 [get_bd_intf_ports S00_AXI] [get_bd_intf_pins axi_interconnect_0/S00_AXI]
   connect_bd_intf_net -intf_net S01_AXI_0_1 [get_bd_intf_ports S01_AXI] [get_bd_intf_pins axi_interconnect_0/S01_AXI]
   connect_bd_intf_net -intf_net S02_AXI_0_1 [get_bd_intf_ports S02_AXI] [get_bd_intf_pins axi_interconnect_0/S02_AXI]
-  connect_bd_intf_net -intf_net axi_interconnect_0_M00_AXI \
+  connect_bd_intf_net -intf_net axi_interconnect_0_M00_AXI1 \
     [get_bd_intf_pins axi_interconnect_0/M00_AXI] \
     [get_bd_intf_pins m00_full_regslice/S_AXI]
-  connect_bd_intf_net -intf_net m00_full_regslice_M_AXI \
+  connect_bd_intf_net -intf_net m00_full_regslice_M_AXI1 \
     [get_bd_intf_pins m00_full_regslice/M_AXI] \
     [get_bd_intf_pins ddr4_0/C0_DDR4_S_AXI]
   connect_bd_intf_net -intf_net ddr4_0_C0_DDR4 [get_bd_intf_ports C0_DDR4] [get_bd_intf_pins ddr4_0/C0_DDR4]

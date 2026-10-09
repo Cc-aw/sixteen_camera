@@ -37,7 +37,7 @@ foreach run {synth_1 impl_1} {
         error "$run failed: $status"
     }
 }
-set bitstream [file join $project_work_dir sixteen_camera.runs impl_1 top_wrapper.bit]
+set bitstream [file join $project_work_dir ${project_name}.runs impl_1 top_wrapper.bit]
 if {![file exists $bitstream]} { error "Bitstream missing: $bitstream" }
 open_run impl_1
 report_timing_summary -file [file join [pwd] timing.rpt]

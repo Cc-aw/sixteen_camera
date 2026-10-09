@@ -24,7 +24,9 @@
 4. 按新 SoC 更新裸机后端、参数头和缓存协议，单独增加匹配的软件配置。`SOC_CONFIG` 只选择硬件；现有固件别名仍是 `dual16` / `single4`。
 5. 完成综合、时序、DRC 和板级验证，并保留对应 ELF、bitstream 和 UART 日志。
 
-`hw/manifests/` 是生产输入清单。`hw/ip/` 保存十个 standalone IP 及生成需要的配套文件；DDR BD 在 `hw/vivado/`。不要仅复制 XCI 并丢弃相邻必要输入。
+`hw/manifests/` 是生产输入清单。`hw/ip/` 保存十个 standalone IP 的重建 Tcl；DDR BD 由 `hw/vivado/create_design_1.tcl` 重建。只交付源码、约束和 Tcl，XPR、XCI、BD 及其输出由本地 Vivado 管理并忽略。
+
+合并到已有 Vivado 工程时，在该工程 Tcl 控制台执行 `source /path/to/repository/hw/vivado/setup_vivado.tcl`。仅需某个 IP 时可直接 source `hw/ip/<名称>.tcl`，然后用 Vivado 的 `generate_target` 生成输出。脚本使用 Vivado 默认输出位置。
 
 ## 软件与缓存契约
 
@@ -38,4 +40,4 @@
 
 只需复制本仓库源码并安装工具，固件不再读取外部 HDMI/BSP/Gemmini 源目录。执行 `make check-deps` 检查快照校验值、已构建固件的依赖闭包与工具可用性。依赖出处见 [third_party](../../sw/third_party/README.md)。
 
-本机路径写在忽略的 `tools/config/tools.local.mk`，不要交付个人工具环境。OpenOCD BSCAN 配置和 GDB 下载命令在 `tools/program/openocd/`；适配器序列号通过 `BOARD_JTAG_SERIAL` 提供。所有构建和板测产物保存在忽略的 `build/`。
+本机路径写在忽略的 `tools/config/tools.local.mk`，不要交付个人工具环境。OpenOCD BSCAN 配置和 GDB 下载命令在 `tools/program/openocd/`；适配器序列号通过 `BOARD_JTAG_SERIAL` 提供。固件、报告和板测产物保存在忽略的 `build/`；Vivado 生成目录随本地工程位置，不强制放入 `build/`。
