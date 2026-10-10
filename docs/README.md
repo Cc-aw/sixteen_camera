@@ -4,6 +4,7 @@
 
 - [SoC 合并指南](integration/soc-integration.md)
 - [专用 Tensor 整行写入口与板测统计](integration/tensor-ingress.md)
+- [single4 Linux 配置与 RTL](integration/linux-single4.md)
 - [视频与 AI 底座架构](architecture/overview.md)
 - [HDMI 八路视频空间封装](integration/8路640x480视频在4K30_HDMI中的空间封装规范.md)
 - [PCLK 接口约定](integration/pclk_timing_refactor_interfaces.md)
