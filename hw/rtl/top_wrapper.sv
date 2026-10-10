@@ -64,6 +64,7 @@ module top_wrapper (
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4)) soc_mem_axi();
     axi4_if #(.ADDR_WIDTH(31), .DATA_WIDTH(64), .ID_WIDTH(4)) soc_mmio_axi();
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(5)) soc_fbus_axi();
+    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(5)) soc_tensor_axi();
     wire soc_resetn;
     axis_video_if #(.DATA_WIDTH(48)) ddr_video_axis();
     video_stream_if #(.DATA_WIDTH(48), .STREAM_ID_WIDTH(4))
@@ -156,7 +157,8 @@ module top_wrapper (
         .soc_resetn_out(soc_resetn),
         .mem_axi(soc_mem_axi),
         .mmio_axi(soc_mmio_axi),
-        .fbus_axi(soc_fbus_axi)
+        .fbus_axi(soc_fbus_axi),
+        .tensor_axi(soc_tensor_axi)
     );
 
     capture_ingress_bridge u_capture_ingress_bridge (
@@ -242,6 +244,7 @@ module top_wrapper (
         .soc_resetn(soc_resetn),
         .soc_mem_axi(soc_mem_axi),
         .fbus_axi(soc_fbus_axi),
+        .tensor_soc_axi(soc_tensor_axi),
         .ppu_overlay_valid(ppu_overlay_valid),.ppu_overlay_ready(ppu_overlay_ready),
         .ppu_overlay_stream(ppu_overlay_stream),.ppu_overlay_count(ppu_overlay_count),
         .ppu_overlay_boxes(ppu_overlay_boxes),.ppu_overlay_labels(ppu_overlay_labels),

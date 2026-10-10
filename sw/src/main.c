@@ -11,6 +11,9 @@
 #include "mmio.h"
 #include "platform/platform.h"
 #include "video/video_service.h"
+#ifdef TENSOR_INGRESS_STATS
+#include "platform/tensor_ingress.h"
+#endif
 
 static uint32_t tensor_production_mode;
 static uint32_t tensor_production_done[VIDEO_CHANNEL_COUNT];
@@ -57,6 +60,9 @@ static BoardWriteOnlyState board_write_only;
 
 static void print_help(void)
 {
+#ifdef TENSOR_INGRESS_STATS
+    console_puts("g=SoC Tensor ingress snapshot (repeat after >=10s for completed MB/s), ");
+#endif
     console_puts("Commands: t=fixed image all-worker Gemmini test, u/U=fixed image sequential Gemmini test (forward/reverse), T=fixed image Gemmini+PPU test, ");
     console_puts("R=FBus read-only BW, W=tensor write-only BW (10s), C=raw tensor/FBus concurrent BW, b=AI concurrent BW, s=AI status, v=video status, o=overlay test, p=profile, P=PPU phases, m=tensor soak, i=AI runtime, r=restart, c=clock ID, h=help\r\n");
 }
@@ -66,6 +72,37 @@ static uint32_t bandwidth_mbps(uint64_t bytes, uint64_t cycles)
     return cycles == 0U ? 0U :
         (uint32_t)((bytes * (SOC_CLOCK_HZ / UINT64_C(1000000))) / cycles);
 }
+
+#ifdef TENSOR_INGRESS_STATS
+static void tensor_ingress_print_stats(void)
+{
+    static TensorIngressSnapshot previous;
+    static uint32_t have_previous;
+    TensorIngressSnapshot current = tensor_ingress_snapshot();
+    console_puts("SOC TENSOR completed/accepted/errors=");
+    console_put_hex64(current.completed_bytes);
+    console_putc('/'); console_put_hex64(current.accepted_bytes);
+    console_putc('/'); console_put_hex64(current.errors);
+    if (have_previous != 0U) {
+        console_puts(" completed_MBps=");
+        console_put_u32(bandwidth_mbps(current.completed_bytes - previous.completed_bytes,
+                                      current.cycles - previous.cycles));
+        console_puts(" delta_stall(aw/w/tl/source/b)=");
+        console_put_hex64(current.aw_stall - previous.aw_stall);
+        console_putc('/'); console_put_hex64(current.w_stall - previous.w_stall);
+        console_putc('/'); console_put_hex64(current.tl_a_stall - previous.tl_a_stall);
+        console_putc('/'); console_put_hex64(current.source_stall - previous.source_stall);
+        console_putc('/'); console_put_hex64(current.b_stall - previous.b_stall);
+    }
+    console_puts(" flight/max/ack_max_cycles=");
+    console_put_u32((uint32_t)current.inflight);
+    console_putc('/'); console_put_u32((uint32_t)current.max_inflight);
+    console_putc('/'); console_put_hex64(current.ack_latency_max);
+    console_puts("\r\n");
+    previous = current;
+    have_previous = 1U;
+}
+#endif
 
 static void board_bandwidth_begin(void)
 {
@@ -691,11 +728,19 @@ int main(void)
         board_write_only_service();
         int command = console_getc_nonblock();
         if (tensor_production_mode != 0U && command >= 0 &&
+#ifdef TENSOR_INGRESS_STATS
+            command != 'g' &&
+#endif
             command != 'm' && command != 's' && command != 'h') {
             console_puts("TENSOR PROD active; press m and wait for drain\r\n");
             continue;
         }
         switch (command) {
+#ifdef TENSOR_INGRESS_STATS
+        case 'g':
+            tensor_ingress_print_stats();
+            break;
+#endif
         case 't':
         case 'u':
         case 'U':

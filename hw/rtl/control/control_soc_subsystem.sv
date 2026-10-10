@@ -17,7 +17,8 @@ module control_soc_subsystem (
     output wire soc_resetn_out,
     axi4_if.master mem_axi,
     axi4_if.master mmio_axi,
-    axi4_if.slave  fbus_axi
+    axi4_if.slave  fbus_axi,
+    axi4_if.slave  tensor_axi
 );
     wire clk_100m_ibuf;
     wire ref_clk_100m_int;
@@ -69,12 +70,48 @@ module control_soc_subsystem (
     // for video_mmio_fabric's existing Taihang compatibility alias.
     assign mmio_axi.awaddr = {2'b00, taihang_mmio_awaddr};
     assign mmio_axi.araddr = {2'b00, taihang_mmio_araddr};
+    assign tensor_axi.arready = 1'b0;
+    assign tensor_axi.rid = '0;
+    assign tensor_axi.rdata = '0;
+    assign tensor_axi.rresp = '0;
+    assign tensor_axi.rlast = 1'b0;
+    assign tensor_axi.rvalid = 1'b0;
+`ifndef SOC_TENSOR_INGRESS
+    assign tensor_axi.awready = 1'b0;
+    assign tensor_axi.wready = 1'b0;
+    assign tensor_axi.bid = '0;
+    assign tensor_axi.bresp = '0;
+    assign tensor_axi.bvalid = 1'b0;
+`endif
 
     TaihangSoCFPGATestHarness u_rocket (
         .clock(soc_clk),
         .reset(~soc_resetn),
         .uart_txd(uart_txd),
         .uart_rxd(uart_rxd),
+
+`ifdef SOC_TENSOR_INGRESS
+        .axi4_tensor_aw_ready(tensor_axi.awready),
+        .axi4_tensor_aw_valid(tensor_axi.awvalid),
+        .axi4_tensor_aw_bits_id(tensor_axi.awid),
+        .axi4_tensor_aw_bits_addr(tensor_axi.awaddr),
+        .axi4_tensor_aw_bits_len(tensor_axi.awlen),
+        .axi4_tensor_aw_bits_size(tensor_axi.awsize),
+        .axi4_tensor_aw_bits_burst(tensor_axi.awburst),
+        .axi4_tensor_aw_bits_lock(tensor_axi.awlock),
+        .axi4_tensor_aw_bits_cache(tensor_axi.awcache),
+        .axi4_tensor_aw_bits_prot(tensor_axi.awprot),
+        .axi4_tensor_aw_bits_qos(tensor_axi.awqos),
+        .axi4_tensor_w_ready(tensor_axi.wready),
+        .axi4_tensor_w_valid(tensor_axi.wvalid),
+        .axi4_tensor_w_bits_data(tensor_axi.wdata),
+        .axi4_tensor_w_bits_strb(tensor_axi.wstrb),
+        .axi4_tensor_w_bits_last(tensor_axi.wlast),
+        .axi4_tensor_b_ready(tensor_axi.bready),
+        .axi4_tensor_b_valid(tensor_axi.bvalid),
+        .axi4_tensor_b_bits_id(tensor_axi.bid),
+        .axi4_tensor_b_bits_resp(tensor_axi.bresp),
+`endif
 
         // Coherent tensor writeback from the video preprocessor and tensor
         // readback by the postprocessor share the independent FBus channels.

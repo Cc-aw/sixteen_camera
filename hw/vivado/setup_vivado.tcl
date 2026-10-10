@@ -284,6 +284,10 @@ foreach path [lsort -unique $sc_rtl_files] {
 source [file join $sc_repo_root hw manifests soc_manifest.tcl]
 set sc_soc_config $SOC_CONFIG
 set sc_soc_dir [file normalize [file join $sc_repo_root $SOC_COLLATERAL_DIR]]
+set sc_defines [get_property verilog_define [get_filesets sources_1]]
+set sc_defines [lsearch -all -inline -not -exact $sc_defines SOC_TENSOR_INGRESS]
+if {$SOC_TENSOR_INGRESS} { lappend sc_defines SOC_TENSOR_INGRESS }
+set_property verilog_define $sc_defines [get_filesets sources_1]
 
 # The checked-in project can retain source entries from an earlier SoC switch.
 # Keeping two generated Chipyard collateral trees in one source set silently

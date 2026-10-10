@@ -27,6 +27,7 @@ BUILD  := $(PROJECT_ROOT)/build/firmware/$(SOC_VARIANT)
 TARGET := $(BUILD)/hdmi_tx_test
 AI_MODEL ?= yolov5nu
 BANDWIDTH_DIAGNOSTIC ?= 0
+TENSOR_INGRESS_STATS ?= 0
 
 # Validated board and AMD BSP source snapshots live in this repository.
 REFERENCE_SW := $(CURDIR)/third_party/board
@@ -60,6 +61,10 @@ endif
 
 ifeq ($(BANDWIDTH_DIAGNOSTIC),1)
 CFLAGS += -DFBUS_BANDWIDTH_DIAGNOSTIC=1
+endif
+
+ifeq ($(TENSOR_INGRESS_STATS),1)
+CFLAGS += -DTENSOR_INGRESS_STATS=1
 endif
 
 ifeq ($(AI_MODEL),yolov5nu)
@@ -172,8 +177,10 @@ $(BUILD)/yolov5nu_dim16_dual.o: models/yolov5nu/runtime/yolov5nu_dim16_dual.c \
 		-MMD -MP -c $< -o $@
 
 define make-board-rule
-$(BUILD)/board_$(notdir $(1:.c=.o)): $(1) | $(BUILD)
-	$$(CC) $$(CFLAGS) -MMD -MP -c $$< -o $$@
+# The reference platform.h uses internal video BD addresses. Compile these
+# drivers against the project's CPU-visible Taihang MMIO map instead.
+$(BUILD)/board_$(notdir $(1:.c=.o)): $(1) Makefile | $(BUILD)
+	$$(CC) $$(CFLAGS) -iquote $$(CURDIR)/src/platform -MMD -MP -c $$< -o $$@
 endef
 $(foreach source,$(BOARD_SOURCES),$(eval $(call make-board-rule,$(source))))
 

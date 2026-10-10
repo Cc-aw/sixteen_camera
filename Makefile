@@ -12,7 +12,7 @@ export SOC_VARIANT VIVADO_BIN
 export VIVADO_PROJECT
 export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD_JTAG_SERIAL BITSTREAM_FILE
 
-.PHONY: help check firmware bitstream elaborate test-tensor test-cache test-ppu test-video test-runtime test-software
+.PHONY: help check firmware bitstream elaborate test-tensor test-tensor-ingress test-cache test-ppu test-video test-runtime test-software
 help:
 	@printf '%s\n' \
 	  'SoC integration examples: SOC_VARIANT=dual16 (default) or single4' \
@@ -23,6 +23,7 @@ help:
 	  'make bitstream SOC_CONFIG=<name>    Build any hw/soc/<name>/gen-collateral' \
 	  'make elaborate SOC_VARIANT=single4   Run Vivado RTL elaboration' \
 	  'make test-tensor                    Tensor DMA and recovery tests' \
+	  'make test-tensor-ingress            New SoC ingress protocol and real L2 tests' \
 	  'make test-cache SOC_VARIANT=single4  Selected generated L2 control test' \
 	  'make test-ppu                       PPU publication tests' \
 	  'make test-video                     Video refactor tests' \
@@ -59,6 +60,10 @@ elaborate: check
 
 test-tensor:
 	cd "$(PROJECT_ROOT)" && bash tests/rtl/run_yolov5nu_multi_channel_tensor_dma_tests.sh
+
+test-tensor-ingress:
+	cd "$(PROJECT_ROOT)" && python3 tests/rtl/run_tensor_ingress_tests.py
+	cd "$(PROJECT_ROOT)" && python3 tests/rtl/run_tensor_ingress_l2_test.py
 
 test-cache: check
 	cd "$(PROJECT_ROOT)" && python3 tests/rtl/run_ppu_cache_control_test.py

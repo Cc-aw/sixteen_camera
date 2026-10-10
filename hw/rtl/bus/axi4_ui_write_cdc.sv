@@ -7,6 +7,7 @@ module axi4_ui_write_cdc #(
     parameter integer ADDR_WIDTH = 32,
     parameter integer DATA_WIDTH = 256,
     parameter integer ID_WIDTH = 3,
+    parameter integer RELATED_CLOCKS = 1,
     parameter integer COMMAND_DEPTH = 32,
     parameter integer DATA_DEPTH = 512,
     parameter integer RESPONSE_DEPTH = 32
@@ -25,7 +26,8 @@ module axi4_ui_write_cdc #(
     wire [B_WIDTH-1:0] b_data;
     wire aw_valid, aw_ready, w_valid, w_ready, b_valid, b_ready;
 
-    cdc_payload_fifo #(.WIDTH(AW_WIDTH), .DEPTH(COMMAND_DEPTH)) u_aw (
+    cdc_payload_fifo #(.WIDTH(AW_WIDTH), .DEPTH(COMMAND_DEPTH),
+        .RELATED_CLOCKS(RELATED_CLOCKS)) u_aw (
         .w_clk(s_axi.aclk), .w_resetn(s_axi.aresetn),
         .w_valid(s_axi.awvalid), .w_ready(s_axi.awready),
         .w_data({s_axi.awid, s_axi.awaddr, s_axi.awlen, s_axi.awsize,
@@ -34,14 +36,16 @@ module axi4_ui_write_cdc #(
         .r_clk(ui_clk), .r_resetn(ui_resetn), .r_valid(aw_valid),
         .r_ready(aw_ready), .r_data(aw_data)
     );
-    cdc_payload_fifo #(.WIDTH(W_WIDTH), .DEPTH(DATA_DEPTH)) u_w (
+    cdc_payload_fifo #(.WIDTH(W_WIDTH), .DEPTH(DATA_DEPTH),
+        .RELATED_CLOCKS(RELATED_CLOCKS)) u_w (
         .w_clk(s_axi.aclk), .w_resetn(s_axi.aresetn),
         .w_valid(s_axi.wvalid), .w_ready(s_axi.wready),
         .w_data({s_axi.wdata, s_axi.wstrb, s_axi.wlast}),
         .r_clk(ui_clk), .r_resetn(ui_resetn), .r_valid(w_valid),
         .r_ready(w_ready), .r_data(w_data)
     );
-    cdc_payload_fifo #(.WIDTH(B_WIDTH), .DEPTH(RESPONSE_DEPTH)) u_b (
+    cdc_payload_fifo #(.WIDTH(B_WIDTH), .DEPTH(RESPONSE_DEPTH),
+        .RELATED_CLOCKS(RELATED_CLOCKS)) u_b (
         .w_clk(ui_clk), .w_resetn(ui_resetn), .w_valid(b_valid),
         .w_ready(b_ready), .w_data(b_data),
         .r_clk(s_axi.aclk), .r_resetn(s_axi.aresetn),

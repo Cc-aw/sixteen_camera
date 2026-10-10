@@ -34,6 +34,7 @@ set RTL_SOURCES {
     hw/rtl/memory/ddr_platform.sv
     hw/rtl/memory/video_memory_ports.sv
     hw/rtl/memory/tensor_memory_bridge.sv
+    hw/rtl/memory/tensor_coherent_write_cdc.sv
     hw/rtl/memory/postprocess_memory_bridge.sv
     hw/rtl/memory/ddr_memory_subsystem.sv
 
