@@ -1,6 +1,11 @@
 `timescale 1ns/1ps
 
 module control_soc_subsystem (
+    output wire [2:0] memory_perf_command,
+    output wire memory_perf_request,
+    input wire memory_perf_acknowledge, memory_perf_available,
+    output wire [8:0] memory_perf_index,
+    input wire [63:0] memory_perf_data,
     input  wire sys_rstn,
     input  wire clk_25m,
     input  wire clk_100m_p,
@@ -84,7 +89,17 @@ module control_soc_subsystem (
     assign tensor_axi.bvalid = 1'b0;
 `endif
 
+`ifndef SOC_MEMORY_PARALLEL_V3
+    assign memory_perf_command = '0;
+    assign memory_perf_request = 1'b0;
+    assign memory_perf_index = '0;
+`endif
     TaihangSoCFPGATestHarness u_rocket (
+`ifdef SOC_MEMORY_PARALLEL_V3
+        .memory_perf_command(memory_perf_command), .memory_perf_request(memory_perf_request),
+        .memory_perf_acknowledge(memory_perf_acknowledge), .memory_perf_available(memory_perf_available),
+        .memory_perf_index(memory_perf_index), .memory_perf_data(memory_perf_data),
+`endif
         .clock(soc_clk),
         .reset(~soc_resetn),
         .uart_txd(uart_txd),

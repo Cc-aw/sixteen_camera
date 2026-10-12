@@ -850,7 +850,8 @@ module yolov5nu_multi_channel_tensor_dma #(
                     default: ;
                 endcase
 
-                if (ctx_bad[i] && channel_desc_pending[i] == 0) begin
+                if (ctx_active[i] && ctx_bad[i] && channel_desc_pending[i] == 0) begin
+                    ctx_bad[i] <= 1'b0;
                     ctx_active[i] <= 1'b0;
                     ctx_plan_done[i] <= 1'b0;
                     reserved_beats[i] <= 0;

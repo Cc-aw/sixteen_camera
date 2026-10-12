@@ -2,6 +2,10 @@
 # VIVADO_PROJECT optionally selects any local .xpr path, including outside build/.
 set repo_dir [file dirname [file dirname [file dirname [file normalize [info script]]]]]
 set build_project [file join $repo_dir hw vivado sixteen_camera.xpr]
+source [file join $repo_dir hw manifests soc_manifest.tcl]
+if {$SOC_BITSTREAM_FLOW eq "triple32_v3"} {
+    set build_project [file join $repo_dir build projects triple32_v3_tensor sixteen_camera.xpr]
+}
 if {[info exists ::env(VIVADO_PROJECT)] && $::env(VIVADO_PROJECT) ne ""} {
     set build_project [file normalize $::env(VIVADO_PROJECT)]
 }
@@ -19,6 +23,9 @@ if {[current_project -quiet] eq ""} {
     error "Another project is open; use setup_vivado.tcl to merge sources into it"
 }
 set sc_batch_setup true
+if {$SOC_BITSTREAM_FLOW eq "triple32_v3"} {
+    set_property SOURCE_MGMT_MODE All [current_project]
+}
 if {![info exists sc_bd_checkpoint_mode]} {
     set sc_bd_checkpoint_mode Hierarchical
 }

@@ -2,13 +2,16 @@
 
 本仓库是视频与 AI 外设底座。计算侧开发人员可以将底座合并到自己的 SoC 工程，也可以把生成 RTL 交给本工程集成。完整 Chipyard、Scala 生成环境和训练导出环境由计算侧维护。
 
+`triple32_v3_tensor` 已导入 V3 shell 和冻结核心源码，可在本仓库重新生成；
+其他 Chipyard 构建依赖仍由兼容环境提供，详见 [V3 Tensor 集成](triple32-v3-tensor.md)。
+
 ## 硬件入口
 
 以 [top_wrapper.sv](../../hw/rtl/top_wrapper.sv) 和 [control_soc_subsystem.sv](../../hw/rtl/control/control_soc_subsystem.sv) 为连接契约。当前适配模块直接实例化 `TaihangSoCFPGATestHarness`。
 
 | 接口 | 底座与计算侧关系 |
 | --- | --- |
-| memory AXI | SoC master，底座 DDR slave，256-bit 数据 |
+| memory AXI | SoC master，底座 DDR slave；旧配置 256-bit，V3 配置 512-bit |
 | MMIO AXI | SoC master，底座外设 slave，64-bit 数据 |
 | FBus AXI | 底座视频 Tensor/缓存发布 master，SoC coherent slave，256-bit 数据 |
 | UART / 中断 | UART 收发与 8-bit 视频中断向量 |
@@ -21,7 +24,7 @@
 1. 在外部 SoC 工程生成完整 collateral，将 RTL、头文件、memory 初始化文件放入 `hw/soc/<配置名>/gen-collateral/`。
 2. 兼容当前 harness 的情况下执行 `make check SOC_CONFIG=<配置名>` 和 `make elaborate SOC_CONFIG=<配置名>`；选择器只接受直接子目录名。
 3. 接口变化时先适配 `control_soc_subsystem.sv` 及顶层总线、时钟、复位和中断，再更新约束。新增底座 RTL 必须进入 `hw/manifests/rtl_manifest.tcl`。
-4. 按新 SoC 更新裸机后端、参数头和缓存协议，单独增加匹配的软件配置。`SOC_CONFIG` 只选择硬件；现有固件别名仍是 `dual16` / `single4`。
+4. 按新 SoC 更新裸机后端、参数头和缓存协议，单独增加匹配的软件配置。`SOC_CONFIG` 只选择硬件；可用固件别名为 `dual16` / `single4` / `triple32_v3_tensor`，后者使用 V17 A。
 5. 完成综合、时序、DRC 和板级验证，并保留对应 ELF、bitstream 和 UART 日志。
 
 `hw/manifests/` 是生产输入清单。`hw/ip/` 保存十个 standalone IP 的重建 Tcl；DDR BD 由 `hw/vivado/create_design_1.tcl` 重建。只交付源码、约束和 Tcl，XPR、XCI、BD 及其输出由本地 Vivado 管理并忽略。

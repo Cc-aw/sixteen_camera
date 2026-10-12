@@ -134,3 +134,10 @@ set RTL_SOURCES {
 
     hw/rtl/top_wrapper.sv
 }
+
+lappend RTL_SOURCES \
+    hw/rtl/ai/postprocess/axi4_head_uram_router_v3.sv \
+    hw/rtl/memory/postprocess_memory_bridge_v3.sv \
+    hw/rtl/memory/memory_perf_counters.sv \
+    hw/rtl/memory/memory_perf_external.sv \
+    hw/rtl/memory/memory_perf_mig_tap.v

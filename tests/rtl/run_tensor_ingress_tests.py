@@ -14,6 +14,8 @@ if not core.is_file():
     raise SystemExit("Emit the core first: python3 tools/soc/build_tensor_ingress.py --emit-core")
 text = re.search(r"module TaihangTensorIngressCore\((.*?)\);", core.read_text(), re.S)[1]
 text = re.sub(r"//[^\n]*", "", text)
+if "io_a_bits_last" not in text or "io_d_ready" not in text:
+    raise SystemExit("Use the independently emitted protocol core; full-SoC optimization removes unused test ports")
 connections = []
 for declaration in text.split(","):
     name = re.findall(r"\w+", declaration)[-1]
@@ -43,6 +45,8 @@ TaihangTensorIngressCore core(
 """ + ",\n".join(connections) + "\n);\nendmodule\n")
 subprocess.run(["verilator", "--binary", "--timing", "--assert", "-Wno-fatal", "-j", "4",
                 "--top-module", "tb_tensor_ingress", "--Mdir", str(out / "obj"),
-                str(root / "hw/rtl/interfaces/axi4_if.sv"), str(core), str(wrapper),
+                str(root / "hw/rtl/interfaces/axi4_if.sv"), str(core),
+                *map(str, args.core_dir.glob("data_*.sv")),
+                *map(str, args.core_dir.glob("*.top.mems.v")), str(wrapper),
                 str(root / "tests/rtl/benches/tensor/tb_tensor_ingress.sv")], check=True)
 subprocess.run([str(out / "obj/Vtb_tensor_ingress")], check=True)

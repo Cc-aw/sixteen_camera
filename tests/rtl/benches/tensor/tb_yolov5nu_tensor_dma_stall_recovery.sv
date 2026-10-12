@@ -10,6 +10,7 @@ module tb_yolov5nu_tensor_dma_stall_recovery;
     always #5 clk = ~clk;
 
     reg production_enable = 0;
+    reg [15:0] admission_enable_mask = 16'h0003;
     reg [CHANNELS*48-1:0] tap_data = 0;
     reg [CHANNELS-1:0] tap_accept = 0;
     reg [CHANNELS-1:0] tap_sof = 0;
@@ -38,7 +39,7 @@ module tb_yolov5nu_tensor_dma_stall_recovery;
         .CAPTURE_STALL_TIMEOUT(40), .SLOT_STRIDE(32'd128)
     ) dut (
         .clk(clk), .resetn(resetn), .production_enable(production_enable),
-        .admission_enable_mask(16'h0003), .admission_limit(5'd1),
+        .admission_enable_mask(admission_enable_mask), .admission_limit(5'd1),
         .release_pulse(1'b0), .release_mask(32'd0),
         .tap_data(tap_data), .tap_accept(tap_accept), .tap_sof(tap_sof),
         .tap_eol(tap_eol), .tap_eof(tap_eof),
@@ -148,6 +149,35 @@ module tb_yolov5nu_tensor_dma_stall_recovery;
         end
         if (!ready_mask[1] || error_mask[1])
             $fatal(1, "next channel did not complete after stall recovery");
+
+        // The failed channel itself must recover without a global reset or
+        // releasing its error slot. The failed slot can be reused once retired.
+        @(negedge clk);
+        admission_enable_mask = 16'h0001;
+        timeout = 0;
+        while (dut.flush_count[0] != 0 && timeout < 100) begin
+            @(posedge clk);
+            timeout = timeout + 1;
+        end
+        if (dut.flush_count[0] != 0)
+            $fatal(1, "failed channel continuously reloads its flush timer");
+        timeout = 0;
+        while (!dut.admission_permit[0] && timeout < 100) begin
+            @(posedge clk);
+            timeout = timeout + 1;
+        end
+        if (!dut.admission_permit[0])
+            $fatal(1, "failed channel cannot be admitted again");
+        send_group(0, 32'h300, 1'b1);
+        timeout = 0;
+        while (!ready_mask[0] && timeout < 200) begin
+            @(posedge clk);
+            timeout = timeout + 1;
+        end
+        if (!ready_mask[0] || error_mask[0] ||
+            slot_frame_ids[0 +: 32] != 32'h300 ||
+            slot_byte_counts[0 +: 32] != 96)
+            $fatal(1, "failed channel did not complete a subsequent good frame");
 
         $display("tb_yolov5nu_tensor_dma_stall_recovery PASS");
         $finish;

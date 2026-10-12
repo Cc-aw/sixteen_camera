@@ -63,7 +63,11 @@ static void print_help(void)
 #ifdef TENSOR_INGRESS_STATS
     console_puts("g=SoC Tensor ingress snapshot (repeat after >=10s for completed MB/s), ");
 #endif
+#if YOLO32_LIVE
+    console_puts("V17A: fixed-image correctness/timing tests use the separate triple32_v17a_benchmark ELF. Commands: ");
+#else
     console_puts("Commands: t=fixed image all-worker Gemmini test, u/U=fixed image sequential Gemmini test (forward/reverse), T=fixed image Gemmini+PPU test, ");
+#endif
     console_puts("R=FBus read-only BW, W=tensor write-only BW (10s), C=raw tensor/FBus concurrent BW, b=AI concurrent BW, s=AI status, v=video status, o=overlay test, p=profile, P=PPU phases, m=tensor soak, i=AI runtime, r=restart, c=clock ID, h=help\r\n");
 }
 
@@ -752,12 +756,16 @@ int main(void)
                 console_puts("YOLOV5NU TEST: wait for AI and bandwidth tests to drain\r\n");
                 break;
             }
+#if YOLO32_LIVE
+            console_puts("V17A: use the triple32_v17a_benchmark ELF for three-image correctness and timing tests\r\n");
+#else
             if (command == 't')
                 (void)ai_yolov5nu_correctness_test();
             else if (command == 'u' || command == 'U')
                 (void)ai_yolov5nu_sequential_correctness_test(command == 'U');
             else
                 (void)ai_yolov5nu_graph_post_benchmark();
+#endif
             break;
         case 'C':
             board_raw_concurrent_begin();

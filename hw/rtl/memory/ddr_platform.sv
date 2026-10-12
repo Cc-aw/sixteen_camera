@@ -3,6 +3,7 @@
 // Board-specific DDR platform boundary: MIG, the 300 MHz UI clock/reset and
 // the dedicated 150 MHz video clock/reset.  Higher layers see AXI ports only.
 module ddr_platform (
+    output wire [511:0] mig_perf_events,
     input  wire        sys_rstn,
     input  wire        c0_sys_clk_p,
     input  wire        c0_sys_clk_n,
@@ -60,7 +61,40 @@ module ddr_platform (
             video_reset_sync <= {video_reset_sync[1:0], 1'b1};
     end
 
+`ifdef SOC_MEMORY_PARALLEL_V3
+    wire [0:0] mperf_mig_arvalid;
+    wire [0:0] mperf_mig_arready;
+    wire [0:0] mperf_mig_awvalid;
+    wire [0:0] mperf_mig_awready;
+    wire [0:0] mperf_mig_rvalid;
+    wire [0:0] mperf_mig_rready;
+    wire [0:0] mperf_mig_rlast;
+    wire [0:0] mperf_mig_wvalid;
+    wire [0:0] mperf_mig_wready;
+    wire [0:0] mperf_mig_bvalid;
+    wire [0:0] mperf_mig_bready;
+    wire [7:0] mperf_mig_arlen;
+    wire [2:0] mperf_mig_arsize;
+    wire [63:0] mperf_mig_wstrb;
+    memory_perf_axi_events #(.DATA_BYTES(64)) u_mig_events (
+        .clk(ddr_ui_clk), .resetn(ddr_resetn),
+        .arvalid(mperf_mig_arvalid), .arready(mperf_mig_arready), .awvalid(mperf_mig_awvalid), .awready(mperf_mig_awready), .rvalid(mperf_mig_rvalid), .rready(mperf_mig_rready), .rlast(mperf_mig_rlast), .wvalid(mperf_mig_wvalid), .wready(mperf_mig_wready), .bvalid(mperf_mig_bvalid), .bready(mperf_mig_bready), .arlen(mperf_mig_arlen), .arsize(mperf_mig_arsize), .wstrb(mperf_mig_wstrb),
+        .events(mig_perf_events)
+    );
+
+    wire [85:0] mperf_mig_observed;
+    assign {mperf_mig_wstrb, mperf_mig_arsize, mperf_mig_arlen,
+        mperf_mig_bready, mperf_mig_bvalid, mperf_mig_wready, mperf_mig_wvalid,
+        mperf_mig_rlast, mperf_mig_rready, mperf_mig_rvalid, mperf_mig_awready,
+        mperf_mig_awvalid, mperf_mig_arready, mperf_mig_arvalid} = mperf_mig_observed;
+`else
+    assign mig_perf_events = '0;
+`endif
     design_1_wrapper u_ddr_bd (
+`ifdef SOC_MEMORY_PARALLEL_V3
+        .mperf_mig_observed(mperf_mig_observed),
+`endif
+
         .C0_DDR4_act_n(c0_ddr4_act_n),
         .C0_DDR4_adr(c0_ddr4_adr), .C0_DDR4_ba(c0_ddr4_ba),
         .C0_DDR4_bg(c0_ddr4_bg), .C0_DDR4_ck_c(c0_ddr4_ck_c),

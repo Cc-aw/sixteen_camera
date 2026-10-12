@@ -12,10 +12,15 @@ GEMMINI_ABI_ROOT := $(GEMMINI_TESTS)
 GEMMINI_PARAMS := $(GEMMINI_TESTS)/include/gemmini_params_taihang_single_4x4_packed.h
 MODEL_WORKERS := 1
 MODEL_DIM := 4
+else ifeq ($(SOC_VARIANT),triple32_v3_tensor)
+GEMMINI_ABI_ROOT := $(PROJECT_ROOT)/sw/third_party/gemmini_v3
+MODEL_WORKERS := 3
+MODEL_DIM := 32
 else
 $(error Unknown SOC_VARIANT $(SOC_VARIANT))
 endif
 
+HOST_CC ?= gcc
 CC      := $(TOOLCHAIN)gcc
 OBJCOPY := $(TOOLCHAIN)objcopy
 OBJDUMP := $(TOOLCHAIN)objdump
@@ -96,7 +101,16 @@ LOCAL_SOURCES += src/ai/runtime/ai_batch_runtime_stream.c \
 	src/ai/runtime/ai_head_slot_queue.c src/ai/backend/ai_model_backend_yolov5nu.c \
 	src/diagnostics/ai_yolov5nu_selftest.c
 
+ifeq ($(SOC_VARIANT),triple32_v3_tensor)
+LOCAL_SOURCES := $(filter-out src/diagnostics/ai_yolov5nu_selftest.c,$(LOCAL_SOURCES))
+include models/yolov5nu/triple32/v17a.mk
+V17A_FLAGS += -DYOLO32_LIVE=1
+CFLAGS := $(V17A_FLAGS) $(CFLAGS) -DYOLO32_LIVE=1
+$(BUILD)/ai/postprocess/ai_ppu_publication.o $(BUILD)/ai/postprocess/ai_ppu_queue.o: CFLAGS += -DYOLO32_PPU_ORDERED_MMIO=1
+MODEL_OBJECT := $(V17A_OBJECTS)
+else
 MODEL_OBJECT := $(BUILD)/yolov5nu_dim16_dual.o
+endif
 endif
 BOARD_SOURCES := $(REFERENCE_SW)/src/axi_iic.c \
 	$(REFERENCE_SW)/src/clock_chip.c
@@ -136,6 +150,16 @@ LOCAL_OBJECTS := $(patsubst src/%.c,$(BUILD)/%.o,$(LOCAL_SOURCES))
 BOARD_OBJECTS := $(addprefix $(BUILD)/board_,$(notdir $(BOARD_SOURCES:.c=.o)))
 VENDOR_OBJECTS := $(addprefix $(BUILD)/vendor_,$(notdir $(VENDOR_SOURCES:.c=.o)))
 OBJECTS := $(BUILD)/platform/startup.o $(LOCAL_OBJECTS) $(MODEL_OBJECT) $(BOARD_OBJECTS) $(VENDOR_OBJECTS)
+
+ifeq ($(SOC_VARIANT),triple32_v3_tensor)
+# Include selection and policy flags must also invalidate previously built objects.
+V17A_BUILD_SIGNATURE := $(CFLAGS) $(V17A_FLAGS) $(V17A_CFLAGS) $(LDFLAGS)
+.PHONY: force-v17a-config
+$(BUILD)/v17a/firmware-config.stamp: force-v17a-config
+	@mkdir -p $(@D)
+	@python3 -c 'import sys; from pathlib import Path; p=Path(sys.argv[1]); v=sys.argv[2]+"\n"; p.write_text(v) if not p.exists() or p.read_text()!=v else None' "$@" "$(V17A_BUILD_SIGNATURE)"
+$(OBJECTS): Makefile $(V17A_ROOT)/v17a.mk $(BUILD)/v17a/firmware-config.stamp
+endif
 
 .PHONY: all clean size check-tools yolov5nu-regenerate
 all: check-tools $(TARGET).elf $(TARGET).bin $(TARGET).hex $(TARGET).dump size

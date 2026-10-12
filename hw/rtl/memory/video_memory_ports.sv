@@ -8,8 +8,9 @@ module video_memory_ports (
     axi4_if.slave  reader_video_axi,
     input wire     ui_clk,
     input wire     ui_resetn,
-    axi4_if.master writer_ui_axi,
-    axi4_if.master reader_ui_axi
+    // The split interfaces also terminate their unused return channels.
+    axi4_if        writer_ui_axi,
+    axi4_if        reader_ui_axi
 );
     axi4_ui_write_cdc u_writer_ui_cdc (
         .s_axi(writer_video_axi), .ui_clk(ui_clk),

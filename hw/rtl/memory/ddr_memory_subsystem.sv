@@ -5,6 +5,11 @@ module ddr_memory_subsystem #(
     // this parameter available for a one-line rollback bitstream.
     parameter bit HEAD_SHADOW_DDR = 1'b0
 ) (
+    input wire [2:0] memory_perf_command,
+    input wire memory_perf_request,
+    output wire memory_perf_acknowledge, memory_perf_available,
+    input wire [8:0] memory_perf_index,
+    output wire [63:0] memory_perf_data,
     output wire ppu_overlay_valid,input wire ppu_overlay_ready,
     output wire [3:0] ppu_overlay_stream,ppu_overlay_count,
     output wire [511:0] ppu_overlay_boxes,output wire [1023:0] ppu_overlay_labels,
@@ -49,8 +54,11 @@ module ddr_memory_subsystem #(
     axi4_if #(.ADDR_WIDTH(32), .DATA_WIDTH(256), .ID_WIDTH(3)) reader_ui_axi();
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(5))
         fbus_write_soc_axi();
-    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4))
-        soc_ddr_axi();
+`ifdef SOC_MEMORY_PARALLEL_V3
+    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(512), .ID_WIDTH(2)) soc_ddr_axi();
+`else
+    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4)) soc_ddr_axi();
+`endif
     video_memory_ports u_video_memory_ports (
         .writer_video_axi(writer_video_axi),
         .reader_video_axi(reader_video_axi),
@@ -130,9 +138,29 @@ module ddr_memory_subsystem #(
     assign tensor_soc_axi.rready = 1'b0;
 `endif
 
+    wire [31:0] head_perf_events;
+    wire [511:0] mig_perf_events;
+`ifdef SOC_MEMORY_PARALLEL_V3
+    memory_perf_external u_memory_perf (
+        .soc_clk(soc_clk), .soc_resetn(soc_resetn), .ddr_clk(ddr_ui_clk), .ddr_resetn(ddr_resetn),
+        .command(memory_perf_command), .request(memory_perf_request), .acknowledge(memory_perf_acknowledge),
+        .available(memory_perf_available), .index(memory_perf_index), .data(memory_perf_data),
+        .soc_axi(soc_mem_axi), .ddr_axi(soc_ddr_axi), .video_write_axi(writer_ui_axi),
+        .video_read_axi(reader_ui_axi), .mig_events(mig_perf_events), .head_events(head_perf_events)
+    );
+    postprocess_memory_bridge_v3 #(
+`else
+    assign memory_perf_acknowledge = 1'b0;
+    assign memory_perf_available = 1'b0;
+    assign memory_perf_data = '0;
+    assign head_perf_events = '0;
     postprocess_memory_bridge #(
+`endif
         .HEAD_SHADOW_DDR(HEAD_SHADOW_DDR)
     ) u_postprocess_memory_bridge (
+`ifdef SOC_MEMORY_PARALLEL_V3
+        .head_perf_events(head_perf_events),
+`endif
         .soc_clk(soc_clk), .soc_resetn(soc_resetn),
         .soc_mem_axi(soc_mem_axi),
         .tensor_fbus_write_axi(fbus_write_soc_axi),
@@ -144,6 +172,7 @@ module ddr_memory_subsystem #(
     );
 
     ddr_platform u_ddr_platform (
+        .mig_perf_events(mig_perf_events),
         .sys_rstn(sys_rstn),
         .c0_sys_clk_p(c0_sys_clk_p), .c0_sys_clk_n(c0_sys_clk_n),
         .c0_init_calib_complete(c0_init_calib_complete),

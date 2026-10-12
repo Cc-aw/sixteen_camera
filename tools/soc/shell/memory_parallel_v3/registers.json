@@ -1,0 +1,556 @@
+{
+  "abi": "1.0",
+  "base": "0x02020000",
+  "size": 65536,
+  "endian": "little",
+  "selector": "block_id * 32 + slot",
+  "counter_width": 64,
+  "reserved_slots": 0,
+  "invalid_blocks": [
+    13,
+    14,
+    15
+  ],
+  "registers": [
+    {
+      "offset": "0x00",
+      "name": "version",
+      "width": 64,
+      "access": "RO",
+      "value": "0x4d50563300010000"
+    },
+    {
+      "offset": "0x08",
+      "name": "command",
+      "width": 32,
+      "access": "WO"
+    },
+    {
+      "offset": "0x10",
+      "name": "status",
+      "width": 64,
+      "access": "RO"
+    },
+    {
+      "offset": "0x18",
+      "name": "snapshot_sequence",
+      "width": 64,
+      "access": "RO"
+    },
+    {
+      "offset": "0x20",
+      "name": "select",
+      "width": 32,
+      "access": "RW"
+    },
+    {
+      "offset": "0x28",
+      "name": "data",
+      "width": 64,
+      "access": "RO"
+    },
+    {
+      "offset": "0x30",
+      "name": "bank_mask",
+      "width": 64,
+      "access": "RO",
+      "value": 4096
+    },
+    {
+      "offset": "0x38",
+      "name": "l2_bytes",
+      "width": 64,
+      "access": "RO",
+      "value": 524288
+    },
+    {
+      "offset": "0x40",
+      "name": "soc_clock_hz",
+      "width": 64,
+      "access": "RO",
+      "value": 100000000
+    },
+    {
+      "offset": "0x48",
+      "name": "ddr_clock_hz",
+      "width": 64,
+      "access": "RO",
+      "value": 300000000
+    },
+    {
+      "offset": "0x50",
+      "name": "block_count",
+      "width": 64,
+      "access": "RO",
+      "value": 13
+    },
+    {
+      "offset": "0x58",
+      "name": "l2_banks",
+      "width": 64,
+      "access": "RO",
+      "value": 2
+    },
+    {
+      "offset": "0x60",
+      "name": "common_data_bits",
+      "width": 64,
+      "access": "RO",
+      "value": 512
+    },
+    {
+      "offset": "0x68",
+      "name": "ordinary_mshrs_per_bank",
+      "width": 64,
+      "access": "RO",
+      "value": 32
+    }
+  ],
+  "commands": {
+    "START": 1,
+    "STOP": 2,
+    "CLEAR": 3,
+    "SNAPSHOT": 4
+  },
+  "status_bits": {
+    "busy": 0,
+    "enabled": 1,
+    "snapshot_valid": 2,
+    "external_available": 3,
+    "invalid_command": 4
+  },
+  "counter_layouts": {
+    "client": {
+      "0": {
+        "name": "enabled_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "1": {
+        "name": "a_requests",
+        "width": 64,
+        "kind": "sum"
+      },
+      "2": {
+        "name": "read_requests",
+        "width": 64,
+        "kind": "sum"
+      },
+      "3": {
+        "name": "put_requests",
+        "width": 64,
+        "kind": "sum"
+      },
+      "4": {
+        "name": "requested_read_bytes",
+        "width": 64,
+        "kind": "sum"
+      },
+      "5": {
+        "name": "accepted_a_data_bytes",
+        "width": 64,
+        "kind": "sum"
+      },
+      "6": {
+        "name": "a_stalled_bank_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "7": {
+        "name": "accepted_d_data_bytes",
+        "width": 64,
+        "kind": "sum"
+      },
+      "8": {
+        "name": "d_stalled_bank_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "9": {
+        "name": "accepted_c_beats",
+        "width": 64,
+        "kind": "sum"
+      },
+      "10": {
+        "name": "c_stalled_bank_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "11": {
+        "name": "bank0_requests",
+        "width": 64,
+        "kind": "sum"
+      },
+      "12": {
+        "name": "bank1_requests",
+        "width": 64,
+        "kind": "sum"
+      },
+      "13": {
+        "name": "completed_d_messages",
+        "width": 64,
+        "kind": "sum"
+      },
+      "31": {
+        "name": "free_running_local_timestamp",
+        "width": 64,
+        "kind": "timestamp",
+        "clear_resets": false
+      }
+    },
+    "l2": {
+      "0": {
+        "name": "enabled_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "1": {
+        "name": "a_requests",
+        "width": 64,
+        "kind": "sum"
+      },
+      "2": {
+        "name": "accepted_d_beats",
+        "width": 64,
+        "kind": "sum"
+      },
+      "3": {
+        "name": "d_stall_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "4": {
+        "name": "directory_results",
+        "width": 64,
+        "kind": "sum"
+      },
+      "5": {
+        "name": "directory_hits",
+        "width": 64,
+        "kind": "sum"
+      },
+      "6": {
+        "name": "directory_misses",
+        "width": 64,
+        "kind": "sum"
+      },
+      "7": {
+        "name": "ordinary_mshr_occupancy_sum",
+        "width": 64,
+        "kind": "sum"
+      },
+      "8": {
+        "name": "coherence_mshr_occupancy_sum",
+        "width": 64,
+        "kind": "sum"
+      },
+      "9": {
+        "name": "ordinary_mshr_full_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "10": {
+        "name": "scheduler_request_stall_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "11": {
+        "name": "ordinary_mshr_peak",
+        "width": 64,
+        "kind": "peak"
+      },
+      "12": {
+        "name": "secondary_enqueues",
+        "width": 64,
+        "kind": "sum"
+      },
+      "13": {
+        "name": "secondary_enqueue_stall_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "14": {
+        "name": "outer_d_refill_bytes",
+        "width": 64,
+        "kind": "sum"
+      },
+      "15": {
+        "name": "outer_c_writeback_bytes",
+        "width": 64,
+        "kind": "sum"
+      },
+      "16": {
+        "name": "outer_a_stall_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "17": {
+        "name": "outer_d_stall_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "18": {
+        "name": "inner_a_stall_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "19": {
+        "name": "both_banks_d_fire_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "31": {
+        "name": "free_running_local_timestamp",
+        "width": 64,
+        "kind": "timestamp",
+        "clear_resets": false
+      }
+    },
+    "axi": {
+      "0": {
+        "name": "enabled_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "1": {
+        "name": "ar_accepts",
+        "width": 64,
+        "kind": "sum"
+      },
+      "2": {
+        "name": "aw_accepts",
+        "width": 64,
+        "kind": "sum"
+      },
+      "3": {
+        "name": "r_beats",
+        "width": 64,
+        "kind": "sum"
+      },
+      "4": {
+        "name": "w_beats",
+        "width": 64,
+        "kind": "sum"
+      },
+      "5": {
+        "name": "b_accepts",
+        "width": 64,
+        "kind": "sum"
+      },
+      "6": {
+        "name": "ar_requested_bytes",
+        "width": 64,
+        "kind": "sum"
+      },
+      "7": {
+        "name": "w_strobe_bytes",
+        "width": 64,
+        "kind": "sum"
+      },
+      "8": {
+        "name": "ar_stall_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "9": {
+        "name": "aw_stall_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "10": {
+        "name": "r_stall_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "11": {
+        "name": "w_stall_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "12": {
+        "name": "b_stall_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "13": {
+        "name": "read_inflight_occupancy_sum",
+        "width": 64,
+        "kind": "sum"
+      },
+      "14": {
+        "name": "write_inflight_occupancy_sum",
+        "width": 64,
+        "kind": "sum"
+      },
+      "15": {
+        "name": "read_inflight_peak",
+        "width": 64,
+        "kind": "peak"
+      },
+      "16": {
+        "name": "write_inflight_peak",
+        "width": 64,
+        "kind": "peak"
+      },
+      "17": {
+        "name": "accepted_rlasts",
+        "width": 64,
+        "kind": "sum"
+      },
+      "18": {
+        "name": "occupied_r_bus_bytes",
+        "width": 64,
+        "kind": "sum"
+      },
+      "31": {
+        "name": "free_running_local_timestamp",
+        "width": 64,
+        "kind": "timestamp",
+        "clear_resets": false
+      }
+    },
+    "head": {
+      "0": {
+        "name": "enabled_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "1": {
+        "name": "head_aw_accepts",
+        "width": 64,
+        "kind": "sum"
+      },
+      "2": {
+        "name": "head_ar_accepts",
+        "width": 64,
+        "kind": "sum"
+      },
+      "3": {
+        "name": "head_aw_ddr_drain_wait_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "4": {
+        "name": "head_ar_ddr_drain_wait_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "5": {
+        "name": "local_read_requests",
+        "width": 64,
+        "kind": "sum"
+      },
+      "6": {
+        "name": "local_read_responses",
+        "width": 64,
+        "kind": "sum"
+      },
+      "7": {
+        "name": "local_response_stall_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "8": {
+        "name": "local_request_stall_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "31": {
+        "name": "free_running_local_timestamp",
+        "width": 64,
+        "kind": "timestamp",
+        "clear_resets": false
+      }
+    }
+  },
+  "blocks": [
+    {
+      "id": 0,
+      "name": "Gemmini0_custom1",
+      "clock_hz": 100000000,
+      "layout": "client"
+    },
+    {
+      "id": 1,
+      "name": "Gemmini1_custom2",
+      "clock_hz": 100000000,
+      "layout": "client"
+    },
+    {
+      "id": 2,
+      "name": "Gemmini2_custom3",
+      "clock_hz": 100000000,
+      "layout": "client"
+    },
+    {
+      "id": 3,
+      "name": "CPU_and_vector",
+      "clock_hz": 100000000,
+      "layout": "client"
+    },
+    {
+      "id": 4,
+      "name": "FBus",
+      "clock_hz": 100000000,
+      "layout": "client"
+    },
+    {
+      "id": 5,
+      "name": "L2_bank0",
+      "clock_hz": 100000000,
+      "layout": "l2"
+    },
+    {
+      "id": 6,
+      "name": "L2_bank1",
+      "clock_hz": 100000000,
+      "layout": "l2"
+    },
+    {
+      "id": 7,
+      "name": "SoC_AXI",
+      "clock_hz": 100000000,
+      "layout": "axi"
+    },
+    {
+      "id": 8,
+      "name": "DDR_S00_after_Head",
+      "clock_hz": 100000000,
+      "layout": "axi"
+    },
+    {
+      "id": 9,
+      "name": "MIG",
+      "clock_hz": 300000000,
+      "layout": "axi"
+    },
+    {
+      "id": 10,
+      "name": "video_S01",
+      "clock_hz": 300000000,
+      "layout": "axi"
+    },
+    {
+      "id": 11,
+      "name": "idle_S02",
+      "clock_hz": 300000000,
+      "layout": "axi"
+    },
+    {
+      "id": 12,
+      "name": "Head_router",
+      "clock_hz": 100000000,
+      "layout": "head"
+    }
+  ],
+  "notes": [
+    "See REGISTERS.txt for ordering and command semantics.",
+    "Client counters observe L2 entrances after SBUS arbitration; two bank stalls may occur per cycle.",
+    "Directory hits/misses include coherence and replay.",
+    "Snapshot 100/300 MHz epochs are associated by handshake; edges are not simultaneous.",
+    "AXI flight tracking persists through CLEAR and disabled measurement.",
+    "R occupied bus bytes includes unused lanes for narrow reads.",
+    "Frozen DATA is zero while busy or invalid; split 32-bit reads are stable between snapshot/clear/reset.",
+    "Idle S02 has only enabled cycles and timestamp."
+  ]
+}

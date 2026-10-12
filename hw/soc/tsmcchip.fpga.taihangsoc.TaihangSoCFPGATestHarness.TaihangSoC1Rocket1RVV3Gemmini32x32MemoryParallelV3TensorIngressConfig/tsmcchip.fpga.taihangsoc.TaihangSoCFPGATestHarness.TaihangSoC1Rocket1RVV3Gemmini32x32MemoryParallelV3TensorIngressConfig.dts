@@ -1,0 +1,174 @@
+/dts-v1/;
+
+/ {
+	#address-cells = <2>;
+	#size-cells = <2>;
+	compatible = "ucb-bar,chipyard-dev";
+	model = "ucb-bar,chipyard";
+	L3: aliases {
+		serial0 = &L27;
+	};
+	L19: chosen {
+		stdout-path = &L27;
+	};
+	L2: cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		timebase-frequency = <100000>;
+		L14: cpu@0 {
+			clock-frequency = <0>;
+			compatible = "sifive,rocket0", "riscv";
+			d-cache-block-size = <64>;
+			d-cache-sets = <64>;
+			d-cache-size = <32768>;
+			d-tlb-sets = <1>;
+			d-tlb-size = <32>;
+			device_type = "cpu";
+			hardware-exec-breakpoint-count = <1>;
+			i-cache-block-size = <64>;
+			i-cache-sets = <64>;
+			i-cache-size = <32768>;
+			i-tlb-sets = <1>;
+			i-tlb-size = <32>;
+			mmu-type = "riscv,sv39";
+			next-level-cache = <&L10>;
+			reg = <0x0>;
+			riscv,isa = "rv64imafdcbvzicsr_zifencei_zihpm_zvl256b_zve64d_zvfh_zfh_zba_zbb_zbs_zvbb_xrocket";
+			riscv,pmpgranularity = <4>;
+			riscv,pmpregions = <8>;
+			status = "okay";
+			timebase-frequency = <100000>;
+			tlb-split;
+			L12: interrupt-controller {
+				#interrupt-cells = <1>;
+				compatible = "riscv,cpu-intc";
+				interrupt-controller;
+			};
+		};
+	};
+	L25: memory@8000000 {
+		device_type = "memory";
+		reg = <0x0 0x8000000 0x0 0x10000>;
+		status = "disabled";
+	};
+	L22: memory@80000000 {
+		device_type = "memory";
+		reg = <0x0 0x80000000 0x1 0x0>;
+	};
+	L1: soc {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		compatible = "ucb-bar,chipyard-soc", "simple-bus";
+		ranges;
+		L26: boot-address-reg@1000 {
+			reg = <0x0 0x1000 0x0 0x1000>;
+			reg-names = "control";
+		};
+		L10: cache-controller@2010000 {
+			cache-block-size = <64>;
+			cache-level = <2>;
+			cache-sets = <1024>;
+			cache-size = <524288>;
+			cache-unified;
+			compatible = "sifive,inclusivecache0", "cache";
+			next-level-cache = <&L22 &L25>;
+			reg = <0x0 0x2010000 0x0 0x1000>;
+			reg-names = "control";
+			sifive,mshr-count = <34>;
+		};
+		L7: cbus_clock {
+			#clock-cells = <0>;
+			clock-frequency = <100000000>;
+			clock-output-names = "cbus_clock";
+			compatible = "fixed-clock";
+		};
+		L15: clint@2000000 {
+			compatible = "riscv,clint0";
+			interrupts-extended = <&L12 3 &L12 7>;
+			reg = <0x0 0x2000000 0x0 0x10000>;
+			reg-names = "control";
+		};
+		L28: clock-gater@100000 {
+			reg = <0x0 0x100000 0x0 0x1000>;
+			reg-names = "control";
+		};
+		L17: debug-controller@0 {
+			compatible = "sifive,debug-013", "riscv,debug-013";
+			debug-attach = "jtag";
+			interrupts-extended = <&L12 65535>;
+			reg = <0x0 0x0 0x0 0x1000>;
+			reg-names = "control";
+		};
+		L8: error-device@3000 {
+			compatible = "sifive,error0";
+			reg = <0x0 0x3000 0x0 0x1000>;
+		};
+		L6: fbus_clock {
+			#clock-cells = <0>;
+			clock-frequency = <100000000>;
+			clock-output-names = "fbus_clock";
+			compatible = "fixed-clock";
+		};
+		L16: interrupt-controller@c000000 {
+			#interrupt-cells = <1>;
+			compatible = "riscv,plic0";
+			interrupt-controller;
+			interrupts-extended = <&L12 11 &L12 9>;
+			reg = <0x0 0xc000000 0x0 0x4000000>;
+			reg-names = "control";
+			riscv,max-priority = <1>;
+			riscv,ndev = <1>;
+		};
+		L9: mbus_clock {
+			#clock-cells = <0>;
+			clock-frequency = <100000000>;
+			clock-output-names = "mbus_clock";
+			compatible = "fixed-clock";
+		};
+		L11: memory-performance@2020000 {
+			compatible = "taihang,memory-performance-v3";
+			reg = <0x0 0x2020000 0x0 0x10000>;
+			reg-names = "control";
+		};
+		L23: mmio-port-axi4@10040000 {
+			#address-cells = <1>;
+			#size-cells = <1>;
+			compatible = "simple-bus";
+			ranges = <0x10040000 0x0 0x10040000 0x200000>;
+		};
+		L5: pbus_clock {
+			#clock-cells = <0>;
+			clock-frequency = <100000000>;
+			clock-output-names = "pbus_clock";
+			compatible = "fixed-clock";
+		};
+		L24: rom@10000 {
+			compatible = "sifive,rom0";
+			reg = <0x0 0x10000 0x0 0x10000>;
+			reg-names = "mem";
+		};
+		L4: sbus_clock {
+			#clock-cells = <0>;
+			clock-frequency = <100000000>;
+			clock-output-names = "sbus_clock";
+			compatible = "fixed-clock";
+		};
+		L27: serial@10020000 {
+			clocks = <&L5>;
+			compatible = "sifive,uart0";
+			interrupt-parent = <&L16>;
+			interrupts = <1>;
+			reg = <0x0 0x10020000 0x0 0x1000>;
+			reg-names = "control";
+		};
+		L30: tensor-ingress@2012000 {
+			compatible = "taihang,tensor-ingress-1";
+			reg = <0x0 0x2012000 0x0 0x1000>;
+			reg-names = "control";
+		};
+		L29: tile-reset-setter@110000 {
+			reg = <0x0 0x110000 0x0 0x1000>;
+			reg-names = "control";
+		};
+	};
+};

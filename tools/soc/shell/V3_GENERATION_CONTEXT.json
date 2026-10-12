@@ -1,0 +1,14 @@
+{
+  "config": "tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3Config",
+  "sub_project": "taihang_soc",
+  "generated_at_utc": "2026-10-11T03:36:03.892832+00:00",
+  "build_workspace": "/tmp/npu-memory-parallel-v3-chipyard",
+  "source_workspace": {
+    "reference": "/home/wzr/chipyard",
+    "workspace": "/tmp/npu-memory-parallel-v3-chipyard",
+    "scala_manifest_sha256": "524d9a50819363c7a4eab8c63eb0107a8515ec4de28e5c3654a151b681c160b7",
+    "rocket_chip_policy": "preserve complete reference revision"
+  },
+  "build_sbt_sha256": "fdb4065f6959b91bfb8b9b9f0c31b6d815e0e3ebd8a0a5555349860316bcb58a",
+  "validation": "RTL structure, AXI ports, FBus ID groups; no Vivado implementation"
+}

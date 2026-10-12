@@ -19,6 +19,7 @@ __pycache__/
 *.d
 *.elf
 *.bin
+!tests/data/yolov5nu/v17a/image*.bin
 *.hex
 *.dump
 *.map

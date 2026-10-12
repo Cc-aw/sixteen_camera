@@ -17,7 +17,9 @@ def main():
     args = parser.parse_args()
     failures = []
     snapshots = []
-    for name in ['sw/third_party/sources.lock.json', 'sw/models/yolov5nu/sources.lock.json']:
+    for name in ['sw/third_party/sources.lock.json', 'sw/models/yolov5nu/sources.lock.json',
+                 'sw/third_party/gemmini_v3/sources.lock.json',
+                 'sw/models/yolov5nu/triple32/sources.lock.json']:
         snapshots.extend(json.loads((ROOT / name).read_text())['sources'])
     for item in snapshots:
         path = ROOT / item['path']

@@ -12,12 +12,15 @@ export SOC_VARIANT VIVADO_BIN
 export VIVADO_PROJECT
 export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD_JTAG_SERIAL BITSTREAM_FILE
 
-.PHONY: help check firmware bitstream elaborate test-tensor test-tensor-ingress test-cache test-ppu test-video test-runtime test-software
+.PHONY: help check firmware firmware-benchmark test-v17a check-v17a-firmware bitstream elaborate test-tensor test-tensor-ingress test-cache test-ppu test-video test-runtime test-software
 help:
 	@printf '%s\n' \
-	  'SoC integration examples: SOC_VARIANT=dual16 (default) or single4' \
+	  'SoC variants: dual16 (default), single4, triple32_v3_tensor' \
 	  'make check                          Validate selected source manifests' \
 	  'make project                        Create/open local Vivado project from Tcl' \
+	  'make firmware SOC_VARIANT=triple32_v3_tensor  Build V17 A video firmware' \
+	  'make firmware-benchmark            Build V17 A three-image benchmark' \
+	  'make test-v17a                     Native packet, scheduler and PPU regressions' \
 	  'make firmware SOC_VARIANT=single4    Build matching YOLOv5nu firmware' \
 	  'make bitstream SOC_VARIANT=single4   Build matching video bitstream' \
 	  'make bitstream SOC_CONFIG=<name>    Build any hw/soc/<name>/gen-collateral' \
@@ -25,6 +28,9 @@ help:
 	  'make test-tensor                    Tensor DMA and recovery tests' \
 	  'make test-tensor-ingress            New SoC ingress protocol and real L2 tests' \
 	  'make test-cache SOC_VARIANT=single4  Selected generated L2 control test' \
+	  'make project SOC_VARIANT=triple32_v3_tensor  Rebuild V3 + Tensor hardware project' \
+	  'make soc-triple32-v3-tensor SOC_WORKSPACE=/tmp/new-chipyard  Generate from the imported shell' \
+	  'make test-memory-v3                 V3 Head, outstanding and counter CDC tests' \
 	  'make test-ppu                       PPU publication tests' \
 	  'make test-video                     Video refactor tests' \
 	  'make test-runtime                   Host stream runtime tests (2/3 workers)' \
@@ -46,8 +52,19 @@ check:
 
 firmware:
 	@test -z "$(SOC_CONFIG)" || { echo 'SOC_CONFIG selects hardware only; use SOC_VARIANT with a matching firmware ABI'; exit 2; }
-	@case "$(SOC_VARIANT)" in single4|dual16) ;; *) echo 'Firmware needs a supported SOC_VARIANT'; exit 2 ;; esac
+	@case "$(SOC_VARIANT)" in single4|dual16|triple32_v3_tensor) ;; *) echo 'Firmware needs a supported SOC_VARIANT'; exit 2 ;; esac
 	cd "$(PROJECT_ROOT)" && python3 tools/build/build_$(SOC_VARIANT)_video_yolov5nu.py
+
+check-v17a-firmware:
+	python3 tools/check/check_v17a_firmware.py
+
+firmware-benchmark:
+	$(MAKE) -C sw/models/yolov5nu/triple32 all
+
+test-v17a:
+	$(MAKE) -C sw/models/yolov5nu/triple32 check
+	bash tests/host/run_v17a_live_scheduler_test.sh
+	bash tests/host/run_v17a_backend_test.sh
 
 bitstream:
 	cd "$(PROJECT_ROOT)" && bash tools/build/build_video_bitstream.sh
@@ -92,3 +109,11 @@ program:
 
 check-deps: check
 	@python3 "$(PROJECT_ROOT)/tools/check/check_dependencies.py"
+
+.PHONY: soc-triple32-v3-tensor test-memory-v3
+soc-triple32-v3-tensor:
+	@test -n "$(SOC_WORKSPACE)" || { echo 'Set SOC_WORKSPACE to a new private Chipyard path'; exit 2; }
+	python3 tools/soc/build_triple32_v3_tensor.py --workspace "$(SOC_WORKSPACE)" $(SOC_GENERATE_ARGS)
+
+test-memory-v3:
+	python3 tests/rtl/run_memory_parallel_v3_tests.py

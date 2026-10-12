@@ -41,6 +41,7 @@ def main():
     dest = chipyard / "fpga/src/main/scala/taihang_soc/TensorIngress.scala"
     dest.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source, dest)
+    shutil.copy2(source.with_name("TensorIngressConfigs.scala"), dest.with_name("TensorIngressConfigs.scala"))
     if args.install_only:
         return
     config = CONFIGS[args.variant]

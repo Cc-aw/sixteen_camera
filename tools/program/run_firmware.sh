@@ -11,7 +11,8 @@ VIDEO_VARIANT="${VIDEO_VARIANT:-dual16}"
 case "$VIDEO_VARIANT" in
     single4) DEFAULT_ELF="$ROOT_DIR/build/firmware/gemmini_single4_video_yolov5nu.elf" ;;
     dual16) DEFAULT_ELF="$ROOT_DIR/build/firmware/gemmini_dual16_video_yolov5nu.elf" ;;
-    *) echo "VIDEO_VARIANT 必须为 single4 或 dual16" >&2; exit 2 ;;
+    triple32_v3_tensor) DEFAULT_ELF="$ROOT_DIR/build/firmware/gemmini_triple32_v3_tensor_video_yolov5nu.elf" ;;
+    *) echo "VIDEO_VARIANT 必须为 single4、dual16 或 triple32_v3_tensor" >&2; exit 2 ;;
 esac
 ELF_FILE="${ELF_FILE:-$DEFAULT_ELF}"
 GDB_COMMANDS="$SCRIPT_DIR/openocd/load-hdmi-tx.gdb"

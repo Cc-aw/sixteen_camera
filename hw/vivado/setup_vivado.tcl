@@ -133,6 +133,9 @@ proc ::sixteen_camera_setup::setup_bd {} {
 
     set bd_name design_1
     set bd_script [file join $repo_root hw vivado create_design_1.tcl]
+    if {$::SOC_MEMORY_PARALLEL_V3} {
+        set bd_script [file join $repo_root hw vivado create_design_1_v3.tcl]
+    }
     set bd_files [get_files -all -quiet */${bd_name}.bd]
 
     if {[llength $bd_files] == 0} {
@@ -161,6 +164,19 @@ proc ::sixteen_camera_setup::setup_bd {} {
             set_property SYNTH_CHECKPOINT_MODE $::sc_bd_checkpoint_mode $bd_file
         }
         open_bd_design $bd_file
+        if {$::SOC_MEMORY_PARALLEL_V3} {
+            foreach {property expected} {DATA_WIDTH 512 ID_WIDTH 2 NUM_READ_OUTSTANDING 32 NUM_WRITE_OUTSTANDING 32} {
+                if {[get_property CONFIG.$property [get_bd_intf_ports S00_AXI]] != $expected} {
+                    error "DDR BD is incompatible with V3 ($property); rebuild in a new VIVADO_PROJECT"
+                }
+            }
+            if {[llength [get_bd_cells -quiet u_mig_perf]] != 1 ||
+                [get_property MODE [get_bd_intf_pins u_mig_perf/S_AXI]] ne "Monitor"} {
+                error "V3 requires the passive MIG Monitor interface"
+            }
+        } elseif {[get_property CONFIG.DATA_WIDTH [get_bd_intf_ports S00_AXI]] != 256} {
+            error "DDR BD is incompatible with this SoC; use a matching VIVADO_PROJECT"
+        }
         validate_bd_design
         save_bd_design
         generate_target all $bd_file
@@ -287,6 +303,8 @@ set sc_soc_dir [file normalize [file join $sc_repo_root $SOC_COLLATERAL_DIR]]
 set sc_defines [get_property verilog_define [get_filesets sources_1]]
 set sc_defines [lsearch -all -inline -not -exact $sc_defines SOC_TENSOR_INGRESS]
 if {$SOC_TENSOR_INGRESS} { lappend sc_defines SOC_TENSOR_INGRESS }
+set sc_defines [lsearch -all -inline -not -exact $sc_defines SOC_MEMORY_PARALLEL_V3]
+if {$SOC_MEMORY_PARALLEL_V3} { lappend sc_defines SOC_MEMORY_PARALLEL_V3 }
 set_property verilog_define $sc_defines [get_filesets sources_1]
 
 # The checked-in project can retain source entries from an earlier SoC switch.
@@ -425,4 +443,12 @@ if {$sc_total_failed == 0 &&
     puts "PROJECT_SETUP=PASS"
 } else {
     puts "PROJECT_SETUP=PARTIAL"
+}
+
+# GUI setup and batch implementation use the same selected flow.
+source [file join $sc_repo_root tools build default_video_run_settings.tcl]
+apply_default_video_run_settings
+if {$SOC_BITSTREAM_FLOW eq "triple32_v3"} {
+    source [file join $sc_repo_root tools build triple32_v3 run_settings.tcl]
+    apply_triple32_v3_run_settings
 }

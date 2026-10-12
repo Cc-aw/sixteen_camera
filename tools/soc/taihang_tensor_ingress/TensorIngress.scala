@@ -276,11 +276,6 @@ class WithTaihangTensorIngress extends Config(
     case TaihangTensorIngressKey => true
     case chipyard.BuildSystem => (p: Parameters) => new TaihangTensorDigitalTop()(p)
   }))
-class TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitTensorIngressConfig extends Config(
-  new WithTaihangTensorIngress ++ new TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitConfig)
-class TaihangSoC1Rocket1RVV1Gemmini4x4PackedFullOps256BitTensorIngressConfig extends Config(
-  new WithTaihangTensorIngress ++ new TaihangSoC1Rocket1RVV1Gemmini4x4PackedFullOps256BitConfig)
-
 object EmitTaihangTensorIngressCore extends App {
   _root_.circt.stage.ChiselStage.emitSystemVerilogFile(new TaihangTensorIngressCore, args,
     Array("--disable-all-randomization", "--strip-debug-info"))

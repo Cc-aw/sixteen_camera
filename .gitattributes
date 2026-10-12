@@ -1,0 +1,2 @@
+# Quantized regression inputs are byte arrays, even when Git detects text.
+tests/data/yolov5nu/v17a/image*.bin binary

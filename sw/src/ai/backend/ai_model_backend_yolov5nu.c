@@ -11,6 +11,15 @@
 #include "mmio.h"
 #include "yolov5nu_dim16_dual.h"
 #include "yolov5nu_head_layout.h"
+#ifndef YOLO32_LIVE
+#define YOLO32_LIVE 0
+#endif
+#if YOLO32_LIVE
+#include "yolo32.h"
+#include "independent.h"
+#include "ppu.h"
+static uint32_t published_heads[AI_MODEL_WORKER_COUNT];
+#endif
 
 enum {
     YOLOV5_STAGE_IDLE = 0,
@@ -254,7 +263,7 @@ static void head_published(unsigned worker, unsigned head)
     AiHeadSlot *slot = ai_head_slot_get(&head_queue, key);
     if (!slot) return;
     ai_ppu_publication_publish(slot->descriptor.base_addr, 1U << head);
-    if (head == 0 && slot->state == AI_HEAD_SLOT_WRITING) {
+    if (head == 0 && slot->state == AI_HEAD_SLOT_WRITING && !YOLO32_LIVE) {
         head_ready_cycles[key] = read_cycle();
         memset(&head_profiles[key], 0, sizeof(head_profiles[key]));
         if (ai_head_slot_admit(&head_queue, key) == 0)
@@ -274,6 +283,10 @@ void ai_model_backend_init(void)
     memset(head_profiles, 0, sizeof(head_profiles));
     yolov5nu_dim16_dual_init();
     yolov5nu_dim16_set_head_callback(head_published);
+#if YOLO32_LIVE
+    memset(published_heads, 0, sizeof(published_heads));
+    yolo32_independent_live_init();
+#endif
     hardware_present = mmio_read32(POSTPROCESS_DIAG_BASE + PPU_ID) ==
                        PPU_IDENT;
     hardware_worker = AI_MODEL_WORKER_COUNT;
@@ -289,6 +302,14 @@ void ai_model_backend_init(void)
     for (uint32_t worker = 0U; worker < AI_MODEL_WORKER_COUNT; ++worker)
         worker_head_slot[worker] = AI_HEAD_SLOT_INVALID;
     if (hardware_present) (void)ai_ppu_queue_init();
+#if YOLO32_LIVE
+    if (hardware_present) {
+        mmio_write32(POSTPROCESS_DIAG_BASE + PPU_READER_SELECT, 1U);
+        /* Disable diagnostic-only queue observations on the live path. */
+        mmio_write32(POSTPROCESS_DIAG_BASE + 0x24cU, 0U);
+        yolo32_ppu_io_barrier();
+    }
+#endif
     initialized = 1U;
     console_puts(hardware_present ?
         "AI MODEL init OK (YOLOv5nu worker pool + hardware postprocess)\r\n" :
@@ -315,6 +336,11 @@ int ai_model_backend_submit(const AiModelFrameRequest *request)
     const int8_t *input;
     if (initialized == 0U || request == 0)
         return -1;
+#if YOLO32_LIVE
+    if (!hardware_present || !ai_ppu_publication_available() ||
+        !ai_ppu_queue_active() || hardware_faulted)
+        return -2;
+#endif
     worker_id = request->worker_id;
     if (worker_id >= AI_MODEL_WORKER_COUNT || running[worker_id] != 0U ||
         request->input_addr == 0U ||
@@ -361,6 +387,10 @@ int ai_model_backend_submit(const AiModelFrameRequest *request)
     running[worker_id] = 1U;
     stages[worker_id] = YOLOV5_STAGE_RUNNING;
     start_cycles[worker_id] = read_cycle();
+#if YOLO32_LIVE
+    published_heads[worker_id] = 0;
+    yolo32_independent_live_start(worker_id);
+#endif
     if (AI_STREAM_HOTPATH_LOG != 0 && hardware_present != 0U &&
         graph_start_log_count < 8U) {
         const AiHeadSlot *slot = ai_head_slot_get_const(&head_queue,
@@ -488,6 +518,59 @@ static int service_hardware_postprocess(void)
     return 0;
 }
 
+#if YOLO32_LIVE
+void yolo32_ppu_io_barrier(void)
+{
+    /* A CPU uncached read orders preceding PPU writes without a global RoCC
+     * fence. Head coherence is supplied by local completion and Flush64. */
+    __asm__ volatile("" ::: "memory");
+    if (!ai_ppu_publication_available()) yolo32_fail("live_ppu_io_commit");
+    __asm__ volatile("" ::: "memory");
+}
+
+void yolo32_ppu_early_service(void)
+{
+    const Yolo32IndependentStats *stats = yolo32_independent_stats();
+    for (uint32_t w = 0; w < AI_MODEL_WORKER_COUNT; ++w) {
+        uint32_t delta = stats->head_produced_mask[w] & ~published_heads[w];
+        if (!running[w] || !delta) continue;
+        AiHeadSlot *slot = ai_head_slot_get(&head_queue, worker_head_slot[w]);
+        if (!slot || slot->state != AI_HEAD_SLOT_WRITING || slot->producer_complete ||
+            (delta & ~yolo32_independent_head_mask(w)))
+            yolo32_fail("live_head_slot_state");
+        for (uint32_t h = 0; h < 6; ++h)
+            if ((delta & (1U << h)) &&
+                (!stats->head_requests[w][h] ||
+                 stats->head_completed_cycle[w][h] < start_cycles[w]))
+                yolo32_fail("live_head_completion_proof");
+        ai_ppu_publication_publish(slot->descriptor.base_addr, delta);
+        uint32_t cumulative = published_heads[w] | delta;
+        uint64_t start = read_cycle();
+        for (;;) {
+            uint32_t status = mmio_read32(POSTPROCESS_DIAG_BASE + 0x1b4U);
+            uint32_t generation = mmio_read32(POSTPROCESS_DIAG_BASE + 0x1bcU);
+            uint32_t masks = mmio_read32(POSTPROCESS_DIAG_BASE + 0x1b8U);
+            if ((status & 5U) != 1U || generation !=
+                ai_ppu_publication_generation(slot->descriptor.base_addr))
+                yolo32_fail("live_head_ownership");
+            if (((masks >> 8) & 63U) == cumulative) break;
+            if (read_cycle() - start > UINT64_C(1000000))
+                yolo32_fail("live_head_commit_timeout");
+        }
+        published_heads[w] = cumulative;
+    }
+    if (service_hardware_postprocess() < 0) hardware_faulted = 1;
+}
+
+__attribute__((noreturn)) void yolo32_fail(const char *reason)
+{
+    console_puts("V17A runtime fault: ");
+    console_puts(reason);
+    console_puts("\r\n");
+    for (;;) cpu_wfi();
+}
+#endif
+
 static void fill_compute_completion(uint32_t worker_id,
                                     AiModelComputeCompletion *completion)
 {
@@ -548,7 +631,15 @@ int ai_model_backend_poll_compute(uint32_t worker_id,
         return -2;
     }
 
+#if YOLO32_LIVE
+    (void)yolo32_independent_step();
+    yolo32_ppu_early_service();
+    status = (yolo32_independent_stats()->done_mask & (1U << worker_id)) &&
+             yolo32_independent_finished(worker_id) ?
+             YOLOV5NU_DIM16_HEAD_READY : YOLOV5NU_DIM16_RUNNING;
+#else
     status = yolov5nu_dim16_worker_poll(worker_id, &raw_results[worker_id]);
+#endif
     if (status == YOLOV5NU_DIM16_RUNNING)
         return 0;
     if (status == YOLOV5NU_DIM16_HEAD_READY) {
@@ -559,7 +650,12 @@ int ai_model_backend_poll_compute(uint32_t worker_id,
             running[worker_id] = 0U;
             return -2;
         }
+#if YOLO32_LIVE
+        if (published_heads[worker_id] != 63U) yolo32_fail("live_unpublished_heads");
+        head_ready_cycles[slot_key] = read_cycle();
+#else
         ai_ppu_publication_publish(ai_head_slot_get_const(&head_queue, slot_key)->descriptor.base_addr, 63U);
+#endif
         fill_compute_completion(worker_id, completion);
         /* Class0 may already have admitted this slot while the graph ran. */
         uint64_t queue_wait = head_profiles[slot_key].ppu_queue_wait_cycles;
@@ -586,6 +682,9 @@ int ai_model_backend_poll_compute(uint32_t worker_id,
         }
         /* Raw heads now belong to the slot.  The worker's activation arena
          * and input tensor are no longer needed by postprocessing. */
+#if YOLO32_LIVE
+        yolo32_independent_live_release(worker_id);
+#endif
         yolov5nu_dim16_worker_finish_hardware(worker_id);
         worker_head_slot[worker_id] = AI_HEAD_SLOT_INVALID;
         stages[worker_id] = YOLOV5_STAGE_COMPLETE;

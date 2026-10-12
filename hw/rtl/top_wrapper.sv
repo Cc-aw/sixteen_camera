@@ -61,7 +61,11 @@ module top_wrapper (
     output wire [0:0]  c0_ddr4_ck_t,
     output wire        c0_init_calib_complete
 );
+`ifdef SOC_MEMORY_PARALLEL_V3
+    axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(512), .ID_WIDTH(2)) soc_mem_axi();
+`else
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(4)) soc_mem_axi();
+`endif
     axi4_if #(.ADDR_WIDTH(31), .DATA_WIDTH(64), .ID_WIDTH(4)) soc_mmio_axi();
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(5)) soc_fbus_axi();
     axi4_if #(.ADDR_WIDTH(33), .DATA_WIDTH(256), .ID_WIDTH(5)) soc_tensor_axi();
@@ -140,7 +144,14 @@ module top_wrapper (
         end
     endgenerate
 
+    wire [2:0] memory_perf_command;
+    wire memory_perf_request, memory_perf_acknowledge, memory_perf_available;
+    wire [8:0] memory_perf_index;
+    wire [63:0] memory_perf_data;
     control_soc_subsystem u_control_soc (
+        .memory_perf_command(memory_perf_command), .memory_perf_request(memory_perf_request),
+        .memory_perf_acknowledge(memory_perf_acknowledge), .memory_perf_available(memory_perf_available),
+        .memory_perf_index(memory_perf_index), .memory_perf_data(memory_perf_data),
         .sys_rstn(sys_rstn),
         .clk_25m(clk_25m),
         .clk_100m_p(clk_100m_p),
@@ -222,6 +233,9 @@ module top_wrapper (
     ddr_memory_subsystem #(
         .HEAD_SHADOW_DDR(1'b0)
     ) u_ddr_memory (
+        .memory_perf_command(memory_perf_command), .memory_perf_request(memory_perf_request),
+        .memory_perf_acknowledge(memory_perf_acknowledge), .memory_perf_available(memory_perf_available),
+        .memory_perf_index(memory_perf_index), .memory_perf_data(memory_perf_data),
         .sys_rstn(sys_rstn),
         .c0_sys_clk_p(c0_sys_clk_p),
         .c0_sys_clk_n(c0_sys_clk_n),

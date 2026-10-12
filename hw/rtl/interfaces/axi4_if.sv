@@ -78,4 +78,9 @@ interface axi4_if #(
         output rid, rdata, rresp, rlast, rvalid,
         input  rready
     );
+    modport monitor (
+        input aclk, aresetn, arvalid, arready, awvalid, awready,
+              rvalid, rready, rlast, wvalid, wready, bvalid, bready,
+              arlen, arsize, wstrb
+    );
 endinterface

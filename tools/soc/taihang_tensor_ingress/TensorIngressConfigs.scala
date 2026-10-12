@@ -1,0 +1,8 @@
+package tsmcchip.fpga.taihangsoc
+
+import org.chipsalliance.cde.config.Config
+
+class TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitTensorIngressConfig extends Config(
+  new WithTaihangTensorIngress ++ new TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitConfig)
+class TaihangSoC1Rocket1RVV1Gemmini4x4PackedFullOps256BitTensorIngressConfig extends Config(
+  new WithTaihangTensorIngress ++ new TaihangSoC1Rocket1RVV1Gemmini4x4PackedFullOps256BitConfig)

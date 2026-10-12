@@ -3,6 +3,9 @@
 set -euo pipefail
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 export SOC_VARIANT=${SOC_VARIANT:-dual16}
+if [[ -z "${VIVADO_PROJECT:-}" && ( "$SOC_VARIANT" == triple32_v3_tensor || "${SOC_CONFIG:-}" == *MemoryParallelV3TensorIngressConfig ) ]]; then
+  export VIVADO_PROJECT="$root/build/projects/triple32_v3_tensor/sixteen_camera.xpr"
+fi
 case "${1:-}" in
   --check) check_only=1 ;;
   '') check_only=0 ;;
@@ -19,7 +22,7 @@ version=$("$vivado" -version 2>/dev/null)
 [[ "$version" == *2023.2* ]] || { echo 'Vivado 2023.2 is required' >&2; exit 2; }
 tclsh "$root/tools/check/check_production_manifest.tcl"
 if ((check_only)); then
-  printf 'VIDEO_BITSTREAM_PREFLIGHT=PASS flow=default\n'
+  printf 'VIDEO_BITSTREAM_PREFLIGHT=PASS\n'
   exit 0
 fi
 # All unified project-mutating entry points share the existing build lock.
