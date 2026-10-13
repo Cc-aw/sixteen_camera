@@ -1,4 +1,5 @@
 #define main unused_stream_fixture_main
+#define mmio_fence fixture_fence
 #define mmio_read32 fixture_read32
 #define mmio_write32 fixture_write32
 #define ai_model_backend_poll_compute fixture_poll_compute
@@ -6,21 +7,38 @@
 #define ai_model_backend_submit fixture_submit
 #include "test_ai_batch_runtime_stream.c"
 #undef main
+#undef mmio_fence
 #undef mmio_read32
 #undef mmio_write32
 #undef ai_model_backend_poll_compute
 #undef ai_model_backend_abort
 #undef ai_model_backend_submit
 
+#include <stdlib.h>
+#ifdef AI_RUNTIME_OWNERSHIP_TRACE
+#define OWN_TRACE(...) printf(__VA_ARGS__)
+#else
+#define OWN_TRACE(...) ((void)0)
+#endif
 static uint32_t error_bits, refuse_release, release_commands;
 static uint32_t fail_compute, bad_compute, fake_abort_zero, uncertain_submit;
 uint32_t mmio_read32(uintptr_t address)
 {
-    if (address == FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_ERROR) return error_bits;
-    return fixture_read32(address);
+#ifdef AI_RUNTIME_OWNERSHIP_TRACE
+    if (refuse_release) test_cycle += SOC_CLOCK_HZ / 20;
+#endif
+    uint32_t value = address == FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_ERROR ? error_bits : fixture_read32(address);
+    OWN_TRACE("MMIO_R offset=%lx value=%u cycle=%llu\n", (unsigned long)(address - FRAMEBUFFER_BASE), value, (unsigned long long)test_cycle);
+    return value;
+}
+void mmio_fence(void)
+{
+    OWN_TRACE("MMIO_F cycle=%llu\n", (unsigned long long)test_cycle);
+    fixture_fence();
 }
 void mmio_write32(uintptr_t address, uint32_t value)
 {
+    OWN_TRACE("MMIO_W offset=%lx value=%u cycle=%llu\n", (unsigned long)(address - FRAMEBUFFER_BASE), value, (unsigned long long)test_cycle);
     if (address == FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL &&
         (value & FRAMEBUFFER_TENSOR_PROD_RELEASE_GO)) {
         release_commands++;
@@ -33,6 +51,7 @@ void mmio_write32(uintptr_t address, uint32_t value)
 }
 int ai_model_backend_poll_compute(uint32_t worker, AiModelComputeCompletion *completion)
 {
+    OWN_TRACE("COMPUTE_POLL worker=%u fail=%u cycle=%llu\n", worker, fail_compute, (unsigned long long)test_cycle);
     if (fail_compute) return -2; /* No completion/stop evidence. */
     int result = fixture_poll_compute(worker, completion);
     if (result > 0 && bad_compute) completion->job_id++;
@@ -40,17 +59,27 @@ int ai_model_backend_poll_compute(uint32_t worker, AiModelComputeCompletion *com
 }
 int ai_model_backend_abort(uint32_t worker)
 {
+    OWN_TRACE("ABORT worker=%u fake_zero=%u cycle=%llu\n", worker, fake_abort_zero, (unsigned long long)test_cycle);
     if (fake_abort_zero) return 0; /* An advisory zero must not authorize release. */
     return fixture_abort(worker);
 }
 int ai_model_backend_submit(const AiModelFrameRequest *request)
 {
+    OWN_TRACE("SUBMIT worker=%u stream=%u job=%llu frame=%llu version=%u uncertain=%u cycle=%llu\n", request->worker_id, request->stream_id, (unsigned long long)request->job_id, (unsigned long long)request->frame_id, request->version, uncertain_submit, (unsigned long long)test_cycle);
     if (uncertain_submit) {
         assert(fixture_submit(request) == 0);
         return AI_MODEL_SUBMIT_FAULT_HELD;
     }
     return fixture_submit(request);
 }
+#ifdef AI_RUNTIME_OWNERSHIP_TRACE
+static void final_snapshot(void)
+{
+    AiRtResourceSnapshot resources; ai_batch_runtime_get_resources(&resources);
+    AiBatchRuntimeStatus status; ai_batch_runtime_get_status(&status);
+    printf("FINAL tensor=%x worker=%x post=%u head=%x retry=%u fault=%u enabled=%u consumed=%u errors=%u last=%d cycle=%llu\n", resources.held_tensor, resources.active_worker, resources.pending_post, resources.owned_head, resources.release_retry, resources.faulted, status.enabled, status.consumed_count, status.error_count, status.last_error, (unsigned long long)test_cycle);
+}
+#endif
 static void admit(void)
 {
     ai_batch_runtime_init(); ai_batch_runtime_set_enabled(1);
@@ -60,6 +89,9 @@ static void admit(void)
 int main(int argc, char **argv)
 {
     assert(argc == 2);
+#ifdef AI_RUNTIME_OWNERSHIP_TRACE
+    assert(atexit(final_snapshot) == 0);
+#endif
     if (!strcmp(argv[1], "error-enable")) {
         ai_batch_runtime_init(); error_bits = 1U << 31;
         assert(!ai_batch_runtime_is_idle());
@@ -77,6 +109,9 @@ int main(int argc, char **argv)
     }
     uncertain_submit = !strcmp(argv[1], "uncertain-submit");
     admit();
+#ifdef AI_RUNTIME_STATE_TEST
+    assert(ai_batch_runtime_state() == (uncertain_submit ? AI_RT_STATE_FAULTED : AI_RT_STATE_RUNNING));
+#endif
     if (!strcmp(argv[1], "release-retry") || !strcmp(argv[1], "late-ack") ||
         !strcmp(argv[1], "release-pending") || !strcmp(argv[1], "reused-after-timeout")) {
         compute_allowed[0] = 1; refuse_release = 1;
@@ -120,6 +155,9 @@ int main(int argc, char **argv)
     ai_batch_runtime_poll();
     for (unsigned repeat = 0; repeat < 4; ++repeat) ai_batch_runtime_poll();
     AiRtResourceSnapshot before, after; ai_batch_runtime_get_resources(&before);
+#ifdef AI_RUNTIME_STATE_TEST
+    assert(ai_batch_runtime_state() == AI_RT_STATE_FAULTED);
+#endif
     assert(before.faulted && before.held_tensor == 1 && before.tensors[0].state == AI_RT_FAULT_HELD);
     assert(before.tensors[0].identity.frame_id == 100 && before.tensors[0].identity.job_id);
     assert(release_count == 0 && (ready & 1) && !ai_batch_runtime_is_idle());

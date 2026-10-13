@@ -12,6 +12,7 @@
 - [SW Runtime R1b PPU HAL 实施记录](architecture/sw-runtime-r1b.md)：发布/队列/receipt、特殊屏障、三配置后端对照和离线验证。
 - [SW Runtime R1c 与完整 R1 离线验收](architecture/sw-runtime-r1c.md)：overlay、cache 能力/协议、真实 Runtime TTL/busy 与 Flush64 机器码对照。
 - [SW Runtime R2 资源身份与安全回收](architecture/sw-runtime-r2.md)：Tensor/activation/Head 独立占有与完成证明、故障保留及三配置回归。
+- [SW Runtime R3 调度与 Pipeline 拆分](architecture/sw-runtime-r3.md)：纯 EDF 选择、派发事务、完成/结果服务、Runtime 状态机与冻结 R2 的完整事件对照。
 - [SW Runtime 分层重构设计与实施方案](architecture/sw-runtime-refactor.md)：R0–R6 分阶段计划，R0、R1 已完成离线验证，板测待验证。
 - [HDMI 八路视频空间封装](integration/8路640x480视频在4K30_HDMI中的空间封装规范.md)
 - [PCLK 接口约定](integration/pclk_timing_refactor_interfaces.md)

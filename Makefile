@@ -16,7 +16,7 @@ export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD
 .PHONY: test-tensor-device test-runtime-tensor-hal
 .PHONY: test-ppu-device test-runtime-ppu-hal
 .PHONY: test-overlay-device test-runtime-overlay-hal test-cache-ops
-.PHONY: test-runtime-resources test-runtime-faults
+.PHONY: test-runtime-resources test-runtime-faults test-runtime-scheduler test-runtime-r3
 .PHONY: help check firmware firmware-benchmark test-v17a check-v17a-firmware bitstream elaborate test-tensor test-tensor-ingress test-cache test-ppu test-video test-runtime test-software
 help:
 	@printf '%s\n' \
@@ -50,6 +50,8 @@ help:
 	  'make test-cache-ops                Host/RV64 Flush64 traces and capability checks' \
 	  'make test-runtime-resources        Tensor, activation, Head and job ownership checks' \
 	  'make test-runtime-faults           Runtime/backend abort, timeout and drain checks' \
+	  'make test-runtime-scheduler        Pure EDF selection and Runtime control states' \
+	  'make test-runtime-r3               Full split Runtime event traces against R2' \
 	  'make test-software                  All software host tests' \
 	  'make program                        Download selected firmware (existing bitstream)' \
 	  'make check-deps                     Check source closure and installed tools' \
@@ -147,6 +149,12 @@ test-runtime-resources:
 test-runtime-faults:
 	bash tests/host/run_runtime_fault_ownership_test.sh
 	bash tests/host/run_backend_fault_ownership_test.sh
+
+test-runtime-scheduler:
+	bash tests/host/run_runtime_scheduler_test.sh
+
+test-runtime-r3:
+	bash tests/host/run_runtime_r3_trace_test.sh
 
 test-software:
 	@cd "$(PROJECT_ROOT)" && for test_script in tests/host/run_*_test.sh; do \

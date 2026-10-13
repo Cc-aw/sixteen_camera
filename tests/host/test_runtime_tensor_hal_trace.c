@@ -58,6 +58,10 @@ void console_put_hex64(uint64_t value)
 }
 
 static uint32_t diagnostic_errors;
+#ifdef AI_RUNTIME_EXTENDED_TRACE
+static uint32_t reject_submit_once;
+static uint32_t bad_metadata_slot = UINT32_MAX;
+#endif
 uint32_t mmio_read32(uintptr_t address)
 {
     uintptr_t offset = address - FRAMEBUFFER_BASE;
@@ -66,6 +70,12 @@ uint32_t mmio_read32(uintptr_t address)
     else if ((offset >= 0x300 && offset <= 0x324) || offset == FRAMEBUFFER_TENSOR_PROD_OVERFLOW)
         value = (uint32_t)offset;
     else value = fixture_read32(address);
+#ifdef AI_RUNTIME_EXTENDED_TRACE
+    if (offset == FRAMEBUFFER_TENSOR_PROD_BYTES && selected_slot == bad_metadata_slot)
+        value = 0;
+    if (selected_slot == bad_metadata_slot)
+        test_cycle += SOC_CLOCK_HZ / 20;
+#endif
     printf("MMIO_R offset=%lx value=%u cycle=%llu\n", (unsigned long)offset, value, (unsigned long long)test_cycle);
     return value;
 }
@@ -85,11 +95,21 @@ void ai_model_backend_init(void)
 }
 int ai_model_backend_submit(const AiModelFrameRequest *r)
 {
-    int result = fixture_backend_submit(r);
+    int result;
+#ifdef AI_RUNTIME_EXTENDED_TRACE
+    if (reject_submit_once) {
+        reject_submit_once = 0;
+        result = -3;
+    } else
+#endif
+        result = fixture_backend_submit(r);
     printf("SUBMIT job=%llu worker=%u stream=%u frame=%llu version=%u input=%lx cycle=%llu\n",
            (unsigned long long)r->job_id, r->worker_id, r->stream_id,
            (unsigned long long)r->frame_id, r->version, (unsigned long)r->input_addr,
            (unsigned long long)test_cycle);
+#ifdef AI_RUNTIME_EXTENDED_TRACE
+    printf("SUBMIT_STATUS value=%d\n", result);
+#endif
     return result;
 }
 int ai_model_backend_poll_compute(uint32_t worker, AiModelComputeCompletion *c)
@@ -120,6 +140,7 @@ uint32_t ai_model_backend_is_idle(void)
     printf("BACKEND_IDLE value=%u cycle=%llu\n", result, (unsigned long long)test_cycle);
     return result;
 }
+#ifndef AI_RUNTIME_TRACE_EMBED
 int main(void)
 {
     assert(stream_fixture_main() == 0);
@@ -132,3 +153,4 @@ int main(void)
            (unsigned long long)test_cycle, submit_count, release_count, overlay_count, overlay_clear_count);
     return 0;
 }
+#endif

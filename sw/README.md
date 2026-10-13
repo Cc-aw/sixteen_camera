@@ -62,4 +62,7 @@ R1c 已完成 overlay 设备边界与 cache 能力定义，旧标签格式、结
 集成和 Host/RV64 cache 验证。详见 [R1c 与完整 R1 离线验收](../docs/architecture/sw-runtime-r1c.md)。
 R1 已完成离线结构等价验收；R2 已接入资源身份和安全回收，无停止证明时保留占有。
 `make test-runtime-resources test-runtime-faults` 验证 32 Tensor、6 Head、1/2/3 worker 及故障路径。
-详见 [R2 验收](../docs/architecture/sw-runtime-r2.md)。版本回绕及板测仍待完成，下一阶段为 R3。
+详见 [R2 验收](../docs/architecture/sw-runtime-r2.md)。版本回绕及板测仍待完成。
+R3 已将纯选择、派发事务、Pipeline、Tensor/结果/overlay 服务与状态机分开；旧公开入口保留。
+`make test-runtime-scheduler test-runtime-r3` 运行 Host/RV64 纯策略及冻结 R2 的 47 组完整事件对照。
+详见 [R3 验收](../docs/architecture/sw-runtime-r3.md)。下一阶段为 R4a Backend 适配。

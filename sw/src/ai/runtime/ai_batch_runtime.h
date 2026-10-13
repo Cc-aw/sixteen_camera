@@ -9,6 +9,13 @@
 #include "ai/runtime/resources/rt_resources.h"
 
 typedef enum {
+    AI_RT_STATE_STOPPED = 0,
+    AI_RT_STATE_RUNNING,
+    AI_RT_STATE_DRAINING,
+    AI_RT_STATE_FAULTED
+} AiRtState;
+
+typedef enum {
     AI_BATCH_FREE = 0,
     AI_BATCH_READY,
     AI_BATCH_RUNNING,
@@ -83,6 +90,8 @@ void ai_batch_runtime_init(void);
 void ai_batch_runtime_set_enabled(uint32_t enabled);
 uint32_t ai_batch_runtime_is_enabled(void);
 uint32_t ai_batch_runtime_is_idle(void);
+/* Pure control-state observation; idle separately proves resource/device quiescence. */
+AiRtState ai_batch_runtime_state(void);
 void ai_batch_runtime_poll(void);
 void ai_batch_runtime_print_status(void);
 void ai_batch_runtime_print_frame_profiles(void);

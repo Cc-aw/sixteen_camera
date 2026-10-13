@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 project_root=$(cd "$(dirname "$0")/../.." && pwd)
+source "$project_root/tests/host/runtime_module_sources.sh"
 test_tmp=$(mktemp -d /tmp/sixteen-camera-runtime-overlay.XXXXXX)
 trap 'rm -rf "$test_tmp"' EXIT
 flags=(-std=c11 -Wall -Wextra -Werror -DAI_STREAM_RUNTIME_HOST_TEST -DAI_STREAM_RUNTIME_HEALTHY_TRACE=1
@@ -17,7 +18,7 @@ for workers in 2 3; do
     fi
     cc "${flags[@]}" -Dai_overlay_try_submit=real_overlay_try_submit -c "$source" -o "$test_tmp/overlay.o"
     cc "${flags[@]}" -DAI_MODEL_WORKER_COUNT=${workers}U \
-      "$project_root/sw/src/ai/runtime/ai_batch_runtime_stream.c" \
+      "$project_root/sw/src/ai/runtime/ai_batch_runtime_stream.c" "${runtime_module_sources[@]}" \
       "$project_root/sw/src/drivers/tensor/ai_tensor_device.c" "${device[@]}" \
       "$project_root/sw/src/ai/runtime/resources/rt_job.c" \
       "$project_root/sw/src/ai/runtime/resources/rt_tensor_manager.c" \
