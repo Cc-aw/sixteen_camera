@@ -91,6 +91,8 @@ LOCAL_SOURCES := src/main.c src/platform/console.c src/platform/runtime.c src/bo
 	src/video/video_service.c \
 	src/video/camera_config.c src/platform/cache_ops.c \
 	src/ai/runtime/ai_tensor_slot_pool.c src/drivers/tensor/ai_tensor_device.c \
+	src/ai/runtime/resources/rt_job.c src/ai/runtime/resources/rt_tensor_manager.c \
+	src/ai/runtime/resources/rt_arena_manager.c src/ai/runtime/resources/rt_head_manager.c \
 	src/diagnostics/ai_postprocess_diag.c src/ai/postprocess/ai_ppu_publication.c src/ai/postprocess/ai_ppu_queue.c \
 	src/ai/postprocess/ai_postprocess_scalar.c src/ai/postprocess/ai_result_manager.c src/ai/postprocess/ai_display_map.c \
 	src/ai/postprocess/ai_class_names.c \

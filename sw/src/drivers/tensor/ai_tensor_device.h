@@ -47,6 +47,14 @@ uint32_t ai_tensor_device_writing(void);
  * alone says nothing about whether that caller safely stopped its consumer. */
 int ai_tensor_device_read_slot(uint32_t slot, AiTensorDeviceDescriptor *descriptor);
 int ai_tensor_device_release(uint32_t slot, uint32_t producer_enabled);
+/* Non-mutating observation after a timed-out release. SLOT_PRESENT requires
+ * the owner to validate current metadata before resending any release. */
+enum {
+    AI_TENSOR_RELEASE_WAIT = 0,
+    AI_TENSOR_RELEASE_ACK = 1,
+    AI_TENSOR_RELEASE_SLOT_PRESENT = 2
+};
+int ai_tensor_device_release_poll(uint32_t slot);
 int ai_tensor_device_enable(uint32_t admission_mask, uint32_t admission_limit);
 void ai_tensor_device_disable(void);
 

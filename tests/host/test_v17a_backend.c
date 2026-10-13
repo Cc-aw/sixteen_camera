@@ -136,12 +136,27 @@ int main(void) {
     for (unsigned w = 0; w < 3; ++w) { AiModelFrameRequest r = request(w, 2); assert(!ai_model_backend_submit(&r)); graph(w); }
     AiModelFrameRequest r = request(2, 3);
     assert(ai_model_backend_submit(&r) == -3); /* Both Head slots still owned by PPU. */
+#if defined(R2_STOP_PROOF) || defined(AI_BACKEND_RESOURCE_TEST)
+    AiModelResourceSnapshot ownership;
+    ai_model_backend_get_resources(&ownership);
+    assert(ownership.owned_head == 63 && !ownership.activation_held);
+    for (unsigned key = 0; key < 6; ++key) {
+        assert(ownership.heads[key].identity.worker_id == key / 2);
+        assert(ownership.heads[key].producer_complete && ownership.heads[key].producer_mask == 63);
+    }
+#endif
     result(0); /* Worker 2 first slot releases, second remains owned. */
     assert(!ai_model_backend_submit(&r)); graph(2);
     assert(commands[6].bank == commands[0].bank);
     assert(commands[6].generation == commands[0].generation + 1);
     for (unsigned i = 1; i < 7; ++i) result(i);
     assert(ai_model_backend_is_idle());
+#if defined(R2_STOP_PROOF) || defined(AI_BACKEND_RESOURCE_TEST)
+    ai_model_backend_get_resources(&ownership);
+    assert(!ownership.owned_head && !ownership.activation_held && !ownership.unsafe_fault);
+#endif
     puts("PASS: V17 A head publication/admission, independent compute release, six-slot backpressure, generation reuse and queued metadata");
     return 0;
 }
+
+uintptr_t yolov5nu_dim16_worker_arena(uint32_t worker) { return UINT32_C(0x40000000) + worker * UINT32_C(0x01000000); }

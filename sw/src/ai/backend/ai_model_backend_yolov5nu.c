@@ -7,6 +7,8 @@
 #include "ai/postprocess/ai_ppu_publication.h"
 #include "ai/postprocess/ai_ppu_queue.h"
 #include "drivers/ppu/ai_ppu_device.h"
+#include "ai/runtime/resources/rt_arena_manager.h"
+#include "ai/runtime/resources/rt_head_manager.h"
 #include "platform/cache_ops.h"
 #include "platform/console.h"
 #include "mmio.h"
@@ -55,6 +57,8 @@ static uint64_t hardware_start_cycles;
 static uint64_t head_ready_cycles[AI_HEAD_SLOT_QUEUE_CAPACITY];
 static AiFrameProfile head_profiles[AI_HEAD_SLOT_QUEUE_CAPACITY];
 static AiHeadSlotQueue head_queue;
+static AiRtHeadManager head_manager;
+static AiRtArenaManager arena_manager;
 static uint32_t worker_head_slot[AI_MODEL_WORKER_COUNT];
 typedef struct {
     AiModelFrameCompletion completion;
@@ -66,6 +70,15 @@ static uint32_t post_head;
 static uint32_t post_tail;
 static uint32_t post_count;
 static uint32_t hardware_faulted;
+
+static void hold_backend_fault(uint32_t worker)
+{
+    hardware_faulted = 1U;
+    stages[worker] = YOLOV5_STAGE_ERROR;
+    rt_arena_fault(&arena_manager, worker);
+    rt_head_fault(&head_manager, worker_head_slot[worker]);
+    /* Do not clear running, producer_complete, Head or model ownership. */
+}
 
 static void log_hardware_postprocess(uint32_t worker_id, uint32_t slot_id,
                                      uint32_t status)
@@ -227,11 +240,12 @@ static void translate_result(uint32_t worker_id,
 static int service_hardware_postprocess(void);
 static void head_published(unsigned worker, unsigned head)
 {
-    if (worker >= AI_MODEL_WORKER_COUNT || !ai_ppu_publication_available()) return;
+    if (worker >= AI_MODEL_WORKER_COUNT || stages[worker] == YOLOV5_STAGE_ERROR || !ai_ppu_publication_available()) return;
     uint32_t key = worker_head_slot[worker];
     AiHeadSlot *slot = ai_head_slot_get(&head_queue, key);
     if (!slot) return;
     ai_ppu_publication_publish(slot->descriptor.base_addr, 1U << head);
+    head_manager.slots[key].producer_mask |= 1U << head;
     if (head == 0 && slot->state == AI_HEAD_SLOT_WRITING && !YOLO32_LIVE) {
         head_ready_cycles[key] = read_cycle();
         memset(&head_profiles[key], 0, sizeof(head_profiles[key]));
@@ -242,6 +256,7 @@ static void head_published(unsigned worker, unsigned head)
 
 void ai_model_backend_init(void)
 {
+    if (initialized && !ai_model_backend_is_idle()) return;
     memset(requests, 0, sizeof(requests));
     memset(raw_results, 0, sizeof(raw_results));
     memset(post_completions, 0, sizeof(post_completions));
@@ -267,6 +282,8 @@ void ai_model_backend_init(void)
     post_tail = 0U;
     post_count = 0U;
     ai_head_slot_queue_init(&head_queue, AI_MODEL_WORKER_COUNT);
+    rt_head_manager_init(&head_manager);
+    rt_arena_manager_init(&arena_manager, AI_MODEL_WORKER_COUNT);
     for (uint32_t worker = 0U; worker < AI_MODEL_WORKER_COUNT; ++worker)
         worker_head_slot[worker] = AI_HEAD_SLOT_INVALID;
     if (hardware_present) (void)ai_ppu_queue_init();
@@ -307,6 +324,7 @@ int ai_model_backend_submit(const AiModelFrameRequest *request)
         !ai_ppu_queue_active() || hardware_faulted)
         return -2;
 #endif
+    if (hardware_faulted) return -2;
     worker_id = request->worker_id;
     if (worker_id >= AI_MODEL_WORKER_COUNT || running[worker_id] != 0U ||
         request->input_addr == 0U ||
@@ -323,21 +341,32 @@ int ai_model_backend_submit(const AiModelFrameRequest *request)
         ai_head_slot_acquire(&head_queue, worker_id, request->output_addr,
                              request, &slot_key) != 0)
         return -3;
+    AiRtJobIdentity identity = rt_job_identity(request->job_id, worker_id,
+        request->stream_id, request->frame_id, request->version);
+    if (rt_arena_claim(&arena_manager, &identity) != 0) {
+        /* No publication or model start has occurred yet. */
+        if (slot_key != AI_HEAD_SLOT_INVALID)
+            (void)ai_head_slot_release_writing(&head_queue, slot_key);
+        return -2;
+    }
+    worker_head_slot[worker_id] = slot_key;
     if (hardware_present != 0U) {
         const AiHeadSlot *slot = ai_head_slot_get_const(&head_queue, slot_key);
-        if (ai_ppu_publication_begin(slot->descriptor.base_addr) < 0) {
-            (void)ai_head_slot_release_writing(&head_queue, slot_key);
-            return -3;
+        if (rt_head_bind(&head_manager, &head_queue, slot_key,
+                         ai_ppu_publication_generation(slot->descriptor.base_addr)) != 0) {
+            hold_backend_fault(worker_id); return AI_MODEL_SUBMIT_FAULT_HELD;
         }
+        if (ai_ppu_publication_begin(slot->descriptor.base_addr) < 0) {
+            hold_backend_fault(worker_id);
+            return AI_MODEL_SUBMIT_FAULT_HELD;
+        }
+        head_manager.slots[slot_key].hardware_generation =
+            ai_ppu_publication_generation(slot->descriptor.base_addr);
     }
     ai_ppu_queue_expect(request->stream_id, request->frame_id, request->version);
     if (yolov5nu_dim16_worker_start(worker_id, input) < 0) {
-        if (slot_key != AI_HEAD_SLOT_INVALID) {
-            const AiHeadSlot *slot = ai_head_slot_get_const(&head_queue, slot_key);
-            ai_ppu_publication_abort(slot->descriptor.base_addr);
-            (void)ai_head_slot_release_writing(&head_queue, slot_key);
-        }
-        return -2;
+        hold_backend_fault(worker_id);
+        return AI_MODEL_SUBMIT_FAULT_HELD;
     }
     if (hardware_present != 0U) {
         const AiHeadSlot *slot = ai_head_slot_get_const(&head_queue,
@@ -386,7 +415,14 @@ static int service_queued_postprocess(void)
         if (!slot || slot->state != AI_HEAD_SLOT_PROCESSING ||
             slot->descriptor.stream_id != r.stream || slot->descriptor.frame_id != r.frame ||
             slot->descriptor.version != r.version ||
-            !ai_ppu_device_publication_matches(slot->descriptor.base_addr, r.generation)) return -1;
+            !ai_ppu_device_publication_matches(slot->descriptor.base_addr, r.generation)) {
+            rt_head_fault(&head_manager, r.bank); return -1;
+        }
+        AiPpuDeviceResult device_result = {.bank = r.bank, .generation = r.generation,
+            .stream = r.stream, .frame = r.frame, .version = r.version};
+        if (!rt_head_result_matches(&head_manager, &head_queue, &device_result)) {
+            rt_head_fault(&head_manager, r.bank); return -1;
+        }
         if (!slot->producer_complete) return 0;
         AiPostprocessCompletion *record = &post_completions[post_tail];
         fill_post_completion(record, &slot->descriptor, (r.status & 1U) ? -2 : 0);
@@ -399,9 +435,12 @@ static int service_queued_postprocess(void)
         ai_ppu_queue_pop();
         head_queue.active=r.bank;
         if(ai_head_slot_complete(&head_queue,r.status)!=0) return -1;
+        if (rt_head_retire(&head_manager, &head_queue,
+                           (AiRtSlotHandle){r.bank, head_manager.slots[r.bank].generation},
+                           &head_manager.slots[r.bank].identity) != 0) return -1;
         post_tail=(post_tail+1U)%AI_MODEL_RESULT_QUEUE_CAPACITY;post_count++;
     }
-    while(head_queue.ready_count && ai_ppu_queue_ready()) {
+    while(!hardware_faulted && head_queue.ready_count && ai_ppu_queue_ready()) {
         AiHeadSlot *slot;
         if(ai_head_slot_start_next(&head_queue,&slot)!=1) return -1;
         uint32_t key=head_queue.active;
@@ -440,10 +479,15 @@ static int service_hardware_postprocess(void)
                 console_puts("\r\n");
                 slot->error_status = UINT32_C(0x80000000) | hw_status;
                 hardware_faulted = 1U;
+                rt_head_fault(&head_manager, head_queue.active);
                 // A busy reader might still touch its arena.  Keep that
                 // slot PROCESSING and the PPU reserved until board reset.
             }
             return 0;
+        }
+        if (hw_status & (PPU_STATUS_BUSY | PPU_STATUS_READ_BUSY)) {
+            rt_head_fault(&head_manager, head_queue.active);
+            hardware_faulted = 1U; return -1;
         }
         hardware_worker = AI_MODEL_WORKER_COUNT;
         log_hardware_postprocess(worker_id, slot->slot_id, hw_status);
@@ -459,9 +503,11 @@ static int service_hardware_postprocess(void)
             record->completion.profile = head_profiles[head_queue.active];
         post_tail = (post_tail + 1U) % AI_MODEL_RESULT_QUEUE_CAPACITY;
         post_count++;
-        if (ai_head_slot_complete(&head_queue,
-                                  hw_status & PPU_STATUS_ERROR) != 0)
-            return -1;
+        uint32_t retired_key = head_queue.active;
+        if (ai_head_slot_complete(&head_queue, hw_status & PPU_STATUS_ERROR) != 0) return -1;
+        if (rt_head_retire(&head_manager, &head_queue,
+                           (AiRtSlotHandle){retired_key, head_manager.slots[retired_key].generation},
+                           &head_manager.slots[retired_key].identity) != 0) return -1;
     }
     if (hardware_worker != AI_MODEL_WORKER_COUNT ||
         hardware_faulted != 0U ||
@@ -498,7 +544,7 @@ void yolo32_ppu_early_service(void)
     const Yolo32IndependentStats *stats = yolo32_independent_stats();
     for (uint32_t w = 0; w < AI_MODEL_WORKER_COUNT; ++w) {
         uint32_t delta = stats->head_produced_mask[w] & ~published_heads[w];
-        if (!running[w] || !delta) continue;
+        if (!running[w] || stages[w] == YOLOV5_STAGE_ERROR || !delta) continue;
         AiHeadSlot *slot = ai_head_slot_get(&head_queue, worker_head_slot[w]);
         if (!slot || slot->state != AI_HEAD_SLOT_WRITING || slot->producer_complete ||
             (delta & ~yolo32_independent_head_mask(w)))
@@ -521,6 +567,7 @@ void yolo32_ppu_early_service(void)
                 yolo32_fail("live_head_commit_timeout");
         }
         published_heads[w] = cumulative;
+        head_manager.slots[worker_head_slot[w]].producer_mask = cumulative;
     }
     if (service_hardware_postprocess() < 0) hardware_faulted = 1;
 }
@@ -589,10 +636,7 @@ int ai_model_backend_poll_compute(uint32_t worker_id,
         return -1;
     if (hardware_present != 0U && service_hardware_postprocess() < 0)
         hardware_faulted = 1U;
-    if (stages[worker_id] == YOLOV5_STAGE_ERROR) {
-        running[worker_id] = 0U;
-        return -2;
-    }
+    if (stages[worker_id] == YOLOV5_STAGE_ERROR) return -2;
 
 #if YOLO32_LIVE
     (void)yolo32_independent_step();
@@ -609,8 +653,7 @@ int ai_model_backend_poll_compute(uint32_t worker_id,
         uint32_t slot_key = worker_head_slot[worker_id];
         if (slot_key == AI_HEAD_SLOT_INVALID ||
             ai_head_slot_publish(&head_queue, slot_key) != 0) {
-            stages[worker_id] = YOLOV5_STAGE_ERROR;
-            running[worker_id] = 0U;
+            hold_backend_fault(worker_id);
             return -2;
         }
 #if YOLO32_LIVE
@@ -649,6 +692,12 @@ int ai_model_backend_poll_compute(uint32_t worker_id,
         yolo32_independent_live_release(worker_id);
 #endif
         yolov5nu_dim16_worker_finish_hardware(worker_id);
+        head_manager.slots[slot_key].producer_mask = 63U;
+        AiRtJobIdentity proof = rt_job_identity(completion->job_id, completion->worker_id,
+            completion->stream_id, completion->frame_id, completion->version);
+        if (rt_arena_compute_done(&arena_manager, &proof) != 0) {
+            hold_backend_fault(worker_id); return -2;
+        }
         worker_head_slot[worker_id] = AI_HEAD_SLOT_INVALID;
         stages[worker_id] = YOLOV5_STAGE_COMPLETE;
         running[worker_id] = 0U;
@@ -656,22 +705,8 @@ int ai_model_backend_poll_compute(uint32_t worker_id,
             hardware_faulted = 1U;
         return 1;
     }
-    if (status != YOLOV5NU_DIM16_DONE) {
-        AiHeadSlot *failed_slot = ai_head_slot_get(&head_queue, worker_head_slot[worker_id]);
-        if (failed_slot) {
-            ai_ppu_publication_abort(failed_slot->descriptor.base_addr);
-            if (failed_slot->state == AI_HEAD_SLOT_WRITING)
-                (void)ai_head_slot_release_writing(&head_queue, worker_head_slot[worker_id]);
-            else
-                failed_slot->producer_complete = 1U; /* gate drains and reports fault */
-        }
-        stages[worker_id] = YOLOV5_STAGE_ERROR;
-        running[worker_id] = 0U;
-        return -2;
-    }
-    if (post_count >= AI_MODEL_RESULT_QUEUE_CAPACITY) {
-        stages[worker_id] = YOLOV5_STAGE_ERROR;
-        running[worker_id] = 0U;
+    if (status != YOLOV5NU_DIM16_DONE || post_count >= AI_MODEL_RESULT_QUEUE_CAPACITY) {
+        hold_backend_fault(worker_id);
         return -2;
     }
     AiHeadSlotDescriptor descriptor;
@@ -681,6 +716,11 @@ int ai_model_backend_poll_compute(uint32_t worker_id,
     translate_result(worker_id, &record->result);
     post_tail = (post_tail + 1U) % AI_MODEL_RESULT_QUEUE_CAPACITY;
     post_count++;
+    AiRtJobIdentity proof = rt_job_identity(requests[worker_id].job_id, worker_id,
+        requests[worker_id].stream_id, requests[worker_id].frame_id, requests[worker_id].version);
+    if (rt_arena_compute_done(&arena_manager, &proof) != 0) {
+        hold_backend_fault(worker_id); return -2;
+    }
     stages[worker_id] = YOLOV5_STAGE_COMPLETE;
     running[worker_id] = 0U;
     fill_compute_completion(worker_id, completion);
@@ -710,9 +750,10 @@ uint32_t ai_model_backend_is_idle(void)
         head_queue.active != AI_HEAD_SLOT_INVALID)
         return 0U;
     for (uint32_t key = 0; key < AI_MODEL_WORKER_COUNT*2U; ++key)
-        if (head_queue.slots[key].state != AI_HEAD_SLOT_FREE) return 0U;
+        if (head_queue.slots[key].state != AI_HEAD_SLOT_FREE ||
+            head_manager.slots[key].state != AI_RT_FREE) return 0U;
     for (uint32_t worker = 0U; worker < AI_MODEL_WORKER_COUNT; ++worker)
-        if (running[worker] != 0U)
+        if (running[worker] != 0U || arena_manager.workers[worker].state != AI_RT_FREE)
             return 0U;
     return 1U;
 }
@@ -743,8 +784,8 @@ int ai_model_backend_abort(uint32_t worker_id)
 {
     if (worker_id >= AI_MODEL_WORKER_COUNT)
         return -1;
-    if (running[worker_id] != 0U) {
-        stages[worker_id] = YOLOV5_STAGE_ERROR;
+    if (running[worker_id] != 0U || arena_manager.workers[worker_id].state != AI_RT_FREE) {
+        hold_backend_fault(worker_id);
         return -2;
     }
     stages[worker_id] = YOLOV5_STAGE_IDLE;
@@ -779,4 +820,23 @@ void ai_model_backend_get_pe_stats(AiModelPeStats *stats)
     memset(stats, 0, sizeof(*stats));
     stats->valid = initialized;
     stats->layer_index = ai_model_backend_stage();
+}
+
+void ai_model_backend_get_resources(AiModelResourceSnapshot *snapshot)
+{
+    if (!snapshot) return;
+    memset(snapshot, 0, sizeof(*snapshot));
+    snapshot->unsafe_fault = arena_manager.unsafe_fault + head_manager.unsafe_fault;
+    for (uint32_t w = 0; w < AI_MODEL_WORKER_COUNT; ++w) {
+        snapshot->arenas[w] = arena_manager.workers[w];
+        snapshot->arenas[w].activation_base = yolov5nu_dim16_worker_arena(w);
+        if (snapshot->arenas[w].state != AI_RT_FREE) snapshot->activation_held |= 1U << w;
+    }
+    for (uint32_t key = 0; key < AI_MODEL_WORKER_COUNT * 2U; ++key) {
+        snapshot->heads[key] = head_manager.slots[key];
+        snapshot->heads[key].queue_state = head_queue.slots[key].state;
+        snapshot->heads[key].producer_complete = head_queue.slots[key].producer_complete;
+        if (snapshot->heads[key].state != AI_RT_FREE || head_queue.slots[key].state != AI_HEAD_SLOT_FREE)
+            snapshot->owned_head |= 1U << key;
+    }
 }

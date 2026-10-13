@@ -29,10 +29,12 @@ cc "${flags[@]}" -c "$project_root/sw/src/ai/backend/ai_model_backend_yolov5nu.c
 for driver in ai_ppu_publication ai_ppu_queue; do
   cc "${flags[@]}" -DYOLO32_PPU_ORDERED_MMIO=1 -c "$project_root/sw/src/ai/postprocess/$driver.c" -o "$test_tmp/$driver.o"
 done
-cc "${flags[@]}" "$project_root/tests/host/test_runtime_baseline_trace.c" \
-  "$project_root/sw/src/ai/runtime/ai_head_slot_queue.c" "$test_tmp"/*.o -o "$test_tmp/test"
+cc "${flags[@]}" -DR2_STOP_PROOF=1 "$project_root/tests/host/test_runtime_baseline_trace.c" \
+  "$project_root/sw/src/ai/runtime/resources/rt_arena_manager.c" \
+      "$project_root/sw/src/ai/runtime/resources/rt_head_manager.c" \
+      "$project_root/sw/src/ai/runtime/ai_head_slot_queue.c" "$test_tmp"/*.o -o "$test_tmp/test"
 for scenario in identity generation-fault abort-gap; do
   "$test_tmp/test" "$scenario"
 done > "$test_tmp/actual.trace"
-diff -u "$project_root/tests/data/runtime/r0/backend-identity.trace" "$test_tmp/actual.trace"
+diff -u "$project_root/tests/data/runtime/r2/backend-ownership.trace" "$test_tmp/actual.trace"
 cat "$test_tmp/actual.trace"

@@ -3,7 +3,7 @@ set -euo pipefail
 project_root=$(cd "$(dirname "$0")/../.." && pwd)
 test_tmp=$(mktemp -d /tmp/sixteen-camera-runtime-overlay.XXXXXX)
 trap 'rm -rf "$test_tmp"' EXIT
-flags=(-std=c11 -Wall -Wextra -Werror -DAI_STREAM_RUNTIME_HOST_TEST
+flags=(-std=c11 -Wall -Wextra -Werror -DAI_STREAM_RUNTIME_HOST_TEST -DAI_STREAM_RUNTIME_HEALTHY_TRACE=1
   -I"$project_root/tests/host/include" -I"$project_root/sw/src")
 for workers in 2 3; do
   for mode in reference current; do
@@ -19,6 +19,8 @@ for workers in 2 3; do
     cc "${flags[@]}" -DAI_MODEL_WORKER_COUNT=${workers}U \
       "$project_root/sw/src/ai/runtime/ai_batch_runtime_stream.c" \
       "$project_root/sw/src/drivers/tensor/ai_tensor_device.c" "${device[@]}" \
+      "$project_root/sw/src/ai/runtime/resources/rt_job.c" \
+      "$project_root/sw/src/ai/runtime/resources/rt_tensor_manager.c" \
       "$project_root/sw/src/ai/postprocess/ai_result_manager.c" \
       "$project_root/sw/src/ai/postprocess/ai_display_map.c" \
       "$project_root/sw/src/ai/postprocess/ai_class_names.c" \

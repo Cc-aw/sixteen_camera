@@ -110,12 +110,29 @@ static void abort_gap(void)
     assert(ai_model_backend_abort(0) == -2 && live_owned[0]);
     AiModelComputeCompletion c;
     assert(ai_model_backend_poll_compute(0, &c) == -2);
+#ifdef R2_STOP_PROOF
+    /* Refused abort/ERROR polling are not a native stop proof. */
+    for (unsigned repeat = 0; repeat < 3; ++repeat) {
+        assert(ai_model_backend_abort(0) == -2);
+        assert(ai_model_backend_poll_compute(0, &c) == -2);
+    }
+    AiModelResourceSnapshot resources; ai_model_backend_get_resources(&resources);
+    assert(resources.activation_held == 1 && resources.owned_head == 1);
+    assert(resources.arenas[0].state == AI_RT_FAULT_HELD && resources.heads[0].state == AI_RT_FAULT_HELD);
+    assert(resources.arenas[0].identity.job_id == r.job_id);
+    ai_model_backend_init(); /* Refuse a destructive software reset while owned. */
+    assert(ai_model_backend_abort(0) == -2 && ai_model_backend_submit(&r) == -2);
+    assert(live_owned[0] && !idle[0] && !(stats.done_mask & 1));
+    trace("ABORT_UNCONFIRMED_OWNERSHIP_HELD", &r, 0);
+    puts("R2_STOP_PROOF=PASS abort_error_init_preserve_model_activation_Head");
+#else
     /* ERROR polling cleared backend running[], but did not stop the model
      * or release its scheduler ownership. The next abort still returns zero. */
     assert(ai_model_backend_abort(0) == 0);
     assert(live_owned[0] && !idle[0] && !(stats.done_mask & 1));
     trace("ABORT_ZERO_WITH_LIVE_TASK_OWNER", &r, 0);
     puts("R0_KNOWN_GAP=abort_zero_without_compute_stop_proof safety=FAIL characterization=PASS");
+#endif
 }
 
 int main(int argc, char **argv)

@@ -60,4 +60,6 @@ R1b 已抽离 PPU 设备操作，保留 Head 所有权、结果身份匹配和�
 R1c 已完成 overlay 设备边界与 cache 能力定义，旧标签格式、结果排序、TTL 和 Flush64 协议保持。
 `make test-overlay-device test-runtime-overlay-hal test-cache-ops` 运行 R1b 对照、真实 overlay/Runtime
 集成和 Host/RV64 cache 验证。详见 [R1c 与完整 R1 离线验收](../docs/architecture/sw-runtime-r1c.md)。
-当前 R1 已完成离线结构等价验收；板测及 R0 已知契约缺口另列，下一阶段为 R2。
+R1 已完成离线结构等价验收；R2 已接入资源身份和安全回收，无停止证明时保留占有。
+`make test-runtime-resources test-runtime-faults` 验证 32 Tensor、6 Head、1/2/3 worker 及故障路径。
+详见 [R2 验收](../docs/architecture/sw-runtime-r2.md)。版本回绕及板测仍待完成，下一阶段为 R3。

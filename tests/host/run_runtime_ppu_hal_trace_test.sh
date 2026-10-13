@@ -25,8 +25,11 @@ for mode in reference current; do
   done
   for fixture in baseline all-workers; do
     extras=()
-    if [[ "$fixture" == all-workers ]]; then extras=(-DR1B_ALL_WORKERS); fi
+    if [[ "$mode" == current ]]; then extras+=(-DR2_STOP_PROOF=1); fi
+    if [[ "$fixture" == all-workers ]]; then extras+=(-DR1B_ALL_WORKERS); fi
     cc "${flags[@]}" "${extras[@]}" "$project_root/tests/host/test_runtime_ppu_hal_trace.c" \
+      "$project_root/sw/src/ai/runtime/resources/rt_arena_manager.c" \
+      "$project_root/sw/src/ai/runtime/resources/rt_head_manager.c" \
       "$project_root/sw/src/ai/runtime/ai_head_slot_queue.c" "$test_tmp"/*.o -o "$test_tmp/$mode-$fixture"
   done
   for scenario in identity generation-fault abort-gap; do
@@ -35,6 +38,12 @@ for mode in reference current; do
   "$test_tmp/$mode-all-workers" > "$test_tmp/$mode-all-workers.trace"
 done
 for scenario in identity generation-fault abort-gap all-workers; do
+  if [[ "$scenario" == abort-gap ]]; then
+    rg -q 'R0_KNOWN_GAP=abort_zero_without_compute_stop_proof' "$test_tmp/reference-$scenario.trace"
+    rg -q 'R2_STOP_PROOF=PASS' "$test_tmp/current-$scenario.trace"
+    echo 'R2_ABORT_TRACE=PASS expected_behavior_change old_false_success new_fault_held'
+    continue
+  fi
   diff -u "$test_tmp/reference-$scenario.trace" "$test_tmp/current-$scenario.trace"
   echo "R1B_BACKEND_TRACE=PASS scenario=$scenario events=$(wc -l < "$test_tmp/current-$scenario.trace") MMIO_barriers_cycles_Head_identity_UART_arguments=identical"
 done
@@ -55,6 +64,8 @@ for workers in 1 2; do
       cc "${legacy_flags[@]}" -c "$source" -o "$test_tmp/$driver.o"
     done
     cc "${legacy_flags[@]}" "$project_root/tests/host/test_runtime_ppu_hal_trace.c" \
+      "$project_root/sw/src/ai/runtime/resources/rt_arena_manager.c" \
+      "$project_root/sw/src/ai/runtime/resources/rt_head_manager.c" \
       "$project_root/sw/src/ai/runtime/ai_head_slot_queue.c" "$test_tmp"/*.o -o "$test_tmp/$mode-legacy"
     for scenario in publication-on flush-fallback reader-busy ppu-error timeout cpu-fallback; do
       "$test_tmp/$mode-legacy" "$scenario" > "$test_tmp/$mode-$scenario.trace"

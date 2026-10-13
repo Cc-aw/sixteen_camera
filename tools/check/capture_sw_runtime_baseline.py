@@ -200,6 +200,11 @@ def main():
                 "name": "abort_success_requires_compute_stop_proof", "status": "FAIL",
                 "evidence": str(log.relative_to(output)),
                 "reason": "After rejected abort and ERROR polling, abort returns zero while the model/task double still owns execution."})
+        if name == "identity_trace" and "R2_STOP_PROOF=PASS" in text:
+            report["safety_invariants"].append({
+                "name": "abort_success_requires_compute_stop_proof", "status": "PASS",
+                "evidence": str(log.relative_to(output)),
+                "reason": "R2 rejected abort/ERROR polling and software init retain model, activation and Head ownership."})
         if name == "version_wrap" and "R0_KNOWN_GAP=" in text:
             report["safety_invariants"].append({
                 "name": "new_frame_version_wrap_is_not_stale", "status": "FAIL",

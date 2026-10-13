@@ -5,6 +5,7 @@
 #include "ai/postprocess/ai_postprocess.h"
 #include "ai/postprocess/ai_result_manager.h"
 #include "ai/runtime/ai_tensor_slot_pool.h"
+#include "ai/runtime/resources/rt_tensor_manager.h"
 #include "platform/console.h"
 #include "drivers/tensor/ai_tensor_device.h"
 #include "platform/cycle.h"
@@ -21,8 +22,11 @@
 #define STREAM_PROFILE_CAPACITY 16U
 
 typedef struct {
+    AiRtJob job;
+    AiRtSlotHandle tensor_handle;
     uint32_t active;
     uint32_t release_pending;
+    uint32_t release_attempted;
     uint32_t slot;
     uint32_t stream;
     uint32_t version;
@@ -34,6 +38,7 @@ typedef struct {
 } StreamWorker;
 
 typedef struct {
+    AiRtJob job;
     uint32_t active;
     uint32_t worker;
     uint32_t stream;
@@ -62,7 +67,8 @@ typedef struct {
     AiPostprocessWorkspace postprocess_workspace;
     uint16_t overlay_dirty;
     uint16_t overlay_clear;
-    uint32_t held_mask;
+    AiRtTensorManager tensors;
+    uint32_t initialized;
     uint32_t draining;
     uint32_t faulted;
     uint64_t next_job_id;
@@ -82,12 +88,20 @@ _Static_assert(AI_TENSOR_SLOT_READY == AI_TENSOR_DEVICE_READY,
 
 static uint32_t hardware_ready(void)
 {
-    return ai_tensor_device_ready();
+    runtime.tensors.ready = ai_tensor_device_ready();
+    return runtime.tensors.ready;
 }
 
 static uint32_t hardware_error(void)
 {
-    return ai_tensor_device_error();
+    runtime.tensors.error = ai_tensor_device_error();
+    return runtime.tensors.error;
+}
+
+static uint32_t hardware_writing(void)
+{
+    runtime.tensors.writing = ai_tensor_device_writing();
+    return runtime.tensors.writing;
 }
 
 static void record_error(int error)
@@ -213,6 +227,8 @@ static int register_post_job(const StreamWorker *worker,
         StreamPostJob *post = &runtime.post_jobs[index];
         if (post->active != 0U)
             continue;
+        post->job = worker->job;
+        post->job.state = AI_RT_JOB_POSTPROCESS;
         post->active = 1U;
         post->worker = (uint32_t)(worker - runtime.workers);
         post->stream = worker->stream;
@@ -275,16 +291,52 @@ static uint32_t post_job_count(void)
 }
 
 static void dispatch_jobs(uint32_t ready);
+static void hold_worker_fault(StreamWorker *worker, int error);
 
 static int release_worker_input(StreamWorker *worker)
 {
-    if (release_slot(worker->slot) != 0)
+    if (!rt_tensor_can_release(&runtime.tensors, worker->tensor_handle, &worker->job.identity)) return -1;
+    int acknowledged = 0;
+    if (worker->release_attempted) {
+        int state = ai_tensor_device_release_poll(worker->slot);
+        if (state == AI_TENSOR_RELEASE_WAIT)
+            return -1;
+        if (state == AI_TENSOR_RELEASE_ACK) {
+            acknowledged = 1;
+        } else {
+            AiTensorDeviceDescriptor current;
+            const AiTensorDeviceDescriptor *owner =
+                &runtime.tensors.slots[worker->slot].descriptor;
+            if (state != AI_TENSOR_RELEASE_SLOT_PRESENT ||
+                ai_tensor_device_read_slot(worker->slot, &current) != 0 ||
+                current.stream_id != owner->stream_id || current.frame_id != owner->frame_id ||
+                current.version != owner->version || current.timestamp != owner->timestamp ||
+                current.tensor_addr != owner->tensor_addr || current.byte_count != owner->byte_count) {
+                hold_worker_fault(worker, -60);
+                return -1;
+            }
+        }
+    }
+    worker->release_attempted = 1U;
+    if (!acknowledged && release_slot(worker->slot) != 0) {
+        rt_tensor_release_retry(&runtime.tensors);
+        runtime.status.release_retry_count = runtime.tensors.release_retry;
         return -1;
-    runtime.held_mask &= ~(UINT32_C(1) << worker->slot);
+    }
+    if (rt_tensor_release_ack(&runtime.tensors, worker->tensor_handle, &worker->job.identity) != 0) return -1;
+    worker->job.state = AI_RT_JOB_RETIRED;
     runtime.status.consumed_count++;
     worker->active = 0U;
     worker->release_pending = 0U;
     return 0;
+}
+
+static void hold_worker_fault(StreamWorker *worker, int error)
+{
+    rt_job_fault(&worker->job);
+    rt_tensor_fault(&runtime.tensors, worker->tensor_handle);
+    runtime.faulted = 1U;
+    record_error(error);
 }
 
 static void progress_workers(void)
@@ -292,7 +344,7 @@ static void progress_workers(void)
     for (uint32_t worker_id = 0U;
          worker_id < AI_MODEL_WORKER_COUNT; ++worker_id) {
         StreamWorker *worker = &runtime.workers[worker_id];
-        if (worker->active == 0U)
+        if (worker->active == 0U || worker->job.state == AI_RT_JOB_FAULT_HELD)
             continue;
         if (worker->release_pending != 0U) {
             if (release_worker_input(worker) != 0) {
@@ -305,15 +357,8 @@ static void progress_workers(void)
         int status = ai_model_backend_poll_compute(worker_id, &completion);
         if (status == 0) {
             if (platform_read_cycle() - worker->start_cycle > STREAM_MODEL_TIMEOUT) {
-                if (ai_model_backend_abort(worker_id) == 0) {
-                    worker->release_pending = 1U;
-                    complete_stream_job(worker->stream, worker->frame_id,
-                                        worker->version, -42);
-                }
-                else {
-                    runtime.faulted = 1U;
-                    record_error(-43);
-                }
+                (void)ai_model_backend_abort(worker_id);
+                hold_worker_fault(worker, -43);
             }
             continue;
         }
@@ -324,21 +369,18 @@ static void progress_workers(void)
             completion.stream_id != worker->stream ||
             completion.frame_id != worker->frame_id ||
             completion.version != worker->version) {
-            if (ai_model_backend_abort(worker_id) == 0) {
-                worker->release_pending = 1U;
-                complete_stream_job(worker->stream, worker->frame_id,
-                                    worker->version,
-                                    status < 0 ? status : -44);
-            }
-            else {
-                runtime.faulted = 1U;
-                record_error(-45);
-            }
+            (void)ai_model_backend_abort(worker_id);
+            hold_worker_fault(worker, -45);
             continue;
         }
+        AiRtJobIdentity proof = rt_job_identity(completion.job_id, completion.worker_id,
+            completion.stream_id, completion.frame_id, completion.version);
+        if (rt_job_compute_done(&worker->job, &proof) != 0 ||
+            rt_tensor_prove_compute(&runtime.tensors, worker->tensor_handle, &proof) != 0) {
+            hold_worker_fault(worker, -57); continue;
+        }
         if (register_post_job(worker, &completion) != 0) {
-            runtime.faulted = 1U;
-            record_error(-51);
+            hold_worker_fault(worker, -51);
             continue;
         }
         worker->release_pending = 1U;
@@ -366,6 +408,8 @@ static void progress_results(void)
         if (status == 0)
             return;
         if (status < 0) {
+            for (uint32_t p = 0; p < AI_MODEL_POSTPROCESS_CAPACITY; ++p)
+                if (runtime.post_jobs[p].active) rt_job_fault(&runtime.post_jobs[p].job);
             record_error(status);
             runtime.faulted = 1U;
             return;
@@ -378,11 +422,12 @@ static void progress_results(void)
             return;
         }
         int post_status = completion.status;
-        if (completion.worker_id != post->worker ||
-            completion.stream_id != post->stream ||
-            completion.frame_id != post->frame_id ||
-            completion.version != post->version)
-            post_status = -53;
+        AiRtJobIdentity identity = rt_job_identity(completion.job_id, completion.worker_id,
+            completion.stream_id, completion.frame_id, completion.version);
+        if (!rt_job_identity_matches(&post->job.identity, &identity)) {
+            rt_job_fault(&post->job);
+            runtime.faulted = 1U; record_error(-53); return;
+        }
         AiDetectionResult result;
         if (post_status == 0 && completion.output_addr == 0U)
             post_status = -54;
@@ -424,6 +469,7 @@ static void progress_results(void)
                             post_status);
         post->profile.cpu_scheduler_cycles += platform_read_cycle() - scheduler_start;
         record_frame_profile(post, &completion);
+        post->job.state = AI_RT_JOB_RETIRED;
         post->active = 0U;
     }
 }
@@ -441,7 +487,7 @@ static void service_stale_slots(uint32_t ready)
 {
     if (runtime.faulted != 0U)
         return;
-    uint32_t free_ready = ready & ~runtime.held_mask;
+    uint32_t free_ready = ready & ~runtime.tensors.held;
     for (uint32_t stream = 0U; stream < VIDEO_CHANNEL_COUNT; ++stream) {
         uint32_t bit0 = UINT32_C(1) << stream;
         uint32_t bit1 = UINT32_C(1) << (stream + VIDEO_CHANNEL_COUNT);
@@ -499,9 +545,9 @@ static void dispatch_jobs(uint32_t ready)
             uint32_t bit0 = UINT32_C(1) << stream;
             uint32_t bit1 = UINT32_C(1) <<
                             (stream + VIDEO_CHANNEL_COUNT);
-            if ((ready & bit0 & ~runtime.held_mask) != 0U)
+            if ((ready & bit0 & ~runtime.tensors.held) != 0U)
                 slot = stream;
-            if ((ready & bit1 & ~runtime.held_mask) != 0U)
+            if ((ready & bit1 & ~runtime.tensors.held) != 0U)
                 slot = stream + VIDEO_CHANNEL_COUNT;
             if (slot == AI_TENSOR_SLOT_INVALID)
                 continue;
@@ -526,6 +572,9 @@ static void dispatch_jobs(uint32_t ready)
         }
         if (selected_slot == AI_TENSOR_SLOT_INVALID)
             return;
+        if (runtime.next_job_id == UINT64_MAX) {
+            runtime.faulted = 1U; record_error(-56); return;
+        }
         uint64_t job_id = ++runtime.next_job_id;
         uint64_t submit_cycle = platform_read_cycle();
         AiModelFrameRequest request = {
@@ -541,10 +590,32 @@ static void dispatch_jobs(uint32_t ready)
                            worker_id * AI_MODEL_OUTPUT_ARENA_BYTES,
             .output_bytes = AI_MODEL_OUTPUT_ARENA_BYTES
         };
+        AiRtJobIdentity identity = rt_job_identity(job_id, worker_id, selected_stream,
+            selected_metadata.frame_id, selected_metadata.version);
+        AiTensorDeviceDescriptor descriptor = {
+            .tensor_addr = selected_metadata.tensor_addr, .stream_id = selected_metadata.stream_id,
+            .frame_id = selected_metadata.frame_id, .timestamp = selected_metadata.timestamp,
+            .version = selected_metadata.version, .byte_count = selected_metadata.byte_count,
+            .error_code = selected_metadata.error_code, .state = AI_TENSOR_DEVICE_READY
+        };
+        AiRtSlotHandle handle;
+        if (rt_tensor_claim(&runtime.tensors, selected_slot, &descriptor, &identity, &handle) != 0) {
+            runtime.faulted = 1U; record_error(-58); return;
+        }
         uint64_t before_submit = platform_read_cycle();
         int submitted = ai_model_backend_submit(&request);
         uint64_t after_submit = platform_read_cycle();
         if (submitted != 0) {
+            if (submitted == AI_MODEL_SUBMIT_FAULT_HELD) {
+                (void)rt_job_begin(&worker->job, &identity);
+                worker->tensor_handle = handle; worker->active = 1U; worker->slot = selected_slot;
+                worker->stream = selected_stream; worker->version = selected_metadata.version;
+                worker->frame_id = selected_metadata.frame_id; worker->timestamp = selected_metadata.timestamp;
+                worker->job_id = job_id; worker->start_cycle = submit_cycle;
+                runtime.streams[selected_stream].inflight_count++;
+                hold_worker_fault(worker, submitted); return;
+            }
+            (void)rt_tensor_reject(&runtime.tensors, handle, &identity);
             /* Both raw-head slots can be owned while the PPU drains.  This
              * is normal backpressure, not a model failure. */
             if (submitted == -3) {
@@ -555,8 +626,12 @@ static void dispatch_jobs(uint32_t ready)
             record_error(submitted);
             return;
         }
+        int accepted = rt_tensor_accept(&runtime.tensors, handle, &identity);
+        int begun = rt_job_begin(&worker->job, &identity);
+        worker->tensor_handle = handle;
         worker->active = 1U;
         worker->release_pending = 0U;
+        worker->release_attempted = 0U;
         worker->slot = selected_slot;
         worker->stream = selected_stream;
         worker->version = selected_metadata.version;
@@ -574,8 +649,11 @@ static void dispatch_jobs(uint32_t ready)
             worker->profile.head_wait_cycles =
                 submit_cycle - runtime.head_wait_start[selected_slot];
         runtime.head_wait_start[selected_slot] = 0U;
-        runtime.held_mask |= UINT32_C(1) << selected_slot;
         runtime.streams[selected_stream].inflight_count++;
+        if (accepted != 0 || begun != 0) {
+            hold_worker_fault(worker, -58);
+            return;
+        }
         runtime.streams[selected_stream].dispatched_count++;
         AiStreamRuntimeStatus *stream = &runtime.streams[selected_stream];
         if (stream->last_service_cycle != 0U) {
@@ -591,10 +669,26 @@ static void dispatch_jobs(uint32_t ready)
 
 void ai_batch_runtime_init(void)
 {
+    if (runtime.initialized && !ai_batch_runtime_is_idle()) {
+        runtime.faulted = 1U; record_error(-59); return;
+    }
     memset(&runtime, 0, sizeof(runtime));
+    rt_tensor_manager_init(&runtime.tensors);
+    runtime.initialized = 1U;
     ai_result_manager_init(&runtime.results);
     ai_model_backend_init();
     runtime.next_job_id = UINT64_C(1) << 60;
+}
+
+static uint32_t runtime_has_no_owners(void)
+{
+    if (runtime.tensors.held != 0U || post_job_count() != 0U ||
+        ai_model_backend_is_idle() == 0U)
+        return 0U;
+    for (uint32_t worker = 0U; worker < AI_MODEL_WORKER_COUNT; ++worker)
+        if (runtime.workers[worker].active != 0U)
+            return 0U;
+    return 1U;
 }
 
 void ai_batch_runtime_set_enabled(uint32_t enabled)
@@ -606,7 +700,15 @@ void ai_batch_runtime_set_enabled(uint32_t enabled)
         return;
     }
     if (runtime.status.enabled != 0U || runtime.draining != 0U ||
-        runtime.faulted != 0U || ai_batch_runtime_is_idle() == 0U) {
+        runtime.faulted != 0U) {
+        record_error(-48);
+        return;
+    }
+    /* Preserve startup cleanup of unowned ERROR slots.  An ERROR-only
+     * device is not idle, but it can be acknowledged before admission. */
+    if (!ai_batch_runtime_is_idle() &&
+        (!runtime_has_no_owners() || hardware_ready() != 0U ||
+         hardware_writing() != 0U)) {
         record_error(-48);
         return;
     }
@@ -638,14 +740,10 @@ uint32_t ai_batch_runtime_is_enabled(void)
 uint32_t ai_batch_runtime_is_idle(void)
 {
     if (runtime.status.enabled != 0U || runtime.draining != 0U ||
-        runtime.held_mask != 0U || post_job_count() != 0U ||
-        ai_model_backend_is_idle() == 0U)
+        !runtime_has_no_owners())
         return 0U;
-    for (uint32_t worker = 0U; worker < AI_MODEL_WORKER_COUNT; ++worker)
-        if (runtime.workers[worker].active != 0U)
-            return 0U;
-    return hardware_ready() == 0U &&
-           ai_tensor_device_writing() == 0U;
+    return hardware_ready() == 0U && hardware_error() == 0U &&
+           hardware_writing() == 0U;
 }
 
 void ai_batch_runtime_poll(void)
@@ -661,7 +759,7 @@ void ai_batch_runtime_poll(void)
     ready = hardware_ready();
     track_ready_slots(ready);
     if (runtime.draining != 0U) {
-        uint32_t releasable = ready & ~runtime.held_mask;
+        uint32_t releasable = (ready | hardware_error()) & ~runtime.tensors.held;
         if (releasable != 0U) {
             for (uint32_t slot = 0U; slot < 32U; ++slot)
                 if ((releasable & (UINT32_C(1) << slot)) != 0U) {
@@ -671,9 +769,9 @@ void ai_batch_runtime_poll(void)
                 }
             return;
         }
-        if (runtime.held_mask == 0U && post_job_count() == 0U &&
+        if (runtime.tensors.held == 0U && post_job_count() == 0U &&
             ai_model_backend_is_idle() != 0U &&
-            ai_tensor_device_writing() == 0U)
+            hardware_writing() == 0U)
             runtime.draining = 0U;
         return;
     }
@@ -751,11 +849,11 @@ void ai_batch_runtime_print_status(void)
     console_putc('/');
     console_put_u32(runtime.faulted);
     console_putc(' ');
-    console_put_hex32(runtime.held_mask);
+    console_put_hex32(runtime.tensors.held);
     console_putc('/');
     console_put_hex32(hardware_ready());
     console_putc('/');
-    console_put_hex32(ai_tensor_device_writing());
+    console_put_hex32(hardware_writing());
     console_putc('/');
     console_put_hex32(hardware_error);
     console_puts(" jobs/done/post/pub/stale/err=");
@@ -866,6 +964,26 @@ void ai_batch_runtime_print_status(void)
         }
         console_puts("\r\n");
     }
+    if (runtime.faulted) {
+        AiRtResourceSnapshot resources; ai_batch_runtime_get_resources(&resources);
+        console_puts("AI OWN tensor/activation/post/Head/retry/fault=");
+        console_put_hex32(resources.held_tensor); console_putc('/');
+        console_put_hex32(resources.active_worker); console_putc('/');
+        console_put_u32(resources.pending_post); console_putc('/');
+        console_put_hex32(resources.owned_head); console_putc('/');
+        console_put_u32(resources.release_retry); console_putc('/');
+        console_put_u32(resources.unsafe_fault); console_puts("\r\n");
+        for (uint32_t slot = 0; slot < AI_TENSOR_DEVICE_SLOT_COUNT; ++slot) {
+            const AiRtTensorLease *lease = &resources.tensors[slot];
+            if (lease->state == AI_RT_FREE) continue;
+            console_puts("AI OWN Tensor slot/job/lease/frame/version=");
+            console_put_u32(slot); console_putc('/'); console_put_hex64(lease->identity.job_id);
+            console_putc('/'); console_put_hex64(lease->generation);
+            console_putc('/'); console_put_hex64(lease->identity.frame_id);
+            console_putc('/'); console_put_u32(lease->identity.version); console_puts("\r\n");
+        }
+    }
+
 }
 
 void ai_batch_runtime_get_status(AiBatchRuntimeStatus *status)
@@ -892,4 +1010,22 @@ int ai_batch_runtime_get_stream_status(uint32_t stream_id,
         return -1;
     *status = runtime.streams[stream_id];
     return 0;
+}
+
+void ai_batch_runtime_get_resources(AiRtResourceSnapshot *snapshot)
+{
+    if (!snapshot) return;
+    memset(snapshot, 0, sizeof(*snapshot));
+    snapshot->held_tensor = runtime.tensors.held;
+    snapshot->ready = runtime.tensors.ready; snapshot->error = runtime.tensors.error;
+    snapshot->writing = runtime.tensors.writing; snapshot->release_retry = runtime.tensors.release_retry;
+    snapshot->unsafe_fault = runtime.tensors.unsafe_fault; snapshot->faulted = runtime.faulted;
+    snapshot->pending_post = post_job_count();
+    memcpy(snapshot->tensors, runtime.tensors.slots, sizeof(snapshot->tensors));
+    ai_model_backend_get_resources(&snapshot->backend);
+    snapshot->active_worker = snapshot->backend.activation_held;
+    snapshot->owned_head = snapshot->backend.owned_head;
+    snapshot->unsafe_fault += snapshot->backend.unsafe_fault;
+    for (uint32_t p = 0; p < AI_MODEL_POSTPROCESS_CAPACITY; ++p)
+        if (runtime.post_jobs[p].job.state == AI_RT_JOB_FAULT_HELD) snapshot->unsafe_fault++;
 }

@@ -324,32 +324,13 @@ int main(void)
     ai_batch_runtime_poll();
     assert(overlay_clear_count >= 2U);
 
-    /* Corrupt final-result metadata after a valid compute completion. */
-    ai_batch_runtime_set_enabled(1U);
-    publish_slot(0U, 20U);
-    ai_batch_runtime_poll();
-    assert(submit_count == 4U && (ready & 1U) != 0U);
-    compute_allowed[0] = 1U;
-    ai_batch_runtime_poll();
-    ai_batch_runtime_poll();
-    assert((ready & 1U) == 0U);
-    corrupt_completion = 1U;
-    result_allowed[0] = 1U;
-    ai_batch_runtime_poll();
-    ai_batch_runtime_set_enabled(0U);
-    ai_batch_runtime_poll();
-    assert(ai_batch_runtime_is_idle() != 0U);
-    ai_batch_runtime_get_status(&status);
-    assert(status.error_count == 1U &&
-           status.result_publish_count == 3U);
-
     /* Streams 2 and 3 retain the earliest deadline and win EDF. */
     ai_batch_runtime_set_enabled(1U);
     publish_slot(0U, 21U);
     publish_slot(2U, 30U);
     publish_slot(3U, 40U);
     ai_batch_runtime_poll();
-    assert(submit_count == 6U);
+    assert(submit_count == 5U);
     assert(requests[0].stream_id == 3U && requests[0].frame_id == 40U);
     assert(requests[1].stream_id == 2U && requests[1].frame_id == 30U);
     ai_batch_runtime_set_enabled(0U);
@@ -361,6 +342,19 @@ int main(void)
     for (uint32_t poll = 0U; poll < 12U; ++poll)
         ai_batch_runtime_poll();
     assert(ai_batch_runtime_is_idle() != 0U);
+#ifndef AI_STREAM_RUNTIME_HEALTHY_TRACE
+    /* A malformed result is not a matching retirement proof. Input was
+     * already safely released at Compute Done; Post/stream remain occupied. */
+    ai_batch_runtime_set_enabled(1U);
+    publish_slot(0U, 60U); ai_batch_runtime_poll();
+    compute_allowed[0] = 1U; ai_batch_runtime_poll();
+    result_allowed[0] = 1U; corrupt_completion = 1U; ai_batch_runtime_poll();
+    AiRtResourceSnapshot resources; ai_batch_runtime_get_resources(&resources);
+    assert(resources.faulted && resources.pending_post == 1 && resources.held_tensor == 0);
+    assert(!ai_batch_runtime_is_idle());
+    ai_batch_runtime_set_enabled(1U);
+    assert(!ai_batch_runtime_is_enabled());
+#endif
     printf("AI_BATCH_RUNTIME_STREAM=PASS submit=%u release=%u\n",
            submit_count, release_count);
     return 0;
@@ -400,3 +394,12 @@ int main(void)
     return 0;
 }
 #endif
+
+void ai_model_backend_get_resources(AiModelResourceSnapshot *snapshot)
+{
+    memset(snapshot, 0, sizeof(*snapshot));
+    for (uint32_t w = 0; w < AI_MODEL_WORKER_COUNT; ++w)
+        if (backend_running[w]) snapshot->activation_held |= 1U << w;
+    for (uint32_t p = 0; p < AI_MODEL_RESULT_QUEUE_CAPACITY; ++p)
+        if (pending[p].active) snapshot->owned_head |= 1U << p;
+}

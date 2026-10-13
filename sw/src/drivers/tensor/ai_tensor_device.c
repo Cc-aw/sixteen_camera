@@ -89,6 +89,18 @@ int ai_tensor_device_read_slot(uint32_t slot, AiTensorDeviceDescriptor *descript
     return -1;
 }
 
+int ai_tensor_device_release_poll(uint32_t slot)
+{
+    if (slot >= AI_TENSOR_DEVICE_SLOT_COUNT)
+        return -1;
+    if (mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL) &
+        FRAMEBUFFER_TENSOR_PROD_RELEASE_GO)
+        return AI_TENSOR_RELEASE_WAIT;
+    uint32_t bit = UINT32_C(1) << slot;
+    return ((ai_tensor_device_ready() | ai_tensor_device_error()) & bit) == 0U ?
+        AI_TENSOR_RELEASE_ACK : AI_TENSOR_RELEASE_SLOT_PRESENT;
+}
+
 int ai_tensor_device_release(uint32_t slot, uint32_t producer_enabled)
 {
     if (slot >= AI_TENSOR_DEVICE_SLOT_COUNT)

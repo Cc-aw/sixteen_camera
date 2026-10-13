@@ -1,0 +1,360 @@
+{
+  "phase": "R2",
+  "status": "COMPLETE_WITH_KNOWN_GAPS",
+  "date": "2026-10-13",
+  "baseline_commit": "751178e8eef6823de767de069fd4d5de7075bdf6",
+  "branch": "main",
+  "acceptance_scope": "OFFLINE_RESOURCE_IDENTITY_AND_SAFE_RETIREMENT",
+  "production_behavior_changed": true,
+  "behavior_changes": [
+    "Unconfirmed abort, timeout, worker error and uncertain submit retain input/activation/Head instead of false release.",
+    "Backend uncertain submit is explicitly -4; ordinary negative submit still proves input not accepted.",
+    "Software init cannot erase live ownership. Fault prevents new admission.",
+    "ERROR-only Tensor is non-idle and drainable; startup cleanup remains allowed only without owners/READY/WRITING.",
+    "Release retry observes GO/ack and validates current descriptor before resending; a reused frame is never released by the old job.",
+    "Invalid result completion retains Post Job; legacy DONE plus BUSY/READ_BUSY cannot retire Head."
+  ],
+  "scope": "Production video Runtime and legacy/V17A video backend; native execution and benchmark orchestration unchanged",
+  "evidence_root": "build/runtime-refactor/r2",
+  "environment": {
+    "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.35",
+    "python": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+    "tools": {
+      "make": [
+        "GNU Make 4.4.1",
+        "为 x86_64-conda-linux-gnu 编译"
+      ],
+      "host_cc": [
+        "cc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0",
+        "Copyright (C) 2021 Free Software Foundation, Inc."
+      ],
+      "riscv_elf_gcc": [
+        "riscv64-unknown-elf-gcc (gc891d8dc23e) 13.2.0",
+        "Copyright (C) 2023 Free Software Foundation, Inc."
+      ],
+      "riscv_linux_gcc": [
+        "riscv64-unknown-linux-gnu-gcc (gc891d8dc23e) 13.2.0",
+        "Copyright (C) 2023 Free Software Foundation, Inc."
+      ],
+      "qemu": [
+        "qemu-riscv64 version 10.1.50 (v10.1.0-1778-ge090e0312d)",
+        "Copyright (c) 2003-2025 Fabrice Bellard and the QEMU Project developers"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "name": "resources_faults",
+      "command": "make test-runtime-resources test-runtime-faults test-runtime-tensor-hal test-runtime-overlay-hal",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/resources_faults_final.log",
+      "log_sha256": "a5ade780d30c619f9bce481a15310257a0f029c7fc9fe80d96ddb86b1a68503d",
+      "skips": []
+    },
+    {
+      "name": "software",
+      "command": "make test-software",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/software_final.log",
+      "log_sha256": "1cac550268dbfedb89477827f03752daada7c10182a0dbfc6ec568a447bea627",
+      "skips": []
+    },
+    {
+      "name": "backend_baseline_ppu",
+      "command": "make test-runtime-baseline test-runtime-ppu-hal",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/backend_safety_final.log",
+      "log_sha256": "83733a6af5ed1908929b0abf29aa3c59bf2e7c5760767a55cea82c76a6f52f01",
+      "skips": []
+    },
+    {
+      "name": "healthy_runtime",
+      "command": "make test-runtime-tensor-hal test-runtime-overlay-hal",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/healthy_runtime.log",
+      "log_sha256": "01dd01d837fbf2c9e3e0ef772eca4e1ae23cf03031294a350391d01b13dcbeab",
+      "skips": []
+    },
+    {
+      "name": "v17a",
+      "command": "make test-v17a",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/v17a_final.log",
+      "log_sha256": "a9529ec23feb762c8e69dc5558ee942cc7ff9e3c8c0ac04f89675566db920362",
+      "skips": []
+    },
+    {
+      "name": "rtl_protocols",
+      "command": "make test-tensor-ingress test-tensor test-ppu SOC_VARIANT=triple32_v3_tensor",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/rtl_protocols.log",
+      "log_sha256": "90e62989e0362dd2f16556383d6b93f558cc1260efb2efcb3c5e621d056b50b7",
+      "skips": []
+    },
+    {
+      "name": "firmware_v3",
+      "command": "make firmware SOC_VARIANT=triple32_v3_tensor",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/firmware_triple32_v3_tensor.log",
+      "log_sha256": "492180f6fa358cf40294b680a217228b0b9f17007cd54f11015e2fabf99c260c",
+      "skips": []
+    },
+    {
+      "name": "firmware_dual16",
+      "command": "make firmware SOC_VARIANT=dual16",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/firmware_dual16.log",
+      "log_sha256": "04d8fda9f62b5358e8eabb91a00db3b391fee4cb0d6975e9736cb020c1454712",
+      "skips": []
+    },
+    {
+      "name": "firmware_single4",
+      "command": "make firmware SOC_VARIANT=single4",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/firmware_single4.log",
+      "log_sha256": "a4cf6bfc9d96aa2f881f9374df99187e31bb7bd2f7d89c3b1319ccf957185c6f",
+      "skips": []
+    },
+    {
+      "name": "benchmark",
+      "command": "make firmware-benchmark",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/benchmark.log",
+      "log_sha256": "cb31950a059a72944671c667d55f9d43f6d6fb34837613554c22ecedd07e7785",
+      "skips": []
+    },
+    {
+      "name": "elf_dependencies",
+      "command": "make check-v17a-firmware check-deps SOC_VARIANT=triple32_v3_tensor",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/dependencies.log",
+      "log_sha256": "347f4d80e9828ddb54c1706f1c0cecce8f4e058544800c4163b56fa8ba108570",
+      "skips": []
+    },
+    {
+      "name": "artifact_scope_audit",
+      "command": "python3 build/runtime-refactor/r2/capture_evidence.py",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/artifact_audit.log",
+      "log_sha256": "d6e631ca8e6be595291c63400a1dec18dc457b54b3830eb104fc605f64ba64d4",
+      "skips": []
+    }
+  ],
+  "artifacts": {
+    "triple32_v3_tensor": [
+      {
+        "path": "artifacts/triple32_v3_tensor/hdmi_tx_test.elf",
+        "source": "build/firmware/triple32_v3_tensor/hdmi_tx_test.elf",
+        "bytes": 4537024,
+        "sha256": "081c1cea2b2ffb48c21bba84cf03ea19d6a8d108246783569095de21b4b95f24"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/hdmi_tx_test.map",
+        "source": "build/firmware/triple32_v3_tensor/hdmi_tx_test.map",
+        "bytes": 783056,
+        "sha256": "cb78fa8a7fd0a76de1e2bcfa5e9ff8fba8565f16c8274630261b8131c18f44c7"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/hdmi_tx_test.dis",
+        "bytes": 3050566,
+        "sha256": "9bcba9953eea7958ab54ebbcf83c653ffa6599866cdca9a34574295169f326fe"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/v17a/firmware-config.stamp",
+        "source": "build/firmware/triple32_v3_tensor/v17a/firmware-config.stamp",
+        "bytes": 3705,
+        "sha256": "5102d44a76609987b870710a4ef6657eb00abb1ca430faff735714476eae5eb5"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/v17a/parallel.stamp",
+        "source": "build/firmware/triple32_v3_tensor/v17a/parallel.stamp",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/v17a/fixed_plans.json",
+        "source": "build/firmware/triple32_v3_tensor/v17a/fixed_plans.json",
+        "bytes": 396093,
+        "sha256": "d9c42418083a5a529e256dc7a8ddd6012ab4ff13d5b4af0a1a643759143b2f39"
+      }
+    ],
+    "dual16": [
+      {
+        "path": "artifacts/dual16/firmware.elf",
+        "source": "build/firmware/dual16_video/firmware.elf",
+        "bytes": 5193712,
+        "sha256": "5a7b5e8e109cd3cc7173778ba6cd19398833b7f7be8176879289e9fd40d8218d"
+      },
+      {
+        "path": "artifacts/dual16/firmware.map",
+        "source": "build/firmware/dual16_video/firmware.map",
+        "bytes": 725218,
+        "sha256": "f5e04e7e0c4664a057dccc4ff3ca6f593778aed5ac2022a5cc0bdae6ddd84b46"
+      },
+      {
+        "path": "artifacts/dual16/firmware.dis",
+        "bytes": 2602701,
+        "sha256": "7b9125995c98bd60dc20e963c9f46dff2c0c211b3e0262ae8d5707f8458f5f44"
+      }
+    ],
+    "single4": [
+      {
+        "path": "artifacts/single4/firmware.elf",
+        "source": "build/firmware/single4_video/firmware.elf",
+        "bytes": 5186216,
+        "sha256": "cf2cce0bc017da84f2d5c71f6c69b54f6d61693385c4a0d3dfb660d59c80f373"
+      },
+      {
+        "path": "artifacts/single4/firmware.map",
+        "source": "build/firmware/single4_video/firmware.map",
+        "bytes": 729933,
+        "sha256": "ce790b3720cd6f6d0f216974d12601f1b9a452f0a89b582be787b2b8ec5ddbd7"
+      },
+      {
+        "path": "artifacts/single4/firmware.dis",
+        "bytes": 2572905,
+        "sha256": "6e211546a2dabcd8108bcbbc44336b5b4e88d9dd14c1e8457f7904ade54ac3d0"
+      }
+    ],
+    "benchmark": [
+      {
+        "path": "artifacts/benchmark/yolo32.elf",
+        "source": "build/firmware/triple32_v17a_benchmark/yolo32.elf",
+        "bytes": 6370728,
+        "sha256": "0f8d90c796a948438433f07b8e4493c0d9cd498fdb79c5df6f8701aa453d93fb"
+      },
+      {
+        "path": "artifacts/benchmark/yolo32.map",
+        "source": "build/firmware/triple32_v17a_benchmark/yolo32.map",
+        "bytes": 188461,
+        "sha256": "dfa5eb20175fe3273776c17238a8cf66038ac4690881aaaf1962c152eb3e9a9b"
+      },
+      {
+        "path": "artifacts/benchmark/yolo32.dis",
+        "bytes": 1598324,
+        "sha256": "71adfe3cce7eb3574061dbe9e3545465b6b1f474a2be444f5344ef4b0c4a78d2"
+      },
+      {
+        "path": "artifacts/benchmark/v17a/parallel.stamp",
+        "source": "build/firmware/triple32_v17a_benchmark/v17a/parallel.stamp",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "artifacts/benchmark/v17a/fixed_plans.json",
+        "source": "build/firmware/triple32_v17a_benchmark/v17a/fixed_plans.json",
+        "bytes": 396093,
+        "sha256": "d9c42418083a5a529e256dc7a8ddd6012ab4ff13d5b4af0a1a643759143b2f39"
+      },
+      {
+        "path": "artifacts/benchmark/inputs_manifest.json",
+        "source": "build/firmware/triple32_v17a_benchmark/inputs_manifest.json",
+        "bytes": 561,
+        "sha256": "676258707cabb52b652ce5aab07a173fa4baf293be2963dbba8ed2db87d6431d"
+      }
+    ]
+  },
+  "source_inventory": {
+    "path": "source-inventory.json",
+    "sha256": "49578b71e51ee78b8cb7177a27479821d27a7ee1c7f32f8df03624bcf0dc6ffd"
+  },
+  "build_configurations": {
+    "path": "build-configurations.json",
+    "sha256": "4ef6590018662ea63bc42f530c50ab9d11dadd27b357188dd5e36e98e04daa8d"
+  },
+  "ownership_tests": {
+    "tensor_slots": 32,
+    "head_capacity": 6,
+    "workers": [
+      1,
+      2,
+      3
+    ],
+    "resource_platforms": [
+      "host",
+      "rv64-QEMU"
+    ],
+    "runtime_fault_scenarios_per_worker": 10,
+    "backend_fault_scenarios": {
+      "workers1": 4,
+      "workers2": 4,
+      "workers3_live": 3
+    },
+    "identity": [
+      "job_id",
+      "worker_id",
+      "stream_id",
+      "frame_id",
+      "version"
+    ],
+    "software_lease_generation": "uint64; separate from hardware version/generation; reject exhaustion",
+    "properties": [
+      "no duplicate ack",
+      "stale handle rejection",
+      "release retry retains proof",
+      "pending and late ack do not resend; changed descriptor cannot release new frame",
+      "compute and PPU retirement independent",
+      "all six Heads owned with activations free",
+      "uncertain submit and unconfirmed abort/init cannot authorize reuse"
+    ]
+  },
+  "equivalence": {
+    "healthy_backend": "MMIO/barriers/cycles/Head identity/UART arguments identical to frozen R1a",
+    "healthy_runtime_tensor_trace_events": {
+      "workers2": 957,
+      "workers3": 825
+    },
+    "healthy_runtime_overlay_trace_events": {
+      "workers2": 545,
+      "workers3": 388
+    },
+    "normalization": "Only zero-valued ERROR reads omitted for healthy Tensor Runtime comparison; all writes/fences/cycles/events retained.",
+    "fault_paths": "Explicit safety behavior change, tested separately; frozen unsafe abort behavior is not an equivalence target."
+  },
+  "safety_invariants": [
+    {
+      "id": "R0-GAP-01",
+      "name": "abort_success_requires_compute_stop_proof",
+      "status": "PASS",
+      "scope": "Offline production video Runtime/backend",
+      "behavior": "FAULT_HELD until independently proven quiescent or hardware reset"
+    },
+    {
+      "id": "R0-GAP-02",
+      "name": "tensor_version_wrap_treated_as_stale",
+      "status": "FAIL",
+      "characterization": "PASS",
+      "behavior": "unchanged",
+      "planned_stage": "separate version protocol change"
+    }
+  ],
+  "not_run": [
+    "board_download",
+    "board_UART_capture",
+    "FPS_measurement",
+    "full_synthesis",
+    "place_and_route"
+  ],
+  "limitations": [
+    "No native cancellation completion API; unconfirmed fault recovery requires hardware reset and firmware restart.",
+    "Resource snapshots are CPU state plus last-read hardware masks; they do not read MMIO.",
+    "Hardware version/generation width and wrap contract unchanged; software lease does not replace wire identity.",
+    "Host/QEMU doubles and RTL protocol regressions do not prove full CPU/asynchronous-device board interaction.",
+    "All multi-stream double-READY interleavings remain unaudited.",
+    "No on-board performance or recovery measurement."
+  ],
+  "next_stage": "R3: pure candidate selection, dispatch transaction, Pipeline/completion and Runtime state machine",
+  "rollback_baseline": "751178e; revert only the R2 commit"
+}

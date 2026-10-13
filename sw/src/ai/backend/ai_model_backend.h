@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #include "ai/backend/ai_model_abi.h"
+#include "ai/runtime/resources/rt_resources.h"
 
 #ifndef AI_MODEL_WORKER_COUNT
 #define AI_MODEL_WORKER_COUNT 2U
@@ -36,6 +37,11 @@ int ai_model_backend_submit(const AiModelFrameRequest *request);
 int ai_model_backend_poll(uint32_t worker_id,
                           AiModelFrameCompletion *completion);
 int ai_model_backend_abort(uint32_t worker_id);
+/* -4 means an uncertain submission owns resources; the caller must retain
+ * its input. Other negative submit statuses prove no model input was taken.
+ * abort=0 alone does not identify a matching compute/stop proof. */
+#define AI_MODEL_SUBMIT_FAULT_HELD (-4)
+void ai_model_backend_get_resources(AiModelResourceSnapshot *snapshot);
 
 /* Two-phase streaming interface used by the YOLOv5nu backend. */
 int ai_model_backend_poll_compute(uint32_t worker_id,

@@ -1,0 +1,14 @@
+R0_TRACE event=SUBMIT job=4097 worker=2 stream=11 frame=4294967397 version=7 bank=4 generation=1
+R0_TRACE event=HEADS_PUBLISHED_NO_ADMISSION job=4097 worker=2 stream=11 frame=4294967397 version=7 bank=4 generation=1
+R0_TRACE event=COMPUTE_DONE_HEAD_HELD job=4097 worker=2 stream=11 frame=4294967397 version=7 bank=4 generation=1
+R0_TRACE event=NEXT_STREAM_SUBMIT job=4098 worker=2 stream=12 frame=4294967398 version=8 bank=5 generation=1
+R0_TRACE event=HEAD_BACKPRESSURE job=4099 worker=2 stream=13 frame=4294967399 version=9 bank=4 generation=1
+R0_TRACE event=RESULT_DONE_HEAD_RELEASED job=4097 worker=2 stream=11 frame=4294967397 version=7 bank=4 generation=1
+R0_TRACE event=BANK_REUSED job=4099 worker=2 stream=13 frame=4294967399 version=9 bank=4 generation=2
+R0_TRACE event=RESULT_DONE job=4099 worker=2 stream=13 frame=4294967399 version=9 bank=4 generation=2
+R0_TRACE event=LATE_RESULT_DONE job=4098 worker=2 stream=12 frame=4294967398 version=8 bank=5 generation=1
+R0_IDENTITY_TRACE=PASS
+R0_TRACE event=GENERATION_FAULT_OWNERSHIP_HELD job=4097 worker=2 stream=11 frame=4294967397 version=7 bank=4 generation=1
+R0_GENERATION_FAULT=PASS
+R0_TRACE event=ABORT_UNCONFIRMED_OWNERSHIP_HELD job=3 worker=0 stream=4 frame=1 version=1 bank=0 generation=1
+R2_STOP_PROOF=PASS abort_error_init_preserve_model_activation_Head

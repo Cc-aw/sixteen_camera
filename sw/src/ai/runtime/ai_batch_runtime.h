@@ -6,6 +6,7 @@
 #include "ai/postprocess/ai_detection.h"
 #include "ai/runtime/ai_frame_snapshot.h"
 #include "platform/platform.h"
+#include "ai/runtime/resources/rt_resources.h"
 
 typedef enum {
     AI_BATCH_FREE = 0,
@@ -86,6 +87,7 @@ void ai_batch_runtime_poll(void);
 void ai_batch_runtime_print_status(void);
 void ai_batch_runtime_print_frame_profiles(void);
 void ai_batch_runtime_get_status(AiBatchRuntimeStatus *status);
+void ai_batch_runtime_get_resources(AiRtResourceSnapshot *snapshot);
 const AiBatchContext *ai_batch_runtime_context(uint32_t arena);
 const AiDetectionResult *ai_batch_runtime_latest_result(uint32_t stream_id);
 int ai_batch_runtime_get_stream_status(uint32_t stream_id,
