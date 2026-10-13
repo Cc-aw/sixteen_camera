@@ -2,7 +2,8 @@
 
 #include "ai/postprocess/ai_class_names.h"
 #include "ai/postprocess/ai_display_map.h"
-#include "mmio.h"
+#include "drivers/overlay/ai_overlay_device.h"
+#include "platform/cycle.h"
 #include "platform/platform.h"
 
 static void write_label(uint32_t box_index, uint8_t class_id,
@@ -36,12 +37,7 @@ static void write_label(uint32_t box_index, uint8_t class_id,
         words[byte >> 2] |= (uint32_t)(uint8_t)label[byte]
                             << ((byte & 3U) * 8U);
 
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_OVERLAY_BOX_INDEX,
-                 box_index);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_OVERLAY_LABEL0, words[0]);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_OVERLAY_LABEL1, words[1]);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_OVERLAY_LABEL2, words[2]);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_OVERLAY_LABEL3, words[3]);
+    ai_overlay_device_write_label(box_index, words);
 }
 
 int ai_overlay_try_submit(const AiDetectionResult *result)
@@ -50,14 +46,8 @@ int ai_overlay_try_submit(const AiDetectionResult *result)
     AiOverlayResult overlay;
     if (ai_display_map_mosaic(result, &overlay) != 0)
         return -1;
-    if ((mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_OVERLAY_CONTROL) &
-         FRAMEBUFFER_OVERLAY_CONTROL_BUSY) != 0U)
+    if (ai_overlay_device_begin(overlay.stream_id, overlay.count) == 0)
         return 0;
-
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_OVERLAY_STREAM,
-                 overlay.stream_id);
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_OVERLAY_COUNT,
-                 overlay.count);
     for (uint32_t index = 0U; index < overlay.count; ++index) {
         const AiOverlayBox *box = &overlay.boxes[index];
         uint64_t packed = (uint64_t)(box->x_min & UINT16_C(0x7ff)) |
@@ -65,16 +55,10 @@ int ai_overlay_try_submit(const AiDetectionResult *result)
             ((uint64_t)(box->x_max & UINT16_C(0x7ff)) << 22) |
             ((uint64_t)(box->y_max & UINT16_C(0x7ff)) << 33) |
             ((uint64_t)box->class_id << 44);
-        mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_OVERLAY_BOX_INDEX,
-                     index);
-        mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_OVERLAY_BOX_XY0,
-                     (uint32_t)packed);
-        mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_OVERLAY_BOX_XY1,
-                     (uint32_t)(packed >> 32));
+        ai_overlay_device_write_box(index, packed);
         write_label(index, box->class_id, box->score_q15);
     }
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_OVERLAY_CONTROL,
-                 FRAMEBUFFER_OVERLAY_CONTROL_COMMIT);
+    ai_overlay_device_commit();
     return 1;
 }
 
@@ -92,13 +76,13 @@ int ai_overlay_draw_test_pattern(void)
         result.detections[0].score_q15 = UINT16_C(32767);
         result.detections[0].class_id = (uint8_t)stream;
 
-        uint64_t start = read_cycle();
+        uint64_t start = platform_read_cycle();
         int status;
         do {
             status = ai_overlay_try_submit(&result);
             if (status < 0)
                 return status;
-            if (read_cycle() - start > SOC_CLOCK_HZ / UINT64_C(10))
+            if (platform_read_cycle() - start > SOC_CLOCK_HZ / UINT64_C(10))
                 return -2;
         } while (status == 0);
     }

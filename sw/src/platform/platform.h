@@ -1,6 +1,8 @@
 #ifndef HDMI_TX_TEST_PLATFORM_H
 #define HDMI_TX_TEST_PLATFORM_H
 
+#include "platform/cache_ops.h"
+
 #include <stdint.h>
 
 #define SOC_CLOCK_HZ UINT64_C(100000000)
@@ -188,7 +190,7 @@
  * concurrent reader bandwidth diagnostic in the unused upper half. */
 #define AI_POSTPROCESS_BANDWIDTH_PHYS_BASE UINT32_C(0x32200000)
 #define AI_POSTPROCESS_BANDWIDTH_BYTES UINT32_C(0x00200000)
-#define AI_DDR_CPU_ALIAS(address) ((uintptr_t)(address) | UINT32_C(0x80000000))
+#define AI_DDR_CPU_ALIAS(address) ((uintptr_t)(address) | AI_CACHE_CPU_ALIAS_MASK)
 
 #define GPIO_OUT_TX_ENABLE   (UINT32_C(1) << 0)
 #define GPIO_OUT_CLK_RESET_N (UINT32_C(1) << 1)

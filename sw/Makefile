@@ -94,7 +94,7 @@ LOCAL_SOURCES := src/main.c src/platform/console.c src/platform/runtime.c src/bo
 	src/diagnostics/ai_postprocess_diag.c src/ai/postprocess/ai_ppu_publication.c src/ai/postprocess/ai_ppu_queue.c \
 	src/ai/postprocess/ai_postprocess_scalar.c src/ai/postprocess/ai_result_manager.c src/ai/postprocess/ai_display_map.c \
 	src/ai/postprocess/ai_class_names.c \
-	src/ai/postprocess/ai_overlay.c
+	src/ai/postprocess/ai_overlay.c src/drivers/overlay/ai_overlay_device.c
 
 ifeq ($(AI_MODEL),yolov5nu)
 LOCAL_SOURCES += src/ai/runtime/ai_batch_runtime_stream.c \

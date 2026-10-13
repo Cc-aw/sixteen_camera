@@ -22,6 +22,7 @@ make test-software
 - `src/platform/platform.h`：地址、时钟、寄存器和内存布局。
 - `src/drivers/tensor/`：Tensor 描述符、release ack、Producer 控制与设备计数；`src/platform/cycle.h` 提供独立计时接口。
 - `src/drivers/ppu/`：PPU 发布、队列、receipt 和原始结果读取；旧 postprocess 文件保留兼容接口及编译入口。
+- `src/drivers/overlay/`：busy、box/label 写入及 commit；`src/platform/cache_ops.h` 集中 alias、Flush64、可见性和屏障能力。
 - `src/board/xparameters.h`：本板 AMD BSP 配置。
 - `src/ai/backend/ai_model_abi.h`、`ai_model_backend.h`：请求、完成事件和后端接口。
 - `src/ai/runtime/`：Tensor/Head 所有权、调度、TTL、drain 和任务生命周期。
@@ -54,4 +55,9 @@ R1a 已将流式 Runtime 的 Tensor CSR 访问抽到设备层，保留调度、�
 
 R1b 已抽离 PPU 设备操作，保留 Head 所有权、结果身份匹配和原两个对象的特殊屏障配置。
 `make test-ppu-device test-runtime-ppu-hal` 对照冻结 R1a 的 publication/queue 与三配置后端路径。
-详见 [R1b 实施记录](../docs/architecture/sw-runtime-r1b.md)；完整 R1 仍需 overlay/cache 抽离。
+详见 [R1b 实施记录](../docs/architecture/sw-runtime-r1b.md)。
+
+R1c 已完成 overlay 设备边界与 cache 能力定义，旧标签格式、结果排序、TTL 和 Flush64 协议保持。
+`make test-overlay-device test-runtime-overlay-hal test-cache-ops` 运行 R1b 对照、真实 overlay/Runtime
+集成和 Host/RV64 cache 验证。详见 [R1c 与完整 R1 离线验收](../docs/architecture/sw-runtime-r1c.md)。
+当前 R1 已完成离线结构等价验收；板测及 R0 已知契约缺口另列，下一阶段为 R2。

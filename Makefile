@@ -15,6 +15,7 @@ export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD
 .PHONY: runtime-baseline test-runtime-abi test-runtime-baseline
 .PHONY: test-tensor-device test-runtime-tensor-hal
 .PHONY: test-ppu-device test-runtime-ppu-hal
+.PHONY: test-overlay-device test-runtime-overlay-hal test-cache-ops
 .PHONY: help check firmware firmware-benchmark test-v17a check-v17a-firmware bitstream elaborate test-tensor test-tensor-ingress test-cache test-ppu test-video test-runtime test-software
 help:
 	@printf '%s\n' \
@@ -43,6 +44,9 @@ help:
 	  'make test-runtime-tensor-hal        Runtime MMIO, event and UART arguments against R0' \
 	  'make test-ppu-device                PPU protocol and barriers against frozen R1a' \
 	  'make test-runtime-ppu-hal           PPU backend ownership and MMIO traces against R1a' \
+	  'make test-overlay-device           Overlay MMIO, labels and timeouts against R1b' \
+	  'make test-runtime-overlay-hal      Real overlay with Runtime busy retry and TTL' \
+	  'make test-cache-ops                Host/RV64 Flush64 traces and capability checks' \
 	  'make test-software                  All software host tests' \
 	  'make program                        Download selected firmware (existing bitstream)' \
 	  'make check-deps                     Check source closure and installed tools' \
@@ -124,6 +128,15 @@ test-ppu-device:
 
 test-runtime-ppu-hal:
 	bash tests/host/run_runtime_ppu_hal_trace_test.sh
+
+test-overlay-device:
+	bash tests/host/run_ai_overlay_device_test.sh
+
+test-runtime-overlay-hal:
+	bash tests/host/run_runtime_overlay_hal_trace_test.sh
+
+test-cache-ops:
+	bash tests/host/run_cache_ops_test.sh
 
 test-software:
 	@cd "$(PROJECT_ROOT)" && for test_script in tests/host/run_*_test.sh; do \

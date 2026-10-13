@@ -488,9 +488,9 @@ void yolo32_ppu_io_barrier(void)
 {
     /* A CPU uncached read orders preceding PPU writes without a global RoCC
      * fence. Head coherence is supplied by local completion and Flush64. */
-    __asm__ volatile("" ::: "memory");
+    cache_compiler_barrier();
     if (!ai_ppu_publication_available()) yolo32_fail("live_ppu_io_commit");
-    __asm__ volatile("" ::: "memory");
+    cache_compiler_barrier();
 }
 
 void yolo32_ppu_early_service(void)
