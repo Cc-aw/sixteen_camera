@@ -21,6 +21,7 @@ make test-software
 
 - `src/platform/platform.h`：地址、时钟、寄存器和内存布局。
 - `src/drivers/tensor/`：Tensor 描述符、release ack、Producer 控制与设备计数；`src/platform/cycle.h` 提供独立计时接口。
+- `src/drivers/ppu/`：PPU 发布、队列、receipt 和原始结果读取；旧 postprocess 文件保留兼容接口及编译入口。
 - `src/board/xparameters.h`：本板 AMD BSP 配置。
 - `src/ai/backend/ai_model_abi.h`、`ai_model_backend.h`：请求、完成事件和后端接口。
 - `src/ai/runtime/`：Tensor/Head 所有权、调度、TTL、drain 和任务生命周期。
@@ -49,4 +50,8 @@ Host/QEMU 回归与产物到忽略的 `build/`；`make test-runtime-baseline` �
 
 R1a 已将流式 Runtime 的 Tensor CSR 访问抽到设备层，保留调度、超时和同步等待语义。
 `make test-tensor-device test-runtime-tensor-hal` 比对冻结 R0 的设备协议与 Runtime 轨迹。
-详见 [R1a 实施记录](../docs/architecture/sw-runtime-r1a.md)；完整 R1 仍需 PPU 和 overlay/cache 抽离。
+详见 [R1a 实施记录](../docs/architecture/sw-runtime-r1a.md)。
+
+R1b 已抽离 PPU 设备操作，保留 Head 所有权、结果身份匹配和原两个对象的特殊屏障配置。
+`make test-ppu-device test-runtime-ppu-hal` 对照冻结 R1a 的 publication/queue 与三配置后端路径。
+详见 [R1b 实施记录](../docs/architecture/sw-runtime-r1b.md)；完整 R1 仍需 overlay/cache 抽离。

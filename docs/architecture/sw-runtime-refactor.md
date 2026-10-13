@@ -1,13 +1,13 @@
 # sixteen_camera — SW Runtime 分层重构设计与实施方案
 
-> **状态**：分阶段实施中（R0、R1a 已完成离线验证）
+> **状态**：分阶段实施中（R0、R1a、R1b 已完成离线验证）
 > **编写日期**：2026-10-12  
 > **仓库**：[Cc-aw/sixteen_camera](https://github.com/Cc-aw/sixteen_camera)  
 > **审查基线**：`main` @ [`fde62da83c3d061cd4e20dd8b9847891cba9307e`](https://github.com/Cc-aw/sixteen_camera/commit/fde62da83c3d061cd4e20dd8b9847891cba9307e)  
 > **影响范围**：优先修改 `sw/`、`tests/host/`、必要的 `tools/build/` 与 `docs/`；不修改硬件设计和寄存器协议。  
 > **目标读者**：负责裸机 RISC-V / Gemmini / V17 A 软件重构的开发者及 Codex Agent。
 
-**实施进度（2026-10-13）**：R0 已完成离线基线与契约审计，见 [基线与约束](sw-runtime-baseline.md)。R1a 已完成 Tensor HAL 抽离与等价回归，见 [R1a 实施记录](sw-runtime-r1a.md)。两个现有缺口保持记录；完整 R1 尚需 PPU、overlay/cache 边界抽离，R2–R6 尚未实施。
+**实施进度（2026-10-13）**：R0 已完成离线基线与契约审计，见 [基线与约束](sw-runtime-baseline.md)。R1a 已完成 Tensor HAL 抽离，见 [R1a 实施记录](sw-runtime-r1a.md)；R1b 已完成 PPU 设备接口与等价回归，见 [R1b 实施记录](sw-runtime-r1b.md)。两个现有缺口保持记录；完整 R1 尚需 overlay/cache 边界抽离，R2–R6 尚未实施。按用户要求，R0/R1a 已快进合入 `main`，开发分支已删除，后续直接在 `main` 分阶段提交。
 
 ---
 

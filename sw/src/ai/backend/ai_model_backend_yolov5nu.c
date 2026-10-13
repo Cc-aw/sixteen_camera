@@ -6,6 +6,7 @@
 #include "ai/runtime/ai_head_slot_queue.h"
 #include "ai/postprocess/ai_ppu_publication.h"
 #include "ai/postprocess/ai_ppu_queue.h"
+#include "drivers/ppu/ai_ppu_device.h"
 #include "platform/cache_ops.h"
 #include "platform/console.h"
 #include "mmio.h"
@@ -28,29 +29,10 @@ enum {
     YOLOV5_STAGE_ERROR = 3
 };
 
-enum {
-    PPU_ID = 0x100U,
-    PPU_CONTROL = 0x100U,
-    PPU_CLASS0 = 0x104U,
-    PPU_CLASS1 = 0x108U,
-    PPU_CLASS2 = 0x10cU,
-    PPU_DFL0 = 0x110U,
-    PPU_DFL1 = 0x114U,
-    PPU_DFL2 = 0x118U,
-    PPU_STATUS = 0x11cU,
-    PPU_RESULT_INDEX = 0x120U,
-    PPU_RESULT_COUNT = 0x124U,
-    PPU_RESULT_XY0 = 0x128U,
-    PPU_RESULT_XY1 = 0x12cU,
-    PPU_RESULT_SCORE_CLASS = 0x130U,
-    PPU_READER_SELECT = 0x148U
-};
-
-#define PPU_IDENT UINT32_C(0x50505531)
-#define PPU_STATUS_BUSY UINT32_C(1)
-#define PPU_STATUS_DONE UINT32_C(2)
-#define PPU_STATUS_ERROR UINT32_C(4)
-#define PPU_STATUS_READ_BUSY UINT32_C(8)
+#define PPU_STATUS_BUSY AI_PPU_DEVICE_STATUS_BUSY
+#define PPU_STATUS_DONE AI_PPU_DEVICE_STATUS_DONE
+#define PPU_STATUS_ERROR AI_PPU_DEVICE_STATUS_ERROR
+#define PPU_STATUS_READ_BUSY AI_PPU_DEVICE_STATUS_READ_BUSY
 #define AI_STREAM_HOTPATH_LOG 0
 
 _Static_assert(AI_MODEL_WORKER_COUNT == YOLOV5NU_DIM16_WORKER_COUNT,
@@ -103,27 +85,27 @@ static void log_hardware_postprocess(uint32_t worker_id, uint32_t slot_id,
     console_putc('/');
     console_put_hex32(status);
     console_putc('/');
-    console_put_u32(mmio_read32(POSTPROCESS_DIAG_BASE + PPU_RESULT_COUNT));
+    console_put_u32(ai_ppu_device_read_counter(AI_PPU_COUNTER_RESULT_COUNT));
     console_putc('/');
-    console_put_u32(mmio_read32(POSTPROCESS_DIAG_BASE + 0x138U));
+    console_put_u32(ai_ppu_device_read_counter(AI_PPU_COUNTER_POSITIONS));
     console_putc('/');
-    console_put_u32(mmio_read32(POSTPROCESS_DIAG_BASE + 0x13cU));
+    console_put_u32(ai_ppu_device_read_counter(AI_PPU_COUNTER_CANDIDATES));
     console_putc('/');
-    console_put_u32(mmio_read32(POSTPROCESS_DIAG_BASE + 0x140U));
+    console_put_u32(ai_ppu_device_read_counter(AI_PPU_COUNTER_NMS));
     console_putc('/');
     console_put_u32(head_queue.ready_count);
     console_putc('/');
-    console_put_u32(mmio_read32(POSTPROCESS_DIAG_BASE + 0x144U));
+    console_put_u32(ai_ppu_device_read_counter(AI_PPU_COUNTER_CYCLES));
     console_puts("\r\n");
     if (status & PPU_STATUS_ERROR) {
         console_puts("AI PPU reader status/bytes/ar/beats=");
-        console_put_hex32(mmio_read32(POSTPROCESS_DIAG_BASE + 0x0cU));
+        console_put_hex32(ai_ppu_device_read_counter(AI_PPU_COUNTER_READER_STATUS));
         console_putc('/');
-        console_put_u32(mmio_read32(POSTPROCESS_DIAG_BASE + 0x28U));
+        console_put_u32(ai_ppu_device_read_counter(AI_PPU_COUNTER_READER_BYTES));
         console_putc('/');
-        console_put_u32(mmio_read32(POSTPROCESS_DIAG_BASE + 0x2cU));
+        console_put_u32(ai_ppu_device_read_counter(AI_PPU_COUNTER_READER_AR));
         console_putc('/');
-        console_put_u32(mmio_read32(POSTPROCESS_DIAG_BASE + 0x30U));
+        console_put_u32(ai_ppu_device_read_counter(AI_PPU_COUNTER_READER_BEATS));
         console_puts("\r\n");
     }
 }
@@ -137,19 +119,7 @@ static void start_hardware_postprocess(AiHeadSlot *slot)
     if (published <= 0)
         cache_flush_range((void *)head, YOLOV5NU_HEAD_PAYLOAD_BYTES);
     // The FBus bridge applies the bit-31 coherent DDR alias itself.
-    mmio_write32(POSTPROCESS_DIAG_BASE + PPU_CLASS0,
-                 (uint32_t)descriptor->class_addr[0]);
-    mmio_write32(POSTPROCESS_DIAG_BASE + PPU_CLASS1,
-                 (uint32_t)descriptor->class_addr[1]);
-    mmio_write32(POSTPROCESS_DIAG_BASE + PPU_CLASS2,
-                 (uint32_t)descriptor->class_addr[2]);
-    mmio_write32(POSTPROCESS_DIAG_BASE + PPU_DFL0,
-                 (uint32_t)descriptor->dfl_addr[0]);
-    mmio_write32(POSTPROCESS_DIAG_BASE + PPU_DFL1,
-                 (uint32_t)descriptor->dfl_addr[1]);
-    mmio_write32(POSTPROCESS_DIAG_BASE + PPU_DFL2,
-                 (uint32_t)descriptor->dfl_addr[2]);
-    mmio_write32(POSTPROCESS_DIAG_BASE + PPU_CONTROL, published > 0 ? 0x101U : 1U);
+    ai_ppu_device_start(descriptor->class_addr, descriptor->dfl_addr, published);
     hardware_start_cycles = read_cycle();
     hardware_worker = worker_id;
 }
@@ -179,7 +149,7 @@ static void read_hardware_postprocess(const AiHeadSlot *slot,
     const AiHeadSlotDescriptor *descriptor = &slot->descriptor;
     uint32_t worker_id = descriptor->worker_id;
     AiDetectionResult *destination = &record->result;
-    uint32_t count = mmio_read32(POSTPROCESS_DIAG_BASE + PPU_RESULT_COUNT);
+    uint32_t count = ai_ppu_device_read_counter(AI_PPU_COUNTER_RESULT_COUNT);
     fill_post_completion(record, descriptor, 0);
     destination->job_id = descriptor->job_id;
     destination->frame_id = descriptor->frame_id;
@@ -190,11 +160,10 @@ static void read_hardware_postprocess(const AiHeadSlot *slot,
     destination->count = count > AI_MAX_DETECTIONS ? AI_MAX_DETECTIONS : count;
     for (uint32_t index = 0; index < destination->count; ++index) {
         AiDetection *output = &destination->detections[index];
-        uint32_t xy0, xy1, score_class;
-        mmio_write32(POSTPROCESS_DIAG_BASE + PPU_RESULT_INDEX, index);
-        xy0 = mmio_read32(POSTPROCESS_DIAG_BASE + PPU_RESULT_XY0);
-        xy1 = mmio_read32(POSTPROCESS_DIAG_BASE + PPU_RESULT_XY1);
-        score_class = mmio_read32(POSTPROCESS_DIAG_BASE + PPU_RESULT_SCORE_CLASS);
+        AiPpuDeviceDetection detection;
+        ai_ppu_device_read_detection(index, &detection);
+        uint32_t xy0 = detection.xy0, xy1 = detection.xy1;
+        uint32_t score_class = detection.score_class;
         output->x_min = (int16_t)(xy0 & 0xffffU);
         output->y_min = (int16_t)(xy0 >> 16);
         output->x_max = (int16_t)(xy1 & 0xffffU);
@@ -287,8 +256,7 @@ void ai_model_backend_init(void)
     memset(published_heads, 0, sizeof(published_heads));
     yolo32_independent_live_init();
 #endif
-    hardware_present = mmio_read32(POSTPROCESS_DIAG_BASE + PPU_ID) ==
-                       PPU_IDENT;
+    hardware_present = ai_ppu_device_available();
     hardware_worker = AI_MODEL_WORKER_COUNT;
     hardware_log_count = 0U;
     queue_log_count = 0U;
@@ -304,9 +272,8 @@ void ai_model_backend_init(void)
     if (hardware_present) (void)ai_ppu_queue_init();
 #if YOLO32_LIVE
     if (hardware_present) {
-        mmio_write32(POSTPROCESS_DIAG_BASE + PPU_READER_SELECT, 1U);
         /* Disable diagnostic-only queue observations on the live path. */
-        mmio_write32(POSTPROCESS_DIAG_BASE + 0x24cU, 0U);
+        ai_ppu_device_live_configure();
         yolo32_ppu_io_barrier();
     }
 #endif
@@ -316,8 +283,7 @@ void ai_model_backend_init(void)
         "AI MODEL init OK (YOLOv5nu worker pool CPU postprocess)\r\n");
     if (hardware_present != 0U) {
         console_puts("AI PPU head reader enable/active/busy/error=");
-        uint32_t reader = mmio_read32(POSTPROCESS_DIAG_BASE +
-                                      PPU_READER_SELECT);
+        uint32_t reader = ai_ppu_device_reader_state();
         console_put_u32(reader & 1U);
         console_putc('/');
         console_put_u32((reader >> 1) & 1U);
@@ -395,8 +361,7 @@ int ai_model_backend_submit(const AiModelFrameRequest *request)
         graph_start_log_count < 8U) {
         const AiHeadSlot *slot = ai_head_slot_get_const(&head_queue,
                                                         slot_key);
-        uint32_t ppu_status = mmio_read32(POSTPROCESS_DIAG_BASE +
-                                          PPU_STATUS);
+        uint32_t ppu_status = ai_ppu_device_status();
         graph_start_log_count++;
         console_puts("AI GRAPH start worker/slot/job/ppu_status=");
         console_put_u32(worker_id);
@@ -421,7 +386,7 @@ static int service_queued_postprocess(void)
         if (!slot || slot->state != AI_HEAD_SLOT_PROCESSING ||
             slot->descriptor.stream_id != r.stream || slot->descriptor.frame_id != r.frame ||
             slot->descriptor.version != r.version ||
-            ai_ppu_publication_generation(slot->descriptor.base_addr) != r.generation) return -1;
+            !ai_ppu_device_publication_matches(slot->descriptor.base_addr, r.generation)) return -1;
         if (!slot->producer_complete) return 0;
         AiPostprocessCompletion *record = &post_completions[post_tail];
         fill_post_completion(record, &slot->descriptor, (r.status & 1U) ? -2 : 0);
@@ -466,7 +431,7 @@ static int service_hardware_postprocess(void)
         if (!slot->producer_complete) { hardware_start_cycles = read_cycle(); return 0; }
         if (hardware_faulted != 0U)
             return 0;
-        hw_status = mmio_read32(POSTPROCESS_DIAG_BASE + PPU_STATUS);
+        hw_status = ai_ppu_device_status();
         if (!(hw_status & PPU_STATUS_DONE)) {
             if (read_cycle() - hardware_start_cycles >
                 (uint64_t)SOC_CLOCK_HZ * UINT64_C(30)) {
@@ -502,7 +467,7 @@ static int service_hardware_postprocess(void)
         hardware_faulted != 0U ||
         post_count >= AI_MODEL_RESULT_QUEUE_CAPACITY)
         return 0;
-    hw_status = mmio_read32(POSTPROCESS_DIAG_BASE + PPU_STATUS);
+    hw_status = ai_ppu_device_status();
     if (hw_status & (PPU_STATUS_BUSY | PPU_STATUS_READ_BUSY))
         return 0;
     queue_status = ai_head_slot_start_next(&head_queue, &slot);
@@ -547,13 +512,11 @@ void yolo32_ppu_early_service(void)
         uint32_t cumulative = published_heads[w] | delta;
         uint64_t start = read_cycle();
         for (;;) {
-            uint32_t status = mmio_read32(POSTPROCESS_DIAG_BASE + 0x1b4U);
-            uint32_t generation = mmio_read32(POSTPROCESS_DIAG_BASE + 0x1bcU);
-            uint32_t masks = mmio_read32(POSTPROCESS_DIAG_BASE + 0x1b8U);
-            if ((status & 5U) != 1U || generation !=
-                ai_ppu_publication_generation(slot->descriptor.base_addr))
+            AiPpuDeviceReceipt receipt;
+            ai_ppu_device_publication_receipt(&receipt);
+            if (!ai_ppu_device_receipt_matches(slot->descriptor.base_addr, &receipt))
                 yolo32_fail("live_head_ownership");
-            if (((masks >> 8) & 63U) == cumulative) break;
+            if (((receipt.masks >> 8) & 63U) == cumulative) break;
             if (read_cycle() - start > UINT64_C(1000000))
                 yolo32_fail("live_head_commit_timeout");
         }

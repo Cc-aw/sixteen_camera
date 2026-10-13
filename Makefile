@@ -14,6 +14,7 @@ export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD
 
 .PHONY: runtime-baseline test-runtime-abi test-runtime-baseline
 .PHONY: test-tensor-device test-runtime-tensor-hal
+.PHONY: test-ppu-device test-runtime-ppu-hal
 .PHONY: help check firmware firmware-benchmark test-v17a check-v17a-firmware bitstream elaborate test-tensor test-tensor-ingress test-cache test-ppu test-video test-runtime test-software
 help:
 	@printf '%s\n' \
@@ -40,6 +41,8 @@ help:
 	  'make test-runtime-baseline          ABI, identity trace and known-gap characterization' \
 	  'make test-tensor-device             Tensor HAL protocol and timeout traces against R0' \
 	  'make test-runtime-tensor-hal        Runtime MMIO, event and UART arguments against R0' \
+	  'make test-ppu-device                PPU protocol and barriers against frozen R1a' \
+	  'make test-runtime-ppu-hal           PPU backend ownership and MMIO traces against R1a' \
 	  'make test-software                  All software host tests' \
 	  'make program                        Download selected firmware (existing bitstream)' \
 	  'make check-deps                     Check source closure and installed tools' \
@@ -115,6 +118,12 @@ test-tensor-device:
 
 test-runtime-tensor-hal:
 	bash tests/host/run_runtime_tensor_hal_trace_test.sh
+
+test-ppu-device:
+	bash tests/host/run_ai_ppu_device_test.sh
+
+test-runtime-ppu-hal:
+	bash tests/host/run_runtime_ppu_hal_trace_test.sh
 
 test-software:
 	@cd "$(PROJECT_ROOT)" && for test_script in tests/host/run_*_test.sh; do \

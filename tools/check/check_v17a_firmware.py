@@ -16,6 +16,31 @@ def require(condition, message):
         raise RuntimeError(message)
 
 
+def ppu_call_bodies(functions, root):
+    """Follow PPU adapters to device functions, including compiler tail calls."""
+    pending = [root]
+    visited = set()
+    bodies = []
+    while pending:
+        name = pending.pop()
+        if name in visited:
+            continue
+        visited.add(name)
+        require(name in functions, f"{name}: missing PPU function")
+        body = functions[name]
+        bodies.append(body)
+        for target in re.findall(r"<([^>+]+)>", body):
+            if target.startswith("ai_ppu_") and target in functions:
+                pending.append(target)
+    return "\n".join(bodies)
+
+
+def check_ppu_ordering(functions, root):
+    body = ppu_call_bodies(functions, root)
+    require(not re.search(r"\bfence(?:\.|\s)", body), f"{root}: unexpected global fence")
+    require("yolo32_ppu_io_barrier" in body, f"{root}: missing PPU read barrier")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--elf", type=Path, default=ROOT / "build/firmware/gemmini_triple32_v3_tensor_video_yolov5nu.elf")
@@ -26,9 +51,7 @@ def main():
     blocks = re.split(r"^([0-9a-f]+) <([^>]+)>:\n", disassembly, flags=re.M)
     functions = {blocks[i + 1]: blocks[i + 2] for i in range(1, len(blocks), 3)}
     for name in ("ai_ppu_publication_begin", "ai_ppu_publication_publish", "ai_ppu_queue_submit"):
-        body = functions[name]
-        require(not re.search(r"\bfence(?:\.|\s)", body), f"{name}: unexpected global fence")
-        require("yolo32_ppu_io_barrier" in body, f"{name}: missing PPU read barrier")
+        check_ppu_ordering(functions, name)
     switch = functions["yolo32_task_switch"]
     require("frcsr" in switch and "fscsr" in switch and "vcsr" in switch,
             "task switch does not preserve FP/VCSR environment")
