@@ -13,6 +13,7 @@ export VIVADO_PROJECT
 export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD_JTAG_SERIAL BITSTREAM_FILE
 
 .PHONY: runtime-baseline test-runtime-abi test-runtime-baseline
+.PHONY: test-tensor-device test-runtime-tensor-hal
 .PHONY: help check firmware firmware-benchmark test-v17a check-v17a-firmware bitstream elaborate test-tensor test-tensor-ingress test-cache test-ppu test-video test-runtime test-software
 help:
 	@printf '%s\n' \
@@ -37,6 +38,8 @@ help:
 	  'make test-runtime                   Host stream runtime tests (2/3 workers)' \
 	  'make runtime-baseline               Capture R0 software baseline under build/' \
 	  'make test-runtime-baseline          ABI, identity trace and known-gap characterization' \
+	  'make test-tensor-device             Tensor HAL protocol and timeout traces against R0' \
+	  'make test-runtime-tensor-hal        Runtime MMIO, event and UART arguments against R0' \
 	  'make test-software                  All software host tests' \
 	  'make program                        Download selected firmware (existing bitstream)' \
 	  'make check-deps                     Check source closure and installed tools' \
@@ -106,6 +109,12 @@ test-runtime-abi:
 test-runtime-baseline: test-runtime-abi
 	bash tests/host/run_runtime_baseline_trace_test.sh
 	bash tests/host/run_runtime_version_baseline_test.sh
+
+test-tensor-device:
+	bash tests/host/run_ai_tensor_device_test.sh
+
+test-runtime-tensor-hal:
+	bash tests/host/run_runtime_tensor_hal_trace_test.sh
 
 test-software:
 	@cd "$(PROJECT_ROOT)" && for test_script in tests/host/run_*_test.sh; do \

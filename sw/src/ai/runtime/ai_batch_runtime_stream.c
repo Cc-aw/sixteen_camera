@@ -6,7 +6,8 @@
 #include "ai/postprocess/ai_result_manager.h"
 #include "ai/runtime/ai_tensor_slot_pool.h"
 #include "platform/console.h"
-#include "mmio.h"
+#include "drivers/tensor/ai_tensor_device.h"
+#include "platform/cycle.h"
 #include "platform/platform.h"
 
 #include <string.h>
@@ -15,8 +16,6 @@
 #define STREAM_MODEL_TIMEOUT_SECONDS 50
 #endif
 #define STREAM_MODEL_TIMEOUT (SOC_CLOCK_HZ * STREAM_MODEL_TIMEOUT_SECONDS)
-#define STREAM_MMIO_TIMEOUT (SOC_CLOCK_HZ / UINT64_C(10))
-#define STREAM_META_SETTLE (SOC_CLOCK_HZ / UINT64_C(100000))
 #define STREAM_TARGET_PERIOD (SOC_CLOCK_HZ / UINT64_C(30))
 #define STREAM_RESULT_TTL SOC_CLOCK_HZ
 #define STREAM_PROFILE_CAPACITY 16U
@@ -76,22 +75,19 @@ typedef struct {
 
 static StreamRuntime runtime;
 
-static uint32_t slot_address(uint32_t slot)
-{
-    uint32_t arena_base = slot < VIDEO_CHANNEL_COUNT ?
-                          TENSOR_ARENA0_PHYS_BASE : TENSOR_ARENA1_PHYS_BASE;
-    return arena_base + (slot % VIDEO_CHANNEL_COUNT) *
-           TENSOR_MEMBER_STRIDE;
-}
+_Static_assert(AI_TENSOR_SLOT_COUNT == AI_TENSOR_DEVICE_SLOT_COUNT,
+               "Runtime and Tensor device slot capacities must match");
+_Static_assert(AI_TENSOR_SLOT_READY == AI_TENSOR_DEVICE_READY,
+               "Runtime and Tensor device READY states must match");
 
 static uint32_t hardware_ready(void)
 {
-    return mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_READY);
+    return ai_tensor_device_ready();
 }
 
 static uint32_t hardware_error(void)
 {
-    return mmio_read32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_ERROR);
+    return ai_tensor_device_error();
 }
 
 static void record_error(int error)
@@ -102,84 +98,25 @@ static void record_error(int error)
 
 static int read_slot(uint32_t slot, AiTensorSlot *metadata)
 {
-    if (slot >= AI_TENSOR_SLOT_COUNT || metadata == 0)
+    AiTensorDeviceDescriptor descriptor;
+    if (metadata == 0 || ai_tensor_device_read_slot(slot, &descriptor) != 0)
         return -1;
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_INDEX, slot);
-    mmio_fence();
-    uint64_t settle_start = read_cycle();
-    while (read_cycle() - settle_start < STREAM_META_SETTLE)
-        ;
-    uint64_t start = read_cycle();
-    do {
-        uint32_t version_before = mmio_read32(
-            FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_VERSION);
-        uint32_t time_lo = mmio_read32(
-            FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_TIME_LO);
-        uint32_t time_hi = mmio_read32(
-            FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_TIME_HI);
-        uint32_t frame = mmio_read32(
-            FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_FRAME);
-        uint32_t bytes = mmio_read32(
-            FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_BYTES);
-        uint32_t stream = mmio_read32(
-            FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_STREAM);
-        uint32_t address = mmio_read32(
-            FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_ADDR);
-        uint32_t state = mmio_read32(
-            FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_STATE);
-        uint32_t error_code = mmio_read32(
-            FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_ERROR_CODE);
-        uint32_t version_after = mmio_read32(
-            FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_VERSION);
-        if (version_before != 0U && version_before == version_after &&
-            stream == slot % VIDEO_CHANNEL_COUNT &&
-            address == slot_address(slot) &&
-            bytes == TENSOR_MEMBER_BYTES &&
-            state == AI_TENSOR_SLOT_READY &&
-            (hardware_ready() & (UINT32_C(1) << slot)) != 0U) {
-            metadata->tensor_addr = address;
-            metadata->stream_id = stream;
-            metadata->frame_id = frame;
-            metadata->timestamp = (uint64_t)time_lo |
-                                  ((uint64_t)time_hi << 32);
-            metadata->version = version_after;
-            metadata->byte_count = bytes;
-            metadata->error_code = error_code;
-            metadata->owner_worker = AI_TENSOR_SLOT_INVALID;
-            metadata->generation = version_after;
-            metadata->state = AI_TENSOR_SLOT_READY;
-            return 0;
-        }
-    } while (read_cycle() - start < STREAM_MMIO_TIMEOUT);
-    return -1;
+    metadata->tensor_addr = descriptor.tensor_addr;
+    metadata->stream_id = descriptor.stream_id;
+    metadata->frame_id = descriptor.frame_id;
+    metadata->timestamp = descriptor.timestamp;
+    metadata->version = descriptor.version;
+    metadata->byte_count = descriptor.byte_count;
+    metadata->error_code = descriptor.error_code;
+    metadata->owner_worker = AI_TENSOR_SLOT_INVALID;
+    metadata->generation = descriptor.version;
+    metadata->state = AI_TENSOR_SLOT_READY;
+    return 0;
 }
 
 static int release_slot(uint32_t slot)
 {
-    uint32_t bit = UINT32_C(1) << slot;
-    uint64_t start = read_cycle();
-    while ((mmio_read32(FRAMEBUFFER_BASE +
-                        FRAMEBUFFER_TENSOR_PROD_CONTROL) &
-            FRAMEBUFFER_TENSOR_PROD_RELEASE_GO) != 0U) {
-        if (read_cycle() - start > STREAM_MMIO_TIMEOUT)
-            return -1;
-    }
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_RELEASE, bit);
-    mmio_fence();
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL,
-                 (runtime.status.enabled != 0U ?
-                  FRAMEBUFFER_TENSOR_PROD_ENABLE : 0U) |
-                 FRAMEBUFFER_TENSOR_PROD_RELEASE_GO);
-    mmio_fence();
-    start = read_cycle();
-    while (((hardware_ready() | hardware_error()) & bit) != 0U ||
-           (mmio_read32(FRAMEBUFFER_BASE +
-                        FRAMEBUFFER_TENSOR_PROD_CONTROL) &
-            FRAMEBUFFER_TENSOR_PROD_RELEASE_GO) != 0U) {
-        if (read_cycle() - start > STREAM_MMIO_TIMEOUT)
-            return -1;
-    }
-    return 0;
+    return ai_tensor_device_release(slot, runtime.status.enabled);
 }
 
 static void service_overlay(void)
@@ -220,7 +157,7 @@ static void service_result_ttl(void)
     if (runtime.status.enabled != 0U)
         return;
 
-    uint64_t now = read_cycle();
+    uint64_t now = platform_read_cycle();
     for (uint32_t stream = 0U; stream < VIDEO_CHANNEL_COUNT; ++stream) {
         AiStreamRuntimeStatus *status = &runtime.streams[stream];
         if (status->last_result_cycle == 0U ||
@@ -245,7 +182,7 @@ static void complete_stream_job(uint32_t stream_id, uint64_t frame_id,
     if (stream->inflight_count != 0U)
         stream->inflight_count--;
     if (error == 0) {
-        uint64_t now = read_cycle();
+        uint64_t now = platform_read_cycle();
         stream->last_frame_id = frame_id;
         stream->last_version = version;
         stream->last_frame_valid = 1U;
@@ -283,7 +220,7 @@ static int register_post_job(const StreamWorker *worker,
         post->frame_id = worker->frame_id;
         post->timestamp = worker->timestamp;
         post->job_id = worker->job_id;
-        post->start_cycle = read_cycle();
+        post->start_cycle = platform_read_cycle();
         post->profile = completion->profile;
         post->profile.cpu_scheduler_cycles +=
             worker->profile.cpu_scheduler_cycles;
@@ -297,7 +234,7 @@ static int register_post_job(const StreamWorker *worker,
 
 static void track_ready_slots(uint32_t ready)
 {
-    uint64_t now = read_cycle();
+    uint64_t now = platform_read_cycle();
     for (uint32_t slot = 0U; slot < AI_TENSOR_SLOT_COUNT; ++slot) {
         uint32_t bit = UINT32_C(1) << slot;
         if ((ready & bit) != 0U) {
@@ -367,7 +304,7 @@ static void progress_workers(void)
         AiModelComputeCompletion completion;
         int status = ai_model_backend_poll_compute(worker_id, &completion);
         if (status == 0) {
-            if (read_cycle() - worker->start_cycle > STREAM_MODEL_TIMEOUT) {
+            if (platform_read_cycle() - worker->start_cycle > STREAM_MODEL_TIMEOUT) {
                 if (ai_model_backend_abort(worker_id) == 0) {
                     worker->release_pending = 1U;
                     complete_stream_job(worker->stream, worker->frame_id,
@@ -380,7 +317,7 @@ static void progress_workers(void)
             }
             continue;
         }
-        uint64_t scheduler_start = read_cycle();
+        uint64_t scheduler_start = platform_read_cycle();
         if (status < 0 || completion.status != 0 ||
             completion.worker_id != worker_id ||
             completion.job_id != worker->job_id ||
@@ -415,7 +352,7 @@ static void progress_workers(void)
         StreamPostJob *post = find_post_job(completion.job_id);
         if (post != 0)
             post->profile.cpu_scheduler_cycles +=
-                read_cycle() - scheduler_start;
+                platform_read_cycle() - scheduler_start;
         dispatch_jobs(hardware_ready());
     }
 }
@@ -433,7 +370,7 @@ static void progress_results(void)
             runtime.faulted = 1U;
             return;
         }
-        uint64_t scheduler_start = read_cycle();
+        uint64_t scheduler_start = platform_read_cycle();
         StreamPostJob *post = find_post_job(completion.job_id);
         if (post == 0) {
             record_error(-52);
@@ -473,7 +410,7 @@ static void progress_results(void)
             if (published > 0) {
                 runtime.status.result_publish_count++;
                 runtime.streams[post->stream].last_result_cycle =
-                    read_cycle();
+                    platform_read_cycle();
                 runtime.overlay_clear &=
                     (uint16_t)~(UINT16_C(1) << post->stream);
                 runtime.overlay_dirty |=
@@ -485,7 +422,7 @@ static void progress_results(void)
         }
         complete_stream_job(post->stream, post->frame_id, post->version,
                             post_status);
-        post->profile.cpu_scheduler_cycles += read_cycle() - scheduler_start;
+        post->profile.cpu_scheduler_cycles += platform_read_cycle() - scheduler_start;
         record_frame_profile(post, &completion);
         post->active = 0U;
     }
@@ -545,7 +482,7 @@ static void dispatch_jobs(uint32_t ready)
         return;
     for (uint32_t worker_id = 0U;
          worker_id < AI_MODEL_WORKER_COUNT; ++worker_id) {
-        uint64_t scheduler_start = read_cycle();
+        uint64_t scheduler_start = platform_read_cycle();
         StreamWorker *worker = &runtime.workers[worker_id];
         if (worker->active != 0U)
             continue;
@@ -590,7 +527,7 @@ static void dispatch_jobs(uint32_t ready)
         if (selected_slot == AI_TENSOR_SLOT_INVALID)
             return;
         uint64_t job_id = ++runtime.next_job_id;
-        uint64_t submit_cycle = read_cycle();
+        uint64_t submit_cycle = platform_read_cycle();
         AiModelFrameRequest request = {
             .job_id = job_id,
             .worker_id = worker_id,
@@ -604,9 +541,9 @@ static void dispatch_jobs(uint32_t ready)
                            worker_id * AI_MODEL_OUTPUT_ARENA_BYTES,
             .output_bytes = AI_MODEL_OUTPUT_ARENA_BYTES
         };
-        uint64_t before_submit = read_cycle();
+        uint64_t before_submit = platform_read_cycle();
         int submitted = ai_model_backend_submit(&request);
-        uint64_t after_submit = read_cycle();
+        uint64_t after_submit = platform_read_cycle();
         if (submitted != 0) {
             /* Both raw-head slots can be owned while the PPU drains.  This
              * is normal backpressure, not a model failure. */
@@ -648,7 +585,7 @@ static void dispatch_jobs(uint32_t ready)
         }
         stream->last_service_cycle = submit_cycle;
         runtime.status.preprocess_count++;
-        worker->profile.cpu_scheduler_cycles += read_cycle() - after_submit;
+        worker->profile.cpu_scheduler_cycles += platform_read_cycle() - after_submit;
     }
 }
 
@@ -665,8 +602,7 @@ void ai_batch_runtime_set_enabled(uint32_t enabled)
     if (enabled == 0U) {
         runtime.status.enabled = 0U;
         runtime.draining = 1U;
-        mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL, 0U);
-        mmio_fence();
+        ai_tensor_device_disable();
         return;
     }
     if (runtime.status.enabled != 0U || runtime.draining != 0U ||
@@ -682,23 +618,12 @@ void ai_batch_runtime_set_enabled(uint32_t enabled)
             return;
         }
     }
-    mmio_write32(FRAMEBUFFER_BASE +
-                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_MASK,
-                 CAMERA_PRESENT_MASK);
-    mmio_write32(FRAMEBUFFER_BASE +
-                 FRAMEBUFFER_TENSOR_PROD_ADMISSION_LIMIT,
-                 TENSOR_PRODUCTION_ADMISSION_LIMIT);
-    mmio_fence();
-    mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_CONTROL,
-                 FRAMEBUFFER_TENSOR_PROD_ENABLE);
-    mmio_fence();
-    if ((mmio_read32(FRAMEBUFFER_BASE +
-                     FRAMEBUFFER_TENSOR_PROD_CONTROL) &
-         FRAMEBUFFER_TENSOR_PROD_ENABLE) == 0U) {
+    if (ai_tensor_device_enable(CAMERA_PRESENT_MASK,
+                                TENSOR_PRODUCTION_ADMISSION_LIMIT) != 0) {
         record_error(-49);
         return;
     }
-    uint64_t first_deadline = read_cycle() + STREAM_TARGET_PERIOD;
+    uint64_t first_deadline = platform_read_cycle() + STREAM_TARGET_PERIOD;
     for (uint32_t stream = 0U; stream < VIDEO_CHANNEL_COUNT; ++stream)
         if (runtime.streams[stream].next_deadline == 0U)
             runtime.streams[stream].next_deadline = first_deadline;
@@ -720,8 +645,7 @@ uint32_t ai_batch_runtime_is_idle(void)
         if (runtime.workers[worker].active != 0U)
             return 0U;
     return hardware_ready() == 0U &&
-           mmio_read32(FRAMEBUFFER_BASE +
-                       FRAMEBUFFER_TENSOR_PROD_WRITING) == 0U;
+           ai_tensor_device_writing() == 0U;
 }
 
 void ai_batch_runtime_poll(void)
@@ -749,8 +673,7 @@ void ai_batch_runtime_poll(void)
         }
         if (runtime.held_mask == 0U && post_job_count() == 0U &&
             ai_model_backend_is_idle() != 0U &&
-            mmio_read32(FRAMEBUFFER_BASE +
-                        FRAMEBUFFER_TENSOR_PROD_WRITING) == 0U)
+            ai_tensor_device_writing() == 0U)
             runtime.draining = 0U;
         return;
     }
@@ -820,8 +743,7 @@ void ai_batch_runtime_print_frame_profiles(void)
 
 void ai_batch_runtime_print_status(void)
 {
-    uint32_t hardware_error = mmio_read32(
-        FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_ERROR);
+    uint32_t hardware_error = ai_tensor_device_error();
     console_puts("AI RT stream enable/drain/fault held/ready/writing/error=");
     console_put_u32(runtime.status.enabled);
     console_putc('/');
@@ -833,8 +755,7 @@ void ai_batch_runtime_print_status(void)
     console_putc('/');
     console_put_hex32(hardware_ready());
     console_putc('/');
-    console_put_hex32(mmio_read32(FRAMEBUFFER_BASE +
-                                 FRAMEBUFFER_TENSOR_PROD_WRITING));
+    console_put_hex32(ai_tensor_device_writing());
     console_putc('/');
     console_put_hex32(hardware_error);
     console_puts(" jobs/done/post/pub/stale/err=");
@@ -856,60 +777,42 @@ void ai_batch_runtime_print_status(void)
                     -runtime.status.last_error : runtime.status.last_error));
     console_puts("\r\n");
     console_puts("AI DMA out/max/starve/awstall/wstall/xfer/bwait/burst/done/resp=");
-    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
-                                FRAMEBUFFER_TENSOR_DMA_OUTSTANDING));
+    console_put_u32(ai_tensor_device_read_counter(AI_TENSOR_COUNTER_OUTSTANDING));
     console_putc('/');
-    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
-                                FRAMEBUFFER_TENSOR_DMA_OUTSTANDING_MAX));
+    console_put_u32(ai_tensor_device_read_counter(AI_TENSOR_COUNTER_OUTSTANDING_MAX));
     console_putc('/');
-    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
-                                FRAMEBUFFER_TENSOR_DMA_STARVATION));
+    console_put_u32(ai_tensor_device_read_counter(AI_TENSOR_COUNTER_STARVATION));
     console_putc('/');
-    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
-                                FRAMEBUFFER_TENSOR_DMA_AW_STALL));
+    console_put_u32(ai_tensor_device_read_counter(AI_TENSOR_COUNTER_AW_STALL));
     console_putc('/');
-    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
-                                FRAMEBUFFER_TENSOR_DMA_W_STALL));
+    console_put_u32(ai_tensor_device_read_counter(AI_TENSOR_COUNTER_W_STALL));
     console_putc('/');
-    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
-                                FRAMEBUFFER_TENSOR_DMA_W_TRANSFER));
+    console_put_u32(ai_tensor_device_read_counter(AI_TENSOR_COUNTER_W_TRANSFER));
     console_putc('/');
-    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
-                                FRAMEBUFFER_TENSOR_DMA_B_WAIT));
+    console_put_u32(ai_tensor_device_read_counter(AI_TENSOR_COUNTER_B_WAIT));
     console_putc('/');
-    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
-                                FRAMEBUFFER_TENSOR_DMA_BURSTS));
+    console_put_u32(ai_tensor_device_read_counter(AI_TENSOR_COUNTER_BURSTS));
     console_putc('/');
-    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
-                                FRAMEBUFFER_TENSOR_DMA_COMPLETED));
+    console_put_u32(ai_tensor_device_read_counter(AI_TENSOR_COUNTER_COMPLETED));
     console_putc('/');
-    console_put_u32(mmio_read32(FRAMEBUFFER_BASE +
-                                FRAMEBUFFER_TENSOR_DMA_RESP_ERRORS));
+    console_put_u32(ai_tensor_device_read_counter(AI_TENSOR_COUNTER_RESP_ERRORS));
     console_puts("\r\n");
     for (uint32_t slot = 0U; slot < AI_TENSOR_SLOT_COUNT; ++slot) {
         if ((hardware_error & (UINT32_C(1) << slot)) == 0U)
             continue;
-        mmio_write32(FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_INDEX, slot);
-        mmio_fence();
-        uint64_t settle_start = read_cycle();
-        while (read_cycle() - settle_start < STREAM_META_SETTLE)
-            ;
+        (void)ai_tensor_device_select_slot(slot);
         console_puts("AI SLOT ERR slot/ch/code/frame/ver/overflow=");
         console_put_u32(slot);
         console_putc('/');
         console_put_u32(slot % VIDEO_CHANNEL_COUNT + 1U);
         console_putc('/');
-        console_put_hex32(mmio_read32(
-            FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_ERROR_CODE));
+        console_put_hex32(ai_tensor_device_read_counter(AI_TENSOR_COUNTER_ERROR_CODE));
         console_putc('/');
-        console_put_hex32(mmio_read32(
-            FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_FRAME));
+        console_put_hex32(ai_tensor_device_read_counter(AI_TENSOR_COUNTER_FRAME));
         console_putc('/');
-        console_put_u32(mmio_read32(
-            FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_VERSION));
+        console_put_u32(ai_tensor_device_read_counter(AI_TENSOR_COUNTER_VERSION));
         console_putc('/');
-        console_put_u32(mmio_read32(
-            FRAMEBUFFER_BASE + FRAMEBUFFER_TENSOR_PROD_OVERFLOW));
+        console_put_u32(ai_tensor_device_read_counter(AI_TENSOR_COUNTER_OVERFLOW));
         console_puts("\r\n");
     }
     for (uint32_t stream = 0U; stream < VIDEO_CHANNEL_COUNT; ++stream) {

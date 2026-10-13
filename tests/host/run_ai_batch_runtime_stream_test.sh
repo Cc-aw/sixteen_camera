@@ -9,6 +9,7 @@ for workers in 2 3; do
 cc -std=c11 -Wall -Wextra -Werror -DAI_STREAM_RUNTIME_HOST_TEST -DAI_MODEL_WORKER_COUNT=${workers}U \
   -I"$project_root/tests/host/include" -I"$project_root/sw/src" \
   "$project_root/sw/src/ai/runtime/ai_batch_runtime_stream.c" \
+  "$project_root/sw/src/drivers/tensor/ai_tensor_device.c" \
   "$project_root/sw/src/ai/postprocess/ai_result_manager.c" \
   "$project_root/tests/host/test_ai_batch_runtime_stream.c" \
   -o "$test_tmp/test_ai_batch_runtime_stream"

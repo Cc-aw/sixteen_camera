@@ -20,6 +20,7 @@ make test-software
 ## 接入点
 
 - `src/platform/platform.h`：地址、时钟、寄存器和内存布局。
+- `src/drivers/tensor/`：Tensor 描述符、release ack、Producer 控制与设备计数；`src/platform/cycle.h` 提供独立计时接口。
 - `src/board/xparameters.h`：本板 AMD BSP 配置。
 - `src/ai/backend/ai_model_abi.h`、`ai_model_backend.h`：请求、完成事件和后端接口。
 - `src/ai/runtime/`：Tensor/Head 所有权、调度、TTL、drain 和任务生命周期。
@@ -45,3 +46,7 @@ make test-software
 [基线与约束](../docs/architecture/sw-runtime-baseline.md)。`make runtime-baseline` 保存构建、
 Host/QEMU 回归与产物到忽略的 `build/`；`make test-runtime-baseline` 运行 ABI、身份 trace
 及现有错误路径/版本回绕的 characterization。已知缺口在报告中独立记为 FAIL。
+
+R1a 已将流式 Runtime 的 Tensor CSR 访问抽到设备层，保留调度、超时和同步等待语义。
+`make test-tensor-device test-runtime-tensor-hal` 比对冻结 R0 的设备协议与 Runtime 轨迹。
+详见 [R1a 实施记录](../docs/architecture/sw-runtime-r1a.md)；完整 R1 仍需 PPU 和 overlay/cache 抽离。

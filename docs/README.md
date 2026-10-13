@@ -8,7 +8,8 @@
 - [single4 Linux 配置与 RTL](integration/linux-single4.md)
 - [视频与 AI 底座架构](architecture/overview.md)
 - [SW Runtime R0 基线与约束](architecture/sw-runtime-baseline.md)：调用图、ABI、离线验证、已知失败及 R1 最小计划。
-- [SW Runtime 分层重构设计与实施方案](architecture/sw-runtime-refactor.md)：R0–R6 分阶段计划，R0 已完成基线冻结。
+- [SW Runtime R1a Tensor HAL 实施记录](architecture/sw-runtime-r1a.md)：设备接口、R0 等价轨迹、三配置构建和后续边界。
+- [SW Runtime 分层重构设计与实施方案](architecture/sw-runtime-refactor.md)：R0–R6 分阶段计划，R0 与 R1a 已完成离线验证。
 - [HDMI 八路视频空间封装](integration/8路640x480视频在4K30_HDMI中的空间封装规范.md)
 - [PCLK 接口约定](integration/pclk_timing_refactor_interfaces.md)
 - [本次目录重构验收](validation/structure-refactor.md)
