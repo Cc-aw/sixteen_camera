@@ -26,6 +26,7 @@ flags=(-std=gnu11 -O2 -Wall -Wextra -Werror -DAI_BACKEND_RESOURCE_TEST=1 -DYOLO3
   -DYOLO32_PREPARED_PACKETS=1 -DYOLO32_PPU_EARLY=1 -DYOLO32_PPU_HEAD_CLEAN=1
   -I"$test_tmp" -I"$project_root/sw/src" -I"$model/native" -I"$model")
 cc "${flags[@]}" -c "$project_root/sw/src/ai/backend/ai_model_backend_yolov5nu.c" -o "$test_tmp/backend.o"
+cc "${flags[@]}" -c "$project_root/sw/src/ai/runtime/services/rt_postprocess_service.c" -o "$test_tmp/postprocess.o"
 for driver in ai_ppu_publication ai_ppu_queue; do
   cc "${flags[@]}" -DYOLO32_PPU_ORDERED_MMIO=1 -c "$project_root/sw/src/ai/postprocess/$driver.c" -o "$test_tmp/$driver.o"
 done

@@ -105,7 +105,8 @@ LOCAL_SOURCES := src/main.c src/platform/console.c src/platform/runtime.c src/bo
 
 ifeq ($(AI_MODEL),yolov5nu)
 LOCAL_SOURCES += src/ai/runtime/ai_batch_runtime_stream.c \
-	src/ai/runtime/ai_head_slot_queue.c src/ai/backend/ai_model_backend_yolov5nu.c \
+	src/ai/runtime/ai_head_slot_queue.c src/ai/runtime/services/rt_postprocess_service.c \
+	src/ai/backend/ai_model_backend_yolov5nu.c \
 	src/ai/backend/rt_backend.c src/ai/backend/adapters/rt_backend_compat.c \
 	src/diagnostics/ai_yolov5nu_selftest.c
 

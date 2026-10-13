@@ -15,6 +15,10 @@ for mode in reference current; do
     source="$test_tmp/backend.c"
   fi
   cc "${flags[@]}" -c "$source" -o "$test_tmp/backend.o"
+  rm -f "$test_tmp/postprocess.o"
+  if [[ "$mode" == current ]]; then
+    cc "${flags[@]}" -c "$project_root/sw/src/ai/runtime/services/rt_postprocess_service.c" -o "$test_tmp/postprocess.o"
+  fi
   for driver in publication queue; do
     source="$project_root/sw/src/ai/postprocess/ai_ppu_$driver.c"
     if [[ "$mode" == reference ]]; then
@@ -58,6 +62,10 @@ for workers in 1 2; do
     source="$project_root/sw/src/ai/backend/ai_model_backend_yolov5nu.c"
     if [[ "$mode" == reference ]]; then source="$test_tmp/backend.c"; fi
     cc "${legacy_flags[@]}" -c "$source" -o "$test_tmp/backend.o"
+    rm -f "$test_tmp/postprocess.o"
+    if [[ "$mode" == current ]]; then
+      cc "${legacy_flags[@]}" -c "$project_root/sw/src/ai/runtime/services/rt_postprocess_service.c" -o "$test_tmp/postprocess.o"
+    fi
     for driver in publication queue; do
       source="$project_root/sw/src/ai/postprocess/ai_ppu_$driver.c"
       if [[ "$mode" == reference ]]; then source="$test_tmp/$driver.c"; fi

@@ -1,0 +1,527 @@
+{
+  "phase": "R4b",
+  "status": "COMPLETE_WITH_KNOWN_GAPS",
+  "date": "2026-10-13",
+  "baseline_commit": "b1de2e3f1355cd12b7727b5e5309eba342ad9572",
+  "branch": "main",
+  "acceptance_scope": "OFFLINE_HEAD_PPU_SERVICE_EXTRACTION_AND_PROOF_VALIDATION",
+  "scope": "Head leases/publication/admission/PPU completion and result ring move into independent service; compatibility facade keeps existing service positions",
+  "production_policy_changed": false,
+  "new_interface_contract": "Synchronous Head events validate identity, local completion/request masks and cycles before publication; no partial event authorizes activation or Head retirement",
+  "evidence_root": "build/runtime-refactor/r4b",
+  "environment": {
+    "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.35",
+    "python": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+    "tools": {
+      "make": [
+        "GNU Make 4.4.1",
+        "为 x86_64-conda-linux-gnu 编译"
+      ],
+      "host_cc": [
+        "cc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0",
+        "Copyright (C) 2021 Free Software Foundation, Inc."
+      ],
+      "riscv_elf_gcc": [
+        "riscv64-unknown-elf-gcc (gc891d8dc23e) 13.2.0",
+        "Copyright (C) 2023 Free Software Foundation, Inc."
+      ],
+      "riscv_linux_gcc": [
+        "riscv64-unknown-linux-gnu-gcc (gc891d8dc23e) 13.2.0",
+        "Copyright (C) 2023 Free Software Foundation, Inc."
+      ],
+      "qemu": [
+        "qemu-riscv64 version 10.1.50 (v10.1.0-1778-ge090e0312d)",
+        "Copyright (c) 2003-2025 Fabrice Bellard and the QEMU Project developers"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "name": "postprocess_proof_and_frozen_traces",
+      "command": "make test-runtime-r4b",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/postprocess.log",
+      "log_sha256": "ec24261687bb7b194e241222cc8238ea127cc204ce02aac966111a2cad456c29",
+      "skips": []
+    },
+    {
+      "name": "runtime_and_ops_traces",
+      "command": "make test-runtime-r3 test-runtime-backend test-runtime-r4a",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/runtime.log",
+      "log_sha256": "229f5f783f66198cbc6a9c6b4aa600520522dd3ee8a3e3e75ea062a08d451c43",
+      "skips": []
+    },
+    {
+      "name": "software",
+      "command": "make test-software",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/software.log",
+      "log_sha256": "b38ecddf2ce58fa40a31065bb7581ec20b9e3f613e1a94afab02918e1a958f71",
+      "skips": []
+    },
+    {
+      "name": "v17a",
+      "command": "make test-v17a",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/v17a.log",
+      "log_sha256": "079a1e89fa0f23c40dbbab9c0aded8d04ad7337c3306604b6c3aa56dbf770ab9",
+      "skips": []
+    },
+    {
+      "name": "firmware_v3",
+      "command": "make firmware SOC_VARIANT=triple32_v3_tensor",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/firmware_triple32_v3_tensor.log",
+      "log_sha256": "0bb2964e142533636078452ac6980e0280a5bca97dda045c5b7a35050a5e78ed",
+      "skips": []
+    },
+    {
+      "name": "firmware_dual16",
+      "command": "make firmware SOC_VARIANT=dual16",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/firmware_dual16.log",
+      "log_sha256": "6e35887c9549aeed7d5550a49f4c16c9ec5d89edd2418ff617e1e85e11c66b75",
+      "skips": []
+    },
+    {
+      "name": "firmware_single4",
+      "command": "make firmware SOC_VARIANT=single4",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/firmware_single4.log",
+      "log_sha256": "eaff61ee669c2ff5f77473a68c54911d2a3889b591e73469b631228fdfff5ae5",
+      "skips": []
+    },
+    {
+      "name": "benchmark",
+      "command": "make firmware-benchmark",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/benchmark.log",
+      "log_sha256": "cb31950a059a72944671c667d55f9d43f6d6fb34837613554c22ecedd07e7785",
+      "skips": []
+    },
+    {
+      "name": "elf_dependencies",
+      "command": "make check-v17a-firmware check-deps SOC_VARIANT=triple32_v3_tensor",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/dependencies.log",
+      "log_sha256": "f9169a933163372f29eaa6f8fcfe27ac3b7391555ab06d2bdf1b7a3d59d6525f",
+      "skips": []
+    },
+    {
+      "name": "tensor_ppu_protocols",
+      "command": "make test-tensor-ingress test-tensor test-ppu SOC_VARIANT=triple32_v3_tensor",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/protocols.log",
+      "log_sha256": "e374841ff882d9db15069bde2ba82814eca4f1e8c95c936b0f52362bef9b637e",
+      "skips": []
+    },
+    {
+      "name": "artifact_scope_audit",
+      "command": "python3 build/runtime-refactor/r4b/capture_evidence.py",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/artifact_audit.log",
+      "log_sha256": "aaa57d2bf8954b408497bd22b104dddedc1cc8fe9b0c6d672378f4a546a69af6",
+      "skips": []
+    }
+  ],
+  "artifacts": {
+    "triple32_v3_tensor": [
+      {
+        "path": "artifacts/triple32_v3_tensor/hdmi_tx_test.elf",
+        "source": "build/firmware/triple32_v3_tensor/hdmi_tx_test.elf",
+        "bytes": 4621528,
+        "sha256": "455102b2f61bf8ed1b980e1daf7d45a207641e4da3a9f3c0451d0ec3b6eabfab"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/hdmi_tx_test.map",
+        "source": "build/firmware/triple32_v3_tensor/hdmi_tx_test.map",
+        "bytes": 925516,
+        "sha256": "483460feb4cff38007a21533c4c74d65d6dfec881c03af519c1ea1de7d0d08e1"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/hdmi_tx_test.dis",
+        "bytes": 3113054,
+        "sha256": "f07619a51bd3aa32a0798558b5fa8ab30e30701e930ffd378bacf55a15ac9846"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/v17a/firmware-config.stamp",
+        "source": "build/firmware/triple32_v3_tensor/v17a/firmware-config.stamp",
+        "bytes": 3756,
+        "sha256": "c6d35a29498a0c265869b603d7863414f737304003575166720e11503594a7b4"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/v17a/parallel.stamp",
+        "source": "build/firmware/triple32_v3_tensor/v17a/parallel.stamp",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/v17a/fixed_plans.json",
+        "source": "build/firmware/triple32_v3_tensor/v17a/fixed_plans.json",
+        "bytes": 396093,
+        "sha256": "d9c42418083a5a529e256dc7a8ddd6012ab4ff13d5b4af0a1a643759143b2f39"
+      }
+    ],
+    "dual16": [
+      {
+        "path": "artifacts/dual16/firmware.elf",
+        "source": "build/firmware/dual16_video/firmware.elf",
+        "bytes": 5279288,
+        "sha256": "d1a74633d75e370753d489ddfafd8c8b094e023327fb19f3cab4291945200f91"
+      },
+      {
+        "path": "artifacts/dual16/firmware.map",
+        "source": "build/firmware/dual16_video/firmware.map",
+        "bytes": 861254,
+        "sha256": "65dab722ec7e40173f04e9ddcc3e8b5ce22a3c1d3835db0d5f108c6a2e768e75"
+      },
+      {
+        "path": "artifacts/dual16/firmware.dis",
+        "bytes": 2662188,
+        "sha256": "37d834feb4b18320fe512a3c37d1f3e297171b845db80597823c0f31d47b8496"
+      }
+    ],
+    "single4": [
+      {
+        "path": "artifacts/single4/firmware.elf",
+        "source": "build/firmware/single4_video/firmware.elf",
+        "bytes": 5271376,
+        "sha256": "cf1a1d9f284c7dbacb433c349fb25cf067d7dba3ac018351497ae028362f6002"
+      },
+      {
+        "path": "artifacts/single4/firmware.map",
+        "source": "build/firmware/single4_video/firmware.map",
+        "bytes": 866859,
+        "sha256": "a22c117d451a9b92cc9243a9e6783ea6e5bde3955b0a0b95aef3c5502afa4d79"
+      },
+      {
+        "path": "artifacts/single4/firmware.dis",
+        "bytes": 2628838,
+        "sha256": "830c571203e5f63ef20c4d81a0ca856076256846260aa04cb83bc5f9e5b051c7"
+      }
+    ],
+    "benchmark": [
+      {
+        "path": "artifacts/benchmark/yolo32.elf",
+        "source": "build/firmware/triple32_v17a_benchmark/yolo32.elf",
+        "bytes": 6370728,
+        "sha256": "0f8d90c796a948438433f07b8e4493c0d9cd498fdb79c5df6f8701aa453d93fb"
+      },
+      {
+        "path": "artifacts/benchmark/yolo32.map",
+        "source": "build/firmware/triple32_v17a_benchmark/yolo32.map",
+        "bytes": 188461,
+        "sha256": "dfa5eb20175fe3273776c17238a8cf66038ac4690881aaaf1962c152eb3e9a9b"
+      },
+      {
+        "path": "artifacts/benchmark/yolo32.dis",
+        "bytes": 1598325,
+        "sha256": "6154e193fe2e33c321ad514cbfbde1d49ae615e4df6a122120eb9df751727b01"
+      },
+      {
+        "path": "artifacts/benchmark/v17a/parallel.stamp",
+        "source": "build/firmware/triple32_v17a_benchmark/v17a/parallel.stamp",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "artifacts/benchmark/v17a/fixed_plans.json",
+        "source": "build/firmware/triple32_v17a_benchmark/v17a/fixed_plans.json",
+        "bytes": 396093,
+        "sha256": "d9c42418083a5a529e256dc7a8ddd6012ab4ff13d5b4af0a1a643759143b2f39"
+      },
+      {
+        "path": "artifacts/benchmark/inputs_manifest.json",
+        "source": "build/firmware/triple32_v17a_benchmark/inputs_manifest.json",
+        "bytes": 561,
+        "sha256": "676258707cabb52b652ce5aab07a173fa4baf293be2963dbba8ed2db87d6431d"
+      }
+    ]
+  },
+  "source_inventory": {
+    "path": "source-inventory.json",
+    "sha256": "c00343b65e921d0dc3f5f936e93411f2390baf44515c285f674db21615b75de1"
+  },
+  "build_configurations": {
+    "path": "build-configurations.json",
+    "sha256": "c82bc1f77e1881771a5458120ff68b773d6349a405798dea2f83b9882050178b"
+  },
+  "reference": {
+    "source": "tests/data/runtime/r4a/model-backend-reference.c.inc",
+    "sha256": "6f2a3d3639135658299897f84663f46c58415f973df9e7cd200f1d5c1bb1842e",
+    "byte_identical_to_baseline": true
+  },
+  "profiles": {
+    "single4": {
+      "name": "legacy",
+      "workers": 1,
+      "DIM": 4
+    },
+    "dual16": {
+      "name": "legacy",
+      "workers": 2,
+      "DIM": 16
+    },
+    "triple32_v3_tensor": {
+      "name": "v17a",
+      "workers": 3,
+      "DIM": 32
+    }
+  },
+  "proof_tests": {
+    "platforms": [
+      "Host",
+      "RV64 QEMU"
+    ],
+    "invalid_event_cases_per_platform": 9,
+    "properties": [
+      "full identity rejects five mismatches before PPU IO",
+      "unknown/nonlocal masks rejected",
+      "missing request or early cycle rejected",
+      "no resource retirement on invalid event",
+      "init preserves outstanding Head/activation ownership",
+      "partial Head has no graph admission",
+      "graph completion releases activation while PPU retains Head",
+      "matching PPU result retires Head"
+    ]
+  },
+  "equivalence": {
+    "frozen_native_trace_cases": [
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "begin-error",
+        "events": 28,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "start-error",
+        "events": 35,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "model-error",
+        "events": 36,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "ppu-busy-done",
+        "events": 46,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "publication-on",
+        "events": 54,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "flush-fallback",
+        "events": 40,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "reader-busy",
+        "events": 56,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "ppu-error",
+        "events": 84,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "timeout",
+        "events": 47,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "cpu-fallback",
+        "events": 3,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "begin-error",
+        "events": 28,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "start-error",
+        "events": 35,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "model-error",
+        "events": 36,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "ppu-busy-done",
+        "events": 46,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "publication-on",
+        "events": 54,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "flush-fallback",
+        "events": 40,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "reader-busy",
+        "events": 56,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "ppu-error",
+        "events": 84,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "timeout",
+        "events": 47,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "cpu-fallback",
+        "events": 3,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 3,
+        "live": 1,
+        "scenario": "begin-error",
+        "events": 33,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 3,
+        "live": 1,
+        "scenario": "start-error",
+        "events": 40,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 3,
+        "live": 1,
+        "scenario": "model-error",
+        "events": 41,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 3,
+        "live": 1,
+        "scenario": "identity",
+        "events": 350,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 3,
+        "live": 1,
+        "scenario": "generation-fault",
+        "events": 127,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 3,
+        "live": 1,
+        "scenario": "abort-gap",
+        "events": 41,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 3,
+        "live": 1,
+        "scenario": "all-workers",
+        "events": 769,
+        "status": "IDENTICAL"
+      }
+    ],
+    "frozen_native_trace_cases_total": 27,
+    "reference": "Frozen b1de2e3 monolith with actual Ops and original PPU/resource modules",
+    "current": "Extracted service with same Ops, native/CSR doubles and original PPU/resource modules",
+    "comparison": "All MMIO, fences, logical cycles, result identity, ownership and UART arguments; no filtering",
+    "runtime_cases_total": 47,
+    "runtime_reference": "Frozen R2 Runtime, same R3 fixtures/mock backend",
+    "clock_scope": "Deterministic fake cycles; does not prove actual CPU cycles or board performance",
+    "native_fault_scope": "live model-error uses abort to ERROR; no native task internal fatal injection"
+  },
+  "numerical_and_protocols": {
+    "python_tests": 101,
+    "native_model_sources_unchanged": true,
+    "host_and_rv64_live_context": "PASS",
+    "tensor_ingress_tensor_ppu_rtl": "PASS"
+  },
+  "known_gaps": [
+    {
+      "id": "R0-GAP-02",
+      "target_status": "FAIL",
+      "characterization": "PASS",
+      "description": "Tensor version wrap retains original stale comparison"
+    },
+    {
+      "id": "BOARD_VALIDATION",
+      "status": "NOT_RUN",
+      "description": "Continuous stream recovery FPS latency and event/function overhead unmeasured"
+    }
+  ],
+  "board_validation": {
+    "performed": false,
+    "bitstream_programmed": false,
+    "synthesis_or_implementation": false
+  },
+  "next_phase": "R5 Application/CLI/shim/profiling layering; R6 performance after functional and board baseline",
+  "rollback": "Revert this phase as one commit to restore b1de2e3"
+}

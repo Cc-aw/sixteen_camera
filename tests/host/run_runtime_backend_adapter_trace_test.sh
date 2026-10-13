@@ -17,6 +17,7 @@ for workers in 1 2 3; do
     -DYOLO32_PPU_EARLY=1 -DYOLO32_PPU_HEAD_CLEAN=1 -DR2_STOP_PROOF=1 -DAI_BACKEND_RESOURCE_TEST=1
     "${runtime_backend_flags[@]}" -I"$project_root/tests/host/ppu_backend_include" -I"$project_root/sw/src" -I"$model/native" -I"$model")
   cc "${flags[@]}" -c "$project_root/sw/src/ai/backend/ai_model_backend_yolov5nu.c" -o "$test_tmp/backend.o"
+  cc "${flags[@]}" -c "$project_root/sw/src/ai/runtime/services/rt_postprocess_service.c" -o "$test_tmp/postprocess.o"
   for driver in publication queue; do
     cc "${flags[@]}" -DYOLO32_PPU_ORDERED_MMIO=$live -c "$project_root/sw/src/ai/postprocess/ai_ppu_$driver.c" -o "$test_tmp/$driver.o"
   done
