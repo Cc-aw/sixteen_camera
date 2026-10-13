@@ -74,6 +74,17 @@ PPU 128-bit 结果字和五轮测量检查；下载后按基准 UART 提示运�
 
 `dual16` 和 `single4` 保留原来的 ABI、模型及诊断行为。
 
+## Runtime 与应用分层（R5）
+
+实时应用使用 `ai/runtime/rt.h`；原 batch 入口为无状态迁移 shim，旧 no-op bridge 已移除。
+`main.c` 保留原启动及 video → Runtime → diagnostics/command 轮询次序。
+UART、模式状态、Tensor-only 与带宽诊断分开；命令及输出字段保持不变，日志解析器沿用原格式。
+后端计算与 `rt_postprocess_service` 的 Head/PPU 占有独立；Application 不直接包含模型 Backend 或 Head 内部结构。
+
+通用帧指标提供只读、按时间排序的副本；专属 Gemmini/RVV/PPU 指标仍由 `p/P/s` 诊断输出。
+没有新增 native scheduler pump、调整包/时间量子或加入新的 hot-path 测量。
+[R5 离线验收](../architecture/sw-runtime-r5.md) 包含冻结入口轨迹、Host/RV64 和实际 ELF 构建，不能代替板测。
+
 ## 已完成的离线验证
 
 - V17 A 基准 ELF、V3 + Tensor 视频 ELF 均构建成功。

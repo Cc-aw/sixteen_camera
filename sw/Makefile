@@ -86,7 +86,9 @@ LDFLAGS := $(ARCH_FLAGS) -nostdlib -nostartfiles -static -Wl,--gc-sections \
 	-Wl,-Map,$(TARGET).map -T linker_ai_video.ld -Wl,--wrap=malloc -Wl,--wrap=free
 LDLIBS := -lm -lgcc
 
-LOCAL_SOURCES := src/main.c src/platform/console.c src/platform/runtime.c src/board/board_runtime.c src/ai/runtime/ai_runtime_bridge.c src/video/hdmi_tx.c \
+LOCAL_SOURCES := src/main.c src/board/board_boot.c src/app/app.c src/app/command.c src/app/mode_manager.c \
+	src/diagnostics/board_bandwidth.c src/diagnostics/tensor_production.c \
+	src/diagnostics/runtime_diagnostics.c src/ai/runtime/rt.c src/platform/console.c src/platform/runtime.c src/board/board_runtime.c src/video/hdmi_tx.c \
 	src/board/xilinx_config.c src/board/board_gpio.c src/video/camera_video.c \
 	src/video/video_service.c \
 	src/video/camera_config.c src/platform/cache_ops.c \

@@ -16,7 +16,7 @@ export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD
 .PHONY: test-tensor-device test-runtime-tensor-hal
 .PHONY: test-ppu-device test-runtime-ppu-hal
 .PHONY: test-overlay-device test-runtime-overlay-hal test-cache-ops
-.PHONY: test-runtime-resources test-runtime-faults test-runtime-scheduler test-runtime-r3 test-runtime-backend test-runtime-r4a test-runtime-r4b
+.PHONY: test-runtime-resources test-runtime-faults test-runtime-scheduler test-runtime-r3 test-runtime-backend test-runtime-r4a test-runtime-r4b test-runtime-r5
 .PHONY: help check firmware firmware-benchmark test-v17a check-v17a-firmware bitstream elaborate test-tensor test-tensor-ingress test-cache test-ppu test-video test-runtime test-software
 help:
 	@printf '%s\n' \
@@ -53,6 +53,7 @@ help:
 	  'make test-runtime-scheduler        Pure EDF selection and Runtime control states' \
 	  'make test-runtime-r3               Full split Runtime event traces against R2' \
 	  'make test-runtime-backend          Host/RV64 Backend Ops and profile guards' \
+	  'make test-runtime-r5               Application/facade traces and Host/RV64 metrics' \
 	  'make test-runtime-r4b              Frozen R4a Head/PPU service traces' \
 	  'make test-runtime-r4a              Real legacy/V17A adapter event traces' \
 	  'make test-software                  All software host tests' \
@@ -161,6 +162,11 @@ test-runtime-r3:
 
 test-runtime-backend:
 	bash tests/host/run_runtime_backend_ops_test.sh
+
+test-runtime-r5:
+	bash tests/host/run_application_trace_test.sh
+	bash tests/host/run_runtime_facade_trace_test.sh
+	bash tests/host/run_runtime_facade_metrics_test.sh
 
 test-runtime-r4b:
 	bash tests/host/run_runtime_postprocess_proof_test.sh

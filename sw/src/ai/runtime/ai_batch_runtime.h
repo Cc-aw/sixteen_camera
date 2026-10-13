@@ -2,18 +2,12 @@
 #define AI_BATCH_RUNTIME_H
 
 #include <stdint.h>
+#include "ai/runtime/rt_types.h"
 
 #include "ai/postprocess/ai_detection.h"
 #include "ai/runtime/ai_frame_snapshot.h"
 #include "platform/platform.h"
 #include "ai/runtime/resources/rt_resources.h"
-
-typedef enum {
-    AI_RT_STATE_STOPPED = 0,
-    AI_RT_STATE_RUNNING,
-    AI_RT_STATE_DRAINING,
-    AI_RT_STATE_FAULTED
-} AiRtState;
 
 typedef enum {
     AI_BATCH_FREE = 0,
@@ -45,47 +39,11 @@ typedef struct {
     AiBatchState state;
 } AiBatchContext;
 
-typedef struct {
-    uint64_t last_frame_id;
-    uint64_t last_service_cycle;
-    uint64_t last_complete_cycle;
-    uint64_t next_deadline;
-    uint64_t max_service_gap_cycles;
-    uint64_t last_result_cycle;
-    uint32_t last_version;
-    uint32_t dispatched_count;
-    uint32_t completed_count;
-    uint32_t superseded_count;
-    uint32_t missed_deadline_count;
-    uint32_t expired_result_count;
-    uint32_t inflight_count;
-    uint32_t last_frame_valid;
-} AiStreamRuntimeStatus;
+/* Migration aliases: layout and legacy field meanings are preserved. */
+typedef AiRtStreamStatus AiStreamRuntimeStatus;
+typedef AiRtStatus AiBatchRuntimeStatus;
 
-typedef struct {
-    uint32_t enabled;
-    uint32_t phase;
-    uint32_t snapshot_count;
-    uint32_t preprocess_count;
-    uint32_t consumed_count;
-    uint32_t completed_job_count;
-    uint32_t postprocess_count;
-    uint32_t result_publish_count;
-    uint32_t stale_result_count;
-    uint32_t error_count;
-    uint32_t release_retry_count;
-    uint32_t recycle_error_count;
-    uint32_t snapshot_release_count;
-    uint64_t snapshot_hold_cycles;
-    uint64_t max_snapshot_hold_cycles;
-    uint32_t arena_wait_count;
-    int32_t last_error;
-    uint64_t last_batch_id;
-    uint32_t last_valid_mask;
-    uint32_t last_fresh_mask;
-    uint32_t last_preprocess_cycles;
-} AiBatchRuntimeStatus;
-
+/* Compatibility shim for existing diagnostics/tests. New applications use rt.h. */
 void ai_batch_runtime_init(void);
 void ai_batch_runtime_set_enabled(uint32_t enabled);
 uint32_t ai_batch_runtime_is_enabled(void);

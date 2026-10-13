@@ -1,5 +1,9 @@
 # Source after project_root is set. Only the current split Runtime links these.
-runtime_module_sources=(
+runtime_facade_sources=(
+  "$project_root/sw/src/ai/runtime/rt.c"
+  "$project_root/sw/src/diagnostics/runtime_diagnostics.c"
+)
+runtime_core_sources=(
   "$project_root/sw/src/ai/runtime/core/rt_core.c"
   "$project_root/sw/src/ai/runtime/core/rt_pipeline.c"
   "$project_root/sw/src/ai/runtime/core/rt_state.c"
@@ -10,6 +14,7 @@ runtime_module_sources=(
   "$project_root/sw/src/ai/runtime/services/rt_result_service.c"
   "$project_root/sw/src/ai/runtime/services/rt_overlay_service.c"
 )
+runtime_module_sources=("${runtime_facade_sources[@]}" "${runtime_core_sources[@]}")
 
 # Host workloads model the same explicit profiles as the firmware build.
 # Keep sources separate so frozen Runtime references never link adapters.

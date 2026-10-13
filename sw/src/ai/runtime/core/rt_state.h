@@ -1,7 +1,7 @@
 #ifndef RT_STATE_H
 #define RT_STATE_H
 
-#include "ai/runtime/ai_batch_runtime.h"
+#include "ai/runtime/rt_types.h"
 
 /* Phase captures producer enable/drain. Fault is latched independently so a
  * fault can precede the original poll-position disable and safe drain. */

@@ -2,7 +2,9 @@
 #define RT_INTERNAL_H
 
 /* Private per-runtime context shared by core, scheduler and services. */
-#include "ai/runtime/ai_batch_runtime.h"
+#include "ai/runtime/rt.h"
+typedef AiRtStatus AiBatchRuntimeStatus;
+typedef AiRtStreamStatus AiStreamRuntimeStatus;
 #include "ai/backend/rt_backend.h"
 #include "ai/runtime/ai_tensor_slot_pool.h"
 #include "ai/runtime/resources/rt_tensor_manager.h"
@@ -78,6 +80,8 @@ typedef struct {
     uint32_t profile_count;
 } AiRtCore;
 
+
+AiRtCore *rt_core_instance(void);
 
 void rt_record_error(AiRtCore *rt, int error);
 uint32_t rt_post_job_count(AiRtCore *rt);

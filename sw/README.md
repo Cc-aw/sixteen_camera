@@ -69,4 +69,10 @@ R3 已将纯选择、派发事务、Pipeline、Tensor/结果/overlay 服务与�
 `make test-runtime-backend test-runtime-r4a` 验证 Host/RV64 事件语义、配置负例和真实后端对照。
 详见 [R4a 验收](../docs/architecture/sw-runtime-r4a.md)。
 `make test-runtime-r4b` 验证独立后处理服务的完成证明（Host/RV64）及冻结 R4a 的 27 组完整轨迹。
-详见 [R4b 验收](../docs/architecture/sw-runtime-r4b.md)。下一阶段为 R5 Application/CLI/shim/profiling 分层。
+详见 [R4b 验收](../docs/architecture/sw-runtime-r4b.md)。
+R5 已将启动/事件循环、UART 命令、模式状态、带宽与 Tensor 诊断分开。
+新应用使用 `ai/runtime/rt.h`；`ai_batch_runtime_*` 为现有诊断和测试保留无状态迁移 shim，
+旧 no-op bridge 已删除。通用帧指标通过 Facade 查询，设备/模型计数通过 `diagnostics/runtime_diagnostics.h` 输出。
+`make test-runtime-r5` 验证 91 组应用/UART、47 组真实 Facade 对照及 Host/RV64 指标/占有测试。
+详见 [R5 验收](../docs/architecture/sw-runtime-r5.md)。R0–R5 离线结构迁移已完成；
+板测与性能未验证，R6 需先取得匹配硬件/软件的板上稳定性和测量基线。

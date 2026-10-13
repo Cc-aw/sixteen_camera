@@ -15,7 +15,8 @@
 - [SW Runtime R3 调度与 Pipeline 拆分](architecture/sw-runtime-r3.md)：纯 EDF 选择、派发事务、完成/结果服务、Runtime 状态机与冻结 R2 的完整事件对照。
 - [SW Runtime R4a Backend Ops 适配](architecture/sw-runtime-r4a.md)：显式 legacy/V17A profile、一次性完成事件与真实后端完整操作对照。
 - [SW Runtime R4b Head/PPU 服务拆分](architecture/sw-runtime-r4b.md)：后处理独立占有、完成证明、冻结 R4a 轨迹与三配置固件验证。
-- [SW Runtime 分层重构设计与实施方案](architecture/sw-runtime-refactor.md)：R0–R6 分阶段计划，R0、R1 已完成离线验证，板测待验证。
+- [SW Runtime R5 应用与 Facade 分层](architecture/sw-runtime-r5.md)：启动/UART 等价、真实公开 API、迁移 shim、通用与专属指标和三配置固件。
+- [SW Runtime 分层重构设计与实施方案](architecture/sw-runtime-refactor.md)：R0–R6 分阶段计划，R0–R5 已完成离线结构验证，板测待验证，R6 未实施。
 - [HDMI 八路视频空间封装](integration/8路640x480视频在4K30_HDMI中的空间封装规范.md)
 - [PCLK 接口约定](integration/pclk_timing_refactor_interfaces.md)
 - [本次目录重构验收](validation/structure-refactor.md)
