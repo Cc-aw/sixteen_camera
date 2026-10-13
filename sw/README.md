@@ -38,3 +38,10 @@ make test-software
 `make firmware-benchmark` 构建 image025/036/142 三图基准，`make test-v17a` 运行移植回归。
 硬件参数来自匹配 SoC 的生成目录，源码与输入全部冻结在当前仓库。
 详见 [软件移植说明](../docs/integration/triple32-v17a-software.md)。
+
+## Runtime 重构基线
+
+分阶段方案见 [Runtime 重构设计](../docs/architecture/sw-runtime-refactor.md)，当前 R0 审计见
+[基线与约束](../docs/architecture/sw-runtime-baseline.md)。`make runtime-baseline` 保存构建、
+Host/QEMU 回归与产物到忽略的 `build/`；`make test-runtime-baseline` 运行 ABI、身份 trace
+及现有错误路径/版本回绕的 characterization。已知缺口在报告中独立记为 FAIL。

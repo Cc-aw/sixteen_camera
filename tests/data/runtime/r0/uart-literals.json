@@ -1,0 +1,552 @@
+{
+  "kind": "source literal catalog; not a board capture",
+  "baseline": "fde62da83c3d061cd4e20dd8b9847891cba9307e",
+  "board_validation": "NOT_RUN",
+  "literals": [
+    {
+      "source": "sw/src/main.c",
+      "line": 64,
+      "literal": "g=SoC Tensor ingress snapshot (repeat after >=10s for completed MB/s), "
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 67,
+      "literal": "V17A: fixed-image correctness/timing tests use the separate triple32_v17a_benchmark ELF. Commands: "
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 69,
+      "literal": "Commands: t=fixed image all-worker Gemmini test, u/U=fixed image sequential Gemmini test (forward/reverse), T=fixed image Gemmini+PPU test, "
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 71,
+      "literal": "R=FBus read-only BW, W=tensor write-only BW (10s), C=raw tensor/FBus concurrent BW, b=AI concurrent BW, s=AI status, v=video status, o=overlay test, p=profile, P=PPU phases, m=tensor soak, i=AI runtime, r=restart, c=clock ID, h=help\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 86,
+      "literal": "SOC TENSOR completed/accepted/errors="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 91,
+      "literal": " completed_MBps="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 94,
+      "literal": " delta_stall(aw/w/tl/source/b)="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 101,
+      "literal": " flight/max/ack_max_cycles="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 105,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 114,
+      "literal": "BOARD BW already running\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 118,
+      "literal": "BOARD BW requires active AI runtime; press i first\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 125,
+      "literal": "BOARD BW reader start failed status/id/cap="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 133,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 159,
+      "literal": "BOARD BW running read_bytes/iterations/burstB="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 165,
+      "literal": " write_admission="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 167,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 173,
+      "literal": "BOARD BW already running\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 178,
+      "literal": "BOARD READ-ONLY requires AI/tensor producer idle\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 184,
+      "literal": "BOARD READ-ONLY start failed\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 190,
+      "literal": "BOARD READ-ONLY running bytes/iterations/burstB="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 196,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 202,
+      "literal": "BOARD BW already running\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 207,
+      "literal": "BOARD RAW CONCURRENT requires AI/tensor producer idle\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 213,
+      "literal": "BOARD RAW CONCURRENT reader start failed\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 248,
+      "literal": "BOARD RAW CONCURRENT producer enable rejected\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 253,
+      "literal": "BOARD RAW CONCURRENT running read_bytes/iterations/burstB/write_admission="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 261,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 324,
+      "literal": " bursts(i/c)="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 328,
+      "literal": " stall(aw/w/bwait)="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 334,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 357,
+      "literal": " stall(ar/rwait/rbp)="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 363,
+      "literal": " max(out/reorder)/id/eff="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 371,
+      "literal": "\r\nBOARD BW VERIFY iter/crc/timeout/axi/flags jobs="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 384,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 416,
+      "literal": "TENSOR PROD FAIL slot/frame/bytes="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 422,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 443,
+      "literal": "TENSOR PROD release timeout\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 456,
+      "literal": "TENSOR PROD drained\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 475,
+      "literal": "TENSOR PROD done CH1..16="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 481,
+      "literal": " missed/admit_skip/no_slot/overflow/error="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 492,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 502,
+      "literal": "TENSOR PROD draining\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 509,
+      "literal": "TENSOR PROD: disable AI and drain all arenas first\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 528,
+      "literal": "TENSOR PROD enable rejected by hardware\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 533,
+      "literal": "TENSOR PROD enabled, multi-channel capture, press m to drain\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 552,
+      "literal": "TENSOR PROD stale write did not drain\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 572,
+      "literal": "TENSOR PROD stale slots did not release\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 582,
+      "literal": "BOARD BW already running\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 587,
+      "literal": "BOARD WRITE-ONLY requires AI/tensor producer idle\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 623,
+      "literal": "BOARD WRITE-ONLY enable rejected\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 629,
+      "literal": "BOARD WRITE-ONLY running seconds/admission/burstB=10/"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 631,
+      "literal": "/64\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 678,
+      "literal": "BOARD WRITE-ONLY MBps/bytes/cycles/beats="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 686,
+      "literal": " bursts(i/c)="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 690,
+      "literal": " out/max/starve="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 698,
+      "literal": " stall(aw/w/bwait)="
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 704,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 711,
+      "literal": "\r\n8x OV7670 -> shared DMA -> DDR -> HDMI TX\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 712,
+      "literal": "CH1-CH8 local + CH9-CH16 HDMI in 4x4 1080p60 mosaic\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 713,
+      "literal": "All OV7670 initialization is hardware controlled\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 715,
+      "literal": "Dedicated FBus bandwidth diagnostic firmware\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 720,
+      "literal": "Video pipeline initialization failed; press r to retry\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 724,
+      "literal": "AI runtime initialization failed\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 739,
+      "literal": "TENSOR PROD active; press m and wait for drain\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 756,
+      "literal": "YOLOV5NU TEST: wait for AI and bandwidth tests to drain\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 760,
+      "literal": "V17A: use the triple32_v17a_benchmark ELF for three-image correctness and timing tests\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 801,
+      "literal": "AI FRAME PROFILE: disable AI and wait for drain first\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 811,
+      "literal": "TENSOR PROD active; press m and wait for drain\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 823,
+      "literal": "Video pipeline initialization failed; press r to retry\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 825,
+      "literal": "Video pipeline ready\r\n"
+    },
+    {
+      "source": "sw/src/main.c",
+      "line": 830,
+      "literal": "8T49N241 ID="
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 767,
+      "literal": "AI FRAME PROFILE count/clock_hz="
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 771,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 781,
+      "literal": "AI FRAME id/frame/stream/worker="
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 789,
+      "literal": "\r\n  cycles scheduler/rocc/gem_busy/load_stall/exec/store_stall="
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 801,
+      "literal": "\r\n  cycles rvv/maxpool/resize/copy_requant/fence/tensor_wait/head_wait/ppu_queue_wait="
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 817,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 825,
+      "literal": "AI RT stream enable/drain/fault held/ready/writing/error="
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 840,
+      "literal": " jobs/done/post/pub/stale/err="
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 852,
+      "literal": " post_inflight="
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 854,
+      "literal": " last_err="
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 857,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 858,
+      "literal": "AI DMA out/max/starve/awstall/wstall/xfer/bwait/burst/done/resp="
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 888,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 897,
+      "literal": "AI SLOT ERR slot/ch/code/frame/ver/overflow="
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 913,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 921,
+      "literal": "AI CH"
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 923,
+      "literal": " dispatch/done/supersede/inflight/frame/ver/deadline_miss/expire="
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 941,
+      "literal": " det="
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 943,
+      "literal": "none"
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 947,
+      "literal": " (hardware overlay)"
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 950,
+      "literal": " first(class/score/xyxy)="
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_batch_runtime_stream.c",
+      "line": 964,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/ai/backend/ai_model_backend_yolov5nu.c",
+      "line": 97,
+      "literal": "AI PPU worker/slot/job/status/count/positions/candidates/nms/ready/cycles="
+    },
+    {
+      "source": "sw/src/ai/backend/ai_model_backend_yolov5nu.c",
+      "line": 117,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/ai/backend/ai_model_backend_yolov5nu.c",
+      "line": 119,
+      "literal": "AI PPU reader status/bytes/ar/beats="
+    },
+    {
+      "source": "sw/src/ai/backend/ai_model_backend_yolov5nu.c",
+      "line": 127,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/ai/backend/ai_model_backend_yolov5nu.c",
+      "line": 318,
+      "literal": "AI PPU head reader enable/active/busy/error="
+    },
+    {
+      "source": "sw/src/ai/backend/ai_model_backend_yolov5nu.c",
+      "line": 328,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/ai/backend/ai_model_backend_yolov5nu.c",
+      "line": 401,
+      "literal": "AI GRAPH start worker/slot/job/ppu_status="
+    },
+    {
+      "source": "sw/src/ai/backend/ai_model_backend_yolov5nu.c",
+      "line": 409,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/ai/backend/ai_model_backend_yolov5nu.c",
+      "line": 473,
+      "literal": "AI PPU timeout status="
+    },
+    {
+      "source": "sw/src/ai/backend/ai_model_backend_yolov5nu.c",
+      "line": 475,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/ai/backend/ai_model_backend_yolov5nu.c",
+      "line": 567,
+      "literal": "V17A runtime fault: "
+    },
+    {
+      "source": "sw/src/ai/backend/ai_model_backend_yolov5nu.c",
+      "line": 569,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/ai/backend/ai_model_backend_yolov5nu.c",
+      "line": 670,
+      "literal": "AI PPU enqueue worker/slot/job/ready/cycles="
+    },
+    {
+      "source": "sw/src/ai/backend/ai_model_backend_yolov5nu.c",
+      "line": 681,
+      "literal": "\r\n"
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_runtime_bridge.c",
+      "line": 9,
+      "literal": "AI_STAGE runtime_init\r\n"
+    },
+    {
+      "source": "sw/src/ai/runtime/ai_runtime_bridge.c",
+      "line": 15,
+      "literal": "AI_STAGE inference_stub\r\n"
+    }
+  ]
+}

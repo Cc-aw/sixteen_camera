@@ -12,6 +12,7 @@ export SOC_VARIANT VIVADO_BIN
 export VIVADO_PROJECT
 export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD_JTAG_SERIAL BITSTREAM_FILE
 
+.PHONY: runtime-baseline test-runtime-abi test-runtime-baseline
 .PHONY: help check firmware firmware-benchmark test-v17a check-v17a-firmware bitstream elaborate test-tensor test-tensor-ingress test-cache test-ppu test-video test-runtime test-software
 help:
 	@printf '%s\n' \
@@ -34,6 +35,8 @@ help:
 	  'make test-ppu                       PPU publication tests' \
 	  'make test-video                     Video refactor tests' \
 	  'make test-runtime                   Host stream runtime tests (2/3 workers)' \
+	  'make runtime-baseline               Capture R0 software baseline under build/' \
+	  'make test-runtime-baseline          ABI, identity trace and known-gap characterization' \
 	  'make test-software                  All software host tests' \
 	  'make program                        Download selected firmware (existing bitstream)' \
 	  'make check-deps                     Check source closure and installed tools' \
@@ -93,6 +96,16 @@ test-video:
 
 test-runtime:
 	cd "$(PROJECT_ROOT)" && bash tests/host/run_ai_batch_runtime_stream_test.sh
+
+runtime-baseline:
+	python3 tools/check/capture_sw_runtime_baseline.py
+
+test-runtime-abi:
+	bash tests/host/run_runtime_abi_baseline_test.sh
+
+test-runtime-baseline: test-runtime-abi
+	bash tests/host/run_runtime_baseline_trace_test.sh
+	bash tests/host/run_runtime_version_baseline_test.sh
 
 test-software:
 	@cd "$(PROJECT_ROOT)" && for test_script in tests/host/run_*_test.sh; do \

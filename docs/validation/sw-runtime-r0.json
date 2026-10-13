@@ -1,0 +1,372 @@
+{
+  "phase": "R0",
+  "status": "COMPLETE_WITH_KNOWN_GAPS",
+  "date": "2026-10-13",
+  "baseline_commit": "fde62da83c3d061cd4e20dd8b9847891cba9307e",
+  "branch": "refactor/sw-runtime-r0",
+  "production_behavior_changed": false,
+  "evidence_root": "build/runtime-refactor/r0/20261013T013114071800Z",
+  "environment": {
+    "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.35",
+    "python": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+    "tools": {
+      "make": [
+        "GNU Make 4.4.1",
+        "为 x86_64-conda-linux-gnu 编译"
+      ],
+      "host_cc": [
+        "cc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0",
+        "Copyright (C) 2021 Free Software Foundation, Inc."
+      ],
+      "riscv_elf_gcc": [
+        "riscv64-unknown-elf-gcc (gc891d8dc23e) 13.2.0",
+        "Copyright (C) 2023 Free Software Foundation, Inc."
+      ],
+      "riscv_linux_gcc": [
+        "riscv64-unknown-linux-gnu-gcc (gc891d8dc23e) 13.2.0",
+        "Copyright (C) 2023 Free Software Foundation, Inc."
+      ],
+      "qemu": [
+        "qemu-riscv64 version 10.1.50 (v10.1.0-1778-ge090e0312d)",
+        "Copyright (c) 2003-2025 Fabrice Bellard and the QEMU Project developers"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "name": "manifest_default",
+      "command": [
+        "make",
+        "check"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 0.033,
+      "log": "logs/manifest_default.log",
+      "log_sha256": "2c90dbcfbb3ac84b76a7ef0669630065e84dcf99ed1048c860bbc49ca86f7137",
+      "skips": []
+    },
+    {
+      "name": "manifest_v3",
+      "command": [
+        "make",
+        "check",
+        "SOC_VARIANT=triple32_v3_tensor"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 0.016,
+      "log": "logs/manifest_v3.log",
+      "log_sha256": "5492d3b9db82ea317c02c116bb77243eb148c88958dc9cfd8203a5f2205f357c",
+      "skips": []
+    },
+    {
+      "name": "dependencies",
+      "command": [
+        "make",
+        "check-deps",
+        "SOC_VARIANT=triple32_v3_tensor"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 0.517,
+      "log": "logs/dependencies.log",
+      "log_sha256": "d4dd389e1192638993a42a76cd4fb45f6ad04838d9e25cafcec5f189d0feb6ad",
+      "skips": []
+    },
+    {
+      "name": "runtime_host",
+      "command": [
+        "make",
+        "test-runtime"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 0.265,
+      "log": "logs/runtime_host.log",
+      "log_sha256": "2c365d0a3b9202a3bda3d6c76ba21cd29af317d4b9af64e215fb8c241ca643fb",
+      "skips": []
+    },
+    {
+      "name": "abi_host_rv64",
+      "command": [
+        "make",
+        "test-runtime-abi"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 0.315,
+      "log": "logs/abi_host_rv64.log",
+      "log_sha256": "2ed365d371a195fa0c3c936b72b7b41cbee5d581899e0c39b75baed56c35b0c2",
+      "skips": []
+    },
+    {
+      "name": "software_host",
+      "command": [
+        "make",
+        "test-software"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 1.968,
+      "log": "logs/software_host.log",
+      "log_sha256": "4d4f08020c110426c65f737810d309916c2e599b3d846addab99d22d19d18a6d",
+      "skips": []
+    },
+    {
+      "name": "v17a",
+      "command": [
+        "make",
+        "test-v17a"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 56.787,
+      "log": "logs/v17a.log",
+      "log_sha256": "2d64557d23d37fed2fcb32462c545802425c53c3ebf20147cc25f8967a83a524",
+      "skips": [],
+      "unittest_count": 101,
+      "riscv_live_context": "PASS"
+    },
+    {
+      "name": "benchmark",
+      "command": [
+        "make",
+        "firmware-benchmark"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 0.017,
+      "log": "logs/benchmark.log",
+      "log_sha256": "cb31950a059a72944671c667d55f9d43f6d6fb34837613554c22ecedd07e7785",
+      "skips": []
+    },
+    {
+      "name": "firmware_dual16",
+      "command": [
+        "make",
+        "firmware",
+        "SOC_VARIANT=dual16"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 0.115,
+      "log": "logs/firmware_dual16.log",
+      "log_sha256": "5cc4bb46bd65cbbd2bc5bb0eb4ad04ff6f7d63f80c1ad38f3e3c251a56c405c8",
+      "skips": []
+    },
+    {
+      "name": "firmware_single4",
+      "command": [
+        "make",
+        "firmware",
+        "SOC_VARIANT=single4"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 0.115,
+      "log": "logs/firmware_single4.log",
+      "log_sha256": "8dc7b4618cdc13793c92b5da912ca61f2c02c584e8a7da282ae4a4f9b8e792e5",
+      "skips": []
+    },
+    {
+      "name": "firmware_triple32_v3_tensor",
+      "command": [
+        "make",
+        "firmware",
+        "SOC_VARIANT=triple32_v3_tensor"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 0.115,
+      "log": "logs/firmware_triple32_v3_tensor.log",
+      "log_sha256": "417cb6f6fbabfc1cd03f93732da21d4ca86b4572829d8a1a90b42b80ea2ea1e5",
+      "skips": []
+    },
+    {
+      "name": "elf_audit",
+      "command": [
+        "make",
+        "check-v17a-firmware"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 0.114,
+      "log": "logs/elf_audit.log",
+      "log_sha256": "f970019239925a2150c136afedf30253c05710db96874b5cedd5684ebbffe0da",
+      "skips": []
+    },
+    {
+      "name": "identity_trace",
+      "command": [
+        "bash",
+        "tests/host/run_runtime_baseline_trace_test.sh"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 0.265,
+      "log": "logs/identity_trace.log",
+      "log_sha256": "e70fd288d5b11aa8be64408e31e7f37207077bd1b8eefbcadfec11b663e8406b",
+      "skips": []
+    },
+    {
+      "name": "version_wrap",
+      "command": [
+        "bash",
+        "tests/host/run_runtime_version_baseline_test.sh"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 0.117,
+      "log": "logs/version_wrap.log",
+      "log_sha256": "fa189122542bf5058f00b74f0a1835e3dbe0b24f729e916ff135927a5a82ab9b",
+      "skips": []
+    },
+    {
+      "name": "dependencies_final",
+      "command": [
+        "make",
+        "check-deps",
+        "SOC_VARIANT=triple32_v3_tensor"
+      ],
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 0.616,
+      "log": "logs/dependencies_final.log",
+      "log_sha256": "d4dd389e1192638993a42a76cd4fb45f6ad04838d9e25cafcec5f189d0feb6ad",
+      "skips": []
+    }
+  ],
+  "checks_passed": true,
+  "target_invariants": [
+    {
+      "name": "abort_success_requires_compute_stop_proof",
+      "status": "FAIL",
+      "evidence": "logs/identity_trace.log",
+      "reason": "After rejected abort and ERROR polling, abort returns zero while the model/task double still owns execution."
+    },
+    {
+      "name": "new_frame_version_wrap_is_not_stale",
+      "status": "FAIL",
+      "evidence": "logs/version_wrap.log",
+      "reason": "Production runtime releases version 1/frame 101 as stale after version UINT32_MAX/frame 100."
+    }
+  ],
+  "target_invariants_passed": false,
+  "board_validation": "NOT_RUN",
+  "full_synthesis_implementation": "NOT_RUN",
+  "artifacts": {
+    "benchmark": [
+      {
+        "path": "artifacts/benchmark/yolo32.elf",
+        "source": "build/firmware/triple32_v17a_benchmark/yolo32.elf",
+        "bytes": 6350376,
+        "sha256": "2a4565add0df65a7db92a9d12cd5df8188e11404273c009ac7e20c55c6771f3b"
+      },
+      {
+        "path": "artifacts/benchmark/yolo32.map",
+        "source": "build/firmware/triple32_v17a_benchmark/yolo32.map",
+        "bytes": 180713,
+        "sha256": "a695eeb2865a93d0058fb88a635e62dea6b41ef13eb2a3cc1d91532c037ed3f4"
+      },
+      {
+        "path": "artifacts/benchmark/yolo32.dis",
+        "bytes": 1589991,
+        "sha256": "7255dd6d364ce28cc3a56263a53bb5110142dc62f4567479fac2e770e6314c70"
+      },
+      {
+        "path": "artifacts/benchmark/v17a/parallel.stamp",
+        "source": "build/firmware/triple32_v17a_benchmark/v17a/parallel.stamp",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "artifacts/benchmark/v17a/fixed_plans.json",
+        "source": "build/firmware/triple32_v17a_benchmark/v17a/fixed_plans.json",
+        "bytes": 396093,
+        "sha256": "d9c42418083a5a529e256dc7a8ddd6012ab4ff13d5b4af0a1a643759143b2f39"
+      },
+      {
+        "path": "artifacts/benchmark/inputs_manifest.json",
+        "source": "build/firmware/triple32_v17a_benchmark/inputs_manifest.json",
+        "bytes": 561,
+        "sha256": "676258707cabb52b652ce5aab07a173fa4baf293be2963dbba8ed2db87d6431d"
+      }
+    ],
+    "dual16": [
+      {
+        "path": "artifacts/dual16/firmware.elf",
+        "source": "build/firmware/dual16_video/firmware.elf",
+        "bytes": 5136632,
+        "sha256": "7b9f75ce247e106e0b611bd9599a48657f6c17e59ff117bb349f94951485634b"
+      },
+      {
+        "path": "artifacts/dual16/firmware.map",
+        "source": "build/firmware/dual16_video/firmware.map",
+        "bytes": 658386,
+        "sha256": "7dd30a36c0520aa52d16ac5d84561a7e3cd3fdc3bf916b2313b1c94232badac1"
+      },
+      {
+        "path": "artifacts/dual16/firmware.dis",
+        "bytes": 2480460,
+        "sha256": "52806afd7576af7ff41e0cc4fa5becf95d85fd7f7f66b9b879d4ef04a70b3e9e"
+      }
+    ],
+    "single4": [
+      {
+        "path": "artifacts/single4/firmware.elf",
+        "source": "build/firmware/single4_video/firmware.elf",
+        "bytes": 5129544,
+        "sha256": "1d0ed3e6e708ec6819c28557d691a28f870c845ccf38608e3d683d2662959df3"
+      },
+      {
+        "path": "artifacts/single4/firmware.map",
+        "source": "build/firmware/single4_video/firmware.map",
+        "bytes": 662674,
+        "sha256": "62f78ee9c625e35326fe0a9ade0ca79d38d87ee3006124614bf96b013739da29"
+      },
+      {
+        "path": "artifacts/single4/firmware.dis",
+        "bytes": 2450465,
+        "sha256": "db87dee5f0543aabefb6d5407f3da7e2cf11d570d881d72c36d8248db6dc6434"
+      }
+    ],
+    "triple32_v3_tensor": [
+      {
+        "path": "artifacts/triple32_v3_tensor/hdmi_tx_test.elf",
+        "source": "build/firmware/triple32_v3_tensor/hdmi_tx_test.elf",
+        "bytes": 4480000,
+        "sha256": "8a64cf583377fcc9bf2ebf14039a78eebbcfed969225f53bbb7dd2c67291d304"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/hdmi_tx_test.map",
+        "source": "build/firmware/triple32_v3_tensor/hdmi_tx_test.map",
+        "bytes": 712118,
+        "sha256": "4cc7689d0ace836a575acbd9bd2c93907bc91c4416e905b9bd6a6699894ea49b"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/hdmi_tx_test.dis",
+        "bytes": 2923266,
+        "sha256": "7add00ef91993190e487ae48488486ea1fa015813629bd1ab137b6ae1dd7af50"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/v17a/firmware-config.stamp",
+        "source": "build/firmware/triple32_v3_tensor/v17a/firmware-config.stamp",
+        "bytes": 3705,
+        "sha256": "5102d44a76609987b870710a4ef6657eb00abb1ca430faff735714476eae5eb5"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/v17a/parallel.stamp",
+        "source": "build/firmware/triple32_v3_tensor/v17a/parallel.stamp",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/v17a/fixed_plans.json",
+        "source": "build/firmware/triple32_v3_tensor/v17a/fixed_plans.json",
+        "bytes": 396093,
+        "sha256": "d9c42418083a5a529e256dc7a8ddd6012ab4ff13d5b4af0a1a643759143b2f39"
+      }
+    ]
+  }
+}
