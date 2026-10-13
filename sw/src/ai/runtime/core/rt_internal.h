@@ -3,7 +3,7 @@
 
 /* Private per-runtime context shared by core, scheduler and services. */
 #include "ai/runtime/ai_batch_runtime.h"
-#include "ai/backend/ai_model_backend.h"
+#include "ai/backend/rt_backend.h"
 #include "ai/runtime/ai_tensor_slot_pool.h"
 #include "ai/runtime/resources/rt_tensor_manager.h"
 #include "ai/runtime/core/rt_state.h"
@@ -58,6 +58,7 @@ typedef struct {
 } AiRtProfileRecord;
 
 typedef struct {
+    AiRtBackend backend;
     AiBatchRuntimeStatus status;
     AiStreamRuntimeStatus streams[VIDEO_CHANNEL_COUNT];
     AiRtWorker workers[AI_MODEL_WORKER_COUNT];
@@ -84,7 +85,7 @@ void rt_core_init(AiRtCore *rt);
 void rt_complete_stream_job(AiRtCore *rt, uint32_t stream_id, uint64_t frame_id,
                                 uint32_t version, int error);
 void rt_record_frame_profile(AiRtCore *rt, const AiRtPostJob *post,
-                                 const AiModelFrameCompletion *completion);
+                                 const AiRtBackendResultCompletion *completion);
 AiRtPostJob *rt_find_post_job(AiRtCore *rt, uint64_t job_id);
 void rt_pipeline_hold_worker_fault(AiRtCore *rt, AiRtWorker *worker, int error);
 void rt_pipeline_workers(AiRtCore *rt);

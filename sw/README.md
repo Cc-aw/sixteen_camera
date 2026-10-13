@@ -65,4 +65,6 @@ R1 已完成离线结构等价验收；R2 已接入资源身份和安全回收�
 详见 [R2 验收](../docs/architecture/sw-runtime-r2.md)。版本回绕及板测仍待完成。
 R3 已将纯选择、派发事务、Pipeline、Tensor/结果/overlay 服务与状态机分开；旧公开入口保留。
 `make test-runtime-scheduler test-runtime-r3` 运行 Host/RV64 纯策略及冻结 R2 的 47 组完整事件对照。
-详见 [R3 验收](../docs/architecture/sw-runtime-r3.md)。下一阶段为 R4a Backend 适配。
+详见 [R3 验收](../docs/architecture/sw-runtime-r3.md)。R4a 已接入 `AiRtBackendOps` 与一次性事件桥，编译时显式选择 legacy/V17A profile。
+`make test-runtime-backend test-runtime-r4a` 验证 Host/RV64 事件语义、配置负例和真实后端对照。
+详见 [R4a 验收](../docs/architecture/sw-runtime-r4a.md)。下一阶段为 R4b Head/PPU 服务迁移。

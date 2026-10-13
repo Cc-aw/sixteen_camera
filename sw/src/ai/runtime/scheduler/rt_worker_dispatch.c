@@ -30,7 +30,7 @@ static int dispatch_candidate(AiRtCore *rt, uint32_t worker_id,
     }
     uint64_t job_id = ++rt->next_job_id;
     uint64_t submit_cycle = platform_read_cycle();
-    AiModelFrameRequest request = {
+    AiRtBackendRequest request = {
         .job_id = job_id,
         .worker_id = worker_id,
         .stream_id = selected_stream,
@@ -58,10 +58,10 @@ static int dispatch_candidate(AiRtCore *rt, uint32_t worker_id,
         return 1;
     }
     uint64_t before_submit = platform_read_cycle();
-    int submitted = ai_model_backend_submit(&request);
+    int submitted = rt_backend_submit(&rt->backend, &request);
     uint64_t after_submit = platform_read_cycle();
     if (submitted != 0) {
-        if (submitted == AI_MODEL_SUBMIT_FAULT_HELD) {
+        if (submitted == AI_RT_BACKEND_FAULT_HELD) {
             (void)rt_job_begin(&worker->job, &identity);
             worker->tensor_handle = handle; worker->active = 1U; worker->slot = selected_slot;
             worker->stream = selected_stream; worker->version = selected_metadata.version;
@@ -73,7 +73,7 @@ static int dispatch_candidate(AiRtCore *rt, uint32_t worker_id,
         (void)rt_tensor_reject(&rt->tensors, handle, &identity);
         /* Both raw-head slots can be owned while the PPU drains.  This
          * is normal backpressure, not a model failure. */
-        if (submitted == -3) {
+        if (submitted == AI_RT_BACKEND_HEAD_BUSY) {
             if (rt->head_wait_start[selected_slot] == 0U)
                 rt->head_wait_start[selected_slot] = after_submit;
             return 1;

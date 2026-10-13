@@ -3,31 +3,65 @@
 #define mmio_write32 fixture_write32
 #define mmio_read32 fixture_read32
 #define mmio_fence fixture_fence
+#define console_puts fixture_console_puts
+#define console_putc fixture_console_putc
+#define console_put_u32 fixture_console_put_u32
+#define console_put_hex32 fixture_console_put_hex32
+#define console_put_hex64 fixture_console_put_hex64
 #include "test_v17a_backend.c"
 #undef main
 #undef yolov5nu_dim16_worker_start
 #undef mmio_write32
 #undef mmio_read32
 #undef mmio_fence
+#undef console_puts
+#undef console_putc
+#undef console_put_u32
+#undef console_put_hex32
+#undef console_put_hex64
 #include "drivers/ppu/ai_ppu_device.h"
+#ifdef AI_BACKEND_FAULT_TRACE
+#define FAULT_TRACE(...) printf(__VA_ARGS__)
+#else
+#define FAULT_TRACE(...) ((void)0)
+#endif
+void console_puts(const char *s) {
+#ifdef AI_BACKEND_FAULT_TRACE
+    printf("UART_S text=%s\n", s);
+#else
+    fixture_console_puts(s);
+#endif
+}
+void console_putc(char c) { FAULT_TRACE("UART_C value=%u\n", (unsigned char)c); fixture_console_putc(c); }
+void console_put_u32(uint32_t n) { FAULT_TRACE("UART_U value=%u\n", n); fixture_console_put_u32(n); }
+void console_put_hex32(uint32_t n) { FAULT_TRACE("UART_H32 value=%x\n", n); fixture_console_put_hex32(n); }
+void console_put_hex64(uint64_t n) { FAULT_TRACE("UART_H64 value=%llx\n", (unsigned long long)n); fixture_console_put_hex64(n); }
 static unsigned partial_start_error, missing_begin_ack, ppu_busy_fault;
 uint32_t mmio_read32(uintptr_t address)
 {
     if (ppu_busy_fault && address == POSTPROCESS_DIAG_BASE + 0x238)
         return 0; /* Exercise the legacy single-reader path. */
-    return fixture_read32(address);
+#ifdef AI_BACKEND_FAULT_TRACE
+    if (missing_begin_ack && address == POSTPROCESS_DIAG_BASE + 0x1b4)
+        test_cycle += SOC_CLOCK_HZ / 20;
+#endif
+    uint32_t value = fixture_read32(address);
+    FAULT_TRACE("MMIO_R offset=%lx value=%u cycle=%llu\n", (unsigned long)(address - POSTPROCESS_DIAG_BASE), value, (unsigned long long)test_cycle);
+    return value;
 }
 int yolov5nu_dim16_worker_start(uint32_t worker, const int8_t *input)
 {
+    FAULT_TRACE("MODEL_START worker=%u partial_error=%u cycle=%llu\n", worker, partial_start_error, (unsigned long long)test_cycle);
     int status = fixture_worker_start(worker, input);
     return partial_start_error ? -1 : status;
 }
 void mmio_write32(uintptr_t address, uint32_t value)
 {
+    FAULT_TRACE("MMIO_W offset=%lx value=%u cycle=%llu\n", (unsigned long)(address - POSTPROCESS_DIAG_BASE), value, (unsigned long long)test_cycle);
     if (missing_begin_ack && address == POSTPROCESS_DIAG_BASE + 0x1b0 && value == 1) return;
     fixture_write32(address, value);
 }
-void mmio_fence(void) { /* Legacy normal fence is observable separately in trace tests. */ }
+void mmio_fence(void) { FAULT_TRACE("MMIO_F cycle=%llu\n", (unsigned long long)test_cycle); }
 #if !YOLO32_LIVE
 int yolov5nu_dim16_worker_poll(uint32_t worker, struct yolov5nu_dim16_result *result)
 {
@@ -35,9 +69,19 @@ int yolov5nu_dim16_worker_poll(uint32_t worker, struct yolov5nu_dim16_result *re
     return ppu_busy_fault ? YOLOV5NU_DIM16_HEAD_READY : YOLOV5NU_DIM16_ERROR;
 }
 #endif
+#ifdef AI_BACKEND_FAULT_TRACE
+static void final_ownership(void)
+{
+    AiModelResourceSnapshot view; ai_model_backend_get_resources(&view);
+    printf("FINAL arena=%x Head=%x fault=%u job=%llu gen=%llu hw_gen=%u producer_complete=%u cycle=%llu\n", view.activation_held, view.owned_head, view.unsafe_fault, (unsigned long long)view.heads[0].identity.job_id, (unsigned long long)view.heads[0].generation, view.heads[0].hardware_generation, view.heads[0].producer_complete, (unsigned long long)test_cycle);
+}
+#endif
 int main(int argc, char **argv)
 {
     assert(argc == 2); drive_worker = 3;
+#ifdef AI_BACKEND_FAULT_TRACE
+    assert(atexit(final_ownership) == 0);
+#endif
     partial_start_error = !strcmp(argv[1], "start-error");
     missing_begin_ack = !strcmp(argv[1], "begin-error");
     ppu_busy_fault = !strcmp(argv[1], "ppu-busy-done");

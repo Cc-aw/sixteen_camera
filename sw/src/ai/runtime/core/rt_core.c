@@ -30,6 +30,6 @@ void rt_core_init(AiRtCore *rt)
     rt_tensor_manager_init(&rt->tensors);
     rt->initialized = 1U;
     ai_result_manager_init(&rt->results);
-    ai_model_backend_init();
+    rt_backend_init(&rt->backend);
     rt->next_job_id = UINT64_C(1) << 60;
 }

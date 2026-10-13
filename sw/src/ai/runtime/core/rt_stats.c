@@ -26,7 +26,7 @@ void rt_complete_stream_job(AiRtCore *rt, uint32_t stream_id, uint64_t frame_id,
 }
 
 void rt_record_frame_profile(AiRtCore *rt, const AiRtPostJob *post,
-                                 const AiModelFrameCompletion *completion)
+                                 const AiRtBackendResultCompletion *completion)
 {
     AiRtProfileRecord *record = &rt->profiles[rt->profile_head];
     record->job_id = post->job_id;

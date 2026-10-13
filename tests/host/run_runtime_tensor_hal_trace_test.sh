@@ -7,6 +7,7 @@ trap 'rm -rf "$test_tmp"' EXIT
 flags=(-std=c11 -Wall -Wextra -Werror -DAI_STREAM_RUNTIME_HOST_TEST -DAI_STREAM_RUNTIME_HEALTHY_TRACE=1
   -I"$project_root/tests/host/include" -I"$project_root/sw/src")
 for workers in 2 3; do
+  runtime_select_backend "$workers"
   for mode in reference current; do
     extra_runtime_sources=()
     if [[ "$mode" == reference ]]; then
@@ -15,9 +16,9 @@ for workers in 2 3; do
     else
       cp "$project_root/sw/src/ai/runtime/ai_batch_runtime_stream.c" "$test_tmp/runtime.c"
       device_source=("$project_root/sw/src/drivers/tensor/ai_tensor_device.c")
-      extra_runtime_sources=("${runtime_module_sources[@]}")
+      extra_runtime_sources=("${runtime_module_sources[@]}" "${runtime_backend_sources[@]}")
     fi
-    cc "${flags[@]}" -DAI_MODEL_WORKER_COUNT=${workers}U "$test_tmp/runtime.c" "${extra_runtime_sources[@]}" \
+    cc "${flags[@]}" "${runtime_backend_flags[@]}" -DAI_MODEL_WORKER_COUNT=${workers}U "$test_tmp/runtime.c" "${extra_runtime_sources[@]}" \
       "${device_source[@]}" "$project_root/sw/src/ai/runtime/resources/rt_job.c" \
       "$project_root/sw/src/ai/runtime/resources/rt_tensor_manager.c" \
       "$project_root/sw/src/ai/postprocess/ai_result_manager.c" \

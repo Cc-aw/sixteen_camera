@@ -266,7 +266,7 @@ void ai_batch_runtime_get_resources(AiRtResourceSnapshot *snapshot)
     snapshot->unsafe_fault = runtime.tensors.unsafe_fault; snapshot->faulted = rt_control_faulted(&runtime.control);
     snapshot->pending_post = rt_post_job_count(&runtime);
     memcpy(snapshot->tensors, runtime.tensors.slots, sizeof(snapshot->tensors));
-    ai_model_backend_get_resources(&snapshot->backend);
+    rt_backend_get_resources(&runtime.backend, &snapshot->backend);
     snapshot->active_worker = snapshot->backend.activation_held;
     snapshot->owned_head = snapshot->backend.owned_head;
     snapshot->unsafe_fault += snapshot->backend.unsafe_fault;

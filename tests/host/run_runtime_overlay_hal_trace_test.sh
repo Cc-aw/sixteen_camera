@@ -7,6 +7,7 @@ trap 'rm -rf "$test_tmp"' EXIT
 flags=(-std=c11 -Wall -Wextra -Werror -DAI_STREAM_RUNTIME_HOST_TEST -DAI_STREAM_RUNTIME_HEALTHY_TRACE=1
   -I"$project_root/tests/host/include" -I"$project_root/sw/src")
 for workers in 2 3; do
+  runtime_select_backend "$workers"
   for mode in reference current; do
     source="$project_root/sw/src/ai/postprocess/ai_overlay.c"
     device=()
@@ -16,9 +17,9 @@ for workers in 2 3; do
     else
       device=("$project_root/sw/src/drivers/overlay/ai_overlay_device.c")
     fi
-    cc "${flags[@]}" -Dai_overlay_try_submit=real_overlay_try_submit -c "$source" -o "$test_tmp/overlay.o"
-    cc "${flags[@]}" -DAI_MODEL_WORKER_COUNT=${workers}U \
-      "$project_root/sw/src/ai/runtime/ai_batch_runtime_stream.c" "${runtime_module_sources[@]}" \
+    cc "${flags[@]}" "${runtime_backend_flags[@]}" -Dai_overlay_try_submit=real_overlay_try_submit -c "$source" -o "$test_tmp/overlay.o"
+    cc "${flags[@]}" "${runtime_backend_flags[@]}" -DAI_MODEL_WORKER_COUNT=${workers}U \
+      "$project_root/sw/src/ai/runtime/ai_batch_runtime_stream.c" "${runtime_module_sources[@]}" "${runtime_backend_sources[@]}" \
       "$project_root/sw/src/drivers/tensor/ai_tensor_device.c" "${device[@]}" \
       "$project_root/sw/src/ai/runtime/resources/rt_job.c" \
       "$project_root/sw/src/ai/runtime/resources/rt_tensor_manager.c" \

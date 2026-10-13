@@ -11,17 +11,18 @@ shared=("$project_root/sw/src/drivers/tensor/ai_tensor_device.c"
   "$project_root/sw/src/ai/runtime/resources/rt_tensor_manager.c"
   "$project_root/sw/src/ai/postprocess/ai_result_manager.c")
 for workers in 1 2 3; do
+  runtime_select_backend "$workers"
   for mode in reference current; do
     extras=(); check=()
     if [[ "$mode" == reference ]]; then
       cp "$project_root/tests/data/runtime/r2/stream-runtime-reference.c.inc" "$test_tmp/runtime.c"
     else
       cp "$project_root/sw/src/ai/runtime/ai_batch_runtime_stream.c" "$test_tmp/runtime.c"
-      extras=("${runtime_module_sources[@]}"); check=(-DAI_RUNTIME_STATE_TEST=1)
+      extras=("${runtime_module_sources[@]}" "${runtime_backend_sources[@]}"); check=(-DAI_RUNTIME_STATE_TEST=1)
     fi
-    cc "${flags[@]}" -DAI_MODEL_WORKER_COUNT=${workers}U "$test_tmp/runtime.c" "${extras[@]}" \
+    cc "${flags[@]}" "${runtime_backend_flags[@]}" -DAI_MODEL_WORKER_COUNT=${workers}U "$test_tmp/runtime.c" "${extras[@]}" \
       "${shared[@]}" "$project_root/tests/host/test_runtime_scheduler_trace.c" -o "$test_tmp/$mode-healthy"
-    cc "${flags[@]}" "${check[@]}" -DAI_RUNTIME_OWNERSHIP_TRACE=1 -DAI_MODEL_WORKER_COUNT=${workers}U \
+    cc "${flags[@]}" "${runtime_backend_flags[@]}" "${check[@]}" -DAI_RUNTIME_OWNERSHIP_TRACE=1 -DAI_MODEL_WORKER_COUNT=${workers}U \
       "$test_tmp/runtime.c" "${extras[@]}" "${shared[@]}" \
       "$project_root/tests/host/test_runtime_fault_ownership.c" -o "$test_tmp/$mode-fault"
     for scenario in pipeline backpressure metadata-failure multi-double writing-drain; do
@@ -32,7 +33,7 @@ for workers in 1 2 3; do
     done
     # Full legacy regression, including bad result identity and UART profiles.
     if [[ "$workers" != 1 ]]; then
-      cc "${flags[@]}" -DAI_MODEL_WORKER_COUNT=${workers}U "$test_tmp/runtime.c" "${extras[@]}" \
+      cc "${flags[@]}" "${runtime_backend_flags[@]}" -DAI_MODEL_WORKER_COUNT=${workers}U "$test_tmp/runtime.c" "${extras[@]}" \
         "${shared[@]}" "$project_root/tests/host/test_runtime_tensor_hal_trace.c" -o "$test_tmp/$mode-full"
       "$test_tmp/$mode-full" > "$test_tmp/$mode-full.trace"
     fi

@@ -14,7 +14,7 @@ AiRtPostJob *rt_find_post_job(AiRtCore *rt, uint64_t job_id)
 }
 
 static int register_post_job(AiRtCore *rt, const AiRtWorker *worker,
-                             const AiModelComputeCompletion *completion)
+                             const AiRtBackendComputeCompletion *completion)
 {
     for (uint32_t index = 0U; index < AI_MODEL_POSTPROCESS_CAPACITY;
          ++index) {
@@ -102,33 +102,36 @@ void rt_pipeline_workers(AiRtCore *rt)
             }
             continue;
         }
-        AiModelComputeCompletion completion;
-        int status = ai_model_backend_poll_compute(worker_id, &completion);
+        AiRtBackendEvent event;
+        (void)rt_backend_progress(&rt->backend, AI_RT_BACKEND_COMPUTE, worker_id);
+        int status = rt_backend_poll_event(&rt->backend, &event);
+        const AiRtBackendComputeCompletion *completion = &event.payload.compute;
         if (status == 0) {
             if (platform_read_cycle() - worker->start_cycle > STREAM_MODEL_TIMEOUT) {
-                (void)ai_model_backend_abort(worker_id);
+                (void)rt_backend_abort(&rt->backend, worker_id);
                 rt_pipeline_hold_worker_fault(rt, worker, -43);
             }
             continue;
         }
         uint64_t scheduler_start = platform_read_cycle();
-        if (status < 0 || completion.status != 0 ||
-            completion.worker_id != worker_id ||
-            completion.job_id != worker->job_id ||
-            completion.stream_id != worker->stream ||
-            completion.frame_id != worker->frame_id ||
-            completion.version != worker->version) {
-            (void)ai_model_backend_abort(worker_id);
+        if (status < 0 || event.type != AI_RT_BACKEND_COMPUTE_DONE ||
+            completion->status != 0 ||
+            completion->worker_id != worker_id ||
+            completion->job_id != worker->job_id ||
+            completion->stream_id != worker->stream ||
+            completion->frame_id != worker->frame_id ||
+            completion->version != worker->version) {
+            (void)rt_backend_abort(&rt->backend, worker_id);
             rt_pipeline_hold_worker_fault(rt, worker, -45);
             continue;
         }
-        AiRtJobIdentity proof = rt_job_identity(completion.job_id, completion.worker_id,
-            completion.stream_id, completion.frame_id, completion.version);
+        AiRtJobIdentity proof = rt_job_identity(completion->job_id, completion->worker_id,
+            completion->stream_id, completion->frame_id, completion->version);
         if (rt_job_compute_done(&worker->job, &proof) != 0 ||
             rt_tensor_prove_compute(&rt->tensors, worker->tensor_handle, &proof) != 0) {
             rt_pipeline_hold_worker_fault(rt, worker, -57); continue;
         }
-        if (register_post_job(rt, worker, &completion) != 0) {
+        if (register_post_job(rt, worker, completion) != 0) {
             rt_pipeline_hold_worker_fault(rt, worker, -51);
             continue;
         }
@@ -140,7 +143,7 @@ void rt_pipeline_workers(AiRtCore *rt)
             rt_control_fault(&rt->control);
             continue;
         }
-        AiRtPostJob *post = rt_find_post_job(rt, completion.job_id);
+        AiRtPostJob *post = rt_find_post_job(rt, completion->job_id);
         if (post != 0)
             post->profile.cpu_scheduler_cycles +=
                 platform_read_cycle() - scheduler_start;
@@ -152,17 +155,19 @@ void rt_pipeline_results(AiRtCore *rt)
 {
     for (uint32_t completed = 0U;
          completed < AI_MODEL_POSTPROCESS_CAPACITY; ++completed) {
-        AiModelFrameCompletion completion;
-        int status = ai_model_backend_poll_result(&completion);
+        AiRtBackendEvent event;
+        (void)rt_backend_progress(&rt->backend, AI_RT_BACKEND_RESULT, AI_RT_BACKEND_ANY_WORKER);
+        int status = rt_backend_poll_event(&rt->backend, &event);
         if (status == 0)
             return;
-        if (status < 0) {
+        if (status < 0 || event.type != AI_RT_BACKEND_RESULT_READY) {
             for (uint32_t p = 0; p < AI_MODEL_POSTPROCESS_CAPACITY; ++p)
                 if (rt->post_jobs[p].active) rt_job_fault(&rt->post_jobs[p].job);
             rt_record_error(rt, status);
             rt_control_fault(&rt->control);
             return;
         }
+        AiRtBackendResultCompletion completion = event.payload.result;
         uint64_t scheduler_start = platform_read_cycle();
         AiRtPostJob *post = rt_find_post_job(rt, completion.job_id);
         if (post == 0) {

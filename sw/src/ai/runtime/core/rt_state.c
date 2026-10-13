@@ -6,7 +6,7 @@
 uint32_t rt_has_no_owners(AiRtCore *rt)
 {
     if (rt->tensors.held != 0U || rt_post_job_count(rt) != 0U ||
-        ai_model_backend_is_idle() == 0U)
+        rt_backend_is_idle(&rt->backend) == 0U)
         return 0U;
     for (uint32_t worker = 0U; worker < AI_MODEL_WORKER_COUNT; ++worker)
         if (rt->workers[worker].active != 0U)
@@ -76,7 +76,7 @@ void rt_state_poll_admission(AiRtCore *rt)
         if (rt_tensor_drain_one(rt, ready))
             return;
         if (rt->tensors.held == 0U && rt_post_job_count(rt) == 0U &&
-            ai_model_backend_is_idle() != 0U &&
+            rt_backend_is_idle(&rt->backend) != 0U &&
             rt_tensor_writing(rt) == 0U)
             rt_control_drained(&rt->control);
         return;

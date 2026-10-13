@@ -1,0 +1,525 @@
+{
+  "phase": "R4a",
+  "status": "COMPLETE_WITH_KNOWN_GAPS",
+  "date": "2026-10-13",
+  "baseline_commit": "02e0a0b88a65a841a63768171a39d3e6ccd5484b",
+  "branch": "main",
+  "acceptance_scope": "OFFLINE_BACKEND_ADAPTER_AND_EVENT_EQUIVALENCE",
+  "production_behavior_changed": false,
+  "new_interface_contract": "Unconsumed mailbox cannot be overwritten/reset; progress/submit return -5; empty poll_event does not advance native execution",
+  "scope": "Runtime Ops boundary, explicit legacy/V17A profiles and exactly-once completion mailbox; PPU service migration deferred to R4b",
+  "evidence_root": "build/runtime-refactor/r4a",
+  "environment": {
+    "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.35",
+    "python": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+    "tools": {
+      "make": [
+        "GNU Make 4.4.1",
+        "为 x86_64-conda-linux-gnu 编译"
+      ],
+      "host_cc": [
+        "cc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0",
+        "Copyright (C) 2021 Free Software Foundation, Inc."
+      ],
+      "riscv_elf_gcc": [
+        "riscv64-unknown-elf-gcc (gc891d8dc23e) 13.2.0",
+        "Copyright (C) 2023 Free Software Foundation, Inc."
+      ],
+      "riscv_linux_gcc": [
+        "riscv64-unknown-linux-gnu-gcc (gc891d8dc23e) 13.2.0",
+        "Copyright (C) 2023 Free Software Foundation, Inc."
+      ],
+      "qemu": [
+        "qemu-riscv64 version 10.1.50 (v10.1.0-1778-ge090e0312d)",
+        "Copyright (c) 2003-2025 Fabrice Bellard and the QEMU Project developers"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "name": "backend_ops_native_traces",
+      "command": "make test-runtime-backend test-runtime-r4a",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/backend_final.log",
+      "log_sha256": "a71550f3f99e42100e3deb47bc90fbf22e3dd4c9ff7aeacf89bd7161af1cfbc2",
+      "skips": []
+    },
+    {
+      "name": "runtime_full_traces",
+      "command": "make test-runtime-r3",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/runtime_final.log",
+      "log_sha256": "d400a7b7efba83f4dc32e69ecd3d1798da0af9cad7825cecfcdc12eafbab02b6",
+      "skips": []
+    },
+    {
+      "name": "software",
+      "command": "make test-software",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/software.log",
+      "log_sha256": "53b8724c88764b725e2e732336a98addc7e0c0ea7cc7c85fa02ac27d02aeddab",
+      "skips": []
+    },
+    {
+      "name": "v17a",
+      "command": "make test-v17a",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/v17a.log",
+      "log_sha256": "5146599a3b108920c435ecb53a26d874045ef867b453726f7365466aa33af70d",
+      "skips": []
+    },
+    {
+      "name": "firmware_v3",
+      "command": "make firmware SOC_VARIANT=triple32_v3_tensor",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/firmware_triple32_v3_tensor.log",
+      "log_sha256": "8ead839c2d551044be96a60d2a1812587e65d665f5ff76713c0c3e34ed255a6e",
+      "skips": []
+    },
+    {
+      "name": "firmware_dual16",
+      "command": "make firmware SOC_VARIANT=dual16",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/firmware_dual16.log",
+      "log_sha256": "2d7f0d152604ae1c74343c1732c30788aa50770c31e470967a044d469ddaa84e",
+      "skips": []
+    },
+    {
+      "name": "firmware_single4",
+      "command": "make firmware SOC_VARIANT=single4",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/firmware_single4.log",
+      "log_sha256": "ece85b5733c808aa272ba21b68f3e0ecf317832e4844f1990832fa033fc0dcb6",
+      "skips": []
+    },
+    {
+      "name": "benchmark",
+      "command": "make firmware-benchmark",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/benchmark.log",
+      "log_sha256": "cb31950a059a72944671c667d55f9d43f6d6fb34837613554c22ecedd07e7785",
+      "skips": []
+    },
+    {
+      "name": "elf_dependencies",
+      "command": "make check-v17a-firmware check-deps SOC_VARIANT=triple32_v3_tensor",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/dependencies.log",
+      "log_sha256": "1df97346c09a42ad0820a0153cbba4154f783253cb5255831c39a9cc97afa857",
+      "skips": []
+    },
+    {
+      "name": "artifact_scope_audit",
+      "command": "python3 build/runtime-refactor/r4a/capture_evidence.py",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "logs/artifact_audit.log",
+      "log_sha256": "2e0e05df9493f224fe587a6b93f57af7c36425cdec94458eca3b9e32cf6e3996",
+      "skips": []
+    }
+  ],
+  "artifacts": {
+    "triple32_v3_tensor": [
+      {
+        "path": "artifacts/triple32_v3_tensor/hdmi_tx_test.elf",
+        "source": "build/firmware/triple32_v3_tensor/hdmi_tx_test.elf",
+        "bytes": 4606256,
+        "sha256": "8d0db37005f91bfa97ab262f45981925397cdfedaebf52177e842db4b797d402"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/hdmi_tx_test.map",
+        "source": "build/firmware/triple32_v3_tensor/hdmi_tx_test.map",
+        "bytes": 906330,
+        "sha256": "21bbfc101c282d041175ffcff5aa3ae91ba43ed32b846b71c10863bf0c714fd7"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/hdmi_tx_test.dis",
+        "bytes": 3087189,
+        "sha256": "0ce629cea19e82d3f9bda022751b41c359e7889c0c956165d9405587f4956942"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/v17a/firmware-config.stamp",
+        "source": "build/firmware/triple32_v3_tensor/v17a/firmware-config.stamp",
+        "bytes": 3756,
+        "sha256": "c6d35a29498a0c265869b603d7863414f737304003575166720e11503594a7b4"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/v17a/parallel.stamp",
+        "source": "build/firmware/triple32_v3_tensor/v17a/parallel.stamp",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "artifacts/triple32_v3_tensor/v17a/fixed_plans.json",
+        "source": "build/firmware/triple32_v3_tensor/v17a/fixed_plans.json",
+        "bytes": 396093,
+        "sha256": "d9c42418083a5a529e256dc7a8ddd6012ab4ff13d5b4af0a1a643759143b2f39"
+      }
+    ],
+    "dual16": [
+      {
+        "path": "artifacts/dual16/firmware.elf",
+        "source": "build/firmware/dual16_video/firmware.elf",
+        "bytes": 5264856,
+        "sha256": "6ce77ed3506ee2291b67c1dff508da165a20d6151a3e5582f09f9af808cb9cf0"
+      },
+      {
+        "path": "artifacts/dual16/firmware.map",
+        "source": "build/firmware/dual16_video/firmware.map",
+        "bytes": 843931,
+        "sha256": "75030a024b11c3b756275826cd31544167cafe7aa8f900d32c792552bae1868d"
+      },
+      {
+        "path": "artifacts/dual16/firmware.dis",
+        "bytes": 2639531,
+        "sha256": "528880e0720dafc2e350fb520b46288fe52f952dc8e06a5237c62c5a8ea5e12c"
+      }
+    ],
+    "single4": [
+      {
+        "path": "artifacts/single4/firmware.elf",
+        "source": "build/firmware/single4_video/firmware.elf",
+        "bytes": 5257328,
+        "sha256": "a52dac8c6f1439552e13b5ab1dc5fff9280dab90f9f846d9e03f2de21806c308"
+      },
+      {
+        "path": "artifacts/single4/firmware.map",
+        "source": "build/firmware/single4_video/firmware.map",
+        "bytes": 849444,
+        "sha256": "58ae59842a33d617e028f1f9f34960bc7776cf28a0a393759c78524cfa07fdfd"
+      },
+      {
+        "path": "artifacts/single4/firmware.dis",
+        "bytes": 2608002,
+        "sha256": "8952035b0b12ecec571971f32acbe0f2a419ef723790b6ff81a410b1db623e17"
+      }
+    ],
+    "benchmark": [
+      {
+        "path": "artifacts/benchmark/yolo32.elf",
+        "source": "build/firmware/triple32_v17a_benchmark/yolo32.elf",
+        "bytes": 6370728,
+        "sha256": "0f8d90c796a948438433f07b8e4493c0d9cd498fdb79c5df6f8701aa453d93fb"
+      },
+      {
+        "path": "artifacts/benchmark/yolo32.map",
+        "source": "build/firmware/triple32_v17a_benchmark/yolo32.map",
+        "bytes": 188461,
+        "sha256": "dfa5eb20175fe3273776c17238a8cf66038ac4690881aaaf1962c152eb3e9a9b"
+      },
+      {
+        "path": "artifacts/benchmark/yolo32.dis",
+        "bytes": 1598325,
+        "sha256": "aa5523984b9cd0ed27aedbac4335be960af3c2ee609e36644416f8fb55a5ff92"
+      },
+      {
+        "path": "artifacts/benchmark/v17a/parallel.stamp",
+        "source": "build/firmware/triple32_v17a_benchmark/v17a/parallel.stamp",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "artifacts/benchmark/v17a/fixed_plans.json",
+        "source": "build/firmware/triple32_v17a_benchmark/v17a/fixed_plans.json",
+        "bytes": 396093,
+        "sha256": "d9c42418083a5a529e256dc7a8ddd6012ab4ff13d5b4af0a1a643759143b2f39"
+      },
+      {
+        "path": "artifacts/benchmark/inputs_manifest.json",
+        "source": "build/firmware/triple32_v17a_benchmark/inputs_manifest.json",
+        "bytes": 561,
+        "sha256": "676258707cabb52b652ce5aab07a173fa4baf293be2963dbba8ed2db87d6431d"
+      }
+    ]
+  },
+  "source_inventory": {
+    "path": "source-inventory.json",
+    "sha256": "6df14b628e5f1a291ef88e095c49de38a62ae47925c8164e57dc7f2ff4448eb6"
+  },
+  "build_configurations": {
+    "path": "build-configurations.json",
+    "sha256": "a7c68666a22b41eb69a6ef2121ff3cde87cdece06061494e56ef49ddb476f2ea"
+  },
+  "profiles": {
+    "single4": {
+      "name": "legacy",
+      "workers": 1,
+      "DIM": 4
+    },
+    "dual16": {
+      "name": "legacy",
+      "workers": 2,
+      "DIM": 16
+    },
+    "triple32_v3_tensor": {
+      "name": "v17a",
+      "workers": 3,
+      "DIM": 32
+    }
+  },
+  "ops_tests": {
+    "platforms": [
+      "Host",
+      "RV64 QEMU"
+    ],
+    "profile_platform_combinations": 6,
+    "invalid_profile_cases": 8,
+    "properties": [
+      "one consumption per event",
+      "pending event not overwritten by progress/submit/init/abort",
+      "negative status is FAULT, never stop proof",
+      "complete identity/profile/borrowed pointer ABI preserved",
+      "poll_event does not call native progress",
+      "abort zero alone cannot create completion"
+    ]
+  },
+  "equivalence": {
+    "native_adapter_trace_cases": [
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "begin-error",
+        "events": 28,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "start-error",
+        "events": 35,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "model-error",
+        "events": 36,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "ppu-busy-done",
+        "events": 46,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "publication-on",
+        "events": 54,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "flush-fallback",
+        "events": 40,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "reader-busy",
+        "events": 56,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "ppu-error",
+        "events": 84,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "timeout",
+        "events": 47,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 1,
+        "live": 0,
+        "scenario": "cpu-fallback",
+        "events": 3,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "begin-error",
+        "events": 28,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "start-error",
+        "events": 35,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "model-error",
+        "events": 36,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "ppu-busy-done",
+        "events": 46,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "publication-on",
+        "events": 54,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "flush-fallback",
+        "events": 40,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "reader-busy",
+        "events": 56,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "ppu-error",
+        "events": 84,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "timeout",
+        "events": 47,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 2,
+        "live": 0,
+        "scenario": "cpu-fallback",
+        "events": 3,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 3,
+        "live": 1,
+        "scenario": "begin-error",
+        "events": 33,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 3,
+        "live": 1,
+        "scenario": "start-error",
+        "events": 40,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 3,
+        "live": 1,
+        "scenario": "model-error",
+        "events": 41,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 3,
+        "live": 1,
+        "scenario": "identity",
+        "events": 350,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 3,
+        "live": 1,
+        "scenario": "generation-fault",
+        "events": 127,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 3,
+        "live": 1,
+        "scenario": "abort-gap",
+        "events": 41,
+        "status": "IDENTICAL"
+      },
+      {
+        "workers": 3,
+        "live": 1,
+        "scenario": "all-workers",
+        "events": 769,
+        "status": "IDENTICAL"
+      }
+    ],
+    "native_adapter_trace_cases_total": 27,
+    "native_reference": "Direct production entry calls; source proven identical to R3 baseline",
+    "native_current": "Actual selected Ops, compatibility progress and mailbox then same production backend",
+    "runtime_trace_cases_total": 47,
+    "runtime_reference": "Frozen R2 Runtime; unchanged R3 workload/oracle",
+    "comparison": "Full text; no event filtering/normalization",
+    "progress_policy": "Exactly one original compute(worker)/result poll at original position; V17A pump frequency unchanged",
+    "fault_trace_clock": "Same designated missing-BEGIN-ack read advance for old/new; ordinary backend fault runner unchanged"
+  },
+  "safety_invariants": [
+    {
+      "id": "R0-GAP-01",
+      "name": "unconfirmed_abort_cannot_release_input",
+      "status": "PASS",
+      "behavior": "R2 fault ownership preserved"
+    },
+    {
+      "id": "R0-GAP-02",
+      "name": "tensor_version_wrap_treated_as_stale",
+      "status": "FAIL",
+      "characterization": "PASS",
+      "behavior": "unchanged"
+    },
+    {
+      "name": "multi_stream_double_READY_fallback",
+      "status": "CHARACTERIZED",
+      "behavior": "Unchanged R3 fallback, not exhaustive coverage"
+    }
+  ],
+  "not_run": [
+    "board_download",
+    "board_UART_capture",
+    "FPS_measurement",
+    "full_synthesis",
+    "place_and_route",
+    "RTL_regression_repetition"
+  ],
+  "limitations": [
+    "Native backend remains singleton; zero-initialized handles are not independent accelerators.",
+    "Partial HEAD_READY stays in native callback/publication path until R4b.",
+    "Results borrow native pointers; lifetime not extended.",
+    "Live model-error fixture uses abort-to-ERROR; native task fatal errors were not injected.",
+    "Ops/mailbox overhead and continuous stream behavior not measured on board.",
+    "Version wrap and double-READY policies intentionally retained.",
+    "Application/standalone diagnostics still use native compatibility APIs until R5."
+  ],
+  "next_stage": "R4b Head/PPU postprocess service separation with producer/local-completion/tail/admission proof preservation",
+  "rollback_baseline": "02e0a0b; revert only the R4a commit"
+}
