@@ -7,15 +7,14 @@
 在仓库根目录运行：
 
 ```bash
-make firmware SOC_VARIANT=dual16
-make firmware SOC_VARIANT=single4
+make firmware                       # triple32_v3_tensor / v26
 make program PROGRAM_ARGS=--check
 make test-software
 ```
 
 交付 ELF 为 `build/firmware/gemmini_<配置>_video_yolov5nu.elf`。直接 `make -C sw` 生成 `build/firmware/<配置>/hdmi_tx_test.*`。工具从 PATH 或根 Makefile 的 `tools/config/tools.local.mk` 获取；直接调用 `sw/Makefile` 时用环境变量或命令行设置 `TOOLCHAIN`。
 
-当前支持 YOLOv5nu：dual16 为两个 DIM16 worker，single4 为一个 DIM4 worker，triple32_v3_tensor 为三个 DIM32 worker。每个构建目录只保存对应配置；更改编译选项后应清理该配置重编译。
+当前唯一交付配置为 `triple32_v3_tensor` / YOLOv5nu v26，三个 DIM32 worker；对应硬件启用 MaxPool 和 TensorIngress。旧硬件规格及固件构建入口已退休；通用 Runtime 和历史 ABI 的主机测试保留。配置 stamp 会在选项改变后重编译相关对象。
 
 ## 接入点
 
@@ -33,7 +32,7 @@ make test-software
 
 共享 `ai_batch_runtime.h` 和 `ai_frame_snapshot.h` 保留当前流式运行时使用的统计及帧元数据类型，旧批处理和 snapshot 实现已退出源码。队列 host 回归还覆盖三 worker 的通用容量，旧变体模型支持一或两个 worker，v26 模型支持三个 worker。
 
-下载前 FPGA 需加载匹配 bitstream。串口为 115200 8N1，`h` 查看帮助，`v` 查看视频，`s` 查看 AI，`i` 启用或排空推理，旧变体的 `t` 运行固定 image025 自检；v26 的固定输入测试使用独立三图基准 ELF。依赖来源见 [third_party/README.md](third_party/README.md)。
+下载前 FPGA 需加载匹配 bitstream。串口为 115200 8N1，`h` 查看帮助，`v` 查看视频，`s` 查看 AI，`i` 启用或排空推理，固定输入测试使用独立 v26 三图基准 ELF 的 `M/t/a`。依赖来源见 [third_party/README.md](third_party/README.md)。
 
 ## V3 + Tensor 三 worker 固件
 

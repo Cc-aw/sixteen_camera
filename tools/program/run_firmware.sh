@@ -7,12 +7,10 @@ OPENOCD_BIN="${OPENOCD_BIN:-openocd}"
 OPENOCD_CFG="${OPENOCD_CFG:-$SCRIPT_DIR/openocd/openocd-bscan.cfg}"
 GDB_BIN="${GDB_BIN:-riscv64-unknown-elf-gdb}"
 GDB_PYTHONHOME="${GDB_PYTHONHOME:-}"
-VIDEO_VARIANT="${VIDEO_VARIANT:-dual16}"
+VIDEO_VARIANT="${VIDEO_VARIANT:-triple32_v3_tensor}"
 case "$VIDEO_VARIANT" in
-    single4) DEFAULT_ELF="$ROOT_DIR/build/firmware/gemmini_single4_video_yolov5nu.elf" ;;
-    dual16) DEFAULT_ELF="$ROOT_DIR/build/firmware/gemmini_dual16_video_yolov5nu.elf" ;;
     triple32_v3_tensor) DEFAULT_ELF="$ROOT_DIR/build/firmware/gemmini_triple32_v3_tensor_video_yolov5nu.elf" ;;
-    *) echo "VIDEO_VARIANT 必须为 single4、dual16 或 triple32_v3_tensor" >&2; exit 2 ;;
+    *) echo "VIDEO_VARIANT 必须为当前配置 triple32_v3_tensor" >&2; exit 2 ;;
 esac
 ELF_FILE="${ELF_FILE:-$DEFAULT_ELF}"
 GDB_COMMANDS="$SCRIPT_DIR/openocd/load-hdmi-tx.gdb"
@@ -30,7 +28,7 @@ usage()
   --no-build  使用已有 ELF，不执行 make（默认）
   --check     只检查工具、配置和 ELF，不连接开发板
 
-默认 dual16 集成示例；单 worker 示例使用 VIDEO_VARIANT=single4。
+默认配置为三路 Gemmini32 MaxPool + TensorIngress。
 可通过 OPENOCD_BIN、OPENOCD_CFG、GDB_BIN、GDB_PYTHONHOME 和 ELF_FILE
 环境变量覆盖默认路径。
 EOF

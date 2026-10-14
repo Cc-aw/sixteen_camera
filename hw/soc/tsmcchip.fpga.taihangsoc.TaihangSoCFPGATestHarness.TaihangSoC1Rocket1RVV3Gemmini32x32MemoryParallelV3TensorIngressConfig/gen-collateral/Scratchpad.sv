@@ -178,6 +178,7 @@ module Scratchpad(	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.sca
   input          io_dma_write_req_bits_status_hie,	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:249:16]
   input          io_dma_write_req_bits_status_sie,	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:249:16]
   input          io_dma_write_req_bits_status_uie,	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:249:16]
+  input          io_dma_write_req_bits_pool_en,	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:249:16]
   input          io_dma_write_req_bits_store_en,	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:249:16]
   output         io_dma_write_resp_valid,	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:249:16]
   output [7:0]   io_dma_write_resp_bits_cmd_id,	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:249:16]
@@ -6745,6 +6746,7 @@ module Scratchpad(	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.sca
     .io_enq_bits_status_hie              (io_dma_write_req_bits_status_hie),
     .io_enq_bits_status_sie              (io_dma_write_req_bits_status_sie),
     .io_enq_bits_status_uie              (io_dma_write_req_bits_status_uie),
+    .io_enq_bits_pool_en                 (io_dma_write_req_bits_pool_en),
     .io_enq_bits_store_en                (io_dma_write_req_bits_store_en),
     .io_deq_ready                        (write_dispatch_q_q_io_deq_ready),	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:320:53, :584:25, :587:31, :804:23, :814:31]
     .io_deq_valid                        (_write_dispatch_q_q_io_deq_valid),

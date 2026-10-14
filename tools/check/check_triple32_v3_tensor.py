@@ -39,4 +39,27 @@ for index, bank in enumerate(banks):
 assert sum(bank["ways"] * (1 << len(bank["setBits"])) * bank["blockBytes"] for bank in banks) == 524288
 headers = list((rtl / "include").glob("gemmini_params_32x32*custom*_xcvu13p.h"))
 assert len(headers) == 3, "Expected three newly generated worker parameter headers"
-print("TRIPLE32_V3_TENSOR_STRUCTURE=PASS memory=512/2 tensor=256/5 banks=2 workers=3")
+for channel, module in zip("ABCDE", ("SinkA", "SourceB", "SinkC", "SourceD", "SinkE")):
+    body = (rtl / f"{module}.sv").read_text()
+    queues = re.findall(r"^  (Queue2_TLBundle" + channel + r"_\S+)\s+\w+\s*\(", body, re.M)
+    assert len(queues) == 1, (module, queues)
+    queue = (rtl / f"{queues[0]}.sv").read_text()
+    assert "assign io_enq_ready = ~full;" in queue and "assign io_deq_valid = ~empty;" in queue
+scheduler = (rtl / "InclusiveCacheBankScheduler.sv").read_text()
+assert re.search(r"ListBuffer_QueuedRequest_\w+_fast\s+requests\s*\(", scheduler)
+assert ".io_peekOH" in scheduler, "L2 one-hot request selection is missing"
+for name in ("Gemmini", "Gemmini_1", "Gemmini_2"):
+    worker = (rtl / f"{name}.sv").read_text()
+    store = re.search(r"^  (StoreController(?:_\d+)?)\s+store_controller\s*\(", worker, re.M)
+    loop = re.search(r"^  (LoopConv(?:_\d+)?)\s+\w+\s*\(", worker, re.M)
+    assert store and loop, name
+    store_body = (rtl / f"{store[1]}.sv").read_text()
+    expression = re.search(r"assign io_dma_req_bits_pool_en\s*=\s*([^;]+);", store_body)
+    assert expression and "pool_stride" in expression[1] and "wrow_counter" in expression[1], name
+    loop_body = (rtl / f"{loop[1]}.sv").read_text()
+    for slot in (0, 1):
+        assert f"loops_{slot}_outer_bounds_pool_size <= _cmd_q_io_deq_bits_cmd_rs1[31:16]" in loop_body
+        assert f"loops_{slot}_no_pool <= _cmd_q_io_deq_bits_cmd_rs2[0]" in loop_body
+perf = (rtl / "MemoryParallelPerf.sv").read_text()
+assert "4d50563300010001" in perf.lower(), "Tensor memory statistics ABI 1.1 is missing"
+print("TRIPLE32_V3_TENSOR_STRUCTURE=PASS memory=512/2 tensor=256/5 banks=2 workers=3 MaxPool=3 full_inner_buffers=5 one_hot_requests=on stats_ABI=1.1")

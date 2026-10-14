@@ -75,47 +75,54 @@ module SinkA(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusive
   output         io_pb_beat_corrupt	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:40:14]
 );
 
-  wire        io_pb_pop_ready_0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:106:40]
-  wire        _putbuffer_io_push_ready;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:51:25]
-  wire [63:0] _putbuffer_io_valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:51:25]
-  reg  [63:0] lists;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:52:22]
-  wire [63:0] _freeOH_T_22 = ~lists;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:52:22, :59:25]
-  wire [62:0] _freeOH_T_3 = _freeOH_T_22[62:0] | {_freeOH_T_22[61:0], 1'h0};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:59:25, generators/rocket-chip/src/main/scala/util/package.scala:254:{43,53}]
-  wire [62:0] _freeOH_T_6 = _freeOH_T_3 | {_freeOH_T_3[60:0], 2'h0};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7, generators/rocket-chip/src/main/scala/util/package.scala:254:{43,53}]
-  wire [62:0] _freeOH_T_9 = _freeOH_T_6 | {_freeOH_T_6[58:0], 4'h0};	// @[generators/rocket-chip/src/main/scala/util/package.scala:254:{43,48,53}]
-  wire [62:0] _freeOH_T_12 = _freeOH_T_9 | {_freeOH_T_9[54:0], 8'h0};	// @[generators/rocket-chip/src/main/scala/util/package.scala:254:{43,48,53}]
-  wire [62:0] _freeOH_T_15 = _freeOH_T_12 | {_freeOH_T_12[46:0], 16'h0};	// @[generators/rocket-chip/src/main/scala/util/package.scala:254:{43,48,53}]
-  wire [63:0] freeIdx_lo = {~(_freeOH_T_15 | {_freeOH_T_15[30:0], 32'h0}), 1'h1} & _freeOH_T_22;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:59:{16,25,39}, generators/rocket-chip/src/main/scala/util/package.scala:254:{43,48,53}]
-  wire [30:0] _freeIdx_T_3 = freeIdx_lo[63:33] | freeIdx_lo[31:1];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:59:39, src/main/scala/chisel3/util/OneHot.scala:30:18, :31:18, :32:28]
-  wire [14:0] _freeIdx_T_5 = _freeIdx_T_3[30:16] | _freeIdx_T_3[14:0];	// @[src/main/scala/chisel3/util/OneHot.scala:30:18, :31:18, :32:28]
-  wire [6:0]  _freeIdx_T_7 = _freeIdx_T_5[14:8] | _freeIdx_T_5[6:0];	// @[src/main/scala/chisel3/util/OneHot.scala:30:18, :31:18, :32:28]
-  wire [2:0]  _freeIdx_T_9 = _freeIdx_T_7[6:4] | _freeIdx_T_7[2:0];	// @[src/main/scala/chisel3/util/OneHot.scala:30:18, :31:18, :32:28]
-  wire        _freeIdx_T_11 = _freeIdx_T_9[2] | _freeIdx_T_9[0];	// @[src/main/scala/chisel3/util/OneHot.scala:30:18, :31:18, :32:28]
-  reg         first_counter;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:229:27]
-  wire        req_block = ~first_counter & ~io_req_ready;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:70:{25,28}, generators/rocket-chip/src/main/scala/tilelink/Edges.scala:229:27, :231:25]
-  wire        buf_block = ~(io_a_bits_opcode[2]) & ~_putbuffer_io_push_ready;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:51:25, :71:{27,30}, generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}]
-  wire        set_block = ~(io_a_bits_opcode[2]) & ~first_counter & (&lists);	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:52:22, :58:21, :72:{27,36}, generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, :229:27, :231:25]
-  wire        io_a_ready_0 = ~req_block & ~buf_block & ~set_block;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:70:25, :71:27, :72:{27,36}, :78:{14,25,28,39,42}]
-  wire        _io_req_valid_T = io_a_valid & ~first_counter;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:79:27, generators/rocket-chip/src/main/scala/tilelink/Edges.scala:229:27, :231:25]
-  reg  [6:0]  put_r;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:84:42]
-  wire [5:0]  put = first_counter ? put_r[5:0] : {|(freeIdx_lo[63:32]), |(_freeIdx_T_3[30:15]), |(_freeIdx_T_5[14:7]), |(_freeIdx_T_7[6:3]), |(_freeIdx_T_9[2:1]), _freeIdx_T_11};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:59:39, :84:{16,42}, generators/rocket-chip/src/main/scala/tilelink/Edges.scala:229:27, src/main/scala/chisel3/util/OneHot.scala:30:18, :32:{10,14,28}]
-  wire        putbuffer_io_pop_valid = io_pb_pop_ready_0 & io_pb_pop_valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:106:40, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-  wire [63:0] _GEN = {58'h0, io_pb_pop_bits_index};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:106:40]
-  wire [63:0] _io_pb_pop_ready_T = _putbuffer_io_valid >> _GEN;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:51:25, :106:40]
+  wire         io_pb_pop_ready_0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:106:40]
+  wire         _putbuffer_io_push_ready;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:51:25]
+  wire [63:0]  _putbuffer_io_valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:51:25]
+  wire         _a_q_io_deq_valid;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [2:0]   _a_q_io_deq_bits_opcode;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [2:0]   _a_q_io_deq_bits_size;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [32:0]  _a_q_io_deq_bits_address;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [31:0]  _a_q_io_deq_bits_mask;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire [255:0] _a_q_io_deq_bits_data;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire         _a_q_io_deq_bits_corrupt;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  reg  [63:0]  lists;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:52:22]
+  wire [63:0]  _freeOH_T_22 = ~lists;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:52:22, :59:25]
+  wire [62:0]  _freeOH_T_3 = _freeOH_T_22[62:0] | {_freeOH_T_22[61:0], 1'h0};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:59:25, generators/rocket-chip/src/main/scala/util/package.scala:254:{43,53}]
+  wire [62:0]  _freeOH_T_6 = _freeOH_T_3 | {_freeOH_T_3[60:0], 2'h0};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7, generators/rocket-chip/src/main/scala/util/package.scala:254:{43,53}]
+  wire [62:0]  _freeOH_T_9 = _freeOH_T_6 | {_freeOH_T_6[58:0], 4'h0};	// @[generators/rocket-chip/src/main/scala/util/package.scala:254:{43,48,53}]
+  wire [62:0]  _freeOH_T_12 = _freeOH_T_9 | {_freeOH_T_9[54:0], 8'h0};	// @[generators/rocket-chip/src/main/scala/util/package.scala:254:{43,48,53}]
+  wire [62:0]  _freeOH_T_15 = _freeOH_T_12 | {_freeOH_T_12[46:0], 16'h0};	// @[generators/rocket-chip/src/main/scala/util/package.scala:254:{43,48,53}]
+  wire [63:0]  freeIdx_lo = {~(_freeOH_T_15 | {_freeOH_T_15[30:0], 32'h0}), 1'h1} & _freeOH_T_22;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:59:{16,25,39}, generators/rocket-chip/src/main/scala/util/package.scala:254:{43,48,53}]
+  wire [30:0]  _freeIdx_T_3 = freeIdx_lo[63:33] | freeIdx_lo[31:1];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:59:39, src/main/scala/chisel3/util/OneHot.scala:30:18, :31:18, :32:28]
+  wire [14:0]  _freeIdx_T_5 = _freeIdx_T_3[30:16] | _freeIdx_T_3[14:0];	// @[src/main/scala/chisel3/util/OneHot.scala:30:18, :31:18, :32:28]
+  wire [6:0]   _freeIdx_T_7 = _freeIdx_T_5[14:8] | _freeIdx_T_5[6:0];	// @[src/main/scala/chisel3/util/OneHot.scala:30:18, :31:18, :32:28]
+  wire [2:0]   _freeIdx_T_9 = _freeIdx_T_7[6:4] | _freeIdx_T_7[2:0];	// @[src/main/scala/chisel3/util/OneHot.scala:30:18, :31:18, :32:28]
+  wire         _freeIdx_T_11 = _freeIdx_T_9[2] | _freeIdx_T_9[0];	// @[src/main/scala/chisel3/util/OneHot.scala:30:18, :31:18, :32:28]
+  reg          first_counter;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:229:27]
+  wire         req_block = ~first_counter & ~io_req_ready;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:70:{25,28}, generators/rocket-chip/src/main/scala/tilelink/Edges.scala:229:27, :231:25]
+  wire         buf_block = ~(_a_q_io_deq_bits_opcode[2]) & ~_putbuffer_io_push_ready;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:51:25, :71:{27,30}, generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire         set_block = ~(_a_q_io_deq_bits_opcode[2]) & ~first_counter & (&lists);	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:52:22, :58:21, :72:{27,36}, generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, :229:27, :231:25, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  wire         a_q_io_deq_ready = ~req_block & ~buf_block & ~set_block;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:70:25, :71:27, :72:{27,36}, :78:{14,25,28,39,42}]
+  wire         _io_req_valid_T = _a_q_io_deq_valid & ~first_counter;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:79:27, generators/rocket-chip/src/main/scala/tilelink/Edges.scala:229:27, :231:25, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  reg  [6:0]   put_r;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:84:42]
+  wire [5:0]   put = first_counter ? put_r[5:0] : {|(freeIdx_lo[63:32]), |(_freeIdx_T_3[30:15]), |(_freeIdx_T_5[14:7]), |(_freeIdx_T_7[6:3]), |(_freeIdx_T_9[2:1]), _freeIdx_T_11};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:59:39, :84:{16,42}, generators/rocket-chip/src/main/scala/tilelink/Edges.scala:229:27, src/main/scala/chisel3/util/OneHot.scala:30:18, :32:{10,14,28}]
+  wire         putbuffer_io_pop_valid = io_pb_pop_ready_0 & io_pb_pop_valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:106:40, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire [63:0]  _GEN = {58'h0, io_pb_pop_bits_index};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:106:40]
+  wire [63:0]  _io_pb_pop_ready_T = _putbuffer_io_valid >> _GEN;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:51:25, :106:40]
   assign io_pb_pop_ready_0 = _io_pb_pop_ready_T[0];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:106:40]
-  wire [12:0] _first_beats1_decode_T = 13'h3F << io_a_bits_size;	// @[generators/rocket-chip/src/main/scala/util/package.scala:244:71]
+  wire [12:0]  _first_beats1_decode_T = 13'h3F << _a_q_io_deq_bits_size;	// @[generators/rocket-chip/src/main/scala/util/package.scala:244:71, src/main/scala/chisel3/util/Decoupled.scala:362:21]
   always @(posedge clock) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7]
     if (reset) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7]
       lists <= 64'h0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:52:22]
       first_counter <= 1'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:229:27]
     end
     else begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7]
-      lists <= (lists | (_io_req_valid_T & ~(io_a_bits_opcode[2]) & ~req_block & ~buf_block ? freeIdx_lo : 64'h0)) & ~(putbuffer_io_pop_valid & io_pb_pop_bits_last ? 64'h1 << _GEN : 64'h0);	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:52:22, :54:27, :55:27, :56:{19,32,34}, :59:39, :70:25, :71:27, :78:{14,28}, :79:27, :81:{26,37,51,66,78}, :106:40, :109:{24,48}, :110:15, generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:12]
-      if (io_a_ready_0 & io_a_valid) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:78:{25,39}, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+      lists <= (lists | (_io_req_valid_T & ~(_a_q_io_deq_bits_opcode[2]) & ~req_block & ~buf_block ? freeIdx_lo : 64'h0)) & ~(putbuffer_io_pop_valid & io_pb_pop_bits_last ? 64'h1 << _GEN : 64'h0);	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:52:22, :54:27, :55:27, :56:{19,32,34}, :59:39, :70:25, :71:27, :78:{14,28}, :79:27, :81:{26,37,51,66,78}, :106:40, :109:{24,48}, :110:15, generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, src/main/scala/chisel3/util/Decoupled.scala:51:35, :362:21, src/main/scala/chisel3/util/OneHot.scala:65:12]
+      if (a_q_io_deq_ready & _a_q_io_deq_valid) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:78:{25,39}, src/main/scala/chisel3/util/Decoupled.scala:51:35, :362:21]
         if (first_counter)	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:229:27]
           first_counter <= first_counter - 1'h1;	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:229:27, :230:28]
         else	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:229:27]
-          first_counter <= ~(io_a_bits_opcode[2]) & ~(_first_beats1_decode_T[5]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, :221:14, :229:27, generators/rocket-chip/src/main/scala/util/package.scala:244:{46,71,76}]
+          first_counter <= ~(_a_q_io_deq_bits_opcode[2]) & ~(_first_beats1_decode_T[5]);	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, :221:14, :229:27, generators/rocket-chip/src/main/scala/util/package.scala:244:{46,71,76}, src/main/scala/chisel3/util/Decoupled.scala:362:21]
       end
     end
     if (first_counter) begin	// @[generators/rocket-chip/src/main/scala/tilelink/Edges.scala:229:27]
@@ -145,15 +152,39 @@ module SinkA(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusive
       `FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7]
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
+  Queue2_TLBundleA_a33d256s10k6z3c a_q (	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    .clock               (clock),
+    .reset               (reset),
+    .io_enq_ready        (io_a_ready),
+    .io_enq_valid        (io_a_valid),
+    .io_enq_bits_opcode  (io_a_bits_opcode),
+    .io_enq_bits_param   (io_a_bits_param),
+    .io_enq_bits_size    (io_a_bits_size),
+    .io_enq_bits_source  (io_a_bits_source),
+    .io_enq_bits_address (io_a_bits_address),
+    .io_enq_bits_mask    (io_a_bits_mask),
+    .io_enq_bits_data    (io_a_bits_data),
+    .io_enq_bits_corrupt (io_a_bits_corrupt),
+    .io_deq_ready        (a_q_io_deq_ready),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:78:{25,39}]
+    .io_deq_valid        (_a_q_io_deq_valid),
+    .io_deq_bits_opcode  (_a_q_io_deq_bits_opcode),
+    .io_deq_bits_param   (io_req_bits_param),
+    .io_deq_bits_size    (_a_q_io_deq_bits_size),
+    .io_deq_bits_source  (io_req_bits_source),
+    .io_deq_bits_address (_a_q_io_deq_bits_address),
+    .io_deq_bits_mask    (_a_q_io_deq_bits_mask),
+    .io_deq_bits_data    (_a_q_io_deq_bits_data),
+    .io_deq_bits_corrupt (_a_q_io_deq_bits_corrupt)
+  );	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   ListBuffer_PutBufferAEntry_q64_e64 putbuffer (	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:51:25]
     .clock                     (clock),
     .reset                     (reset),
     .io_push_ready             (_putbuffer_io_push_ready),
-    .io_push_valid             (io_a_valid & ~(io_a_bits_opcode[2]) & ~req_block & ~set_block),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:70:25, :72:{27,36}, :78:{14,42}, :80:{38,49,63}, generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}]
+    .io_push_valid             (_a_q_io_deq_valid & ~(_a_q_io_deq_bits_opcode[2]) & ~req_block & ~set_block),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:70:25, :72:{27,36}, :78:{14,42}, :80:{38,49,63}, generators/rocket-chip/src/main/scala/tilelink/Edges.scala:92:{28,37}, src/main/scala/chisel3/util/Decoupled.scala:362:21]
     .io_push_bits_index        (put),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:84:16]
-    .io_push_bits_data_data    (io_a_bits_data),
-    .io_push_bits_data_mask    (io_a_bits_mask),
-    .io_push_bits_data_corrupt (io_a_bits_corrupt),
+    .io_push_bits_data_data    (_a_q_io_deq_bits_data),	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    .io_push_bits_data_mask    (_a_q_io_deq_bits_mask),	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    .io_push_bits_data_corrupt (_a_q_io_deq_bits_corrupt),	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
     .io_valid                  (_putbuffer_io_valid),
     .io_pop_valid              (putbuffer_io_pop_valid),	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35]
     .io_pop_bits               (io_pb_pop_bits_index),
@@ -162,15 +193,12 @@ module SinkA(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusive
     .io_data_corrupt           (io_pb_beat_corrupt)
   );	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:51:25]
   assign io_req_valid = _io_req_valid_T & ~buf_block & ~set_block;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7, :71:27, :72:{27,36}, :78:{28,42}, :79:{27,36,50}]
-  assign io_req_bits_opcode = io_a_bits_opcode;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7]
-  assign io_req_bits_param = io_a_bits_param;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7]
-  assign io_req_bits_size = io_a_bits_size;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7]
-  assign io_req_bits_source = io_a_bits_source;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7]
-  assign io_req_bits_tag = io_a_bits_address[32:16];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:215:22, :216:19, generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7]
-  assign io_req_bits_offset = io_a_bits_address[5:0];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:217:50, generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7]
+  assign io_req_bits_opcode = _a_q_io_deq_bits_opcode;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_req_bits_size = _a_q_io_deq_bits_size;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_req_bits_tag = _a_q_io_deq_bits_address[32:16];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:215:22, :216:19, generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_req_bits_offset = _a_q_io_deq_bits_address[5:0];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:217:50, generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7, src/main/scala/chisel3/util/Decoupled.scala:362:21]
   assign io_req_bits_put = put;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7, :84:16]
-  assign io_req_bits_set = {io_a_bits_address[15:13], io_a_bits_address[11:6]};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:215:22, :217:28, generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7]
-  assign io_a_ready = io_a_ready_0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7, :78:{25,39}]
+  assign io_req_bits_set = {_a_q_io_deq_bits_address[15:13], _a_q_io_deq_bits_address[11:6]};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:215:22, :217:28, generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7, src/main/scala/chisel3/util/Decoupled.scala:362:21]
   assign io_pb_pop_ready = io_pb_pop_ready_0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkA.scala:38:7, :106:40]
 endmodule
 

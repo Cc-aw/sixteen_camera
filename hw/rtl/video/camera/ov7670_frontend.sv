@@ -135,6 +135,12 @@ module ov7670_frontend #(
     reg capture_enable_sync1 = 1'b0;
     (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO" *)
     reg capture_enable_sync2 = 1'b0;
+    // Keep the high-fanout capture run/reset distribution local to each
+    // consumer group.  These registers preserve full throughput and add only
+    // one start/stop cycle, while avoiding one 300 MHz reset/CE net spanning
+    // the complete camera frontend.
+    (* KEEP = "TRUE", MAX_FANOUT = 48 *)
+    reg [4:0] capture_active_local = 5'b00000;
 
     xpm_cdc_array_single #(
         .DEST_SYNC_FF(2), .INIT_SYNC_FF(0), .SIM_ASSERT_CHK(0),
@@ -199,8 +205,8 @@ module ov7670_frontend #(
         .ctrl_clk(ov7670_ctrl_clk), .ctrl_resetn(sys_rstn),
         .ctrl_status0_src(ctrl_diag_24m[31:0]),
         .ctrl_status1_src(ctrl_diag_24m[415:384]),
-        .capture_clk(video_clk), .capture_resetn(video_resetn),
-        .capture_enable(capture_enable_sync2),
+        .capture_clk(video_clk), .capture_resetn(capture_active_local[3]),
+        .capture_enable(capture_active_local[4]),
         .pclk_locked(pclk_recovery_locked),
         .pclk_state(pclk_recovery_state),
         .pclk_period(pclk_period_est_fp),
@@ -238,10 +244,8 @@ module ov7670_frontend #(
     // prevent packing at the pins.
     // video_resetn is already asserted until DDR calibration completes and
     // is synchronously released in video_clk before it reaches this channel.
-    // Do not re-combine the raw system/calibration status here: doing so
-    // creates a high-fanout 300 MHz data/CE path across SLRs.  Camera capture
-    // remains disabled until the SCCB controller reports initialization OK.
-    wire capture_resetn = video_resetn && capture_enable_sync2;
+    // The local bank below gives the recovery, filters, diagnostics and event
+    // bridge separate low-fanout run/reset sources.
 
     dvp_input_sampler u_input_sampler (
         .capture_clk(video_clk),
@@ -261,6 +265,13 @@ module ov7670_frontend #(
             capture_enable_sync1 <= hw_capture_enable;
             capture_enable_sync2 <= capture_enable_sync1;
         end
+    end
+
+    always @(posedge video_clk) begin
+        if (!video_resetn)
+            capture_active_local <= 5'b00000;
+        else
+            capture_active_local <= {5{capture_enable_sync2}};
     end
 
     wire diag_clear_video =
@@ -296,7 +307,7 @@ module ov7670_frontend #(
         .PERIOD_IIR_SHIFT(3),
         .DATA_HISTORY_DEPTH(8), .DEFAULT_DATA_SAMPLE_OFFSET(2)
     ) u_pclk_recovery (
-        .clk_300m(video_clk), .resetn(capture_resetn),
+        .clk_300m(video_clk), .resetn(capture_active_local[0]),
         .diag_clear(diag_clear_video),
         .frame_boundary(pixel_ce && vsync_qualified && !diag_vsync_d),
         .pclk_sample(dvp_pclk_pipe), .data_sample(dvp_data_pipe),
@@ -326,7 +337,7 @@ module ov7670_frontend #(
     );
 
     always @(posedge video_clk) begin
-        if (!capture_resetn) begin
+        if (!capture_active_local[1]) begin
             vsync_high_run <= {VSYNC_RUN_WIDTH{1'b0}};
             vsync_low_run <= {VSYNC_RUN_WIDTH{1'b0}};
             vsync_filtered <= 1'b0;
@@ -370,7 +381,7 @@ module ov7670_frontend #(
         !vsync_qualified &&
         (frame_interval_cycles >= FRAME_RESYNC_TIMEOUT_CYCLES);
     always @(posedge video_clk) begin
-        if (!capture_resetn) begin
+        if (!capture_active_local[1]) begin
             vsync_filter_d <= 1'b0;
             vsync_qualified <= 1'b0;
             frame_sync_seen <= 1'b0;
@@ -403,7 +414,7 @@ module ov7670_frontend #(
     // matched by the data pipeline below, so the first and last
     // pixels of a qualified line remain aligned with their HREF level.
     always @(posedge video_clk) begin
-        if (!capture_resetn) begin
+        if (!capture_active_local[2]) begin
             href_high_run <= {HREF_RUN_WIDTH{1'b0}};
             href_low_run <= {HREF_RUN_WIDTH{1'b0}};
             href_filtered <= 1'b0;
@@ -444,7 +455,7 @@ module ov7670_frontend #(
         .LINE_BYTES(SENSOR_WIDTH * 2),
         .HOLDOVER_CYCLES(32)
     ) u_href_line_guard (
-        .clk(video_clk), .resetn(capture_resetn), .pixel_ce(pixel_ce),
+        .clk(video_clk), .resetn(capture_active_local[2]), .pixel_ce(pixel_ce),
         .frame_boundary(vsync_qualified), .href(href_filtered),
         .diag_clear(diag_clear_video),
         .byte_accept(href_guard_byte_accept),
@@ -461,7 +472,7 @@ module ov7670_frontend #(
     // the P3 event CDC. The source is physical and cannot be backpressured;
     // event_ready is telemetry for an explicit overflow/resync decision.
     assign pixel_resetn = video_resetn;
-    assign pixel_enable = capture_enable_sync2;
+    assign pixel_enable = capture_active_local[4];
     assign event_data = href_aligned_data;
     assign event_byte_valid = href_guard_byte_accept;
     assign event_line_start = href_guard_line_start;
@@ -470,12 +481,12 @@ module ov7670_frontend #(
     assign event_frame_boundary = pixel_ce && vsync_qualified &&
                                   !diag_vsync_d;
     assign event_fault = pclk_loss_event;
-    assign event_valid = capture_enable_sync2 &&
+    assign event_valid = capture_active_local[4] &&
                          (event_byte_valid || event_line_end ||
                           event_frame_boundary || event_fault);
 
     always @(posedge video_clk) begin
-        if (!capture_resetn) begin
+        if (!capture_active_local[3]) begin
             input_frame_count <= 32'd0;
             input_overflow_count <= 32'd0;
             current_line_bytes <= 16'd0;
@@ -514,7 +525,7 @@ module ov7670_frontend #(
     // complete values from the just-finished frame and remain unchanged until
     // the next filtered VSYNC boundary.
     always @(posedge video_clk) begin
-        if (!capture_resetn) begin
+        if (!capture_active_local[3]) begin
             geometry_snapshot_pclk <= 32'd0;
         end else if (pixel_ce && vsync_qualified && !diag_vsync_d) begin
             geometry_snapshot_pclk <= {current_frame_lines, last_line_bytes};

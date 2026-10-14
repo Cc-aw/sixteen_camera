@@ -2271,7 +2271,19 @@
                     {
                       "instance_name": "sourceB",
                       "module_name": "SourceB",
-                      "instances": []
+                      "instances": [
+                        {
+                          "instance_name": "io_b_q",
+                          "module_name": "Queue2_TLBundleB_a33d256s10k6z3c",
+                          "instances": [
+                            {
+                              "instance_name": "ram_ext",
+                              "module_name": "ram_2x340",
+                              "instances": []
+                            }
+                          ]
+                        }
+                      ]
                     },
                     {
                       "instance_name": "sourceC",
@@ -2301,6 +2313,17 @@
                             {
                               "instance_name": "ram_data_ext",
                               "module_name": "ram_data_3x256",
+                              "instances": []
+                            }
+                          ]
+                        },
+                        {
+                          "instance_name": "io_d_q",
+                          "module_name": "Queue2_TLBundleD_a33d256s10k6z3c",
+                          "instances": [
+                            {
+                              "instance_name": "ram_ext",
+                              "module_name": "ram_2x282",
                               "instances": []
                             }
                           ]
@@ -2344,6 +2367,17 @@
                       "instance_name": "sinkA",
                       "module_name": "SinkA",
                       "instances": [
+                        {
+                          "instance_name": "a_q",
+                          "module_name": "Queue2_TLBundleA_a33d256s10k6z3c",
+                          "instances": [
+                            {
+                              "instance_name": "ram_ext",
+                              "module_name": "ram_2x341",
+                              "instances": []
+                            }
+                          ]
+                        },
                         {
                           "instance_name": "putbuffer",
                           "module_name": "ListBuffer_PutBufferAEntry_q64_e64",
@@ -2440,7 +2474,19 @@
                     {
                       "instance_name": "sinkE",
                       "module_name": "SinkE",
-                      "instances": []
+                      "instances": [
+                        {
+                          "instance_name": "e_q",
+                          "module_name": "Queue2_TLBundleE_a33d256s10k6z3c",
+                          "instances": [
+                            {
+                              "instance_name": "ram_sink_ext",
+                              "module_name": "ram_2x6",
+                              "instances": []
+                            }
+                          ]
+                        }
+                      ]
                     },
                     {
                       "instance_name": "sinkX",
@@ -2840,7 +2886,7 @@
                     },
                     {
                       "instance_name": "requests",
-                      "module_name": "ListBuffer_QueuedRequest_q102_e34",
+                      "module_name": "ListBuffer_QueuedRequest_q102_e34_fast",
                       "instances": [
                         {
                           "instance_name": "head_ext",
@@ -2855,11 +2901,6 @@
                         {
                           "instance_name": "next_ext",
                           "module_name": "next_34x6",
-                          "instances": []
-                        },
-                        {
-                          "instance_name": "data_ext",
-                          "module_name": "data_34x53",
                           "instances": []
                         }
                       ]
@@ -3060,7 +3101,19 @@
                     {
                       "instance_name": "sourceB",
                       "module_name": "SourceB",
-                      "instances": []
+                      "instances": [
+                        {
+                          "instance_name": "io_b_q",
+                          "module_name": "Queue2_TLBundleB_a33d256s10k6z3c",
+                          "instances": [
+                            {
+                              "instance_name": "ram_ext",
+                              "module_name": "ram_2x340",
+                              "instances": []
+                            }
+                          ]
+                        }
+                      ]
                     },
                     {
                       "instance_name": "sourceC",
@@ -3090,6 +3143,17 @@
                             {
                               "instance_name": "ram_data_ext",
                               "module_name": "ram_data_3x256",
+                              "instances": []
+                            }
+                          ]
+                        },
+                        {
+                          "instance_name": "io_d_q",
+                          "module_name": "Queue2_TLBundleD_a33d256s10k6z3c",
+                          "instances": [
+                            {
+                              "instance_name": "ram_ext",
+                              "module_name": "ram_2x282",
                               "instances": []
                             }
                           ]
@@ -3133,6 +3197,17 @@
                       "instance_name": "sinkA",
                       "module_name": "SinkA",
                       "instances": [
+                        {
+                          "instance_name": "a_q",
+                          "module_name": "Queue2_TLBundleA_a33d256s10k6z3c",
+                          "instances": [
+                            {
+                              "instance_name": "ram_ext",
+                              "module_name": "ram_2x341",
+                              "instances": []
+                            }
+                          ]
+                        },
                         {
                           "instance_name": "putbuffer",
                           "module_name": "ListBuffer_PutBufferAEntry_q64_e64",
@@ -3229,7 +3304,19 @@
                     {
                       "instance_name": "sinkE",
                       "module_name": "SinkE",
-                      "instances": []
+                      "instances": [
+                        {
+                          "instance_name": "e_q",
+                          "module_name": "Queue2_TLBundleE_a33d256s10k6z3c",
+                          "instances": [
+                            {
+                              "instance_name": "ram_sink_ext",
+                              "module_name": "ram_2x6",
+                              "instances": []
+                            }
+                          ]
+                        }
+                      ]
                     },
                     {
                       "instance_name": "sinkX",
@@ -3629,7 +3716,7 @@
                     },
                     {
                       "instance_name": "requests",
-                      "module_name": "ListBuffer_QueuedRequest_q102_e34",
+                      "module_name": "ListBuffer_QueuedRequest_q102_e34_fast",
                       "instances": [
                         {
                           "instance_name": "head_ext",
@@ -3644,11 +3731,6 @@
                         {
                           "instance_name": "next_ext",
                           "module_name": "next_34x6",
-                          "instances": []
-                        },
-                        {
-                          "instance_name": "data_ext",
-                          "module_name": "data_34x53",
                           "instances": []
                         }
                       ]

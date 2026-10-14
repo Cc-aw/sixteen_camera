@@ -92,8 +92,14 @@ module InclusiveCache(	// @[generators/rocket-chip-inclusive-cache/design/craft/
   input          auto_in_1_a_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_in_1_b_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_in_1_b_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_in_1_b_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [1:0]   auto_in_1_b_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_in_1_b_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [9:0]   auto_in_1_b_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [32:0]  auto_in_1_b_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [31:0]  auto_in_1_b_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [255:0] auto_in_1_b_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_1_b_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_in_1_c_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_in_1_c_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]   auto_in_1_c_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -113,6 +119,7 @@ module InclusiveCache(	// @[generators/rocket-chip-inclusive-cache/design/craft/
   output         auto_in_1_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [255:0] auto_in_1_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_in_1_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_1_e_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_in_1_e_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [5:0]   auto_in_1_e_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_in_0_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -127,8 +134,14 @@ module InclusiveCache(	// @[generators/rocket-chip-inclusive-cache/design/craft/
   input          auto_in_0_a_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_in_0_b_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_in_0_b_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_in_0_b_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [1:0]   auto_in_0_b_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_in_0_b_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [9:0]   auto_in_0_b_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [32:0]  auto_in_0_b_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [31:0]  auto_in_0_b_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [255:0] auto_in_0_b_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_0_b_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_in_0_c_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_in_0_c_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]   auto_in_0_c_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -148,6 +161,7 @@ module InclusiveCache(	// @[generators/rocket-chip-inclusive-cache/design/craft/
   output         auto_in_0_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [255:0] auto_in_0_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_in_0_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_0_e_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_in_0_e_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [5:0]   auto_in_0_e_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_out_1_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -668,8 +682,14 @@ module InclusiveCache(	// @[generators/rocket-chip-inclusive-cache/design/craft/
     .io_in_a_bits_corrupt   (auto_in_0_a_bits_corrupt),
     .io_in_b_ready          (auto_in_0_b_ready),
     .io_in_b_valid          (auto_in_0_b_valid),
+    .io_in_b_bits_opcode    (auto_in_0_b_bits_opcode),
     .io_in_b_bits_param     (auto_in_0_b_bits_param),
+    .io_in_b_bits_size      (auto_in_0_b_bits_size),
+    .io_in_b_bits_source    (auto_in_0_b_bits_source),
     .io_in_b_bits_address   (auto_in_0_b_bits_address),
+    .io_in_b_bits_mask      (auto_in_0_b_bits_mask),
+    .io_in_b_bits_data      (auto_in_0_b_bits_data),
+    .io_in_b_bits_corrupt   (auto_in_0_b_bits_corrupt),
     .io_in_c_ready          (_inclusive_cache_bank_sched_io_in_c_ready),
     .io_in_c_valid          (auto_in_0_c_valid),
     .io_in_c_bits_opcode    (auto_in_0_c_bits_opcode),
@@ -689,6 +709,7 @@ module InclusiveCache(	// @[generators/rocket-chip-inclusive-cache/design/craft/
     .io_in_d_bits_denied    (auto_in_0_d_bits_denied),
     .io_in_d_bits_data      (auto_in_0_d_bits_data),
     .io_in_d_bits_corrupt   (auto_in_0_d_bits_corrupt),
+    .io_in_e_ready          (auto_in_0_e_ready),
     .io_in_e_valid          (auto_in_0_e_valid),
     .io_in_e_bits_sink      (auto_in_0_e_bits_sink),
     .io_out_a_ready         (auto_out_0_a_ready),
@@ -760,8 +781,14 @@ module InclusiveCache(	// @[generators/rocket-chip-inclusive-cache/design/craft/
     .io_in_a_bits_corrupt   (auto_in_1_a_bits_corrupt),
     .io_in_b_ready          (auto_in_1_b_ready),
     .io_in_b_valid          (auto_in_1_b_valid),
+    .io_in_b_bits_opcode    (auto_in_1_b_bits_opcode),
     .io_in_b_bits_param     (auto_in_1_b_bits_param),
+    .io_in_b_bits_size      (auto_in_1_b_bits_size),
+    .io_in_b_bits_source    (auto_in_1_b_bits_source),
     .io_in_b_bits_address   (_inclusive_cache_bank_sched_1_io_in_b_bits_address),
+    .io_in_b_bits_mask      (auto_in_1_b_bits_mask),
+    .io_in_b_bits_data      (auto_in_1_b_bits_data),
+    .io_in_b_bits_corrupt   (auto_in_1_b_bits_corrupt),
     .io_in_c_ready          (_inclusive_cache_bank_sched_1_io_in_c_ready),
     .io_in_c_valid          (auto_in_1_c_valid),
     .io_in_c_bits_opcode    (auto_in_1_c_bits_opcode),
@@ -781,6 +808,7 @@ module InclusiveCache(	// @[generators/rocket-chip-inclusive-cache/design/craft/
     .io_in_d_bits_denied    (auto_in_1_d_bits_denied),
     .io_in_d_bits_data      (auto_in_1_d_bits_data),
     .io_in_d_bits_corrupt   (auto_in_1_d_bits_corrupt),
+    .io_in_e_ready          (auto_in_1_e_ready),
     .io_in_e_valid          (auto_in_1_e_valid),
     .io_in_e_bits_sink      (auto_in_1_e_bits_sink),
     .io_out_a_ready         (auto_out_1_a_ready),

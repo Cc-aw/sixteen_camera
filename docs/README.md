@@ -4,8 +4,8 @@
 
 - [SoC 合并指南](integration/soc-integration.md)
 - [专用 Tensor 整行写入口与板测统计](integration/tensor-ingress.md)
-- [V3 三路 Gemmini32 与 Tensor 写入口](integration/triple32-v3-tensor.md)
-- [single4 Linux 配置与 RTL](integration/linux-single4.md)
+- [当前三路 MaxPool + TensorIngress 硬件](integration/triple32-v3-tensor.md)：最新shell、唯一配置、实现策略；[离线验收](validation/latest-hardware.md)。
+- [single4 Linux 历史设计（硬件入口已退休）](integration/linux-single4.md)
 - [视频与 AI 底座架构](architecture/overview.md)
 - [SW Runtime R0 基线与约束](architecture/sw-runtime-baseline.md)：调用图、ABI、离线验证、已知失败及 R1 最小计划。
 - [SW Runtime R1a Tensor HAL 实施记录](architecture/sw-runtime-r1a.md)：设备接口、R0 等价轨迹、三配置构建和后续边界。

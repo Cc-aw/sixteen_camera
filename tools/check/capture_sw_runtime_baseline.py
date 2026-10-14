@@ -18,7 +18,7 @@ import sys
 import time
 
 ROOT = Path(__file__).resolve().parents[2]
-VARIANTS = ("dual16", "single4", "triple32_v3_tensor")
+VARIANTS = ("triple32_v3_tensor",)
 CONFIG_VARIABLES = (
     "TOOLCHAIN", "CC", "ARCH_FLAGS", "CFLAGS", "VENDOR_CFLAGS", "LDFLAGS", "LDLIBS",
     "AI_MODEL", "MODEL_WORKERS", "MODEL_DIM", "GEMMINI_PARAMS", "V17A_PARAMS",

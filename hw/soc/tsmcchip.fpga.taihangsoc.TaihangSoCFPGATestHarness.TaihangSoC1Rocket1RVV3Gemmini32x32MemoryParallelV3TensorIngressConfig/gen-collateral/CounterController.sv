@@ -66,6 +66,7 @@ module CounterController(	// @[generators/gemmini/src/main/scala/gemmini/Counter
   input         io_event_io_event_signal_10,	// @[generators/gemmini/src/main/scala/gemmini/CounterFile.scala:219:14]
   input         io_event_io_event_signal_11,	// @[generators/gemmini/src/main/scala/gemmini/CounterFile.scala:219:14]
   input         io_event_io_event_signal_12,	// @[generators/gemmini/src/main/scala/gemmini/CounterFile.scala:219:14]
+  input         io_event_io_event_signal_13,	// @[generators/gemmini/src/main/scala/gemmini/CounterFile.scala:219:14]
   input         io_event_io_event_signal_14,	// @[generators/gemmini/src/main/scala/gemmini/CounterFile.scala:219:14]
   input         io_event_io_event_signal_18,	// @[generators/gemmini/src/main/scala/gemmini/CounterFile.scala:219:14]
   input         io_event_io_event_signal_20,	// @[generators/gemmini/src/main/scala/gemmini/CounterFile.scala:219:14]
@@ -164,6 +165,7 @@ module CounterController(	// @[generators/gemmini/src/main/scala/gemmini/Counter
     .io_event_io_event_signal_10   (io_event_io_event_signal_10),
     .io_event_io_event_signal_11   (io_event_io_event_signal_11),
     .io_event_io_event_signal_12   (io_event_io_event_signal_12),
+    .io_event_io_event_signal_13   (io_event_io_event_signal_13),
     .io_event_io_event_signal_14   (io_event_io_event_signal_14),
     .io_event_io_event_signal_18   (io_event_io_event_signal_18),
     .io_event_io_event_signal_20   (io_event_io_event_signal_20),

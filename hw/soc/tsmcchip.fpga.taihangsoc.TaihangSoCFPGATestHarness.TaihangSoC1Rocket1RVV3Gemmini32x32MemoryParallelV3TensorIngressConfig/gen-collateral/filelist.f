@@ -154,12 +154,15 @@ MemoryParallelPerf.sv
 ram_2x624.sv
 Queue2_TLBundleA_a33d512s5k3z3c.sv
 SourceA.sv
+ram_2x340.sv
+Queue2_TLBundleB_a33d256s10k6z3c.sv
 SourceB.sv
 ram_5x557.sv
 Queue5_TLBundleC_a33d512s5k3z3c.sv
 SourceC.sv
 ram_data_3x256.sv
 Queue3_BankedStoreInnerDecoded.sv
+Queue2_TLBundleD_a33d256s10k6z3c.sv
 Atomics.sv
 SourceD.sv
 ram_2x3.sv
@@ -167,6 +170,8 @@ Queue2_TLBundleE_a33d512s5k3z3c.sv
 SourceE.sv
 Queue1_SourceXRequest.sv
 SourceX.sv
+ram_2x341.sv
+Queue2_TLBundleA_a33d256s10k6z3c.sv
 head_64x6.sv
 tail_64x6.sv
 next_64x6.sv
@@ -184,6 +189,7 @@ ListBuffer_PutBufferCEntry_q2_e4.sv
 SinkC.sv
 Queue2_TLBundleD_a33d512s5k3z3c.sv
 SinkD.sv
+Queue2_TLBundleE_a33d256s10k6z3c.sv
 SinkE.sv
 Queue1_SinkXRequest.sv
 SinkX.sv
@@ -194,8 +200,7 @@ BankedStore.sv
 head_102x6.sv
 tail_102x6.sv
 next_34x6.sv
-data_34x53.sv
-ListBuffer_QueuedRequest_q102_e34.sv
+ListBuffer_QueuedRequest_q102_e34_fast.sv
 MSHR.sv
 InclusiveCacheBankScheduler.sv
 InclusiveCache.sv

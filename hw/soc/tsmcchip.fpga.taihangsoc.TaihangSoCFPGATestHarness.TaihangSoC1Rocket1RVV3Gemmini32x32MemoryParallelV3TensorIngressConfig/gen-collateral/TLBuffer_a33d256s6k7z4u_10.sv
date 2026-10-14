@@ -117,6 +117,8 @@ module TLBuffer_a33d256s6k7z4u_10(	// @[generators/rocket-chip/src/main/scala/ti
   input  [5:0]   auto_out_3_b_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [32:0]  auto_out_3_b_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [31:0]  auto_out_3_b_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [255:0] auto_out_3_b_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_3_b_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_out_3_c_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_out_3_c_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]   auto_out_3_c_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -404,6 +406,8 @@ module TLBuffer_a33d256s6k7z4u_10(	// @[generators/rocket-chip/src/main/scala/ti
     .io_enq_bits_source  (auto_out_3_b_bits_source),
     .io_enq_bits_address (auto_out_3_b_bits_address),
     .io_enq_bits_mask    (auto_out_3_b_bits_mask),
+    .io_enq_bits_data    (auto_out_3_b_bits_data),
+    .io_enq_bits_corrupt (auto_out_3_b_bits_corrupt),
     .io_deq_ready        (auto_in_3_b_ready),
     .io_deq_valid        (auto_in_3_b_valid),
     .io_deq_bits_param   (auto_in_3_b_bits_param),

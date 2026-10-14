@@ -1273,6 +1273,7 @@ module Gemmini_1(	// @[generators/gemmini/src/main/scala/gemmini/Controller.scal
   wire         _store_controller_io_dma_req_bits_status_hie;	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
   wire         _store_controller_io_dma_req_bits_status_sie;	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
   wire         _store_controller_io_dma_req_bits_status_uie;	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
+  wire         _store_controller_io_dma_req_bits_pool_en;	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
   wire         _store_controller_io_dma_req_bits_store_en;	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
   wire         _store_controller_io_completed_valid;	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
   wire [6:0]   _store_controller_io_completed_bits;	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
@@ -1282,6 +1283,7 @@ module Gemmini_1(	// @[generators/gemmini/src/main/scala/gemmini/Controller.scal
   wire [63:0]  _store_controller_io_silu_lut_write_bits_data;	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
   wire         _store_controller_io_counter_event_signal_11;	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
   wire         _store_controller_io_counter_event_signal_12;	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
+  wire         _store_controller_io_counter_event_signal_13;	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
   wire         _store_controller_io_counter_event_signal_14;	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
   wire         _load_controller_io_cmd_ready;	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:326:57]
   wire         _load_controller_io_dma_req_valid;	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:326:57]
@@ -2126,6 +2128,7 @@ module Gemmini_1(	// @[generators/gemmini/src/main/scala/gemmini/Controller.scal
     .io_dma_write_req_bits_status_hie              (_store_controller_io_dma_req_bits_status_hie),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
     .io_dma_write_req_bits_status_sie              (_store_controller_io_dma_req_bits_status_sie),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
     .io_dma_write_req_bits_status_uie              (_store_controller_io_dma_req_bits_status_uie),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
+    .io_dma_write_req_bits_pool_en                 (_store_controller_io_dma_req_bits_pool_en),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
     .io_dma_write_req_bits_store_en                (_store_controller_io_dma_req_bits_store_en),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
     .io_dma_write_resp_valid                       (_spad_io_dma_write_resp_valid),
     .io_dma_write_resp_bits_cmd_id                 (_spad_io_dma_write_resp_bits_cmd_id),
@@ -3327,6 +3330,7 @@ module Gemmini_1(	// @[generators/gemmini/src/main/scala/gemmini/Controller.scal
     .io_event_io_event_signal_10   (_load_controller_io_counter_event_signal_10),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:326:57]
     .io_event_io_event_signal_11   (_store_controller_io_counter_event_signal_11),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
     .io_event_io_event_signal_12   (_store_controller_io_counter_event_signal_12),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
+    .io_event_io_event_signal_13   (_store_controller_io_counter_event_signal_13),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
     .io_event_io_event_signal_14   (_store_controller_io_counter_event_signal_14),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
     .io_event_io_event_signal_18   (_spad_io_counter_event_signal_18),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:53:24]
     .io_event_io_event_signal_20   (_spad_io_counter_event_signal_20),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:53:24]
@@ -4212,6 +4216,7 @@ module Gemmini_1(	// @[generators/gemmini/src/main/scala/gemmini/Controller.scal
     .io_dma_req_bits_status_hie              (_store_controller_io_dma_req_bits_status_hie),
     .io_dma_req_bits_status_sie              (_store_controller_io_dma_req_bits_status_sie),
     .io_dma_req_bits_status_uie              (_store_controller_io_dma_req_bits_status_uie),
+    .io_dma_req_bits_pool_en                 (_store_controller_io_dma_req_bits_pool_en),
     .io_dma_req_bits_store_en                (_store_controller_io_dma_req_bits_store_en),
     .io_dma_resp_valid                       (_spad_io_dma_write_resp_valid),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:53:24]
     .io_dma_resp_bits_cmd_id                 (_spad_io_dma_write_resp_bits_cmd_id),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:53:24]
@@ -4225,6 +4230,7 @@ module Gemmini_1(	// @[generators/gemmini/src/main/scala/gemmini/Controller.scal
     .io_silu_lut_ready                       (_spad_io_silu_lut_ready),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:53:24]
     .io_counter_event_signal_11              (_store_controller_io_counter_event_signal_11),
     .io_counter_event_signal_12              (_store_controller_io_counter_event_signal_12),
+    .io_counter_event_signal_13              (_store_controller_io_counter_event_signal_13),
     .io_counter_event_signal_14              (_store_controller_io_counter_event_signal_14)
   );	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:327:58]
   ExecuteController ex_controller (	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:328:55]

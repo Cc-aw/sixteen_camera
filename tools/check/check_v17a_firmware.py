@@ -68,6 +68,9 @@ def main():
     params = ROOT / "hw/soc" / config / "gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom3_xcvu13p.h"
     require(manifest["params_sha256"] == hashlib.sha256(params.read_bytes()).hexdigest(), "hardware parameter hash mismatch")
     if manifest["firmware"] == "v26":
+        require(manifest["hardware_generation_sha256"] == hashlib.sha256(
+            (ROOT / "hw/soc" / config / "GENERATION_CONTEXT.json").read_bytes()).hexdigest(),
+            "hardware generation snapshot changed since firmware build")
         require(not re.search(r"\b(?:rdcycle|cycle)\b|0xc00", switch),
                 "formal context switch contains diagnostic clock reads")
         for name in ("yolo32_independent_credit_pending", "yolo32_independent_credit_status",

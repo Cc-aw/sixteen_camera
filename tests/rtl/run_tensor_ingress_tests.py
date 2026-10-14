@@ -7,11 +7,11 @@ import subprocess
 
 root = Path(__file__).resolve().parents[2]
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument("--core-dir", type=Path, default=root / "build/sim/tensor_ingress/core")
+parser.add_argument("--core-dir", type=Path, default=root / "build/sim/triple32_v3_tensor/core")
 args = parser.parse_args()
 core = args.core_dir / "TaihangTensorIngressCore.sv"
 if not core.is_file():
-    raise SystemExit("Emit the core first: python3 tools/soc/build_tensor_ingress.py --emit-core")
+    raise SystemExit("Emit the core first: python3 tools/soc/build_triple32_v3_tensor.py --workspace <prepared-workspace> --emit-core-only")
 text = re.search(r"module TaihangTensorIngressCore\((.*?)\);", core.read_text(), re.S)[1]
 text = re.sub(r"//[^\n]*", "", text)
 if "io_a_bits_last" not in text or "io_d_ready" not in text:

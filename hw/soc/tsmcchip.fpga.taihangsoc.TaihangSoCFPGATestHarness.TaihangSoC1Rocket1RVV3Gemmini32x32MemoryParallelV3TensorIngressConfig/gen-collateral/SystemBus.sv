@@ -64,6 +64,8 @@ module SystemBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   output [5:0]   auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [32:0]  auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [31:0]  auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [255:0] auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_coupler_from_rockettile_tl_master_clock_xing_in_3_c_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_coupler_from_rockettile_tl_master_clock_xing_in_3_c_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]   auto_coupler_from_rockettile_tl_master_clock_xing_in_3_c_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -158,8 +160,14 @@ module SystemBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   output         auto_coupler_to_bus_named_coh_widget_anon_out_1_a_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_coupler_to_bus_named_coh_widget_anon_out_1_b_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_coupler_to_bus_named_coh_widget_anon_out_1_b_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [1:0]   auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [9:0]   auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [32:0]  auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [31:0]  auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [255:0] auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_coupler_to_bus_named_coh_widget_anon_out_1_c_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_coupler_to_bus_named_coh_widget_anon_out_1_c_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]   auto_coupler_to_bus_named_coh_widget_anon_out_1_c_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -179,6 +187,7 @@ module SystemBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   input          auto_coupler_to_bus_named_coh_widget_anon_out_1_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [255:0] auto_coupler_to_bus_named_coh_widget_anon_out_1_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_coupler_to_bus_named_coh_widget_anon_out_1_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_coupler_to_bus_named_coh_widget_anon_out_1_e_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_coupler_to_bus_named_coh_widget_anon_out_1_e_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [5:0]   auto_coupler_to_bus_named_coh_widget_anon_out_1_e_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_coupler_to_bus_named_coh_widget_anon_out_0_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -193,8 +202,14 @@ module SystemBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   output         auto_coupler_to_bus_named_coh_widget_anon_out_0_a_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_coupler_to_bus_named_coh_widget_anon_out_0_b_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_coupler_to_bus_named_coh_widget_anon_out_0_b_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [1:0]   auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [9:0]   auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [32:0]  auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [31:0]  auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [255:0] auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_coupler_to_bus_named_coh_widget_anon_out_0_c_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_coupler_to_bus_named_coh_widget_anon_out_0_c_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]   auto_coupler_to_bus_named_coh_widget_anon_out_0_c_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -214,6 +229,7 @@ module SystemBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   input          auto_coupler_to_bus_named_coh_widget_anon_out_0_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [255:0] auto_coupler_to_bus_named_coh_widget_anon_out_0_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_coupler_to_bus_named_coh_widget_anon_out_0_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_coupler_to_bus_named_coh_widget_anon_out_0_e_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_coupler_to_bus_named_coh_widget_anon_out_0_e_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [5:0]   auto_coupler_to_bus_named_coh_widget_anon_out_0_e_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_coupler_from_bus_named_fbus_bus_xing_in_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -411,6 +427,8 @@ module SystemBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   wire [5:0]   _system_bus_xbar_auto_anon_in_4_b_bits_source;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:47:43]
   wire [32:0]  _system_bus_xbar_auto_anon_in_4_b_bits_address;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:47:43]
   wire [31:0]  _system_bus_xbar_auto_anon_in_4_b_bits_mask;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:47:43]
+  wire [255:0] _system_bus_xbar_auto_anon_in_4_b_bits_data;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:47:43]
+  wire         _system_bus_xbar_auto_anon_in_4_b_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:47:43]
   wire         _system_bus_xbar_auto_anon_in_4_c_ready;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:47:43]
   wire         _system_bus_xbar_auto_anon_in_4_d_valid;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:47:43]
   wire [2:0]   _system_bus_xbar_auto_anon_in_4_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:47:43]
@@ -548,6 +566,8 @@ module SystemBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
     .auto_anon_in_4_b_bits_source                     (_system_bus_xbar_auto_anon_in_4_b_bits_source),
     .auto_anon_in_4_b_bits_address                    (_system_bus_xbar_auto_anon_in_4_b_bits_address),
     .auto_anon_in_4_b_bits_mask                       (_system_bus_xbar_auto_anon_in_4_b_bits_mask),
+    .auto_anon_in_4_b_bits_data                       (_system_bus_xbar_auto_anon_in_4_b_bits_data),
+    .auto_anon_in_4_b_bits_corrupt                    (_system_bus_xbar_auto_anon_in_4_b_bits_corrupt),
     .auto_anon_in_4_c_ready                           (_system_bus_xbar_auto_anon_in_4_c_ready),
     .auto_anon_in_4_c_valid                           (_fixer_auto_anon_out_4_c_valid),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
     .auto_anon_in_4_c_bits_opcode                     (_fixer_auto_anon_out_4_c_bits_opcode),	// @[generators/rocket-chip/src/main/scala/tilelink/FIFOFixer.scala:152:27]
@@ -692,8 +712,14 @@ module SystemBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
     .auto_anon_out_2_a_bits_corrupt                   (auto_coupler_to_bus_named_coh_widget_anon_out_1_a_bits_corrupt),
     .auto_anon_out_2_b_ready                          (auto_coupler_to_bus_named_coh_widget_anon_out_1_b_ready),
     .auto_anon_out_2_b_valid                          (auto_coupler_to_bus_named_coh_widget_anon_out_1_b_valid),
+    .auto_anon_out_2_b_bits_opcode                    (auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_opcode),
     .auto_anon_out_2_b_bits_param                     (auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_param),
+    .auto_anon_out_2_b_bits_size                      (auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_size),
+    .auto_anon_out_2_b_bits_source                    (auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_source),
     .auto_anon_out_2_b_bits_address                   (auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_address),
+    .auto_anon_out_2_b_bits_mask                      (auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_mask),
+    .auto_anon_out_2_b_bits_data                      (auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_data),
+    .auto_anon_out_2_b_bits_corrupt                   (auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_corrupt),
     .auto_anon_out_2_c_ready                          (auto_coupler_to_bus_named_coh_widget_anon_out_1_c_ready),
     .auto_anon_out_2_c_valid                          (auto_coupler_to_bus_named_coh_widget_anon_out_1_c_valid),
     .auto_anon_out_2_c_bits_opcode                    (auto_coupler_to_bus_named_coh_widget_anon_out_1_c_bits_opcode),
@@ -713,6 +739,7 @@ module SystemBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
     .auto_anon_out_2_d_bits_denied                    (auto_coupler_to_bus_named_coh_widget_anon_out_1_d_bits_denied),
     .auto_anon_out_2_d_bits_data                      (auto_coupler_to_bus_named_coh_widget_anon_out_1_d_bits_data),
     .auto_anon_out_2_d_bits_corrupt                   (auto_coupler_to_bus_named_coh_widget_anon_out_1_d_bits_corrupt),
+    .auto_anon_out_2_e_ready                          (auto_coupler_to_bus_named_coh_widget_anon_out_1_e_ready),
     .auto_anon_out_2_e_valid                          (auto_coupler_to_bus_named_coh_widget_anon_out_1_e_valid),
     .auto_anon_out_2_e_bits_sink                      (auto_coupler_to_bus_named_coh_widget_anon_out_1_e_bits_sink),
     .auto_anon_out_1_a_ready                          (auto_coupler_to_bus_named_coh_widget_anon_out_0_a_ready),
@@ -727,8 +754,14 @@ module SystemBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
     .auto_anon_out_1_a_bits_corrupt                   (auto_coupler_to_bus_named_coh_widget_anon_out_0_a_bits_corrupt),
     .auto_anon_out_1_b_ready                          (auto_coupler_to_bus_named_coh_widget_anon_out_0_b_ready),
     .auto_anon_out_1_b_valid                          (auto_coupler_to_bus_named_coh_widget_anon_out_0_b_valid),
+    .auto_anon_out_1_b_bits_opcode                    (auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_opcode),
     .auto_anon_out_1_b_bits_param                     (auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_param),
+    .auto_anon_out_1_b_bits_size                      (auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_size),
+    .auto_anon_out_1_b_bits_source                    (auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_source),
     .auto_anon_out_1_b_bits_address                   (auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_address),
+    .auto_anon_out_1_b_bits_mask                      (auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_mask),
+    .auto_anon_out_1_b_bits_data                      (auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_data),
+    .auto_anon_out_1_b_bits_corrupt                   (auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_corrupt),
     .auto_anon_out_1_c_ready                          (auto_coupler_to_bus_named_coh_widget_anon_out_0_c_ready),
     .auto_anon_out_1_c_valid                          (auto_coupler_to_bus_named_coh_widget_anon_out_0_c_valid),
     .auto_anon_out_1_c_bits_opcode                    (auto_coupler_to_bus_named_coh_widget_anon_out_0_c_bits_opcode),
@@ -748,6 +781,7 @@ module SystemBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
     .auto_anon_out_1_d_bits_denied                    (auto_coupler_to_bus_named_coh_widget_anon_out_0_d_bits_denied),
     .auto_anon_out_1_d_bits_data                      (auto_coupler_to_bus_named_coh_widget_anon_out_0_d_bits_data),
     .auto_anon_out_1_d_bits_corrupt                   (auto_coupler_to_bus_named_coh_widget_anon_out_0_d_bits_corrupt),
+    .auto_anon_out_1_e_ready                          (auto_coupler_to_bus_named_coh_widget_anon_out_0_e_ready),
     .auto_anon_out_1_e_valid                          (auto_coupler_to_bus_named_coh_widget_anon_out_0_e_valid),
     .auto_anon_out_1_e_bits_sink                      (auto_coupler_to_bus_named_coh_widget_anon_out_0_e_bits_sink),
     .auto_anon_out_0_a_ready                          (_coupler_to_bus_named_cbus_auto_widget_anon_in_a_ready),	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
@@ -812,6 +846,8 @@ module SystemBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
     .auto_anon_in_4_b_bits_source                     (auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_source),
     .auto_anon_in_4_b_bits_address                    (auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_address),
     .auto_anon_in_4_b_bits_mask                       (auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_mask),
+    .auto_anon_in_4_b_bits_data                       (auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_data),
+    .auto_anon_in_4_b_bits_corrupt                    (auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_corrupt),
     .auto_anon_in_4_c_ready                           (auto_coupler_from_rockettile_tl_master_clock_xing_in_3_c_ready),
     .auto_anon_in_4_c_valid                           (auto_coupler_from_rockettile_tl_master_clock_xing_in_3_c_valid),
     .auto_anon_in_4_c_bits_opcode                     (auto_coupler_from_rockettile_tl_master_clock_xing_in_3_c_bits_opcode),
@@ -959,6 +995,8 @@ module SystemBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
     .auto_anon_out_4_b_bits_source                    (_system_bus_xbar_auto_anon_in_4_b_bits_source),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:47:43]
     .auto_anon_out_4_b_bits_address                   (_system_bus_xbar_auto_anon_in_4_b_bits_address),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:47:43]
     .auto_anon_out_4_b_bits_mask                      (_system_bus_xbar_auto_anon_in_4_b_bits_mask),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:47:43]
+    .auto_anon_out_4_b_bits_data                      (_system_bus_xbar_auto_anon_in_4_b_bits_data),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:47:43]
+    .auto_anon_out_4_b_bits_corrupt                   (_system_bus_xbar_auto_anon_in_4_b_bits_corrupt),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:47:43]
     .auto_anon_out_4_c_ready                          (_system_bus_xbar_auto_anon_in_4_c_ready),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:47:43]
     .auto_anon_out_4_c_valid                          (_fixer_auto_anon_out_4_c_valid),
     .auto_anon_out_4_c_bits_opcode                    (_fixer_auto_anon_out_4_c_bits_opcode),

@@ -21,6 +21,11 @@ def main():
                  'sw/third_party/gemmini_v3/sources.lock.json',
                  'sw/models/yolov5nu/triple32/sources.lock.json']:
         snapshots.extend(json.loads((ROOT / name).read_text())['sources'])
+    shell = json.loads((ROOT / 'tools/soc/shell/IMPORT_MANIFEST.json').read_text())
+    snapshots.extend({'path': path, 'sha256': digest} for path, digest in shell['sha256'].items())
+    hardware = json.loads((ROOT / 'tools/soc/shell/LATEST_HARDWARE_IMPORT.json').read_text())
+    snapshots.extend({'path': item['destination'], 'sha256': item['imported_sha256']}
+                     for item in hardware['files'])
     for item in snapshots:
         path = ROOT / item['path']
         if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != item['sha256']:

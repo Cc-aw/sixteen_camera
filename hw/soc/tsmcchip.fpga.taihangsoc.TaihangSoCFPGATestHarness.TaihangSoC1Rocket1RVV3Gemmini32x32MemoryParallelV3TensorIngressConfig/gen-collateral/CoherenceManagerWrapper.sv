@@ -50,8 +50,14 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
   input          auto_coherent_jbar_anon_in_1_a_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_coherent_jbar_anon_in_1_b_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_coherent_jbar_anon_in_1_b_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_coherent_jbar_anon_in_1_b_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [1:0]   auto_coherent_jbar_anon_in_1_b_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_coherent_jbar_anon_in_1_b_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [9:0]   auto_coherent_jbar_anon_in_1_b_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [32:0]  auto_coherent_jbar_anon_in_1_b_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [31:0]  auto_coherent_jbar_anon_in_1_b_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [255:0] auto_coherent_jbar_anon_in_1_b_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_coherent_jbar_anon_in_1_b_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_coherent_jbar_anon_in_1_c_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_coherent_jbar_anon_in_1_c_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]   auto_coherent_jbar_anon_in_1_c_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -71,6 +77,7 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
   output         auto_coherent_jbar_anon_in_1_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [255:0] auto_coherent_jbar_anon_in_1_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_coherent_jbar_anon_in_1_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_coherent_jbar_anon_in_1_e_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_coherent_jbar_anon_in_1_e_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [5:0]   auto_coherent_jbar_anon_in_1_e_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_coherent_jbar_anon_in_0_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -85,8 +92,14 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
   input          auto_coherent_jbar_anon_in_0_a_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_coherent_jbar_anon_in_0_b_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_coherent_jbar_anon_in_0_b_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_coherent_jbar_anon_in_0_b_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [1:0]   auto_coherent_jbar_anon_in_0_b_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_coherent_jbar_anon_in_0_b_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [9:0]   auto_coherent_jbar_anon_in_0_b_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [32:0]  auto_coherent_jbar_anon_in_0_b_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [31:0]  auto_coherent_jbar_anon_in_0_b_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [255:0] auto_coherent_jbar_anon_in_0_b_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_coherent_jbar_anon_in_0_b_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_coherent_jbar_anon_in_0_c_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_coherent_jbar_anon_in_0_c_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]   auto_coherent_jbar_anon_in_0_c_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -106,6 +119,7 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
   output         auto_coherent_jbar_anon_in_0_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [255:0] auto_coherent_jbar_anon_in_0_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_coherent_jbar_anon_in_0_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_coherent_jbar_anon_in_0_e_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_coherent_jbar_anon_in_0_e_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [5:0]   auto_coherent_jbar_anon_in_0_e_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]   auto_l2_perf_external_out_command,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -250,8 +264,14 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
   wire [5:0]   _InclusiveCache_inner_TLBuffer_auto_out_0_e_bits_sink;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:56:69]
   wire         _l2_auto_in_1_a_ready;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire         _l2_auto_in_1_b_valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+  wire [2:0]   _l2_auto_in_1_b_bits_opcode;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire [1:0]   _l2_auto_in_1_b_bits_param;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+  wire [2:0]   _l2_auto_in_1_b_bits_size;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+  wire [9:0]   _l2_auto_in_1_b_bits_source;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire [32:0]  _l2_auto_in_1_b_bits_address;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+  wire [31:0]  _l2_auto_in_1_b_bits_mask;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+  wire [255:0] _l2_auto_in_1_b_bits_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+  wire         _l2_auto_in_1_b_bits_corrupt;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire         _l2_auto_in_1_c_ready;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire         _l2_auto_in_1_d_valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire [2:0]   _l2_auto_in_1_d_bits_opcode;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
@@ -262,10 +282,17 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
   wire         _l2_auto_in_1_d_bits_denied;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire [255:0] _l2_auto_in_1_d_bits_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire         _l2_auto_in_1_d_bits_corrupt;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+  wire         _l2_auto_in_1_e_ready;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire         _l2_auto_in_0_a_ready;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire         _l2_auto_in_0_b_valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+  wire [2:0]   _l2_auto_in_0_b_bits_opcode;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire [1:0]   _l2_auto_in_0_b_bits_param;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+  wire [2:0]   _l2_auto_in_0_b_bits_size;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+  wire [9:0]   _l2_auto_in_0_b_bits_source;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire [32:0]  _l2_auto_in_0_b_bits_address;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+  wire [31:0]  _l2_auto_in_0_b_bits_mask;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+  wire [255:0] _l2_auto_in_0_b_bits_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+  wire         _l2_auto_in_0_b_bits_corrupt;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire         _l2_auto_in_0_c_ready;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire         _l2_auto_in_0_d_valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire [2:0]   _l2_auto_in_0_d_bits_opcode;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
@@ -276,6 +303,7 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
   wire         _l2_auto_in_0_d_bits_denied;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire [255:0] _l2_auto_in_0_d_bits_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire         _l2_auto_in_0_d_bits_corrupt;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+  wire         _l2_auto_in_0_e_ready;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire         _l2_auto_out_1_a_valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire [2:0]   _l2_auto_out_1_a_bits_opcode;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
   wire [2:0]   _l2_auto_out_1_a_bits_param;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
@@ -363,8 +391,14 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
     .auto_in_1_a_bits_corrupt           (_InclusiveCache_inner_TLBuffer_auto_out_1_a_bits_corrupt),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:56:69]
     .auto_in_1_b_ready                  (_InclusiveCache_inner_TLBuffer_auto_out_1_b_ready),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:56:69]
     .auto_in_1_b_valid                  (_l2_auto_in_1_b_valid),
+    .auto_in_1_b_bits_opcode            (_l2_auto_in_1_b_bits_opcode),
     .auto_in_1_b_bits_param             (_l2_auto_in_1_b_bits_param),
+    .auto_in_1_b_bits_size              (_l2_auto_in_1_b_bits_size),
+    .auto_in_1_b_bits_source            (_l2_auto_in_1_b_bits_source),
     .auto_in_1_b_bits_address           (_l2_auto_in_1_b_bits_address),
+    .auto_in_1_b_bits_mask              (_l2_auto_in_1_b_bits_mask),
+    .auto_in_1_b_bits_data              (_l2_auto_in_1_b_bits_data),
+    .auto_in_1_b_bits_corrupt           (_l2_auto_in_1_b_bits_corrupt),
     .auto_in_1_c_ready                  (_l2_auto_in_1_c_ready),
     .auto_in_1_c_valid                  (_InclusiveCache_inner_TLBuffer_auto_out_1_c_valid),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:56:69]
     .auto_in_1_c_bits_opcode            (_InclusiveCache_inner_TLBuffer_auto_out_1_c_bits_opcode),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:56:69]
@@ -384,6 +418,7 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
     .auto_in_1_d_bits_denied            (_l2_auto_in_1_d_bits_denied),
     .auto_in_1_d_bits_data              (_l2_auto_in_1_d_bits_data),
     .auto_in_1_d_bits_corrupt           (_l2_auto_in_1_d_bits_corrupt),
+    .auto_in_1_e_ready                  (_l2_auto_in_1_e_ready),
     .auto_in_1_e_valid                  (_InclusiveCache_inner_TLBuffer_auto_out_1_e_valid),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:56:69]
     .auto_in_1_e_bits_sink              (_InclusiveCache_inner_TLBuffer_auto_out_1_e_bits_sink),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:56:69]
     .auto_in_0_a_ready                  (_l2_auto_in_0_a_ready),
@@ -398,8 +433,14 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
     .auto_in_0_a_bits_corrupt           (_InclusiveCache_inner_TLBuffer_auto_out_0_a_bits_corrupt),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:56:69]
     .auto_in_0_b_ready                  (_InclusiveCache_inner_TLBuffer_auto_out_0_b_ready),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:56:69]
     .auto_in_0_b_valid                  (_l2_auto_in_0_b_valid),
+    .auto_in_0_b_bits_opcode            (_l2_auto_in_0_b_bits_opcode),
     .auto_in_0_b_bits_param             (_l2_auto_in_0_b_bits_param),
+    .auto_in_0_b_bits_size              (_l2_auto_in_0_b_bits_size),
+    .auto_in_0_b_bits_source            (_l2_auto_in_0_b_bits_source),
     .auto_in_0_b_bits_address           (_l2_auto_in_0_b_bits_address),
+    .auto_in_0_b_bits_mask              (_l2_auto_in_0_b_bits_mask),
+    .auto_in_0_b_bits_data              (_l2_auto_in_0_b_bits_data),
+    .auto_in_0_b_bits_corrupt           (_l2_auto_in_0_b_bits_corrupt),
     .auto_in_0_c_ready                  (_l2_auto_in_0_c_ready),
     .auto_in_0_c_valid                  (_InclusiveCache_inner_TLBuffer_auto_out_0_c_valid),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:56:69]
     .auto_in_0_c_bits_opcode            (_InclusiveCache_inner_TLBuffer_auto_out_0_c_bits_opcode),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:56:69]
@@ -419,6 +460,7 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
     .auto_in_0_d_bits_denied            (_l2_auto_in_0_d_bits_denied),
     .auto_in_0_d_bits_data              (_l2_auto_in_0_d_bits_data),
     .auto_in_0_d_bits_corrupt           (_l2_auto_in_0_d_bits_corrupt),
+    .auto_in_0_e_ready                  (_l2_auto_in_0_e_ready),
     .auto_in_0_e_valid                  (_InclusiveCache_inner_TLBuffer_auto_out_0_e_valid),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:56:69]
     .auto_in_0_e_bits_sink              (_InclusiveCache_inner_TLBuffer_auto_out_0_e_bits_sink),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:56:69]
     .auto_out_1_a_ready                 (_cork_auto_in_1_a_ready),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:120:26]
@@ -497,8 +539,14 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
     .auto_in_1_a_bits_corrupt  (auto_coherent_jbar_anon_in_1_a_bits_corrupt),
     .auto_in_1_b_ready         (auto_coherent_jbar_anon_in_1_b_ready),
     .auto_in_1_b_valid         (auto_coherent_jbar_anon_in_1_b_valid),
+    .auto_in_1_b_bits_opcode   (auto_coherent_jbar_anon_in_1_b_bits_opcode),
     .auto_in_1_b_bits_param    (auto_coherent_jbar_anon_in_1_b_bits_param),
+    .auto_in_1_b_bits_size     (auto_coherent_jbar_anon_in_1_b_bits_size),
+    .auto_in_1_b_bits_source   (auto_coherent_jbar_anon_in_1_b_bits_source),
     .auto_in_1_b_bits_address  (auto_coherent_jbar_anon_in_1_b_bits_address),
+    .auto_in_1_b_bits_mask     (auto_coherent_jbar_anon_in_1_b_bits_mask),
+    .auto_in_1_b_bits_data     (auto_coherent_jbar_anon_in_1_b_bits_data),
+    .auto_in_1_b_bits_corrupt  (auto_coherent_jbar_anon_in_1_b_bits_corrupt),
     .auto_in_1_c_ready         (auto_coherent_jbar_anon_in_1_c_ready),
     .auto_in_1_c_valid         (auto_coherent_jbar_anon_in_1_c_valid),
     .auto_in_1_c_bits_opcode   (auto_coherent_jbar_anon_in_1_c_bits_opcode),
@@ -518,6 +566,7 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
     .auto_in_1_d_bits_denied   (auto_coherent_jbar_anon_in_1_d_bits_denied),
     .auto_in_1_d_bits_data     (auto_coherent_jbar_anon_in_1_d_bits_data),
     .auto_in_1_d_bits_corrupt  (auto_coherent_jbar_anon_in_1_d_bits_corrupt),
+    .auto_in_1_e_ready         (auto_coherent_jbar_anon_in_1_e_ready),
     .auto_in_1_e_valid         (auto_coherent_jbar_anon_in_1_e_valid),
     .auto_in_1_e_bits_sink     (auto_coherent_jbar_anon_in_1_e_bits_sink),
     .auto_in_0_a_ready         (auto_coherent_jbar_anon_in_0_a_ready),
@@ -532,8 +581,14 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
     .auto_in_0_a_bits_corrupt  (auto_coherent_jbar_anon_in_0_a_bits_corrupt),
     .auto_in_0_b_ready         (auto_coherent_jbar_anon_in_0_b_ready),
     .auto_in_0_b_valid         (auto_coherent_jbar_anon_in_0_b_valid),
+    .auto_in_0_b_bits_opcode   (auto_coherent_jbar_anon_in_0_b_bits_opcode),
     .auto_in_0_b_bits_param    (auto_coherent_jbar_anon_in_0_b_bits_param),
+    .auto_in_0_b_bits_size     (auto_coherent_jbar_anon_in_0_b_bits_size),
+    .auto_in_0_b_bits_source   (auto_coherent_jbar_anon_in_0_b_bits_source),
     .auto_in_0_b_bits_address  (auto_coherent_jbar_anon_in_0_b_bits_address),
+    .auto_in_0_b_bits_mask     (auto_coherent_jbar_anon_in_0_b_bits_mask),
+    .auto_in_0_b_bits_data     (auto_coherent_jbar_anon_in_0_b_bits_data),
+    .auto_in_0_b_bits_corrupt  (auto_coherent_jbar_anon_in_0_b_bits_corrupt),
     .auto_in_0_c_ready         (auto_coherent_jbar_anon_in_0_c_ready),
     .auto_in_0_c_valid         (auto_coherent_jbar_anon_in_0_c_valid),
     .auto_in_0_c_bits_opcode   (auto_coherent_jbar_anon_in_0_c_bits_opcode),
@@ -553,6 +608,7 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
     .auto_in_0_d_bits_denied   (auto_coherent_jbar_anon_in_0_d_bits_denied),
     .auto_in_0_d_bits_data     (auto_coherent_jbar_anon_in_0_d_bits_data),
     .auto_in_0_d_bits_corrupt  (auto_coherent_jbar_anon_in_0_d_bits_corrupt),
+    .auto_in_0_e_ready         (auto_coherent_jbar_anon_in_0_e_ready),
     .auto_in_0_e_valid         (auto_coherent_jbar_anon_in_0_e_valid),
     .auto_in_0_e_bits_sink     (auto_coherent_jbar_anon_in_0_e_bits_sink),
     .auto_out_1_a_ready        (_l2_auto_in_1_a_ready),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
@@ -567,8 +623,14 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
     .auto_out_1_a_bits_corrupt (_InclusiveCache_inner_TLBuffer_auto_out_1_a_bits_corrupt),
     .auto_out_1_b_ready        (_InclusiveCache_inner_TLBuffer_auto_out_1_b_ready),
     .auto_out_1_b_valid        (_l2_auto_in_1_b_valid),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+    .auto_out_1_b_bits_opcode  (_l2_auto_in_1_b_bits_opcode),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
     .auto_out_1_b_bits_param   (_l2_auto_in_1_b_bits_param),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+    .auto_out_1_b_bits_size    (_l2_auto_in_1_b_bits_size),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+    .auto_out_1_b_bits_source  (_l2_auto_in_1_b_bits_source),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
     .auto_out_1_b_bits_address (_l2_auto_in_1_b_bits_address),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+    .auto_out_1_b_bits_mask    (_l2_auto_in_1_b_bits_mask),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+    .auto_out_1_b_bits_data    (_l2_auto_in_1_b_bits_data),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+    .auto_out_1_b_bits_corrupt (_l2_auto_in_1_b_bits_corrupt),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
     .auto_out_1_c_ready        (_l2_auto_in_1_c_ready),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
     .auto_out_1_c_valid        (_InclusiveCache_inner_TLBuffer_auto_out_1_c_valid),
     .auto_out_1_c_bits_opcode  (_InclusiveCache_inner_TLBuffer_auto_out_1_c_bits_opcode),
@@ -588,6 +650,7 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
     .auto_out_1_d_bits_denied  (_l2_auto_in_1_d_bits_denied),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
     .auto_out_1_d_bits_data    (_l2_auto_in_1_d_bits_data),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
     .auto_out_1_d_bits_corrupt (_l2_auto_in_1_d_bits_corrupt),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+    .auto_out_1_e_ready        (_l2_auto_in_1_e_ready),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
     .auto_out_1_e_valid        (_InclusiveCache_inner_TLBuffer_auto_out_1_e_valid),
     .auto_out_1_e_bits_sink    (_InclusiveCache_inner_TLBuffer_auto_out_1_e_bits_sink),
     .auto_out_0_a_ready        (_l2_auto_in_0_a_ready),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
@@ -602,8 +665,14 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
     .auto_out_0_a_bits_corrupt (_InclusiveCache_inner_TLBuffer_auto_out_0_a_bits_corrupt),
     .auto_out_0_b_ready        (_InclusiveCache_inner_TLBuffer_auto_out_0_b_ready),
     .auto_out_0_b_valid        (_l2_auto_in_0_b_valid),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+    .auto_out_0_b_bits_opcode  (_l2_auto_in_0_b_bits_opcode),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
     .auto_out_0_b_bits_param   (_l2_auto_in_0_b_bits_param),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+    .auto_out_0_b_bits_size    (_l2_auto_in_0_b_bits_size),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+    .auto_out_0_b_bits_source  (_l2_auto_in_0_b_bits_source),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
     .auto_out_0_b_bits_address (_l2_auto_in_0_b_bits_address),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+    .auto_out_0_b_bits_mask    (_l2_auto_in_0_b_bits_mask),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+    .auto_out_0_b_bits_data    (_l2_auto_in_0_b_bits_data),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+    .auto_out_0_b_bits_corrupt (_l2_auto_in_0_b_bits_corrupt),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
     .auto_out_0_c_ready        (_l2_auto_in_0_c_ready),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
     .auto_out_0_c_valid        (_InclusiveCache_inner_TLBuffer_auto_out_0_c_valid),
     .auto_out_0_c_bits_opcode  (_InclusiveCache_inner_TLBuffer_auto_out_0_c_bits_opcode),
@@ -623,6 +692,7 @@ module CoherenceManagerWrapper(	// @[generators/rocket-chip/src/main/scala/prci/
     .auto_out_0_d_bits_denied  (_l2_auto_in_0_d_bits_denied),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
     .auto_out_0_d_bits_data    (_l2_auto_in_0_d_bits_data),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
     .auto_out_0_d_bits_corrupt (_l2_auto_in_0_d_bits_corrupt),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
+    .auto_out_0_e_ready        (_l2_auto_in_0_e_ready),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala:93:24]
     .auto_out_0_e_valid        (_InclusiveCache_inner_TLBuffer_auto_out_0_e_valid),
     .auto_out_0_e_bits_sink    (_InclusiveCache_inner_TLBuffer_auto_out_0_e_bits_sink)
   );	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:56:69]

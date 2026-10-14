@@ -1,24 +1,13 @@
 TOOLCHAIN ?= riscv64-unknown-elf-
 GEMMINI_TESTS := $(CURDIR)/third_party/gemmini
 PROJECT_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/..)
-SOC_VARIANT ?= dual16
-ifeq ($(SOC_VARIANT),dual16)
-GEMMINI_ABI_ROOT := $(GEMMINI_TESTS)
-GEMMINI_PARAMS := $(GEMMINI_TESTS)/include/gemmini_params_taihang_16x16_packed_gemmini0.h
-MODEL_WORKERS := 2
-MODEL_DIM := 16
-else ifeq ($(SOC_VARIANT),single4)
-GEMMINI_ABI_ROOT := $(GEMMINI_TESTS)
-GEMMINI_PARAMS := $(GEMMINI_TESTS)/include/gemmini_params_taihang_single_4x4_packed.h
-MODEL_WORKERS := 1
-MODEL_DIM := 4
-else ifeq ($(SOC_VARIANT),triple32_v3_tensor)
+SOC_VARIANT ?= triple32_v3_tensor
+ifneq ($(SOC_VARIANT),triple32_v3_tensor)
+$(error Only the current triple32_v3_tensor configuration is supported)
+endif
 GEMMINI_ABI_ROOT := $(PROJECT_ROOT)/sw/third_party/gemmini_v3
 MODEL_WORKERS := 3
 MODEL_DIM := 32
-else
-$(error Unknown SOC_VARIANT $(SOC_VARIANT))
-endif
 
 HOST_CC ?= gcc
 CC      := $(TOOLCHAIN)gcc
@@ -59,10 +48,6 @@ CFLAGS := $(ARCH_FLAGS) -std=c11 -Os -g3 -ffreestanding -fno-builtin \
 	-DYOLOV5NU_GEMMINI_DIM=$(MODEL_DIM) \
 	-I$(CURDIR)/models/yolov5nu/runtime \
 	-I$(REFERENCE_SW)/include $(VENDOR_INCLUDES)
-
-ifeq ($(SOC_VARIANT),single4)
-CFLAGS += -DSTREAM_MODEL_TIMEOUT_SECONDS=300
-endif
 
 ifeq ($(BANDWIDTH_DIAGNOSTIC),1)
 CFLAGS += -DFBUS_BANDWIDTH_DIAGNOSTIC=1
@@ -109,27 +94,16 @@ ifeq ($(AI_MODEL),yolov5nu)
 LOCAL_SOURCES += src/ai/runtime/ai_batch_runtime_stream.c \
 	src/ai/runtime/ai_head_slot_queue.c src/ai/runtime/services/rt_postprocess_service.c \
 	src/ai/backend/ai_model_backend_yolov5nu.c \
-	src/ai/backend/rt_backend.c src/ai/backend/adapters/rt_backend_compat.c \
-	src/diagnostics/ai_yolov5nu_selftest.c
+	src/ai/backend/rt_backend.c src/ai/backend/adapters/rt_backend_compat.c
 
-ifeq ($(SOC_VARIANT),triple32_v3_tensor)
 LOCAL_SOURCES += src/ai/backend/adapters/v17a/rt_backend_v17a.c
 CFLAGS += -DAI_RT_BACKEND_PROFILE=AI_RT_BACKEND_PROFILE_V17A
-else
-LOCAL_SOURCES += src/ai/backend/adapters/legacy/rt_backend_legacy.c
-CFLAGS += -DAI_RT_BACKEND_PROFILE=AI_RT_BACKEND_PROFILE_LEGACY
-endif
 
-ifeq ($(SOC_VARIANT),triple32_v3_tensor)
-LOCAL_SOURCES := $(filter-out src/diagnostics/ai_yolov5nu_selftest.c,$(LOCAL_SOURCES))
 include models/yolov5nu/triple32/v26.mk
 V26_FLAGS += -DYOLO32_LIVE=1
 CFLAGS := $(V26_FLAGS) $(CFLAGS) -DYOLO32_LIVE=1
 $(BUILD)/ai/postprocess/ai_ppu_publication.o $(BUILD)/ai/postprocess/ai_ppu_queue.o: CFLAGS += -DYOLO32_PPU_ORDERED_MMIO=1
 MODEL_OBJECT := $(V26_OBJECTS)
-else
-MODEL_OBJECT := $(BUILD)/yolov5nu_dim16_dual.o
-endif
 endif
 BOARD_SOURCES := $(REFERENCE_SW)/src/axi_iic.c \
 	$(REFERENCE_SW)/src/clock_chip.c
@@ -170,7 +144,6 @@ BOARD_OBJECTS := $(addprefix $(BUILD)/board_,$(notdir $(BOARD_SOURCES:.c=.o)))
 VENDOR_OBJECTS := $(addprefix $(BUILD)/vendor_,$(notdir $(VENDOR_SOURCES:.c=.o)))
 OBJECTS := $(BUILD)/platform/startup.o $(LOCAL_OBJECTS) $(MODEL_OBJECT) $(BOARD_OBJECTS) $(VENDOR_OBJECTS)
 
-ifeq ($(SOC_VARIANT),triple32_v3_tensor)
 # Include selection and policy flags must also invalidate previously built objects.
 V26_BUILD_SIGNATURE := $(CFLAGS) $(V26_FLAGS) $(V26_CFLAGS) $(LDFLAGS)
 .PHONY: force-v26-config
@@ -178,7 +151,6 @@ $(BUILD)/v26/firmware-config.stamp: force-v26-config
 	@mkdir -p $(@D)
 	@python3 -c 'import sys; from pathlib import Path; p=Path(sys.argv[1]); v=sys.argv[2]+"\n"; p.write_text(v) if not p.exists() or p.read_text()!=v else None' "$@" "$(V26_BUILD_SIGNATURE)"
 $(OBJECTS): Makefile $(V26_ROOT)/v26.mk $(BUILD)/v26/firmware-config.stamp
-endif
 
 .PHONY: all clean size check-tools yolov5nu-regenerate
 all: check-tools $(TARGET).elf $(TARGET).bin $(TARGET).hex $(TARGET).dump size
@@ -205,19 +177,6 @@ YOLOV5_PARAMS := $(YOLOV5_IMAGENET)/yolov5nu-stage8f-dual-consumer-spad-reuse-im
 yolov5nu-regenerate:
 	python3 models/yolov5nu/runtime/generate_runtime.py
 
-$(BUILD)/yolov5nu_dim16_dual.o: models/yolov5nu/runtime/yolov5nu_dim16_dual.c \
-		models/yolov5nu/runtime/yolov5nu_dim16_dual.h $(YOLOV5_PARAMS) $(GEMMINI_PARAMS) | $(BUILD)
-	$(CC) $(CFLAGS) -include $(GEMMINI_PARAMS) -std=gnu11 -O2 \
-		-DBAREMETAL=1 -DYOLOV5NU_PROFILE=0 \
-		-DYOLOV5NU_FINAL_TENSOR_STATS=0 \
-		-DGEMMINI_LOOPCONV_CREDIT_ADMISSION=1 \
-		-DGEMMINI_LOOPCONV_WORKER1_STATUS_CSR=0x7c5 \
-		-DGEMMINI_LOOPCONV_WORKER1_ACCEPTED_CSR=0x7c8 \
-		-DGEMMINI_LOOPCONV_WORKER1_RETIRED_CSR=0x7c9 \
-		-Wno-error -Wno-sign-compare -Wno-unused-parameter \
-		-Wno-unused-variable -Wno-unused-function \
-		-I$(YOLOV5_GEN_ROOT) -I$(YOLOV5_IMAGENET) \
-		-MMD -MP -c $< -o $@
 
 define make-board-rule
 # The reference platform.h uses internal video BD addresses. Compile these

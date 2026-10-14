@@ -2,7 +2,7 @@
 # Build the video base with a selected SoC integration example.
 set -euo pipefail
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
-export SOC_VARIANT=${SOC_VARIANT:-dual16}
+export SOC_VARIANT=${SOC_VARIANT:-triple32_v3_tensor}
 if [[ -z "${VIVADO_PROJECT:-}" && ( "$SOC_VARIANT" == triple32_v3_tensor || "${SOC_CONFIG:-}" == *MemoryParallelV3TensorIngressConfig ) ]]; then
   export VIVADO_PROJECT="$root/build/projects/triple32_v3_tensor/sixteen_camera.xpr"
 fi

@@ -56,8 +56,16 @@ module dvp_event_bridge #(
     wire restart_record = drop_until_frame && event_frame_boundary;
     wire accept_record = event_valid && !fifo_full && !fifo_wr_busy &&
                          capture_enable && (!drop_until_frame || restart_record);
+    // Capture the event/decision beside the recovery logic, then drive the
+    // XPM FIFO from registers. A single reserved entry covers the one-cycle
+    // accepted-but-not-yet-written record without reducing source bandwidth.
+    (* DONT_TOUCH = "TRUE" *) reg fifo_write_q;
+    (* DONT_TOUCH = "TRUE" *) reg [EVENT_WIDTH-1:0] fifo_data_q;
+    wire fifo_almost_full;
+    wire stage_has_credit = !fifo_full && !(fifo_almost_full && fifo_write_q);
+    wire accept_staged = accept_record && stage_has_credit && !fifo_reset;
     wire overflow_event = capture_enable &&
-                          ((event_valid && fifo_full) || event_fault);
+                          ((event_valid && !stage_has_credit) || event_fault);
     // The overflow counter is telemetry. Register its event before the wide
     // saturating increment so FIFO/reset control cannot reach its CE in one
     // 300 MHz cycle. Fault and drop control still react immediately.
@@ -67,7 +75,7 @@ module dvp_event_bridge #(
                        event_frame_boundary, event_line_end,
                        event_line_last, event_line_start,
                        event_byte_valid, event_data};
-    assign event_ready = capture_enable && !fifo_full && !fifo_wr_busy &&
+    assign event_ready = capture_enable && stage_has_credit && !fifo_wr_busy &&
                          (!drop_until_frame || event_frame_boundary) &&
                          !fifo_reset;
 
@@ -77,6 +85,17 @@ module dvp_event_bridge #(
             fifo_reset_pipe <= 4'hf;
         else
             fifo_reset_pipe <= {fifo_reset_pipe[2:0], 1'b0};
+    end
+
+    always @(posedge capture_clk) begin
+        if (fifo_reset || !capture_resetn || !capture_enable) begin
+            fifo_write_q <= 1'b0;
+            fifo_data_q <= '0;
+        end else begin
+            fifo_write_q <= accept_staged;
+            if (accept_staged)
+                fifo_data_q <= fifo_din;
+        end
     end
 
     always @(posedge capture_clk) begin
@@ -98,7 +117,7 @@ module dvp_event_bridge #(
                     fault_req_toggle <= ~fault_req_toggle;
                     fault_pending <= 1'b1;
                 end
-            end else if (accept_record && restart_record) begin
+            end else if (accept_staged && restart_record) begin
                 drop_until_frame <= 1'b0;
             end
             if (overflow_event_q && overflow_count != 32'hffff_ffff)
@@ -130,11 +149,13 @@ module dvp_event_bridge #(
     reg [EVENT_WIDTH-1:0] sim_mem [0:FIFO_DEPTH-1];
     reg [PTR_WIDTH:0] sim_wr_count;
     reg [PTR_WIDTH:0] sim_rd_count;
-    wire sim_write = accept_record && !fifo_reset;
+    wire sim_write = fifo_write_q && !fifo_reset;
     wire sim_read = video_event_valid && video_event_ready;
     assign fifo_full = ((sim_wr_count - sim_rd_count) ==
                         (PTR_WIDTH+1)'(FIFO_DEPTH));
     assign fifo_empty = (sim_wr_count == sim_rd_count);
+    assign fifo_almost_full = ((sim_wr_count - sim_rd_count) >=
+                               (PTR_WIDTH+1)'(FIFO_DEPTH-1));
     assign fifo_dout = sim_mem[sim_rd_count[PTR_WIDTH-1:0]];
     assign fifo_wr_busy = 1'b0;
     assign fifo_rd_busy = 1'b0;
@@ -142,7 +163,7 @@ module dvp_event_bridge #(
         if (fifo_reset)
             sim_wr_count <= 0;
         else if (sim_write) begin
-            sim_mem[sim_wr_count[PTR_WIDTH-1:0]] <= fifo_din;
+            sim_mem[sim_wr_count[PTR_WIDTH-1:0]] <= fifo_data_q;
             sim_wr_count <= sim_wr_count + 1'b1;
         end
     end
@@ -157,12 +178,12 @@ module dvp_event_bridge #(
         .CDC_SYNC_STAGES(2), .FIFO_MEMORY_TYPE("block"),
         .FIFO_READ_LATENCY(0), .FIFO_WRITE_DEPTH(FIFO_DEPTH),
         .READ_DATA_WIDTH(EVENT_WIDTH), .READ_MODE("fwft"),
-        .USE_ADV_FEATURES("0707"), .WRITE_DATA_WIDTH(EVENT_WIDTH),
+        .USE_ADV_FEATURES("0202"), .WRITE_DATA_WIDTH(EVENT_WIDTH),
         .WR_DATA_COUNT_WIDTH(COUNT_WIDTH), .RD_DATA_COUNT_WIDTH(COUNT_WIDTH)
     ) u_event_fifo (
-        .rst(fifo_reset), .wr_clk(capture_clk), .wr_en(accept_record),
-        .din(fifo_din), .full(fifo_full), .overflow(),
-        .wr_rst_busy(fifo_wr_busy), .wr_data_count(), .almost_full(),
+        .rst(fifo_reset), .wr_clk(capture_clk), .wr_en(fifo_write_q),
+        .din(fifo_data_q), .full(fifo_full), .overflow(),
+        .wr_rst_busy(fifo_wr_busy), .wr_data_count(), .almost_full(fifo_almost_full),
         .prog_full(), .wr_ack(), .rd_clk(video_clk),
         .rd_en(video_event_valid && video_event_ready), .dout(fifo_dout),
         .empty(fifo_empty), .data_valid(), .underflow(),

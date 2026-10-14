@@ -1,0 +1,169 @@
+{
+  "donor": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_v3_2026-10-13",
+  "baseline_commit": "88a3b358ef5a698ae71ee173b4641db2480c72dd",
+  "destination_config": "triple32_v3_tensor",
+  "policy": "Latest three-worker MaxPool/MemoryParallelV3 plus local TensorIngress; no dated parallel exports",
+  "files": [
+    {
+      "source": "soc_shell/npu100_video/fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala",
+      "destination": "tools/soc/shell/npu100_video/fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala",
+      "source_sha256": "9eeb7b626b5d552c14b9994e8a6fe4e232b4e8c126458e65e01d3bc5ac955125",
+      "imported_sha256": "9eeb7b626b5d552c14b9994e8a6fe4e232b4e8c126458e65e01d3bc5ac955125"
+    },
+    {
+      "source": "soc_shell/npu100_video/tests/check_config_0918.py",
+      "destination": "tools/soc/shell/npu100_video/tests/check_config_0918.py",
+      "source_sha256": "e44a0150f8e0c639f5c71426714abdd71c839ae71458300a95af21f25b6e6e26",
+      "imported_sha256": "e44a0150f8e0c639f5c71426714abdd71c839ae71458300a95af21f25b6e6e26"
+    },
+    {
+      "source": "soc_shell/npu100_video/tests/scala/VideoSoCConfigTest.scala",
+      "destination": "tools/soc/shell/npu100_video/tests/scala/VideoSoCConfigTest.scala",
+      "source_sha256": "3d63a1e96b47036b8cf9e9e877c2b9fdbe49b0edebed328570ffc5a87c04904b",
+      "imported_sha256": "3d63a1e96b47036b8cf9e9e877c2b9fdbe49b0edebed328570ffc5a87c04904b"
+    },
+    {
+      "source": "soc_shell/memory_parallel_v3/scala/MemoryParallelV3.scala",
+      "destination": "tools/soc/shell/memory_parallel_v3/scala/MemoryParallelV3.scala",
+      "source_sha256": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98",
+      "imported_sha256": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98"
+    },
+    {
+      "source": "soc_shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
+      "destination": "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
+      "source_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7",
+      "imported_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7"
+    },
+    {
+      "source": "soc_shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
+      "destination": "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
+      "source_sha256": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359",
+      "imported_sha256": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359"
+    },
+    {
+      "source": "soc_shell/memory_parallel_v3/tests/MemoryV3Test.scala",
+      "destination": "tools/soc/shell/memory_parallel_v3/tests/MemoryV3Test.scala",
+      "source_sha256": "87d11ca8f9f1eb3172c8d8fad866e3b0364a13ccd78174a44a4ee04ef8d13d14",
+      "imported_sha256": "87d11ca8f9f1eb3172c8d8fad866e3b0364a13ccd78174a44a4ee04ef8d13d14"
+    },
+    {
+      "source": "rtl/bus/axi4_ui_read_cdc.sv",
+      "destination": "hw/rtl/bus/axi4_ui_read_cdc.sv",
+      "source_sha256": "ec1696295e3c40e0939fc3954c3c3e2e129c4c8c0a03cb3e95f9f27e60765389",
+      "imported_sha256": "ec1696295e3c40e0939fc3954c3c3e2e129c4c8c0a03cb3e95f9f27e60765389"
+    },
+    {
+      "source": "rtl/video/camera/dvp_event_bridge.sv",
+      "destination": "hw/rtl/video/camera/dvp_event_bridge.sv",
+      "source_sha256": "1e4a2327fe33410033ffc4ac9a8858c2b650b73518c6977ac51d57a8646946ed",
+      "imported_sha256": "1e4a2327fe33410033ffc4ac9a8858c2b650b73518c6977ac51d57a8646946ed"
+    },
+    {
+      "source": "rtl/video/camera/ov7670_frontend.sv",
+      "destination": "hw/rtl/video/camera/ov7670_frontend.sv",
+      "source_sha256": "096031723cb5481d3dd667102e7f697bff6239bb2156091c57efc250e10008d0",
+      "imported_sha256": "096031723cb5481d3dd667102e7f697bff6239bb2156091c57efc250e10008d0"
+    },
+    {
+      "source": "rtl/video/display/mosaic_rgb565_reader.sv",
+      "destination": "hw/rtl/video/display/mosaic_rgb565_reader.sv",
+      "source_sha256": "27d153033891c1c9af68917cb7d0e1b04d9acfdfa353d89e46902cf8e78e87b9",
+      "imported_sha256": "27d153033891c1c9af68917cb7d0e1b04d9acfdfa353d89e46902cf8e78e87b9"
+    },
+    {
+      "source": "rtl/ai/preprocess/yolov5nu_multi_channel_tensor_dma.sv",
+      "destination": "hw/rtl/ai/preprocess/yolov5nu_multi_channel_tensor_dma.sv",
+      "source_sha256": "60624c0b9d735dd4880682aaaf2273aee034c9546a7384d8cfa48abe0e9cbea9",
+      "imported_sha256": "eb635408be0ac8be23f9570ea0af036afaf82094f91bc3123e5479624d2a189e"
+    },
+    {
+      "source": "rtl/memory/memory_perf_external.sv",
+      "destination": "hw/rtl/memory/memory_perf_external.sv",
+      "source_sha256": "db60835f3cfb697b546677a47f8a6f8486cfee5e29964491fcf3dfd2b83538ad",
+      "imported_sha256": "db60835f3cfb697b546677a47f8a6f8486cfee5e29964491fcf3dfd2b83538ad"
+    },
+    {
+      "source": "scripts/npu3x32_100mhz/placement_3x32.tcl",
+      "destination": "tools/build/triple32_v3/placement_3x32.tcl",
+      "source_sha256": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781",
+      "imported_sha256": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781"
+    },
+    {
+      "source": "xdc/memory_parallel_v3_cdc.tcl",
+      "destination": "hw/constraints/memory_parallel_v3_cdc.tcl",
+      "source_sha256": "1d1d6c934d3d033a43741f620796097fa78bf53ab8b6fd776ae3d92f48ec451f",
+      "imported_sha256": "b445bde068b032d0590e60d69cfebaf87723feb982afef932516d3d53b714a5c"
+    },
+    {
+      "source": "xdc/timing_v3_sync_constraints.tcl",
+      "destination": "hw/constraints/timing_sync_constraints.tcl",
+      "source_sha256": "45060d084683cfc28863dab90c235230385f0f404e7ab2e3f9b9b67192ce63e7",
+      "imported_sha256": "45060d084683cfc28863dab90c235230385f0f404e7ab2e3f9b9b67192ce63e7"
+    },
+    {
+      "source": "tests/timing_v3/tb_event_pipeline.sv",
+      "destination": "tests/rtl/benches/timing/tb_event_pipeline.sv",
+      "source_sha256": "9e68c5aac144db455d5ec32755ce9e1f9361b3902892cb4256dc84a067907edb",
+      "imported_sha256": "9e68c5aac144db455d5ec32755ce9e1f9361b3902892cb4256dc84a067907edb"
+    },
+    {
+      "source": "tests/timing_v3/tb_mosaic_pipeline.sv",
+      "destination": "tests/rtl/benches/timing/tb_mosaic_pipeline.sv",
+      "source_sha256": "fb62ddf7cda3114ca075e07a4232a4afd2c24071ba23a707811eddc2c63c454c",
+      "imported_sha256": "fb62ddf7cda3114ca075e07a4232a4afd2c24071ba23a707811eddc2c63c454c"
+    },
+    {
+      "source": "tests/timing_v3/tb_ui_return_stress.sv",
+      "destination": "tests/rtl/benches/timing/tb_ui_return_stress.sv",
+      "source_sha256": "e9e7d3a03335e2ac4f43b5594d6f3c9456e45b6de088d20985dba1367b7ecf64",
+      "imported_sha256": "e9e7d3a03335e2ac4f43b5594d6f3c9456e45b6de088d20985dba1367b7ecf64"
+    },
+    {
+      "source": "tests/timing_v3/ui_return_synthesis_top.sv",
+      "destination": "tests/rtl/benches/timing/ui_return_synthesis_top.sv",
+      "source_sha256": "c518233ac91591d93593e7bc78e64b4180893d832a1bbd34e33c428b743a180f",
+      "imported_sha256": "c518233ac91591d93593e7bc78e64b4180893d832a1bbd34e33c428b743a180f"
+    }
+  ],
+  "preserved": [
+    "TensorIngress Scala and ingress stat block13 / ABI1.1",
+    "Independent Tensor AXI/source/CDC and Head memory integration",
+    "ctx_active bad-frame teardown guard and ctx_bad clear",
+    "asynchronous FBus RELATED_CLOCKS=0 write bridge configuration",
+    "v26 software and Runtime R5 resource ownership"
+  ],
+  "generation_entry": "tools/soc/build_triple32_v3_tensor.py",
+  "generator_sha256": "7de5c3fd67a65d653edecb16983c64052e8544a964ce7080332010245fd4bd78",
+  "implementation": {
+    "synthesis": "Flow_PerfOptimized_high / PerformanceOptimized / retiming / resource_sharing off / SHREG_MIN_SIZE5",
+    "placement": "SSI_SpreadLogic_high",
+    "routing": "AlternateCLBRouting -tns_cleanup",
+    "physical_optimization": "AggressiveExplore before and after route; second pass if WNS<0",
+    "mesh_slrs": [
+      0,
+      1,
+      3
+    ],
+    "l2_soft_slrs": [
+      0,
+      2
+    ],
+    "reset_constraints": "Precise first-stage D / asynchronous assertion pins only; functional and second-stage data paths stay timed",
+    "files": {
+      "tools/build/triple32_v3/run_settings.tcl": "cd3122afed594c5eb39ca08aa3bd975477a31a83fb6459047f6ef7646126a197",
+      "tools/build/triple32_v3/pre_opt.tcl": "d67c30f924d0ea3f896efa2a5cb35cb5e97eb09b4232e2529ff9f531787cb102",
+      "tools/build/triple32_v3/postroute_timing_close.tcl": "aa9a0f72fc65ea6febe831b295e2d183a21bc218bbaea031eeaa302417bb0242"
+    }
+  },
+  "retired_paths": [
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV1Gemmini4x4PackedFullOps256BitConfig",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV1Gemmini4x4PackedFullOps256BitLinuxConfig",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV1Gemmini4x4PackedFullOps256BitTensorIngressConfig",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitConfig",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitTensorIngressConfig",
+    "tools/build/build_single4_video_yolov5nu.py",
+    "tools/build/build_dual16_video_yolov5nu.py",
+    "tools/soc/build_tensor_ingress.py",
+    "tools/soc/taihang_tensor_ingress/TensorIngressConfigs.scala"
+  ]
+}

@@ -96,7 +96,7 @@ object XCVU13PGemmini32x32PackedInferenceRamConfigs {
     tlb_size = 8,
     use_transposer = false,
     has_training_convs = false,
-    has_max_pool = false,
+    has_max_pool = true,
     has_nonlinear_activations = true,
     has_silu_lut = true,
     has_dw_convs = false,
@@ -164,8 +164,8 @@ object XCVU13PGemmini32x32PackedInferenceRamMultiConfigs {
   * station, and completion state. The three instances retain the latest
   * 32x32 packed-inference settings: WS, dual-INT8 DSP packing, physical DMA
   * addresses, and the inference feature set with nonlinear activation
-  * retained. TLB, transposer, training-convolution, and MaxPool hardware
-  * remain disabled as in the latest 32x32 baseline.
+  * retained, and MaxPool enabled for all three workers. TLB, transposer,
+  * and training-convolution remain disabled as in the latest 32x32 baseline.
   */
 class RocketSaturnGemmini32x32PackedInferenceRamMultiXCVU13PConfig extends Config(
   new WithMultiRoCC ++
@@ -191,9 +191,9 @@ class RocketSaturnGemmini32x32PackedInferenceRamMultiXCVU13PConfig extends Confi
           LazyModule(new gemmini.Gemmini(
             XCVU13PGemmini32x32PackedInferenceRamMultiConfigs.base.copy(
               opcodes = OpcodeSet.custom2,
-              // SLR1 is the least occupied region in the integrated video
-              // design. Keep worker1 out of SLR2 so the 300 MHz camera
-              // recovery logic has enough CLB/control-set packing room.
+              // Keep the established worker1 SLR placement. The MaxPool
+              // timing-v2 floorplan instead moves the two L2 banks out of
+              // SLR1 to relieve its measured routing/BRAM concentration.
               fpgaScratchpadSlr = Some(1),
               // IPOAT（王志瑞）：custom2 保持双 worker 板测使用的 CSR ABI。
               busyCsrId = Some(0x7c3),

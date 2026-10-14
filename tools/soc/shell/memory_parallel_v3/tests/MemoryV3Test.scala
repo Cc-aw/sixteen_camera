@@ -18,7 +18,8 @@ class CacheTestHarness(implicit p: Parameters) extends LazyModule {
   val back = LazyModule(new TLXbar)
   val l2 = LazyModule(new InclusiveCache(
     CacheParameters(level=2, ways=8, sets=512, blockBytes=64, beatBytes=32,hintsSkipProbe=false),
-    InclusiveCacheMicroParameters(writeBytes=8,portFactor=4,memCycles=64),
+    InclusiveCacheMicroParameters(writeBytes=8,portFactor=4,memCycles=64,
+      innerBuf=InclusiveCachePortParameters.full),
     Some(InclusiveCacheControlParameters(address=0x2010000,beatBytes=8,bankedControl=false))) {
       val simultaneousTest = InModuleBody {
         val result = IO(Output(Bool()))

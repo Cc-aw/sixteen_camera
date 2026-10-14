@@ -21,7 +21,8 @@ class TensorCacheTestHarness(implicit p: Parameters) extends LazyModule {
   val writer = LazyModule(new TaihangTensorIngress(8))
   val l2 = LazyModule(new InclusiveCache(
     CacheParameters(level=2, ways=8, sets=512, blockBytes=64, beatBytes=32,hintsSkipProbe=false),
-    InclusiveCacheMicroParameters(writeBytes=8,portFactor=4,memCycles=64),
+    InclusiveCacheMicroParameters(writeBytes=8,portFactor=4,memCycles=64,
+      innerBuf=InclusiveCachePortParameters.full),
     Some(InclusiveCacheControlParameters(address=0x2010000,beatBytes=8,bankedControl=false))) {
       val simultaneousTest = InModuleBody {
         val result = IO(Output(Bool()))
@@ -81,6 +82,7 @@ object MemoryV3TensorTest extends App {
   RawTester.test(LazyModule(new TensorCacheTestHarness).module, annotations) { d =>
     val queues = Array.fill(3)(scala.collection.mutable.Queue.empty[(Int,Int,BigInt,Int)])
     var cycles=0; var parallel=0; var probeCount=0; var tensorOverlap=0
+    var holdResponses=false; var tensorInFlight=false
     var dirtyAddress=BigInt(-1); var dirtyData=BigInt(0); var permission=0
     var probe: Option[(BigInt,Int,Int,Int,Boolean)] = None
     val random = new scala.util.Random(407)
@@ -100,7 +102,7 @@ object MemoryV3TensorTest extends App {
       cycles+=1; require(cycles<150000, "cache test timeout")
       for(i <- 0 until 3) {
         val x=d.io.ports(i)
-        x.d.ready.poke((cycles%7 != 1 && cycles%13 != 2).B)
+        x.d.ready.poke((!holdResponses && cycles%7 != 1 && cycles%13 != 2).B)
         if(i==2) x.b.ready.poke(probe.isEmpty.B)
       }
       val cpu=d.io.ports(2)
@@ -112,7 +114,7 @@ object MemoryV3TensorTest extends App {
         cpu.c.bits.data.poke((dirtyData + beat).U)
       }
       if(d.io.simultaneous.peek().litToBoolean) parallel+=1
-      if ((d.io.tensor.aw.valid.peek().litToBoolean || d.io.tensor.w.valid.peek().litToBoolean ||
+      if ((tensorInFlight || d.io.tensor.aw.valid.peek().litToBoolean || d.io.tensor.w.valid.peek().litToBoolean ||
            d.io.tensor.b.valid.peek().litToBoolean) &&
           d.io.ports.exists(x => x.d.valid.peek().litToBoolean && x.d.ready.peek().litToBoolean)) tensorOverlap+=1
       for(i <- 0 until 3) {
@@ -152,6 +154,7 @@ object MemoryV3TensorTest extends App {
     def line(i:Int) = BigInt(0xb0000000L) + (i%2)*4096 + (i/2)*64
     def tensorWrite(addr:BigInt, value:BigInt):Unit = {
       val t=d.io.tensor
+      tensorInFlight=true
       zero(t.aw.bits); t.aw.bits.addr.poke(addr.U); t.aw.bits.len.poke(1.U)
       t.aw.bits.size.poke(5.U); t.aw.bits.burst.poke(1.U); t.aw.valid.poke(true.B)
       while(!t.aw.ready.peek().litToBoolean) tick()
@@ -166,6 +169,7 @@ object MemoryV3TensorTest extends App {
       while(!t.b.valid.peek().litToBoolean) tick()
       require(t.b.bits.resp.peek().litValue==0 && t.b.bits.id.peek().litValue==0)
       t.b.ready.poke(true.B); tick(); t.b.ready.poke(false.B)
+      tensorInFlight=false
     }
     def tensorLine(i:Int) = BigInt(0xb0080000L)+(i%2)*4096+(i/2)*64
     for (i <- 0 until 32) tensorWrite(tensorLine(i), BigInt(0x20000+i*2))
@@ -197,7 +201,12 @@ object MemoryV3TensorTest extends App {
     require(parallel>0, "banks never returned simultaneously")
     // Three simultaneous request streams, including repeated same-bank sets.
     for(i <- 0 until 16) {
+      // Keep replies pending until the Tensor transaction starts. Registered
+      // cache boundaries change latency; concurrency must not depend on one
+      // accidental overlap between an AXI valid pulse and a TL D handshake.
+      holdResponses=true
       for(port <- 0 until 3) send(port,4,line(3*i+port),source=i)
+      holdResponses=false
       tensorWrite(tensorLine(i), BigInt(0x30000+i*2))
     }
     require(tensorOverlap>0, "Tensor traffic never overlapped another client completion")

@@ -6,7 +6,7 @@ ifneq ($(strip $(VIVADO_PROJECT)),)
 override VIVADO_PROJECT := $(abspath $(VIVADO_PROJECT))
 endif
 
-SOC_VARIANT ?= dual16
+SOC_VARIANT ?= triple32_v3_tensor
 VIVADO_BIN ?= vivado
 export SOC_VARIANT VIVADO_BIN
 export VIVADO_PROJECT
@@ -20,25 +20,24 @@ export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD
 .PHONY: help check firmware firmware-benchmark test-v17a check-v17a-firmware bitstream elaborate test-tensor test-tensor-ingress test-cache test-ppu test-video test-runtime test-software
 help:
 	@printf '%s\n' \
-	  'SoC variants: dual16 (default), single4, triple32_v3_tensor' \
+	  'Current SoC: triple32_v3_tensor (3x32 MaxPool + TensorIngress)'  \
 	  'make check                          Validate selected source manifests' \
 	  'make project                        Create/open local Vivado project from Tcl' \
-	  'make firmware SOC_VARIANT=triple32_v3_tensor  Build V17 A video firmware' \
+	  'make firmware SOC_VARIANT=triple32_v3_tensor  Build v26 video firmware' \
 	  'make firmware-benchmark            Build v26 credit=4 three-image benchmark' \
 	  'make test-v26                      Native packet, scheduler and PPU regressions' \
 	  'make check-v26-firmware            Audit built v26 ELF and hardware ABI' \
-	  'make firmware SOC_VARIANT=single4    Build matching YOLOv5nu firmware' \
-	  'make bitstream SOC_VARIANT=single4   Build matching video bitstream' \
 	  'make bitstream SOC_CONFIG=<name>    Build any hw/soc/<name>/gen-collateral' \
-	  'make elaborate SOC_VARIANT=single4   Run Vivado RTL elaboration' \
+	  'make elaborate                      Run Vivado RTL elaboration' \
 	  'make test-tensor                    Tensor DMA and recovery tests' \
 	  'make test-tensor-ingress            New SoC ingress protocol and real L2 tests' \
-	  'make test-cache SOC_VARIANT=single4  Selected generated L2 control test' \
+	  'make test-cache                     Selected generated L2 control test' \
 	  'make project SOC_VARIANT=triple32_v3_tensor  Rebuild V3 + Tensor hardware project' \
 	  'make soc-triple32-v3-tensor SOC_WORKSPACE=/tmp/new-chipyard  Generate from the imported shell' \
 	  'make test-memory-v3                 V3 Head, outstanding and counter CDC tests' \
 	  'make test-ppu                       PPU publication tests' \
 	  'make test-video                     Video refactor tests' \
+	  'make test-video-pipeline            Full-frame / FIFO / MIG return timing pipelines' \
 	  'make test-runtime                   Host stream runtime tests (2/3 workers)' \
 	  'make runtime-baseline               Capture R0 software baseline under build/' \
 	  'make test-runtime-baseline          ABI, identity trace and known-gap characterization' \
@@ -75,7 +74,7 @@ check:
 
 firmware:
 	@test -z "$(SOC_CONFIG)" || { echo 'SOC_CONFIG selects hardware only; use SOC_VARIANT with a matching firmware ABI'; exit 2; }
-	@case "$(SOC_VARIANT)" in single4|dual16|triple32_v3_tensor) ;; *) echo 'Firmware needs a supported SOC_VARIANT'; exit 2 ;; esac
+	@case "$(SOC_VARIANT)" in triple32_v3_tensor) ;; *) echo 'Firmware needs a supported SOC_VARIANT'; exit 2 ;; esac
 	cd "$(PROJECT_ROOT)" && python3 tools/build/build_$(SOC_VARIANT)_video_yolov5nu.py
 
 .PHONY: check-v26-firmware test-v26
@@ -201,3 +200,7 @@ soc-triple32-v3-tensor:
 
 test-memory-v3:
 	python3 tests/rtl/run_memory_parallel_v3_tests.py
+
+.PHONY: test-video-pipeline
+test-video-pipeline:
+	python3 tests/rtl/run_video_timing_pipeline_tests.py

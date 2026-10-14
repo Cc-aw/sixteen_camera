@@ -18,11 +18,11 @@ Run commands from the repository root:
 - `make help`: list supported workflows.
 - `make check`: validate production manifests; `make check-deps`: also check tools and source dependencies.
 - `make project`: reconstruct the Vivado project from Tcl.
-- `make firmware SOC_VARIANT=single4`: build matching firmware; default variant is `dual16`.
+- `make firmware`: build v26 firmware for the current `triple32_v3_tensor` hardware (three DIM32 MaxPool workers plus TensorIngress).
 - `make elaborate`: check RTL elaboration; `make bitstream`: synthesize and implement hardware.
 - `make test-software`: run all host software tests.
 - `make test-video test-tensor test-ppu`: run subsystem RTL regressions.
-- `make test-cache SOC_VARIANT=single4`: test the selected generated L2 controller.
+- `make test-cache`: test the current generated L2 controller; `make test-video-pipeline` checks the registered video timing boundaries.
 
 Use Vivado 2023.2, an RV64GCV/LP64D toolchain, Icarus Verilog, Verilator, and Python 3.10+. Install regression dependencies with `python3 -m pip install -r tests/requirements.txt`.
 

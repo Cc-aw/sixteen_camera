@@ -68,7 +68,7 @@ class InclusiveCacheBankScheduler(params: InclusiveCacheParameters, perfEnabled:
 
   val directory = Module(new Directory(params))
   val bankedStore = Module(new BankedStore(params))
-  val requests = Module(new ListBuffer(ListBufferParameters(new QueuedRequest(params), 3*params.mshrs, params.secondary, false)))
+  val requests = Module(new ListBuffer(ListBufferParameters(new QueuedRequest(params), 3*params.mshrs, params.secondary, false, fastPeek = true)))
   val mshrs = Seq.fill(params.mshrs) { Module(new MSHR(params)) }
   val abc_mshrs = mshrs.init.init
   val bc_mshr = mshrs.init.last
@@ -239,7 +239,9 @@ class InclusiveCacheBankScheduler(params: InclusiveCacheParameters, perfEnabled:
 
   // Determine which of the queued requests to pop (supposing will_pop)
   val prio_requests = ~(~requests.io.valid | (requests.io.valid >> params.mshrs) | (requests.io.valid >> 2*params.mshrs))
-  val pop_index = OHToUInt(Cat(mshr_selectOH, mshr_selectOH, mshr_selectOH) & prio_requests)
+  val pop_select = Cat(mshr_selectOH, mshr_selectOH, mshr_selectOH) & prio_requests
+  val pop_index = OHToUInt(pop_select)
+  requests.io.peekOH.get := pop_select
   requests.io.pop.valid := will_pop
   requests.io.pop.bits  := pop_index
 

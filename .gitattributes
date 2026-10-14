@@ -1,2 +1,4 @@
 # Quantized regression inputs are byte arrays, even when Git detects text.
 tests/data/yolov5nu/v17a/image*.bin binary
+# Preserve CIRCT's final blank line and the generated source hashes.
+hw/soc/**/gen-collateral/*.sv whitespace=-blank-at-eof

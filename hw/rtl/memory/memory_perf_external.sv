@@ -15,6 +15,13 @@ module memory_perf_external (
     input wire [31:0] head_events
 );
     wire resetn = soc_resetn && ddr_resetn;
+    // Both domains may assert reset. Release the local counters only on
+    // soc_clk; the DDR-domain reset must not drive synchronous FDRE R pins.
+    (* ASYNC_REG="TRUE", SHREG_EXTRACT="NO" *) reg [2:0] local_reset_sync;
+    always @(posedge soc_clk or negedge resetn)
+        if (!resetn) local_reset_sync <= 0;
+        else local_reset_sync <= {local_reset_sync[1:0], 1'b1};
+    wire local_resetn = local_reset_sync[2];
     wire [511:0] soc_events, ddr_events, video_events;
     reg [511:0] head_counter_events;
     wire [63:0] soc_data, ddr_data, head_data;
@@ -43,7 +50,7 @@ module memory_perf_external (
         endcase
     end
     always @(posedge soc_clk) begin
-        if (!resetn || !available) begin seen <= 0; acknowledge <= 0; delay_q <= 0; end
+        if (!local_resetn || !available) begin seen <= 0; acknowledge <= 0; delay_q <= 0; end
         else begin
             if(local_command) begin delay_q <= 3; seen <= request; end
             else if(delay_q != 0) delay_q <= delay_q - 1'b1;
@@ -66,15 +73,15 @@ module memory_perf_external (
         .events(video_events)
     );
     memory_perf_counter_bank #(.PEAK_MASK(32'h00018000)) u_soc_counter (
-        .clk(soc_clk), .resetn(resetn), .command_valid(local_command && available), .command(command),
+        .clk(soc_clk), .resetn(local_resetn), .command_valid(local_command && available), .command(command),
         .events(soc_events), .index(index[4:0]), .data(soc_data), .frozen_flat()
     );
     memory_perf_counter_bank #(.PEAK_MASK(32'h00018000)) u_ddr_counter (
-        .clk(soc_clk), .resetn(resetn), .command_valid(local_command && available), .command(command),
+        .clk(soc_clk), .resetn(local_resetn), .command_valid(local_command && available), .command(command),
         .events(ddr_events), .index(index[4:0]), .data(ddr_data), .frozen_flat()
     );
     memory_perf_counter_bank #(.PEAK_MASK(32'h00000000)) u_head_counter (
-        .clk(soc_clk), .resetn(resetn), .command_valid(local_command && available), .command(command),
+        .clk(soc_clk), .resetn(local_resetn), .command_valid(local_command && available), .command(command),
         .events(head_counter_events), .index(index[4:0]), .data(head_data), .frozen_flat()
     );
 endmodule

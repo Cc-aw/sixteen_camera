@@ -10,6 +10,7 @@ import subprocess
 parser = argparse.ArgumentParser()
 parser.add_argument("--reference", type=Path, default=Path("/home/wzr/chipyard"))
 parser.add_argument("--destination", type=Path, required=True)
+parser.add_argument("--copy-only", action="store_true", help="Copy sources/caches; caller installs and scopes a frozen build.sbt")
 args = parser.parse_args()
 reference = args.reference.resolve()
 destination = args.destination.resolve()
@@ -56,23 +57,24 @@ if cache.exists():
 
 # Limit board-specific sources at the actual project definitions. Settings in
 # a separate .sbt file can be overridden by the reference's explicit Projects.
-build_file = destination / "build.sbt"
-build_text = build_file.read_text()
-anchor = '''lazy val chipyard_fpga = (project in file("./fpga"))
-  .dependsOn(chipyard, fpga_shells)
-  .settings(commonSettings)'''
-assert build_text.count(anchor) == 1
-build_text = build_text.replace(anchor, anchor + '''
-  .settings(Compile / unmanagedSources ~= (_.filter { f =>
-    f.getPath.contains("/xcvu13p_gemmini_32x32_packed_inference_ram/") ||
-    f.getPath.endsWith("/taihang_soc/Npu100Video.scala")
-  }))''')
-anchor = '''      }.filter(_.exists)
-  )'''
-assert build_text.count(anchor) == 1
-build_text = build_text.replace(anchor, '''      }.filter(_.exists).filterNot(_.getPath.endsWith("generators/gemmini/chipyard"))
-  )''')
-build_file.write_text(build_text)
+if not args.copy_only:
+    build_file = destination / "build.sbt"
+    build_text = build_file.read_text()
+    anchor = '''lazy val chipyard_fpga = (project in file("./fpga"))
+      .dependsOn(chipyard, fpga_shells)
+      .settings(commonSettings)'''
+    assert build_text.count(anchor) == 1
+    build_text = build_text.replace(anchor, anchor + '''
+      .settings(Compile / unmanagedSources ~= (_.filter { f =>
+        f.getPath.contains("/xcvu13p_gemmini_32x32_packed_inference_ram/") ||
+        f.getPath.endsWith("/taihang_soc/Npu100Video.scala")
+      }))''')
+    anchor = '''      }.filter(_.exists)
+      )'''
+    assert build_text.count(anchor) == 1
+    build_text = build_text.replace(anchor, '''      }.filter(_.exists).filterNot(_.getPath.endsWith("generators/gemmini/chipyard"))
+      )''')
+    build_file.write_text(build_text)
 
 # Record the source snapshot independently of the reference's Git state.
 # Copied .git files only preserve SBT's initialized-submodule discovery;

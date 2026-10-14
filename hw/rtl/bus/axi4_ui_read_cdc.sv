@@ -21,6 +21,43 @@ module axi4_ui_read_cdc #(
     wire [R_WIDTH-1:0] r_data;
     wire ar_valid, ar_ready, r_valid, r_ready;
 
+    // Two registered return slots isolate the MIG upsizer's ready path from
+    // the CDC FIFO's reset/full/busy cone. Neither ready nor payload flows
+    // combinationally through this queue. It sustains one R beat per cycle
+    // at steady state, including simultaneous enqueue and dequeue.
+    // Preserve this named synchronizer for the precise first-stage pin
+    // constraint; it must not merge with the FIFO's equivalent reset chain.
+    (* ASYNC_REG = "TRUE", SHREG_EXTRACT = "NO", DONT_TOUCH = "TRUE" *)
+    reg [1:0] video_resetn_ui_sync = 2'b00;
+    (* DONT_TOUCH = "TRUE" *) reg [R_WIDTH-1:0] return_slot0, return_slot1;
+    (* DONT_TOUCH = "TRUE" *) reg [1:0] return_count;
+    reg return_wr_ptr, return_rd_ptr;
+    wire return_enabled = ui_resetn && video_resetn_ui_sync[1];
+    wire return_push = m_axi.rvalid && m_axi.rready;
+    wire return_pop = r_valid && r_ready;
+    always @(posedge ui_clk) begin
+        video_resetn_ui_sync <= {video_resetn_ui_sync[0], s_axi.aresetn};
+        if (!return_enabled) begin
+            return_count <= 0;
+            return_wr_ptr <= 0;
+            return_rd_ptr <= 0;
+        end else begin
+            if (return_push) begin
+                if (return_wr_ptr)
+                    return_slot1 <= {m_axi.rid, m_axi.rdata, m_axi.rresp, m_axi.rlast};
+                else
+                    return_slot0 <= {m_axi.rid, m_axi.rdata, m_axi.rresp, m_axi.rlast};
+                return_wr_ptr <= !return_wr_ptr;
+            end
+            if (return_pop) return_rd_ptr <= !return_rd_ptr;
+            case ({return_push, return_pop})
+                2'b10: return_count <= return_count + 1'b1;
+                2'b01: return_count <= return_count - 1'b1;
+                default: ;
+            endcase
+        end
+    end
+
     cdc_payload_fifo #(.WIDTH(AR_WIDTH), .DEPTH(COMMAND_DEPTH)) u_ar (
         .w_clk(s_axi.aclk), .w_resetn(s_axi.aresetn),
         .w_valid(s_axi.arvalid), .w_ready(s_axi.arready),
@@ -42,10 +79,10 @@ module axi4_ui_read_cdc #(
             m_axi.arburst, m_axi.arlock, m_axi.arcache,
             m_axi.arprot, m_axi.arqos} = ar_data;
     assign ar_ready = m_axi.arready;
-    assign r_valid = m_axi.rvalid;
-    assign r_data = {m_axi.rid, m_axi.rdata, m_axi.rresp, m_axi.rlast};
+    assign r_valid = return_enabled && return_count != 0;
+    assign r_data = return_rd_ptr ? return_slot1 : return_slot0;
     assign m_axi.arvalid = ar_valid;
-    assign m_axi.rready = r_ready;
+    assign m_axi.rready = return_enabled && return_count != 2;
     assign m_axi.aclk = ui_clk;
     assign m_axi.aresetn = ui_resetn;
 

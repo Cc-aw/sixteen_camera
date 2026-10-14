@@ -22,6 +22,7 @@ puts [format "TIMING_CLOSE_AFTER_WNS_NS=%.3f" $after_wns]
 
 set report_dir [file dirname [get_property DIRECTORY [get_runs impl_1]]]
 file mkdir $report_dir
-file mkdir $report_dir
 report_timing_summary -delay_type min_max -report_unconstrained \
     -file [file join $report_dir postroute_timing_close_summary.rpt]
+report_route_status -file [file join $report_dir postroute_route_status.rpt]
+report_bus_skew -file [file join $report_dir postroute_bus_skew.rpt]

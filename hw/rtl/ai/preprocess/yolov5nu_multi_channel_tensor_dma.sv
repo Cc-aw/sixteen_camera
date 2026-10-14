@@ -70,6 +70,28 @@ module yolov5nu_multi_channel_tensor_dma #(
 
     axi4_if.master                  m_axi
 );
+    // Keep the complete accepted video record at one registered boundary.
+    // Previously the frame-store FIFO full flag crossed the design and
+    // directly enabled both 768-bit packer banks. Admission and error logic
+    // consume the SAME delayed record, including SOF and frame ID.
+    // Payload registers run unconditionally: only the narrow valid register
+    // needs reset, and a new record can still arrive every clock.
+    (* DONT_TOUCH = "TRUE" *) reg [CHANNELS*48-1:0] tap_data_q;
+    (* DONT_TOUCH = "TRUE" *) reg [CHANNELS-1:0] tap_accept_q;
+    (* DONT_TOUCH = "TRUE" *) reg [CHANNELS-1:0] tap_sof_q, tap_eol_q, tap_eof_q;
+    (* DONT_TOUCH = "TRUE" *) reg [CHANNELS*32-1:0] tap_frame_id_q;
+    (* DONT_TOUCH = "TRUE" *) reg [CHANNELS-1:0] tap_error_q;
+    always @(posedge clk) begin
+        tap_data_q <= tap_data;
+        tap_sof_q <= tap_sof;
+        tap_eol_q <= tap_eol;
+        tap_eof_q <= tap_eof;
+        tap_frame_id_q <= tap_frame_id;
+        tap_error_q <= tap_error;
+        if (!resetn) tap_accept_q <= '0;
+        else tap_accept_q <= tap_accept;
+    end
+
     localparam integer FRAME_BYTES = FRAME_WIDTH * FRAME_HEIGHT * 3;
     localparam integer FRAME_BEATS = FRAME_BYTES / 32;
     localparam integer FIFO_COUNT_WIDTH = $clog2(FIFO_DEPTH) + 1;
@@ -319,7 +341,7 @@ module yolov5nu_multi_channel_tensor_dma #(
         end
 
         admission_grant = admission_permit & admission_eligible &
-                          tap_accept & tap_sof;
+                          tap_accept_q & tap_sof_q;
         admission_permit_next = admission_permit & admission_eligible &
                                 ~admission_grant;
         // A capacity change invalidates idle reservations atomically. This
@@ -367,7 +389,7 @@ module yolov5nu_multi_channel_tensor_dma #(
     generate
         for (genvar ch = 0; ch < CHANNELS; ch++) begin : g_frontend
             wire start_production = admission_grant[ch];
-            wire capture_input = tap_accept[ch] &&
+            wire capture_input = tap_accept_q[ch] &&
                                  (ctx_active[ch] || start_production);
             wire frontend_resetn = resetn && flush_count[ch] == 0;
 
@@ -375,10 +397,10 @@ module yolov5nu_multi_channel_tensor_dma #(
                 .FRAME_WIDTH(FRAME_WIDTH), .FRAME_HEIGHT(FRAME_HEIGHT)
             ) u_packer (
                 .clk(clk), .resetn(frontend_resetn),
-                .s_pair(tap_data[ch*48 +: 48]), .s_sof(tap_sof[ch]),
-                .s_eol(tap_eol[ch]), .s_eof(tap_eof[ch]),
-                .s_frame_id(tap_frame_id[ch*32 +: 32]),
-                .s_error(tap_error[ch]), .s_valid(capture_input),
+                .s_pair(tap_data_q[ch*48 +: 48]), .s_sof(tap_sof_q[ch]),
+                .s_eol(tap_eol_q[ch]), .s_eof(tap_eof_q[ch]),
+                .s_frame_id(tap_frame_id_q[ch*32 +: 32]),
+                .s_error(tap_error_q[ch]), .s_valid(capture_input),
                 .s_ready(packer_input_ready[ch]), .m_data(packed_data[ch]),
                 .m_sof(packed_sof[ch]), .m_eol(packed_eol[ch]),
                 .m_eof(packed_eof[ch]), .m_frame_id(packed_frame_id[ch]),
@@ -761,7 +783,7 @@ module yolov5nu_multi_channel_tensor_dma #(
                 // form another descriptor. Bound that inactivity and enter
                 // the existing bad-frame drain/recovery path.
                 if (!ctx_active[i] || ctx_bad[i] || ctx_plan_done[i] ||
-                    tap_accept[i]) begin
+                    tap_accept_q[i]) begin
                     capture_stall_count[i] <= 0;
                 end else if (capture_stall_count[i] <
                              32'(CAPTURE_STALL_TIMEOUT)) begin
@@ -786,15 +808,15 @@ module yolov5nu_multi_channel_tensor_dma #(
 
                 if (admission_grant[i]) begin
                         ctx_active[i] <= 1'b1;
-                        ctx_bad[i] <= tap_error[i];
+                        ctx_bad[i] <= tap_error_q[i];
                         ctx_plan_done[i] <= 1'b0;
                         ctx_slot[i] <= ready0[i];
                         ctx_base[i] <= (!ready0[i] ? ARENA0_BASE : ARENA1_BASE)
                                        + i*SLOT_STRIDE;
-                        ctx_frame_id[i] <= tap_frame_id[i*32 +: 32];
+                        ctx_frame_id[i] <= tap_frame_id_q[i*32 +: 32];
                         ctx_timestamp[i] <= capture_cycle;
                         ctx_version[i] <= stream_version[i] + 1'b1;
-                        ctx_error_code[i] <= tap_error[i] ?
+                        ctx_error_code[i] <= tap_error_q[i] ?
                                              SLOT_ERR_STREAM : 8'd0;
                         stream_version[i] <= stream_version[i] + 1'b1;
                         ctx_plan_beat[i] <= 0;
@@ -804,8 +826,8 @@ module yolov5nu_multi_channel_tensor_dma #(
                         if (!ready0[i]) error0[i] <= 0;
                         else error1[i] <= 0;
                 end else if (production_enable &&
-                             admission_enable_mask[i] && tap_accept[i] &&
-                             tap_sof[i]) begin
+                             admission_enable_mask[i] && tap_accept_q[i] &&
+                             tap_sof_q[i]) begin
                     if (!ctx_active[i] && flush_count[i] == 0 &&
                         ready0[i] && ready1[i])
                         no_slot_count[i] <= no_slot_count[i] + 1'b1;
@@ -817,7 +839,7 @@ module yolov5nu_multi_channel_tensor_dma #(
                         missed_count[i] <= missed_count[i] + 1'b1;
                 end
 
-                if (ctx_active[i] && tap_accept[i] &&
+                if (ctx_active[i] && tap_accept_q[i] &&
                     !packer_input_ready[i]) begin
                     ctx_bad[i] <= 1'b1;
                     ctx_error_code[i] <=

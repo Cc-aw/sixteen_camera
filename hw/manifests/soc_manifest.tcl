@@ -1,13 +1,11 @@
 # Select one collateral tree. RTL updates in the same directory need no edits.
-# Known aliases are conveniences; SOC_CONFIG can name any generated SoC tree.
-set SOC_VARIANT dual16
+# The current three-worker configuration is the only production alias.
+set SOC_VARIANT triple32_v3_tensor
 if {[info exists ::env(SOC_VARIANT)]} {
     set SOC_VARIANT $::env(SOC_VARIANT)
 }
 set SOC_ALIASES [dict create \
-    single4 tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV1Gemmini4x4PackedFullOps256BitConfig \
-    triple32_v3_tensor tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig \
-    dual16 tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitConfig]
+    triple32_v3_tensor tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig]
 if {[info exists ::env(SOC_CONFIG)] && $::env(SOC_CONFIG) ne ""} {
     set SOC_CONFIG $::env(SOC_CONFIG)
 } elseif {[dict exists $SOC_ALIASES $SOC_VARIANT]} {
@@ -15,7 +13,7 @@ if {[info exists ::env(SOC_CONFIG)] && $::env(SOC_CONFIG) ne ""} {
 } else {
     error "Unknown SOC_VARIANT '$SOC_VARIANT'; use an existing alias or set SOC_CONFIG to a hw/soc directory name"
 }
-# SOC_CONFIG names a direct child of generated/soc, never an arbitrary path.
+# SOC_CONFIG names a direct child of hw/soc, never an arbitrary path.
 if {![regexp {^[A-Za-z0-9_][A-Za-z0-9_.-]*$} $SOC_CONFIG]} {
     error "SOC_CONFIG must be a hw/soc directory name"
 }

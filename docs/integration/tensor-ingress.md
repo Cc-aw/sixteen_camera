@@ -6,22 +6,21 @@
 
 ## 构建和选择
 
-源文件交付在 `tools/soc/taihang_tensor_ingress/TensorIngress.scala`；构建脚本将它安装到 Chipyard 的 Taihang FPGA 包。脚本只在 `chipyard_fpga` 构建块增加缺少的 Chisel 编译插件，不替换其他配置或计算侧代码。默认本地 Chipyard 路径为 `/home/wzr/chipyard`，可用 `--chipyard` 指定。
+当前只在最新三路 MaxPool / MemoryParallelV3 上交付 TensorIngress。
+源文件为 `tools/soc/taihang_tensor_ingress/TensorIngress.scala`；统一生成入口
+将它与最新 shell 合并，在私有 Chipyard 工作区编译并生成 RTL，不修改参考树。
 
 ```bash
-python3 tools/soc/build_tensor_ingress.py --emit-core
+python3 tools/soc/build_triple32_v3_tensor.py --workspace /tmp/new-chipyard
+python3 tools/soc/build_triple32_v3_tensor.py --workspace /tmp/new-chipyard --emit-core-only
 make test-tensor-ingress
-export SOC_CONFIG=tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitTensorIngressConfig
-make check
-TOOLCHAIN=/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf- \
-  python3 tools/build/build_dual16_video_yolov5nu.py --tensor-ingress
-make elaborate VIVADO_PROJECT="$PWD/build/tensor_ingress_project/tensor_ingress.xpr"
-make bitstream VIVADO_PROJECT="$PWD/build/tensor_ingress_project/tensor_ingress.xpr"
+make project
+make firmware
 ```
 
-`--variant single4` 生成对应的 single4 TensorIngress 配置。计算 ABI 沿用所继承的配置；现有 `SOC_VARIANT=dual16` / `single4` 固件仍与各自的新端口版本匹配。`SOC_CONFIG` 仅选择硬件。
-
-Vivado 根据所选 harness 的实际 `axi4_tensor` 端口设置 `SOC_TENSOR_INGRESS` 宏。切换回旧配置会删除这个宏，Tensor 恢复原 FBus 路径。重新运行项目 setup 后再构建，不要手工留下宏。为避免干扰已有 Vivado 工程，新入口使用上面的独立项目路径。
+当前 SoC/FW 默认为 `triple32_v3_tensor`；旧 single4/dual16 导出和生成入口已退休。
+`SOC_CONFIG` 仍只选择硬件。完整配置和实现策略见 [三路硬件集成](triple32-v3-tensor.md)。
+Vivado 按实际 harness 端口设置 `SOC_TENSOR_INGRESS`，不依赖手工宏。
 
 ## 事务和完成语义
 

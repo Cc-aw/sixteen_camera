@@ -24,6 +24,8 @@ module TilePRCIDomain(	// @[generators/rocket-chip/src/main/scala/prci/ClockDoma
   input  [5:0]   auto_tl_master_clock_xing_out_3_b_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [32:0]  auto_tl_master_clock_xing_out_3_b_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [31:0]  auto_tl_master_clock_xing_out_3_b_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [255:0] auto_tl_master_clock_xing_out_3_b_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_tl_master_clock_xing_out_3_b_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_tl_master_clock_xing_out_3_c_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_tl_master_clock_xing_out_3_c_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]   auto_tl_master_clock_xing_out_3_c_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -439,6 +441,8 @@ module TilePRCIDomain(	// @[generators/rocket-chip/src/main/scala/prci/ClockDoma
     .auto_out_3_b_bits_source  (auto_tl_master_clock_xing_out_3_b_bits_source),
     .auto_out_3_b_bits_address (auto_tl_master_clock_xing_out_3_b_bits_address),
     .auto_out_3_b_bits_mask    (auto_tl_master_clock_xing_out_3_b_bits_mask),
+    .auto_out_3_b_bits_data    (auto_tl_master_clock_xing_out_3_b_bits_data),
+    .auto_out_3_b_bits_corrupt (auto_tl_master_clock_xing_out_3_b_bits_corrupt),
     .auto_out_3_c_ready        (auto_tl_master_clock_xing_out_3_c_ready),
     .auto_out_3_c_valid        (auto_tl_master_clock_xing_out_3_c_valid),
     .auto_out_3_c_bits_opcode  (auto_tl_master_clock_xing_out_3_c_bits_opcode),
@@ -544,7 +548,7 @@ module TilePRCIDomain(	// @[generators/rocket-chip/src/main/scala/prci/ClockDoma
   IntSyncCrossingSource_n1x1 intsource (	// @[generators/rocket-chip/src/main/scala/interrupts/Crossing.scala:29:31]
     .clock           (auto_tap_clock_in_clock),
     .reset           (auto_tap_clock_in_reset),
-    .auto_in_0       (1'h0),	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25, generators/rocket-chip/src/main/scala/interrupts/Crossing.scala:29:31, generators/rocket-chip/src/main/scala/prci/ClockDomain.scala:14:9, generators/rocket-chip/src/main/scala/subsystem/HasTiles.scala:164:59, generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
+    .auto_in_0       (1'h0),	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25, generators/rocket-chip/src/main/scala/interrupts/Crossing.scala:29:31, generators/rocket-chip/src/main/scala/prci/ClockDomain.scala:14:9, generators/rocket-chip/src/main/scala/subsystem/HasTiles.scala:164:59]
     .auto_out_sync_0 (/* unused */)
   );	// @[generators/rocket-chip/src/main/scala/interrupts/Crossing.scala:29:31]
   IntSyncCrossingSource_n1x1 intsource_1 (	// @[generators/rocket-chip/src/main/scala/interrupts/Crossing.scala:29:31]
@@ -556,7 +560,7 @@ module TilePRCIDomain(	// @[generators/rocket-chip/src/main/scala/prci/ClockDoma
   IntSyncCrossingSource_n1x1 intsource_2 (	// @[generators/rocket-chip/src/main/scala/interrupts/Crossing.scala:29:31]
     .clock           (auto_tap_clock_in_clock),
     .reset           (auto_tap_clock_in_reset),
-    .auto_in_0       (1'h0),	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25, generators/rocket-chip/src/main/scala/interrupts/Crossing.scala:29:31, generators/rocket-chip/src/main/scala/prci/ClockDomain.scala:14:9, generators/rocket-chip/src/main/scala/subsystem/HasTiles.scala:164:59, generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
+    .auto_in_0       (1'h0),	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25, generators/rocket-chip/src/main/scala/interrupts/Crossing.scala:29:31, generators/rocket-chip/src/main/scala/prci/ClockDomain.scala:14:9, generators/rocket-chip/src/main/scala/subsystem/HasTiles.scala:164:59]
     .auto_out_sync_0 (/* unused */)
   );	// @[generators/rocket-chip/src/main/scala/interrupts/Crossing.scala:29:31]
 endmodule

@@ -66,7 +66,6 @@ module MSHR(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivec
   input         reset,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:84:7]
   input         io_allocate_valid,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:86:14]
   input         io_allocate_bits_prio_0,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:86:14]
-  input         io_allocate_bits_prio_1,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:86:14]
   input         io_allocate_bits_prio_2,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:86:14]
   input         io_allocate_bits_control_flush,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:86:14]
   input         io_allocate_bits_control_invalidate,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:86:14]
@@ -759,7 +758,6 @@ module MSHR(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivec
     end
     if (io_allocate_valid) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:86:14]
       request_prio_0 <= io_allocate_bits_prio_0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:98:20]
-      request_prio_1 <= io_allocate_bits_prio_1;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:98:20]
       request_prio_2 <= io_allocate_bits_prio_2;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:98:20]
       request_control_flush <= io_allocate_bits_control_flush;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:98:20]
       request_control_invalidate <= io_allocate_bits_control_invalidate;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:98:20]
@@ -772,6 +770,7 @@ module MSHR(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivec
       request_put <= io_allocate_bits_put;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:98:20]
       request_set <= io_allocate_bits_set;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:98:20]
     end
+    request_prio_1 <= ~io_allocate_valid & request_prio_1;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:98:20, :533:28, :536:13]
     meta_dirty <= _GEN_2 ? new_meta_dirty : io_sinkc_valid & (|meta_state) & io_sinkc_bits_tag == meta_tag & io_sinkc_bits_data | (_GEN_42 ? io_nestedwb_c_set_dirty | ~io_nestedwb_b_clr_dirty & meta_dirty : meta_dirty);	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:100:17, :104:22, :155:{20,46}, :156:{41,74}, :157:{36,49}, :158:{36,49}, :462:49, :481:{34,55,68,91,104}, :506:21, :540:{28,79}, :542:10]
     if (_GEN_2) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:540:28]
       if (_new_meta_T) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala:506:40]

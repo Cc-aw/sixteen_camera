@@ -30,6 +30,7 @@ def main():
     manifest = {
         "soc_variant": "triple32_v3_tensor", "firmware": "v26",
         "soc_config": config, "params_sha256": hashlib.sha256(params.read_bytes()).hexdigest(),
+        "hardware_generation_sha256": hashlib.sha256((ROOT / "hw/soc" / config / "GENERATION_CONTEXT.json").read_bytes()).hexdigest(),
         "source_lock_sha256": hashlib.sha256((ROOT / "sw/models/yolov5nu/triple32/sources.lock.json").read_bytes()).hexdigest(),
         "native_config_sha256": hashlib.sha256((build / "v26/native-config.stamp").read_bytes()).hexdigest(),
         "memory_kernels_sha256": hashlib.sha256((build / "v26/memory_kernels.json").read_bytes()).hexdigest(),

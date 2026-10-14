@@ -21,12 +21,39 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def validate_workspace_sources(workspace):
+    """Resume only a workspace carrying the current effective source overlays."""
+    expected = {relative: SHELL / "reference" / relative for relative in
+                json.loads((SHELL / "REFERENCE_MANIFEST.json").read_text()) if relative != "build.sbt"}
+    for source, destination in [
+        (BASE / "src/main/scala/gemmini", Path("generators/gemmini/src/main/scala/gemmini")),
+        (BASE / "src/main/resources", Path("generators/gemmini/src/main/resources")),
+        (BASE / "saturn/src/main/scala", Path("generators/saturn/src/main/scala")),
+        (BASE / "fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram",
+         Path("fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram")),
+        (V3 / "chipyard", Path(".")),
+        (V3 / "scala", Path("fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram")),
+    ]:
+        for path in source.rglob("*"):
+            if path.is_file():
+                expected[str(destination / path.relative_to(source))] = path
+    expected["fpga/src/main/scala/taihang_soc/TensorIngress.scala"] = (
+        ROOT / "tools/soc/taihang_tensor_ingress/TensorIngress.scala")
+    expected["fpga/src/main/scala/taihang_soc/Npu100Video.scala"] = (
+        BASE / "fpga/src/main/scala/taihang_soc/Npu100Video.scala")
+    for relative, source in expected.items():
+        target = workspace / relative
+        if not target.is_file() or digest(target) != digest(source):
+            raise SystemExit("Stale generation workspace source: " + relative +
+                             "; prepare a new workspace from the current shell")
+
+
 def prepare(reference, workspace):
     # All writes belong to the private copy, including SBT and generator output.
     if workspace == reference or reference in workspace.parents:
         raise SystemExit("Use a new workspace outside the reference Chipyard")
     subprocess.run(["python3", str(BASE / "prepare_workspace.py"), "--reference",
-                    str(reference), "--destination", str(workspace)], check=True)
+                    str(reference), "--destination", str(workspace), "--copy-only"], check=True)
     manifest = json.loads((SHELL / "REFERENCE_MANIFEST.json").read_text())
     for relative, expected in manifest.items():
         source = SHELL / "reference" / relative
@@ -98,6 +125,7 @@ def environment(workspace):
 def generate(workspace):
     if not (workspace / ".triple32-v3-tensor.json").is_file():
         raise SystemExit("Workspace was not prepared by this entry point")
+    validate_workspace_sources(workspace)
     env = environment(workspace)
     subprocess.run(["make", "-C", str(workspace / "fpga"), "-W", str(workspace / "build.sbt"),
                     "verilog", "SUB_PROJECT=taihang_soc", "SBT_PROJECT=chipyard_fpga",
@@ -131,13 +159,16 @@ def generate(workspace):
     (target / "GENERATION_CONTEXT.json").write_text(json.dumps({
         "config": NAME, "generated_at_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "source_workspace": str(workspace), "build_sbt_sha256": digest(workspace / "build.sbt"),
-        "effective_scala": sources, "raw_rtl_sha256": raw_hashes,
+        "effective_scala": sources,
+        "scala_snapshot_scope": "Prepared-workspace Scala files excluding target; build.sbt source filters govern compilation",
+        "raw_rtl_sha256": raw_hashes,
         "final_rtl_sha256": {str(p.relative_to(rtl)): digest(p) for p in rtl.rglob("*") if p.is_file()},
     }, indent=2) + "\n")
     print("SOC_CONFIG=" + NAME)
 
 
 def emit_core(workspace):
+    validate_workspace_sources(workspace)
     out = ROOT / "build/sim/triple32_v3_tensor/core"
     out.mkdir(parents=True, exist_ok=True)
     subprocess.run([str(workspace / ".conda-env/lib/jvm/bin/java"), "-cp",

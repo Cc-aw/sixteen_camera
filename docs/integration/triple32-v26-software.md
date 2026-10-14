@@ -89,6 +89,10 @@ Head 发布、单 worker 复用和长空闲；真实汇编使用正式版诊断�
 
 ## 上板验证
 
+2026-10-14 后续硬件已升级为三路 MaxPool / timing 策略并合并 TensorIngress，
+旧硬件规格已退休；请先按 [当前硬件说明](triple32-v3-tensor.md) 重新生成、加载最新bitstream。
+以下软件命令仍适用，前文“本次没有硬件改动”仅指v26软件移植阶段。
+
 使用已经验证的 V3 + Tensor bitstream。实时视频下载：
 
 ```sh

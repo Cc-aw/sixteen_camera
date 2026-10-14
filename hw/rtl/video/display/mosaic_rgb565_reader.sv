@@ -21,7 +21,7 @@ module mosaic_rgb565_reader #(
     localparam integer WORDS_PER_LINE = 23;
     localparam integer WORDS_PER_BANK = 4*WORDS_PER_LINE;
     localparam [2:0] F_IDLE=0, F_TILE=1, F_AR=2, F_R=3,
-                     F_ZERO=4, F_NEXT=5;
+                     F_ZERO=4, F_NEXT=5, F_ADDR=6, F_PLAN=7;
     localparam [1:0] O_WAIT=0, O_STREAM=1, O_DRAIN=2;
 
     (* ram_style = "block" *) reg [255:0] line_mem [0:2*WORDS_PER_BANK-1];
@@ -56,6 +56,11 @@ module mosaic_rgb565_reader #(
     reg [1:0] fill_tile_row, fill_tile;
     reg [4:0] fill_word;
     reg [5:0] burst_left;
+    // Explicit boundaries protect the 16:1 base select -> address addition ->
+    // 4KiB burst calculation -> distant CDC RAM path from global retiming.
+    (* DONT_TOUCH = "TRUE" *) reg [31:0] fill_tile_base_q;
+    (* DONT_TOUCH = "TRUE" *) reg [31:0] request_addr_q;
+    (* DONT_TOUCH = "TRUE" *) reg [5:0] request_words_q;
     reg [2:0] fill_state;
     reg [1:0] output_state;
     reg [9:0] output_x;
@@ -69,10 +74,8 @@ module mosaic_rgb565_reader #(
     wire fill_bank = fill_y[0];
     wire [3:0] fill_channel = {fill_tile_row, 2'b00} + {2'b00, fill_tile};
     wire [31:0] fill_base = frame_bases[fill_channel*32 +: 32];
-    wire [31:0] fill_addr = fill_base + fill_line_offset +
-                            {22'd0, fill_word, 5'd0};
     wire [5:0] words_left = 6'(WORDS_PER_LINE) - {1'b0, fill_word};
-    wire [7:0] boundary_left = 8'd128 - {1'b0, fill_addr[11:5]};
+    wire [7:0] boundary_left = 8'd128 - {1'b0, request_addr_q[11:5]};
     wire [5:0] request_words = (boundary_left < {2'b00, words_left}) ?
         6'(boundary_left) : words_left;
     wire ar_fire = m_axi.arvalid && m_axi.arready;
@@ -121,8 +124,8 @@ module mosaic_rgb565_reader #(
     assign m_axi.wvalid = 0;
     assign m_axi.bready = 0;
     assign m_axi.arid = 0;
-    assign m_axi.araddr = fill_addr;
-    assign m_axi.arlen = 8'(request_words - 1'b1);
+    assign m_axi.araddr = request_addr_q;
+    assign m_axi.arlen = {2'b00, request_words_q} - 8'd1;
     assign m_axi.arsize = 3'b101;
     assign m_axi.arburst = 2'b01;
     assign m_axi.arlock = 0;
@@ -151,6 +154,9 @@ module mosaic_rgb565_reader #(
             fill_tile <= 0;
             fill_word <= 0;
             burst_left <= 0;
+            fill_tile_base_q <= 0;
+            request_addr_q <= 0;
+            request_words_q <= 0;
             fill_state <= F_IDLE;
             output_y <= 0;
             output_x <= 0;
@@ -198,10 +204,22 @@ module mosaic_rgb565_reader #(
                         fill_word <= 0;
                         fill_state <= F_TILE;
                     end
-                    F_TILE: fill_state <= frame_valid_mask[fill_channel] ?
-                        F_AR : F_ZERO;
+                    F_TILE: begin
+                        fill_tile_base_q <= fill_base;
+                        fill_state <= frame_valid_mask[fill_channel] ?
+                            F_ADDR : F_ZERO;
+                    end
+                    F_ADDR: begin
+                        request_addr_q <= fill_tile_base_q + fill_line_offset +
+                                          {22'd0, fill_word, 5'd0};
+                        fill_state <= F_PLAN;
+                    end
+                    F_PLAN: begin
+                        request_words_q <= request_words;
+                        fill_state <= F_AR;
+                    end
                     F_AR: if (ar_fire) begin
-                        burst_left <= request_words;
+                        burst_left <= request_words_q;
                         fill_state <= F_R;
                     end
                     F_R: if (r_fire) begin
@@ -216,7 +234,7 @@ module mosaic_rgb565_reader #(
                         burst_left <= burst_left - 1'b1;
                         if (burst_left == 1)
                             fill_state <= fill_word == WORDS_PER_LINE-1 ?
-                                F_NEXT : F_AR;
+                                F_NEXT : F_ADDR;
                     end
                     F_ZERO: begin
                         line_mem[8'(fill_bank)*8'(WORDS_PER_BANK) +

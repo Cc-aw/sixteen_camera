@@ -12,7 +12,7 @@ foreach path [split [string trim [read $fd]] "\n"] {
     read_verilog -sv $path
 }
 close $fd
-set tops [dict create tensor TaihangTensorIngress l2 InclusiveCache sbus SystemBus head memory_v3_head_ooc counters memory_perf_async_group]
+set tops [dict create tensor TaihangTensorIngress l2 InclusiveCache sbus SystemBus head memory_v3_head_ooc counters memory_perf_async_group pool-store StoreController pool-dma StreamWriter]
 if {![dict exists $tops $kind]} {error "Unknown local synthesis target $kind"}
 synth_design -top [dict get $tops $kind] -part xcvu13p-fhga2104-2-i -mode out_of_context \
     -flatten_hierarchy rebuilt -directive PerformanceOptimized -retiming -resource_sharing off -shreg_min_size 5

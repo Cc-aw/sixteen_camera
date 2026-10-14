@@ -385,8 +385,14 @@ module TaihangTensorDigitalTop(	// @[generators/chipyard/src/main/scala/DigitalT
   wire         _coh_wrapper_auto_coupler_to_bus_named_mbus_bus_xing_out_0_d_ready;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire         _coh_wrapper_auto_coherent_jbar_anon_in_1_a_ready;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire         _coh_wrapper_auto_coherent_jbar_anon_in_1_b_valid;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+  wire [2:0]   _coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_opcode;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire [1:0]   _coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_param;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+  wire [2:0]   _coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_size;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+  wire [9:0]   _coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_source;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire [32:0]  _coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_address;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+  wire [31:0]  _coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_mask;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+  wire [255:0] _coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_data;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+  wire         _coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire         _coh_wrapper_auto_coherent_jbar_anon_in_1_c_ready;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire         _coh_wrapper_auto_coherent_jbar_anon_in_1_d_valid;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire [2:0]   _coh_wrapper_auto_coherent_jbar_anon_in_1_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
@@ -397,10 +403,17 @@ module TaihangTensorDigitalTop(	// @[generators/chipyard/src/main/scala/DigitalT
   wire         _coh_wrapper_auto_coherent_jbar_anon_in_1_d_bits_denied;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire [255:0] _coh_wrapper_auto_coherent_jbar_anon_in_1_d_bits_data;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire         _coh_wrapper_auto_coherent_jbar_anon_in_1_d_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+  wire         _coh_wrapper_auto_coherent_jbar_anon_in_1_e_ready;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire         _coh_wrapper_auto_coherent_jbar_anon_in_0_a_ready;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire         _coh_wrapper_auto_coherent_jbar_anon_in_0_b_valid;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+  wire [2:0]   _coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_opcode;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire [1:0]   _coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_param;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+  wire [2:0]   _coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_size;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+  wire [9:0]   _coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_source;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire [32:0]  _coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_address;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+  wire [31:0]  _coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_mask;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+  wire [255:0] _coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_data;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+  wire         _coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire         _coh_wrapper_auto_coherent_jbar_anon_in_0_c_ready;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire         _coh_wrapper_auto_coherent_jbar_anon_in_0_d_valid;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire [2:0]   _coh_wrapper_auto_coherent_jbar_anon_in_0_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
@@ -411,6 +424,7 @@ module TaihangTensorDigitalTop(	// @[generators/chipyard/src/main/scala/DigitalT
   wire         _coh_wrapper_auto_coherent_jbar_anon_in_0_d_bits_denied;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire [255:0] _coh_wrapper_auto_coherent_jbar_anon_in_0_d_bits_data;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire         _coh_wrapper_auto_coherent_jbar_anon_in_0_d_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+  wire         _coh_wrapper_auto_coherent_jbar_anon_in_0_e_ready;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire         _coh_wrapper_auto_l2_perf_in_a_ready;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire         _coh_wrapper_auto_l2_perf_in_d_valid;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
   wire [2:0]   _coh_wrapper_auto_l2_perf_in_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
@@ -601,6 +615,8 @@ module TaihangTensorDigitalTop(	// @[generators/chipyard/src/main/scala/DigitalT
   wire [5:0]   _sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_source;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
   wire [32:0]  _sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_address;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
   wire [31:0]  _sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_mask;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
+  wire [255:0] _sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_data;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
+  wire         _sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
   wire         _sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_c_ready;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
   wire         _sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_d_valid;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
   wire [2:0]   _sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
@@ -801,6 +817,8 @@ module TaihangTensorDigitalTop(	// @[generators/chipyard/src/main/scala/DigitalT
     .auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_source          (_sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_source),
     .auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_address         (_sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_address),
     .auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_mask            (_sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_mask),
+    .auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_data            (_sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_data),
+    .auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_corrupt         (_sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_corrupt),
     .auto_coupler_from_rockettile_tl_master_clock_xing_in_3_c_ready                (_sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_c_ready),
     .auto_coupler_from_rockettile_tl_master_clock_xing_in_3_c_valid                (_tile_prci_domain_auto_tl_master_clock_xing_out_3_c_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/HasTiles.scala:163:38]
     .auto_coupler_from_rockettile_tl_master_clock_xing_in_3_c_bits_opcode          (_tile_prci_domain_auto_tl_master_clock_xing_out_3_c_bits_opcode),	// @[generators/rocket-chip/src/main/scala/subsystem/HasTiles.scala:163:38]
@@ -895,8 +913,14 @@ module TaihangTensorDigitalTop(	// @[generators/chipyard/src/main/scala/DigitalT
     .auto_coupler_to_bus_named_coh_widget_anon_out_1_a_bits_corrupt                (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_1_a_bits_corrupt),
     .auto_coupler_to_bus_named_coh_widget_anon_out_1_b_ready                       (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_1_b_ready),
     .auto_coupler_to_bus_named_coh_widget_anon_out_1_b_valid                       (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+    .auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_opcode                 (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_opcode),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
     .auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_param                  (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_param),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+    .auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_size                   (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_size),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+    .auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_source                 (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_source),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
     .auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_address                (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_address),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+    .auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_mask                   (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_mask),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+    .auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_data                   (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_data),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+    .auto_coupler_to_bus_named_coh_widget_anon_out_1_b_bits_corrupt                (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_corrupt),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
     .auto_coupler_to_bus_named_coh_widget_anon_out_1_c_ready                       (_coh_wrapper_auto_coherent_jbar_anon_in_1_c_ready),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
     .auto_coupler_to_bus_named_coh_widget_anon_out_1_c_valid                       (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_1_c_valid),
     .auto_coupler_to_bus_named_coh_widget_anon_out_1_c_bits_opcode                 (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_1_c_bits_opcode),
@@ -916,6 +940,7 @@ module TaihangTensorDigitalTop(	// @[generators/chipyard/src/main/scala/DigitalT
     .auto_coupler_to_bus_named_coh_widget_anon_out_1_d_bits_denied                 (_coh_wrapper_auto_coherent_jbar_anon_in_1_d_bits_denied),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
     .auto_coupler_to_bus_named_coh_widget_anon_out_1_d_bits_data                   (_coh_wrapper_auto_coherent_jbar_anon_in_1_d_bits_data),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
     .auto_coupler_to_bus_named_coh_widget_anon_out_1_d_bits_corrupt                (_coh_wrapper_auto_coherent_jbar_anon_in_1_d_bits_corrupt),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+    .auto_coupler_to_bus_named_coh_widget_anon_out_1_e_ready                       (_coh_wrapper_auto_coherent_jbar_anon_in_1_e_ready),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
     .auto_coupler_to_bus_named_coh_widget_anon_out_1_e_valid                       (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_1_e_valid),
     .auto_coupler_to_bus_named_coh_widget_anon_out_1_e_bits_sink                   (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_1_e_bits_sink),
     .auto_coupler_to_bus_named_coh_widget_anon_out_0_a_ready                       (_coh_wrapper_auto_coherent_jbar_anon_in_0_a_ready),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
@@ -930,8 +955,14 @@ module TaihangTensorDigitalTop(	// @[generators/chipyard/src/main/scala/DigitalT
     .auto_coupler_to_bus_named_coh_widget_anon_out_0_a_bits_corrupt                (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_0_a_bits_corrupt),
     .auto_coupler_to_bus_named_coh_widget_anon_out_0_b_ready                       (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_0_b_ready),
     .auto_coupler_to_bus_named_coh_widget_anon_out_0_b_valid                       (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+    .auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_opcode                 (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_opcode),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
     .auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_param                  (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_param),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+    .auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_size                   (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_size),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+    .auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_source                 (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_source),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
     .auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_address                (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_address),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+    .auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_mask                   (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_mask),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+    .auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_data                   (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_data),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+    .auto_coupler_to_bus_named_coh_widget_anon_out_0_b_bits_corrupt                (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_corrupt),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
     .auto_coupler_to_bus_named_coh_widget_anon_out_0_c_ready                       (_coh_wrapper_auto_coherent_jbar_anon_in_0_c_ready),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
     .auto_coupler_to_bus_named_coh_widget_anon_out_0_c_valid                       (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_0_c_valid),
     .auto_coupler_to_bus_named_coh_widget_anon_out_0_c_bits_opcode                 (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_0_c_bits_opcode),
@@ -951,6 +982,7 @@ module TaihangTensorDigitalTop(	// @[generators/chipyard/src/main/scala/DigitalT
     .auto_coupler_to_bus_named_coh_widget_anon_out_0_d_bits_denied                 (_coh_wrapper_auto_coherent_jbar_anon_in_0_d_bits_denied),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
     .auto_coupler_to_bus_named_coh_widget_anon_out_0_d_bits_data                   (_coh_wrapper_auto_coherent_jbar_anon_in_0_d_bits_data),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
     .auto_coupler_to_bus_named_coh_widget_anon_out_0_d_bits_corrupt                (_coh_wrapper_auto_coherent_jbar_anon_in_0_d_bits_corrupt),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
+    .auto_coupler_to_bus_named_coh_widget_anon_out_0_e_ready                       (_coh_wrapper_auto_coherent_jbar_anon_in_0_e_ready),	// @[generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala:59:31]
     .auto_coupler_to_bus_named_coh_widget_anon_out_0_e_valid                       (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_0_e_valid),
     .auto_coupler_to_bus_named_coh_widget_anon_out_0_e_bits_sink                   (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_0_e_bits_sink),
     .auto_coupler_from_bus_named_fbus_bus_xing_in_a_ready                          (_sbus_auto_coupler_from_bus_named_fbus_bus_xing_in_a_ready),
@@ -1453,8 +1485,14 @@ module TaihangTensorDigitalTop(	// @[generators/chipyard/src/main/scala/DigitalT
     .auto_coherent_jbar_anon_in_1_a_bits_corrupt                  (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_1_a_bits_corrupt),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
     .auto_coherent_jbar_anon_in_1_b_ready                         (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_1_b_ready),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
     .auto_coherent_jbar_anon_in_1_b_valid                         (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_valid),
+    .auto_coherent_jbar_anon_in_1_b_bits_opcode                   (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_opcode),
     .auto_coherent_jbar_anon_in_1_b_bits_param                    (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_param),
+    .auto_coherent_jbar_anon_in_1_b_bits_size                     (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_size),
+    .auto_coherent_jbar_anon_in_1_b_bits_source                   (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_source),
     .auto_coherent_jbar_anon_in_1_b_bits_address                  (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_address),
+    .auto_coherent_jbar_anon_in_1_b_bits_mask                     (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_mask),
+    .auto_coherent_jbar_anon_in_1_b_bits_data                     (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_data),
+    .auto_coherent_jbar_anon_in_1_b_bits_corrupt                  (_coh_wrapper_auto_coherent_jbar_anon_in_1_b_bits_corrupt),
     .auto_coherent_jbar_anon_in_1_c_ready                         (_coh_wrapper_auto_coherent_jbar_anon_in_1_c_ready),
     .auto_coherent_jbar_anon_in_1_c_valid                         (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_1_c_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
     .auto_coherent_jbar_anon_in_1_c_bits_opcode                   (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_1_c_bits_opcode),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
@@ -1474,6 +1512,7 @@ module TaihangTensorDigitalTop(	// @[generators/chipyard/src/main/scala/DigitalT
     .auto_coherent_jbar_anon_in_1_d_bits_denied                   (_coh_wrapper_auto_coherent_jbar_anon_in_1_d_bits_denied),
     .auto_coherent_jbar_anon_in_1_d_bits_data                     (_coh_wrapper_auto_coherent_jbar_anon_in_1_d_bits_data),
     .auto_coherent_jbar_anon_in_1_d_bits_corrupt                  (_coh_wrapper_auto_coherent_jbar_anon_in_1_d_bits_corrupt),
+    .auto_coherent_jbar_anon_in_1_e_ready                         (_coh_wrapper_auto_coherent_jbar_anon_in_1_e_ready),
     .auto_coherent_jbar_anon_in_1_e_valid                         (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_1_e_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
     .auto_coherent_jbar_anon_in_1_e_bits_sink                     (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_1_e_bits_sink),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
     .auto_coherent_jbar_anon_in_0_a_ready                         (_coh_wrapper_auto_coherent_jbar_anon_in_0_a_ready),
@@ -1488,8 +1527,14 @@ module TaihangTensorDigitalTop(	// @[generators/chipyard/src/main/scala/DigitalT
     .auto_coherent_jbar_anon_in_0_a_bits_corrupt                  (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_0_a_bits_corrupt),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
     .auto_coherent_jbar_anon_in_0_b_ready                         (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_0_b_ready),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
     .auto_coherent_jbar_anon_in_0_b_valid                         (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_valid),
+    .auto_coherent_jbar_anon_in_0_b_bits_opcode                   (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_opcode),
     .auto_coherent_jbar_anon_in_0_b_bits_param                    (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_param),
+    .auto_coherent_jbar_anon_in_0_b_bits_size                     (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_size),
+    .auto_coherent_jbar_anon_in_0_b_bits_source                   (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_source),
     .auto_coherent_jbar_anon_in_0_b_bits_address                  (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_address),
+    .auto_coherent_jbar_anon_in_0_b_bits_mask                     (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_mask),
+    .auto_coherent_jbar_anon_in_0_b_bits_data                     (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_data),
+    .auto_coherent_jbar_anon_in_0_b_bits_corrupt                  (_coh_wrapper_auto_coherent_jbar_anon_in_0_b_bits_corrupt),
     .auto_coherent_jbar_anon_in_0_c_ready                         (_coh_wrapper_auto_coherent_jbar_anon_in_0_c_ready),
     .auto_coherent_jbar_anon_in_0_c_valid                         (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_0_c_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
     .auto_coherent_jbar_anon_in_0_c_bits_opcode                   (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_0_c_bits_opcode),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
@@ -1509,6 +1554,7 @@ module TaihangTensorDigitalTop(	// @[generators/chipyard/src/main/scala/DigitalT
     .auto_coherent_jbar_anon_in_0_d_bits_denied                   (_coh_wrapper_auto_coherent_jbar_anon_in_0_d_bits_denied),
     .auto_coherent_jbar_anon_in_0_d_bits_data                     (_coh_wrapper_auto_coherent_jbar_anon_in_0_d_bits_data),
     .auto_coherent_jbar_anon_in_0_d_bits_corrupt                  (_coh_wrapper_auto_coherent_jbar_anon_in_0_d_bits_corrupt),
+    .auto_coherent_jbar_anon_in_0_e_ready                         (_coh_wrapper_auto_coherent_jbar_anon_in_0_e_ready),
     .auto_coherent_jbar_anon_in_0_e_valid                         (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_0_e_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
     .auto_coherent_jbar_anon_in_0_e_bits_sink                     (_sbus_auto_coupler_to_bus_named_coh_widget_anon_out_0_e_bits_sink),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
     .auto_l2_perf_external_out_command                            (auto_coh_wrapper_l2_perf_external_out_command),
@@ -1573,6 +1619,8 @@ module TaihangTensorDigitalTop(	// @[generators/chipyard/src/main/scala/DigitalT
     .auto_tl_master_clock_xing_out_3_b_bits_source  (_sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_source),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
     .auto_tl_master_clock_xing_out_3_b_bits_address (_sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_address),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
     .auto_tl_master_clock_xing_out_3_b_bits_mask    (_sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_mask),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
+    .auto_tl_master_clock_xing_out_3_b_bits_data    (_sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_data),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
+    .auto_tl_master_clock_xing_out_3_b_bits_corrupt (_sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_b_bits_corrupt),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
     .auto_tl_master_clock_xing_out_3_c_ready        (_sbus_auto_coupler_from_rockettile_tl_master_clock_xing_in_3_c_ready),	// @[generators/rocket-chip/src/main/scala/subsystem/SystemBus.scala:31:26]
     .auto_tl_master_clock_xing_out_3_c_valid        (_tile_prci_domain_auto_tl_master_clock_xing_out_3_c_valid),
     .auto_tl_master_clock_xing_out_3_c_bits_opcode  (_tile_prci_domain_auto_tl_master_clock_xing_out_3_c_bits_opcode),

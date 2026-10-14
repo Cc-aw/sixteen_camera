@@ -89,4 +89,23 @@ set_property IS_SOFT true [get_pblocks $worker2_pblock]
 set_property CONTAIN_ROUTING false [get_pblocks $worker2_pblock]
 add_cells_to_pblock [get_pblocks $worker2_pblock] $worker2_frontend
 puts "GEMMINI2_QUEUE_RS_GUIDE cells=[llength $worker2_frontend] slr=SLR3 soft=true"
+
+# The failed MaxPool placement packed BOTH 68-BRAM-tile L2 banks into SLR1:
+# 70.16% LUT and 77.53% BRAM there, with almost 99% local route congestion.
+# Balance cache banks across the two adjacent regions; do not move the whole
+# CPU tile or grow the worker1 mesh allocation in the congested SLR.
+foreach {bank slr label} {
+    inclusive_cache_bank_sched   SLR0 memory_v3_l2_bank0_slr0
+    inclusive_cache_bank_sched_1 SLR2 memory_v3_l2_bank1_slr2
+} {
+    set bank_cell [get_cells -hier -quiet -filter "NAME =~ */coh_wrapper/l2/$bank"]
+    if {[llength $bank_cell] != 1} {error "Expected one L2 bank hierarchy: $bank"}
+    set_property USER_SLR_ASSIGNMENT $slr $bank_cell
+    if {![llength [get_pblocks -quiet $label]]} {create_pblock $label}
+    resize_pblock [get_pblocks $label] -add $slr
+    set_property IS_SOFT true [get_pblocks $label]
+    set_property CONTAIN_ROUTING false [get_pblocks $label]
+    add_cells_to_pblock [get_pblocks $label] $bank_cell
+    puts "MEMORY_V3_L2_BANK_GUIDE bank=$bank slr=$slr soft=true"
+}
 puts "NPU3X32_VIDEO_DSP_GUARD=PASS mesh=$mesh_total full_design=[llength $all_dsps]"

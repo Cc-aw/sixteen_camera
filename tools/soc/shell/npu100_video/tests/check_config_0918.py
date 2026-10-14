@@ -21,6 +21,7 @@ expected = {
     "store queue": r"st_queue_length\s*=\s*8",
     "execute queue": r"ex_queue_length\s*=\s*16",
     "DMA outstanding": r"max_in_flight_mem_reqs\s*=\s*32",
+    "MaxPool enabled": r"has_max_pool\s*=\s*true",
 }
 for name, pattern in expected.items():
     assert re.search(pattern, config), f"missing preserved 0918 setting: {name}"

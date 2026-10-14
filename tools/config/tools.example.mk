@@ -7,6 +7,6 @@
 # GDB_BIN := /path/to/bin/riscv64-unknown-elf-gdb
 # GDB_PYTHONHOME := /path/to/conda-env  # only if this GDB needs it
 # BOARD_JTAG_SERIAL := your-adapter-serial
-# SOC_VARIANT := single4
+# SOC_VARIANT := triple32_v3_tensor
 # BITSTREAM_FILE := /path/to/video.bit
 # SOC_CONFIG selects hw/soc/<name>/gen-collateral and hardware only.

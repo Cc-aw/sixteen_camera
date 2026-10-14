@@ -74,95 +74,95 @@
     `define INIT_RANDOM_PROLOG_
   `endif // RANDOMIZE
 `endif // not def INIT_RANDOM_PROLOG_
-module ListBuffer_PutBufferCEntry_q2_e4(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
-  input          clock,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
-  input          reset,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
-  output         io_push_ready,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
-  input          io_push_valid,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
-  input          io_push_bits_index,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
-  input  [255:0] io_push_bits_data_data,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
-  input          io_push_bits_data_corrupt,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
-  output [1:0]   io_valid,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
-  input          io_pop_valid,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
-  input          io_pop_bits,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
-  output [255:0] io_data_data,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
-  output         io_data_corrupt	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:39:14]
+module ListBuffer_PutBufferCEntry_q2_e4(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
+  input          clock,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
+  input          reset,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
+  output         io_push_ready,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:40:14]
+  input          io_push_valid,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:40:14]
+  input          io_push_bits_index,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:40:14]
+  input  [255:0] io_push_bits_data_data,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:40:14]
+  input          io_push_bits_data_corrupt,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:40:14]
+  output [1:0]   io_valid,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:40:14]
+  input          io_pop_valid,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:40:14]
+  input          io_pop_bits,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:40:14]
+  output [255:0] io_data_data,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:40:14]
+  output         io_data_corrupt	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:40:14]
 );
 
-  wire [256:0] _data_ext_R0_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18]
-  wire [1:0]   _next_ext_R0_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:51:18]
-  wire [1:0]   _tail_ext_R0_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:49:18]
-  wire [1:0]   _tail_ext_R1_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:49:18]
-  wire [1:0]   _head_ext_R0_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:48:18]
-  reg  [1:0]   valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:47:22]
-  reg  [3:0]   used;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:50:22]
-  wire [3:0]   _freeOH_T_10 = ~used;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:50:22, :54:25]
-  wire [2:0]   _freeOH_T_3 = _freeOH_T_10[2:0] | {_freeOH_T_10[1:0], 1'h0};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:54:25, generators/rocket-chip/src/main/scala/util/package.scala:254:{43,53}]
-  wire [3:0]   freeIdx_lo = {~(_freeOH_T_3 | {_freeOH_T_3[0], 2'h0}), 1'h1} & _freeOH_T_10;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :54:{16,25,38}, generators/rocket-chip/src/main/scala/util/package.scala:254:{43,53}]
-  wire         _freeIdx_T_3 = freeIdx_lo[3] | freeIdx_lo[1];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:54:38, src/main/scala/chisel3/util/OneHot.scala:30:18, :31:18, :32:28]
-  wire [1:0]   _GEN = {1'h0, io_push_bits_index};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:63:25]
-  wire [1:0]   _push_valid_T = valid >> _GEN;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:47:22, :63:25]
-  wire         io_push_ready_0 = used != 4'hF;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:50:22, :65:26]
-  wire         data_MPORT_en = io_push_ready_0 & io_push_valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:65:26, src/main/scala/chisel3/util/Decoupled.scala:51:35]
-  wire [1:0]   data_MPORT_addr = {|(freeIdx_lo[3:2]), _freeIdx_T_3};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:54:38, :69:15, src/main/scala/chisel3/util/OneHot.scala:30:18, :32:{14,28}]
-  wire [1:0]   _GEN_0 = {1'h0, io_pop_bits};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:86:37]
-  `ifndef SYNTHESIS	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:86:10]
-    wire [1:0] _GEN_1 = valid >> _GEN_0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:47:22, :86:37]
-    always @(posedge clock) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:86:10]
-      if (~reset & ~(~io_pop_valid | _GEN_1[0])) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:86:{10,11,24,37}]
-        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:86:10]
-          $error("Assertion failed\n    at ListBuffer.scala:86 assert (!io.pop.fire || (io.valid)(io.pop.bits))\n");	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:86:10]
-        if (`STOP_COND_)	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:86:10]
-          $fatal;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:86:10]
+  wire [256:0] _data_ext_R0_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:56:44]
+  wire [1:0]   _next_ext_R0_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:55:18]
+  wire [1:0]   _tail_ext_R0_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:53:18]
+  wire [1:0]   _tail_ext_R1_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:53:18]
+  wire [1:0]   _head_ext_R0_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18]
+  reg  [1:0]   valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:51:22]
+  reg  [3:0]   used;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:54:22]
+  wire [3:0]   _freeOH_T_10 = ~used;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:54:22, :63:25]
+  wire [2:0]   _freeOH_T_3 = _freeOH_T_10[2:0] | {_freeOH_T_10[1:0], 1'h0};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:63:25, generators/rocket-chip/src/main/scala/util/package.scala:254:{43,53}]
+  wire [3:0]   freeIdx_lo = {~(_freeOH_T_3 | {_freeOH_T_3[0], 2'h0}), 1'h1} & _freeOH_T_10;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7, :63:{16,25,38}, generators/rocket-chip/src/main/scala/util/package.scala:254:{43,53}]
+  wire         _freeIdx_T_3 = freeIdx_lo[3] | freeIdx_lo[1];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:63:38, src/main/scala/chisel3/util/OneHot.scala:30:18, :31:18, :32:28]
+  wire [1:0]   _GEN = {1'h0, io_push_bits_index};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:72:25]
+  wire [1:0]   _push_valid_T = valid >> _GEN;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:51:22, :72:25]
+  wire         io_push_ready_0 = used != 4'hF;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:54:22, :74:26]
+  wire         data_MPORT_en = io_push_ready_0 & io_push_valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:74:26, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  wire [1:0]   data_MPORT_addr = {|(freeIdx_lo[3:2]), _freeIdx_T_3};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:63:38, :78:25, src/main/scala/chisel3/util/OneHot.scala:30:18, :32:{14,28}]
+  wire [1:0]   _GEN_0 = {1'h0, io_pop_bits};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:99:37]
+  `ifndef SYNTHESIS	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:99:10]
+    wire [1:0] _GEN_1 = valid >> _GEN_0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:51:22, :99:37]
+    always @(posedge clock) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:99:10]
+      if (~reset & ~(~io_pop_valid | _GEN_1[0])) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:99:{10,11,24,37}]
+        if (`ASSERT_VERBOSE_COND_)	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:99:10]
+          $error("Assertion failed\n    at ListBuffer.scala:99 assert (!io.pop.fire || (io.valid)(io.pop.bits))\n");	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:99:10]
+        if (`STOP_COND_)	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:99:10]
+          $fatal;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:99:10]
       end
     end // always @(posedge)
   `endif // not def SYNTHESIS
-  always @(posedge clock) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
-    if (reset) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
-      valid <= 2'h0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:47:22]
-      used <= 4'h0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:50:22]
+  always @(posedge clock) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
+    if (reset) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
+      valid <= 2'h0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:51:22]
+      used <= 4'h0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:54:22]
     end
-    else begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
-      valid <= valid & ~(io_pop_valid & _head_ext_R0_data == _tail_ext_R1_data ? 2'h1 << _GEN_0 : 2'h0) | (data_MPORT_en ? 2'h1 << _GEN : 2'h0);	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:47:22, :48:18, :49:18, :57:30, :58:30, :63:25, :66:23, :67:15, :86:37, :88:22, :90:{20,48}, :91:17, :99:{21,23,35}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:12]
-      used <= used & ~(io_pop_valid ? 4'h1 << _head_ext_R0_data : 4'h0) | (data_MPORT_en ? freeIdx_lo : 4'h0);	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:48:18, :50:22, :54:38, :59:30, :60:30, :66:23, :68:14, :88:22, :89:14, :98:{21,23,35}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:12]
+    else begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
+      valid <= valid & ~(io_pop_valid & _head_ext_R0_data == _tail_ext_R1_data ? 2'h1 << _GEN_0 : 2'h0) | (data_MPORT_en ? 2'h1 << _GEN : 2'h0);	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:51:22, :52:18, :53:18, :66:30, :67:30, :72:25, :75:23, :76:15, :99:37, :105:22, :107:{20,48}, :108:17, :122:{21,23,35}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:12]
+      used <= used & ~(io_pop_valid ? 4'h1 << _head_ext_R0_data : 4'h0) | (data_MPORT_en ? freeIdx_lo : 4'h0);	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18, :54:22, :63:38, :68:30, :69:30, :75:23, :77:14, :105:22, :106:14, :121:{21,23,35}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:65:12]
     end
   end // always @(posedge)
-  `ifdef ENABLE_INITIAL_REG_	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
-    `ifdef FIRRTL_BEFORE_INITIAL	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
-      `FIRRTL_BEFORE_INITIAL	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
+  `ifdef ENABLE_INITIAL_REG_	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
+    `ifdef FIRRTL_BEFORE_INITIAL	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
+      `FIRRTL_BEFORE_INITIAL	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
     `endif // FIRRTL_BEFORE_INITIAL
-    logic [31:0] _RANDOM[0:0];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
-    initial begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
-      `ifdef INIT_RANDOM_PROLOG_	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
-        `INIT_RANDOM_PROLOG_	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
+    logic [31:0] _RANDOM[0:0];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
+    initial begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
+      `ifdef INIT_RANDOM_PROLOG_	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
+        `INIT_RANDOM_PROLOG_	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
       `endif // INIT_RANDOM_PROLOG_
-      `ifdef RANDOMIZE_REG_INIT	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
-        _RANDOM[/*Zero width*/ 1'b0] = `RANDOM;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
-        valid = _RANDOM[/*Zero width*/ 1'b0][1:0];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :47:22]
-        used = _RANDOM[/*Zero width*/ 1'b0][5:2];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :47:22, :50:22]
+      `ifdef RANDOMIZE_REG_INIT	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
+        _RANDOM[/*Zero width*/ 1'b0] = `RANDOM;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
+        valid = _RANDOM[/*Zero width*/ 1'b0][1:0];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7, :51:22]
+        used = _RANDOM[/*Zero width*/ 1'b0][5:2];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7, :51:22, :54:22]
       `endif // RANDOMIZE_REG_INIT
     end // initial
-    `ifdef FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
-      `FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
+    `ifdef FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
+      `FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  head_2x2 head_ext (	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:48:18]
+  head_2x2 head_ext (	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18]
     .R0_addr (io_pop_bits),
-    .R0_en   (1'h1),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
+    .R0_en   (1'h1),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
     .R0_clk  (clock),
     .R0_data (_head_ext_R0_data),
     .W0_addr (io_pop_bits),
     .W0_en   (io_pop_valid),
     .W0_clk  (clock),
-    .W0_data (data_MPORT_en & _push_valid_T[0] & _tail_ext_R0_data == _head_ext_R0_data ? {|(freeIdx_lo[3:2]), _freeIdx_T_3} : _next_ext_R0_data),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:48:18, :49:18, :51:18, :54:38, :63:25, :93:{32,46,60,73}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:30:18, :32:{10,14,28}]
+    .W0_data (data_MPORT_en & _push_valid_T[0] & _tail_ext_R0_data == _head_ext_R0_data ? {|(freeIdx_lo[3:2]), _freeIdx_T_3} : _next_ext_R0_data),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18, :53:18, :55:18, :63:38, :72:25, :110:{32,46,60,73}, src/main/scala/chisel3/util/Decoupled.scala:51:35, src/main/scala/chisel3/util/OneHot.scala:30:18, :32:{10,14,28}]
     .W1_addr (io_push_bits_index),
-    .W1_en   (data_MPORT_en & ~(_push_valid_T[0])),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:48:18, :63:25, :66:23, :70:23, :73:17, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+    .W1_en   (data_MPORT_en & ~(_push_valid_T[0])),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18, :72:25, :75:23, :80:23, :83:17, src/main/scala/chisel3/util/Decoupled.scala:51:35]
     .W1_clk  (clock),
-    .W1_data (data_MPORT_addr)	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:69:15]
-  );	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:48:18]
-  tail_2x2 tail_ext (	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:49:18]
+    .W1_data (data_MPORT_addr)	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:78:25]
+  );	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18]
+  tail_2x2 tail_ext (	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:53:18]
     .R0_addr (io_push_bits_index),
-    .R0_en   (1'h1),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
+    .R0_en   (1'h1),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
     .R0_clk  (clock),
     .R0_data (_tail_ext_R0_data),
     .R1_addr (io_pop_bits),
@@ -172,31 +172,31 @@ module ListBuffer_PutBufferCEntry_q2_e4(	// @[generators/rocket-chip-inclusive-c
     .W0_addr (io_push_bits_index),
     .W0_en   (data_MPORT_en),	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35]
     .W0_clk  (clock),
-    .W0_data (data_MPORT_addr)	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:69:15]
-  );	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:49:18]
-  next_4x2 next_ext (	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:51:18]
-    .R0_addr (_head_ext_R0_data),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:48:18]
+    .W0_data (data_MPORT_addr)	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:78:25]
+  );	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:53:18]
+  next_4x2 next_ext (	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:55:18]
+    .R0_addr (_head_ext_R0_data),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18]
     .R0_en   (io_pop_valid),
     .R0_clk  (clock),
     .R0_data (_next_ext_R0_data),
-    .W0_addr (_tail_ext_R0_data),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:49:18]
-    .W0_en   (data_MPORT_en & _push_valid_T[0]),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:51:18, :63:25, :66:23, :70:23, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+    .W0_addr (_tail_ext_R0_data),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:53:18]
+    .W0_en   (data_MPORT_en & _push_valid_T[0]),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:55:18, :72:25, :75:23, :80:23, src/main/scala/chisel3/util/Decoupled.scala:51:35]
     .W0_clk  (clock),
-    .W0_data (data_MPORT_addr)	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:69:15]
-  );	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:51:18]
-  data_4x257 data_ext (	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18]
-    .R0_addr (_head_ext_R0_data),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:48:18]
-    .R0_en   (1'h1),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7]
+    .W0_data (data_MPORT_addr)	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:78:25]
+  );	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:55:18]
+  data_4x257 data_ext (	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:56:44]
+    .R0_addr (_head_ext_R0_data),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18]
+    .R0_en   (1'h1),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7]
     .R0_clk  (clock),
     .R0_data (_data_ext_R0_data),
-    .W0_addr (data_MPORT_addr),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:69:15]
+    .W0_addr (data_MPORT_addr),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:78:25]
     .W0_en   (data_MPORT_en),	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35]
     .W0_clk  (clock),
-    .W0_data ({io_push_bits_data_corrupt, io_push_bits_data_data})	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18]
-  );	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:52:18]
-  assign io_push_ready = io_push_ready_0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :65:26]
-  assign io_valid = valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :47:22]
-  assign io_data_data = _data_ext_R0_data[255:0];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :52:18]
-  assign io_data_corrupt = _data_ext_R0_data[256];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:36:7, :52:18]
+    .W0_data ({io_push_bits_data_corrupt, io_push_bits_data_data})	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:56:44]
+  );	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:56:44]
+  assign io_push_ready = io_push_ready_0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7, :74:26]
+  assign io_valid = valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7, :51:22]
+  assign io_data_data = _data_ext_R0_data[255:0];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7, :56:44]
+  assign io_data_corrupt = _data_ext_R0_data[256];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala:37:7, :56:44]
 endmodule
 

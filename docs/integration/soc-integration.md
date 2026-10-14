@@ -24,7 +24,7 @@
 1. 在外部 SoC 工程生成完整 collateral，将 RTL、头文件、memory 初始化文件放入 `hw/soc/<配置名>/gen-collateral/`。
 2. 兼容当前 harness 的情况下执行 `make check SOC_CONFIG=<配置名>` 和 `make elaborate SOC_CONFIG=<配置名>`；选择器只接受直接子目录名。
 3. 接口变化时先适配 `control_soc_subsystem.sv` 及顶层总线、时钟、复位和中断，再更新约束。新增底座 RTL 必须进入 `hw/manifests/rtl_manifest.tcl`。
-4. 按新 SoC 更新裸机后端、参数头和缓存协议，单独增加匹配的软件配置。`SOC_CONFIG` 只选择硬件；可用固件别名为 `dual16` / `single4` / `triple32_v3_tensor`，后者使用 V17 A。
+4. 按新 SoC 更新裸机后端、参数头和缓存协议，单独增加匹配的软件配置。`SOC_CONFIG` 只选择硬件；当前固件别名为 `triple32_v3_tensor`，使用 v26，硬件启用 MaxPool 和 TensorIngress。
 5. 完成综合、时序、DRC 和板级验证，并保留对应 ELF、bitstream 和 UART 日志。
 
 `hw/manifests/` 是生产输入清单。`hw/ip/` 保存十个 standalone IP 的重建 Tcl；DDR BD 由 `hw/vivado/create_design_1.tcl` 重建。只交付源码、约束和 Tcl，XPR、XCI、BD 及其输出由本地 Vivado 管理并忽略。

@@ -132,6 +132,7 @@ module SourceD(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusi
   wire            s3_ready;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:242:24]
   wire            s3_valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:241:23]
   wire [255:0]    _atomics_io_data_out;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:258:23]
+  wire            _io_d_q_io_enq_ready;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire            _queue_io_enq_ready;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:120:21]
   wire            _queue_io_deq_valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:120:21]
   wire [255:0]    _queue_io_deq_bits_data;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:120:21]
@@ -227,8 +228,8 @@ module SourceD(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusi
   wire [7:0][2:0] _GEN = {{3'h4}, {{2'h2, s3_req_param != 3'h2}}, {3'h2}, {3'h1}, {3'h1}, {3'h1}, {3'h0}, {3'h0}};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:194:25, :214:{18,32}, :222:24]
   wire [2:0]      d_bits_opcode = s3_req_prio_0 ? _GEN[s3_req_opcode] : 3'h6;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:194:25, :222:24]
   wire            _queue_io_deq_ready_T = s3_valid & s4_ready;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:231:34, :241:23, :293:{27,39,59}]
-  assign s3_valid = s3_full & (~s3_valid_d | io_d_ready);	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:190:24, :191:27, :241:{23,27,39}]
-  assign s3_ready = ~s3_full | s4_ready & (~s3_valid_d | io_d_ready);	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:190:24, :191:27, :232:11, :241:27, :242:{24,37,53}, :293:{27,39,59}]
+  assign s3_valid = s3_full & (~s3_valid_d | _io_d_q_io_enq_ready);	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:190:24, :191:27, :241:{23,27,39}, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign s3_ready = ~s3_full | s4_ready & (~s3_valid_d | _io_d_q_io_enq_ready);	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:190:24, :191:27, :232:11, :241:27, :242:{24,37,53}, :293:{27,39,59}, src/main/scala/chisel3/util/Decoupled.scala:362:21]
   reg             s4_full;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:248:24]
   reg             s4_beat;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:249:26]
   reg             s4_need_bs;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:251:29]
@@ -353,7 +354,7 @@ module SourceD(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusi
       s2_full <= s2_latch | ~s3_latch & s2_full;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:129:18, :141:38, :147:24, :177:{18,31,41}, :179:{19,29}, :183:23]
       s2_valid_pb <= s2_latch ? s1_need_pb : ~pb_ready & s2_valid_pb;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:97:23, :129:18, :141:38, :148:28, :175:21, :176:{19,33}, :178:{19,33}]
       s3_full <= s3_latch | ~_queue_io_deq_ready_T & s3_full;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:177:18, :183:23, :190:24, :231:34, :235:{31,41}, :237:{19,29}]
-      s3_valid_d <= s3_latch ? s2_need_d : ~io_d_ready & s3_valid_d;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:156:28, :177:18, :183:23, :191:27, :234:{18,31}, :236:{19,32}]
+      s3_valid_d <= s3_latch ? s2_need_d : ~_io_d_q_io_enq_ready & s3_valid_d;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:156:28, :177:18, :183:23, :191:27, :234:{18,31}, :236:{19,32}, src/main/scala/chisel3/util/Decoupled.scala:362:21]
       s4_full <= s4_latch | ~(io_bs_wadr_ready | ~s4_need_bs) & s4_full;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:247:{27,41}, :248:24, :251:29, :290:{26,29,42,52}, :291:{19,29}]
     end
     if (~busy & io_req_valid) begin	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:84:21, :87:{43,49}]
@@ -579,6 +580,30 @@ module SourceD(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusi
     .io_deq_valid     (_queue_io_deq_valid),
     .io_deq_bits_data (_queue_io_deq_bits_data)
   );	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:120:21]
+  Queue2_TLBundleD_a33d256s10k6z3c io_d_q (	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    .clock               (clock),
+    .reset               (reset),
+    .io_enq_ready        (_io_d_q_io_enq_ready),
+    .io_enq_valid        (s3_valid_d),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:191:27]
+    .io_enq_bits_opcode  (d_bits_opcode),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:222:24]
+    .io_enq_bits_param   (s3_req_prio_0 & (s3_req_opcode == 3'h6 | (&s3_req_opcode)) ? {1'h0, s3_req_param == 3'h0} : 2'h0),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:194:25, :202:{30,47,64}, :223:{24,40,54,68}]
+    .io_enq_bits_size    (s3_req_size),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:194:25]
+    .io_enq_bits_source  (s3_req_source),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:194:25]
+    .io_enq_bits_sink    (s3_req_sink),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:194:25]
+    .io_enq_bits_denied  (s3_req_bad),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:194:25]
+    .io_enq_bits_data    (s3_rdata),	// @[generators/rocket-chip/src/main/scala/util/package.scala:46:27]
+    .io_enq_bits_corrupt (s3_req_bad & d_bits_opcode[0]),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:194:25, :222:24, :229:{32,48}]
+    .io_deq_ready        (io_d_ready),
+    .io_deq_valid        (io_d_valid),
+    .io_deq_bits_opcode  (io_d_bits_opcode),
+    .io_deq_bits_param   (io_d_bits_param),
+    .io_deq_bits_size    (io_d_bits_size),
+    .io_deq_bits_source  (io_d_bits_source),
+    .io_deq_bits_sink    (io_d_bits_sink),
+    .io_deq_bits_denied  (io_d_bits_denied),
+    .io_deq_bits_data    (io_d_bits_data),
+    .io_deq_bits_corrupt (io_d_bits_corrupt)
+  );	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   Atomics atomics (	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:258:23]
     .io_write    (s4_req_prio_2),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:253:25]
     .io_a_opcode (s4_adjusted_opcode),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:254:37]
@@ -589,15 +614,6 @@ module SourceD(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusi
     .io_data_out (_atomics_io_data_out)
   );	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:258:23]
   assign io_req_ready = ~busy;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:48:7, :84:21, :87:43]
-  assign io_d_valid = s3_valid_d;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:48:7, :191:27]
-  assign io_d_bits_opcode = d_bits_opcode;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:48:7, :222:24]
-  assign io_d_bits_param = s3_req_prio_0 & (s3_req_opcode == 3'h6 | (&s3_req_opcode)) ? {1'h0, s3_req_param == 3'h0} : 2'h0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:48:7, :194:25, :202:{30,47,64}, :223:{24,40,54,68}]
-  assign io_d_bits_size = s3_req_size;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:48:7, :194:25]
-  assign io_d_bits_source = s3_req_source;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:48:7, :194:25]
-  assign io_d_bits_sink = s3_req_sink;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:48:7, :194:25]
-  assign io_d_bits_denied = s3_req_bad;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:48:7, :194:25]
-  assign io_d_bits_data = s3_rdata;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:48:7, generators/rocket-chip/src/main/scala/util/package.scala:46:27]
-  assign io_d_bits_corrupt = s3_req_bad & d_bits_opcode[0];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:48:7, :194:25, :222:24, :229:{32,48}]
   assign io_pb_pop_valid = s2_valid_pb & s2_req_prio_0;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:48:7, :148:28, :151:25, :164:34]
   assign io_pb_pop_bits_index = s2_req_put;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:48:7, :151:25]
   assign io_pb_pop_bits_last = s2_last;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala:48:7, :152:26]

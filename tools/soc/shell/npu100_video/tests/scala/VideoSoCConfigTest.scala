@@ -25,6 +25,8 @@ object VideoSoCConfigTest extends App {
   assert(p(freechips.rocketchip.tile.RoCCBusyWriteBypassCSRsKey).isEmpty)
   assert(p(freechips.rocketchip.tile.RoCCMbusBypassPorts).isEmpty)
   val g = XCVU13PGemmini32x32PackedInferenceRamConfigs.config
+  assert(g.has_max_pool)
+  assert(XCVU13PGemmini32x32PackedInferenceRamMultiConfigs.base.has_max_pool)
   assert(g.meshRows * g.tileRows == 32 && g.meshColumns * g.tileColumns == 32)
   assert(g.tileRows == 1 && g.tileColumns == 8)
   assert(g.spatialArrayOutputType.getWidth == 24 && g.accType.getWidth == 32)
