@@ -30,6 +30,23 @@ def parse(text):
     boot_early_required = False
     boot_head_required = False
     boot_head_clean = boot_head_admit = None
+    boot_wait_reuse = None
+    boot_wait_required = False
+    boot_credit_limit = None
+    boot_credit_required = False
+    boot_supply_required = False
+    boot_supply_build = 0
+    boot_memory_required = False
+    boot_memory_ops = 0
+    boot_resize_required = False
+    boot_resize_batch = boot_resize_rows = 0
+    boot_binding_init=0
+    boot_version=''
+    from capacity_log import configuration as capacity_configuration
+    boot_capacity=capacity_configuration('',{})
+    boot_submit=dict(credit_query=0,packet_dispatch=0,split_diag=0,diagnostic_build=1)
+    from memory_log import validate_smoke
+    errors.extend(validate_smoke(text))
 
     def fail(message):
         errors.append(message)
@@ -83,6 +100,10 @@ def parse(text):
             validate_ppu_early(run)
             from ppu_head_log import validate as validate_ppu_heads
             validate_ppu_heads(run)
+            from wait_reuse_log import validate as validate_wait_reuse
+            validate_wait_reuse(run)
+            from credit_log import validate as validate_credit
+            validate_credit(run)
         except (KeyError, ValueError) as e:
             fail(prefix + f'timing: {e}')
         if run['mode'] == 'parallel':
@@ -127,7 +148,8 @@ def parse(text):
                     pressure = number(p, 'pressure_yields') if 'pressure_yields' in p else 0
                     if voluntary != pressure + sum(number(p, k) for k in ('bootstrap_yields', 'idle_yields', 'packet_yields', 'time_yields')):
                         raise ValueError('conditional switch reasons differ from handoffs')
-                    if voluntary + number(p, 'wait_yields') + 3 != sum(number(s, f'resumes{w}') for w in range(3)):
+                    from credit_log import handoffs as credit_handoffs
+                    if voluntary + number(p, 'wait_yields') + credit_handoffs(run) + 3 != sum(number(s, f'resumes{w}') for w in range(3)):
                         raise ValueError('conditional handoffs differ from resumes')
                     if number(p, 'command_yields') + number(p, 'command_kept') != sum(
                             number(s, f'{k}{w}') for w in range(3) for k in ('requests', 'matmuls')):
@@ -259,6 +281,16 @@ def parse(text):
         try:
             from rocc_layers import validate
             validate(run)
+            from supply_diag_log import validate as validate_supply
+            validate_supply(run)
+            from memory_log import validate as validate_memory
+            validate_memory(run)
+            from submit_log import validate as validate_submit
+            validate_submit(run)
+            from capacity_log import validate as validate_capacity
+            validate_capacity(run)
+            from software_batch_log import validate as validate_batch
+            validate_batch(run)
         except (KeyError, ValueError) as e:
             fail(prefix + f'layer diagnostics: {e}')
         runs.append(run)
@@ -271,15 +303,16 @@ def parse(text):
         modes = bench['modes']
         if set(bench['summaries']) != set(modes):
             fail('benchmark requires all configured mode summaries')
-        if len(bench['runs']) != 7 * len(modes) or any(r['phase'] not in ('warmup', 'measure', 'analysis') or r['mode'] not in modes for r in bench['runs']):
-            fail(f'benchmark must contain exactly {7 * len(modes)} warmup/measure/analysis runs')
+        per_mode=6+bench['diagnostic_build']
+        if len(bench['runs']) != per_mode * len(modes) or any(r['phase'] not in ('warmup', 'measure', 'analysis') or r['mode'] not in modes for r in bench['runs']):
+            fail(f'benchmark must contain exactly {per_mode * len(modes)} configured runs')
         medians = {}
         for mode in modes:
             subset = [r for r in bench['runs'] if r['mode'] == mode]
             measured = [r for r in subset if r['phase'] == 'measure']
             if (len(measured) != 5 or {r['round'] for r in measured} != set(range(1, 6))
                     or sum(r['phase'] == 'warmup' for r in subset) != 1
-                    or sum(r['phase'] == 'analysis' for r in subset) != 1):
+                    or sum(r['phase'] == 'analysis' for r in subset) != bench['diagnostic_build']):
                 fail(f'benchmark {mode}: missing/duplicate measured rounds, warmup or profile')
             if len(measured) == 5 and all('batch' in r for r in measured):
                 medians[mode] = (int(median(r['batch'] for r in measured)), int(median(r['graph'] for r in measured)))
@@ -300,7 +333,19 @@ def parse(text):
         line = raw.strip()
         try:
             if line.startswith('YOLO32_FIRMWARE '):
-                boot_head_required = line.startswith('YOLO32_FIRMWARE v17 ')
+                boot_version=line.split()[1]
+                boot_binding_init=0
+                boot_capacity=capacity_configuration('',{})
+                boot_submit=dict(credit_query=0,packet_dispatch=0,split_diag=0,diagnostic_build=1)
+                boot_resize_required = boot_version in ('v22','v23','v24','v25','v26','v27','v28')
+                boot_resize_batch = boot_resize_rows = 0
+                boot_memory_required = line.startswith('YOLO32_FIRMWARE v21 ') or boot_resize_required
+                boot_memory_ops = 0
+                boot_supply_required = line.startswith('YOLO32_FIRMWARE v20 ')
+                boot_supply_build = 0
+                boot_credit_required = line.startswith('YOLO32_FIRMWARE v19 ') or boot_supply_required or boot_memory_required
+                boot_wait_required = line.startswith('YOLO32_FIRMWARE v18 ') or boot_credit_required
+                boot_head_required = line.startswith('YOLO32_FIRMWARE v17 ') or boot_wait_required
                 boot_early_required = line.startswith('YOLO32_FIRMWARE v16 ') or boot_head_required
                 boot_burst = boot_quantum = None
                 boot_hot_paths = 0
@@ -311,8 +356,27 @@ def parse(text):
                 boot_prepared_packets = None
                 boot_ppu_early = None
                 boot_head_clean = boot_head_admit = None
+                boot_wait_reuse = None
+                boot_credit_limit = None
             elif line.startswith('YOLO32_SCHED_CONFIG '):
                 r = fields(line)
+                from submit_log import configuration
+                boot_submit=configuration(boot_version,r)
+                boot_capacity=capacity_configuration(boot_version,r,boot=True)
+                boot_memory_ops=number(r,'memory_ops') if 'memory_ops' in r else 0
+                if boot_memory_ops not in (0,1) or bool(boot_memory_ops)!=boot_memory_required:
+                    raise ValueError('memory operators differ from firmware version')
+                if boot_resize_required and not {'resize_batch','resize_rows'} <= r.keys():
+                    raise ValueError('v22 boot requires Resize batch configuration')
+                boot_resize_batch=number(r,'resize_batch') if 'resize_batch' in r else 0
+                boot_resize_rows=number(r,'resize_rows') if 'resize_rows' in r else 0
+                from memory_kernels import expected_counts
+                expected_counts(boot_resize_batch,boot_resize_rows)
+                if bool(boot_resize_batch)!=boot_resize_required:
+                    raise ValueError('Resize batch differs from firmware version')
+                boot_supply_build=number(r,'supply_diag') if 'supply_diag' in r else 0
+                if boot_supply_build not in (0,1) or bool(boot_supply_build)!=boot_supply_required:
+                    raise ValueError('supply build flag differs from firmware version')
                 if boot_early_required and 'ppu_early' not in r:
                     raise ValueError('v16 boot requires early PPU flag')
                 boot_burst, boot_quantum = number(r,'submit_burst'), number(r,'quantum_us')
@@ -343,6 +407,20 @@ def parse(text):
                         or (boot_head_required and boot_head_clean!=1)):
                     raise ValueError('invalid head clean/admission configuration')
                 if boot_layer_build not in (0,1): raise ValueError('invalid layer build configuration')
+                if not boot_submit['diagnostic_build'] and boot_layer_build:
+                    raise ValueError('formal-only build cannot enable layer diagnostics')
+                if boot_wait_required and 'wait_reuse' not in r:
+                    raise ValueError('v18 requires wait reuse flag')
+                boot_wait_reuse=number(r,'wait_reuse') if 'wait_reuse' in r else 0
+                if (boot_wait_reuse not in (0,1) or (boot_wait_required and not boot_wait_reuse)
+                        or (boot_wait_reuse and (not boot_head_clean or boot_head_admit))):
+                    raise ValueError('wait reuse requires the A baseline')
+                if boot_credit_required and 'credit_limit' not in r:
+                    raise ValueError('v19 boot requires credit limit')
+                boot_credit_limit=number(r,'credit_limit') if 'credit_limit' in r else 0
+                if (boot_credit_limit not in ((3,4) if boot_capacity['capacity_experiment'] else (0,3)) or bool(boot_credit_limit)!=boot_credit_required
+                        or (boot_credit_limit and not boot_wait_reuse)):
+                    raise ValueError('credit limit differs from firmware or v18 baseline')
                 if boot_hot_paths not in (0,1): raise ValueError('invalid hot paths configuration')
                 if min(boot_burst,boot_quantum) <= 0:
                     raise ValueError('invalid boot scheduling configuration')
@@ -354,7 +432,8 @@ def parse(text):
                     raise ValueError('invalid benchmark configuration')
                 modes = int(r.get('modes', '4'), 0)
                 if modes not in (4, 5): raise ValueError('unsupported mode count')
-                bench = {'runs': [], 'summaries': {}, 'modes': ALL_MODES if modes == 5 else MODES}
+                bench = {'runs': [], 'summaries': {}, 'modes': ALL_MODES if modes == 5 else MODES,
+                         'diagnostic_build':0 if boot_capacity['capacity_experiment'] else boot_submit['diagnostic_build']}
             elif line.startswith('YOLO32_BENCH_RESULT '):
                 if bench is None or active is not None:
                     raise ValueError('benchmark result without complete benchmark')
@@ -373,7 +452,7 @@ def parse(text):
                 r = fields(line)
                 if (r['images'] != ','.join(IMAGES) or number(r, 'dim') != 32 or number(r, 'workers') != 3
                         or r['reference'] != 'serial' or r['mode'] not in ALL_MODES
-                        or r['phase'] not in ('baseline', 'manual', 'warmup', 'measure', 'analysis')
+                        or r['phase'] not in (('baseline', 'manual', 'warmup', 'measure', 'analysis', 'capacity') if boot_version=='v26' else ('baseline', 'manual', 'warmup', 'measure', 'analysis'))
                         or number(r, 'profile') not in (0, 1)):
                     raise ValueError('invalid run configuration')
                 if boot_early_required and 'ppu_early' not in r:
@@ -389,7 +468,7 @@ def parse(text):
                 if context not in ('full', 'light'):
                     raise ValueError('invalid task context mode')
                 scheduling = r.get('scheduling', 'fixed')
-                if scheduling not in ('adaptive', 'fixed'):
+                if scheduling not in (('supply',) if boot_version in ('v27','v28') else ('adaptive','fixed')):
                     raise ValueError('invalid scheduling policy')
                 burst = number(r,'submit_burst') if 'submit_burst' in r else boot_burst
                 quantum = number(r,'quantum_us') if 'quantum_us' in r else boot_quantum
@@ -426,10 +505,49 @@ def parse(text):
                         or (boot_head_admit is not None and head_admit!=boot_head_admit)):
                     raise ValueError('head clean/admission differs from boot configuration')
                 if hot_paths not in (0,1): raise ValueError('invalid hot paths configuration')
+                if boot_wait_required and 'wait_reuse' not in r:
+                    raise ValueError('v18 run requires wait reuse flag')
+                wait_reuse=number(r,'wait_reuse') if 'wait_reuse' in r else (boot_wait_reuse or 0)
+                if (wait_reuse not in (0,1) or (boot_wait_required and not wait_reuse)
+                        or (wait_reuse and (not head_clean or head_admit))
+                        or (boot_wait_reuse is not None and wait_reuse!=boot_wait_reuse)):
+                    raise ValueError('wait reuse differs from boot configuration or A baseline')
+                if boot_credit_required and 'credit_limit' not in r:
+                    raise ValueError('v19 run requires credit limit')
+                capacity=capacity_configuration(boot_version,r)
+                if any(capacity[k]!=boot_capacity[k] for k in capacity if k!='capacity_period'):
+                    raise ValueError('capacity flags differ from boot')
+                if bool(capacity['capacity_period'])!=(r['phase']=='capacity') or (capacity['capacity_period'] and r['mode']!='independent'):
+                    raise ValueError('capacity sampling differs from run phase/mode')
+                credit_limit=number(r,'credit_limit') if 'credit_limit' in r else (boot_credit_limit or 0)
+                if (credit_limit not in ((3,4) if capacity['capacity_experiment'] else (0,3)) or (boot_credit_required and not credit_limit)
+                        or (credit_limit and not wait_reuse)
+                        or (boot_credit_limit is not None and credit_limit!=boot_credit_limit)):
+                    raise ValueError('credit limit differs from boot configuration or v18 baseline')
+                supply_diag=number(r,'supply_diag') if 'supply_diag' in r else 0
+                supply_detail=number(r,'supply_detail') if 'supply_detail' in r else 0
+                memory_ops=number(r,'memory_ops') if 'memory_ops' in r else 0
+                if memory_ops not in (0,1) or memory_ops!=boot_memory_ops:
+                    raise ValueError('memory operators differ from boot configuration')
+                if boot_resize_required and not {'resize_batch','resize_rows'} <= r.keys():
+                    raise ValueError('v22 run requires Resize batch configuration')
+                resize_batch=number(r,'resize_batch') if 'resize_batch' in r else 0
+                resize_rows=number(r,'resize_rows') if 'resize_rows' in r else 0
+                if (resize_batch,resize_rows)!=(boot_resize_batch,boot_resize_rows):
+                    raise ValueError('Resize batch differs from boot configuration')
+                if (supply_diag not in (0,1) or
+                    supply_diag != int(bool(boot_supply_build and analysis and r['mode'] in ('forward','independent')))):
+                    raise ValueError('supply diagnosis flag differs from build/run mode')
+                if supply_detail not in (0,1) or supply_detail>supply_diag or (boot_supply_build and 'supply_detail' not in r):
+                    raise ValueError('invalid/missing supply detail flag')
                 if any(v is not None and v <= 0 for v in (burst,quantum)):
                     raise ValueError('invalid run scheduling configuration')
                 if diagnostics not in (0,1) or diagnostics>analysis:
                     raise ValueError('invalid diagnostics configuration')
+                from submit_log import configuration
+                submit=configuration(boot_version,r)
+                if submit!=boot_submit or (analysis and not submit['diagnostic_build']):
+                    raise ValueError('submit flags differ from boot or formal-only capability')
                 if bool(analysis) != (r['phase'] == 'analysis') or (r['phase'] != 'measure' and number(r, 'round') != 0):
                     raise ValueError('invalid phase/round/profile combination')
                 if r['phase'] == 'measure' and not 1 <= number(r, 'round') <= 5:
@@ -441,7 +559,77 @@ def parse(text):
                               submit_burst=burst, quantum_us=quantum, hot_paths=hot_paths, rocc={}, task_cpu={}, rocc_layers=rocc_layers, rocc_layer_stats={}, layer_build=boot_layer_build, fixed_plans=fixed_plans, fixed_packets=fixed_packets,
                               idle_priority=idle_priority, tail_wait=tail_wait, prepared_packets=prepared_packets,
                               ppu_early=ppu_early, ppu_events={}, head_clean=head_clean,
-                              head_admit=head_admit, head_events={}, head_states={})
+                              head_admit=head_admit, head_events={}, head_states={}, wait_reuse=wait_reuse,
+                              credit_limit=credit_limit, credit={}, supply_diag=supply_diag,
+                              supply_build=boot_supply_build, credit_sources={}, supply={},
+                              cpu_details={}, hw_stages={}, feed_stages={}, hw_totals={}, supply_detail=supply_detail,
+                              memory_ops=memory_ops, memory={}, resize_batch=resize_batch, resize_rows=resize_rows,
+                              credit_query_stats={}, capacity_stats={}, capacity_gaps={}, batch_bindings={}, batch_credit={}, batch_policy={}, bind_once_cycles=boot_binding_init, **submit, **capacity)
+            elif line.startswith('YOLO32_BATCH_INIT '):
+                if active is not None or boot_version not in ('v27','v28') or boot_binding_init:
+                    raise ValueError('invalid/duplicate integrated init')
+                init=fields(line)
+                if set(init)!={'bind_once_cycles'} or number(init,'bind_once_cycles')<=0:
+                    raise ValueError('invalid integrated init fields')
+                boot_binding_init=number(init,'bind_once_cycles')
+            elif line.startswith(('YOLO32_BATCH_BIND ','YOLO32_BATCH_CREDIT ','YOLO32_BATCH_POLICY ')):
+                if active is None or not active.get('software_batch'):
+                    raise ValueError('integrated record outside v27/v28 run')
+                row=fields(line)
+                if line.startswith('YOLO32_BATCH_POLICY '):
+                    if active['batch_policy']:raise ValueError('duplicate integrated policy')
+                    active['batch_policy']=row
+                else:
+                    w=number(row,'worker');key='batch_bindings' if line.startswith('YOLO32_BATCH_BIND ') else 'batch_credit'
+                    if w not in range(3) or w in active[key]:raise ValueError('invalid/duplicate integrated worker')
+                    active[key][w]=row
+            elif line.startswith(('YOLO32_CAPACITY ', 'YOLO32_CAPACITY_GAP ')):
+                if active is None:raise ValueError('capacity record outside run')
+                r=fields(line);w=number(r,'worker')
+                if w not in range(3):raise ValueError('invalid capacity worker')
+                summary=line.startswith('YOLO32_CAPACITY ')
+                key=w if summary else (w,number(r,'index'))
+                target=active['capacity_stats' if summary else 'capacity_gaps']
+                if key in target:raise ValueError('duplicate capacity record')
+                target[key]=r
+            elif line.startswith('YOLO32_CREDIT_QUERY '):
+                if active is None:raise ValueError('credit query record outside run')
+                r=fields(line);w=number(r,'worker')
+                if w not in range(3) or w in active['credit_query_stats']:
+                    raise ValueError('invalid/duplicate credit query worker')
+                active['credit_query_stats'][w]=r
+            elif line.startswith('YOLO32_MEMORY '):
+                if active is None: raise ValueError('memory record outside run')
+                r=fields(line); w=number(r,'worker')
+                if w not in range(3) or w in active['memory']:
+                    raise ValueError('invalid/duplicate memory worker')
+                active['memory'][w]=r
+            elif line.startswith(('YOLO32_CREDIT_SOURCE ', 'YOLO32_SUPPLY ', 'YOLO32_CPU_DETAIL ', 'YOLO32_HW_STAGE ', 'YOLO32_FEED_STAGE ', 'YOLO32_HW_TOTAL ')):
+                if active is None: raise ValueError('supply diagnostic record outside run')
+                from supply_diag_log import RECORDS, SOURCES
+                r=fields(line); w=number(r,'worker'); kind=line.split()[0]
+                if w not in range(3): raise ValueError('invalid supply diagnostic worker')
+                target=active[RECORDS[kind]]
+                if kind=='YOLO32_CREDIT_SOURCE':
+                    if r['source'] not in SOURCES: raise ValueError('invalid credit query origin')
+                    key=(w,r['source'])
+                elif kind in ('YOLO32_SUPPLY','YOLO32_HW_TOTAL'): key=w
+                else:
+                    stage=number(r,'stage')
+                    if stage not in range(165): raise ValueError('invalid supply diagnostic stage')
+                    key=(w,stage)
+                if key in target: raise ValueError('duplicate supply diagnostic record')
+                target[key]=r
+            elif line.startswith('YOLO32_CREDIT '):
+                if active is None: raise ValueError('credit record outside run')
+                r=fields(line); w=number(r,'worker')
+                if w not in range(3) or w in active['credit']:
+                    raise ValueError('invalid/duplicate credit worker')
+                active['credit'][w]=r
+            elif line.startswith('YOLO32_WAIT_REUSE '):
+                if active is None or 'wait_reuse_stats' in active:
+                    raise ValueError('outside/duplicate wait reuse summary')
+                active['wait_reuse_stats']=fields(line)
             elif line.startswith('YOLO32_HEAD_EVENT '):
                 if active is None: raise ValueError('head event outside run')
                 r=fields(line);key=(number(r,'worker'),number(r,'head'))
@@ -540,14 +728,15 @@ def parse(text):
 
 def report(runs):
     def config(r):
-        return (r.get('context','full'),r.get('scheduling','fixed'),r.get('submit_burst'),r.get('quantum_us'),r.get('hot_paths',0),r.get('layer_build',0),r.get('fixed_plans',0),r.get('fixed_packets',0),r.get('idle_priority',0),r.get('tail_wait',0),r.get('prepared_packets',0),r.get('ppu_early',0),r.get('head_clean',0),r.get('head_admit',0))
+        return (r.get('context','full'),r.get('scheduling','fixed'),r.get('submit_burst'),r.get('quantum_us'),r.get('hot_paths',0),r.get('layer_build',0),r.get('fixed_plans',0),r.get('fixed_packets',0),r.get('idle_priority',0),r.get('tail_wait',0),r.get('prepared_packets',0),r.get('ppu_early',0),r.get('head_clean',0),r.get('head_admit',0),r.get('wait_reuse',0),r.get('credit_limit',0),r.get('supply_build',0),r.get('memory_ops',0),r.get('resize_batch',0),r.get('resize_rows',0),r.get('credit_query',0),r.get('packet_dispatch',0),r.get('split_diag',0),r.get('diagnostic_build',1),r.get('capacity_experiment',0),r.get('credit_cap',0),r.get('capacity_diag',0),r.get('supply_revision',0))
     configurations = sorted({config(r) for r in runs},key=str)
     if len(configurations) > 1:
         # Full/light logs may be concatenated for an A/B comparison. Never
         # merge their timing samples into a single independent-mode median.
         for c in configurations:
-            context, scheduling, burst, quantum, hot, layers, fixed_plans, fixed_packets, idle_priority, tail_wait, prepared_packets, ppu_early, head_clean, head_admit = c
-            print(f'\nTask context: {context}; scheduling: {scheduling}; submit_burst={burst}; quantum_cycles={quantum*CLOCK//1_000_000 if quantum is not None else None}; hot_paths={hot}; rocc_layer_build={layers}; fixed_plans={fixed_plans}; fixed_packets={fixed_packets}; idle_priority={idle_priority}; tail_wait={tail_wait}; prepared_packets={prepared_packets}; ppu_early={ppu_early}; head_clean={head_clean}; head_admit={head_admit}')
+            context, scheduling, burst, quantum, hot, layers, fixed_plans, fixed_packets, idle_priority, tail_wait, prepared_packets, ppu_early, head_clean, head_admit, wait_reuse, credit_limit, supply_build, memory_ops, resize_batch, resize_rows, credit_query, packet_dispatch, split_diag, diagnostic_build, capacity_experiment, credit_cap, capacity_diag, supply_revision = c
+            print(f'\nTask context: {context}; scheduling: {scheduling}; submit_burst={burst}; quantum_cycles={quantum*CLOCK//1_000_000 if quantum is not None else None}; hot_paths={hot}; rocc_layer_build={layers}; fixed_plans={fixed_plans}; fixed_packets={fixed_packets}; idle_priority={idle_priority}; tail_wait={tail_wait}; prepared_packets={prepared_packets}; ppu_early={ppu_early}; head_clean={head_clean}; head_admit={head_admit}; wait_reuse={wait_reuse}; credit_limit={credit_limit}; supply_diag_build={supply_build}')
+            print(f'memory_ops={memory_ops}; resize_batch={resize_batch}; resize_rows={resize_rows}; credit_query={credit_query}; packet_dispatch={packet_dispatch}; split_diag={split_diag}; diagnostic_build={diagnostic_build}; capacity_experiment={capacity_experiment}; credit_cap={credit_cap}; capacity_diag={capacity_diag}; supply_revision={supply_revision}')
             report([r for r in runs if config(r) == c])
         return
     # Manual t/u commands can precede an automatic benchmark in the same boot.
@@ -565,6 +754,10 @@ def report(runs):
             continue
         b, g = median(r['batch'] for r in rs), median(r['graph'] for r in rs)
         print(f'{m:10} {len(rs):7} {g:13.0f} {b:13.0f} {rg/g:14.3f} {rb/b:14.3f} {3*CLOCK/b:9.3f}')
+    from software_batch_log import report as report_batch
+    report_batch(runs)
+    from capacity_log import report as report_capacity
+    report_capacity(runs)
     serial_layers = None
     for r in runs:
         if not r['analysis']:
@@ -639,6 +832,16 @@ def report(runs):
             p = r['group']
             print(f"  grouped submit={number(p, 'submit_cycles')} cycles drain={number(p, 'wait_cycles')} cycles")
     print('\nBusy overlap is supporting evidence, not speedup or MAC utilization. Stall/event intervals can overlap; do not add them.')
+    from wait_reuse_log import report as report_wait_reuse
+    report_wait_reuse(runs)
+    from credit_log import report as report_credit
+    report_credit(runs)
+    from submit_log import report as report_submit
+    report_submit(runs)
+    from supply_diag_log import report as report_supply
+    report_supply(runs)
+    from memory_log import report as report_memory
+    report_memory(runs)
     if any(r.get('hardware') for r in runs):
         print('Hardware PPU completes Class/DFL/Decode/NMS. CPU reads and checks completed records only.')
         if any(r.get('ppu_early') for r in runs):

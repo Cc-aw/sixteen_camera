@@ -1,7 +1,6 @@
 #ifndef YOLO32_PPU_H
 #define YOLO32_PPU_H
 #include <stdint.h>
-void yolo32_ppu_io_barrier(void);
 #define YOLO32_PPU_DETECTIONS 10U
 /* Preserve the PPU's entire 128-bit result word, including score/class. */
 typedef struct {
@@ -40,4 +39,5 @@ typedef struct {
     Yolo32PpuHeadEvent heads[3][6];
 } Yolo32PpuHeadStats;
 const Yolo32PpuHeadStats *yolo32_ppu_head_stats(void);
+void yolo32_ppu_io_barrier(void);
 #endif

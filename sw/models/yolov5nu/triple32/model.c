@@ -5,48 +5,102 @@
 #include "platform.h"
 #include "mmio.h"
 #include "independent.h"
+#if YOLO32_CAPACITY_DIAG
+#include "capacity_observer.h"
+#endif
+#if YOLO32_MEMORY_OPS
+#include "memory_kernels.h"
+#endif
 
-/* RoCC ready/backpressure owns admission. No software credit CSR polling. */
+/* Keep the old spinning ABI admission disabled. The optional cooperative
+ * credit experiment checks capacity before a complete fixed Conv packet. */
 #define GEMMINI_LOOPCONV_CREDIT_ADMISSION 0
 #define GEMMINI_POOL_COMMAND_STATS 1
+#if YOLO32_SUPPLY_DIAG
+#define GEMMINI_POOL_COMMAND_RETURN_HOOK(funct) do { \
+    if ((funct)==15U || (funct)==8U) { \
+        unsigned _diag_w=gemmini_pool_active_worker; \
+        unsigned _diag_token=yolo32_diag_push(_diag_w,DIAG_POLICY); \
+        yolo32_independent_command_return(funct); \
+        yolo32_diag_pop(_diag_w,_diag_token); \
+    } \
+} while (0)
+#define YOLO32_DIAG_NATIVE_BEGIN() yolo32_diag_native_begin(gemmini_pool_active_worker)
+#define YOLO32_DIAG_NATIVE_END() yolo32_diag_native_end(gemmini_pool_active_worker)
+#else
 #define GEMMINI_POOL_COMMAND_RETURN_HOOK(funct) do { \
     if (!YOLO32_HOT_PATHS || (funct)==15U || (funct)==8U) \
         yolo32_independent_command_return(funct); \
 } while (0)
+#define YOLO32_DIAG_NATIVE_BEGIN() ((void)0)
+#define YOLO32_DIAG_NATIVE_END() ((void)0)
+#endif
 static unsigned parallel_mode, parallel_collecting, parallel_pending;
 static unsigned parallel_stage;
+#if YOLO32_DIAGNOSTIC_BUILD
 static unsigned analysis_enabled;
+#else
+#define analysis_enabled 0U
+#endif
+#if YOLO32_DIAGNOSTIC_BUILD
 static Yolo32CommandStats command_stats[YOLO32_WORKERS][YOLO32_COMMAND_FUNCTS];
+#endif
 #if YOLO32_ROCC_LAYERS
 static Yolo32LayerCommandStats layer_command_stats[YOLO32_WORKERS][YOLO32_GRAPH_STAGES][2];
 #endif
+#if YOLO32_DIAGNOSTIC_BUILD
 static void command_elapsed(unsigned funct, uint64_t cycles);
 #define GEMMINI_POOL_COMMAND_CLOCK(funct) ((analysis_enabled || \
     (YOLO32_SCHED_ADAPTIVE && yolo32_independent_enabled && ((funct)==15U || (funct)==11U))) \
-    ? read_cycle() : UINT64_C(0))
+    ? (YOLO32_DIAG_NATIVE_BEGIN(),read_cycle()) : UINT64_C(0))
 #define GEMMINI_POOL_COMMAND_ELAPSED(funct, start) do { \
     if (analysis_enabled || (YOLO32_SCHED_ADAPTIVE && yolo32_independent_enabled && \
                             ((funct)==15U || (funct)==11U))) { \
         uint64_t elapsed=read_cycle()-(start); \
+        YOLO32_DIAG_NATIVE_END(); \
         if (analysis_enabled) command_elapsed(funct,elapsed); \
         if (YOLO32_SCHED_ADAPTIVE && ((funct)==15U || (funct)==11U)) \
             yolo32_independent_command_elapsed(funct,elapsed); \
     } \
 } while (0)
+#else
+#define GEMMINI_POOL_COMMAND_CLOCK(funct) UINT64_C(0)
+#define GEMMINI_POOL_COMMAND_ELAPSED(funct,start) ((void)(start))
+#endif
 static uint64_t stage_cycles[YOLO32_GRAPH_STAGES];
 static uint64_t group_submit_cycles, group_wait_cycles;
 static unsigned pending_heads[YOLO32_WORKERS];
 static void yolo32_publish_head(unsigned worker, unsigned head);
 static Yolo32ParallelStats parallel_stats;
+#define YOLO32_RECORD_FIXED_RUN(worker,funct) do { \
+    if (parallel_mode && (funct)==15U) ++parallel_stats.requests[worker]; \
+} while (0)
 static void parallel_sample_busy(void);
 static void parallel_drain(void);
 static void yolo32_model_fence(void);
+#if YOLO32_WAIT_REUSE
+static void yolo32_reused_fence(unsigned stage);
+#endif
 /* Also scope fences expanded inside native ABI functions at include time. */
 #define gemmini_fence() yolo32_model_fence()
 #include "parallel_model.inc"
 #include "parallel_stages.inc"
 #include "parallel_executor.inc"
 static void yolo32_model_fence(void) { yolo_profile_fence(); }
+#if YOLO32_MEMORY_OPS
+#include "memory_selftest.inc"
+#endif
+#if YOLO32_WAIT_REUSE
+static void yolo32_reused_fence(unsigned stage) {
+    if (yolo32_independent_try_reuse_wait(stage)) {
+        __asm__ volatile("" ::: "memory");
+        return;
+    }
+    /* Serial/legacy modes and any missing proof keep their original wait. */
+    yolo32_model_fence();
+}
+#endif
+#if YOLO32_DIAGNOSTIC_BUILD
 static void command_elapsed(unsigned funct, uint64_t cycles) {
     unsigned w=gemmini_pool_active_worker;
     if (w>=YOLO32_WORKERS || funct>=YOLO32_COMMAND_FUNCTS) yolo32_fail("command_profile_id");
@@ -64,8 +118,13 @@ static void command_elapsed(unsigned funct, uint64_t cycles) {
     }
 #endif
 }
+#endif
 const Yolo32CommandStats *yolo32_command_stats(unsigned worker, unsigned funct) {
+#if YOLO32_DIAGNOSTIC_BUILD
     return worker<YOLO32_WORKERS && funct<YOLO32_COMMAND_FUNCTS ? &command_stats[worker][funct] : NULL;
+#else
+    (void)worker; (void)funct; return NULL;
+#endif
 }
 
 const Yolo32LayerCommandStats *yolo32_layer_command_stats(unsigned worker,
@@ -189,6 +248,55 @@ unsigned yolo32_independent_ready(unsigned worker, uint32_t requests) {
         independent_counter_read(worker, 1) != expected) return 0;
     return !read_worker_busy(worker);
 }
+#if YOLO32_CREDIT_LIMIT
+#if YOLO32_CAPACITY_EXPERIMENT
+/* Hardware's inclusive SAFE_MAX is four accepted-not-retired requests.
+ * Software-issued accounting also reserves registered ingress lag. The live
+ * entrance gate remains mandatory; this is not a four-packet reservation. */
+_Static_assert(GEMMINI_LOOPCONV_SAFE_MAX == 4 &&
+               YOLO32_CREDIT_LIMIT <= GEMMINI_LOOPCONV_SAFE_MAX,
+               "Capacity experiment requires the verified four-slot ABI");
+#else
+_Static_assert(YOLO32_CREDIT_LIMIT < GEMMINI_LOOPCONV_SAFE_MAX,
+               "Credit experiment must leave one hardware request slot free");
+#endif
+unsigned yolo32_independent_credit_ready(unsigned worker, uint32_t issued,
+                                       uint32_t *pending) {
+    /* CPU-issued minus hardware-retired includes the registered ingress lag.
+     * Merely reading accepted-retired could miss already-issued packets. */
+    uint32_t expected=independent_accepted_base[worker]+issued;
+    *pending=expected-independent_counter_read(worker,1);
+    if (*pending>YOLO32_CREDIT_LIMIT) yolo32_fail("credit_retired_or_budget");
+    uint64_t status=independent_status_read(worker);
+    if (status & UINT64_C(0xc000)) yolo32_fail("independent_ingress_error");
+    /* can_submit also covers the ordered ingress queue and assembler state.
+     * This snapshot is not a reservation for WS/LUT/ordinary commands. */
+#if YOLO32_SUPPLY_DIAG
+    yolo32_diag_credit_status(worker,status);
+#endif
+    return *pending<YOLO32_CREDIT_LIMIT && (status & UINT64_C(2));
+}
+#if YOLO32_CREDIT_QUERY
+uint32_t yolo32_independent_credit_pending(unsigned worker, uint32_t issued) {
+    uint32_t expected=independent_accepted_base[worker]+issued;
+    uint32_t pending=expected-independent_counter_read(worker,1);
+    if (pending>YOLO32_CREDIT_LIMIT) yolo32_fail("credit_retired_or_budget");
+    return pending;
+}
+unsigned yolo32_independent_credit_status(unsigned worker) {
+    uint64_t status=independent_status_read(worker);
+    if (status & UINT64_C(0xc000)) yolo32_fail("independent_ingress_error");
+    return (status & UINT64_C(2)) != 0;
+}
+#if YOLO32_CAPACITY_DIAG
+uint64_t yolo32_capacity_status(unsigned worker) {
+    uint64_t status=independent_status_read(worker);
+    if (status & UINT64_C(0xc000)) yolo32_fail("independent_ingress_error");
+    return status;
+}
+#endif
+#endif
+#endif
 unsigned yolo32_independent_busy_mask(void) { return parallel_busy_mask(); }
 unsigned yolo32_independent_head_mask(unsigned worker) {
     return worker < YOLO32_WORKERS ? pending_heads[worker] : 0;
@@ -229,12 +337,21 @@ int yolo32_parallel_step(Yolo32Result results[YOLO32_WORKERS]) {
 }
 
 void yolo32_set_analysis(unsigned enabled) {
+#if YOLO32_DIAGNOSTIC_BUILD
     analysis_enabled = enabled != 0;
+#else
+    if (enabled) yolo32_fail("diagnostic_image_required");
+#endif
+#if YOLO32_MEMORY_OPS
+    memset(memory_stats,0,sizeof(memory_stats));
+#endif
+#if YOLO32_DIAGNOSTIC_BUILD
     memset(command_stats,0,sizeof(command_stats));
 #if YOLO32_ROCC_LAYERS
     memset(layer_command_stats,0,sizeof(layer_command_stats));
 #endif
     memset(stage_cycles, 0, sizeof(stage_cycles));
+#endif
     group_submit_cycles = group_wait_cycles = 0;
 }
 
@@ -265,6 +382,9 @@ int yolo32_start_hardware(unsigned worker, const int8_t *input, uintptr_t head) 
     if (status < 0) return status;
     yolov5nu_dim16_worker_set_head_slot(worker, head);
     yolov5nu_dim16_worker_use_hardware(worker, 1);
+#if YOLO32_SOFTWARE_BATCH
+    yolo32_batch_bind_start(worker);
+#endif
     completed[worker] = 0;
     return status;
 }
@@ -290,6 +410,9 @@ int yolo32_start(unsigned worker, const int8_t *input) {
     memset(raw_heads[worker], 0x51 + (int)worker, sizeof(raw_heads[worker]));
     yolov5nu_dim16_worker_set_head_slot(worker, (uintptr_t)raw_heads[worker]);
     yolov5nu_dim16_worker_use_hardware(worker, 1);
+#if YOLO32_SOFTWARE_BATCH
+    yolo32_batch_bind_start(worker);
+#endif
     return status;
 }
 
@@ -314,7 +437,34 @@ int yolo32_graph_poll(unsigned worker, Yolo32Result *result) {
         return YOLOV5NU_DIM16_ERROR;
     unsigned stage = yolo32_stage(worker);
     uint64_t start = analysis_enabled ? read_cycle() : 0;
+#if YOLO32_SUPPLY_DIAG
+    unsigned detail=yolo32_diag_enabled() && stage<YOLO32_GRAPH_STAGES;
+    if (detail) {
+        if (!yolo32_independent_enabled) yolo32_diag_owner(worker);
+        yolo32_diag_stage_begin(worker,stage,yolo32_stage_kind(stage));
+        if (yolo32_diag_detail_enabled()) {
+            unsigned token=yolo32_diag_push(worker,DIAG_INSTRUMENT);
+            uint32_t values[6];
+            for (unsigned i=0;i<6;++i) values[i]=frame_counter_read(worker,i);
+            yolo32_diag_hw_begin(worker,values);
+            yolo32_diag_pop(worker,token);
+        }
+    }
+#endif
     int status = yolov5nu_dim16_worker_poll(worker, result);
+#if YOLO32_SUPPLY_DIAG
+    if (detail) {
+        if (yolo32_diag_detail_enabled()) {
+            unsigned token=yolo32_diag_push(worker,DIAG_INSTRUMENT);
+            uint32_t values[6];
+            for (unsigned i=0;i<6;++i) values[i]=frame_counter_read(worker,i);
+            yolo32_diag_hw_end(worker,values);
+            yolo32_diag_pop(worker,token);
+        }
+        yolo32_diag_stage_end(worker);
+        if (!yolo32_independent_enabled) yolo32_diag_owner(3);
+    }
+#endif
     if (analysis_enabled && !yolo32_independent_enabled && stage < YOLO32_GRAPH_STAGES)
         stage_cycles[stage] += read_cycle() - start;
     return status;
@@ -333,3 +483,9 @@ int yolo32_output(unsigned worker, const Yolo32Result *result,
 unsigned yolo32_stage(unsigned worker) {
     return yolov5nu_dim16_worker_stage(worker);
 }
+
+#if YOLO32_SOFTWARE_BATCH
+uint64_t yolo32_batch_binding_init_cycles(void) { return batch_bind_once_cycles; }
+uint64_t yolo32_batch_binding_cycles(unsigned w) { return w<3 ? batch_bind_cycles[w] : 0; }
+uint32_t yolo32_batch_binding_generation(unsigned w) { return w<3 ? batch_binding_generation[w] : 0; }
+#endif

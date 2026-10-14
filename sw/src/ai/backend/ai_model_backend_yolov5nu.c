@@ -124,6 +124,13 @@ void ai_model_backend_init(void)
     rt_postprocess_init();
     rt_arena_manager_init(&arena_manager, AI_MODEL_WORKER_COUNT);
     initialized = 1U;
+#if YOLO32_LIVE && defined(YOLO32_CAPACITY_EXPERIMENT) && YOLO32_CAPACITY_EXPERIMENT
+    console_puts("AI MODEL native=v26 credit_limit=");
+    console_put_u32(YOLO32_CREDIT_LIMIT);
+    console_puts(" memory_ops=1 resize_rows=capacity diagnostic=");
+    console_put_u32(YOLO32_DIAGNOSTIC_BUILD);
+    console_puts("\r\n");
+#endif
 }
 
 int ai_model_backend_submit(const AiModelFrameRequest *request)
@@ -189,7 +196,11 @@ void yolo32_ppu_early_service(void)
 
 __attribute__((noreturn)) void yolo32_fail(const char *reason)
 {
+#if YOLO32_CAPACITY_EXPERIMENT
+    console_puts(YOLO32_FIRMWARE_VERSION " runtime fault: ");
+#else
     console_puts("V17A runtime fault: ");
+#endif
     console_puts(reason);
     console_puts("\r\n");
     for (;;) cpu_wfi();

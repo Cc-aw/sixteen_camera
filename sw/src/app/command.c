@@ -16,7 +16,9 @@ void app_print_help(void)
 #ifdef TENSOR_INGRESS_STATS
     console_puts("g=SoC Tensor ingress snapshot (repeat after >=10s for completed MB/s), ");
 #endif
-#if YOLO32_LIVE
+#if YOLO32_LIVE && YOLO32_CAPACITY_EXPERIMENT
+    console_puts("v26: fixed-image correctness/timing tests use the separate triple32_v26_benchmark ELF. Commands: ");
+#elif YOLO32_LIVE
     console_puts("V17A: fixed-image correctness/timing tests use the separate triple32_v17a_benchmark ELF. Commands: ");
 #else
     console_puts("Commands: t=fixed image all-worker Gemmini test, u/U=fixed image sequential Gemmini test (forward/reverse), T=fixed image Gemmini+PPU test, ");
@@ -45,7 +47,9 @@ void app_dispatch_command(int command)
             console_puts("YOLOV5NU TEST: wait for AI and bandwidth tests to drain\r\n");
             break;
         }
-#if YOLO32_LIVE
+#if YOLO32_LIVE && YOLO32_CAPACITY_EXPERIMENT
+        console_puts("v26: use the triple32_v26_benchmark ELF for three-image correctness and timing tests\r\n");
+#elif YOLO32_LIVE
         console_puts("V17A: use the triple32_v17a_benchmark ELF for three-image correctness and timing tests\r\n");
 #else
         if (command == 't')

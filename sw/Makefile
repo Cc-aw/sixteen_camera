@@ -122,11 +122,11 @@ endif
 
 ifeq ($(SOC_VARIANT),triple32_v3_tensor)
 LOCAL_SOURCES := $(filter-out src/diagnostics/ai_yolov5nu_selftest.c,$(LOCAL_SOURCES))
-include models/yolov5nu/triple32/v17a.mk
-V17A_FLAGS += -DYOLO32_LIVE=1
-CFLAGS := $(V17A_FLAGS) $(CFLAGS) -DYOLO32_LIVE=1
+include models/yolov5nu/triple32/v26.mk
+V26_FLAGS += -DYOLO32_LIVE=1
+CFLAGS := $(V26_FLAGS) $(CFLAGS) -DYOLO32_LIVE=1
 $(BUILD)/ai/postprocess/ai_ppu_publication.o $(BUILD)/ai/postprocess/ai_ppu_queue.o: CFLAGS += -DYOLO32_PPU_ORDERED_MMIO=1
-MODEL_OBJECT := $(V17A_OBJECTS)
+MODEL_OBJECT := $(V26_OBJECTS)
 else
 MODEL_OBJECT := $(BUILD)/yolov5nu_dim16_dual.o
 endif
@@ -172,12 +172,12 @@ OBJECTS := $(BUILD)/platform/startup.o $(LOCAL_OBJECTS) $(MODEL_OBJECT) $(BOARD_
 
 ifeq ($(SOC_VARIANT),triple32_v3_tensor)
 # Include selection and policy flags must also invalidate previously built objects.
-V17A_BUILD_SIGNATURE := $(CFLAGS) $(V17A_FLAGS) $(V17A_CFLAGS) $(LDFLAGS)
-.PHONY: force-v17a-config
-$(BUILD)/v17a/firmware-config.stamp: force-v17a-config
+V26_BUILD_SIGNATURE := $(CFLAGS) $(V26_FLAGS) $(V26_CFLAGS) $(LDFLAGS)
+.PHONY: force-v26-config
+$(BUILD)/v26/firmware-config.stamp: force-v26-config
 	@mkdir -p $(@D)
-	@python3 -c 'import sys; from pathlib import Path; p=Path(sys.argv[1]); v=sys.argv[2]+"\n"; p.write_text(v) if not p.exists() or p.read_text()!=v else None' "$@" "$(V17A_BUILD_SIGNATURE)"
-$(OBJECTS): Makefile $(V17A_ROOT)/v17a.mk $(BUILD)/v17a/firmware-config.stamp
+	@python3 -c 'import sys; from pathlib import Path; p=Path(sys.argv[1]); v=sys.argv[2]+"\n"; p.write_text(v) if not p.exists() or p.read_text()!=v else None' "$@" "$(V26_BUILD_SIGNATURE)"
+$(OBJECTS): Makefile $(V26_ROOT)/v26.mk $(BUILD)/v26/firmware-config.stamp
 endif
 
 .PHONY: all clean size check-tools yolov5nu-regenerate

@@ -13,6 +13,18 @@ uint64_t tick;
 static unsigned selected, stage[3], heads[3], submitted[3], baseline[3];
 static unsigned retired[3], allow_retire[3], publications[3], starts[3];
 static unsigned new_flush[3];
+#if YOLO32_CREDIT_LIMIT
+static unsigned allow_entry[3] = {1, 1, 1};
+uint32_t yolo32_independent_credit_pending(unsigned w, uint32_t issued) {
+    if (allow_retire[w]) retired[w] = submitted[w];
+    uint32_t pending = baseline[w] + issued - retired[w];
+    assert(pending <= YOLO32_CREDIT_LIMIT);
+    return pending;
+}
+unsigned yolo32_independent_credit_status(unsigned w) {
+    return allow_entry[w];
+}
+#endif
 #ifndef __riscv
 static struct { Yolo32TaskContext *key; ucontext_t uc; uintptr_t top; } ctx[4];
 static unsigned used;
@@ -69,17 +81,40 @@ int yolo32_graph_poll(unsigned w, Yolo32Result *r) {
     assert(w == selected);
     unsigned s = stage[w];
     if (s == 0) {
+#if YOLO32_WAIT_REUSE
+        assert(!yolo32_independent_try_reuse_wait(s)); /* No old-frame proof. */
+#endif
+#if YOLO32_CREDIT_LIMIT
+        /* Fill the budget while accepted/retired lag CPU issue. */
+        for (unsigned i = 0; i < 6; ++i) {
+            yolo32_independent_admit_conv();
+#endif
         ++submitted[w];
         yolo32_independent_command_return(15);
         assert(w == selected);
+#if YOLO32_CREDIT_LIMIT
+        }
+#endif
     }
+#if YOLO32_MEMORY_OPS
+    if (s == 2) {
+        yolo32_independent_memory_submit();
+        assert(!yolo32_independent_try_reuse_wait(s));
+    }
+#endif
     static const unsigned head_stage[6] = {124,147,164,123,146,163};
     for (unsigned h = 0; h < 6; ++h) if (s == head_stage[h]) {
+#if YOLO32_CREDIT_LIMIT
+        yolo32_independent_admit_conv();
+#endif
         ++submitted[w];
         yolo32_independent_arm_tail_wait(15);
         yolo32_independent_command_return(15);
         yolo32_independent_wait();
         assert(w == selected && retired[w] == submitted[w]);
+#if YOLO32_WAIT_REUSE
+        assert(yolo32_independent_try_reuse_wait(s));
+#endif
         yolo32_independent_head_ready(w, h);
         heads[w] |= 1U << h;
     }
@@ -109,8 +144,18 @@ int main(void) {
     yolo32_independent_live_init();
     assert(yolo32_independent_step() == 0);
     start(2); /* Worker 0/1 absent; do not require a three-frame batch. */
+#if YOLO32_CREDIT_LIMIT
+    allow_entry[2] = 0;
+    for (unsigned i = 0; i < 20; ++i) yolo32_independent_step();
+    assert(submitted[2] == baseline[2]); /* Fresh inlet permission required. */
+    allow_entry[2] = 1;
+    for (unsigned i = 0; i < 1000; ++i) yolo32_independent_step();
+    assert(stage[2] == 0 && submitted[2] - retired[2] == YOLO32_CREDIT_LIMIT);
+    assert(yolo32_independent_stats()->credit_max_pending[2] == YOLO32_CREDIT_LIMIT);
+#else
     for (unsigned i = 0; i < 1000 && stage[2] < 123; ++i) yolo32_independent_step();
     assert(stage[2] == 123 && heads[2] == 0);
+#endif
     uint64_t before = tick;
     for (unsigned i = 0; i < 5; ++i) yolo32_independent_step();
     assert(tick - before < 100); /* All WAITING returns to the video loop. */
@@ -126,7 +171,13 @@ int main(void) {
     start(1); allow_retire[1] = allow_retire[2] = 1; finish(7);
     for (unsigned w = 0; w < 3; ++w) {
         assert(publications[w] == 63 && yolo32_independent_finished(w));
-        assert(yolo32_independent_stats()->conv_requests[w] == 7);
+        const Yolo32IndependentStats *stats = yolo32_independent_stats();
+        assert(stats->conv_requests[w] == (YOLO32_CREDIT_LIMIT ? 12 : 7));
+#if YOLO32_CREDIT_LIMIT
+        assert(stats->credit_admitted[w] == stats->conv_requests[w]);
+        assert(stats->credit_max_pending[w] <= YOLO32_CREDIT_LIMIT);
+        assert(stats->credit_yields[w] == stats->credit_resumes[w]);
+#endif
     }
     tick += UINT64_C(1000000000); /* Persistent idle pool has no batch timeout. */
     yolo32_independent_step();

@@ -15,7 +15,7 @@ HERE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(HERE))
 from generate_parallel import function
 
-TOOLCHAIN = Path(os.environ.get('RISCV_TOOLCHAIN_DIR', str(Path(shutil.which('riscv64-unknown-linux-gnu-gcc') or 'riscv64-unknown-linux-gnu-gcc').parent)))
+TOOLCHAIN = Path('/home/wzr/chipyard/.conda-env/riscv-tools/bin')
 
 
 class EarlyPpuTests(unittest.TestCase):
@@ -24,7 +24,7 @@ class EarlyPpuTests(unittest.TestCase):
         cls.tmp = tempfile.TemporaryDirectory(prefix='yolo32-early-')
         root = Path(cls.tmp.name); local = root/'triple32'; local.mkdir()
         (root/'dim16_dual').mkdir()
-        for name in ('independent.c', 'independent.h', 'task_context_config.h', 'task_switch.S',
+        for name in ('independent.c', 'independent.h', 'diagnostics.h', 'task_context_config.h', 'task_switch.S',
                      'ppu.c', 'ppu.h', 'ppu_early.inc', 'ppu_head_clean.inc', 'yolo32.h'):
             shutil.copy(HERE/name, local/name)
         # Count fallback/global fences in the host model; its assert forbids
@@ -36,7 +36,7 @@ class EarlyPpuTests(unittest.TestCase):
         for name in ('yolov5nu_dim16_dual.h', 'yolov5nu_head_layout.h'):
             shutil.copy(HERE/'native'/name, local/name)
         for name in ('console.h', 'platform.h'):
-            shutil.copy(HERE.parents[3]/'sw/src/platform'/name, local/name)
+            shutil.copy(HERE/name, local/name)
         (local/'mmio.h').write_text('''#include <stdint.h>
 uint32_t mmio_read32(uintptr_t); void mmio_write32(uintptr_t,uint32_t);
 uint64_t read_cycle(void); void test_full_fence(void); void yolo32_ppu_io_barrier(void);

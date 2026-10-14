@@ -115,7 +115,7 @@ int main(int argc,char **argv){
         cls.exe=root/'ppu-test'
         sources=[local/'ppu.c',local/'test.c',ref/'ai/postprocess/ai_ppu_publication.c',ref/'ai/postprocess/ai_ppu_queue.c',ref/'ai/runtime/ai_head_slot_queue.c']
         subprocess.run(['gcc','-std=c11','-O2','-Wall','-Wextra','-Werror','-I'+str(local),'-I'+str(ref),
-                        '-I'+str(root/'dim16_dual')]+list(map(str,sources))+['-o',str(cls.exe)],check=True,capture_output=True)
+                        '-I'+str(root/'dim16_dual'),'-I'+str(HERE.parents[3]/'sw/src')]+list(map(str,sources))+['-o',str(cls.exe)],check=True,capture_output=True)
 
     @classmethod
     def tearDownClass(cls):cls.tmp.cleanup()

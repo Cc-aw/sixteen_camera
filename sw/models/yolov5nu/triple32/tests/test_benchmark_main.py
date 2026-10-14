@@ -21,7 +21,7 @@ class BenchmarkMainTests(unittest.TestCase):
         source = root/'triple32'
         source.mkdir()
         (root/'dim16_dual').mkdir()
-        for name in ('main.c', 'yolo32.h', 'compare.c', 'ppu.h', 'independent.h', 'task_context_config.h'):
+        for name in ('main.c', 'yolo32.h', 'compare.c', 'ppu.h', 'independent.h', 'diagnostics.h', 'diagnostics.c', 'task_context_config.h'):
             shutil.copy(HERE/name, source/name)
         for name in ('yolov5nu_dim16_dual.h', 'yolov5nu_head_layout.h'):
             shutil.copy(HERE/'native'/name, source/name)
@@ -161,6 +161,21 @@ void yolo32_independent_begin(unsigned a) {
  independent_stats.ready_checks=7;independent_stats.ready_blocked=5;independent_stats.idle_steps=2;
  independent_stats.switch_cycles=30;independent_stats.switch_count=180;}
  if(a&&YOLO32_TAIL_WAIT)independent_stats.switch_count=192;
+#if YOLO32_WAIT_REUSE
+ independent_stats.wait_yields=1023;
+ for(unsigned w=0;w<3;w++){independent_stats.wait_reused[w]=13;independent_stats.resumes[w]=371;}
+ if(a)independent_stats.switch_count=2226;
+#endif
+#if YOLO32_CREDIT_LIMIT
+ for(unsigned w=0;w<3;w++){
+   independent_stats.credit_admitted[w]=500;independent_stats.credit_checks[w]=504;
+   independent_stats.credit_blocked[w]=2;independent_stats.credit_yields[w]=2;
+   independent_stats.credit_resumes[w]=2;independent_stats.credit_max_pending[w]=3;
+   independent_stats.credit_wait_cycles[w]=a?12:0;independent_stats.credit_check_cycles[w]=a?9:0;
+   independent_stats.resumes[w]+=2;
+ }
+ if(a)independent_stats.switch_count+=12;
+#endif
  if(a){independent_stats.ahead_submissions=1;independent_stats.overlap_samples=20;
  independent_stats.triple_overlap_samples=10;independent_stats.busy_mask_seen=7;
  independent_stats.trace_count=1;independent_stats.traces[0].worker=1;
@@ -240,20 +255,324 @@ void yolo32_fail(const char *s) { fprintf(stderr,"FAIL: %s\n",s);exit(42); }
                 f'-DYOLO32_PPU_HEAD_ADMIT={mode}',str(source/'main.c'),str(source/'compare.c'),str(source/'fake.c'),
                 '-o',str(exe)],check=True,capture_output=True)
             cls.head_exe[mode]=exe
+        cls.wait_exe=root/'wait-main'
+        subprocess.run(['gcc','-std=c11','-O2','-Wall','-Wextra','-Werror',
+            '-DYOLOV5NU_DIM16_WORKER_COUNT=3U','-DYOLO32_FIXED_PLANS=1','-DYOLO32_FIXED_PACKETS=1',
+            '-DYOLO32_IDLE_PRIORITY=1','-DYOLO32_TAIL_WAIT=1','-DYOLO32_SCHED_ADAPTIVE=0',
+            '-DYOLO32_PREPARED_PACKETS=1','-DYOLO32_PPU_EARLY=1','-DYOLO32_PPU_HEAD_CLEAN=1',
+            '-DYOLO32_WAIT_REUSE=1',str(source/'main.c'),str(source/'compare.c'),str(source/'fake.c'),
+            '-o',str(cls.wait_exe)],check=True,capture_output=True)
+        cls.credit_exe=root/'credit-main'
+        subprocess.run(['gcc','-std=c11','-O2','-Wall','-Wextra','-Werror',
+            '-DYOLOV5NU_DIM16_WORKER_COUNT=3U','-DYOLO32_FIXED_PLANS=1','-DYOLO32_FIXED_PACKETS=1',
+            '-DYOLO32_IDLE_PRIORITY=1','-DYOLO32_TAIL_WAIT=1','-DYOLO32_SCHED_ADAPTIVE=0',
+            '-DYOLO32_PREPARED_PACKETS=1','-DYOLO32_PPU_EARLY=1','-DYOLO32_PPU_HEAD_CLEAN=1',
+            '-DYOLO32_WAIT_REUSE=1','-DYOLO32_CREDIT_LIMIT=3',str(source/'main.c'),str(source/'compare.c'),str(source/'fake.c'),
+            '-o',str(cls.credit_exe)],check=True,capture_output=True)
+        # Real main + real diagnostic printer, with a deterministic backend.
+        # Numerical accelerator execution remains a board-only validation.
+        diag_fake=(source/'fake.c').read_text()
+        fill=r'''
+static void diag_fill(unsigned w) {
+ if(!yolo32_diag_enabled())return;
+ yolo32_diag_owner(w);
+ for(unsigned stage=0;stage<165;stage++){
+   yolo32_diag_stage_begin(w,stage,"conv");
+   uint32_t counters[6]={0};yolo32_diag_hw_begin(w,counters);
+   if(!stage && grouped==2){
+     for(unsigned n=0;n<500;n++){
+       yolo32_diag_work(w,1);yolo32_diag_credit_status(w,2);
+       yolo32_diag_credit_record(w,0,DIAG_ADMIT,n==0?9:0);
+       yolo32_diag_admitted(w,0);yolo32_diag_packet_start(w);
+     }
+     for(unsigned n=0;n<2;n++){
+       yolo32_diag_credit_status(w,2);yolo32_diag_credit_record(w,0,DIAG_OBSERVE,0);
+       yolo32_diag_credit_record(w,3,DIAG_SCHEDULER,0);
+     }
+   }
+   unsigned token=yolo32_diag_push(w,DIAG_PREPARE);host_cycle+=2;
+   yolo32_diag_pop(w,token);yolo32_diag_hw_end(w,counters);yolo32_diag_stage_end(w);
+ }
+ yolo32_diag_owner(3);
+}
+'''
+        diag_fake=diag_fake.replace('static Yolo32IndependentStats independent_stats;',
+                                    'static Yolo32IndependentStats independent_stats;'+fill,1)
+        diag_fake=diag_fake.replace('task_stage={1000,2000}','task_stage={10000,20000}',1)
+        diag_fake=diag_fake.replace('return s+1;', '(void)s;return 100000;',1)
+        diag_fake=diag_fake.replace('int yolo32_graph_poll(unsigned w,Yolo32Result *r) {',
+                                    'int yolo32_graph_poll(unsigned w,Yolo32Result *r) {diag_fill(w);',1)
+        diag_fake=diag_fake.replace('unsigned w=order[count];assert(active[w]);active[w]=0;ready[w]=1;host_cycle+=1400;',
+                                    'unsigned w=order[count];assert(active[w]);active[w]=0;ready[w]=1;host_cycle+=1400;diag_fill(w);',1)
+        (source/'diag_fake.c').write_text(diag_fake)
+        cls.supply_exe=root/'supply-main'
+        subprocess.run(['gcc','-std=c11','-O2','-Wall','-Wextra','-Werror',
+            '-DYOLOV5NU_DIM16_WORKER_COUNT=3U','-DYOLO32_FIXED_PLANS=1','-DYOLO32_FIXED_PACKETS=1',
+            '-DYOLO32_IDLE_PRIORITY=1','-DYOLO32_TAIL_WAIT=1','-DYOLO32_SCHED_ADAPTIVE=0',
+            '-DYOLO32_PREPARED_PACKETS=1','-DYOLO32_PPU_EARLY=1','-DYOLO32_PPU_HEAD_CLEAN=1',
+            '-DYOLO32_WAIT_REUSE=1','-DYOLO32_CREDIT_LIMIT=3','-DYOLO32_ROCC_LAYERS=1','-DYOLO32_SUPPLY_DIAG=1',
+            str(source/'main.c'),str(source/'compare.c'),str(source/'diagnostics.c'),str(source/'diag_fake.c'),
+            '-o',str(cls.supply_exe)],check=True,capture_output=True)
+
+        # New firmware printer and parser with unchanged hardware-only PPU API.
+        shutil.copy(HERE/'memory_kernels.h',source/'memory_kernels.h')
+        memory_fake=(source/'fake.c').read_text().replace('#include "independent.h"',
+            '#include "independent.h"\n#include "memory_kernels.h"',1)
+        memory_fake=memory_fake.replace('static unsigned active[3]',r'''
+static Yolo32MemoryStats memory_counts;
+const Yolo32MemoryStats *yolo32_memory_stats(unsigned w){
+ (void)w;memory_counts=(Yolo32MemoryStats){3,2,1944,624,YOLO32_MEMORY_WAITS,0};return &memory_counts;
+}
+void yolo32_memory_test(void){}
+static unsigned active[3]''',1)
+        memory_fake=memory_fake.replace('memory_counts=(Yolo32MemoryStats){3,2,1944,624,YOLO32_MEMORY_WAITS,0}',
+            'memory_counts=(Yolo32MemoryStats){3,2,1944,624,YOLO32_MEMORY_WAITS,analysis?1:0}',1)
+        # The getter follows the existing definition of analysis.
+        a=memory_fake.index('static Yolo32MemoryStats memory_counts;')
+        b=memory_fake.index('static unsigned active[3]',a)
+        getter=memory_fake[a:b]
+        memory_fake=memory_fake[:a]+memory_fake[b:]
+        mark='static int8_t heads[3]'
+        memory_fake=memory_fake.replace(mark,getter+mark,1)
+        memory_fake=memory_fake.replace('static const Yolo32CommandStats conv={500,500,1},matmul={10,10,1},none={0,0,0};',
+            'static const Yolo32CommandStats conv={500,500,1},matmul={10,10,1},none={0,0,0},mvin={1944,1944,1},mvout={624,624,1};',1)
+        memory_fake=memory_fake.replace('(void)w;return f==15?&conv:',
+            '(void)w;return f==2?&mvin:f==3?&mvout:f==15?&conv:',1)
+        memory_fake=memory_fake.replace('if(a){independent_stats.ahead_submissions=1;',
+            'independent_stats.wait_yields+=3*YOLO32_MEMORY_WAITS;for(unsigned w=0;w<3;w++)independent_stats.resumes[w]+=YOLO32_MEMORY_WAITS;'
+            'if(a)independent_stats.switch_count+=6*YOLO32_MEMORY_WAITS;\nif(a){independent_stats.ahead_submissions=1;',1)
+        memory_fake=memory_fake.replace('task_wall_cycles[w]=1000','task_wall_cycles[w]=170000',1)
+        memory_fake=memory_fake.replace('step_cycles=3100','step_cycles=510100',1)
+        memory_fake=memory_fake.replace('host_cycle+=1400','host_cycle+=180000',1)
+        memory_fake=memory_fake.replace('host_cycle+=grouped?5:100','host_cycle+=grouped?5:200000',1)
+        (source/'memory_fake.c').write_text(memory_fake)
+        cls.memory_exe=root/'memory-main'
+        subprocess.run(['gcc','-std=c11','-O2','-Wall','-Wextra','-Werror',
+            '-DYOLOV5NU_DIM16_WORKER_COUNT=3U','-DYOLO32_FIXED_PLANS=1','-DYOLO32_FIXED_PACKETS=1',
+            '-DYOLO32_IDLE_PRIORITY=1','-DYOLO32_TAIL_WAIT=1','-DYOLO32_SCHED_ADAPTIVE=0',
+            '-DYOLO32_PREPARED_PACKETS=1','-DYOLO32_PPU_EARLY=1','-DYOLO32_PPU_HEAD_CLEAN=1',
+            '-DYOLO32_WAIT_REUSE=1','-DYOLO32_CREDIT_LIMIT=3','-DYOLO32_MEMORY_OPS=1',
+            str(source/'main.c'),str(source/'compare.c'),str(source/'memory_fake.c'),
+            '-o',str(cls.memory_exe)],check=True,capture_output=True)
+        cls.memory_rocc_exe=root/'memory-rocc-main'
+        subprocess.run(['gcc','-std=c11','-O2','-Wall','-Wextra','-Werror',
+            '-DYOLOV5NU_DIM16_WORKER_COUNT=3U','-DYOLO32_FIXED_PLANS=1','-DYOLO32_FIXED_PACKETS=1',
+            '-DYOLO32_IDLE_PRIORITY=1','-DYOLO32_TAIL_WAIT=1','-DYOLO32_SCHED_ADAPTIVE=0',
+            '-DYOLO32_PREPARED_PACKETS=1','-DYOLO32_PPU_EARLY=1','-DYOLO32_PPU_HEAD_CLEAN=1',
+            '-DYOLO32_WAIT_REUSE=1','-DYOLO32_CREDIT_LIMIT=3','-DYOLO32_MEMORY_OPS=1','-DYOLO32_ROCC_LAYERS=1',
+            str(source/'main.c'),str(source/'compare.c'),str(source/'memory_fake.c'),
+            '-o',str(cls.memory_rocc_exe)],check=True,capture_output=True)
+        cls.resize_exe={}
+        for rows in (0,4):
+            for layers in (False,True):
+                exe=root/f'resize-main-{rows}-{int(layers)}';cls.resize_exe[rows,layers]=exe
+                subprocess.run(['gcc','-std=c11','-O2','-Wall','-Wextra','-Werror',
+                    '-DYOLOV5NU_DIM16_WORKER_COUNT=3U','-DYOLO32_FIXED_PLANS=1','-DYOLO32_FIXED_PACKETS=1',
+                    '-DYOLO32_IDLE_PRIORITY=1','-DYOLO32_TAIL_WAIT=1','-DYOLO32_SCHED_ADAPTIVE=0',
+                    '-DYOLO32_PREPARED_PACKETS=1','-DYOLO32_PPU_EARLY=1','-DYOLO32_PPU_HEAD_CLEAN=1',
+                    '-DYOLO32_WAIT_REUSE=1','-DYOLO32_CREDIT_LIMIT=3','-DYOLO32_MEMORY_OPS=1',
+                    '-DYOLO32_RESIZE_BATCH=1',f'-DYOLO32_RESIZE_ROWS={rows}',f'-DYOLO32_ROCC_LAYERS={int(layers)}',
+                    str(source/'main.c'),str(source/'compare.c'),str(source/'memory_fake.c'),
+                    '-o',str(exe)],check=True,capture_output=True)
+        submit_fake=memory_fake.replace('independent_stats.credit_check_cycles[w]=a?9:0;',
+            'independent_stats.credit_check_cycles[w]=a?9:0;\n#if YOLO32_CREDIT_QUERY\n'
+            'if(a)independent_stats.credit_queries[w]=(Yolo32CreditQueryStats){.retired_reads=502,.status_reads=502,.retirement_reused=2,.budget_rejects=2,.resume_rechecks=2,.sources={0,2,500,2}};\n#endif',1)
+        (source/'submit_fake.c').write_text(submit_fake)
+        cls.submit_exe={}
+        for name,packet,split,diagnostic,layers in [('credit',0,0,1,0),('packet',1,0,1,0),('fast',1,1,0,0),('diag',1,1,1,1)]:
+            exe=root/f'submit-main-{name}';cls.submit_exe[name]=exe
+            subprocess.run(['gcc','-std=c11','-O2','-Wall','-Wextra','-Werror',
+                '-DYOLOV5NU_DIM16_WORKER_COUNT=3U','-DYOLO32_FIXED_PLANS=1','-DYOLO32_FIXED_PACKETS=1',
+                '-DYOLO32_IDLE_PRIORITY=1','-DYOLO32_TAIL_WAIT=1','-DYOLO32_SCHED_ADAPTIVE=0',
+                '-DYOLO32_PREPARED_PACKETS=1','-DYOLO32_PPU_EARLY=1','-DYOLO32_PPU_HEAD_CLEAN=1',
+                '-DYOLO32_WAIT_REUSE=1','-DYOLO32_CREDIT_LIMIT=3','-DYOLO32_MEMORY_OPS=1',
+                '-DYOLO32_RESIZE_BATCH=1','-DYOLO32_CREDIT_QUERY=1',f'-DYOLO32_PACKET_DISPATCH={packet}',
+                f'-DYOLO32_SPLIT_DIAG={split}',f'-DYOLO32_DIAGNOSTIC_BUILD={diagnostic}',f'-DYOLO32_ROCC_LAYERS={layers}',
+                str(source/'main.c'),str(source/'compare.c'),str(source/'submit_fake.c'),'-o',str(exe)],check=True,capture_output=True)
 
     @classmethod
     def tearDownClass(cls):
         cls.tmp.cleanup()
 
-    def invoke(self, commands, corrupt=False, layers=False, scheduled=False, prepared=False, early=False, head=None):
+    def invoke(self, commands, corrupt=False, layers=False, scheduled=False, prepared=False, early=False, head=None, wait=False, credit=False, supply=False, memory=False, resize=None, submit=None):
         import os
         env = dict(os.environ, COMMANDS=commands)
         if corrupt:
             env['CORRUPT']='1'
         exe=self.early_exe if early else self.prepared_exe if prepared else self.scheduled_exe if scheduled else self.layer_exe if layers else self.exe
         if head is not None:exe=self.head_exe[head]
+        if wait:exe=self.wait_exe
+        if credit:exe=self.credit_exe
+        if supply:exe=self.supply_exe
+        if memory:exe=self.memory_rocc_exe if layers else self.memory_exe
+        if resize is not None:exe=self.resize_exe[resize,layers]
+        if submit is not None:exe=self.submit_exe[submit]
         result = subprocess.run([exe], env=env, check=True, text=True, capture_output=True)
         return result.stdout
+
+    def test_submit_staged_main_hardware_ppu_formal_and_diagnostic_capabilities(self):
+        for name,version in [('credit',23),('packet',24),('fast',25),('diag',25)]:
+            for commands in ('t','a'):
+                with self.subTest(name=name,commands=commands):
+                    raw=self.invoke(commands,submit=name);errors,runs=parse(raw)
+                    self.assertEqual(errors,[])
+                    self.assertIn(f'YOLO32_FIRMWARE v{version} ',raw)
+                    self.assertTrue(all(r['credit_query']==1 and r['resize_rows']==0 for r in runs))
+                    analyses=[r for r in runs if r['analysis']]
+                    if commands=='a':self.assertEqual(len(analyses),0 if name=='fast' else 5)
+                    if name=='fast':
+                        self.assertNotIn('YOLO32_ROCC ',raw)
+                        self.assertTrue(all(r['diagnostic_build']==0 for r in runs))
+                    elif commands=='a':self.assertIn('YOLO32_CREDIT_QUERY ',raw)
+                    for changed in [raw.replace('credit_query=0x0000000000000001','credit_query=0x0000000000000000',1),
+                                    raw.replace(f'YOLO32_FIRMWARE v{version}','YOLO32_FIRMWARE v22',1)]:
+                        self.assertTrue(parse(changed)[0])
+        self.assertIn('YOLO32_RESULT FAIL',self.invoke('t',submit='fast',corrupt=True))
+        raw=self.invoke('tpq',submit='fast');self.assertEqual(parse(raw)[0],[])
+        self.assertIn('--submit-fast-diag',raw);self.assertNotIn('phase=analysis',raw)
+
+    def test_submit_diagnostic_records_reject_missing_or_miscounted_reads(self):
+        raw=self.invoke('q',submit='diag');errors,runs=parse(raw)
+        self.assertEqual(errors,[])
+        self.assertEqual(sum(len(r['credit_query_stats']) for r in runs),3)
+        for changed in [raw.replace('retired_reads=0x00000000000001F6','retired_reads=0x00000000000001F5',1),
+                        '\n'.join(l for l in raw.splitlines() if not l.startswith('YOLO32_CREDIT_QUERY '))]:
+            self.assertTrue(parse(changed)[0])
+
+    def test_reports_separate_resize_batch_and_submission_variants(self):
+        import contextlib,io
+        from analyze_log import report
+        raw=self.invoke('a',resize=0)+self.invoke('a',resize=4)+self.invoke('a',submit='fast')
+        errors,runs=parse(raw);self.assertEqual(errors,[])
+        with contextlib.redirect_stdout(io.StringIO()) as out:report(runs)
+        self.assertEqual(out.getvalue().count('mode       samples'),3)
+        self.assertIn('split_diag=1; diagnostic_build=0',out.getvalue())
+
+    def test_memory_real_main_benchmark_hardware_ppu_and_strict_parser(self):
+        for commands in ('t','a'):
+            raw=self.invoke(commands,memory=True)
+            self.assertIn('YOLO32_FIRMWARE v21 ',raw)
+            self.assertIn('memory_ops=0x0000000000000001',raw)
+            errors,runs=parse(raw)
+            self.assertEqual(errors,[])
+            self.assertTrue(all(r['memory_ops']==1 and len(r['memory'])==3 for r in runs))
+            self.assertIn('YOLO32_MEMORY',raw)
+            self.assertTrue(parse(raw.replace('mvin=0x0000000000000798','mvin=0x0000000000000797',1))[0])
+            self.assertTrue(parse(raw.replace('memory_ops=0x0000000000000001','memory_ops=0x0000000000000000',1))[0])
+        self.assertIn('YOLO32_RESULT FAIL',self.invoke('t',memory=True,corrupt=True))
+
+    def test_memory_real_main_rocc_diagnosis_counts_and_report(self):
+        import contextlib,io
+        from analyze_log import report
+        raw=self.invoke('q',memory=True,layers=True)
+        errors,runs=parse(raw)
+        self.assertEqual(errors,[])
+        self.assertTrue(any(r['rocc_layers'] for r in runs))
+        with contextlib.redirect_stdout(io.StringIO()) as output:report(runs)
+        self.assertIn('Mvin=1944 Mvout=624',output.getvalue())
+
+    def test_resize_batch_real_main_hardware_ppu_and_strict_parser(self):
+        for rows,waits in ((0,34),(4,56)):
+            for commands in ('t','a','q'):
+                with self.subTest(rows=rows,commands=commands):
+                    raw=self.invoke(commands,resize=rows,layers=commands=='q')
+                    errors,runs=parse(raw)
+                    self.assertEqual(errors,[])
+                    self.assertIn('YOLO32_FIRMWARE v22 ',raw)
+                    self.assertTrue(all(r['resize_batch']==1 and r['resize_rows']==rows for r in runs))
+                    self.assertTrue(all(int(r['memory'][w]['waits'],0)==waits for r in runs for w in range(3)))
+                    for changed in [raw.replace('YOLO32_FIRMWARE v22','YOLO32_FIRMWARE v21',1),
+                                    raw.replace('resize_batch=0x0000000000000001','resize_batch=0x0000000000000000',1),
+                                    raw.replace(f' resize_rows=0x{rows:016X}','',1),
+                                    raw.replace(f'waits=0x{waits:016X}','waits=0x0000000000000090',1)]:
+                        self.assertTrue(parse(changed)[0])
+        self.assertIn('YOLO32_RESULT FAIL',self.invoke('t',resize=0,corrupt=True))
+
+    def test_supply_real_main_complete_printer_and_boot(self):
+        for command in ('q','a'):
+            log=self.invoke(command,supply=True)
+            errors,runs=parse(log)
+            self.assertEqual(errors,[],str(errors)+log[-1500:])
+            self.assertIn('YOLO32_FIRMWARE v20',log)
+            diagnosed=[r for r in runs if r['supply_diag']]
+            self.assertEqual([r['mode'] for r in diagnosed],['forward','independent'])
+            self.assertTrue(all(len(r['cpu_details'])==495 and len(r['hw_stages'])==495 for r in diagnosed))
+            self.assertEqual(len(diagnosed[-1]['credit_sources']),15)
+
+    def test_supply_missing_duplicate_or_unflagged_data_is_rejected(self):
+        log=self.invoke('q',supply=True)
+        cpu=next(l for l in log.splitlines() if l.startswith('YOLO32_CPU_DETAIL '))
+        origin=next(l for l in log.splitlines() if l.startswith('YOLO32_CREDIT_SOURCE '))
+        for old,new in ((cpu,''),(origin,''),(cpu,cpu+'\n'+cpu),
+                        ('YOLO32_FIRMWARE v20','YOLO32_FIRMWARE v19'),
+                        (' source=admit ',' source=wrong '),(' budget_only=2 ',' budget_only=1 ')):
+            with self.subTest(old=old):
+                self.assertTrue(parse(log.replace(old,new,1))[0])
+
+    def test_supply_light_command_then_full_detail_restores_scopes(self):
+        log=self.invoke('dq',supply=True)
+        errors,runs=parse(log)
+        self.assertEqual(errors,[],str(errors)+log[-2000:])
+        diagnosed=[r for r in runs if r['supply_diag']]
+        self.assertEqual([r['supply_detail'] for r in diagnosed],[0,0,1,1])
+        self.assertTrue(all(not r['cpu_details'] and not r['hw_stages'] for r in diagnosed[:2]))
+        self.assertTrue(all(len(r['hw_totals'])==3 for r in diagnosed))
+
+    def test_credit_real_main_benchmark_and_boot(self):
+        for command in ('a','p','0uUt'):
+            log=self.invoke(command,credit=True)
+            errors,runs=parse(log)
+            self.assertEqual(errors,[],log[-3000:])
+            self.assertIn('YOLO32_FIRMWARE v19',log)
+            for run in runs:
+                self.assertEqual(run['credit_limit'],3)
+                if run['mode']=='independent':
+                    self.assertEqual(set(run['credit']),{0,1,2})
+                else:self.assertFalse(run['credit'])
+        self.assertIn('--credit-three-rocc',self.invoke('q',credit=True))
+
+    def test_credit_records_flags_and_capacity_are_strict(self):
+        log=self.invoke('p',credit=True)
+        record=next(l for l in log.splitlines() if l.startswith('YOLO32_CREDIT '))
+        for old,new in ((record,''),(record,record+'\n'+record),
+                        ('credit_limit=0x0000000000000003','credit_limit=2'),
+                        ('max_pending=0x0000000000000003','max_pending=4'),
+                        ('admitted=0x00000000000001F4','admitted=499'),
+                        ('resumes=0x0000000000000002','resumes=1')):
+            with self.subTest(old=old):
+                self.assertIn(old,log)
+                self.assertTrue(parse(log.replace(old,new,1))[0])
+        stripped='\n'.join(l.replace(' credit_limit=0x0000000000000003','') for l in log.splitlines())
+        self.assertTrue(parse(stripped)[0])
+        self.assertTrue(parse(log.replace('YOLO32_FIRMWARE v19','YOLO32_FIRMWARE v18',1))[0])
+
+    def test_wait_reuse_real_main_benchmark_and_boot(self):
+        for command in ('a','p','0uUt'):
+            log=self.invoke(command,wait=True)
+            errors,runs=parse(log)
+            self.assertEqual(errors,[],log[-2000:])
+            self.assertIn('YOLO32_FIRMWARE v18',log)
+            for run in runs:
+                self.assertEqual(run['wait_reuse'],1)
+                if run['mode']=='independent':
+                    self.assertEqual(int(run['policy']['wait_yields'],0),1023)
+                    self.assertEqual(int(run['wait_reuse_stats']['merged0'],0),13)
+        self.assertIn('--wait-reuse-rocc',self.invoke('q',wait=True))
+
+    def test_wait_reuse_records_boot_flags_and_accounting_are_strict(self):
+        log=self.invoke('p',wait=True)
+        summary=next(l for l in log.splitlines() if l.startswith('YOLO32_WAIT_REUSE '))
+        for old,new in ((summary,''),(summary,summary+'\n'+summary),
+                        ('merged0=0x000000000000000D','merged0=12'),
+                        ('fallback2=0x0000000000000000','fallback2=1'),
+                        ('wait_reuse=0x0000000000000001','wait_reuse=0'),
+                        ('head_admit=0x0000000000000000','head_admit=1')):
+            with self.subTest(field=old):
+                self.assertIn(old,log)
+                self.assertTrue(parse(log.replace(old,new,1))[0])
+        stripped='\n'.join(l.replace(' wait_reuse=0x0000000000000001','')
+                           for l in log.splitlines() if not l.startswith('YOLO32_WAIT_REUSE '))
+        self.assertTrue(parse(stripped)[0])
 
     def test_early_ppu_benchmark_and_manual_logs(self):
         for commands in ('a','t','p','0uUt'):

@@ -24,4 +24,5 @@
 
 `validation/` 中其余文件保留已有视频、FBus、PPU 和物理时序验证证据。它们对应各自测试版本；旧命令和本机路径作为历史上下文保留，不能代替本次重构或新 SoC 的验收。已退休的方案和实现可从 Git 历史查询。
 
-- [V3 + Tensor 的 V17 A 软件移植](integration/triple32-v17a-software.md)：共享基准/实时核心、构建、Head 生命周期及验证边界。
+- [V3 + Tensor 的 v26 软件移植](integration/triple32-v26-software.md)：credit=4、硬件 Pool/Resize、实时整合与板测步骤；[离线验收](validation/triple32-v26.md)。
+- [V3 + Tensor 的 V17 A 软件移植（历史）](integration/triple32-v17a-software.md)：共享基准/实时核心、构建、Head 生命周期及验证边界。

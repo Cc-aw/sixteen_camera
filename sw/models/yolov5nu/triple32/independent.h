@@ -3,8 +3,20 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "task_context_config.h"
+#include "diagnostics.h"
 #ifndef YOLO32_LIVE
 #define YOLO32_LIVE 0
+#endif
+#if YOLO32_LIVE != 0 && YOLO32_LIVE != 1
+#error "Live execution must be 0 or 1"
+#endif
+
+/* One integrated image; no independently selectable optimization switches. */
+#ifndef YOLO32_SOFTWARE_BATCH
+#define YOLO32_SOFTWARE_BATCH 0
+#endif
+#if YOLO32_SOFTWARE_BATCH != 0 && YOLO32_SOFTWARE_BATCH != 1
+#error "Software batch must be 0 or 1"
 #endif
 
 #ifndef YOLO32_SUBMIT_BURST
@@ -90,7 +102,125 @@
 #if YOLO32_PPU_HEAD_ADMIT && !YOLO32_PPU_HEAD_CLEAN
 #error "Class0 admission requires head clean"
 #endif
-#if YOLO32_PPU_HEAD_CLEAN
+#ifndef YOLO32_WAIT_REUSE
+#define YOLO32_WAIT_REUSE 0
+#endif
+#if YOLO32_WAIT_REUSE != 0 && YOLO32_WAIT_REUSE != 1
+#error "Wait reuse must be 0 or 1"
+#endif
+#if YOLO32_WAIT_REUSE && (!YOLO32_PPU_HEAD_CLEAN || YOLO32_PPU_HEAD_ADMIT)
+#error "Wait reuse requires the v17 A baseline"
+#endif
+#ifndef YOLO32_CREDIT_LIMIT
+#define YOLO32_CREDIT_LIMIT 0
+#endif
+#ifndef YOLO32_CAPACITY_EXPERIMENT
+#define YOLO32_CAPACITY_EXPERIMENT 0
+#endif
+#ifndef YOLO32_CAPACITY_DIAG
+#define YOLO32_CAPACITY_DIAG 0
+#endif
+#if (YOLO32_CAPACITY_EXPERIMENT != 0 && YOLO32_CAPACITY_EXPERIMENT != 1) || \
+    (YOLO32_CAPACITY_DIAG != 0 && YOLO32_CAPACITY_DIAG != 1)
+#error "Capacity flags must be 0 or 1"
+#endif
+#if YOLO32_CREDIT_LIMIT != 0 && YOLO32_CREDIT_LIMIT != 3 && \
+    !(YOLO32_CAPACITY_EXPERIMENT && YOLO32_CREDIT_LIMIT == 4)
+#error "Credit supports disabled/three, or four in the isolated capacity experiment"
+#endif
+#if YOLO32_CREDIT_LIMIT && !YOLO32_WAIT_REUSE
+#error "Cooperative credit requires the v18 wait-reuse baseline"
+#endif
+#ifndef YOLO32_MEMORY_OPS
+#define YOLO32_MEMORY_OPS 0
+#endif
+#if YOLO32_MEMORY_OPS != 0 && YOLO32_MEMORY_OPS != 1
+#error "Memory operators must be 0 or 1"
+#endif
+#if YOLO32_MEMORY_OPS && (!YOLO32_CREDIT_LIMIT || YOLO32_SUPPLY_DIAG)
+#error "Memory operators require credit-three without supply instrumentation"
+#endif
+#if YOLO32_SUPPLY_DIAG && (!YOLO32_CREDIT_LIMIT || !YOLO32_ROCC_LAYERS)
+#error "Supply diagnosis requires credit-three and layer diagnostics"
+#endif
+#ifndef YOLO32_RESIZE_BATCH
+#define YOLO32_RESIZE_BATCH 0
+#endif
+#ifndef YOLO32_RESIZE_ROWS
+#define YOLO32_RESIZE_ROWS 0
+#endif
+#if YOLO32_RESIZE_BATCH != 0 && YOLO32_RESIZE_BATCH != 1
+#error "Resize batch must be 0 or 1"
+#endif
+#if YOLO32_RESIZE_ROWS < 0 || YOLO32_RESIZE_ROWS > 30
+#error "Resize rows must be 0 (ACC capacity) or 1..30"
+#endif
+#if (YOLO32_RESIZE_BATCH && !YOLO32_MEMORY_OPS) || (YOLO32_RESIZE_ROWS && !YOLO32_RESIZE_BATCH)
+#error "Resize batching requires memory operators"
+#endif
+#ifndef YOLO32_CREDIT_QUERY
+#define YOLO32_CREDIT_QUERY 0
+#endif
+#ifndef YOLO32_PACKET_DISPATCH
+#define YOLO32_PACKET_DISPATCH 0
+#endif
+#ifndef YOLO32_SPLIT_DIAG
+#define YOLO32_SPLIT_DIAG 0
+#endif
+#if (YOLO32_CREDIT_QUERY != 0 && YOLO32_CREDIT_QUERY != 1) || \
+    (YOLO32_PACKET_DISPATCH != 0 && YOLO32_PACKET_DISPATCH != 1) || \
+    (YOLO32_SPLIT_DIAG != 0 && YOLO32_SPLIT_DIAG != 1)
+#error "Submit optimizations must be 0 or 1"
+#endif
+#if YOLO32_CREDIT_QUERY && (!YOLO32_CREDIT_LIMIT || YOLO32_SUPPLY_DIAG)
+#error "Credit query optimization requires credit-three without supply hooks"
+#endif
+#if YOLO32_PACKET_DISPATCH && (!YOLO32_CREDIT_QUERY || !YOLO32_PREPARED_PACKETS)
+#error "Packet dispatch requires credit query and prepared packets"
+#endif
+#if YOLO32_SPLIT_DIAG && !YOLO32_PACKET_DISPATCH
+#error "Split diagnostics requires packet dispatch"
+#endif
+#if YOLO32_CAPACITY_EXPERIMENT && (!YOLO32_SPLIT_DIAG || !YOLO32_MEMORY_OPS || \
+    !YOLO32_RESIZE_BATCH || YOLO32_RESIZE_ROWS || YOLO32_SCHED_ADAPTIVE || \
+    YOLO32_ROCC_LAYERS || YOLO32_SUPPLY_DIAG || YOLO32_SUBMIT_BURST != 1 || \
+    YOLO32_QUANTUM_US != 200 || !YOLO32_HOT_PATHS || !YOLO32_IDLE_PRIORITY || \
+    !YOLO32_TAIL_WAIT || YOLO32_CONTEXT_FULL || \
+    YOLO32_CAPACITY_DIAG != YOLO32_DIAGNOSTIC_BUILD || \
+    (YOLO32_CREDIT_LIMIT != 3 && YOLO32_CREDIT_LIMIT != 4))
+#error "Capacity experiment requires the fixed v25 capacity-Resize baseline"
+#endif
+#if YOLO32_CAPACITY_DIAG && (!YOLO32_CAPACITY_EXPERIMENT || !YOLO32_DIAGNOSTIC_BUILD)
+#error "Capacity diagnosis requires an isolated diagnostic image"
+#endif
+#if YOLO32_SOFTWARE_BATCH && (!YOLO32_CAPACITY_EXPERIMENT || YOLO32_CREDIT_LIMIT != 4 || \
+    YOLO32_DIAGNOSTIC_BUILD || YOLO32_CAPACITY_DIAG)
+#error "Integrated software batch requires the four-slot formal baseline"
+#endif
+#if !YOLO32_DIAGNOSTIC_BUILD && (!YOLO32_SPLIT_DIAG || YOLO32_SCHED_ADAPTIVE || YOLO32_ROCC_LAYERS || YOLO32_SUPPLY_DIAG)
+#error "Formal-only image requires split diagnostics and fixed scheduling"
+#endif
+#if YOLO32_SOFTWARE_BATCH
+#define YOLO32_FIRMWARE_VERSION "v28"
+#elif YOLO32_CAPACITY_EXPERIMENT
+#define YOLO32_FIRMWARE_VERSION "v26"
+#elif YOLO32_SPLIT_DIAG
+#define YOLO32_FIRMWARE_VERSION "v25"
+#elif YOLO32_PACKET_DISPATCH
+#define YOLO32_FIRMWARE_VERSION "v24"
+#elif YOLO32_CREDIT_QUERY
+#define YOLO32_FIRMWARE_VERSION "v23"
+#elif YOLO32_RESIZE_BATCH
+#define YOLO32_FIRMWARE_VERSION "v22"
+#elif YOLO32_MEMORY_OPS
+#define YOLO32_FIRMWARE_VERSION "v21"
+#elif YOLO32_SUPPLY_DIAG
+#define YOLO32_FIRMWARE_VERSION "v20"
+#elif YOLO32_CREDIT_LIMIT
+#define YOLO32_FIRMWARE_VERSION "v19"
+#elif YOLO32_WAIT_REUSE
+#define YOLO32_FIRMWARE_VERSION "v18"
+#elif YOLO32_PPU_HEAD_CLEAN
 #define YOLO32_FIRMWARE_VERSION "v17"
 #elif YOLO32_PPU_EARLY
 #define YOLO32_FIRMWARE_VERSION "v16"
@@ -111,7 +241,9 @@
 #endif
 #define YOLO32_RECOVER_US 5U
 #define YOLO32_FAST_PACKETS 4U
-#if YOLO32_SCHED_ADAPTIVE
+#if YOLO32_SOFTWARE_BATCH
+#define YOLO32_SCHED_NAME "supply"
+#elif YOLO32_SCHED_ADAPTIVE
 #define YOLO32_SCHED_NAME "adaptive"
 #else
 #define YOLO32_SCHED_NAME "fixed"
@@ -126,6 +258,26 @@ typedef struct __attribute__((aligned(16))) {
     uint8_t vectors[1024];
 } Yolo32TaskContext;
 typedef struct { uint64_t cpu_cycles, span_cycles; } Yolo32TaskStage;
+#if YOLO32_SOFTWARE_BATCH
+typedef struct {
+    uint64_t retired_reads, budget_reused, status_reads, error_probes;
+    uint64_t budget_rejects, entrance_rejects, sources[4];
+} Yolo32BatchCredit;
+typedef struct {
+    Yolo32BatchCredit workers[3];
+    uint64_t refill_kept, low_supply_yields, fair_yields, idle_probes;
+    uint64_t busy_reused, occupancy_probes, fed_deferred, dependency_deferred;
+} Yolo32BatchSupply;
+const Yolo32BatchSupply *yolo32_batch_supply_stats(void);
+void yolo32_independent_conv_more(unsigned more);
+#endif
+#if YOLO32_CREDIT_QUERY
+typedef struct {
+    uint64_t retired_reads, status_reads, retirement_reused;
+    uint64_t budget_rejects, hardware_rejects, resume_rechecks, error_probes;
+    uint64_t sources[4]; /* peer, scheduler, initial admission, resume */
+} Yolo32CreditQueryStats;
+#endif
 typedef struct {
     uint64_t resumes[3], conv_requests[3], matmul_requests[3], wait_cycles[3];
     uint64_t ahead_submissions, overlap_samples, triple_overlap_samples;
@@ -141,6 +293,16 @@ typedef struct {
     uint64_t slow_dispatches, burst_reductions, burst_recoveries, cached_ready_hits;
     uint64_t tail_deferred, tail_wait_merges, tail_conv_merges, tail_ws_merges;
     unsigned busy_mask_seen, done_mask;
+#if YOLO32_CREDIT_LIMIT
+    uint64_t credit_checks[3], credit_blocked[3], credit_yields[3], credit_resumes[3];
+    uint64_t credit_admitted[3], credit_max_pending[3], credit_wait_cycles[3], credit_check_cycles[3];
+#if YOLO32_CREDIT_QUERY
+    Yolo32CreditQueryStats credit_queries[3];
+#endif
+#endif
+#if YOLO32_WAIT_REUSE
+    uint64_t wait_reused[3], wait_reuse_fallbacks[3];
+#endif
 #if YOLO32_PPU_EARLY
     uint64_t graph_done_cycle[3];
 #endif
@@ -156,14 +318,12 @@ typedef struct {
 extern unsigned yolo32_independent_enabled;
 extern unsigned yolo32_task_switch_profile;
 extern volatile uint64_t yolo32_task_switch_cycles, yolo32_task_switch_count;
-void yolo32_independent_begin(unsigned analysis);
 #if YOLO32_LIVE
-/* Persistent worker pool. Start only after the model arena/Head slot is set. */
 void yolo32_independent_live_init(void);
-/* Release the finished producer before issuing any next-frame commands. */
-void yolo32_independent_live_release(unsigned worker);
 void yolo32_independent_live_start(unsigned worker);
+void yolo32_independent_live_release(unsigned worker);
 #endif
+void yolo32_independent_begin(unsigned analysis);
 /* One scheduling quantum; 1 = all raw heads complete, 0 = running. */
 int yolo32_independent_step(void);
 void yolo32_independent_end(void);
@@ -176,6 +336,26 @@ unsigned yolo32_independent_finished(unsigned worker);
 void yolo32_independent_head_ready(unsigned worker, unsigned head);
 #endif
 void yolo32_independent_wait(void);
+#if YOLO32_MEMORY_OPS
+/* Ordinary DMA commands change data without changing Conv/WS request counts.
+ * Called before each Mvin/Mvout; never yields or admits a Conv packet. */
+void yolo32_independent_memory_submit(void);
+#endif
+#if YOLO32_CREDIT_LIMIT
+/* Before CONFIG1; wait for capacity by suspending this task, never a half packet. */
+void yolo32_independent_admit_conv(void);
+/* Observational capacity check, including CPU-issued requests not yet accepted. */
+unsigned yolo32_independent_credit_ready(unsigned worker, uint32_t issued,
+                                       uint32_t *pending);
+#if YOLO32_CREDIT_QUERY
+uint32_t yolo32_independent_credit_pending(unsigned worker, uint32_t issued);
+unsigned yolo32_independent_credit_status(unsigned worker);
+#endif
+#endif
+#if YOLO32_WAIT_REUSE
+/* Only the generated, adjacent WS-helper/caller sites may use this proof. */
+unsigned yolo32_independent_try_reuse_wait(unsigned stage);
+#endif
 /* Mark a complete packet whose next dependency is the existing local wait.
  * Its return hook keeps this stack until that wait performs the sole handoff. */
 void yolo32_independent_arm_tail_wait(unsigned funct);

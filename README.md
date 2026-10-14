@@ -6,8 +6,8 @@
 
 新增硬件配置 `triple32_v3_tensor`：三路 Gemmini32、V3 双 bank L2/512-bit
 内存出口和专用 Tensor 写入口。生成 shell 已收入当前仓库，见
-[生成、集成与局部验证说明](docs/integration/triple32-v3-tensor.md)。匹配的 V17 A
-软件已接入三图基准与实时视频后端，见 [软件移植说明](docs/integration/triple32-v17a-software.md)。
+[生成、集成与局部验证说明](docs/integration/triple32-v3-tensor.md)。匹配的 v26
+软件已接入三图基准与实时视频后端，见 [软件移植说明](docs/integration/triple32-v26-software.md)。
 
 ```text
 8 × OV7670 ───────────────┐
@@ -69,4 +69,4 @@ make program SOC_VARIANT=single4
 
 使用 `BOARD_JTAG_SERIAL` 选择适配器；默认不绑定某一块板卡。串口 115200 8N1，输入 `h` 查看命令。`make outputs` 查看本地产物；重构前的本地结果保存在 `build/history/`。文档导航见 [docs/README.md](docs/README.md)。
 
-V3 + Tensor 的配套软件已接入 V17 A：`make firmware SOC_VARIANT=triple32_v3_tensor`。三图基准使用 `make firmware-benchmark`，回归使用 `make test-v17a`。配置与离线验证见 [软件移植说明](docs/integration/triple32-v17a-software.md)。
+V3 + Tensor 的配套软件已接入 v26：`make firmware SOC_VARIANT=triple32_v3_tensor`。三图基准使用 `make firmware-benchmark`，回归使用 `make test-v26`。配置与离线验证见 [软件移植说明](docs/integration/triple32-v26-software.md)。

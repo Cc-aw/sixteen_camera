@@ -24,8 +24,9 @@ help:
 	  'make check                          Validate selected source manifests' \
 	  'make project                        Create/open local Vivado project from Tcl' \
 	  'make firmware SOC_VARIANT=triple32_v3_tensor  Build V17 A video firmware' \
-	  'make firmware-benchmark            Build V17 A three-image benchmark' \
-	  'make test-v17a                     Native packet, scheduler and PPU regressions' \
+	  'make firmware-benchmark            Build v26 credit=4 three-image benchmark' \
+	  'make test-v26                      Native packet, scheduler and PPU regressions' \
+	  'make check-v26-firmware            Audit built v26 ELF and hardware ABI' \
 	  'make firmware SOC_VARIANT=single4    Build matching YOLOv5nu firmware' \
 	  'make bitstream SOC_VARIANT=single4   Build matching video bitstream' \
 	  'make bitstream SOC_CONFIG=<name>    Build any hw/soc/<name>/gen-collateral' \
@@ -77,15 +78,17 @@ firmware:
 	@case "$(SOC_VARIANT)" in single4|dual16|triple32_v3_tensor) ;; *) echo 'Firmware needs a supported SOC_VARIANT'; exit 2 ;; esac
 	cd "$(PROJECT_ROOT)" && python3 tools/build/build_$(SOC_VARIANT)_video_yolov5nu.py
 
-check-v17a-firmware:
+.PHONY: check-v26-firmware test-v26
+check-v26-firmware check-v17a-firmware:
 	python3 tools/check/check_v17a_firmware.py
 
 firmware-benchmark:
 	$(MAKE) -C sw/models/yolov5nu/triple32 all
 
-test-v17a:
+test-v26 test-v17a:
 	$(MAKE) -C sw/models/yolov5nu/triple32 check
 	bash tests/host/run_v17a_live_scheduler_test.sh
+	bash tests/host/run_v26_live_scheduler_test.sh
 	bash tests/host/run_v17a_backend_test.sh
 
 bitstream:

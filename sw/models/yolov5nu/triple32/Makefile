@@ -5,11 +5,11 @@ TOOLCHAIN ?= riscv64-unknown-elf-
 HOST_CC ?= gcc
 CC := $(TOOLCHAIN)gcc
 ARCH_FLAGS := -march=rv64gcv -mabi=lp64d -mcmodel=medany
-BUILD ?= $(PROJECT_ROOT)/build/firmware/triple32_v17a_benchmark
+BUILD ?= $(PROJECT_ROOT)/build/firmware/triple32_v26_benchmark
 .DEFAULT_GOAL := all
-include $(HERE)/v17a.mk
-OBJECTS := $(V17A_OBJECTS) $(addprefix $(BUILD)/,startup.o console.o support.o compare.o inputs.o ppu.o main.o ai_ppu_publication.o ai_ppu_queue.o ai_head_slot_queue.o)
-$(OBJECTS): $(HERE)/Makefile $(HERE)/v17a.mk
+include $(HERE)/v26.mk
+OBJECTS := $(V26_OBJECTS) $(addprefix $(BUILD)/,startup.o console.o support.o compare.o inputs.o ppu.o main.o ai_ppu_publication.o ai_ppu_queue.o ai_head_slot_queue.o)
+$(OBJECTS): $(HERE)/Makefile $(HERE)/v26.mk $(BUILD)/v26/native-config.stamp
 .PHONY: all check clean
 all: $(BUILD)/yolo32.elf $(BUILD)/yolo32.bin
 $(BUILD)/startup.o: $(PROJECT_ROOT)/sw/src/platform/startup.S
@@ -17,26 +17,26 @@ $(BUILD)/startup.o: $(PROJECT_ROOT)/sw/src/platform/startup.S
 	$(CC) $(ARCH_FLAGS) -c $< -o $@
 $(BUILD)/console.o: $(PROJECT_ROOT)/sw/src/platform/console.c
 	@mkdir -p $(@D)
-	$(CC) $(V17A_FLAGS) $(V17A_CFLAGS) -MMD -MP -c $< -o $@
+	$(CC) $(V26_FLAGS) $(V26_CFLAGS) -MMD -MP -c $< -o $@
 $(BUILD)/inputs.stamp: $(HERE)/generate_inputs.py $(wildcard $(PROJECT_ROOT)/tests/data/yolov5nu/v17a/*.bin)
 	@mkdir -p $(@D)
 	python3 -B $< $(@D)
 	touch $@
 $(BUILD)/inputs.o: $(BUILD)/inputs.stamp
-	$(CC) $(V17A_FLAGS) -I$(BUILD) $(V17A_CFLAGS) -MMD -MP -c $(BUILD)/inputs.c -o $@
+	$(CC) $(V26_FLAGS) -I$(BUILD) $(V26_CFLAGS) -MMD -MP -c $(BUILD)/inputs.c -o $@
 $(BUILD)/main.o: $(BUILD)/inputs.stamp
 $(BUILD)/%.o: $(HERE)/%.c
 	@mkdir -p $(@D)
-	$(CC) $(V17A_FLAGS) -I$(BUILD) $(V17A_CFLAGS) -MMD -MP -c $< -o $@
+	$(CC) $(V26_FLAGS) -I$(BUILD) $(V26_CFLAGS) -MMD -MP -c $< -o $@
 $(BUILD)/ai_ppu_publication.o: $(PROJECT_ROOT)/sw/src/ai/postprocess/ai_ppu_publication.c
 	@mkdir -p $(@D)
-	$(CC) $(V17A_FLAGS) $(V17A_CFLAGS) -DYOLO32_PPU_ORDERED_MMIO=1 -MMD -MP -c $< -o $@
+	$(CC) $(V26_FLAGS) $(V26_CFLAGS) -DYOLO32_PPU_ORDERED_MMIO=1 -MMD -MP -c $< -o $@
 $(BUILD)/ai_ppu_queue.o: $(PROJECT_ROOT)/sw/src/ai/postprocess/ai_ppu_queue.c
 	@mkdir -p $(@D)
-	$(CC) $(V17A_FLAGS) $(V17A_CFLAGS) -DYOLO32_PPU_ORDERED_MMIO=1 -MMD -MP -c $< -o $@
+	$(CC) $(V26_FLAGS) $(V26_CFLAGS) -DYOLO32_PPU_ORDERED_MMIO=1 -MMD -MP -c $< -o $@
 $(BUILD)/ai_head_slot_queue.o: $(PROJECT_ROOT)/sw/src/ai/runtime/ai_head_slot_queue.c
 	@mkdir -p $(@D)
-	$(CC) $(V17A_FLAGS) $(V17A_CFLAGS) -MMD -MP -c $< -o $@
+	$(CC) $(V26_FLAGS) $(V26_CFLAGS) -MMD -MP -c $< -o $@
 $(BUILD)/yolo32.elf: $(OBJECTS) $(HERE)/linker.ld
 	$(CC) $(ARCH_FLAGS) -nostdlib -nostartfiles -static -Wl,--gc-sections \
 		-Wl,-Map,$(BUILD)/yolo32.map -T $(HERE)/linker.ld $(OBJECTS) -lm -lgcc -o $@
@@ -48,3 +48,11 @@ check:
 clean:
 	rm -rf $(BUILD)
 -include $(OBJECTS:.o=.d)
+
+.PHONY: credit-cap3 credit-cap4 credit-cap3-diag credit-cap4-diag
+credit-cap3 credit-cap4 credit-cap3-diag credit-cap4-diag:
+	$(MAKE) BUILD=$(PROJECT_ROOT)/build/firmware/triple32_v26_$(subst -,_,$@) V26_CREDIT_LIMIT=$(if $(findstring cap4,$@),4,3) V26_DIAGNOSTIC=$(if $(findstring diag,$@),1,0) all
+all: $(BUILD)/capacity_manifest.json
+$(BUILD)/capacity_manifest.json: $(BUILD)/yolo32.elf $(BUILD)/v26/parallel.stamp $(BUILD)/inputs.stamp $(HERE)/capacity_manifest.py
+	cp $(BUILD)/v26/fixed_plans.json $(BUILD)/v26/memory_kernels.json $(BUILD)/
+	python3 -B $(HERE)/capacity_manifest.py $(BUILD) --limit $(V26_CREDIT_LIMIT) --diagnostic $(V26_DIAGNOSTIC) --params $(V26_PARAMS) --compiler $(CC)

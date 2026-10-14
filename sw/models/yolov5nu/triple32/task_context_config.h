@@ -1,6 +1,13 @@
 #ifndef YOLO32_TASK_CONTEXT_CONFIG_H
 #define YOLO32_TASK_CONTEXT_CONFIG_H
 
+#ifndef YOLO32_DIAGNOSTIC_BUILD
+#define YOLO32_DIAGNOSTIC_BUILD 1
+#endif
+#if YOLO32_DIAGNOSTIC_BUILD != 0 && YOLO32_DIAGNOSTIC_BUILD != 1
+#error "Diagnostic build must be 0 or 1"
+#endif
+
 /* Shared by C and preprocessed assembly. Switches are cooperative C calls,
  * never interrupts or calls from inside a live RVV assembly kernel. */
 #ifndef YOLO32_CONTEXT_FULL

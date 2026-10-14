@@ -12,7 +12,12 @@ _Static_assert(YOLOV5NU_GEMMINI_DIM == 32, "V17A adapter requires the DIM32 hard
 #endif
 
 static const AiRtBackendOps ops = {
-    .name = "v17a", .profile = AI_RT_BACKEND_PROFILE_V17A,
+#if defined(YOLO32_CAPACITY_EXPERIMENT) && YOLO32_CAPACITY_EXPERIMENT
+    .name = "v26",
+#else
+    .name = "v17a",
+#endif
+    .profile = AI_RT_BACKEND_PROFILE_V17A,
     .worker_count = AI_MODEL_WORKER_COUNT, .gemmini_dim = 32U,
     .init = ai_model_backend_init, .submit = ai_model_backend_submit,
     .progress = rt_backend_compat_progress, .abort = ai_model_backend_abort,

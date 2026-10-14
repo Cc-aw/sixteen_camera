@@ -93,4 +93,9 @@ int yolo32_output(unsigned worker, const Yolo32Result *result,
 unsigned yolo32_stage(unsigned worker);
 __attribute__((noreturn)) void yolo32_fail(const char *reason);
 
+/* Integrated image: initialization binding is outside batches; input patching
+ * is inside start_hardware and therefore inside every measured batch. */
+uint64_t yolo32_batch_binding_init_cycles(void);
+uint64_t yolo32_batch_binding_cycles(unsigned worker);
+uint32_t yolo32_batch_binding_generation(unsigned worker);
 #endif

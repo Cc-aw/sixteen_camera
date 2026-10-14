@@ -14,7 +14,7 @@ from fixed_plans import function, graph_stages
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
-PARAM_SOURCE = ROOT / 'sw/models/yolov5nu/aot/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h'
+PARAM_SOURCE = HERE.parent / 'aot/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h'
 
 
 def stage_calls(model):

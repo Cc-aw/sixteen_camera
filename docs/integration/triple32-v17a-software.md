@@ -1,5 +1,7 @@
 # V3 + Tensor 硬件的软件移植
 
+本文记录 V17 A 阶段；当前默认固件已升级为 [v26](triple32-v26-software.md)，构建与下载请使用新说明。
+
 `SOC_VARIANT=triple32_v3_tensor` 的视频固件使用 V17 A 原生 DIM32 ABI、三 worker
 独立协作调度器和逐 Head 发布。使用与硬件阶段同名的 SoC 变体；
 `SOC_CONFIG` 仍只选择硬件，软件必须显式选择匹配的 `SOC_VARIANT`。

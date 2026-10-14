@@ -2,6 +2,12 @@
 #include "yolo32.h"
 #include "ppu.h"
 #include "independent.h"
+#if YOLO32_CAPACITY_DIAG
+#include "capacity_observer.h"
+#endif
+#if YOLO32_MEMORY_OPS
+#include "memory_kernels.h"
+#endif
 #include "inputs.h"
 #include "console.h"
 #include "mmio.h"
@@ -22,10 +28,43 @@ static void help(void) {
     console_puts("Commands: u/U=serial forward/reverse; b=blocking worker polling; "
         "t=independent workers; l=legacy lockstep tiles; a=5-mode hardware-PPU benchmark; "
         "p=profiles; q=serial/independent RoCC layer diagnosis; 0/1/2=single image; h=help\r\n");
+#if YOLO32_SUPPLY_DIAG
+    console_puts("Supply diagnosis: d=credit/supply with existing counters; q=full CPU and hardware stage detail\r\n");
+#endif
+#if YOLO32_MEMORY_OPS
+    console_puts("Memory operators: M=all-worker Pool/Resize element and guard test\r\n");
+#endif
+#if YOLO32_SOFTWARE_BATCH
+    console_puts("Integrated software batch: four-slot bound, dynamic Conv refill; M/t/a for whole-image validation; p/q/d/D disabled\r\n");
+#elif YOLO32_CAPACITY_EXPERIMENT
+    console_puts("Capacity experiment: a=formal benchmark; diagnostic image d=every 16 queries, D=every 64; p/q disabled\r\n");
+#elif !YOLO32_DIAGNOSTIC_BUILD
+    console_puts("Formal image: p/q use download.sh --submit-fast-diag\r\n");
+#endif
 }
 static void field(const char *name, uint64_t value) {
     console_puts(" "); console_puts(name); console_putc('='); console_put_hex64(value);
 }
+#if YOLO32_CAPACITY_EXPERIMENT
+static void capacity_config(int mode) {
+#if YOLO32_SOFTWARE_BATCH
+    field("software_batch",1);
+#endif
+    field("capacity_experiment",1); field("credit_cap",4); field("capacity_diag",YOLO32_CAPACITY_DIAG);
+    field("quantum_cycles",(uint64_t)SOC_CLOCK_HZ*YOLO32_QUANTUM_US/1000000U);
+#if YOLO32_CAPACITY_DIAG
+    field("capacity_period",mode==INDEPENDENT ? yolo32_capacity_period() : 0);
+#else
+    (void)mode; field("capacity_period",0);
+#endif
+}
+#endif
+#if YOLO32_CREDIT_QUERY
+static void submit_config(void) {
+    field("credit_query",YOLO32_CREDIT_QUERY); field("packet_dispatch",YOLO32_PACKET_DISPATCH);
+    field("split_diag",YOLO32_SPLIT_DIAG); field("diagnostic_build",YOLO32_DIAGNOSTIC_BUILD);
+}
+#endif
 static void worker_image(unsigned w) {
     console_puts(" worker="); console_put_u32(w);
     console_puts(" image="); console_puts(yolo32_image_ids[w]);
@@ -76,6 +115,7 @@ static unsigned compare_result(unsigned w, unsigned baseline) {
     field("mismatches",mismatches); console_puts(" first="); console_puts(first);
     field("index",first_index); console_puts("\r\n"); return mismatches==0;
 }
+#if YOLO32_DIAGNOSTIC_BUILD
 static void print_profiles(int mode) {
     for (unsigned w = 0; w < 3; ++w) {
         struct yolov5nu_dim16_profile p;
@@ -158,25 +198,54 @@ static void print_profiles(int mode) {
         field("cycles", yolo32_stage_cycles(s)); console_puts("\r\n");
     }
 }
+#endif
 
 static Timing run_all(int mode, const char *phase, unsigned round, unsigned analysis) {
     unsigned baseline=phase[0]=='b';
     if (!baseline && !reference_valid) yolo32_fail("missing_serial_reference");
     yolo32_set_analysis(analysis);
+#if YOLO32_CREDIT_QUERY
+    if (analysis && !YOLO32_DIAGNOSTIC_BUILD) yolo32_fail("diagnostic_image_required");
+#endif
+#if YOLO32_SUPPLY_DIAG
+    yolo32_diag_reset(analysis && (mode==FORWARD || mode==INDEPENDENT));
+#endif
     console_puts("YOLO32_BEGIN run="); console_put_u32(++run_id);
     console_puts(" images=025,036,142 dim=32 workers=3 postprocess=hardware mode="); console_puts(mode_names[mode]);
     console_puts(" reference=serial phase="); console_puts(phase);
     field("round",round); field("profile",analysis); field("diagnostics",analysis);
+#if YOLO32_CAPACITY_EXPERIMENT
+    capacity_config(mode);
+#endif
     field("submit_burst",YOLO32_SUBMIT_BURST); field("quantum_us",YOLO32_QUANTUM_US);
     field("hot_paths",YOLO32_HOT_PATHS); field("rocc_layers",YOLO32_ROCC_LAYERS && analysis);
+#if YOLO32_SUPPLY_DIAG
+    field("supply_diag",yolo32_diag_enabled());
+    field("supply_detail",yolo32_diag_detail_enabled());
+#endif
     field("fixed_plans",YOLO32_FIXED_PLANS);
     field("fixed_packets",YOLO32_FIXED_PACKETS);
+#if YOLO32_CREDIT_QUERY
+    submit_config();
+#endif
     field("idle_priority",YOLO32_IDLE_PRIORITY); field("tail_wait",YOLO32_TAIL_WAIT);
     field("prepared_packets",YOLO32_PREPARED_PACKETS);
+#if YOLO32_MEMORY_OPS
+    field("memory_ops",YOLO32_MEMORY_OPS);
+#if YOLO32_RESIZE_BATCH
+    field("resize_batch",YOLO32_RESIZE_BATCH); field("resize_rows",YOLO32_RESIZE_ROWS);
+#endif
+#endif
 #if YOLO32_PPU_EARLY
     field("ppu_early",YOLO32_PPU_EARLY);
 #if YOLO32_PPU_HEAD_CLEAN
     field("head_clean",YOLO32_PPU_HEAD_CLEAN); field("head_admit",YOLO32_PPU_HEAD_ADMIT);
+#if YOLO32_WAIT_REUSE
+    field("wait_reuse",YOLO32_WAIT_REUSE);
+#if YOLO32_CREDIT_LIMIT
+    field("credit_limit",YOLO32_CREDIT_LIMIT);
+#endif
+#endif
 #endif
 #endif
     console_puts(" context=" YOLO32_CONTEXT_NAME " scheduling=" YOLO32_SCHED_NAME "\r\n");
@@ -232,6 +301,33 @@ static Timing run_all(int mode, const char *phase, unsigned round, unsigned anal
     uint64_t ppu_core=0; for(unsigned w=0;w<3;++w) ppu_core+=yolo32_ppu_result(w)->core_cycles;
     console_puts("YOLO32_TIMING"); field("batch_cycles",time.batch); field("graph_cycles",time.graph);
     field("ppu_tail_cycles",time.post); field("ppu_core_cycles",ppu_core); console_puts("\r\n");
+#if YOLO32_SOFTWARE_BATCH
+    for (unsigned w=0;w<3;++w) {
+        console_puts("YOLO32_BATCH_BIND"); field("worker",w);
+        field("generation",yolo32_batch_binding_generation(w));
+        field("batch_cycles",yolo32_batch_binding_cycles(w)); console_puts("\r\n");
+    }
+    if (mode==INDEPENDENT) {
+        const Yolo32BatchSupply *s=yolo32_batch_supply_stats();
+        for (unsigned w=0;w<3;++w) {
+            const Yolo32BatchCredit *q=&s->workers[w];
+            console_puts("YOLO32_BATCH_CREDIT"); field("worker",w);
+            field("retired_reads",q->retired_reads); field("budget_reused",q->budget_reused);
+            field("status_reads",q->status_reads); field("error_probes",q->error_probes);
+            field("budget_rejects",q->budget_rejects); field("entrance_rejects",q->entrance_rejects);
+            field("peer_queries",q->sources[0]); field("scheduler_queries",q->sources[1]);
+            field("admit_queries",q->sources[2]); field("resume_queries",q->sources[3]);console_puts("\r\n");
+        }
+        console_puts("YOLO32_BATCH_POLICY"); field("refill_kept",s->refill_kept);
+        field("low_supply_yields",s->low_supply_yields); field("fair_yields",s->fair_yields);
+        field("idle_probes",s->idle_probes); field("busy_reused",s->busy_reused);
+        field("occupancy_probes",s->occupancy_probes); field("fed_deferred",s->fed_deferred);
+        field("dependency_deferred",s->dependency_deferred); console_puts("\r\n");
+    }
+#endif
+#if YOLO32_CAPACITY_DIAG
+    if (mode==INDEPENDENT && yolo32_capacity_period()) yolo32_capacity_print();
+#endif
 #if YOLO32_PPU_EARLY
     if (mode == INDEPENDENT) {
         const Yolo32PpuEarlyStats *p=yolo32_ppu_early_stats();
@@ -277,8 +373,48 @@ static Timing run_all(int mode, const char *phase, unsigned round, unsigned anal
     }
 #endif
     unsigned parallel_passed=1;
+#if YOLO32_MEMORY_OPS
+    for (unsigned w=0;w<3;++w) {
+        const Yolo32MemoryStats *m=yolo32_memory_stats(w);
+        console_puts("YOLO32_MEMORY"); field("worker",w);
+        field("pool_calls",m->pool_calls); field("resize_calls",m->resize_calls);
+        field("mvin",m->mvin); field("mvout",m->mvout); field("waits",m->waits);
+        field("pad_cycles",m->pad_cycles); console_puts("\r\n");
+        if (m->pool_calls!=3 || m->resize_calls!=2 || m->mvin!=1944 ||
+            m->mvout!=624 || m->waits!=YOLO32_MEMORY_WAITS) yolo32_fail("memory_graph_counts");
+    }
+#endif
     if(mode==INDEPENDENT) {
         const Yolo32IndependentStats *s=yolo32_independent_stats();
+#if YOLO32_CREDIT_LIMIT
+        for (unsigned w=0;w<3;++w) {
+            console_puts("YOLO32_CREDIT"); field("worker",w); field("limit",YOLO32_CREDIT_LIMIT);
+            field("admitted",s->credit_admitted[w]); field("checks",s->credit_checks[w]);
+            field("blocked",s->credit_blocked[w]); field("yields",s->credit_yields[w]);
+            field("resumes",s->credit_resumes[w]); field("max_pending",s->credit_max_pending[w]);
+            field("wait_cycles",s->credit_wait_cycles[w]); field("check_cycles",s->credit_check_cycles[w]);
+            console_puts("\r\n");
+#if YOLO32_CREDIT_QUERY
+            if (analysis) {
+                const Yolo32CreditQueryStats *q=&s->credit_queries[w];
+                console_puts("YOLO32_CREDIT_QUERY"); field("worker",w);
+                field("retired_reads",q->retired_reads); field("status_reads",q->status_reads);
+                field("retirement_reused",q->retirement_reused); field("budget_rejects",q->budget_rejects);
+                field("hardware_rejects",q->hardware_rejects); field("resume_rechecks",q->resume_rechecks);
+                field("error_probes",q->error_probes);
+                field("peer_queries",q->sources[DIAG_PEER]); field("scheduler_queries",q->sources[DIAG_SCHEDULER]);
+                field("admit_queries",q->sources[DIAG_ADMIT]); field("resume_queries",q->sources[DIAG_RESUME]);
+                console_puts("\r\n");
+            }
+#endif
+        }
+#endif
+#if YOLO32_WAIT_REUSE
+        console_puts("YOLO32_WAIT_REUSE"); field("sites_per_worker",13);
+        field("merged0",s->wait_reused[0]); field("merged1",s->wait_reused[1]); field("merged2",s->wait_reused[2]);
+        field("fallback0",s->wait_reuse_fallbacks[0]); field("fallback1",s->wait_reuse_fallbacks[1]); field("fallback2",s->wait_reuse_fallbacks[2]);
+        console_puts("\r\n");
+#endif
         console_puts("YOLO32_INDEPENDENT"); field("done_mask",s->done_mask);
         for (unsigned w=0; w<3; ++w) {
             const char *const req[]={"requests0","requests1","requests2"};
@@ -332,7 +468,14 @@ static Timing run_all(int mode, const char *phase, unsigned round, unsigned anal
     }
     unsigned passed=1;
     for(unsigned w=0;w<3;++w) { print_result(w); passed &= compare_result(w,baseline); }
-    if(analysis) print_profiles(mode);
+    if(analysis) {
+#if YOLO32_DIAGNOSTIC_BUILD
+        print_profiles(mode);
+#endif
+#if YOLO32_SUPPLY_DIAG
+        yolo32_diag_print(mode==INDEPENDENT);
+#endif
+    }
     if(baseline) reference_valid=1;
     if(!passed || !parallel_passed) ++run_failures;
     console_puts(!passed?"YOLO32_RESULT FAIL reason=serial_mismatch\r\n":!parallel_passed?
@@ -351,16 +494,37 @@ static uint64_t median(uint64_t values[ROUNDS]) {
     return values[ROUNDS/2];
 }
 static void profile_all(void) {
+#if YOLO32_SOFTWARE_BATCH
+    console_puts("Integrated software batch: use M/t/a; detailed diagnosis disabled\r\n");
+#elif YOLO32_CAPACITY_EXPERIMENT
+    console_puts("Capacity experiment uses d/D in credit-cap3-diag or credit-cap4-diag benchmark ELF\r\n");
+#elif YOLO32_DIAGNOSTIC_BUILD
     ensure_reference();
     for (int mode = 0; mode < MODES; ++mode) (void)run_all(mode, "analysis", 0, 1);
+#else
+    console_puts("Use download.sh --submit-fast-diag for p/q diagnosis\r\n");
+#endif
 }
 static void profile_layers(void) {
-#if YOLO32_ROCC_LAYERS
+#if YOLO32_SOFTWARE_BATCH
+    console_puts("Integrated software batch: use M/t/a; detailed diagnosis disabled\r\n");
+#elif YOLO32_CAPACITY_EXPERIMENT
+    console_puts("Capacity experiment uses d/D in credit-cap3-diag or credit-cap4-diag benchmark ELF\r\n");
+#elif !YOLO32_DIAGNOSTIC_BUILD
+    console_puts("Use download.sh --submit-fast-diag for p/q diagnosis\r\n");
+#elif YOLO32_ROCC_LAYERS
     ensure_reference();
     (void)run_all(FORWARD,"analysis",0,1);
     (void)run_all(INDEPENDENT,"analysis",0,1);
 #else
-#if YOLO32_PPU_HEAD_CLEAN
+#if YOLO32_CREDIT_QUERY
+    console_puts(YOLO32_PACKET_DISPATCH ? "Use download.sh --packet-dispatch-rocc for q diagnostics\r\n" :
+                 "Use download.sh --credit-query-rocc for q diagnostics\r\n");
+#elif YOLO32_CREDIT_LIMIT
+    console_puts("Use download.sh --credit-three-rocc for q diagnostics\r\n");
+#elif YOLO32_WAIT_REUSE
+    console_puts("Use download.sh --wait-reuse-rocc for q diagnostics\r\n");
+#elif YOLO32_PPU_HEAD_CLEAN
     console_puts(YOLO32_PPU_HEAD_ADMIT ? "Use download.sh --ppu-head-class0-rocc for q diagnostics\r\n" :
                  "Use download.sh --ppu-head-clean-rocc for q diagnostics\r\n");
 #elif YOLO32_PPU_EARLY
@@ -378,6 +542,31 @@ static void profile_layers(void) {
 #endif
 #endif
 }
+static void __attribute__((unused)) profile_supply(void) {
+#if YOLO32_SUPPLY_DIAG
+    yolo32_diag_set_detail(0);
+    profile_layers();
+    yolo32_diag_set_detail(1);
+#else
+    console_puts("Use download.sh --supply-diag for d diagnosis\r\n");
+#endif
+}
+#if YOLO32_CAPACITY_EXPERIMENT
+static void profile_capacity(unsigned period) {
+#if YOLO32_SOFTWARE_BATCH
+    (void)period; console_puts("Integrated software batch: use M/t/a; d/D disabled\r\n");
+#elif YOLO32_CAPACITY_DIAG
+    ensure_reference();
+    yolo32_capacity_configure(period);
+    (void)run_all(INDEPENDENT,"capacity",0,0);
+    yolo32_capacity_configure(0);
+#else
+    (void)period;
+    console_puts(YOLO32_CREDIT_LIMIT==4 ? "Use credit-cap4-diag benchmark ELF for d/D\r\n" :
+                                      "Use credit-cap3-diag benchmark ELF for d/D\r\n");
+#endif
+}
+#endif
 static void benchmark(void) {
     uint64_t batch[MODES][ROUNDS], graph[MODES][ROUNDS], med_batch[MODES], med_graph[MODES];
     unsigned failures = run_failures;
@@ -403,7 +592,9 @@ static void benchmark(void) {
         field("speedup_graph_milli", med_graph[FORWARD] * 1000 / med_graph[m]);
         field("fps_milli", (uint64_t)SOC_CLOCK_HZ * 3000 / med_batch[m]); console_puts("\r\n");
     }
+#if YOLO32_DIAGNOSTIC_BUILD && !YOLO32_CAPACITY_EXPERIMENT
     profile_all();
+#endif
     console_puts(run_failures == failures ? "YOLO32_BENCH_RESULT PASS\r\n" : "YOLO32_BENCH_RESULT FAIL\r\n");
 }
 int main(void) {
@@ -411,28 +602,61 @@ int main(void) {
     console_puts("\r\nYOLO32_FIRMWARE " YOLO32_FIRMWARE_VERSION " dim=32 workers=3 clock_hz=100000000 "
         "input=640x480x3 images=025,036,142 scale=fp16 postprocess=hardware head=uram\r\n");
     console_puts("YOLO32_SCHED_CONFIG"); field("submit_burst",YOLO32_SUBMIT_BURST);
+#if YOLO32_CAPACITY_EXPERIMENT
+    capacity_config(FORWARD);
+#endif
     field("quantum_us",YOLO32_QUANTUM_US);
     field("hot_paths",YOLO32_HOT_PATHS); field("rocc_layers",YOLO32_ROCC_LAYERS);
+#if YOLO32_SUPPLY_DIAG
+    field("supply_diag",YOLO32_SUPPLY_DIAG);
+#endif
     field("fixed_plans",YOLO32_FIXED_PLANS);
     field("fixed_packets",YOLO32_FIXED_PACKETS);
+#if YOLO32_CREDIT_QUERY
+    submit_config();
+#endif
     field("idle_priority",YOLO32_IDLE_PRIORITY); field("tail_wait",YOLO32_TAIL_WAIT);
     field("prepared_packets",YOLO32_PREPARED_PACKETS);
+#if YOLO32_MEMORY_OPS
+    field("memory_ops",YOLO32_MEMORY_OPS);
+#if YOLO32_RESIZE_BATCH
+    field("resize_batch",YOLO32_RESIZE_BATCH); field("resize_rows",YOLO32_RESIZE_ROWS);
+#endif
+#endif
 #if YOLO32_PPU_EARLY
     field("ppu_early",YOLO32_PPU_EARLY);
 #if YOLO32_PPU_HEAD_CLEAN
     field("head_clean",YOLO32_PPU_HEAD_CLEAN); field("head_admit",YOLO32_PPU_HEAD_ADMIT);
+#if YOLO32_WAIT_REUSE
+    field("wait_reuse",YOLO32_WAIT_REUSE);
+#if YOLO32_CREDIT_LIMIT
+    field("credit_limit",YOLO32_CREDIT_LIMIT);
+#endif
+#endif
 #endif
 #endif
     field("saved_bytes",YOLO32_CONTEXT_SAVED_BYTES); field("vector_bytes",YOLO32_CONTEXT_VECTOR_BYTES);
     console_puts(" context=" YOLO32_CONTEXT_NAME " vcsr=preserved scheduling=" YOLO32_SCHED_NAME);
     field("block_us",YOLO32_BLOCK_US); field("recover_us",YOLO32_RECOVER_US);
     field("fast_packets",YOLO32_FAST_PACKETS); console_puts("\r\n");
-    yolo32_init(); yolo32_ppu_init(); yolo32_set_head_callback(yolo32_ppu_head); help();
+    yolo32_init();
+#if YOLO32_SOFTWARE_BATCH
+    console_puts("YOLO32_BATCH_INIT"); field("bind_once_cycles",yolo32_batch_binding_init_cycles()); console_puts("\r\n");
+#endif
+    yolo32_ppu_init(); yolo32_set_head_callback(yolo32_ppu_head); help();
     for(;;) {
         int c=console_getc_nonblock();
         if(c=='a') benchmark();
         else if(c=='p') profile_all();
         else if(c=='q') profile_layers();
+#if YOLO32_CAPACITY_EXPERIMENT
+        else if(c=='d'||c=='D') profile_capacity(c=='d'?16U:64U);
+#else
+        else if(c=='d') profile_supply();
+#endif
+#if YOLO32_MEMORY_OPS
+        else if(c=='M') yolo32_memory_test();
+#endif
         else if(c=='t'||c=='l'||c=='u'||c=='U'||c=='b') {
             ensure_reference(); int mode=c=='t'?INDEPENDENT:c=='l'?PARALLEL:c=='u'?FORWARD:c=='U'?REVERSE:BLOCKED;
             (void)run_all(mode,"manual",0,0);

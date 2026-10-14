@@ -9,14 +9,16 @@ import unittest
 HERE=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(HERE))
 from rocc_layers import validate
+from generate_parallel import function
 
 
 class LayerCollectorTests(unittest.TestCase):
     def test_native_collector_attributes_before_switch_and_handles_lockstep_stage(self):
         source=(HERE/'model.c').read_text()
-        begin=source.index('static void command_elapsed(unsigned funct, uint64_t cycles) {')
-        end=source.index('static void yolo32_publish_head(unsigned worker, unsigned head) {',begin)
-        collector=source[begin:end]
+        collector='\n'.join(function(source,begin) for begin in (
+            'static void command_elapsed(unsigned funct, uint64_t cycles) {',
+            'const Yolo32CommandStats *yolo32_command_stats(',
+            'const Yolo32LayerCommandStats *yolo32_layer_command_stats('))
         with tempfile.TemporaryDirectory(prefix='yolo32-layer-collector-') as tmp:
             root=Path(tmp)
             (root/'collector.c').write_text('''
@@ -54,7 +56,7 @@ int main(void) {
 }
 ''')
             subprocess.run(['gcc','-std=c11','-O2','-Wall','-Wextra','-Werror',
-                            '-DYOLO32_ROCC_LAYERS=1','-DYOLOV5NU_DIM16_WORKER_COUNT=3U',
+                            '-DYOLO32_ROCC_LAYERS=1','-DYOLOV5NU_DIM16_WORKER_COUNT=3U','-DYOLO32_DIAGNOSTIC_BUILD=1',
                             '-I',str(HERE),'-I',str(HERE/'native'),str(root/'collector.c'),'-o',str(root/'collector')],
                            check=True,capture_output=True)
             subprocess.run([str(root/'collector')],check=True,capture_output=True)

@@ -8,11 +8,13 @@
 .global yolo32_task_switch
 .type yolo32_task_switch, @function
 yolo32_task_switch:
+#if YOLO32_DIAGNOSTIC_BUILD
     la t0, yolo32_task_switch_profile
     lw t0, 0(t0)
     beqz t0, .Lswitch_begin
     rdcycle t2
 .Lswitch_begin:
+#endif
     sd ra, 0(a0)
     sd sp, 8(a0)
     sd s0, 16(a0)
@@ -103,6 +105,7 @@ yolo32_task_switch:
     ld s9, 88(a1)
     ld s10, 96(a1)
     ld s11, 104(a1)
+#if YOLO32_DIAGNOSTIC_BUILD
     la t0, yolo32_task_switch_profile
     lw t0, 0(t0)
     beqz t0, .Lswitch_return
@@ -117,5 +120,6 @@ yolo32_task_switch:
     addi t0, t0, 1
     sd t0, 0(t1)
 .Lswitch_return:
+#endif
     ret
 .size yolo32_task_switch, .-yolo32_task_switch

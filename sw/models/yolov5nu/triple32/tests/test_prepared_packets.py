@@ -3,7 +3,6 @@ from pathlib import Path
 import json
 import re
 import shutil
-import os
 import subprocess
 import sys
 import tempfile
@@ -122,7 +121,7 @@ static acc_t biases[2][1024];
         self.assertIn('prepared_ws_step',r.stderr)
 
     def test_real_riscv_native_fp16_stream_matches_host_generated_tables(self):
-        compiler=Path(os.environ.get('RISCV_TOOLCHAIN_DIR', str(Path(shutil.which('riscv64-unknown-linux-gnu-gcc') or 'riscv64-unknown-linux-gnu-gcc').parent))) / 'riscv64-unknown-linux-gnu-gcc'
+        compiler=Path('/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-linux-gnu-gcc')
         qemu=shutil.which('qemu-riscv64')
         if not qemu or not compiler.exists():self.skipTest('RISC-V compiler/QEMU unavailable')
         exe=self.out/'stream-riscv'

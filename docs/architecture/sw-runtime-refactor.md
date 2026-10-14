@@ -1,6 +1,6 @@
 # sixteen_camera — SW Runtime 分层重构设计与实施方案
 
-> **状态**：分阶段实施中（R0、R1 已完成离线验证；板测待验证）
+> **状态**：R0–R5 已完成离线结构验证；v26 独立性能移植已完成离线验证，板测待验证
 > **编写日期**：2026-10-12  
 > **仓库**：[Cc-aw/sixteen_camera](https://github.com/Cc-aw/sixteen_camera)  
 > **审查基线**：`main` @ [`fde62da83c3d061cd4e20dd8b9847891cba9307e`](https://github.com/Cc-aw/sixteen_camera/commit/fde62da83c3d061cd4e20dd8b9847891cba9307e)  
@@ -8,6 +8,8 @@
 > **目标读者**：负责裸机 RISC-V / Gemmini / V17 A 软件重构的开发者及 Codex Agent。
 
 **实施进度（2026-10-13）**：R0 已完成离线基线与契约审计，见 [基线与约束](sw-runtime-baseline.md)。R1a Tensor、R1b PPU、R1c overlay/cache 设备边界已完成，见 [R1a](sw-runtime-r1a.md)、[R1b](sw-runtime-r1b.md)、[R1c 与完整 R1 离线验收](sw-runtime-r1c.md)。R2 资源身份与所有权已完成离线验收，见 [R2](sw-runtime-r2.md)：未确认停止的 abort/fault 保留资源，R0-GAP-01 已修复；Tensor version 回绕缺口仍待独立协议修复。R3 调度、Pipeline、服务与状态机已完成离线结构等价验收，见 [R3](sw-runtime-r3.md)，完整事件对照 47 组通过。R4a Backend Ops 与 legacy/V17A 适配已完成离线验收，见 [R4a](sw-runtime-r4a.md)，27 组真实后端及原 47 组 Runtime 对照通过。R4b Head/PPU 服务迁移已完成离线验收，见 [R4b](sw-runtime-r4b.md)：冻结 R4a 的 27 组完整后端轨迹及 Host/RV64 完成证明测试通过。R5 应用/CLI、真实 Facade、兼容 shim 与指标分层已完成离线验收，见 [R5](sw-runtime-r5.md)：91 组应用/UART、47 组 Facade 对照及 Host/RV64 指标测试通过。R0–R5 离线结构迁移已完成；板测未执行，R6 性能优化尚未实施。按用户要求，R0/R1a 已快进合入 `main`，开发分支已删除，后续直接在 `main` 分阶段提交。
+
+**后续实现（2026-10-14）**：按用户要求独立移植开发工程 v26 credit-cap4，保留 R5 Runtime 和资源所有权边界，见 [v26 集成](../integration/triple32-v26-software.md) 与 [离线验收](../validation/triple32-v26.md)。这项性能移植不等于下述 R6 优化列表已全部实施，当前工程上板性能仍待确认。
 
 ---
 

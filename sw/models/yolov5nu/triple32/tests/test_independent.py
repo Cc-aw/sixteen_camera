@@ -15,7 +15,7 @@ HERE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(HERE))
 from generate_parallel import ABI, MODEL, generate, function, tail_wait_annotations
 
-TOOLCHAIN = Path(os.environ.get('RISCV_TOOLCHAIN_DIR', str(Path(shutil.which('riscv64-unknown-linux-gnu-gcc') or 'riscv64-unknown-linux-gnu-gcc').parent)))
+TOOLCHAIN = Path('/home/wzr/chipyard/.conda-env/riscv-tools/bin')
 
 
 class IndependentTasks(unittest.TestCase):
@@ -26,7 +26,7 @@ class IndependentTasks(unittest.TestCase):
         local = root/'triple32'
         local.mkdir()
         (root/'dim16_dual').mkdir()
-        for name in ('independent.c', 'independent.h', 'task_context_config.h', 'yolo32.h', 'task_switch.S', 'ppu.h'):
+        for name in ('independent.c', 'independent.h', 'diagnostics.h', 'task_context_config.h', 'yolo32.h', 'task_switch.S', 'ppu.h'):
             shutil.copy(HERE/name, local/name)
         for name in ('yolov5nu_dim16_dual.h', 'yolov5nu_head_layout.h'):
             shutil.copy(HERE/'native'/name, local/name)
@@ -547,7 +547,7 @@ static elem_t input_buf[3][8000000],output_buf[3][8000000],weights_buf[8000000],
 static acc_t biases[1024];
 '''
         production = (HERE/'model.c').read_text()
-        hook = production[production.index('#define GEMMINI_POOL_COMMAND_RETURN_HOOK'):production.index('static unsigned parallel_mode')]
+        hook = production[production.index('#if YOLO32_SUPPLY_DIAG'):production.index('static unsigned parallel_mode')]
         gpu = gpu.replace('PRODUCTION_RETURN_HOOK',hook.replace('yolo32_independent_command_return','native_return_hook'))
         if fixed_packets:
             gpu += '''

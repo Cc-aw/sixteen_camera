@@ -60,7 +60,17 @@ def tail_wait_annotations(model):
     return model
 
 
-def generate(out, fixed_plans=False, params=None, host_cc='gcc', fixed_packets=False, prepared_packets=False):
+def generate(out, fixed_plans=False, params=None, host_cc='gcc', fixed_packets=False, prepared_packets=False, wait_reuse=False, supply_diag=False, memory_ops=False, resize_batch=False, resize_rows=0, software_batch=False):
+    if resize_batch and not memory_ops:
+        raise ValueError('Resize batch requires memory operators')
+    from memory_kernels import expected_counts
+    expected_counts(resize_batch, resize_rows)
+    if memory_ops and (not wait_reuse or supply_diag):
+        raise ValueError('Memory operators require v19 without supply diagnosis')
+    if supply_diag and not (wait_reuse and prepared_packets):
+        raise ValueError('Supply diagnosis requires the v19 wait-reuse/prepared baseline')
+    if wait_reuse and not prepared_packets:
+        raise ValueError('Wait reuse requires prepared packets')
     if prepared_packets and not fixed_packets:
         raise ValueError('Prepared packets require fixed packets')
     if fixed_packets and not fixed_plans:
@@ -202,6 +212,20 @@ def generate(out, fixed_plans=False, params=None, host_cc='gcc', fixed_packets=F
     # Do not label descriptor capture time as actual accelerator submission.
     if fixed_packets:
         model = tail_wait_annotations(model)
+    if wait_reuse:
+        from wait_reuse import bake as bake_wait_reuse
+        model = bake_wait_reuse(out, model)
+    if memory_ops:
+        from memory_kernels import bake as bake_memory
+        model = bake_memory(out, model, resize_batch, resize_rows)
+    if supply_diag:
+        from diagnostic_codegen import annotate
+        model = annotate(model)
+    if software_batch:
+        if not (memory_ops and resize_batch and resize_rows==0 and prepared_packets and wait_reuse):
+            raise ValueError('Software batch requires the capacity Resize/prepared baseline')
+        from software_batch import bake as bake_batch
+        model = bake_batch(out, model)
     (out / 'parallel_model.inc').write_text(model)
     (out / 'parallel_stages.inc').write_text('static const unsigned char parallel_conv_stage[167] = {' + ','.join(map(str, conv)) + '};\n')
     kinds, labels = [], []
@@ -225,15 +249,23 @@ def generate(out, fixed_plans=False, params=None, host_cc='gcc', fixed_packets=F
         print('Fixed packets: 469 ordinary-convolution packets per worker; native FP16 operands + byte offsets')
     if prepared_packets:
         print('Prepared packets: 224 WS packets per worker + 69 packed SiLU tables; native commands and waits preserved')
+    if wait_reuse:
+        print('Wait reuse: 13 proven adjacent caller waits per worker; original helper completion retained')
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('out', type=Path)
+    parser.add_argument('--software-batch', action='store_true')
     parser.add_argument('--fixed-plans', action='store_true')
     parser.add_argument('--fixed-packets', action='store_true')
     parser.add_argument('--prepared-packets', action='store_true')
+    parser.add_argument('--wait-reuse', action='store_true')
+    parser.add_argument('--supply-diag', action='store_true')
+    parser.add_argument('--memory-ops', action='store_true')
+    parser.add_argument('--resize-batch', action='store_true')
+    parser.add_argument('--resize-rows', type=int, default=0)
     parser.add_argument('--params', type=Path)
     parser.add_argument('--host-cc', default='gcc')
     args = parser.parse_args()
-    generate(args.out, args.fixed_plans, args.params, args.host_cc, args.fixed_packets, args.prepared_packets)
+    generate(args.out, args.fixed_plans, args.params, args.host_cc, args.fixed_packets, args.prepared_packets, args.wait_reuse, args.supply_diag, args.memory_ops, args.resize_batch, args.resize_rows, args.software_batch)

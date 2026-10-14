@@ -23,6 +23,7 @@ CONFIG_VARIABLES = (
     "TOOLCHAIN", "CC", "ARCH_FLAGS", "CFLAGS", "VENDOR_CFLAGS", "LDFLAGS", "LDLIBS",
     "AI_MODEL", "MODEL_WORKERS", "MODEL_DIM", "GEMMINI_PARAMS", "V17A_PARAMS",
     "V17A_FLAGS", "V17A_CFLAGS", "TENSOR_INGRESS_STATS", "BANDWIDTH_DIAGNOSTIC",
+    "V26_PARAMS", "V26_FLAGS", "V26_CFLAGS", "V26_CREDIT_LIMIT", "V26_DIAGNOSTIC",
     "LOCAL_SOURCES", "BOARD_SOURCES", "VENDOR_SOURCES", "MODEL_OBJECT", "OBJECTS",
 )
 
@@ -68,7 +69,7 @@ def snapshot_artifacts(output, config, compiler_prefix):
     source_dir = ROOT / "build/firmware" / (config + "_video" if config != "triple32_v3_tensor" else config)
     stem = "firmware" if config != "triple32_v3_tensor" else "hdmi_tx_test"
     if config == "benchmark":
-        source_dir = ROOT / "build/firmware/triple32_v17a_benchmark"
+        source_dir = Path(query_make(ROOT / "sw/models/yolov5nu/triple32", ("BUILD",))["BUILD"])
         stem = "yolo32"
     target = output / "artifacts" / config
     target.mkdir(parents=True)
@@ -87,7 +88,7 @@ def snapshot_artifacts(output, config, compiler_prefix):
         subprocess.run([compiler_prefix + "objdump", "-d", "-S", str(elf)], stdout=handle, check=True)
     records.append({"path": str(disassembly.relative_to(output)), "bytes": disassembly.stat().st_size,
                     "sha256": digest(disassembly)})
-    for pattern in ("v17a/*.stamp", "v17a/*.json", "*.json"):
+    for pattern in ("v17a/*.stamp", "v17a/*.json", "v26/*.stamp", "v26/*.json", "*.json"):
         for source in source_dir.glob(pattern):
             dest = target / source.relative_to(source_dir)
             dest.parent.mkdir(parents=True, exist_ok=True)
@@ -195,6 +196,8 @@ def main():
             if match:
                 record["unittest_count"] = int(match[1])
             record["riscv_live_context"] = "PASS" if "V17A_LIVE_RISCV_CONTEXT=PASS" in text else "NOT_CONFIRMED"
+            record["riscv_v26_live_context"] = "PASS" if all(
+                f"V26_LIVE_RISCV_CAP{limit}=PASS" in text for limit in (3, 4)) else "NOT_CONFIRMED"
         if name == "identity_trace" and "R0_KNOWN_GAP=" in text:
             report["safety_invariants"].append({
                 "name": "abort_success_requires_compute_stop_proof", "status": "FAIL",
