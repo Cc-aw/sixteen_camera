@@ -70,7 +70,7 @@
 | `sw/src/ai/runtime/ai_batch_runtime_stream.c` | 直接操作 Tensor CSR，又实现 EDF、Worker 管理、Post Job、TTL、Overlay 和统计 | `drivers/tensor` + `runtime/scheduler` + `runtime/core` + `runtime/services` |
 | `sw/src/ai/runtime/ai_tensor_slot_pool.c` | 存在用于软件测试/通用分配的槽池，实现模型不同于真实硬件每路固定双槽映射 | 统一槽协议；真实后端以硬件状态为真相 |
 | `sw/src/ai/backend/ai_model_backend_yolov5nu.c` | YOLO 执行、Head Slot、PPU MMIO、Head publication、结果完成事件互相依赖 | `backends/gemmini` + `runtime/resources` + `drivers/ppu` |
-| `sw/models/yolov5nu/triple32/independent.c` | V17 A 任务切换、局部完成证明、协作式调度由模型实现持有 | 暂保留为 V17 A Execution Backend 内部模块 |
+| `sw/models/yolov5nu/src/independent.c` | V17 A 任务切换、局部完成证明、协作式调度由模型实现持有 | 暂保留为 V17 A Execution Backend 内部模块 |
 | `sw/src/ai/runtime/ai_runtime_bridge.c` | 目前只是输出 `AI_STAGE` 的占位入口，并非真实抽象层 | 最终替换为公开 Runtime Facade |
 | `sw/src/platform/platform.h` | 固定板级地址、Buffer 布局和业务常量混合定义 | 保留原有 ABI，逐步建立只读配置/能力边界 |
 
@@ -659,7 +659,7 @@ make test-tensor
 - [Tensor 软件槽池 `ai_tensor_slot_pool.c`](https://github.com/Cc-aw/sixteen_camera/blob/fde62da83c3d061cd4e20dd8b9847891cba9307e/sw/src/ai/runtime/ai_tensor_slot_pool.c)
 - [Head 槽管理 `ai_head_slot_queue.c`](https://github.com/Cc-aw/sixteen_camera/blob/fde62da83c3d061cd4e20dd8b9847891cba9307e/sw/src/ai/runtime/ai_head_slot_queue.c)
 - [模型 Backend `ai_model_backend_yolov5nu.c`](https://github.com/Cc-aw/sixteen_camera/blob/fde62da83c3d061cd4e20dd8b9847891cba9307e/sw/src/ai/backend/ai_model_backend_yolov5nu.c)
-- [V17 A 协作执行器 `independent.c`](https://github.com/Cc-aw/sixteen_camera/blob/fde62da83c3d061cd4e20dd8b9847891cba9307e/sw/models/yolov5nu/triple32/independent.c)
+- [V17 A 协作执行器 `independent.c`](https://github.com/Cc-aw/sixteen_camera/blob/fde62da83c3d061cd4e20dd8b9847891cba9307e/sw/models/yolov5nu/src/independent.c)
 - [Head publication driver](https://github.com/Cc-aw/sixteen_camera/blob/fde62da83c3d061cd4e20dd8b9847891cba9307e/sw/src/ai/postprocess/ai_ppu_publication.c)
 - [V17 A 软件移植说明](https://github.com/Cc-aw/sixteen_camera/blob/fde62da83c3d061cd4e20dd8b9847891cba9307e/docs/integration/triple32-v17a-software.md)
 - [V3 + Tensor 硬件契约](https://github.com/Cc-aw/sixteen_camera/blob/fde62da83c3d061cd4e20dd8b9847891cba9307e/docs/integration/triple32-v3-tensor.md)

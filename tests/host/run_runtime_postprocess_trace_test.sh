@@ -4,7 +4,7 @@ project_root=$(cd "$(dirname "$0")/../.." && pwd)
 source "$project_root/tests/host/runtime_module_sources.sh"
 test_tmp=$(mktemp -d /tmp/sixteen-camera-postprocess.XXXXXX)
 trap 'rm -rf "$test_tmp"' EXIT
-model="$project_root/sw/models/yolov5nu/triple32"
+model="$project_root/sw/models/yolov5nu"
 shared=("$project_root/sw/src/ai/runtime/resources/rt_arena_manager.c"
   "$project_root/sw/src/ai/runtime/resources/rt_head_manager.c"
   "$project_root/sw/src/ai/runtime/ai_head_slot_queue.c")
@@ -15,7 +15,7 @@ for workers in 1 2 3; do
     -DYOLOV5NU_DIM16_WORKER_COUNT=${workers}U -DYOLOV5NU_GEMMINI_DIM=$dim
     -DYOLO32_FIXED_PLANS=1 -DYOLO32_FIXED_PACKETS=1 -DYOLO32_PREPARED_PACKETS=1
     -DYOLO32_PPU_EARLY=1 -DYOLO32_PPU_HEAD_CLEAN=1 -DR2_STOP_PROOF=1 -DAI_BACKEND_RESOURCE_TEST=1
-    "${runtime_backend_flags[@]}" -I"$project_root/tests/host/ppu_backend_include" -I"$project_root/sw/src" -I"$model/native" -I"$model")
+    "${runtime_backend_flags[@]}" -I"$project_root/tests/host/ppu_backend_include" -I"$project_root/sw/src" -I"$model/frozen/native" -I"$model/include" -I"$model/src")
   for driver in publication queue; do
     cc "${flags[@]}" -DYOLO32_PPU_ORDERED_MMIO=$live -c "$project_root/sw/src/ai/postprocess/ai_ppu_$driver.c" -o "$test_tmp/$driver.o"
   done

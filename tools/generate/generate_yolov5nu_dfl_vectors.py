@@ -8,7 +8,7 @@ from pathlib import Path
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
-PARAMS = ROOT / "sw/models/yolov5nu/aot/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h"
+PARAMS = ROOT / "sw/models/yolov5nu/assets/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h"
 WEIGHTS = np.array([0, 8, 17, 25, 34, 42, 51, 59,
                     68, 76, 85, 93, 102, 110, 119, 127], dtype=np.int32)
 SCALES = [0.2151331604, 0.1472641826, 0.1159213334]

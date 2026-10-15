@@ -1,0 +1,484 @@
+{
+  "donor": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_timing_v3_2026-10-07",
+  "configuration": "v26 credit-cap4 formal; software-batch disabled",
+  "date": "2026-10-14",
+  "baseline_commit": "b932ca6",
+  "files": [
+    {
+      "source": "sw/yolov5/triple32/prepared_packets_runtime.inc",
+      "destination": "sw/models/yolov5nu/codegen/prepared_packets_runtime.inc",
+      "source_sha256": "9672bdb1023b14bcca30ce8b47a78679345f4aea8adbbbbf78136e7f9d2ec9b9",
+      "imported_sha256": "9672bdb1023b14bcca30ce8b47a78679345f4aea8adbbbbf78136e7f9d2ec9b9"
+    },
+    {
+      "source": "sw/yolov5/triple32/analyze_log.py",
+      "destination": "tools/analyze/yolov5nu/analyze_log.py",
+      "source_sha256": "ba2db7691d4f71e55605b0afcc510ddd22a8de1179853ef8ca437856ea0d4c31",
+      "imported_sha256": "ba2db7691d4f71e55605b0afcc510ddd22a8de1179853ef8ca437856ea0d4c31"
+    },
+    {
+      "source": "sw/yolov5/triple32/capacity_log.py",
+      "destination": "tools/analyze/yolov5nu/capacity_log.py",
+      "source_sha256": "f4d9da043895ffd73f1c7b1d516f4c5e57e66b11d08313b2f2a1419cdb67ccdb",
+      "imported_sha256": "f4d9da043895ffd73f1c7b1d516f4c5e57e66b11d08313b2f2a1419cdb67ccdb"
+    },
+    {
+      "source": "sw/yolov5/triple32/capacity_manifest.py",
+      "destination": "sw/benchmarks/triple_infer/capacity_manifest.py",
+      "source_sha256": "9a51f057b4a4d26f5968da9c2e5e4f2eda2259e413c8751525b4a9afe347b74f",
+      "imported_sha256": "9a51f057b4a4d26f5968da9c2e5e4f2eda2259e413c8751525b4a9afe347b74f"
+    },
+    {
+      "source": "sw/yolov5/triple32/capacity_observer.c",
+      "destination": "sw/models/yolov5nu/src/capacity_observer.c",
+      "source_sha256": "053498e8da1de8856ed0c23e917606dfa6a8f5afe431b542bc135cca5a37d0a5",
+      "imported_sha256": "053498e8da1de8856ed0c23e917606dfa6a8f5afe431b542bc135cca5a37d0a5"
+    },
+    {
+      "source": "sw/yolov5/triple32/capacity_observer.h",
+      "destination": "sw/models/yolov5nu/include/capacity_observer.h",
+      "source_sha256": "89d1ea57599748c3aac83d6ae6ebd193607042881cb2d448c60875ed5f849761",
+      "imported_sha256": "89d1ea57599748c3aac83d6ae6ebd193607042881cb2d448c60875ed5f849761"
+    },
+    {
+      "source": "sw/yolov5/triple32/check_log.py",
+      "destination": "tools/analyze/yolov5nu/check_log.py",
+      "source_sha256": "e2acb4056277babdd388ef87ef7569dbef94e7476f76ac150f7167038cdbd0eb",
+      "imported_sha256": "e2acb4056277babdd388ef87ef7569dbef94e7476f76ac150f7167038cdbd0eb"
+    },
+    {
+      "source": "sw/yolov5/triple32/compare.c",
+      "destination": "sw/benchmarks/triple_infer/compare.c",
+      "source_sha256": "45fc4882bf4fc0f52d82daa6336621896c966aa9ff12fbb8f8292abfcbcc1377",
+      "imported_sha256": "45fc4882bf4fc0f52d82daa6336621896c966aa9ff12fbb8f8292abfcbcc1377"
+    },
+    {
+      "source": "sw/yolov5/triple32/credit_log.py",
+      "destination": "tools/analyze/yolov5nu/credit_log.py",
+      "source_sha256": "6b2c51591bad65c32a1e5487ce72871ef0fc0a91e24f70bff1bfee40cb3920aa",
+      "imported_sha256": "6b2c51591bad65c32a1e5487ce72871ef0fc0a91e24f70bff1bfee40cb3920aa"
+    },
+    {
+      "source": "sw/yolov5/triple32/diagnostics.c",
+      "destination": "sw/models/yolov5nu/src/diagnostics.c",
+      "source_sha256": "b3075537ba71362a0da9e37b99f53f216c182d5b63d8fd48a0d4a1d5d7ce2e77",
+      "imported_sha256": "b3075537ba71362a0da9e37b99f53f216c182d5b63d8fd48a0d4a1d5d7ce2e77"
+    },
+    {
+      "source": "sw/yolov5/triple32/diagnostics.h",
+      "destination": "sw/models/yolov5nu/include/diagnostics.h",
+      "source_sha256": "4dde56162c8654bd8396ac0ca726bae32f2e384bef6a73e36871a896ba8ff13a",
+      "imported_sha256": "4dde56162c8654bd8396ac0ca726bae32f2e384bef6a73e36871a896ba8ff13a"
+    },
+    {
+      "source": "sw/yolov5/triple32/diagnostic_codegen.py",
+      "destination": "sw/models/yolov5nu/codegen/diagnostic_codegen.py",
+      "source_sha256": "e34d44a597accbb8018d2f3f6630de08a681f301087f5a044bdecd62835718a4",
+      "imported_sha256": "e34d44a597accbb8018d2f3f6630de08a681f301087f5a044bdecd62835718a4"
+    },
+    {
+      "source": "sw/yolov5/triple32/diagnostic_traffic.py",
+      "destination": "tools/analyze/yolov5nu/diagnostic_traffic.py",
+      "source_sha256": "ec08faa2c02109d2f6d679a620c672bd106b3bd5286f1132366731ea822e8b4a",
+      "imported_sha256": "ec08faa2c02109d2f6d679a620c672bd106b3bd5286f1132366731ea822e8b4a"
+    },
+    {
+      "source": "sw/yolov5/triple32/fixed_packets.py",
+      "destination": "sw/models/yolov5nu/codegen/fixed_packets.py",
+      "source_sha256": "7758c7888dfcfd6926e3f4d865f4def0e8d92557fd09a1677d4baaba63269565",
+      "imported_sha256": "25e38fc1165fead36171018297225bb8666599cb4c804fedf4adb7251d2ac43d"
+    },
+    {
+      "source": "sw/yolov5/triple32/fixed_packets_runtime.inc",
+      "destination": "sw/models/yolov5nu/codegen/fixed_packets_runtime.inc",
+      "source_sha256": "4192d8ae507bd73a0a828bf0f12babf384b37cdfe392a0511d01ba777fa00aa2",
+      "imported_sha256": "4192d8ae507bd73a0a828bf0f12babf384b37cdfe392a0511d01ba777fa00aa2"
+    },
+    {
+      "source": "sw/yolov5/triple32/fixed_plans.py",
+      "destination": "sw/models/yolov5nu/codegen/fixed_plans.py",
+      "source_sha256": "b09df5c71a839eb51125433741e36a97c522d5f41d95c7bd2bb6073ac5eb795e",
+      "imported_sha256": "b09df5c71a839eb51125433741e36a97c522d5f41d95c7bd2bb6073ac5eb795e"
+    },
+    {
+      "source": "sw/yolov5/triple32/generate_parallel.py",
+      "destination": "sw/models/yolov5nu/codegen/generate_parallel.py",
+      "source_sha256": "bc76eb24e46829a43d7f45fe7d2a22f763e0333a7b3df44d51fc2de29b54a38e",
+      "imported_sha256": "73630f0ae75449bb178d4db97ccf9cae03d283d7504b20087d4bf20c2ea66eab"
+    },
+    {
+      "source": "sw/yolov5/triple32/hardware_log.py",
+      "destination": "tools/analyze/yolov5nu/hardware_log.py",
+      "source_sha256": "771258508f24110fb5503b02d384a24d09244b14ac61ae63784e28d583b25030",
+      "imported_sha256": "771258508f24110fb5503b02d384a24d09244b14ac61ae63784e28d583b25030"
+    },
+    {
+      "source": "sw/yolov5/triple32/independent.c",
+      "destination": "sw/models/yolov5nu/src/independent.c",
+      "source_sha256": "e2e896e711c6c35851d835d418138b72d983991c797a1d13c117d362b794a9ce",
+      "imported_sha256": "5a1e004eb204685e9304450169dad476102ca56cd97af090b9a3748d06c440b8"
+    },
+    {
+      "source": "sw/yolov5/triple32/independent.h",
+      "destination": "sw/models/yolov5nu/include/independent.h",
+      "source_sha256": "768b8f497cc535aeb3c3551ec5865cd352f365a6ee95b35f0711c637eedb6130",
+      "imported_sha256": "dd6f248308c9c824322923b17982fa3af8fb2bed22cbae2bc34f84bdb9aa5998"
+    },
+    {
+      "source": "sw/yolov5/triple32/main.c",
+      "destination": "sw/benchmarks/triple_infer/main.c",
+      "source_sha256": "96b3e7650bad5837737a85dd2f3947ffba071774475751190a53e654941c8174",
+      "imported_sha256": "fc94439bccb234a652d2a0b7f21d3d6c99bc0b42a4ab1a0299097b59070a5856"
+    },
+    {
+      "source": "sw/yolov5/triple32/memory_kernels.h",
+      "destination": "sw/models/yolov5nu/include/memory_kernels.h",
+      "source_sha256": "7acdbf04df0a227d8cb12396792ba0a0a6b482b511edcfef4e3fa00fed2197b0",
+      "imported_sha256": "7acdbf04df0a227d8cb12396792ba0a0a6b482b511edcfef4e3fa00fed2197b0"
+    },
+    {
+      "source": "sw/yolov5/triple32/memory_kernels.py",
+      "destination": "sw/models/yolov5nu/codegen/memory_kernels.py",
+      "source_sha256": "f73bb0cc187bfbba814053b9b5ebf1b379cb2a6efc81c6ce49c03ae15b857b47",
+      "imported_sha256": "f73bb0cc187bfbba814053b9b5ebf1b379cb2a6efc81c6ce49c03ae15b857b47"
+    },
+    {
+      "source": "sw/yolov5/triple32/memory_kernels_runtime.inc",
+      "destination": "sw/models/yolov5nu/codegen/memory_kernels_runtime.inc",
+      "source_sha256": "d5578150378c57665ed9ca34b67b7c40153e4ae2086f1bd13d599c3a92d211a9",
+      "imported_sha256": "d5578150378c57665ed9ca34b67b7c40153e4ae2086f1bd13d599c3a92d211a9"
+    },
+    {
+      "source": "sw/yolov5/triple32/memory_log.py",
+      "destination": "tools/analyze/yolov5nu/memory_log.py",
+      "source_sha256": "8bd9d8cb0eef6dcbe621c1d030fa3d07b1b16bf3fbb353a41b53a27d20116752",
+      "imported_sha256": "8bd9d8cb0eef6dcbe621c1d030fa3d07b1b16bf3fbb353a41b53a27d20116752"
+    },
+    {
+      "source": "sw/yolov5/triple32/memory_selftest.inc",
+      "destination": "sw/models/yolov5nu/src/memory_selftest.inc",
+      "source_sha256": "9ef94c4c196da99b6022fcffd896e117e627dfacf6f0382b8a57da9ced532d4b",
+      "imported_sha256": "9ef94c4c196da99b6022fcffd896e117e627dfacf6f0382b8a57da9ced532d4b"
+    },
+    {
+      "source": "sw/yolov5/triple32/model.c",
+      "destination": "sw/models/yolov5nu/src/model.c",
+      "source_sha256": "c5ac16059425e3a29873d266675962544abd46c745ca0f011910156444a2462f",
+      "imported_sha256": "c5ac16059425e3a29873d266675962544abd46c745ca0f011910156444a2462f"
+    },
+    {
+      "source": "sw/yolov5/triple32/packet_dispatch_runtime.inc",
+      "destination": "sw/models/yolov5nu/codegen/packet_dispatch_runtime.inc",
+      "source_sha256": "7d77577d4336eab967d7e4074552cb22b0c0b1263b6842c0d02630f4c1e1fca7",
+      "imported_sha256": "7d77577d4336eab967d7e4074552cb22b0c0b1263b6842c0d02630f4c1e1fca7"
+    },
+    {
+      "source": "sw/yolov5/triple32/ppu.c",
+      "destination": "sw/benchmarks/triple_infer/ppu.c",
+      "source_sha256": "92f37e202a52692e95d89e7b3d1984127453177ef9bc46961ea3461c711d2ef3",
+      "imported_sha256": "92f37e202a52692e95d89e7b3d1984127453177ef9bc46961ea3461c711d2ef3"
+    },
+    {
+      "source": "sw/yolov5/triple32/ppu.h",
+      "destination": "sw/models/yolov5nu/include/ppu.h",
+      "source_sha256": "0bcf63f2a9b3e222413325dc4263edcdbb3045037cca5644be3db3ac5ff9a647",
+      "imported_sha256": "5b87b81be312e0d9be29ffe536566cf51c7a4c4ea7c06b25137e16510a7cbc8c"
+    },
+    {
+      "source": "sw/yolov5/triple32/ppu_early.inc",
+      "destination": "sw/benchmarks/triple_infer/ppu_early.inc",
+      "source_sha256": "46e7a9ecb64c68036f495b28a87198aad2ae90ad9fb5033b938e4d72f4b82bce",
+      "imported_sha256": "46e7a9ecb64c68036f495b28a87198aad2ae90ad9fb5033b938e4d72f4b82bce"
+    },
+    {
+      "source": "sw/yolov5/triple32/ppu_early_log.py",
+      "destination": "tools/analyze/yolov5nu/ppu_early_log.py",
+      "source_sha256": "cd387ccc8bb56b068f8be209f49144b2562ced8d081b793de28f354808fa20ea",
+      "imported_sha256": "cd387ccc8bb56b068f8be209f49144b2562ced8d081b793de28f354808fa20ea"
+    },
+    {
+      "source": "sw/yolov5/triple32/ppu_head_clean.inc",
+      "destination": "sw/benchmarks/triple_infer/ppu_head_clean.inc",
+      "source_sha256": "5bd6f25682ba5453a476b920f7d5ebaa630d1d63d5da53e4af7447d7ac1ba6d8",
+      "imported_sha256": "5bd6f25682ba5453a476b920f7d5ebaa630d1d63d5da53e4af7447d7ac1ba6d8"
+    },
+    {
+      "source": "sw/yolov5/triple32/ppu_head_log.py",
+      "destination": "tools/analyze/yolov5nu/ppu_head_log.py",
+      "source_sha256": "2c91daf10ce9f37431e87b8335605eea9a57ac4e14a30ef90f0d947a77b52df2",
+      "imported_sha256": "2c91daf10ce9f37431e87b8335605eea9a57ac4e14a30ef90f0d947a77b52df2"
+    },
+    {
+      "source": "sw/yolov5/triple32/prepared_packets.py",
+      "destination": "sw/models/yolov5nu/codegen/prepared_packets.py",
+      "source_sha256": "d480da46fe9c24e2c2ff07b79ed5887ff24d328e0eb185ff3c2d9c03c4f777cd",
+      "imported_sha256": "274cdddccc719feb9a76d3254b0fcbc864aebfece3f440fc964c8fde4766cfbe"
+    },
+    {
+      "source": "sw/yolov5/triple32/rocc_layers.py",
+      "destination": "tools/analyze/yolov5nu/rocc_layers.py",
+      "source_sha256": "e64113b934180448de1273638705ae5633427169feb44ae46446809d555498d1",
+      "imported_sha256": "e64113b934180448de1273638705ae5633427169feb44ae46446809d555498d1"
+    },
+    {
+      "source": "sw/yolov5/triple32/software_batch.py",
+      "destination": "sw/models/yolov5nu/codegen/software_batch.py",
+      "source_sha256": "3031f6ebea46713157e746455c8e1aa53a5b93f5fc189668adbd45623b03404c",
+      "imported_sha256": "3031f6ebea46713157e746455c8e1aa53a5b93f5fc189668adbd45623b03404c"
+    },
+    {
+      "source": "sw/yolov5/triple32/software_batch_log.py",
+      "destination": "tools/analyze/yolov5nu/software_batch_log.py",
+      "source_sha256": "96abeca439b5d6d4c7cedaf79dd69fa9bf20fd2ee3a6837e4632424dc7ad7d38",
+      "imported_sha256": "96abeca439b5d6d4c7cedaf79dd69fa9bf20fd2ee3a6837e4632424dc7ad7d38"
+    },
+    {
+      "source": "sw/yolov5/triple32/software_batch_runtime.inc",
+      "destination": "sw/models/yolov5nu/codegen/software_batch_runtime.inc",
+      "source_sha256": "6b28e7242ba3108de716e6df3f822f92d13f911c624d4421ecbef17b0bc117ef",
+      "imported_sha256": "6b28e7242ba3108de716e6df3f822f92d13f911c624d4421ecbef17b0bc117ef"
+    },
+    {
+      "source": "sw/yolov5/triple32/submit_log.py",
+      "destination": "tools/analyze/yolov5nu/submit_log.py",
+      "source_sha256": "0cea2e087c7a5ddcb919728841263c8fc9f925494910a26f63bf1749af729726",
+      "imported_sha256": "0cea2e087c7a5ddcb919728841263c8fc9f925494910a26f63bf1749af729726"
+    },
+    {
+      "source": "sw/yolov5/triple32/supply_diag_log.py",
+      "destination": "tools/analyze/yolov5nu/supply_diag_log.py",
+      "source_sha256": "39672ec7e9c0ef95b643dd660ec59acb97377434263bf9137305d24ad04a22e7",
+      "imported_sha256": "39672ec7e9c0ef95b643dd660ec59acb97377434263bf9137305d24ad04a22e7"
+    },
+    {
+      "source": "sw/yolov5/triple32/support.c",
+      "destination": "sw/benchmarks/triple_infer/support.c",
+      "source_sha256": "392ec4874cd91f50969a1f9506f996642790e25446453a75933bd491a0a87897",
+      "imported_sha256": "392ec4874cd91f50969a1f9506f996642790e25446453a75933bd491a0a87897"
+    },
+    {
+      "source": "sw/yolov5/triple32/task_context_config.h",
+      "destination": "sw/models/yolov5nu/src/task_context_config.h",
+      "source_sha256": "b5f62fb1df035a0b5ccfec1934256ab060102c97ac06da025492f2d00518e1b8",
+      "imported_sha256": "b5f62fb1df035a0b5ccfec1934256ab060102c97ac06da025492f2d00518e1b8"
+    },
+    {
+      "source": "sw/yolov5/triple32/task_switch.S",
+      "destination": "sw/models/yolov5nu/src/task_switch.S",
+      "source_sha256": "1865394cf70cc7a2e09936dd9d8555af86c7ea5c471bd1493acd6ce154f107c0",
+      "imported_sha256": "1865394cf70cc7a2e09936dd9d8555af86c7ea5c471bd1493acd6ce154f107c0"
+    },
+    {
+      "source": "sw/yolov5/triple32/wait_reuse.py",
+      "destination": "sw/models/yolov5nu/codegen/wait_reuse.py",
+      "source_sha256": "9f6bd5cf591b3deb617e9345685b20849925d2e69c83a2e4b402fcff492397ba",
+      "imported_sha256": "9f6bd5cf591b3deb617e9345685b20849925d2e69c83a2e4b402fcff492397ba"
+    },
+    {
+      "source": "sw/yolov5/triple32/wait_reuse_log.py",
+      "destination": "tools/analyze/yolov5nu/wait_reuse_log.py",
+      "source_sha256": "44080c70eb28628418627585a8cae1493d2b460569d86a1a1a02a8449d3a9c3a",
+      "imported_sha256": "44080c70eb28628418627585a8cae1493d2b460569d86a1a1a02a8449d3a9c3a"
+    },
+    {
+      "source": "sw/yolov5/triple32/yolo32.h",
+      "destination": "sw/models/yolov5nu/include/yolo32.h",
+      "source_sha256": "9540b12f158e20a4bdcc1645a4db85cc90476c069df88e463e662c56b6e6c5d2",
+      "imported_sha256": "fce9a87d664f07867f7ce993c6d9333b789d9e301e739ebee8d0d38837296939"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/memory_backend.c",
+      "destination": "tests/model/yolov5nu/memory_backend.c",
+      "source_sha256": "89c1bb0fc2581055fb23d712782e9f4c31f262d9a9e5967a21efdf6b81afb2a7",
+      "imported_sha256": "89c1bb0fc2581055fb23d712782e9f4c31f262d9a9e5967a21efdf6b81afb2a7"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_benchmark.py",
+      "destination": "tests/model/yolov5nu/test_benchmark.py",
+      "source_sha256": "514732f88b5fbf45fc71010a7d44768ff232ecf97c3ebe0ef895d740bf9a717d",
+      "imported_sha256": "514732f88b5fbf45fc71010a7d44768ff232ecf97c3ebe0ef895d740bf9a717d"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_benchmark_main.py",
+      "destination": "tests/model/yolov5nu/test_benchmark_main.py",
+      "source_sha256": "4acc9a906d03fcf20ee44b21edfd615c964893b1c9572c1b662a84f1d732b5af",
+      "imported_sha256": "0bded6814fba7d0f71fe14cac8e7ae782fd6dd9ef9929446d58d7acd3739f350"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_capacity.py",
+      "destination": "tests/model/yolov5nu/test_capacity.py",
+      "source_sha256": "af78d135dbfe283a0132be8bf7932d0aea22d07f3ffd68f530028538d1c3c7b9",
+      "imported_sha256": "af78d135dbfe283a0132be8bf7932d0aea22d07f3ffd68f530028538d1c3c7b9"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_compare.c",
+      "destination": "tests/model/yolov5nu/test_compare.c",
+      "source_sha256": "50685700ca96ff566ce478134dc23c7b00797112c0abb87ea6cddc0961a69ea7",
+      "imported_sha256": "50685700ca96ff566ce478134dc23c7b00797112c0abb87ea6cddc0961a69ea7"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_credit.py",
+      "destination": "tests/model/yolov5nu/test_credit.py",
+      "source_sha256": "7acef5494917f45d663d74a2e4f1f843ff8b28051de00681b55e82cfb0018091",
+      "imported_sha256": "c8605b6c2897c10e398b7760550849248793ac384e8becef32b43103026f3078"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_fixed_packets.py",
+      "destination": "tests/model/yolov5nu/test_fixed_packets.py",
+      "source_sha256": "a73b2b2f00deb64b8023ec5d54ae2010ce33ca52ee9b049030d997d974224d0c",
+      "imported_sha256": "c3cd84ed5d31c7e0db5ced771f3416cd018b54287256caa7e9cc9869e784cc50"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_fixed_plans.py",
+      "destination": "tests/model/yolov5nu/test_fixed_plans.py",
+      "source_sha256": "2fa47a26bc0e0e186528a8f0d7bce619dac12f70401b9cb1d317d15eb47ac49d",
+      "imported_sha256": "79bf81392698d1edde6726fac1fafe33fb5276058a2129a28a2a4f349f60c68e"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_hardware_log.py",
+      "destination": "tests/model/yolov5nu/test_hardware_log.py",
+      "source_sha256": "db2a1e408ef11de2f82acbca5e536e39da3320f819c57355b920f7f2bccca4f9",
+      "imported_sha256": "db2a1e408ef11de2f82acbca5e536e39da3320f819c57355b920f7f2bccca4f9"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_head_publication.py",
+      "destination": "tests/model/yolov5nu/test_head_publication.py",
+      "source_sha256": "03fd7bd0826a967af169d3c4e47d45b7c11141160948335bf3a5c7f41d250ebf",
+      "imported_sha256": "1161142e7083f2ca1b6142b17bb410b6b8e3bde8cb6c87ea5e6eee9bf09df5c5"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_independent.py",
+      "destination": "tests/model/yolov5nu/test_independent.py",
+      "source_sha256": "2ca7209f0301d485610293d830c91e76a34caaa826f614658b6aad99597599c8",
+      "imported_sha256": "abdbd396ffccdc946161073f55984de44a4e6ec4943c17811c16735349a9327a"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_log.py",
+      "destination": "tests/model/yolov5nu/test_log.py",
+      "source_sha256": "2ecae62f87cf274de220b5c1485e202e3bd0ea51e55e782a4852fd6efbe32a15",
+      "imported_sha256": "2ecae62f87cf274de220b5c1485e202e3bd0ea51e55e782a4852fd6efbe32a15"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_memory_kernels.py",
+      "destination": "tests/model/yolov5nu/test_memory_kernels.py",
+      "source_sha256": "fec2a68661ffde1fd1c54e7d541f6c6457743b008de2edf3ac63ea670bfa67f1",
+      "imported_sha256": "318a3ac9c3ca7c6acc56787526dc8d36ec602adf2bf6e14f3a211cd514a7d82e"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_parallel.py",
+      "destination": "tests/model/yolov5nu/test_parallel.py",
+      "source_sha256": "d495e9a5cc66acd82681fe497d3c410e883920db7c27b25a196e79cea8bcf805",
+      "imported_sha256": "5a121405570add66426bc5ddf28fc6bee48d6e599b55796561b6da8b8170b6c4"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_ppu_driver.py",
+      "destination": "tests/model/yolov5nu/test_ppu_driver.py",
+      "source_sha256": "d4966afba75c0c61d6612633b9afdc6830bd21fc17563800248f7db239e5d6aa",
+      "imported_sha256": "2033ac200bbc02b599e4b129705a2218ca20cf05e43b78c0cc9ae409219417c6"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_ppu_early.py",
+      "destination": "tests/model/yolov5nu/test_ppu_early.py",
+      "source_sha256": "470576252a26f4cfcf07988ef92c49a48a4f81703ff1624c4c53c7305f3cbeee",
+      "imported_sha256": "a17c97a1d413d026bc816d1ffbdf5e2bdc49fe6a5514b89b5809ba9b68c3dcbc"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_ppu_early_log.py",
+      "destination": "tests/model/yolov5nu/test_ppu_early_log.py",
+      "source_sha256": "acf49c2e94504c56d4b2c838d514a0b1f7ba821371389f13a23c6ea7e18bda27",
+      "imported_sha256": "acf49c2e94504c56d4b2c838d514a0b1f7ba821371389f13a23c6ea7e18bda27"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_prepared_packets.py",
+      "destination": "tests/model/yolov5nu/test_prepared_packets.py",
+      "source_sha256": "31a3a6cbd8da5aff5ee3d9e8e6d0629451d49b6d45b153452882718f3dc845c9",
+      "imported_sha256": "72f73377ada673ae1316669de51bf59cb69f0dfd90a6d5d34a05d1fec26efbfb"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_rocc_layers.py",
+      "destination": "tests/model/yolov5nu/test_rocc_layers.py",
+      "source_sha256": "7250141bf3d6e3ac0cfc9796360c55891bc1d0cacc63b30b4524d9da9a69f1ac",
+      "imported_sha256": "a6743fed3c23f17a8751cd466d569ed451d4cce8528f65adf15d3c742b872a20"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_submit_optimizations.py",
+      "destination": "tests/model/yolov5nu/test_submit_optimizations.py",
+      "source_sha256": "f48bd1c23c6ebf9555f67044e0dcf8cdc9f1457f3ab7e420529431bbcc5db1f8",
+      "imported_sha256": "949542e87a72109cf47eac0436aa282d7fcdeabbf925007fa8ddff17bd34af56"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_supply_diag.py",
+      "destination": "tests/model/yolov5nu/test_supply_diag.py",
+      "source_sha256": "1d229834c44869ebb2ce0702a6af5ef47b68da8c0425664b8fdf1cb2605b88eb",
+      "imported_sha256": "1d229834c44869ebb2ce0702a6af5ef47b68da8c0425664b8fdf1cb2605b88eb"
+    },
+    {
+      "source": "sw/yolov5/triple32/tests/test_wait_reuse.py",
+      "destination": "tests/model/yolov5nu/test_wait_reuse.py",
+      "source_sha256": "70e38d9cfda92acf8b9a225e8d2700baa3c74634918b2c1e74afd36d11a54461",
+      "imported_sha256": "20e0926d41e357094a0bf81a7805d5a1b67a655dac30143649f698eef41629f3"
+    }
+  ],
+  "adaptations": [
+    "repository-owned source/ABI paths",
+    "existing mmio/readback and quantized input generator retained",
+    "existing per-worker live lifecycle merged with v26 credit and wait-reuse reset"
+  ],
+  "donor_capacity_manifest": {
+    "schema": 1,
+    "firmware": "v26",
+    "images": [
+      "025",
+      "036",
+      "142"
+    ],
+    "executor": "coroutine",
+    "credit_cap": 4,
+    "credit_limit": 4,
+    "submit_burst": 1,
+    "quantum_cycles": 20000,
+    "capacity_diag": 0,
+    "diagnostic_build": 0,
+    "resize_rows": 0,
+    "postprocess": "hardware",
+    "ppu_strategy": "A",
+    "scale": "fp16",
+    "hardware_identity": "ABI audited; not a fingerprint of the loaded bitstream",
+    "compiler": "/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gcc",
+    "compiler_version": "riscv64-unknown-elf-gcc (gc891d8dc23e) 13.2.0",
+    "artifacts": {
+      "yolo32.elf": "c9b25c61677cec31a35c38b3d3d1c3b7f3d6a126be1fbc3daf83d2f8f3956e78",
+      "fixed_plans.json": "d9c42418083a5a529e256dc7a8ddd6012ab4ff13d5b4af0a1a643759143b2f39",
+      "memory_kernels.json": "2ada47fc1c3b605dcad78f2812930d26cbdc83fa1af093cb5e5af09dd7af06fc",
+      "inputs_manifest.json": "3629422447f62b118c630c6fa64d2a3e73a455e0d4153079b38a341438c141a4"
+    },
+    "params_sha256": "5c95c13aec125b0671a5165cf0daa05dfaea2308710e19195005ca9e69e80077",
+    "sources": {
+      "main.c": "fbefbe0355f3616a2292190b00d7d0e44b7701c8b4758773e2de6e0dd54e5f15",
+      "model.c": "36b5b523105cd456ac36d4b5f665c586aff54a748f7726865814365202e7854f",
+      "independent.c": "3242c2343e70ca584ec266ceb6a065fb37b4a652ee031d66c27077f6ec83e977",
+      "independent.h": "1331671d17623dce1078ea8a149754417ece9bec0eb042851393d1331f521a18",
+      "capacity_observer.c": "053498e8da1de8856ed0c23e917606dfa6a8f5afe431b542bc135cca5a37d0a5",
+      "capacity_observer.h": "89d1ea57599748c3aac83d6ae6ebd193607042881cb2d448c60875ed5f849761",
+      "fixed_packets_runtime.inc": "4192d8ae507bd73a0a828bf0f12babf384b37cdfe392a0511d01ba777fa00aa2",
+      "Makefile": "db46b9d8f4f4bb8b275a48365c7e07ce7da824da08df9faa54e37bbb40851b3c"
+    }
+  },
+  "integration_adaptations": [
+    "Use repository-local ABI, native generator input, model weights and sw/src headers",
+    "Keep Runtime R5 ownership and V17A DIM32 ABI family adapter; report native v26",
+    "Retain live sparse-worker packet/time yields and bounded WAITING/WAIT_CREDIT returns",
+    "Reset per-worker retirement budget, credit error poll and scoped wait proof on frame reuse",
+    "Pin default video cap4 formal; share v26.mk and stamp all benchmark objects",
+    "Do not activate guarded v27/v28 software batch; exclude its dedicated tests"
+  ],
+  "donor_performance_reference": {
+    "source": "sw/yolov5/triple32/p1_capacity_test.txt",
+    "sha256": "99a9067388a6e96f4d60586c4fd573c5a2ab69ad2155dcfa5ef0805a0c8ba109",
+    "board_measurements": "donor evidence only; integration board validation pending"
+  },
+  "donor_plans": {
+    "fixed_plans.json": "d9c42418083a5a529e256dc7a8ddd6012ab4ff13d5b4af0a1a643759143b2f39",
+    "memory_kernels.json": "2ada47fc1c3b605dcad78f2812930d26cbdc83fa1af093cb5e5af09dd7af06fc"
+  }
+}

@@ -4,7 +4,7 @@ project_root=$(cd "$(dirname "$0")/../.." && pwd)
 test_tmp=$(mktemp -d /tmp/sixteen-camera-ppu-device.XXXXXX)
 trap 'rm -rf "$test_tmp"' EXIT
 flags=(-std=c11 -O2 -Wall -Wextra -Werror -I"$project_root/tests/host/ppu_device_include"
-  -I"$project_root/sw/src" -I"$project_root/sw/models/yolov5nu/runtime")
+  -I"$project_root/sw/src" -I"$project_root/sw/models/yolov5nu/include/runtime")
 for ordered in 0 1; do
   for mode in reference current; do
     extras=()

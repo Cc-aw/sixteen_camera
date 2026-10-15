@@ -50,7 +50,7 @@ def source_inventory():
     paths = [ROOT / "sw/src/main.c", ROOT / "sw/Makefile",
              ROOT / "sw/src/platform/platform.h", ROOT / "sw/src/platform/cache_ops.c",
              ROOT / "sw/src/platform/tensor_ingress.h"]
-    for directory in ("sw/src/ai", "sw/models/yolov5nu/triple32", "sw/models/yolov5nu/runtime"):
+    for directory in ("sw/src/ai", "sw/models/yolov5nu", "sw/models/yolov5nu/runtime"):
         paths.extend(p for p in (ROOT / directory).rglob("*")
                      if p.is_file() and p.suffix in (".c", ".h", ".S", ".inc", ".mk", ".py")
                      and "__pycache__" not in p.parts and "tests" not in p.parts)
@@ -69,7 +69,7 @@ def snapshot_artifacts(output, config, compiler_prefix):
     source_dir = ROOT / "build/firmware" / (config + "_video" if config != "triple32_v3_tensor" else config)
     stem = "firmware" if config != "triple32_v3_tensor" else "hdmi_tx_test"
     if config == "benchmark":
-        source_dir = Path(query_make(ROOT / "sw/models/yolov5nu/triple32", ("BUILD",))["BUILD"])
+        source_dir = Path(query_make(ROOT / "sw/models/yolov5nu", ("BUILD",))["BUILD"])
         stem = "yolo32"
     target = output / "artifacts" / config
     target.mkdir(parents=True)
@@ -156,7 +156,7 @@ def main():
             f"SOC_VARIANT={variant}", f"BUILD={build}", f"TARGET={build / stem}",
             f"TOOLCHAIN={prefix}", f"TENSOR_INGRESS_STATS={int(variant == 'triple32_v3_tensor')}",
         ))
-    configs["benchmark"] = query_make(ROOT / "sw/models/yolov5nu/triple32", CONFIG_VARIABLES, (f"TOOLCHAIN={prefix}",))
+    configs["benchmark"] = query_make(ROOT / "sw/models/yolov5nu", CONFIG_VARIABLES, (f"TOOLCHAIN={prefix}",))
     save_json(output / "build-configurations.json", configs)
     save_json(output / "source-inventory.json", source_inventory())
     checks = [

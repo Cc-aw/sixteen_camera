@@ -3,11 +3,11 @@ set -euo pipefail
 project_root=$(cd "$(dirname "$0")/../.." && pwd)
 test_tmp=$(mktemp -d /tmp/sixteen-camera-postprocess-proof.XXXXXX)
 trap 'rm -rf "$test_tmp"' EXIT
-model="$project_root/sw/models/yolov5nu/triple32"
+model="$project_root/sw/models/yolov5nu"
 flags=(-std=gnu11 -O2 -Wall -Wextra -Werror -DAI_BACKEND_RESOURCE_TEST=1 -DYOLO32_LIVE=1 -DAI_MODEL_WORKER_COUNT=3U
   -DYOLOV5NU_DIM16_WORKER_COUNT=3U -DYOLO32_FIXED_PLANS=1 -DYOLO32_FIXED_PACKETS=1
   -DYOLO32_PREPARED_PACKETS=1 -DYOLO32_PPU_EARLY=1 -DYOLO32_PPU_HEAD_CLEAN=1
-  -I"$project_root/tests/host/ppu_backend_include" -I"$project_root/sw/src" -I"$model/native" -I"$model")
+  -I"$project_root/tests/host/ppu_backend_include" -I"$project_root/sw/src" -I"$model/frozen/native" -I"$model/include" -I"$model/src")
 linux_prefix="${TOOLCHAIN:-riscv64-unknown-elf-}"
 linux_cc="${RISCV_LINUX_CC:-${linux_prefix%riscv64-unknown-elf-}riscv64-unknown-linux-gnu-gcc}"
 for platform in host rv64; do

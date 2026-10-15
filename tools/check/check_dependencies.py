@@ -19,7 +19,7 @@ def main():
     snapshots = []
     for name in ['sw/third_party/sources.lock.json', 'sw/models/yolov5nu/sources.lock.json',
                  'sw/third_party/gemmini_v3/sources.lock.json',
-                 'sw/models/yolov5nu/triple32/sources.lock.json']:
+                 'sw/models/yolov5nu/metadata/v26-sources.lock.json']:
         snapshots.extend(json.loads((ROOT / name).read_text())['sources'])
     shell = json.loads((ROOT / 'hw/soc/source/shell/IMPORT_MANIFEST.json').read_text())
     snapshots.extend({'path': path, 'sha256': digest} for path, digest in shell['sha256'].items())

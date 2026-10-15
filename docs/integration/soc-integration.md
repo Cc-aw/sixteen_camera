@@ -33,7 +33,7 @@
 
 ## 软件与缓存契约
 
-请求和完成 ABI 见 [ai_model_abi.h](../../sw/src/ai/backend/ai_model_abi.h)，地址/寄存器见 [platform.h](../../sw/src/platform/platform.h)，Head 布局见 [yolov5nu_head_layout.h](../../sw/models/yolov5nu/runtime/yolov5nu_head_layout.h)。
+请求和完成 ABI 见 [ai_model_abi.h](../../sw/src/ai/backend/ai_model_abi.h)，地址/寄存器见 [platform.h](../../sw/src/platform/platform.h)，Head 布局见 [yolov5nu_head_layout.h](../../sw/models/yolov5nu/include/runtime/yolov5nu_head_layout.h)。
 
 必须一起核对 Gemmini DIM、worker 数、RoCC opcode、busy/credit CSR、RVV 能力、指针地址、MMIO、L2 和缓存发布完成事件。Tensor READY、计算完成、Head 发布完成和 PPU 结果完成是不同事件，槽位只能在对应所有权释放后复用。
 

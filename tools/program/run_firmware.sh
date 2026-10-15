@@ -9,7 +9,7 @@ GDB_BIN="${GDB_BIN:-riscv64-unknown-elf-gdb}"
 GDB_PYTHONHOME="${GDB_PYTHONHOME:-}"
 VIDEO_VARIANT="${VIDEO_VARIANT:-triple32_v3_tensor}"
 case "$VIDEO_VARIANT" in
-    triple32_v3_tensor) DEFAULT_ELF="$ROOT_DIR/build/firmware/gemmini_triple32_v3_tensor_video_yolov5nu.elf" ;;
+    triple32_v3_tensor) DEFAULT_ELF="$ROOT_DIR/build/firmware/video/video.elf" ;;
     *) echo "VIDEO_VARIANT 必须为当前配置 triple32_v3_tensor" >&2; exit 2 ;;
 esac
 ELF_FILE="${ELF_FILE:-$DEFAULT_ELF}"

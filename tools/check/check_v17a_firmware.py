@@ -43,7 +43,7 @@ def check_ppu_ordering(functions, root):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--elf", type=Path, default=ROOT / "build/firmware/gemmini_triple32_v3_tensor_video_yolov5nu.elf")
+    parser.add_argument("--elf", type=Path, default=ROOT / "build/firmware/video/video.elf")
     args = parser.parse_args()
     elf = args.elf.resolve()
     objdump = (os.environ.get("TOOLCHAIN") or "riscv64-unknown-elf-") + "objdump"
@@ -62,7 +62,7 @@ def main():
             "firmware identity mismatch")
     require(manifest["elf_sha256"] == hashlib.sha256(elf.read_bytes()).hexdigest(), "ELF hash mismatch")
     require(manifest["source_lock_sha256"] == hashlib.sha256(
-        (ROOT / "sw/models/yolov5nu/triple32/sources.lock.json").read_bytes()).hexdigest(),
+        (ROOT / "sw/models/yolov5nu/metadata/v26-sources.lock.json").read_bytes()).hexdigest(),
         "source snapshot changed since firmware build")
     config = manifest["soc_config"]
     params = ROOT / "hw/soc" / config / "gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom3_xcvu13p.h"
@@ -83,7 +83,7 @@ def main():
                 "default v26 configuration mismatch")
         for feature in ("wait_reuse", "credit_query", "packet_dispatch", "memory_ops", "resize_batch"):
             require(manifest[feature] is True, f"missing v26 feature: {feature}")
-        build = ROOT / "build/firmware/triple32_v3_tensor/v26"
+        build = ROOT / "build/firmware/video/v26"
         for name in ("memory_kernels", "fixed_plans"):
             require(manifest[f"{name}_sha256"] == hashlib.sha256(
                 (build / f"{name}.json").read_bytes()).hexdigest(), f"{name} changed since firmware build")

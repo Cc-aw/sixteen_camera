@@ -3,11 +3,11 @@ set -euo pipefail
 project_root=$(cd "$(dirname "$0")/../.." && pwd)
 test_tmp=$(mktemp -d /tmp/sixteen-camera-runtime-ppu-trace.XXXXXX)
 trap 'rm -rf "$test_tmp"' EXIT
-model="$project_root/sw/models/yolov5nu/triple32"
+model="$project_root/sw/models/yolov5nu"
 flags=(-std=gnu11 -O2 -Wall -Wextra -Werror -DYOLO32_LIVE=1 -DAI_MODEL_WORKER_COUNT=3U
   -DYOLOV5NU_DIM16_WORKER_COUNT=3U -DYOLO32_FIXED_PLANS=1 -DYOLO32_FIXED_PACKETS=1
   -DYOLO32_PREPARED_PACKETS=1 -DYOLO32_PPU_EARLY=1 -DYOLO32_PPU_HEAD_CLEAN=1
-  -I"$project_root/tests/host/ppu_backend_include" -I"$project_root/sw/src" -I"$model/native" -I"$model")
+  -I"$project_root/tests/host/ppu_backend_include" -I"$project_root/sw/src" -I"$model/frozen/native" -I"$model/include" -I"$model/src")
 for mode in reference current; do
   source="$project_root/sw/src/ai/backend/ai_model_backend_yolov5nu.c"
   if [[ "$mode" == reference ]]; then
@@ -57,7 +57,7 @@ for workers in 1 2; do
     -DYOLO32_PPU_EARLY=1 -DYOLO32_PPU_HEAD_CLEAN=1
     -DYOLO32_FIXED_PLANS=1 -DYOLO32_FIXED_PACKETS=1 -DYOLO32_PREPARED_PACKETS=1
     -DAI_MODEL_WORKER_COUNT=${workers}U -DYOLOV5NU_DIM16_WORKER_COUNT=${workers}U
-    -I"$project_root/tests/host/ppu_backend_include" -I"$project_root/sw/src" -I"$model/native" -I"$model")
+    -I"$project_root/tests/host/ppu_backend_include" -I"$project_root/sw/src" -I"$model/frozen/native" -I"$model/include" -I"$model/src")
   for mode in reference current; do
     source="$project_root/sw/src/ai/backend/ai_model_backend_yolov5nu.c"
     if [[ "$mode" == reference ]]; then source="$test_tmp/backend.c"; fi

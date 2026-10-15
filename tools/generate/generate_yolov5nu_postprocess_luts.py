@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
-PARAMS = ROOT / "sw/models/yolov5nu/aot/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h"
+PARAMS = ROOT / "sw/models/yolov5nu/assets/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h"
 OUTPUT = ROOT / "hw/rtl/ai/postprocess/yolov5nu_raw_class_lut.sv"
 DFL_OUTPUT = ROOT / "hw/rtl/ai/postprocess/yolov5nu_dfl_lut.sv"
 

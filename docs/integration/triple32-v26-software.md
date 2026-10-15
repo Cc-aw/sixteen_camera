@@ -117,7 +117,7 @@ ELF_FILE="$PWD/build/firmware/triple32_v26_benchmark/yolo32.elf" \
 PASS 且零 mismatch。输入025/036/142的开发版检测数为1/2/5，仍以逐字节比对为准。
 
 ```sh
-python3 sw/models/yolov5nu/triple32/analyze_log.py /path/to/v26-uart.log --latest
+python3 tools/analyze/yolov5nu/analyze_log.py /path/to/v26-uart.log --latest
 ```
 
 需要对照时下载 cap3 ELF，用同样的 M/t/a 流程比较。诊断版下载对应

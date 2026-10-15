@@ -15,14 +15,14 @@ def main():
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
     subprocess.run(["python3", str(ROOT / "tools/check/check_current_product.py")], check=True)
-    build = ROOT / "build/firmware/triple32_v3_tensor"
+    build = ROOT / "build/firmware/video"
     subprocess.run([
         "make", "-C", str(ROOT / "sw"), "-j4", "SOC_VARIANT=triple32_v3_tensor",
         "AI_MODEL=yolov5nu", "TENSOR_INGRESS_STATS=1", "V26_CREDIT_LIMIT=4",
         "V26_DIAGNOSTIC=0", f"BUILD={build}", "all",
     ], check=True)
-    built = build / "hdmi_tx_test.elf"
-    output = (args.output or ROOT / "build/firmware/gemmini_triple32_v3_tensor_video_yolov5nu.elf").resolve()
+    built = build / "video.elf"
+    output = (args.output or ROOT / "build/firmware/video/video.elf").resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
     if built.resolve() != output:
         shutil.copy2(built, output)
@@ -32,7 +32,7 @@ def main():
         "soc_variant": "triple32_v3_tensor", "firmware": "v26",
         "soc_config": config, "params_sha256": hashlib.sha256(params.read_bytes()).hexdigest(),
         "hardware_generation_sha256": hashlib.sha256((ROOT / "hw/soc" / config / "GENERATION_CONTEXT.json").read_bytes()).hexdigest(),
-        "source_lock_sha256": hashlib.sha256((ROOT / "sw/models/yolov5nu/triple32/sources.lock.json").read_bytes()).hexdigest(),
+        "source_lock_sha256": hashlib.sha256((ROOT / "sw/models/yolov5nu/metadata/v26-sources.lock.json").read_bytes()).hexdigest(),
         "native_config_sha256": hashlib.sha256((build / "v26/native-config.stamp").read_bytes()).hexdigest(),
         "memory_kernels_sha256": hashlib.sha256((build / "v26/memory_kernels.json").read_bytes()).hexdigest(),
         "fixed_plans_sha256": hashlib.sha256((build / "v26/fixed_plans.json").read_bytes()).hexdigest(),

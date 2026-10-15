@@ -18,7 +18,7 @@ AI 路径独立生成 640×480×3 NHWC RGB INT8，每帧 921600 字节。流式�
 后端经 `AiRtBackendOps` 在构建时显式选择 legacy/V17A；模型由已验证 Stage8F AOT 图生成 167 个协作阶段。
 当前唯一交付配置 triple32_v3_tensor 使用三个 DIM32 v26 live worker，硬件启用 MaxPool、MemoryParallelV3 和 TensorIngress；旧规格保留在 Git 历史。
 
-每个 worker 有两个 Head 槽。Head 为三路分类 raw head 加三路 DFL raw head，共 907200 字节，每槽按 1 MiB stride 分配。准确偏移、长度与对齐定义在 [Head 布局](../../sw/models/yolov5nu/runtime/yolov5nu_head_layout.h)。
+每个 worker 有两个 Head 槽。Head 为三路分类 raw head 加三路 DFL raw head，共 907200 字节，每槽按 1 MiB stride 分配。准确偏移、长度与对齐定义在 [Head 布局](../../sw/models/yolov5nu/include/runtime/yolov5nu_head_layout.h)。
 
 Head publication、URAM、本地读取和 PPU 位于 `hw/rtl/ai/postprocess/`。PPU 完成分类筛选、DFL、BBox、候选排序与 NMS，经结果队列发布检测框和标签。输入槽、计算 activation 和 Head 槽具有独立所有权；compute completion 不代表 PPU 已释放 Head 槽。软件结果版本排序和 overlay 提交位于 `sw/src/ai/postprocess/`。
 

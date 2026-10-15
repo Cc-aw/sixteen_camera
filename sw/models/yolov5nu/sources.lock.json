@@ -2,12 +2,12 @@
   "baseline_commit": "054a7a4",
   "sources": [
     {
-      "path": "sw/models/yolov5nu/aot/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile.c",
+      "path": "sw/models/yolov5nu/assets/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile.c",
       "origin": "sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/imagenet/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile.c",
       "sha256": "56cb9a46f419bd6e6ca591b846310a4609d3bf579bba415b629cdd31001b2df1"
     },
     {
-      "path": "sw/models/yolov5nu/aot/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h",
+      "path": "sw/models/yolov5nu/assets/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h",
       "origin": "sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/imagenet/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h",
       "sha256": "19d6ad52c6ccf0c392076f98de7d859d7d47c47d82589feac27f7e5b9a534b7f"
     },

@@ -80,3 +80,25 @@ hierarchy 文件路径改变；全部 `gen-collateral` 内容（包括 RTL、参
 MemoryParallelV3、PPU、当前生成 cache controller；视频重构建与实际 ELF 审核也 PASS。
 本机证据：`build/refactor/p2/`，包括完整生成日志、源文件及生成文件比较。
 Vivado/综合/实现/板测：**NOT RUN**（P2）。
+
+## P3：模型、基准与原生测试机械迁移
+
+逐文件 90 项映射及构建产物映射见
+[模型路径清单](single-version-model-paths.json)。删除候选：无。
+`triple32` 分为模型 `src/include/codegen/frozen/native`、三图基准、日志分析及原生测试；
+AOT 移至 `assets`，运行时原接口头移至 `include/runtime`。
+`model.mk` 仍由视频和基准共同引入，参数/优化开关不变。
+`task_context_config.h` 留在汇编相邻 `src`，`ppu.h` 作为共享接口位于模型 `include`。
+
+输出规范化为 `build/firmware/video/video.elf` 和
+`build/firmware/benchmark/benchmark.elf`；下载脚本、ELF 审核和 manifest 路径同步。
+既有目录的 `.d` 指向旧源路径，因此新构建使用新的输出目录；旧 ELF/bitstream/依赖不删除。
+对照/诊断构建保留原开关和独立 BUILD。
+
+38 项 C/头/汇编/模板与 P0 逐字节一致；两个入口的 16 项 v26 生成计划/包文件一致。
+视频 `.text`（101206 字节）、基准 `.text`（45992 字节）与 P0 相同；
+ELF 的调试路径变化不作为行为不等价的依据。
+`make firmware benchmark check-v26-firmware`、`make check-deps` PASS。
+`make test-software` PASS：175 项原生模型测试无跳过，全部 Host/RV64 runner 通过。
+证据：`build/refactor/p3/`。
+Vivado/综合/实现/板测：**NOT RUN**（P3）。

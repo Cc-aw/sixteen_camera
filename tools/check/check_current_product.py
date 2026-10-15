@@ -68,7 +68,7 @@ def validate(product, root=ROOT, evaluate=True):
     clock = (root / "sw/src/board/xparameters.h").read_text()
     require(macro(clock, "XPAR_CPU_CORE_CLOCK_FREQ_HZ") == product["clock_hz"], "CPU clock mismatch")
     if evaluate:
-        for entry in (root / "sw", root / "sw/models/yolov5nu/triple32"):
+        for entry in (root / "sw", root / "sw/benchmarks/triple_infer"):
             output = subprocess.check_output(
                 ["make", "--no-print-directory", "-s", "-C", str(entry), "print-current-config"],
                 text=True)

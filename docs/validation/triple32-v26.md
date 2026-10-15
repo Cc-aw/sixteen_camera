@@ -51,5 +51,5 @@ cap4 diagnostic 基准 SHA-256：
 原 cap4 manifest/ELF、开发版性能日志、最终三变体与基准 ELF/map/反汇编、
 依赖源码 SHA、生成计划、构建参数、配置切换记录和全部测试日志。
 `final/validation.json` 汇总身份和检查结果。
-可提交来源记录为 `sw/models/yolov5nu/triple32/import_v26_manifest.json`；
+可提交来源记录为 `sw/models/yolov5nu/metadata/import_v26_manifest.json`；
 当前源码与输入的闭包由 `sources.lock.json` 校验，构建不依赖开发目录。

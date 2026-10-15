@@ -105,10 +105,10 @@ check-v26-firmware check-v17a-firmware:
 	python3 tools/check/check_v17a_firmware.py
 
 firmware-benchmark: check
-	$(MAKE) -C sw/models/yolov5nu/triple32 all
+	$(MAKE) -C sw/benchmarks/triple_infer all
 
 test-model:
-	$(MAKE) -C sw/models/yolov5nu/triple32 check
+	$(MAKE) -C sw/benchmarks/triple_infer check
 
 test-v26 test-v17a: test-model
 	bash tests/host/run_v17a_live_scheduler_test.sh

@@ -17,8 +17,8 @@ SIZE    := $(TOOLCHAIN)size
 
 .DEFAULT_GOAL := all
 
-BUILD  := $(PROJECT_ROOT)/build/firmware/$(SOC_VARIANT)
-TARGET := $(BUILD)/hdmi_tx_test
+BUILD  := $(PROJECT_ROOT)/build/firmware/video
+TARGET := $(BUILD)/video
 AI_MODEL ?= yolov5nu
 BANDWIDTH_DIAGNOSTIC ?= 0
 TENSOR_INGRESS_STATS ?= 0
@@ -46,7 +46,7 @@ CFLAGS := $(ARCH_FLAGS) -std=c11 -Os -g3 -ffreestanding -fno-builtin \
 	-DAI_MODEL_WORKER_COUNT=$(MODEL_WORKERS)U \
 	-DYOLOV5NU_DIM16_WORKER_COUNT=$(MODEL_WORKERS)U \
 	-DYOLOV5NU_GEMMINI_DIM=$(MODEL_DIM) \
-	-I$(CURDIR)/models/yolov5nu/runtime \
+	-I$(CURDIR)/models/yolov5nu/include/runtime \
 	-I$(REFERENCE_SW)/include $(VENDOR_INCLUDES)
 
 ifeq ($(BANDWIDTH_DIAGNOSTIC),1)
@@ -99,7 +99,7 @@ LOCAL_SOURCES += src/ai/runtime/ai_batch_runtime_stream.c \
 LOCAL_SOURCES += src/ai/backend/adapters/v17a/rt_backend_v17a.c
 CFLAGS += -DAI_RT_BACKEND_PROFILE=AI_RT_BACKEND_PROFILE_V17A
 
-include models/yolov5nu/triple32/v26.mk
+include models/yolov5nu/model.mk
 V26_FLAGS += -DYOLO32_LIVE=1
 CFLAGS := $(V26_FLAGS) $(CFLAGS) -DYOLO32_LIVE=1
 $(BUILD)/ai/postprocess/ai_ppu_publication.o $(BUILD)/ai/postprocess/ai_ppu_queue.o: CFLAGS += -DYOLO32_PPU_ORDERED_MMIO=1
@@ -150,7 +150,7 @@ V26_BUILD_SIGNATURE := $(CFLAGS) $(V26_FLAGS) $(V26_CFLAGS) $(LDFLAGS)
 $(BUILD)/v26/firmware-config.stamp: force-v26-config
 	@mkdir -p $(@D)
 	@python3 -c 'import sys; from pathlib import Path; p=Path(sys.argv[1]); v=sys.argv[2]+"\n"; p.write_text(v) if not p.exists() or p.read_text()!=v else None' "$@" "$(V26_BUILD_SIGNATURE)"
-$(OBJECTS): Makefile $(V26_ROOT)/v26.mk $(BUILD)/v26/firmware-config.stamp
+$(OBJECTS): Makefile $(V26_ROOT)/model.mk $(BUILD)/v26/firmware-config.stamp
 
 .PHONY: all clean size check-tools yolov5nu-regenerate
 all: check-tools $(TARGET).elf $(TARGET).bin $(TARGET).hex $(TARGET).dump size
@@ -172,7 +172,7 @@ $(BUILD)/%.o: src/%.c | $(BUILD)
 	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
 YOLOV5_GEN_ROOT := $(CURDIR)/models/yolov5nu
-YOLOV5_IMAGENET := $(YOLOV5_GEN_ROOT)/aot
+YOLOV5_IMAGENET := $(YOLOV5_GEN_ROOT)/assets
 YOLOV5_PARAMS := $(YOLOV5_IMAGENET)/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h
 
 yolov5nu-regenerate:

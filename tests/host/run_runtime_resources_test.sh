@@ -8,7 +8,7 @@ sources=("$project_root/sw/src/ai/runtime/resources/rt_job.c"
   "$project_root/sw/src/ai/runtime/resources/rt_arena_manager.c"
   "$project_root/sw/src/ai/runtime/resources/rt_head_manager.c"
   "$project_root/sw/src/ai/runtime/ai_head_slot_queue.c" "$project_root/tests/host/test_runtime_resources.c")
-flags=(-std=c11 -O2 -Wall -Wextra -Werror -I"$project_root/sw/src" -I"$project_root/sw/models/yolov5nu/runtime")
+flags=(-std=c11 -O2 -Wall -Wextra -Werror -I"$project_root/sw/src" -I"$project_root/sw/models/yolov5nu/include/runtime")
 cc "${flags[@]}" "${sources[@]}" -o "$test_tmp/host"
 "$test_tmp/host"
 linux_prefix="${TOOLCHAIN:-riscv64-unknown-elf-}"

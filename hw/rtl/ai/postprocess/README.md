@@ -8,7 +8,7 @@
 - `yolov5nu_postprocessor.sv` 及 class、DFL、BBox、bucket/NMS 模块：六个 raw heads 的硬件处理。
 - descriptor、command、result、CSR 模块：任务排队、结果发布与 MMIO 控制。
 
-描述符及窗口布局以 [Head 软件布局](../../../../sw/models/yolov5nu/runtime/yolov5nu_head_layout.h)、[平台寄存器](../../../../sw/src/platform/platform.h) 和本目录 CSR 源码为准。当前模型支持一或两个 worker；通用队列及 URAM 容量回归保留三 worker/六槽覆盖。
+描述符及窗口布局以 [Head 软件布局](../../../../sw/models/yolov5nu/include/runtime/yolov5nu_head_layout.h)、[平台寄存器](../../../../sw/src/platform/platform.h) 和本目录 CSR 源码为准。当前模型支持一或两个 worker；通用队列及 URAM 容量回归保留三 worker/六槽覆盖。
 
 在仓库根运行 `make test-ppu`、`make test-cache`，或 `bash tests/rtl/run_yolov5nu_postprocess_tests.sh`。完整板级 RTL elaboration 使用 `make elaborate`；standalone 综合检查位于 `tools/check/`。
 

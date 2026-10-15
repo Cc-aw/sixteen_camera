@@ -21,18 +21,22 @@
     "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom2_xcvu13p.h",
     "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom1_xcvu13p.h"
   ],
-  "model_rules": "sw/models/yolov5nu/triple32/v26.mk",
-  "model_source": "sw/models/yolov5nu/triple32/model.c",
-  "generator": "sw/models/yolov5nu/triple32/generate_parallel.py",
-  "frozen_input": "sw/models/yolov5nu/triple32/native/yolov5nu_dim16_dual.c",
+  "model_rules": "sw/models/yolov5nu/model.mk",
+  "model_source": "sw/models/yolov5nu/src/model.c",
+  "generator": "sw/models/yolov5nu/codegen/generate_parallel.py",
+  "frozen_input": "sw/models/yolov5nu/frozen/native/yolov5nu_dim16_dual.c",
   "source_locks": [
     "sw/models/yolov5nu/sources.lock.json",
-    "sw/models/yolov5nu/triple32/sources.lock.json",
+    "sw/models/yolov5nu/metadata/v26-sources.lock.json",
     "sw/third_party/gemmini_v3/sources.lock.json"
   ],
   "generation_context": "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/GENERATION_CONTEXT.json",
   "soc_sources": "hw/soc/source/shell",
   "tensor_ingress_source": "hw/soc/source/tensor_ingress/TensorIngress.scala",
   "soc_generator": "tools/soc/build_triple32_v3_tensor.py",
-  "reference_manifest": "hw/soc/source/shell/REFERENCE_MANIFEST.json"
+  "reference_manifest": "hw/soc/source/shell/REFERENCE_MANIFEST.json",
+  "video_build": "build/firmware/video",
+  "video_elf": "build/firmware/video/video.elf",
+  "benchmark_build": "build/firmware/benchmark",
+  "benchmark_elf": "build/firmware/benchmark/benchmark.elf"
 }

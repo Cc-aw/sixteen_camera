@@ -4,7 +4,7 @@ project_root=$(cd "$(dirname "$0")/../.." && pwd)
 test_tmp=$(mktemp -d /tmp/sixteen-camera-runtime-abi-r0.XXXXXX)
 trap 'rm -rf "$test_tmp"' EXIT
 flags=(-std=c11 -O2 -Wall -Wextra -Werror -I"$project_root/sw/src"
-  -I"$project_root/sw/models/yolov5nu/runtime")
+  -I"$project_root/sw/models/yolov5nu/include/runtime")
 linux_prefix="${TOOLCHAIN:-riscv64-unknown-elf-}"
 linux_cc="${RISCV_LINUX_CC:-${linux_prefix%riscv64-unknown-elf-}riscv64-unknown-linux-gnu-gcc}"
 for workers in 1 2 3; do

@@ -4,7 +4,7 @@
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-SOURCE = (HERE.parent / "aot/"
+SOURCE = (HERE.parent / "assets/"
           "yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-"
           "image025-profile.c")
 OUTPUT = HERE / "yolov5nu_dim16_dual.c"
