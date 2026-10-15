@@ -1,0 +1,107 @@
+{
+  "head": "cd361f5c0180d212979f229df3df1b4b3dc104e4",
+  "tag": "before-single-version-refactor-20261015",
+  "results": [
+    {
+      "target": "check",
+      "exit_code": 0,
+      "seconds": 0.0,
+      "log": "build/refactor/p0/check.log"
+    },
+    {
+      "target": "test-v26",
+      "exit_code": 0,
+      "seconds": 188.2,
+      "log": "build/refactor/p0/test-v26.log"
+    },
+    {
+      "target": "test-software",
+      "exit_code": 0,
+      "seconds": 41.9,
+      "log": "build/refactor/p0/test-software.log"
+    },
+    {
+      "target": "test-video",
+      "exit_code": 0,
+      "seconds": 48.6,
+      "log": "build/refactor/p0/test-video.log"
+    },
+    {
+      "target": "test-tensor",
+      "exit_code": 0,
+      "seconds": 83.7,
+      "log": "build/refactor/p0/test-tensor.log"
+    },
+    {
+      "target": "test-ppu",
+      "exit_code": 0,
+      "seconds": 2.7,
+      "log": "build/refactor/p0/test-ppu.log"
+    },
+    {
+      "target": "test-video-pipeline",
+      "exit_code": 0,
+      "seconds": 0.6,
+      "log": "build/refactor/p0/test-video-pipeline.log"
+    },
+    {
+      "target": "test-memory-v3",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "log": "build/refactor/p0/test-memory-v3.log"
+    },
+    {
+      "target": "test-cache",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "log": "build/refactor/p0/test-cache.log"
+    },
+    {
+      "target": "firmware",
+      "exit_code": 0,
+      "seconds": 0.2,
+      "log": "build/refactor/p0/firmware.log"
+    },
+    {
+      "target": "firmware-benchmark",
+      "exit_code": 0,
+      "seconds": 3.8,
+      "log": "build/refactor/p0/firmware-benchmark.log"
+    },
+    {
+      "target": "check-v26-firmware",
+      "exit_code": 0,
+      "seconds": 0.1,
+      "log": "build/refactor/p0/check-v26-firmware.log"
+    },
+    {
+      "target": "check-deps",
+      "exit_code": 0,
+      "seconds": 0.7,
+      "log": "build/refactor/p0/check-deps.log"
+    }
+  ],
+  "artifacts": {
+    "build/refactor/p0/firmware-after/triple32_v26_benchmark/capacity_manifest.json": "81e6ea551e44238e0c17024c6bb1cc8fa06079802f2ce3809d3e9ffec19f8c1e",
+    "build/refactor/p0/firmware-after/triple32_v26_benchmark/fixed_plans.json": "d9c42418083a5a529e256dc7a8ddd6012ab4ff13d5b4af0a1a643759143b2f39",
+    "build/refactor/p0/firmware-after/triple32_v26_benchmark/inputs.stamp": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build/refactor/p0/firmware-after/triple32_v26_benchmark/inputs_manifest.json": "676258707cabb52b652ce5aab07a173fa4baf293be2963dbba8ed2db87d6431d",
+    "build/refactor/p0/firmware-after/triple32_v26_benchmark/memory_kernels.json": "2ada47fc1c3b605dcad78f2812930d26cbdc83fa1af093cb5e5af09dd7af06fc",
+    "build/refactor/p0/firmware-after/triple32_v26_benchmark/yolo32.elf": "37a9686c7f0174903eb7899cd5151f434d3d50ea5e42201b5d9dadeaa4af4d33",
+    "build/refactor/p0/firmware-after/triple32_v3_tensor/hdmi_tx_test.elf": "3c000ab9b7d6bd6df26263d7bde61d1b480ceac9d05c41b7faed7c6137534c30",
+    "build/refactor/p0/firmware-after/triple32_v3_tensor/v17a/firmware-config.stamp": "c6d35a29498a0c265869b603d7863414f737304003575166720e11503594a7b4",
+    "build/refactor/p0/firmware-after/triple32_v3_tensor/v17a/fixed_plans.json": "d9c42418083a5a529e256dc7a8ddd6012ab4ff13d5b4af0a1a643759143b2f39",
+    "build/refactor/p0/firmware-after/triple32_v3_tensor/v17a/parallel.stamp": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build/refactor/p0/firmware-after/triple32_v3_tensor/v26/firmware-config.stamp": "246cfa7d89651edced0d4eeab7e859d683258211fdf72ffb1ee6808692646341",
+    "build/refactor/p0/firmware-after/triple32_v3_tensor/v26/fixed_plans.json": "d9c42418083a5a529e256dc7a8ddd6012ab4ff13d5b4af0a1a643759143b2f39",
+    "build/refactor/p0/firmware-after/triple32_v3_tensor/v26/memory_kernels.json": "2ada47fc1c3b605dcad78f2812930d26cbdc83fa1af093cb5e5af09dd7af06fc",
+    "build/refactor/p0/firmware-after/triple32_v3_tensor/v26/native-config.stamp": "37caa2744ad653fca8c83a3d577710de04e43899e8696e49056b15bcce09ea09",
+    "build/refactor/p0/firmware-after/triple32_v3_tensor/v26/parallel.stamp": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build/refactor/p0/firmware-after/triple32_v3_tensor/v26/wait_reuse.json": "d4ecf565c6afc6c58275b24b4eba60d4129aadf8cb1421549f1e218affe4de9a",
+    "build/refactor/p0/firmware-after/triple32_v26_benchmark/v26/fixed_plans.json": "d9c42418083a5a529e256dc7a8ddd6012ab4ff13d5b4af0a1a643759143b2f39",
+    "build/refactor/p0/firmware-after/triple32_v26_benchmark/v26/memory_kernels.json": "2ada47fc1c3b605dcad78f2812930d26cbdc83fa1af093cb5e5af09dd7af06fc",
+    "build/refactor/p0/firmware-after/triple32_v26_benchmark/v26/native-config.stamp": "3ae668e6c648e155c4f42617c97b150a49591edf2c4b5e3470d2e683f65b2c02",
+    "build/refactor/p0/firmware-after/triple32_v26_benchmark/v26/parallel.stamp": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build/refactor/p0/firmware-after/triple32_v26_benchmark/v26/wait_reuse.json": "d4ecf565c6afc6c58275b24b4eba60d4129aadf8cb1421549f1e218affe4de9a"
+  }
+}
