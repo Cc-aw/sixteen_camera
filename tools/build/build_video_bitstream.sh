@@ -21,6 +21,7 @@ command -v "$vivado" >/dev/null 2>&1 || { echo "Missing Vivado: $vivado" >&2; ex
 version=$("$vivado" -version 2>/dev/null)
 [[ "$version" == *2023.2* ]] || { echo 'Vivado 2023.2 is required' >&2; exit 2; }
 tclsh "$root/tools/check/check_production_manifest.tcl"
+python3 "$root/tools/check/check_current_product.py"
 if ((check_only)); then
   printf 'VIDEO_BITSTREAM_PREFLIGHT=PASS\n'
   exit 0

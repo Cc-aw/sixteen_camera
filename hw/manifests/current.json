@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "hardware_alias": "triple32_v3_tensor",
+  "scala_config": "TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig",
+  "soc_config": "tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig",
+  "soc_directory": "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig",
+  "collateral_directory": "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/gen-collateral",
+  "worker_count": 3,
+  "gemmini_dim": 32,
+  "clock_hz": 100000000,
+  "model": "yolov5nu",
+  "runtime_profile": "v26",
+  "credit_limit": 4,
+  "opcodes": [
+    "custom3",
+    "custom2",
+    "custom1"
+  ],
+  "parameter_headers": [
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom3_xcvu13p.h",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom2_xcvu13p.h",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom1_xcvu13p.h"
+  ],
+  "model_rules": "sw/models/yolov5nu/triple32/v26.mk",
+  "model_source": "sw/models/yolov5nu/triple32/model.c",
+  "generator": "sw/models/yolov5nu/triple32/generate_parallel.py",
+  "frozen_input": "sw/models/yolov5nu/triple32/native/yolov5nu_dim16_dual.c",
+  "source_locks": [
+    "sw/models/yolov5nu/sources.lock.json",
+    "sw/models/yolov5nu/triple32/sources.lock.json",
+    "sw/third_party/gemmini_v3/sources.lock.json"
+  ],
+  "generation_context": "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/GENERATION_CONTEXT.json"
+}

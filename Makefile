@@ -8,6 +8,9 @@ endif
 
 SOC_VARIANT ?= triple32_v3_tensor
 VIVADO_BIN ?= vivado
+ifneq ($(SOC_VARIANT),triple32_v3_tensor)
+$(error Only the current triple32_v3_tensor configuration is supported)
+endif
 export SOC_VARIANT VIVADO_BIN
 export VIVADO_PROJECT
 export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD_JTAG_SERIAL BITSTREAM_FILE
@@ -20,6 +23,24 @@ export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD
 .PHONY: help check firmware firmware-benchmark test-v17a check-v17a-firmware bitstream elaborate test-tensor test-tensor-ingress test-cache test-ppu test-video test-runtime test-software
 help:
 	@printf '%s\n' \
+	  'Current product: triple32_v3_tensor + YOLOv5nu v26 (3x32, credit=4)' \
+	  'make check / check-deps    Validate production identity, sources and tools' \
+	  'make soc SOC_WORKSPACE=<path>  Generate the current SoC in a private workspace' \
+	  'make project / elaborate / bitstream  Reconstruct and build hardware' \
+	  'make firmware             Build current video firmware' \
+	  'make benchmark            Build the shared v26 three-image benchmark' \
+	  'make test-software         Run host and model regressions' \
+	  'make test-rtl              Run RTL regressions (SoC workspace required)' \
+	  'make program              Load the matching ELF' \
+	  'make help-tests           List directed regression and diagnostic commands' \
+	  'Local tool overrides: tools/config/tools.local.mk'
+
+.PHONY: help-tests soc benchmark test-model test-rtl
+soc: soc-triple32-v3-tensor
+benchmark: firmware-benchmark
+test-rtl: test-video test-video-pipeline test-tensor test-tensor-ingress test-memory-v3 test-ppu test-cache
+help-tests:
+	@printf '%s\n' \
 	  'Current SoC: triple32_v3_tensor (3x32 MaxPool + TensorIngress)'  \
 	  'make check                          Validate selected source manifests' \
 	  'make project                        Create/open local Vivado project from Tcl' \
@@ -27,7 +48,7 @@ help:
 	  'make firmware-benchmark            Build v26 credit=4 three-image benchmark' \
 	  'make test-v26                      Native packet, scheduler and PPU regressions' \
 	  'make check-v26-firmware            Audit built v26 ELF and hardware ABI' \
-	  'make bitstream SOC_CONFIG=<name>    Build any hw/soc/<name>/gen-collateral' \
+	  'make bitstream                     Build the current hardware only' \
 	  'make elaborate                      Run Vivado RTL elaboration' \
 	  'make test-tensor                    Tensor DMA and recovery tests' \
 	  'make test-tensor-ingress            New SoC ingress protocol and real L2 tests' \
@@ -72,8 +93,9 @@ project: check
 
 check:
 	@cd "$(PROJECT_ROOT)" && tclsh tools/check/check_production_manifest.tcl
+	@python3 tools/check/check_current_product.py
 
-firmware:
+firmware: check
 	@test -z "$(SOC_CONFIG)" || { echo 'SOC_CONFIG selects hardware only; use SOC_VARIANT with a matching firmware ABI'; exit 2; }
 	@case "$(SOC_VARIANT)" in triple32_v3_tensor) ;; *) echo 'Firmware needs a supported SOC_VARIANT'; exit 2 ;; esac
 	cd "$(PROJECT_ROOT)" && python3 tools/build/build_$(SOC_VARIANT)_video_yolov5nu.py
@@ -82,16 +104,18 @@ firmware:
 check-v26-firmware check-v17a-firmware:
 	python3 tools/check/check_v17a_firmware.py
 
-firmware-benchmark:
+firmware-benchmark: check
 	$(MAKE) -C sw/models/yolov5nu/triple32 all
 
-test-v26 test-v17a:
+test-model:
 	$(MAKE) -C sw/models/yolov5nu/triple32 check
+
+test-v26 test-v17a: test-model
 	bash tests/host/run_v17a_live_scheduler_test.sh
 	bash tests/host/run_v26_live_scheduler_test.sh
 	bash tests/host/run_v17a_backend_test.sh
 
-bitstream:
+bitstream: check
 	cd "$(PROJECT_ROOT)" && bash tools/build/build_video_bitstream.sh
 
 elaborate: check
@@ -178,7 +202,7 @@ test-runtime-r4b:
 test-runtime-r4a:
 	bash tests/host/run_runtime_backend_adapter_trace_test.sh
 
-test-software:
+test-software: test-model
 	@cd "$(PROJECT_ROOT)" && for test_script in tests/host/run_*_test.sh; do \
 	  bash "$$test_script" || exit; \
 	done

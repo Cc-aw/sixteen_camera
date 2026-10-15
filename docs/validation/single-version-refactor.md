@@ -35,3 +35,23 @@ R0 Tensor 版本回绕仍为 `characterization=PASS / correctness=FAIL`，不是
 
 Vivado 工程、elaboration、综合、实现及板测：**NOT RUN**（P0）。
 旧报告和旧开发板日志不能作为本次重构的硬件验收。
+
+## P1：单产品身份与入口
+
+路径映射：无。删除候选：无。新增 `hw/manifests/current.json`，记录唯一硬件、
+Config、真实导出路径、三份参数头、模型规则/源码/冻结输入、来源锁和生成记录。
+长 Config 目录保留，P2 不调整生成器内部目录布局。
+
+`make check` 校验 JSON 身份、三个参数头的 DIM/SAFE_MAX/opcode、实际生成 RTL 的
+credit/admission 门控，以及视频/基准 Make 展开的参数和关键模型开关。
+Tcl 入口使用同一清单并拒绝旧选择器；直接视频构建也执行配对检查。
+新增 `soc`、`benchmark`、`test-model`、`test-rtl` 和 `help-tests`；
+`test-software` 同时覆盖原生模型与全部 Host runner。
+原阶段测试和旧兼容别名暂留，行为及测试覆盖未裁剪。
+
+本机证据：`build/refactor/p1/`。新建五项隔离参数 fixture 测试，并检查七种错误
+配置均被拒绝（single4、dual16、错误 Config、worker 数、credit 参数等）。
+视频/基准 ELF、fixed plans、packets 和 memory kernels 与 P0 的 27 项比较逐字节相同。
+`make check-deps`、五项新 fixture、七种错误选择器、视频/基准构建、ELF 审核、
+`make test-software` 全部 PASS；后者含 175 项原生模型测试及全部 Host/RV64 runner。
+Vivado/综合/实现/板测：**NOT RUN**（P1）。

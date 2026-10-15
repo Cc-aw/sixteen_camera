@@ -1,24 +1,16 @@
-# Select one collateral tree. RTL updates in the same directory need no edits.
-# The current three-worker configuration is the only production alias.
-set SOC_VARIANT triple32_v3_tensor
-if {[info exists ::env(SOC_VARIANT)]} {
-    set SOC_VARIANT $::env(SOC_VARIANT)
+# The production tree has one identity. The JSON manifest owns its path mapping.
+set sc_product_repo [file dirname [file dirname [file dirname [file normalize [info script]]]]]
+array set sc_product [exec python3 [file join $sc_product_repo tools check check_current_product.py] --tcl]
+set SOC_VARIANT $sc_product(hardware_alias)
+set SOC_CONFIG $sc_product(soc_config)
+foreach selector {SOC_VARIANT SOC_CONFIG} {
+    if {[info exists ::env($selector)] && $::env($selector) ne "" && $::env($selector) ne [set $selector]} {
+        error "Unsupported $selector '$::env($selector)'; production uses [set $selector]"
+    }
 }
-set SOC_ALIASES [dict create \
-    triple32_v3_tensor tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig]
-if {[info exists ::env(SOC_CONFIG)] && $::env(SOC_CONFIG) ne ""} {
-    set SOC_CONFIG $::env(SOC_CONFIG)
-} elseif {[dict exists $SOC_ALIASES $SOC_VARIANT]} {
-    set SOC_CONFIG [dict get $SOC_ALIASES $SOC_VARIANT]
-} else {
-    error "Unknown SOC_VARIANT '$SOC_VARIANT'; use an existing alias or set SOC_CONFIG to a hw/soc directory name"
-}
-# SOC_CONFIG names a direct child of hw/soc, never an arbitrary path.
-if {![regexp {^[A-Za-z0-9_][A-Za-z0-9_.-]*$} $SOC_CONFIG]} {
-    error "SOC_CONFIG must be a hw/soc directory name"
-}
+set SOC_ALIASES [dict create $SOC_VARIANT $SOC_CONFIG]
 set SOC_BITSTREAM_FLOW default
-set SOC_COLLATERAL_DIR "hw/soc/${SOC_CONFIG}/gen-collateral"
+set SOC_COLLATERAL_DIR $sc_product(collateral_directory)
 # Detect the actual port contract rather than relying on the configuration name.
 # setup_vivado removes this define when switching back to an older SoC.
 set SOC_TENSOR_INGRESS 0

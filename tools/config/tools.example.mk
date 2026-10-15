@@ -9,4 +9,5 @@
 # BOARD_JTAG_SERIAL := your-adapter-serial
 # SOC_VARIANT := triple32_v3_tensor
 # BITSTREAM_FILE := /path/to/video.bit
-# SOC_CONFIG selects hw/soc/<name>/gen-collateral and hardware only.
+# SOC_VARIANT and SOC_CONFIG accept only the current production identity.
+# See hw/manifests/current.json for the sole hardware mapping.

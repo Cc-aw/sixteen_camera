@@ -67,3 +67,9 @@ $(BUILD)/v26/diagnostics.o: $(V26_ROOT)/diagnostics.c
 $(BUILD)/v26/capacity_observer.o: $(V26_ROOT)/capacity_observer.c
 	@mkdir -p $(@D)
 	$(CC) $(V26_FLAGS) $(V26_CFLAGS) -MMD -MP -c $< -o $@
+
+# Expose evaluated build settings for the production pairing audit; no compilation.
+.PHONY: print-current-config
+print-current-config:
+	@printf '%s\n' 'WORKERS=$(if $(MODEL_WORKERS),$(MODEL_WORKERS),3)' 'DIM=$(if $(MODEL_DIM),$(MODEL_DIM),32)' \
+	  'CREDIT=$(V26_CREDIT_LIMIT)' 'DIAGNOSTIC=$(V26_DIAGNOSTIC)' 'PARAMS=$(V26_PARAMS)' 'FLAGS=$(V26_FLAGS)'

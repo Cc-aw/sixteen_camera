@@ -157,6 +157,7 @@ all: check-tools $(TARGET).elf $(TARGET).bin $(TARGET).hex $(TARGET).dump size
 
 check-tools:
 	@command -v "$(CC)" >/dev/null 2>&1 || { echo "Missing compiler: $(CC)"; exit 1; }
+	@python3 $(PROJECT_ROOT)/tools/check/check_current_product.py
 
 $(BUILD):
 	mkdir -p $@

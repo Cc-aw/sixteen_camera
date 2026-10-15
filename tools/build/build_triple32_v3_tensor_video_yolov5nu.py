@@ -14,6 +14,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
+    subprocess.run(["python3", str(ROOT / "tools/check/check_current_product.py")], check=True)
     build = ROOT / "build/firmware/triple32_v3_tensor"
     subprocess.run([
         "make", "-C", str(ROOT / "sw"), "-j4", "SOC_VARIANT=triple32_v3_tensor",

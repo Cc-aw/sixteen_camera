@@ -410,7 +410,8 @@
     {
       "path": "sw/models/yolov5nu/triple32/v26.mk",
       "origin": "current-project support or integration adaptation",
-      "sha256": "5b769251adbe9dde0186ecb1e79d2563b5c1381b4e4f9faa41c7cc80cf4354d8"
+      "sha256": "fe3ff76493ba6a0e62817d0e37474eea941a0c999a746b42214239b43aa8877d",
+      "pre_refactor_sha256": "5b769251adbe9dde0186ecb1e79d2563b5c1381b4e4f9faa41c7cc80cf4354d8"
     },
     {
       "path": "sw/models/yolov5nu/triple32/wait_reuse.py",
