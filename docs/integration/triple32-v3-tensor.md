@@ -56,7 +56,7 @@ python3 tools/soc/build_triple32_v3_tensor.py \
 make check
 ```
 
-`tools/soc/shell/npu100_video` 保存 Gemmini/Saturn/FPGA 源码；
+`hw/soc/source/shell/npu100_video` 保存 Gemmini/Saturn/FPGA 源码；
 `memory_parallel_v3` 保存最新 cache/配置覆盖；`reference` 是构建需要的冻结依赖。
 `LATEST_HARDWARE_IMPORT.json` 记录开发来源、适配哈希、保留项和实现策略，
 `IMPORT_MANIFEST.json` 与依赖检查校验当前 shell。生成输出只保留当前一份

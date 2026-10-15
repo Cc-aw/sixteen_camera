@@ -6,43 +6,43 @@
   "files": [
     {
       "source": "soc_shell/npu100_video/fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala",
-      "destination": "tools/soc/shell/npu100_video/fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala",
+      "destination": "hw/soc/source/shell/npu100_video/fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala",
       "source_sha256": "9eeb7b626b5d552c14b9994e8a6fe4e232b4e8c126458e65e01d3bc5ac955125",
       "imported_sha256": "9eeb7b626b5d552c14b9994e8a6fe4e232b4e8c126458e65e01d3bc5ac955125"
     },
     {
       "source": "soc_shell/npu100_video/tests/check_config_0918.py",
-      "destination": "tools/soc/shell/npu100_video/tests/check_config_0918.py",
+      "destination": "hw/soc/source/shell/npu100_video/tests/check_config_0918.py",
       "source_sha256": "e44a0150f8e0c639f5c71426714abdd71c839ae71458300a95af21f25b6e6e26",
       "imported_sha256": "e44a0150f8e0c639f5c71426714abdd71c839ae71458300a95af21f25b6e6e26"
     },
     {
       "source": "soc_shell/npu100_video/tests/scala/VideoSoCConfigTest.scala",
-      "destination": "tools/soc/shell/npu100_video/tests/scala/VideoSoCConfigTest.scala",
+      "destination": "hw/soc/source/shell/npu100_video/tests/scala/VideoSoCConfigTest.scala",
       "source_sha256": "3d63a1e96b47036b8cf9e9e877c2b9fdbe49b0edebed328570ffc5a87c04904b",
       "imported_sha256": "3d63a1e96b47036b8cf9e9e877c2b9fdbe49b0edebed328570ffc5a87c04904b"
     },
     {
       "source": "soc_shell/memory_parallel_v3/scala/MemoryParallelV3.scala",
-      "destination": "tools/soc/shell/memory_parallel_v3/scala/MemoryParallelV3.scala",
+      "destination": "hw/soc/source/shell/memory_parallel_v3/scala/MemoryParallelV3.scala",
       "source_sha256": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98",
       "imported_sha256": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98"
     },
     {
       "source": "soc_shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
-      "destination": "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
+      "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
       "source_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7",
       "imported_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7"
     },
     {
       "source": "soc_shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
-      "destination": "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
+      "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
       "source_sha256": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359",
       "imported_sha256": "743f78ea5bc848f58a0f916e0e30b42e10f7e60da006eb39a1a1e5fe6bd7120b"
     },
     {
       "source": "soc_shell/memory_parallel_v3/tests/MemoryV3Test.scala",
-      "destination": "tools/soc/shell/memory_parallel_v3/tests/MemoryV3Test.scala",
+      "destination": "hw/soc/source/shell/memory_parallel_v3/tests/MemoryV3Test.scala",
       "source_sha256": "87d11ca8f9f1eb3172c8d8fad866e3b0364a13ccd78174a44a4ee04ef8d13d14",
       "imported_sha256": "87d11ca8f9f1eb3172c8d8fad866e3b0364a13ccd78174a44a4ee04ef8d13d14"
     },
@@ -133,7 +133,7 @@
     "v26 software and Runtime R5 resource ownership"
   ],
   "generation_entry": "tools/soc/build_triple32_v3_tensor.py",
-  "generator_sha256": "438a072901bef1ec3b4d1c9e6974ae9a5e475bf3c00c73e6280dc35fb8f3c695",
+  "generator_sha256": "e2cf9fce8356cab3accac61f96f3d1b9bd97189f16402f23662a792257277130",
   "implementation": {
     "synthesis": "Flow_PerfOptimized_high / PerformanceOptimized / retiming / resource_sharing off / SHREG_MIN_SIZE5",
     "placement": "SSI_SpreadLogic_high",
@@ -170,7 +170,7 @@
     "tools/build/build_single4_video_yolov5nu.py",
     "tools/build/build_dual16_video_yolov5nu.py",
     "tools/soc/build_tensor_ingress.py",
-    "tools/soc/taihang_tensor_ingress/TensorIngressConfigs.scala"
+    "hw/soc/source/tensor_ingress/TensorIngressConfigs.scala"
   ],
   "timing_repair": {
     "donor": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_timing_v3_2026-10-07",
@@ -178,25 +178,25 @@
     "files": [
       {
         "source": "soc_shell/memory_parallel_v3_timing_repair/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
-        "destination": "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
+        "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
         "source_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7",
         "imported_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7"
       },
       {
         "source": "soc_shell/memory_parallel_v3_timing_repair/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
-        "destination": "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
+        "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
         "source_sha256": "743f78ea5bc848f58a0f916e0e30b42e10f7e60da006eb39a1a1e5fe6bd7120b",
         "imported_sha256": "743f78ea5bc848f58a0f916e0e30b42e10f7e60da006eb39a1a1e5fe6bd7120b"
       },
       {
         "source": "soc_shell/memory_parallel_v3_timing_repair/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala",
-        "destination": "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala",
+        "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala",
         "source_sha256": "fd19ab3ff63f67b36216d2805490fc60669b2908dae54d87701af7196543736c",
         "imported_sha256": "fd19ab3ff63f67b36216d2805490fc60669b2908dae54d87701af7196543736c"
       },
       {
         "source": "soc_shell/memory_parallel_v3_timing_repair/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/RegisteredListBuffer.scala",
-        "destination": "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/RegisteredListBuffer.scala",
+        "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/RegisteredListBuffer.scala",
         "source_sha256": "865e720f4eff1a9434da580067f20875960b816673ee2b040e2e48b1503ce54c",
         "imported_sha256": "865e720f4eff1a9434da580067f20875960b816673ee2b040e2e48b1503ce54c"
       },
@@ -245,5 +245,6 @@
     ],
     "scope": "Shared V3 cache/DDR timing repair; current MaxPool, TensorIngress/ABI1.1 and v26/R5 retained; autonomous frontend excluded",
     "package": "soc_shell/memory_parallel_v3_timing_repair"
-  }
+  },
+  "pre_refactor_generator_sha256": "438a072901bef1ec3b4d1c9e6974ae9a5e475bf3c00c73e6280dc35fb8f3c695"
 }

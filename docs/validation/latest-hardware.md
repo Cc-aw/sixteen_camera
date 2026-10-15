@@ -74,7 +74,7 @@ reset，确认CDC FIFO full/reset-pipe没有组合回传。相机五个本地cap
 必须执行 `make bitstream` 并加载新结果，再运行v26独立基准的M/t/a及实时视频测试。
 
 生成源码/原始和处理后RTL哈希见导出 `GENERATION_CONTEXT.json`。
-当前闭包由 `tools/soc/shell/IMPORT_MANIFEST.json`、`LATEST_HARDWARE_IMPORT.json`
+当前闭包由 `hw/soc/source/shell/IMPORT_MANIFEST.json`、`LATEST_HARDWARE_IMPORT.json`
 及 `make check-deps` 校验；来源开发目录未修改，构建不依赖该目录。
 详细日志、checkpoint、资源/时序/CDC报告及机器可读汇总位于忽略的
 `build/ports/latest-hardware/` 和 `build/reports/latest_*`。

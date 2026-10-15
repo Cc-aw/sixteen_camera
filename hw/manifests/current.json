@@ -30,5 +30,9 @@
     "sw/models/yolov5nu/triple32/sources.lock.json",
     "sw/third_party/gemmini_v3/sources.lock.json"
   ],
-  "generation_context": "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/GENERATION_CONTEXT.json"
+  "generation_context": "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/GENERATION_CONTEXT.json",
+  "soc_sources": "hw/soc/source/shell",
+  "tensor_ingress_source": "hw/soc/source/tensor_ingress/TensorIngress.scala",
+  "soc_generator": "tools/soc/build_triple32_v3_tensor.py",
+  "reference_manifest": "hw/soc/source/shell/REFERENCE_MANIFEST.json"
 }

@@ -23,7 +23,7 @@ MaxPool + TensorIngress 配置。仍只有 `triple32_v3_tensor` 一个生产配�
 lower 并重新导出当前 SoC。相对基线，collateral 增加4个文件、退休4个、改变6个；
 三个 Gemmini、LoopConv、TensorIngress 和 MemoryParallelPerf 的 RTL 哈希均未变。
 `GENERATION_CONTEXT.json`、同步 RAM 配置及 shell 源码摘要一并更新。
-当前源码来源和哈希见 `tools/soc/shell/LATEST_HARDWARE_IMPORT.json` 的
+当前源码来源和哈希见 `hw/soc/source/shell/LATEST_HARDWARE_IMPORT.json` 的
 `timing_repair`，依赖检查包含该部分。
 
 ## 离线验证

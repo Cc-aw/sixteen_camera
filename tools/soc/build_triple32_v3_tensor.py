@@ -10,7 +10,7 @@ import shutil
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
-SHELL = ROOT / "tools/soc/shell"
+SHELL = ROOT / "hw/soc/source/shell"
 BASE = SHELL / "npu100_video"
 V3 = SHELL / "memory_parallel_v3"
 CONFIG = "TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig"
@@ -38,7 +38,7 @@ def validate_workspace_sources(workspace):
             if path.is_file():
                 expected[str(destination / path.relative_to(source))] = path
     expected["fpga/src/main/scala/taihang_soc/TensorIngress.scala"] = (
-        ROOT / "tools/soc/taihang_tensor_ingress/TensorIngress.scala")
+        ROOT / "hw/soc/source/tensor_ingress/TensorIngress.scala")
     expected["fpga/src/main/scala/taihang_soc/Npu100Video.scala"] = (
         BASE / "fpga/src/main/scala/taihang_soc/Npu100Video.scala")
     for relative, source in expected.items():
@@ -97,7 +97,7 @@ def prepare(reference, workspace):
             shutil.copy2(path, target)
     for path in (V3 / "scala").glob("*.scala"):
         shutil.copy2(path, package)
-    shutil.copy2(ROOT / "tools/soc/taihang_tensor_ingress/TensorIngress.scala", taihang)
+    shutil.copy2(ROOT / "hw/soc/source/tensor_ingress/TensorIngress.scala", taihang)
     (workspace / ".triple32-v3-tensor.json").write_text(json.dumps({
         "config": NAME, "reference": str(reference),
         "created": datetime.datetime.now(datetime.timezone.utc).isoformat(),

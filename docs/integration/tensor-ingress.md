@@ -7,7 +7,7 @@
 ## 构建和选择
 
 当前只在最新三路 MaxPool / MemoryParallelV3 上交付 TensorIngress。
-源文件为 `tools/soc/taihang_tensor_ingress/TensorIngress.scala`；统一生成入口
+源文件为 `hw/soc/source/tensor_ingress/TensorIngress.scala`；统一生成入口
 将它与最新 shell 合并，在私有 Chipyard 工作区编译并生成 RTL，不修改参考树。
 
 ```bash

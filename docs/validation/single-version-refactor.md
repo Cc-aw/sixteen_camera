@@ -55,3 +55,28 @@ Tcl 入口使用同一清单并拒绝旧选择器；直接视频构建也执行�
 `make check-deps`、五项新 fixture、七种错误选择器、视频/基准构建、ELF 审核、
 `make test-software` 全部 PASS；后者含 175 项原生模型测试及全部 Host/RV64 runner。
 Vivado/综合/实现/板测：**NOT RUN**（P1）。
+
+## P2：硬件源码机械迁移
+
+| 旧路径 | 新路径 |
+| --- | --- |
+| `tools/soc/shell/` | `hw/soc/source/shell/` |
+| `tools/soc/taihang_tensor_ingress/` | `hw/soc/source/tensor_ingress/` |
+
+共迁移 569 个文件，逐文件映射见
+[硬件路径清单](single-version-hardware-paths.json)。删除候选：无。
+566 个文件逐字节相同；源码包的 README 和两份来源元数据仅更新位置/追溯字段。
+Scala、RTL、SBT 内容不变；原来源哈希保留。生成脚本仍位于 `tools/soc/`。
+导出长目录及 `gen-collateral/include/` 布局保留，完整 Config 类名不变。
+
+`make soc SOC_WORKSPACE=/tmp/sixteen-camera-single-version-chipyard` 在新的独立
+Chipyard 副本中完成 SBT 编译、Chisel/firtool、原 RAM 处理和结构检查。
+与 P0 的 807 个导出文件相比，只有生成记录的时间/工作区和两份 annotation 中的
+hierarchy 文件路径改变；全部 `gen-collateral` 内容（包括 RTL、参数和初始化文件）相同。
+不是对 Verilog 进行源码映射替换。独立 protocol core 也通过正常生成流程导出。
+
+`make check-deps`、`make test-rtl SOC_WORKSPACE=/tmp/sixteen-camera-single-version-chipyard`
+全部 PASS，包含视频/整帧时序、Tensor DMA/恢复、TensorIngress protocol、真实双 bank L2、
+MemoryParallelV3、PPU、当前生成 cache controller；视频重构建与实际 ELF 审核也 PASS。
+本机证据：`build/refactor/p2/`，包括完整生成日志、源文件及生成文件比较。
+Vivado/综合/实现/板测：**NOT RUN**（P2）。

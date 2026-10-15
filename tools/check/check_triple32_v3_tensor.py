@@ -8,7 +8,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 rtl = Path(sys.argv[1]).resolve()
-subprocess.run([sys.executable, str(ROOT / "tools/soc/shell/npu100_video/tests/check_merged_rtl.py"),
+subprocess.run([sys.executable, str(ROOT / "hw/soc/source/shell/npu100_video/tests/check_merged_rtl.py"),
                 str(rtl), "3", "TaihangSoCFPGATestHarness"], check=True)
 top = (rtl / "TaihangSoCFPGATestHarness.sv").read_text()
 for direction, name, width in [
