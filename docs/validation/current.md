@@ -19,9 +19,9 @@
 | 软件回归 | PASS（P4 修正审核测试路径后）；175 项模型测试无跳过，全部 Host/RV64 runner 通过 |
 | RTL 聚合 | PASS（P2）；视频整帧、Tensor DMA/Ingress、真实 L2、MemoryParallelV3、PPU、cache |
 | P5 导航与工具检查 | PASS；175 原生测试无跳过、33 个 Host runner、构建/ELF/依赖/链接检查及自动 core + L2 回归；日志位于 `build/refactor/p5/` |
-| 无旧产物的干净 checkout 验证 | PENDING（P6） |
-| 本轮 Vivado 工程 / RTL elaboration | NOT RUN（P6 待验） |
-| 本轮整机综合 / 实现 / bitstream / 最终 setup、hold、WNS/TNS、bus skew | NOT RUN（P6 待验） |
+| 无旧产物的干净 checkout 验证 | PASS（`3d52a66`）；两份固件、175 项模型测试、33 个 Host runner、`test-rtl` 聚合、timing repair 和最终依赖；[机器记录](single-version-final.json) |
+| 本轮 Vivado 工程 / RTL elaboration | PASS；实际 SoC/DDR port lint、GUI/batch 属性与 timing hook 审核均 PASS |
+| 本轮整机综合 / 实现 / bitstream / 最终 setup、hold、WNS/TNS、bus skew | INTERRUPTED_RESOURCE；26 个 IP 综合 PASS，整机 synth_1 因共享机器 RAM/swap 耗尽主动停止；impl/bitstream/最终时序未执行或未生成 |
 | 当前 bitstream + ELF 的视频持续推理、回收、drain/restart、overlay | PENDING；未执行本轮板测 |
 | 当前三图 `M/t/a` 数值与性能 | PENDING；未执行本轮板测，不引用旧开发工程成绩充当当前结果 |
 

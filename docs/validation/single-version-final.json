@@ -1,0 +1,257 @@
+{
+  "schema": 1,
+  "date": "2026-10-15",
+  "source_commit": "3d52a66d3b4652beaaf678a639a693d32d8dc5ee",
+  "baseline": "before-single-version-refactor-20261015",
+  "clean_start": {
+    "commit": "3d52a66d3b4652beaaf678a639a693d32d8dc5ee",
+    "status": "",
+    "build_existed": false,
+    "checkout": "/tmp/sixteen-camera-single-version-final"
+  },
+  "offline_results": [
+    {
+      "step": "check-deps",
+      "command": [
+        "make",
+        "check-deps"
+      ],
+      "exit_code": 0,
+      "seconds": 0.3,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/refactor/p6/final/check-deps.log"
+    },
+    {
+      "step": "soc",
+      "command": [
+        "make",
+        "soc"
+      ],
+      "exit_code": 0,
+      "seconds": 152.4,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/refactor/p6/final/soc.log"
+    },
+    {
+      "step": "firmware",
+      "command": [
+        "make",
+        "firmware"
+      ],
+      "exit_code": 0,
+      "seconds": 4.7,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/refactor/p6/final/firmware.log"
+    },
+    {
+      "step": "benchmark",
+      "command": [
+        "make",
+        "benchmark"
+      ],
+      "exit_code": 0,
+      "seconds": 6.6,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/refactor/p6/final/benchmark.log"
+    },
+    {
+      "step": "elf-audit",
+      "command": [
+        "make",
+        "check-v26-firmware"
+      ],
+      "exit_code": 0,
+      "seconds": 0.1,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/refactor/p6/final/elf-audit.log"
+    },
+    {
+      "step": "test-software",
+      "command": [
+        "make",
+        "test-software"
+      ],
+      "exit_code": 0,
+      "seconds": 246.6,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/refactor/p6/final/test-software.log"
+    },
+    {
+      "step": "test-rtl",
+      "command": [
+        "make",
+        "test-rtl"
+      ],
+      "exit_code": 0,
+      "seconds": 237.0,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/refactor/p6/final/test-rtl.log"
+    },
+    {
+      "step": "timing-repair",
+      "command": [
+        "make",
+        "test-v3-timing-repair"
+      ],
+      "exit_code": 0,
+      "seconds": 51.6,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/refactor/p6/final/timing-repair.log"
+    },
+    {
+      "step": "dependencies-final",
+      "command": [
+        "make",
+        "check-deps"
+      ],
+      "exit_code": 0,
+      "seconds": 0.3,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/refactor/p6/final/dependencies-final.log"
+    }
+  ],
+  "hardware_results": [
+    {
+      "step": "project",
+      "command": [
+        "make",
+        "project"
+      ],
+      "exit_code": 0,
+      "seconds": 93.3,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/refactor/p6/final/project.log"
+    },
+    {
+      "step": "elaborate",
+      "command": [
+        "make",
+        "elaborate"
+      ],
+      "exit_code": 0,
+      "seconds": 604.0,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/refactor/p6/final/elaborate.log"
+    },
+    {
+      "step": "wrapper-lint",
+      "command": [
+        "python3",
+        "tools/check/lint_triple32_v3_tensor_wrappers.py"
+      ],
+      "exit_code": 0,
+      "seconds": 1.2,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/refactor/p6/final/wrapper-lint.log"
+    },
+    {
+      "step": "project-audit",
+      "command": [
+        "/mnt/data/Vivado/Vivado/2023.2/bin/vivado",
+        "-mode",
+        "batch",
+        "-source",
+        "/tmp/sixteen-camera-single-version-final/tools/check/check_hardware_project.tcl"
+      ],
+      "exit_code": 0,
+      "seconds": 27.5,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/refactor/p6/final/project-audit.log"
+    },
+    {
+      "step": "bitstream",
+      "command": [
+        "make",
+        "bitstream"
+      ],
+      "exit_code": 2,
+      "seconds": 1112.9,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/refactor/p6/final/bitstream.log",
+      "classification": "INTERRUPTED_RESOURCE",
+      "reason": "Stopped this task synthesis process tree after host RAM/swap exhaustion; IP synthesis completed, top synth incomplete."
+    }
+  ],
+  "equivalence": {
+    "hardware_payloads": 516,
+    "model_payloads": 38,
+    "soc_collateral": {
+      "files": 781,
+      "same": true
+    },
+    "generation": {
+      "effective_scala_files": 3001,
+      "source_and_raw_final_rtl_hash_maps_same": true,
+      "generation_context_sha256": "52616e5f4de3761efb5706d2baa3b7a289da289d37a0a6de4e6ff350ef5d05de"
+    },
+    "firmware": [
+      {
+        "elf": "/tmp/sixteen-camera-single-version-final/build/firmware/video/video.elf",
+        "elf_sha256": "c8fe9a3b6185f7a6684861c6f0b030b3d2fa261e52f55f1c5ce83b19b962ca5d",
+        "text_matches_baseline": true,
+        "text_sha256": "6bce5c90d0e7cdd971961050b033f1b4fc36d4bec644709e476db04c1466a933",
+        "text_bytes": 101206,
+        "generated_files_same": [
+          "fixed_conv_packets.inc",
+          "fixed_plans.json",
+          "fixed_plans_guard.inc",
+          "memory_kernels.json",
+          "parallel_executor.inc",
+          "parallel_model.inc",
+          "parallel_stages.inc",
+          "prepared_packets.inc"
+        ]
+      },
+      {
+        "elf": "/tmp/sixteen-camera-single-version-final/build/firmware/benchmark/benchmark.elf",
+        "elf_sha256": "663b71516b9b0e23d84c08ce0c54a32a87dcd92c613f35d39087cca694cf9984",
+        "text_matches_baseline": true,
+        "text_sha256": "1996c6e8a6c302139bdfa2958e1cec6546e7c5543b8cc1c99a224146d775cc35",
+        "text_bytes": 45992,
+        "generated_files_same": [
+          "fixed_conv_packets.inc",
+          "fixed_plans.json",
+          "fixed_plans_guard.inc",
+          "memory_kernels.json",
+          "parallel_executor.inc",
+          "parallel_model.inc",
+          "parallel_stages.inc",
+          "prepared_packets.inc"
+        ]
+      }
+    ]
+  },
+  "known_gap": "R0 Tensor version wrap: correctness=FAIL / characterization=PASS; unchanged",
+  "pending": [
+    "complete top synthesis when shared host memory is available",
+    "implementation/route/bitstream and final setup/hold/WNS/TNS/bus skew",
+    "current bitstream plus ELF board video and M/t/a"
+  ],
+  "ip_synthesis_completed": [
+    "axi_gpio_0_synth_1",
+    "axi_iic_0_synth_1",
+    "bd_2422_inverter_1_0_synth_1",
+    "bd_2422_v_hdmi_rx_0_synth_1",
+    "bd_2422_v_vid_in_axi4s_0_synth_1",
+    "bd_2444_axi_crossbar_0_synth_1",
+    "bd_2444_util_vector_logic_0_0_synth_1",
+    "bd_2444_v_axi4s_vid_out_0_synth_1",
+    "bd_2444_v_hdmi_tx_0_synth_1",
+    "bd_2444_v_tc_0_synth_1",
+    "clk_wiz_ov7670_synth_1",
+    "design_1_auto_cc_0_synth_1",
+    "design_1_auto_us_0_synth_1",
+    "design_1_auto_us_1_synth_1",
+    "design_1_ddr4_0_0_synth_1",
+    "design_1_m00_full_regslice_0_synth_1",
+    "design_1_proc_sys_reset_0_0_synth_1",
+    "design_1_u_mig_perf_0_synth_1",
+    "design_1_xbar_0_synth_1",
+    "rx_axis_reg_slice_synth_1",
+    "tx_axis_reg_slice_synth_1",
+    "tx_refclk_bufg_synth_1",
+    "tx_refclk_ibuf_synth_1",
+    "v_hdmi_rx_ss_0_synth_1",
+    "v_hdmi_tx_ss_0_synth_1",
+    "vid_phy_controller_0_synth_1"
+  ],
+  "resource_stop": {
+    "evidence": "build/refactor/p6/final/resource-stop.json",
+    "memory_before": "               total        used        free      shared  buff/cache   available\n\u5185\u5b58\uff1a      125Gi       119Gi       1.1Gi        39Mi       4.5Gi       3.8Gi\n\u4ea4\u6362\uff1a       30Gi        30Gi        26Mi\n",
+    "memory_after": "               total        used        free      shared  buff/cache   available\n\u5185\u5b58\uff1a      125Gi        96Gi        23Gi        39Mi       5.9Gi        27Gi\n\u4ea4\u6362\uff1a       30Gi        30Gi       131Mi\n",
+    "only_this_task_process_tree_terminated": true
+  },
+  "initial_failure": {
+    "commit": "4a9986ac18f9ad26b83583377a9240e60689dec8",
+    "step": "Vivado project creation",
+    "reason": "Bundled Python lacks Path.is_relative_to",
+    "fix_commit": "3d52a66d3b4652beaaf678a639a693d32d8dc5ee",
+    "retry": "PASS in a second clean checkout"
+  }
+}

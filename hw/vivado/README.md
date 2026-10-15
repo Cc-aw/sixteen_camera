@@ -11,7 +11,7 @@ make elaborate VIVADO_PROJECT=/path/to/local/example.xpr
 make bitstream VIVADO_PROJECT=/path/to/local/example.xpr
 ```
 
-GUI 可 source 本目录的 `create_project.tcl` 来重建默认工程；打开自己的工程后，source `setup_vivado.tcl` 可直接合并底座。更换 SoC 后重新执行 setup，选择器使用 `SOC_VARIANT` / `SOC_CONFIG` 环境变量。
+GUI 可 source 本目录的 `create_project.tcl` 来重建默认工程；打开自己的工程后，source `setup_vivado.tcl` 可直接合并底座。生产身份和路径由 `hw/manifests/current.json` 定义；`SOC_VARIANT` / `SOC_CONFIG` 只接受当前配对值。
 
 `create_design_1.tcl` 定义 DDR4、AXI interconnect、寄存器切片、时钟/复位连接和地址映射。standalone IP 参数在 `../ip/*.tcl`。所有 IP 输出路径采用 Vivado 默认值，不复制旧生成物，不要求目录位于 `build/`。
 

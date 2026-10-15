@@ -148,3 +148,39 @@ PASS：`make firmware benchmark check-v26-firmware check-deps`、`make test-soft
 （175 项，无跳过；33 Host runner）、自动 core + TensorIngress/L2、18 份主导航链接，
 缺源依赖与退休/不匹配选择器反例。证据位于 `build/refactor/p5/`。
 Vivado/综合/实现/板测：**NOT RUN**（P5），下一阶段从干净 checkout 独立验证。
+
+## P6：干净 checkout 通过，整机实现待资源
+
+首次 checkout 为 `4a9986a`，启动时无 build/、无工作区修改。
+SoC 正常生成、视频/基准构建、ELF 审核通过；Vivado 2023.2 工程创建失败于
+新 Python 桥接的 `Path.is_relative_to`：Vivado 的 Tcl exec 选用了其旧版 Python。
+已提交 `3d52a66`，使用 resolved parent containment 保持相同路径约束，
+生产检查和五项配对 fixture 通过；未弱化校验或改变硬件/模型逻辑。
+
+第二个最终 checkout 为 `3d52a66`，使用另一个全新 Chipyard 工作区，重新执行完整验证。
+首次失败现场及日志在 `build/refactor/p6/`，最终结果写入 `build/refactor/p6/final/`。
+综合、实现、bitstream 和板测分别以实际执行结果为准，当前不能宣称通过。
+
+最终 checkout `3d52a66` 的九项命令全部 PASS：check-deps、正常 SoC 生成、视频固件、
+三图基准、ELF audit、test-software（175 项模型无跳过、33 Host runner）、test-rtl、
+timing-repair（pool/cache/DDR slice）和最终依赖检查。
+516 项硬件源码、38 项模型 C/头/汇编/模板、781 项 collateral、3001 项有效 Scala 来源、
+原始/最终 RTL 哈希映射与基线相同；两个 ELF 的 `.text` 与基线相同。
+
+Vivado 2023.2 工程创建 PASS（93.3 秒）、真实 RTL elaboration PASS（604 秒）、
+实际 SoC/DDR port lint PASS、GUI/batch 属性与 timing hooks 审核 PASS。
+完整 bitstream 流程实际运行 1112.9 秒，26 项 IP 综合完成；top synth_1 已启动，
+但机器约 125 GiB RAM 使用到 120 GiB、30 GiB swap 几乎用满。
+为释放共享资源，核对独占工程 cwd/命令及进程父子关系后，只向本次 synth_1 及其子进程
+发送 SIGTERM；未终止其他工程。进程清单、前后内存和日志保留在
+`build/refactor/p6/final/resource-stop.json`；停止后释放约 24 GiB RAM。
+该 bitstream 命令退出 2，分类为 **INTERRUPTED_RESOURCE**，不是硬件功能 PASS。
+未执行 impl_1，未生成本次 bitstream，最终 setup/hold、WNS/TNS、route、bus skew
+及板测均为 **PENDING / NOT RUN**。没有更改 RTL、频率、约束或实现策略来规避资源限制。
+
+机器汇总见 [最终验收清单](single-version-final.json)。工作区和全部 IP/checkpoint/日志保留于
+`/tmp/sixteen-camera-single-version-final/`；软件/来源/依赖包复制到
+`build/refactor/p6/final/artifacts/`（142 个文件及 SHA manifest）。
+共享机器内存可用后，可在该 checkout 配置 VIVADO_BIN/TOOLCHAIN 并重新执行 `make bitstream`，
+完成实现后再按 quickstart 加载匹配 bitstream 和三图/视频 ELF 验证。
+本轮 P0–P5 的目录、路径、构建和文档收敛完成；P6 整机时序及板端验收仍待完成。
