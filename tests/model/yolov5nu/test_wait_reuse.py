@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Prove static adjacency and exercise real scheduler completion/restart paths."""
 from pathlib import Path
 import copy
@@ -224,7 +224,7 @@ int main(void){
         self.check_executable([self.host])
 
     def test_actual_riscv_switch_with_wait_reuse(self):
-        compiler=Path('/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-linux-gnu-gcc')
+        compiler=RISCV_LINUX_CC
         qemu=shutil.which('qemu-riscv64')
         if not compiler.exists() or not qemu:
             self.skipTest('RISC-V Linux compiler/QEMU unavailable')

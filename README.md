@@ -1,71 +1,25 @@
 # sixteen_camera
 
-面向 Xilinx VU13P 的十六路视频与 AI 外设底座，供 SoC 开发人员合并到计算系统，或将新的 SoC 合并进本工程。仓库提供视频采集、DDR 数据通路、Tensor 生产、硬件后处理、显示叠加和配套裸机软件。
+Xilinx VU13P 十六路视频与 AI 平台。当前唯一交付为 `triple32_v3_tensor`：1 Rocket、1 RVV、3 × Gemmini32，100 MHz，配合 YOLOv5nu v26 三 worker、credit=4。
+八路 OV7670 与 HDMI 封装的八路图像共组成十六路视频，保留采集、DDR、TensorIngress、Head/PPU 和 1080p60 显示叠加。
 
-当前只交付 `triple32_v3_tensor`：三路 Gemmini32、MaxPool、MemoryParallelV3 和专用 TensorIngress。旧 single4/dual16 硬件导出及构建入口已退休，历史实现可从 Git 查询。SoC 源码、生成器和实现策略均保存在本仓库。
-
-当前硬件配置 `triple32_v3_tensor`：三路 Gemmini32、V3 双 bank L2/512-bit
-内存出口和专用 Tensor 写入口。生成 shell 已收入当前仓库，见
-[生成、集成与局部验证说明](docs/integration/triple32-v3-tensor.md)。匹配的 v26
-软件已接入三图基准与实时视频后端，见 [软件移植说明](docs/integration/triple32-v26-software.md)。
-
-```text
-8 × OV7670 ───────────────┐
-                          ├─ 16 路视频 ─┬─ RGB565 / DDR ─ mosaic ─ HDMI TX
-4K30 HDMI ─ 裁剪 8 路视频 ┘             └─ INT8 Tensor ─ SoC ─ Head / PPU ─ overlay
-```
-
-## 目录
-
-| 路径 | 内容 |
-| --- | --- |
-| `hw/rtl/` | 底座手写 RTL、总线接口、视频与 AI 外设 |
-| `hw/constraints/` | 六份当前有效的板级约束 |
-| `hw/ip/` | 十个 Xilinx IP 的重建 Tcl |
-| `hw/soc/` | 最新三路 MaxPool + TensorIngress 的唯一生成导出 |
-| `hw/vivado/`、`hw/manifests/` | 工程/DDR BD 重建 Tcl 与生产输入清单 |
-| `sw/src/`、`sw/models/` | 裸机软件、计算后端和当前 YOLOv5nu 模型 |
-| `sw/third_party/` | 已验证的板级驱动、AMD BSP、Gemmini 头文件快照 |
-| `tools/` | 构建、下载、生成、检查、时序分析与工具配置 |
-| `tests/` | host 测试、RTL 回归、整数模型参考数据 |
-| `docs/` | SoC 合并接口、架构、验证记录 |
-| `build/` | 忽略的固件、工作工程、仿真、抓取与历史结果 |
-
-## 构建
-
-工具需单独安装：Vivado **2023.2**、支持 RV64GCV / LP64D 的 RISC-V GCC/GDB、支持 RISC-V BSCAN tunnel 的 OpenOCD、iverilog、Verilator、host C/C++ 编译器、Python 3.10+ 和 NumPy。源码依赖已收入仓库，无需外部 Chipyard、HDMI 或 BSP 源码目录。
-
-工具默认从 PATH 查找；本机覆盖配置复制 [tools.example.mk](tools/config/tools.example.mk) 为 `tools/config/tools.local.mk`，后者不提交。Python 回归依赖见 [requirements.txt](tests/requirements.txt)。
+实时视频与 image025/036/142 三图基准共用模型源码、生成器、权重和 ABI。交付身份及真实路径由 [current.json](hw/manifests/current.json) 记录，生产构建拒绝退休配置或不匹配参数。
 
 ```bash
 make help
 make check-deps
-make project                        # 从 Tcl 创建本地 Vivado 工程
-make firmware                       # v26，匹配当前三路硬件
-make elaborate  # Vivado RTL elaboration
-make bitstream                      # 综合、实现及 bitstream
+make firmware
+make benchmark
 make test-software
-make test-video
-make test-tensor
-make test-video-pipeline             # 完整帧、DVP FIFO、MIG 返回压力
-make test-ppu
-make test-cache
 ```
 
-固件在 `build/firmware/`。Vivado 工程默认在 `build/projects/triple32_v3_tensor/sixteen_camera.xpr`；IP、BD、缓存和运行目录由 Vivado 管理，均不提交。用 `VIVADO_PROJECT=/path/to/example.xpr` 可指定其他工程位置，无需放入 `build/`。每次 bitstream 和报告另存至 `build/bitstream/<配置>/<运行标识>/`。
+先配置 `tools/config/tools.local.mk`，工具和构建顺序见 [快速开始](docs/quickstart.md)。
+硬件入口为 [hw/](hw/README.md)，软件入口为 [sw/](sw/README.md)，模型入口为 [YOLOv5nu](sw/models/yolov5nu/README.md)，完整导航见 [docs/](docs/README.md)。
+视频 ELF 位于 `build/firmware/video/video.elf`，基准 ELF 位于 `build/firmware/benchmark/benchmark.elf`。
 
-## SoC 合并与下载
+`make soc SOC_REFERENCE=<Chipyard> SOC_WORKSPACE=<新目录>` 使用独立源码副本生成当前 SoC；`make project`、`make elaborate`、`make bitstream` 分别创建工程、检查 elaboration 和实现硬件。
+`make test-rtl SOC_WORKSPACE=<已生成工作区>` 运行 RTL 聚合回归；`make help-tests` 列出定向测试。
+下载当前匹配 bitstream 后，`make program` 下载 ELF；三图板测使用独立基准的 `M/t/a`。
 
-合并入口为 [top_wrapper.sv](hw/rtl/top_wrapper.sv) 和 [control_soc_subsystem.sv](hw/rtl/control/control_soc_subsystem.sv)。新 SoC 放入 `hw/soc/<配置名>/gen-collateral/`，兼容 harness 时用 `SOC_CONFIG=<配置名>` 选择硬件。软件 ABI、指令和缓存发布协议需要匹配；`SOC_CONFIG` 不自动选择固件。
-
-具体交接步骤见 [SoC 合并指南](docs/integration/soc-integration.md)，源码说明见 [软件说明](sw/README.md)，验证范围见 [重构验收记录](docs/validation/structure-refactor.md) 和 [Vivado Tcl 交付验收](docs/validation/vivado-tcl-delivery.md)。
-
-```bash
-bash tools/program/download_bitstream.sh --bitstream /path/to/video.bit
-make program PROGRAM_ARGS=--check    # 检查现有 ELF 和工具，不连接板卡
-make program                        # 下载固件，需已加载匹配的 bitstream
-```
-
-使用 `BOARD_JTAG_SERIAL` 选择适配器；默认不绑定某一块板卡。串口 115200 8N1，输入 `h` 查看命令。`make outputs` 查看本地产物；重构前的本地结果保存在 `build/history/`。文档导航见 [docs/README.md](docs/README.md)。
-
-V3 + Tensor 的配套软件已接入 v26：`make firmware SOC_VARIANT=triple32_v3_tensor`。三图基准使用 `make firmware-benchmark`，回归使用 `make test-v26`。配置与离线验证见 [软件移植说明](docs/integration/triple32-v26-software.md)。
+当前验证状态和已知缺口见 [验收记录](docs/validation/current.md)。离线 PASS、整机时序和开发板数值/性能分别记录。
+旧源码由 Git tag `before-single-version-refactor-20261015` 保存，重构过程见 [阶段记录](docs/validation/single-version-refactor.md)。

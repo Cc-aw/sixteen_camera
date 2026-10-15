@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Compare all 58 native DIM32 tile streams with the generated three-way executor."""
 from pathlib import Path
 import re

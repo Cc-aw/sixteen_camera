@@ -4,7 +4,7 @@
 
 This repository provides a sixteen-channel video and AI platform for the Xilinx VU13P, integrating OV7670/HDMI capture, DDR, tensor production, Gemmini, and display overlays.
 
-- `hw/rtl/`: handwritten RTL; `hw/soc/`: generated SoC integration examples.
+- `hw/rtl/`: handwritten RTL; `hw/soc/source/`: current SoC sources; `hw/soc/`: the sole generated SoC export and its provenance.
 - `hw/constraints/`, `hw/ip/`, `hw/vivado/`, `hw/manifests/`: board constraints, IP reconstruction Tcl, project scripts, and production source lists.
 - `sw/src/`: bare-metal firmware; `sw/models/yolov5nu/`: model runtime and parameters; `sw/third_party/`: validated dependency snapshots.
 - `tests/host/`: C tests; `tests/rtl/benches/`: subsystem testbenches; `tests/data/`: reference vectors.
@@ -20,7 +20,7 @@ Run commands from the repository root:
 - `make project`: reconstruct the Vivado project from Tcl.
 - `make firmware`: build v26 firmware for the current `triple32_v3_tensor` hardware (three DIM32 MaxPool workers plus TensorIngress).
 - `make elaborate`: check RTL elaboration; `make bitstream`: synthesize and implement hardware.
-- `make test-software`: run all host software tests.
+- `make test-software`: run all host software and native model tests.
 - `make test-video test-tensor test-ppu`: run subsystem RTL regressions.
 - `make test-cache`: test the current generated L2 controller; `make test-video-pipeline` checks the registered video timing boundaries.
 

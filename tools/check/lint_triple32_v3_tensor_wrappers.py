@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Check handwritten connections against actual generated SoC and DDR port declarations."""
 import argparse
+import os
+import shutil
 from pathlib import Path
 import re
 import subprocess
@@ -9,7 +11,11 @@ ROOT = Path(__file__).resolve().parents[2]
 NAME = "tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig"
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--project", type=Path, default=ROOT / "build/projects/triple32_v3_tensor")
+parser.add_argument("--vivado", default=os.environ.get("VIVADO_BIN", "vivado"))
 args = parser.parse_args()
+vivado = shutil.which(args.vivado)
+if not vivado:
+    raise SystemExit("Set VIVADO_BIN or --vivado to Vivado 2023.2")
 out = ROOT / "build/reports/triple32_v3_tensor_wrapper_lint"
 out.mkdir(parents=True, exist_ok=True)
 wrapper = next(args.project.glob("*.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v"))
@@ -18,7 +24,7 @@ text = wrapper.read_text()
 soc = (ROOT / "hw/soc" / NAME / "gen-collateral/TaihangSoCFPGATestHarness.sv").read_text()
 (out / "soc_ports.sv").write_text(soc[:soc.index("\n);")+3] + "\nendmodule\n")
 # Primitives and clock-chip implementation are outside this boundary check.
-primitive = Path("/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/unisims/BUFGCE_DIV.v").read_text()
+primitive = (Path(vivado).resolve().parent.parent / "data/verilog/src/unisims/BUFGCE_DIV.v").read_text()
 primitive = primitive[primitive.index("module BUFGCE_DIV"):]
 primitive = primitive[:primitive.index(");")+2]
 (out / "primitives.v").write_text(primitive + "\nendmodule\n" +

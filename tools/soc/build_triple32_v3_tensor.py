@@ -185,7 +185,7 @@ def emit_core(workspace):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--reference", type=Path, default=Path("/home/wzr/chipyard"))
+    parser.add_argument("--reference", type=Path, default=Path(os.environ["SOC_REFERENCE"]) if os.environ.get("SOC_REFERENCE") else None)
     parser.add_argument("--workspace", type=Path, required=True)
     parser.add_argument("--prepare-only", action="store_true")
     parser.add_argument("--resume", action="store_true")
@@ -198,6 +198,8 @@ def main():
         emit_core(workspace)
         return
     if not args.resume:
+        if args.reference is None:
+            raise SystemExit("Set --reference or SOC_REFERENCE to the reference Chipyard")
         prepare(args.reference.resolve(), workspace)
     if not args.prepare_only:
         generate(workspace)

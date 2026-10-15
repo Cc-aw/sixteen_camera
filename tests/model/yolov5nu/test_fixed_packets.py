@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Replay every native convolution packet against full-header command recording."""
 from pathlib import Path
 import json

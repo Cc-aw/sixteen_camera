@@ -1,5 +1,7 @@
 # V3 + Tensor 的 v26 软件移植
 
+本页保留移植来源与当时结果；当前构建顺序和验收以 [快速开始](../quickstart.md) 与 [当前验收](../validation/current.md) 为准。
+
 2026-10-14 将开发工程 `/mnt/data/sunys/sixteen_camera_3x32_100mhz_timing_v3_2026-10-07`
 的 v26 可用配置移入当前主分支，基线为 `b932ca6`（R5）。默认使用 credit-cap4
 正式版，保留 cap3 对照和 cap3/cap4 诊断基准。硬件仍为已有 `triple32_v3_tensor`。
@@ -68,10 +70,10 @@ make check-deps SOC_VARIANT=triple32_v3_tensor
 make -C sw/models/yolov5nu/triple32 credit-cap3 credit-cap4-diag
 ```
 
-视频 ELF：`build/firmware/gemmini_triple32_v3_tensor_video_yolov5nu.elf`。
-默认基准：`build/firmware/triple32_v26_benchmark/yolo32.elf`。
-对照/诊断基准：`build/firmware/triple32_v26_credit_cap3/yolo32.elf` 和
-`build/firmware/triple32_v26_credit_cap4_diag/yolo32.elf`。
+视频 ELF：`build/firmware/video/video.elf`。
+默认基准：`build/firmware/benchmark/benchmark.elf`。
+对照/诊断基准：`build/firmware/triple32_v26_credit_cap3/benchmark.elf` 和
+`build/firmware/triple32_v26_credit_cap4_diag/benchmark.elf`。
 
 视频 JSON 记录配置、参数、源码锁、生成计划和 ELF 哈希；基准
 `capacity_manifest.json` 记录三图输入、工具链、计划和 ELF 哈希。
@@ -107,7 +109,7 @@ Tensor/Head 回收和 overlay，随后 `i` 排空，再启用，确认可以持�
 三图数值和计时验证使用独立基准，不在实时视频中执行固定输入命令：
 
 ```sh
-ELF_FILE="$PWD/build/firmware/triple32_v26_benchmark/yolo32.elf" \
+ELF_FILE="$PWD/build/firmware/benchmark/benchmark.elf" \
   make program SOC_VARIANT=triple32_v3_tensor PROGRAM_ARGS=--no-build
 ```
 

@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """The actual lockstep step must not publish captured heads before execution."""
 from pathlib import Path
 import subprocess

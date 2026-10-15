@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 import sys
 import unittest
 from pathlib import Path

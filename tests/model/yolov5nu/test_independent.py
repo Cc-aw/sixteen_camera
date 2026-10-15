@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Run the production scheduler, native scoped fence and completion predicate.
 Host ucontext models only the switch; QEMU also executes task_switch.S with RVV.
 No Gemmini/PPU numerical hardware is simulated.
@@ -14,7 +14,6 @@ import unittest
 
 from generate_parallel import ABI, MODEL, generate, function, tail_wait_annotations
 
-TOOLCHAIN = Path('/home/wzr/chipyard/.conda-env/riscv-tools/bin')
 
 
 class IndependentTasks(unittest.TestCase):
@@ -302,12 +301,12 @@ int main(void){
         cls.qemu = shutil.which('qemu-riscv64')
         cls.riscv = root/'riscv-test'
         cls.riscv_light = root/'riscv-light-test'
-        cls.riscv_available = cls.qemu and (TOOLCHAIN/'riscv64-unknown-linux-gnu-gcc').exists()
+        cls.riscv_available = cls.qemu and (RISCV_LINUX_CC).exists()
         if cls.riscv_available:
             includes = ['-I'+str(HERE.parents[3]/'sw/third_party/gemmini/include')]
             for full,exe in ((1,cls.riscv),(0,cls.riscv_light)):
                 flags=[a.replace('YOLO32_CONTEXT_FULL=1',f'YOLO32_CONTEXT_FULL={full}') for a in args]
-                subprocess.run([str(TOOLCHAIN/'riscv64-unknown-linux-gnu-gcc'), '-static', '-march=rv64gcv', '-mabi=lp64d']+
+                subprocess.run([str(RISCV_LINUX_CC), '-static', '-march=rv64gcv', '-mabi=lp64d']+
                                flags+includes+[str(local/'independent.c'), str(local/'test.c'), str(local/'task_switch.S'), '-o', str(exe)],
                                check=True, capture_output=True)
 
@@ -359,7 +358,7 @@ int main(void){
         if self.riscv_available:
             riscv=self.root/'single-packet-riscv-test'
             include='-I'+str(HERE.parents[3]/'sw/third_party/gemmini/include')
-            subprocess.run([str(TOOLCHAIN/'riscv64-unknown-linux-gnu-gcc'),'-static','-march=rv64gcv','-mabi=lp64d']+
+            subprocess.run([str(RISCV_LINUX_CC),'-static','-march=rv64gcv','-mabi=lp64d']+
                 args+[include]+sources+[str(self.local/'task_switch.S'),'-o',str(riscv)],check=True,capture_output=True)
             executables.append([self.qemu,'-cpu','rv64,v=true,vlen=256',riscv])
         for exe in executables:
@@ -670,10 +669,10 @@ void yolo32_ppu_early_service(void){
                     mode_args=[a.replace('YOLO32_CONTEXT_FULL=1',f'YOLO32_CONTEXT_FULL={full}') for a in args]
                     mode_args += [f'-DYOLO32_SCHED_ADAPTIVE={adaptive}',f'-DYOLO32_SUBMIT_BURST={burst}',f'-DYOLO32_HOT_PATHS={hot}',
                                   f'-DYOLO32_IDLE_PRIORITY={idle}',f'-DYOLO32_TAIL_WAIT={tail}']
-                    subprocess.run([str(TOOLCHAIN/'riscv64-unknown-linux-gnu-gcc'),
+                    subprocess.run([str(RISCV_LINUX_CC),
                                    '-march=rv64gcv','-mabi=lp64d',f'-DYOLO32_CONTEXT_FULL={full}',
                                    '-c',str(self.local/'task_switch.S'),'-o',str(switch_obj)],check=True,capture_output=True)
-                    subprocess.run([str(TOOLCHAIN/'riscv64-unknown-linux-gnu-gcc'),'-static','-march=rv64gcv','-mabi=lp64d']+
+                    subprocess.run([str(RISCV_LINUX_CC),'-static','-march=rv64gcv','-mabi=lp64d']+
                                    mode_args+flags+sources+[str(switch_obj),'-lm','-o',str(exe)],check=True,capture_output=True)
                     result = subprocess.run([self.qemu,'-cpu','rv64,v=true,vlen=256',exe],check=True,capture_output=True,text=True,timeout=30)
                     self.assertIn('PASS: native order',result.stdout)
@@ -778,7 +777,7 @@ int main(void){
 }
 ''')
         exe=self.root/'light-guard'
-        subprocess.run([str(TOOLCHAIN/'riscv64-unknown-linux-gnu-gcc'),'-static','-O2',
+        subprocess.run([str(RISCV_LINUX_CC),'-static','-O2',
                         '-march=rv64gcv','-mabi=lp64d','-DYOLO32_CONTEXT_FULL=0',
                         '-I'+str(self.local),str(src),str(self.local/'task_switch.S'),'-o',str(exe)],
                        check=True,capture_output=True)

@@ -1,0 +1,30 @@
+# 当前硬件架构
+
+唯一 Config 为 `TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig`，交付别名 `triple32_v3_tensor`。
+顶层为 [top_wrapper.sv](../../hw/rtl/top_wrapper.sv)，生产输入由 `hw/manifests/` 列出。
+
+八路 OV7670 DVP 与一路 4K30 HDMI 中封装的八路 640×480 图像组成十六路输入。显示路径按通道缩放为 360×270，使用 RGB565 和每路四个 framebuffer 槽，mosaic 输出 1920×1080p60。
+AI 路径独立产生 640×480×3 NHWC RGB INT8，每帧 921600 字节，使用 32 个 Tensor 槽及当前专用 TensorIngress；三颗 Gemmini 是三个计算 worker。
+
+```mermaid
+flowchart LR
+    Cameras[8 路 OV7670 + HDMI 8 路] --> Video[采集 / 帧管理]
+    Video --> Display[DDR framebuffer / mosaic / overlay]
+    Video --> Tensor[Tensor DMA / TensorIngress]
+    Tensor --> L2[MemoryParallelV3 双 bank L2]
+    CPU[Rocket + RVV] --> L2
+    G[3 × Gemmini32] <--> L2
+    L2 <--> DDR[512-bit DDR 出口]
+    G --> Head[Head publication / URAM]
+    Head --> PPU[PPU / 结果队列]
+    PPU --> Display
+```
+
+SoC 为 100 MHz，三路 DIM32 Gemmini 均启用当前 MaxPool，native opcode 为 custom3/custom2/custom1。
+MemoryParallelV3 保持双 bank、512 KiB L2、512-bit/ID2 内存出口；Tensor 为 256-bit/ID5 AXI 入口，统计 ABI 为 1.1。
+cache 五通道寄存队列、registered secondary pool、refill reload 和 Head/PPU 通道均继承现有实现。
+
+`hw/rtl/` 保存板级视频、总线、DDR、控制及 AI 外设；`hw/soc/source/` 保存 SoC 生成源。
+生成器仍在 `tools/soc/`，唯一生成导出路径见 [current.json](../../hw/manifests/current.json)。
+Vivado Tcl、XDC、placement/pblock 和 timing hooks 沿用当前策略，目录收敛不修改层级或约束。
+结构/RTL 回归、局部综合、整机实现、最终时序与板测分别见 [当前验收](../validation/current.md)。

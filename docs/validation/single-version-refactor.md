@@ -128,3 +128,23 @@ Gemmini 两份 LICENSE 内容相同；原 V3 目录源码哈希与新的当前�
 `frozen/native` 和当前 V17A-family adapter 为 REQUIRED。禁用实验的动态生成引用及
 shell 冻结辅助工具尚不具备完整删除证据，标记 **BLOCKED** 并保留，未裁剪当前协议或算法。
 Vivado/综合/实现/板测：**NOT RUN**（P4）。
+
+## P5：当前文档与可复现入口
+
+源码路径迁移：无。删除候选：无。新增 quickstart、hardware/software、memory-map、
+Gemmini ABI、Tensor/PPU、current 验收导航；旧 overview 转为当前入口，历史阶段记录退出主导航。
+模型、基准、工具与测试 README 解释职责、依赖和回归。原始阶段证据仍按身份保留。
+
+`test-software` 覆盖 175 项原生模型测试和 33 个 Host runner；`test-host/test-model` 可单独执行。
+`test-tensor-ingress SOC_WORKSPACE=...` 自动正常导出独立 core 后运行 protocol 和真实 L2 测试。
+新增 `program-bitstream` 包装现有下载脚本。活动工具不再使用私有 Vivado/RISC-V/Chipyard 默认路径，
+参考 Chipyard 必须通过配置或参数提供；冻结来源中的 donor 路径只用于追溯。
+
+配对检查扩展到三个 worker 的 busy/status/accepted/retired CSR、两个时钟定义及 Make 实际
+model/generator/frozen 选择。依赖检查只读取两个当前 BUILD 的 `.d`，同时检查存在性和仓库闭包；
+保留的历史产物不作为当前构建证据。
+
+PASS：`make firmware benchmark check-v26-firmware check-deps`、`make test-software`
+（175 项，无跳过；33 Host runner）、自动 core + TensorIngress/L2、18 份主导航链接，
+缺源依赖与退休/不匹配选择器反例。证据位于 `build/refactor/p5/`。
+Vivado/综合/实现/板测：**NOT RUN**（P5），下一阶段从干净 checkout 独立验证。

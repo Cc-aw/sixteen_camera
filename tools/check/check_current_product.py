@@ -18,9 +18,9 @@ def require(condition, message):
 
 
 def macro(text, name):
-    match = re.search(r"^#define\s+" + re.escape(name) + r"\s+(\d+)[uUlL]*\b", text, re.M)
+    match = re.search(r"^#define\s+" + re.escape(name) + r"\s+(0[xX][0-9a-fA-F]+|[0-9]+)[uUlL]*\b", text, re.M)
     require(match is not None, "Missing macro: " + name)
-    return int(match[1])
+    return int(match[1], 16 if match[1].lower().startswith("0x") else 10)
 
 
 def validate(product, root=ROOT, evaluate=True):
@@ -28,6 +28,9 @@ def validate(product, root=ROOT, evaluate=True):
                 "gemmini_dim": 32, "clock_hz": 100000000, "model": "yolov5nu",
                 "runtime_profile": "v26", "credit_limit": 4,
                 "opcodes": ["custom3", "custom2", "custom1"]}
+    expected.update(video_build="build/firmware/video", video_elf="build/firmware/video/video.elf",
+                    benchmark_build="build/firmware/benchmark",
+                    benchmark_elf="build/firmware/benchmark/benchmark.elf")
     for key, value in expected.items():
         require(product.get(key) == value, f"Production identity mismatch: {key}")
     config = "TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig"
@@ -38,7 +41,8 @@ def validate(product, root=ROOT, evaluate=True):
         wanted = product["hardware_alias" if name == "SOC_VARIANT" else "soc_config"]
         require(os.environ.get(name, "") in ("", wanted), f"Unsupported {name}")
     for key in ("soc_directory", "collateral_directory", "model_rules", "model_source",
-                "generator", "frozen_input", "generation_context"):
+                "generator", "frozen_input", "generation_context", "soc_sources", "tensor_ingress_source",
+                "soc_generator", "reference_manifest"):
         path = root / product[key]
         require(not Path(product[key]).is_absolute() and path.resolve().is_relative_to(root.resolve()),
                 "Nonlocal product path: " + key)
@@ -61,6 +65,16 @@ def validate(product, root=ROOT, evaluate=True):
         require(macro(text, "GEMMINI_LOOPCONV_SAFE_MAX") == product["credit_limit"],
                 "SAFE_MAX mismatch: " + path)
         require(macro(text, "XCUSTOM_ACC") == int(opcode[-1]), "RoCC opcode mismatch: " + path)
+    csr_sets = [(0x7c2, 0x7c4, 0x7c6, 0x7c7), (0x7c3, 0x7c5, 0x7c8, 0x7c9),
+                (0x7ca, 0x7cb, 0x7cc, 0x7cd)]
+    for path, values in zip(product["parameter_headers"], csr_sets):
+        text = (root / path).read_text()
+        for name, value in zip(("GEMMINI_BUSY_CSR", "GEMMINI_LOOPCONV_STATUS_CSR",
+                                "GEMMINI_LOOPCONV_ACCEPTED_CSR", "GEMMINI_LOOPCONV_RETIRED_CSR"), values):
+            require(macro(text, name) == value, "Worker CSR mismatch: " + path + " " + name)
+    platform = (root / "sw/src/platform/platform.h").read_text()
+    clock_match = re.search(r"#define SOC_CLOCK_HZ UINT64_C\((\d+)\)", platform)
+    require(clock_match is not None and int(clock_match[1]) == product["clock_hz"], "Platform clock mismatch")
     for module in ("Gemmini", "Gemmini_1", "Gemmini_2"):
         rtl = (root / product["collateral_directory"] / (module + ".sv")).read_text()
         require("loopConvOutstandingCount < 4'h4 & io_loopconv_request_queue_count < 8'h2 & ~io_loopconv_assembler_partial" in rtl,
@@ -74,7 +88,10 @@ def validate(product, root=ROOT, evaluate=True):
                 text=True)
             actual = dict(line.split("=", 1) for line in output.splitlines() if "=" in line)
             for key, value in {"WORKERS": "3", "DIM": "32", "CREDIT": "4", "DIAGNOSTIC": "0",
-                               "PARAMS": str(root / product["parameter_headers"][0])}.items():
+                               "PARAMS": str(root / product["parameter_headers"][0]),
+                               "MODEL": str(root / product["model_source"]),
+                               "GENERATOR": str(root / product["generator"]),
+                               "FROZEN": str(root / product["frozen_input"])}.items():
                 require(actual.get(key) == value, f"{entry}: evaluated {key} mismatch")
             flags = actual["FLAGS"].split()
             definitions = dict(flag[2:].split("=", 1) for flag in flags if flag.startswith("-D") and "=" in flag)
@@ -83,7 +100,8 @@ def validate(product, root=ROOT, evaluate=True):
                          "-DYOLO32_SOFTWARE_BATCH=0", "-DYOLO32_CREDIT_LIMIT=4",
                          "-DYOLO32_SUBMIT_BURST=1", "-DYOLO32_QUANTUM_US=200", "-DYOLO32_SCHED_ADAPTIVE=0",
                          "-DYOLO32_RESIZE_BATCH=1", "-DYOLO32_RESIZE_ROWS=0", "-DYOLO32_CREDIT_QUERY=1",
-                         "-DYOLO32_PACKET_DISPATCH=1", "-DYOLO32_DIAGNOSTIC_BUILD=0"):
+                         "-DYOLO32_PACKET_DISPATCH=1", "-DYOLO32_DIAGNOSTIC_BUILD=0",
+                         "-DYOLOV5NU_GEMMINI_DIM=32", "-DYOLOV5NU_DIM16_WORKER_COUNT=3U"):
                 name, value = flag[2:].split("=", 1)
                 require(definitions.get(name) == value, f"{entry}: production flag mismatch: {name}")
 
@@ -95,6 +113,7 @@ def main():
     try:
         product = json.loads(MANIFEST.read_text())
         if args.tcl:
+            validate(product, evaluate=False)
             # These values are list elements, never executable Tcl text.
             for key in ("hardware_alias", "soc_config", "collateral_directory"):
                 require(re.fullmatch(r"[A-Za-z0-9_./-]+", product[key]), "Invalid Tcl field: " + key)

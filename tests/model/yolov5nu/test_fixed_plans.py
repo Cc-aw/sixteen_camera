@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Compare native/fixed Split-K operands and dependencies for the whole graph."""
 from pathlib import Path
 import json

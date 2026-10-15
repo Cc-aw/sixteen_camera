@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Hardware-only logs must prove PPU completion and preserve integer words."""
 import sys
 from pathlib import Path

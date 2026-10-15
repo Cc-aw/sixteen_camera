@@ -72,4 +72,6 @@ $(BUILD)/v26/capacity_observer.o: $(V26_ROOT)/src/capacity_observer.c
 .PHONY: print-current-config
 print-current-config:
 	@printf '%s\n' 'WORKERS=$(if $(MODEL_WORKERS),$(MODEL_WORKERS),3)' 'DIM=$(if $(MODEL_DIM),$(MODEL_DIM),32)' \
-	  'CREDIT=$(V26_CREDIT_LIMIT)' 'DIAGNOSTIC=$(V26_DIAGNOSTIC)' 'PARAMS=$(V26_PARAMS)' 'FLAGS=$(V26_FLAGS)'
+	  'CREDIT=$(V26_CREDIT_LIMIT)' 'DIAGNOSTIC=$(V26_DIAGNOSTIC)' 'PARAMS=$(V26_PARAMS)' 'FLAGS=$(V26_FLAGS)' \
+	  'MODEL=$(V26_ROOT)/src/model.c' 'GENERATOR=$(V26_ROOT)/codegen/generate_parallel.py' \
+	  'FROZEN=$(V26_ROOT)/frozen/native/yolov5nu_dim16_dual.c'

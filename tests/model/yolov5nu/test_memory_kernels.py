@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Production kernels + native operand macros + real scheduler on host/RVV QEMU."""
 from pathlib import Path
 import copy
@@ -126,7 +126,7 @@ class MemoryRuntime(unittest.TestCase):
     def test_host_delayed_dma_private_buffers_and_completion_cache(self):self.check([self.host])
 
     def test_riscv_rvv_padding_and_real_context_switch(self):
-        cc=Path('/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-linux-gnu-gcc')
+        cc=RISCV_LINUX_CC
         qemu=shutil.which('qemu-riscv64')
         if not cc.is_file() or not qemu:self.skipTest('RISC-V compiler/QEMU unavailable')
         out=self.root/'riscv';self.build([str(cc),'-static','-march=rv64gcv','-mabi=lp64d'],out,[str(self.local/'task_switch.S')])
@@ -140,7 +140,7 @@ class MemoryRuntime(unittest.TestCase):
                 self.check([out])
 
     def test_riscv_multirow_rvv_and_real_context_switch(self):
-        cc=Path('/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-linux-gnu-gcc')
+        cc=RISCV_LINUX_CC
         qemu=shutil.which('qemu-riscv64')
         if not cc.is_file() or not qemu:self.skipTest('RISC-V compiler/QEMU unavailable')
         for rows in (0,4):
@@ -168,7 +168,7 @@ class MemoryRuntime(unittest.TestCase):
         finally:path.write_text(original)
 
     def test_formal_submit_context_preserves_rvv_pool_resize_and_delayed_dma(self):
-        cc=Path('/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-linux-gnu-gcc')
+        cc=RISCV_LINUX_CC
         qemu=shutil.which('qemu-riscv64')
         if not cc.is_file() or not qemu:self.skipTest('RISC-V compiler/QEMU unavailable')
         path=self.local/'test.c';original=path.read_text()

@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Exercise production publication/queue drivers with a simulated MMIO device."""
 from pathlib import Path
 import shutil

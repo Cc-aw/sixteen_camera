@@ -20,7 +20,7 @@ def main():
     parser.add_argument("--targets", nargs="+", choices=["pool", "cache", "ddr"],
                         default=["pool", "cache", "ddr"])
     parser.add_argument("--vivado", type=Path, default=Path(os.environ.get(
-        "VIVADO_BIN", "/mnt/data/Vivado/Vivado/2023.2/bin/vivado")))
+        "VIVADO_BIN", shutil.which("vivado") or "vivado")))
     args = parser.parse_args()
     cy = args.workspace.resolve()
     generator.validate_workspace_sources(cy)

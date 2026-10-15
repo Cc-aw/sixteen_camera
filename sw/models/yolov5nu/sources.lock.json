@@ -356,19 +356,19 @@
     {
       "path": "tests/model/yolov5nu/test_benchmark.py",
       "origin": "sw/yolov5/triple32/tests/test_benchmark.py",
-      "sha256": "eb73d08eab09ac76d8cc52b352dc0e61f7f495dbdea548d277af9e323f6cff24",
+      "sha256": "360f94051054f229f24754d0612d220ef7886fe58ee442bce97189b46829d310",
       "pre_refactor_sha256": "514732f88b5fbf45fc71010a7d44768ff232ecf97c3ebe0ef895d740bf9a717d"
     },
     {
       "path": "tests/model/yolov5nu/test_benchmark_main.py",
       "origin": "sw/yolov5/triple32/tests/test_benchmark_main.py",
-      "sha256": "8b130f78664fd8d4226e19a9b7e2c00b8760dd67119df476430916f82cd2e35e",
+      "sha256": "1c881f30625a857f560c05724de1062c07d79afa75062c30a8c390f7164c49ca",
       "pre_refactor_sha256": "0bded6814fba7d0f71fe14cac8e7ae782fd6dd9ef9929446d58d7acd3739f350"
     },
     {
       "path": "tests/model/yolov5nu/test_capacity.py",
       "origin": "sw/yolov5/triple32/tests/test_capacity.py",
-      "sha256": "254345ca5c44a9eb09c84797c894182097dcf58a59f28459be36ff67ab73c5c9",
+      "sha256": "5b8ae2ad9f5a8a11a2c0acb2c74c876142d93d7edc341931b9472542f819273c",
       "pre_refactor_sha256": "af78d135dbfe283a0132be8bf7932d0aea22d07f3ffd68f530028538d1c3c7b9"
     },
     {
@@ -379,109 +379,109 @@
     {
       "path": "tests/model/yolov5nu/test_credit.py",
       "origin": "sw/yolov5/triple32/tests/test_credit.py",
-      "sha256": "ca0a1301ad6831a28f6cb4988c085abd9dc2dee3546ad020a1ba9d7fef265cef",
+      "sha256": "3c6212b178647a56f57814951aae02b04ecf6b108b2bc58d10c28766f4d540a8",
       "pre_refactor_sha256": "c8605b6c2897c10e398b7760550849248793ac384e8becef32b43103026f3078"
     },
     {
       "path": "tests/model/yolov5nu/test_fixed_packets.py",
       "origin": "sw/yolov5/triple32/tests/test_fixed_packets.py",
-      "sha256": "38ce6b9fc71b3acc867cbea64a93dcd9deed54dd37159a07f43cd58077e67190",
+      "sha256": "e452ca4ad3892f64427e71b5df6b2bab83fb03266ead4927923c74405b11fd61",
       "pre_refactor_sha256": "c3cd84ed5d31c7e0db5ced771f3416cd018b54287256caa7e9cc9869e784cc50"
     },
     {
       "path": "tests/model/yolov5nu/test_fixed_plans.py",
       "origin": "sw/yolov5/triple32/tests/test_fixed_plans.py",
-      "sha256": "a04ce45fe1c039d127a488eb21c0b05c348cdda0a4605ce2fd62527925ca52a3",
+      "sha256": "51f835621194f72c0e8796ca011b1aa9933c106d37623807129829ab84155375",
       "pre_refactor_sha256": "79bf81392698d1edde6726fac1fafe33fb5276058a2129a28a2a4f349f60c68e"
     },
     {
       "path": "tests/model/yolov5nu/test_hardware_log.py",
       "origin": "sw/yolov5/triple32/tests/test_hardware_log.py",
-      "sha256": "69618ae1fca722e3e91d9372d5226df393590c7466551ab69b3861809f3e150b",
+      "sha256": "bdd2444ce9724d21fcb78ede8c72d37841bc016885b446f5055f964b3575c90a",
       "pre_refactor_sha256": "db2a1e408ef11de2f82acbca5e536e39da3320f819c57355b920f7f2bccca4f9"
     },
     {
       "path": "tests/model/yolov5nu/test_head_publication.py",
       "origin": "sw/yolov5/triple32/tests/test_head_publication.py",
-      "sha256": "02cfd139444e8e147b7a5c76bd30bbc35c228bd7b92b897a289e909f277898ba",
+      "sha256": "6d30934be34d5d01521226391a3bf49c5caec2903661edb4207233e50b24e490",
       "pre_refactor_sha256": "1161142e7083f2ca1b6142b17bb410b6b8e3bde8cb6c87ea5e6eee9bf09df5c5"
     },
     {
       "path": "tests/model/yolov5nu/test_independent.py",
       "origin": "sw/yolov5/triple32/tests/test_independent.py",
-      "sha256": "1dcbbf78845ad340a80e430f434ee29bb4e2015bb713583299b44bdbb9aecead",
+      "sha256": "994c4088e45f5e9d04e54a05ee856593884f6f76918078c402ae99bc5d868da8",
       "pre_refactor_sha256": "abdbd396ffccdc946161073f55984de44a4e6ec4943c17811c16735349a9327a"
     },
     {
       "path": "tests/model/yolov5nu/test_log.py",
       "origin": "sw/yolov5/triple32/tests/test_log.py",
-      "sha256": "7a7b837829036b6f3c86ea05a5137255f8b054b29a72f5ccfea8484ae44e9658",
+      "sha256": "bab6470032430a2624c5bdafcefcb382e5d5a490402cb4e47fc7579ce2c0280f",
       "pre_refactor_sha256": "2ecae62f87cf274de220b5c1485e202e3bd0ea51e55e782a4852fd6efbe32a15"
     },
     {
       "path": "tests/model/yolov5nu/test_memory_kernels.py",
       "origin": "sw/yolov5/triple32/tests/test_memory_kernels.py",
-      "sha256": "5e41be2fbcd1f7a4b0b46ff4a84f509a5cf4635c7f0c2b4548fdc510964563c8",
+      "sha256": "0add049e599be48199bc3bd1a2250ab41e0c5d9c8f7bf9bb037b37252e946735",
       "pre_refactor_sha256": "318a3ac9c3ca7c6acc56787526dc8d36ec602adf2bf6e14f3a211cd514a7d82e"
     },
     {
       "path": "tests/model/yolov5nu/test_parallel.py",
       "origin": "sw/yolov5/triple32/tests/test_parallel.py",
-      "sha256": "ab4904a093dd4052d58d461c6f98afd48752e2d8ad1dda06fceda67eaa6840b4",
+      "sha256": "cb30ac6b4cc096eddbd380e923517936e2c7791119efa48267f5a9a11715fa5d",
       "pre_refactor_sha256": "5a121405570add66426bc5ddf28fc6bee48d6e599b55796561b6da8b8170b6c4"
     },
     {
       "path": "tests/model/yolov5nu/test_ppu_driver.py",
       "origin": "sw/yolov5/triple32/tests/test_ppu_driver.py",
-      "sha256": "f089e86ea064201e50e18c096543c77f9573f0f3ee9a5769c39ee2dd6d990bef",
+      "sha256": "a8cab3d1efffeef2ea919ea80a9e7b605c8c242cd4da182d5126dd3968a34e9d",
       "pre_refactor_sha256": "2033ac200bbc02b599e4b129705a2218ca20cf05e43b78c0cc9ae409219417c6"
     },
     {
       "path": "tests/model/yolov5nu/test_ppu_early.py",
       "origin": "sw/yolov5/triple32/tests/test_ppu_early.py",
-      "sha256": "7977fd4109c26d45b8d4a795607f3a7bae3d74b7bdc72ca7e2a615645b94799b",
+      "sha256": "f34a866e72870774598f40bb8815fa9b0fb5244ff012af24d8602d0a206d6918",
       "pre_refactor_sha256": "a17c97a1d413d026bc816d1ffbdf5e2bdc49fe6a5514b89b5809ba9b68c3dcbc"
     },
     {
       "path": "tests/model/yolov5nu/test_ppu_early_log.py",
       "origin": "sw/yolov5/triple32/tests/test_ppu_early_log.py",
-      "sha256": "2fc5369d0b4b86a020582497de98cf2fbee77a6975ba8248aaa26215d3b5bdb5",
+      "sha256": "bcbb105578de8de440e9cdaf1d427ed8f83eb08d8513b864cac72ed1a326afca",
       "pre_refactor_sha256": "acf49c2e94504c56d4b2c838d514a0b1f7ba821371389f13a23c6ea7e18bda27"
     },
     {
       "path": "tests/model/yolov5nu/test_prepared_packets.py",
       "origin": "sw/yolov5/triple32/tests/test_prepared_packets.py",
-      "sha256": "160c9bb995a96b8c4beb03f4d0809fc41b8478716840680c6f886f4048f8e9c0",
+      "sha256": "ebf927cc154036bcb7116307043da724ed59bce752e172dca318c09c806d9d8c",
       "pre_refactor_sha256": "72f73377ada673ae1316669de51bf59cb69f0dfd90a6d5d34a05d1fec26efbfb"
     },
     {
       "path": "tests/model/yolov5nu/test_rocc_layers.py",
       "origin": "sw/yolov5/triple32/tests/test_rocc_layers.py",
-      "sha256": "349bd39f74fb7c2adb23abb1d8e1163a4672f1d34531bf7c1ed8ac88e4acab3d",
+      "sha256": "5a49071358a009699c9afe2dddca8c1b0629b0e2f272e5f416dc8a6c6497f695",
       "pre_refactor_sha256": "a6743fed3c23f17a8751cd466d569ed451d4cce8528f65adf15d3c742b872a20"
     },
     {
       "path": "tests/model/yolov5nu/test_submit_optimizations.py",
       "origin": "sw/yolov5/triple32/tests/test_submit_optimizations.py",
-      "sha256": "92121c3247224200010bb14592ec01a8a395b77cad5de37253b3265b48100e31",
+      "sha256": "00c38b048bbb4c06c6998616e02bcdee5275163f889ca70ba6ed34396f4861d3",
       "pre_refactor_sha256": "949542e87a72109cf47eac0436aa282d7fcdeabbf925007fa8ddff17bd34af56"
     },
     {
       "path": "tests/model/yolov5nu/test_supply_diag.py",
       "origin": "sw/yolov5/triple32/tests/test_supply_diag.py",
-      "sha256": "d64a7a8c194be6b9c7c766a62d6d9425563c431c8419f0d293a9dc08bec18653",
+      "sha256": "65b60f73e2b199fd4c09c209cee7531fd0506cffade7678fa48059e1a6835140",
       "pre_refactor_sha256": "1d229834c44869ebb2ce0702a6af5ef47b68da8c0425664b8fdf1cb2605b88eb"
     },
     {
       "path": "tests/model/yolov5nu/test_wait_reuse.py",
       "origin": "sw/yolov5/triple32/tests/test_wait_reuse.py",
-      "sha256": "cac13dc3904cf32a769340f714e510de9794a0d08fbb5a0c6c51446cd489b5dd",
+      "sha256": "6b79df26fbf8b1e0c242b53859e39e1ab004a252f3b3d3c9f3856ecaca4d45d2",
       "pre_refactor_sha256": "20e0926d41e357094a0bf81a7805d5a1b67a655dac30143649f698eef41629f3"
     },
     {
       "path": "sw/models/yolov5nu/model.mk",
       "origin": "current-project support or integration adaptation",
-      "sha256": "d06d79bf0dd9aa9513512a9f31e54589ad74bf1403f719bcf816688080cc82b6",
+      "sha256": "85523a678fe6fb0c685bc799a080c7a7861f38e5cebc93043d587c3c450a5d28",
       "pre_refactor_sha256": "5b769251adbe9dde0186ecb1e79d2563b5c1381b4e4f9faa41c7cc80cf4354d8"
     },
     {

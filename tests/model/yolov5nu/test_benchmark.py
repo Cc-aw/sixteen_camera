@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Independent-image log, benchmark completeness and input extraction checks."""
 import hashlib
 import io

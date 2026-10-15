@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Production scheduler/credit/packet diagnostics and strict log conservation."""
 from pathlib import Path
 import copy
@@ -94,7 +94,7 @@ class SupplyScheduler(credit_tests.CooperativeCredit):
         subprocess.run(['gcc']+cls.flags+[str(cls.local/'test.c'),str(cls.local/'independent.c'),str(cls.local/'diagnostics.c'),'-o',str(cls.host)],check=True,capture_output=True)
 
     def test_actual_riscv_switch_preserves_credit_packet(self):
-        cc=Path('/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-linux-gnu-gcc')
+        cc=RISCV_LINUX_CC
         qemu=shutil.which('qemu-riscv64')
         if not cc.exists() or not qemu: self.skipTest('RISC-V compiler/QEMU unavailable')
         exe=self.root/'riscv-diag'

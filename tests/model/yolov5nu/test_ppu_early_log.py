@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Early publication is mandatory; backpressure may postpone hardware enqueue."""
 from pathlib import Path
 import copy

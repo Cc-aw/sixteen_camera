@@ -33,13 +33,18 @@ def main():
             failures.append(f"Source hash mismatch: {item['path']}")
     count = 0
     # -MMD omits toolchain/system headers. Every listed dependency must be local.
-    for depfile in (ROOT / 'build/firmware').rglob('*.d'):
+    product = json.loads((ROOT / 'hw/manifests/current.json').read_text())
+    depfiles = [p for key in ('video_build', 'benchmark_build')
+                for p in (ROOT / product[key]).rglob('*.d')]
+    for depfile in depfiles:
         for word in depfile.read_text().replace('\\\n', ' ').split():
             if word.endswith(':'):
                 continue
             path = Path(word)
             if not path.is_absolute():
                 path = ROOT / 'sw' / path
+            if not path.is_file():
+                failures.append(f'Missing current firmware source: {path} ({depfile})')
             if not path.resolve().is_relative_to(ROOT):
                 failures.append(f'External firmware source: {path} ({depfile})')
         count += 1

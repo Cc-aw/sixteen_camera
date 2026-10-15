@@ -13,6 +13,7 @@ $(error Only the current triple32_v3_tensor configuration is supported)
 endif
 export SOC_VARIANT VIVADO_BIN
 export VIVADO_PROJECT
+export SOC_REFERENCE SOC_WORKSPACE RISCV_LINUX_CC RISCV_TOOLCHAIN_DIR
 export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD_JTAG_SERIAL BITSTREAM_FILE
 
 .PHONY: runtime-baseline test-runtime-abi test-runtime-baseline
@@ -25,13 +26,13 @@ help:
 	@printf '%s\n' \
 	  'Current product: triple32_v3_tensor + YOLOv5nu v26 (3x32, credit=4)' \
 	  'make check / check-deps    Validate production identity, sources and tools' \
-	  'make soc SOC_WORKSPACE=<path>  Generate the current SoC in a private workspace' \
+	  'make soc SOC_REFERENCE=<ref> SOC_WORKSPACE=<new>  Generate the current SoC' \
 	  'make project / elaborate / bitstream  Reconstruct and build hardware' \
 	  'make firmware             Build current video firmware' \
 	  'make benchmark            Build the shared v26 three-image benchmark' \
 	  'make test-software         Run host and model regressions' \
 	  'make test-rtl              Run RTL regressions (SoC workspace required)' \
-	  'make program              Load the matching ELF' \
+	  'make program-bitstream / program  Load matching hardware / ELF' \
 	  'make help-tests           List directed regression and diagnostic commands' \
 	  'Local tool overrides: tools/config/tools.local.mk'
 
@@ -41,48 +42,14 @@ benchmark: firmware-benchmark
 test-rtl: test-video test-video-pipeline test-tensor test-tensor-ingress test-memory-v3 test-ppu test-cache
 help-tests:
 	@printf '%s\n' \
-	  'Current SoC: triple32_v3_tensor (3x32 MaxPool + TensorIngress)'  \
-	  'make check                          Validate selected source manifests' \
-	  'make project                        Create/open local Vivado project from Tcl' \
-	  'make firmware SOC_VARIANT=triple32_v3_tensor  Build v26 video firmware' \
-	  'make firmware-benchmark            Build v26 credit=4 three-image benchmark' \
-	  'make test-v26                      Native packet, scheduler and PPU regressions' \
-	  'make check-v26-firmware            Audit built v26 ELF and hardware ABI' \
-	  'make bitstream                     Build the current hardware only' \
-	  'make elaborate                      Run Vivado RTL elaboration' \
-	  'make test-tensor                    Tensor DMA and recovery tests' \
-	  'make test-tensor-ingress            New SoC ingress protocol and real L2 tests' \
-	  'make test-cache                     Selected generated L2 control test' \
-	  'make project SOC_VARIANT=triple32_v3_tensor  Rebuild V3 + Tensor hardware project' \
-	  'make soc-triple32-v3-tensor SOC_WORKSPACE=/tmp/new-chipyard  Generate from the imported shell' \
-	  'make test-memory-v3                 V3 Head, outstanding and counter CDC tests' \
-	  'make test-ppu                       PPU publication tests' \
-	  'make test-video                     Video refactor tests' \
-	  'make test-video-pipeline            Full-frame / FIFO / MIG return timing pipelines' \
-	  'make test-v3-timing-repair SOC_WORKSPACE=/tmp/chipyard  L2 refill / DDR slice regressions' \
-	  'make test-runtime                   Host stream runtime tests (2/3 workers)' \
-	  'make runtime-baseline               Capture R0 software baseline under build/' \
-	  'make test-runtime-baseline          ABI, identity trace and known-gap characterization' \
-	  'make test-tensor-device             Tensor HAL protocol and timeout traces against R0' \
-	  'make test-runtime-tensor-hal        Runtime MMIO, event and UART arguments against R0' \
-	  'make test-ppu-device                PPU protocol and barriers against frozen R1a' \
-	  'make test-runtime-ppu-hal           PPU backend ownership and MMIO traces against R1a' \
-	  'make test-overlay-device           Overlay MMIO, labels and timeouts against R1b' \
-	  'make test-runtime-overlay-hal      Real overlay with Runtime busy retry and TTL' \
-	  'make test-cache-ops                Host/RV64 Flush64 traces and capability checks' \
-	  'make test-runtime-resources        Tensor, activation, Head and job ownership checks' \
-	  'make test-runtime-faults           Runtime/backend abort, timeout and drain checks' \
-	  'make test-runtime-scheduler        Pure EDF selection and Runtime control states' \
-	  'make test-runtime-r3               Full split Runtime event traces against R2' \
-	  'make test-runtime-backend          Host/RV64 Backend Ops and profile guards' \
-	  'make test-runtime-r5               Application/facade traces and Host/RV64 metrics' \
-	  'make test-runtime-r4b              Frozen R4a Head/PPU service traces' \
-	  'make test-runtime-r4a              Real legacy/V17A adapter event traces' \
-	  'make test-software                  All software host tests' \
-	  'make program                        Download selected firmware (existing bitstream)' \
-	  'make check-deps                     Check source closure and installed tools' \
-	  'make outputs                        Inventory outputs and retention policy' \
-	  'Local tool overrides: tools/config/tools.local.mk (see tools.example.mk)'
+	  'Software: test-software test-host test-model test-v26 check-v26-firmware' \
+	  'HAL: test-tensor-device test-ppu-device test-overlay-device test-cache-ops' \
+	  'Runtime: test-runtime-resources test-runtime-faults test-runtime-scheduler test-runtime-backend' \
+	  'Frozen traces: test-runtime-baseline test-runtime-tensor-hal test-runtime-ppu-hal test-runtime-overlay-hal' \
+	  'Layer traces: test-runtime-r3 test-runtime-r4a test-runtime-r4b test-runtime-r5' \
+	  'RTL: test-rtl test-video test-video-pipeline test-tensor test-tensor-ingress test-memory-v3 test-ppu test-cache' \
+	  'Timing repair: test-v3-timing-repair SOC_WORKSPACE=<rebuilt-workspace>' \
+	  'Details and prerequisites: tests/README.md'
 
 .PHONY: project
 project: check
@@ -128,6 +95,9 @@ test-tensor:
 	cd "$(PROJECT_ROOT)" && bash tests/rtl/run_yolov5nu_multi_channel_tensor_dma_tests.sh
 
 test-tensor-ingress:
+	@if test -n "$(SOC_WORKSPACE)"; then \
+	  python3 tools/soc/build_triple32_v3_tensor.py --workspace "$(SOC_WORKSPACE)" --emit-core-only; \
+	fi
 	cd "$(PROJECT_ROOT)" && python3 tests/rtl/run_tensor_ingress_tests.py
 	cd "$(PROJECT_ROOT)" && python3 tests/rtl/run_tensor_ingress_l2_test.py $(if $(SOC_WORKSPACE),--workspace "$(SOC_WORKSPACE)")
 
@@ -237,3 +207,7 @@ test-video-pipeline:
 test-v3-timing-repair:
 	@test -n "$(SOC_WORKSPACE)" || { echo 'Set SOC_WORKSPACE to the rebuilt private Chipyard path'; exit 2; }
 	python3 tests/rtl/run_v3_timing_repair_tests.py --workspace "$(SOC_WORKSPACE)" --output "$(PROJECT_ROOT)/build/sim/v3_timing_repair_$$(date +%Y%m%d_%H%M%S)_$$$$"
+
+.PHONY: program-bitstream
+program-bitstream:
+	cd "$(PROJECT_ROOT)" && bash tools/program/download_bitstream.sh $(PROGRAM_ARGS)

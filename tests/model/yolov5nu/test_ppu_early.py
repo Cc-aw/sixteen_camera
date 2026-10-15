@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Real independent scheduler + PPU drivers, simulated DMA/posted MMIO/PPU.
 
 Host substitutes ucontext for the switch. QEMU runs the actual RVV switch.
@@ -14,7 +14,6 @@ import unittest
 
 from generate_parallel import function
 
-TOOLCHAIN = Path('/home/wzr/chipyard/.conda-env/riscv-tools/bin')
 
 
 class EarlyPpuTests(unittest.TestCase):
@@ -356,7 +355,7 @@ int main(int argc,char **argv){
                      '-I'+str(HERE.parents[3]/'sw/src')]
         cls.host = cls.build('host', 'gcc', ['-DYOLO32_HOST_TASKS=1'])
         cls.qemu = shutil.which('qemu-riscv64')
-        gcc = TOOLCHAIN/'riscv64-unknown-linux-gnu-gcc'
+        gcc = RISCV_LINUX_CC
         cls.riscv = cls.build('riscv', str(gcc), ['-static', '-march=rv64gcv', '-mabi=lp64d']) if cls.qemu and gcc.exists() else None
         cls.head_host={};cls.head_riscv={}
         for mode in (0,1):

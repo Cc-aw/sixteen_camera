@@ -1,6 +1,8 @@
 """Locations of shared source and regression fixtures after the mechanical split."""
 from pathlib import Path
 import sys
+import os
+import shutil
 ROOT = Path(__file__).resolve().parents[3]
 HERE = ROOT / "sw/models/yolov5nu/include"
 for directory in ("sw/models/yolov5nu/codegen", "tools/analyze/yolov5nu", "sw/benchmarks/triple_infer"):
@@ -93,3 +95,12 @@ SOURCE_PATHS = {'Makefile': 'sw/benchmarks/triple_infer/Makefile',
 
 def source_path(name):
     return ROOT / SOURCE_PATHS[name]
+
+# A Linux compiler is separate from the bare-metal compiler used for firmware.
+_prefix = os.environ.get("TOOLCHAIN", "riscv64-unknown-elf-")
+_tool_dir = Path(os.environ.get("RISCV_TOOLCHAIN_DIR") or Path(_prefix).parent)
+_candidate = _tool_dir / "riscv64-unknown-linux-gnu-gcc"
+_compiler = (os.environ.get("RISCV_LINUX_CC") or
+             (str(_candidate.resolve()) if _candidate.is_file() else None) or
+             shutil.which("riscv64-unknown-linux-gnu-gcc") or shutil.which("riscv64-linux-gnu-gcc"))
+RISCV_LINUX_CC = Path(_compiler or "__missing_riscv_linux_gcc__")

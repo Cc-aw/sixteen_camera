@@ -11,3 +11,5 @@
 # BITSTREAM_FILE := /path/to/video.bit
 # SOC_VARIANT and SOC_CONFIG accept only the current production identity.
 # See hw/manifests/current.json for the sole hardware mapping.
+# SOC_REFERENCE := /path/to/reference-chipyard
+# RISCV_LINUX_CC := /path/to/bin/riscv64-unknown-linux-gnu-gcc

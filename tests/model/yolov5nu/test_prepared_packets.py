@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Compare all remaining WS stages and LUT uploads to the full native ABI."""
 from pathlib import Path
 import json
@@ -120,7 +120,7 @@ static acc_t biases[2][1024];
         self.assertIn('prepared_ws_step',r.stderr)
 
     def test_real_riscv_native_fp16_stream_matches_host_generated_tables(self):
-        compiler=Path('/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-linux-gnu-gcc')
+        compiler=RISCV_LINUX_CC
         qemu=shutil.which('qemu-riscv64')
         if not qemu or not compiler.exists():self.skipTest('RISC-V compiler/QEMU unavailable')
         exe=self.out/'stream-riscv'

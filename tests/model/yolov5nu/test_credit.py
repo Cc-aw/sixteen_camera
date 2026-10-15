@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Real scheduler + packet emitter with delayed ingress/retirement, on host and RVV QEMU."""
 from pathlib import Path
 import os
@@ -202,7 +202,7 @@ int main(void){
         self.check_executable([self.host])
 
     def test_actual_riscv_switch_preserves_credit_packet(self):
-        cc=Path('/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-linux-gnu-gcc')
+        cc=RISCV_LINUX_CC
         qemu=shutil.which('qemu-riscv64')
         if not cc.exists() or not qemu:self.skipTest('RISC-V compiler/QEMU unavailable')
         exe=self.root/'riscv'

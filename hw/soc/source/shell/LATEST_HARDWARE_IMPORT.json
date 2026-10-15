@@ -133,7 +133,7 @@
     "v26 software and Runtime R5 resource ownership"
   ],
   "generation_entry": "tools/soc/build_triple32_v3_tensor.py",
-  "generator_sha256": "e2cf9fce8356cab3accac61f96f3d1b9bd97189f16402f23662a792257277130",
+  "generator_sha256": "3326af56fd2f2811d027ada3581a044ad280c6923bda93ccc990d6613ae9150b",
   "implementation": {
     "synthesis": "Flow_PerfOptimized_high / PerformanceOptimized / retiming / resource_sharing off / SHREG_MIN_SIZE5",
     "placement": "SSI_SpreadLogic_high",

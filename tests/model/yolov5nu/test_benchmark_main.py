@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Run the real command/benchmark loop with a deterministic host model double.
 This verifies scheduling, reference lifetime and log boundaries, not hardware math.
 """

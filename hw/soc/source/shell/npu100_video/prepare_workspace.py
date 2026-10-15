@@ -8,7 +8,7 @@ import shutil
 import subprocess
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--reference", type=Path, default=Path("/home/wzr/chipyard"))
+parser.add_argument("--reference", type=Path, required=True)
 parser.add_argument("--destination", type=Path, required=True)
 parser.add_argument("--copy-only", action="store_true", help="Copy sources/caches; caller installs and scopes a frozen build.sbt")
 args = parser.parse_args()

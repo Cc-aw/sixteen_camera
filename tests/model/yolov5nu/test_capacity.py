@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Four-slot scheduler, sparse observer, real main and strict log contracts."""
 from pathlib import Path
 import os

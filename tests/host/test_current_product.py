@@ -21,9 +21,9 @@ class CurrentProductTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name)
-        files = [self.product[k] for k in ('model_rules', 'model_source', 'generator', 'frozen_input', 'generation_context')]
+        files = [self.product[k] for k in ('model_rules', 'model_source', 'generator', 'frozen_input', 'generation_context', 'tensor_ingress_source', 'soc_generator', 'reference_manifest')]
         files += [self.product['collateral_directory'] + '/' + name + '.sv' for name in ('Gemmini', 'Gemmini_1', 'Gemmini_2')]
-        files += self.product['parameter_headers'] + self.product['source_locks'] + ['sw/src/board/xparameters.h']
+        files += self.product['parameter_headers'] + self.product['source_locks'] + ['sw/src/board/xparameters.h', 'sw/src/platform/platform.h']
         for name in files:
             target = self.root / name
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -42,7 +42,8 @@ class CurrentProductTests(unittest.TestCase):
             header = self.root / name
             original = header.read_text()
             for old, new in (('#define DIM 32', '#define DIM 16'),
-                             ('#define GEMMINI_LOOPCONV_SAFE_MAX 4', '#define GEMMINI_LOOPCONV_SAFE_MAX 3')):
+                             ('#define GEMMINI_LOOPCONV_SAFE_MAX 4', '#define GEMMINI_LOOPCONV_SAFE_MAX 3'),
+                             ('#define GEMMINI_LOOPCONV_STATUS_CSR ', '#define GEMMINI_LOOPCONV_STATUS_CSR 0x0 // ')):
                 with self.subTest(header=name, macro=old):
                     self.assertIn(old, original)
                     header.write_text(original.replace(old, new))

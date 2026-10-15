@@ -10,6 +10,6 @@
 - `ip/`、`vivado/`：Vivado 2023.2 IP、BD 和工程重建 Tcl。
 - `manifests/`：RTL/IP/XDC/SoC 生产清单及硬件/模型配对契约。
 
-根目录执行 `make check`、`make soc SOC_WORKSPACE=<新工作区>`、`make project`、
+根目录执行 `make check`、`make soc SOC_REFERENCE=<参考 Chipyard> SOC_WORKSPACE=<新工作区>`、`make project`、
 `make elaborate` 和 `make bitstream`。定向回归见 `make help-tests`。
 离线仿真与整机实现/板测分开记录于 [实施验收](../docs/validation/single-version-refactor.md)。

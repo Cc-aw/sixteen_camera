@@ -5,7 +5,7 @@
     "hw/soc/source/shell/npu100_video/EXPERIMENTAL_MEMORY_DMA.txt": "e37651e148cb1e35425466b5ed1b14b23e597bc4d8a2d29509dce4e1fb9c1402",
     "hw/soc/source/shell/npu100_video/export_video_soc.py": "d5a0409de6a5a43d4720ae7770f14ec54012a0a021e5c175564b238336306b3b",
     "hw/soc/source/shell/npu100_video/generate_video_soc.sh": "35ed9947c257629005fae18639104e0138bfa8b9b27e662f610cd7109265ee29",
-    "hw/soc/source/shell/npu100_video/prepare_workspace.py": "536619b22150452b47ab95adc17b1d9beb84047a3ebee823150c43ada2bc398e",
+    "hw/soc/source/shell/npu100_video/prepare_workspace.py": "e8b29f4e86f714487a55a117048450b1e72d9f67eb846ab0de7f0f1f4de420c1",
     "hw/soc/source/shell/npu100_video/README.md": "6dcd10d92c40c2fd11c0801c7124d418fd59423d8c569c77f282a8c445bbc54f",
     "hw/soc/source/shell/npu100_video/validate_source.sh": "fef8381bd9c1f6bbd671b861153c29a57dc8f7264a0bcf71c284a7952b51e2c9",
     "hw/soc/source/shell/npu100_video/video_config.diff": "35e0bc5e1779fde33722360870a036896fa4d283d2ebd1105ed070dba48c090b",
@@ -141,5 +141,8 @@
     "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala": "fd19ab3ff63f67b36216d2805490fc60669b2908dae54d87701af7196543736c",
     "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/RegisteredListBuffer.scala": "865e720f4eff1a9434da580067f20875960b816673ee2b040e2e48b1503ce54c"
   },
-  "timing_repair_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_timing_v3_2026-10-07/soc_shell/memory_parallel_v3_timing_repair"
+  "timing_repair_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_timing_v3_2026-10-07/soc_shell/memory_parallel_v3_timing_repair",
+  "pre_refactor_sha256": {
+    "hw/soc/source/shell/npu100_video/prepare_workspace.py": "536619b22150452b47ab95adc17b1d9beb84047a3ebee823150c43ada2bc398e"
+  }
 }

@@ -8,7 +8,7 @@
 完整 Scala Config 类名、RoCC opcode、SAFE_MAX、RTL 和约束不随源码迁移改变。
 
 生成入口仍为 [tools/soc/build_triple32_v3_tensor.py](../../tools/soc/build_triple32_v3_tensor.py)。
-从仓库根执行 `make soc SOC_WORKSPACE=<新工作区>`，在独立 Chipyard 副本中正常编译和生成，
+从仓库根执行 `make soc SOC_REFERENCE=<参考 Chipyard> SOC_WORKSPACE=<新工作区>`，在独立 Chipyard 副本中正常编译和生成，
 随后执行 RAM 处理、结构检查和导出。共享的参考工具链通过本机路径配置；
 参与当前覆盖的源码以仓库内冻结版本为准，参考工程的源文件不被修改。
 

@@ -1,4 +1,4 @@
-from paths import HERE, source_path
+from paths import HERE, source_path, RISCV_LINUX_CC
 """Production query scheduler and fixed-opcode packets with delayed hardware."""
 from pathlib import Path
 import os
@@ -125,7 +125,7 @@ class FixedOpcodeConv(conv_tests.FixedPacketsTests):
         subprocess.run(['gcc']+cls.flags+[str(cls.out/'stream.c'),'-lm','-o',str(cls.exe)],check=True,capture_output=True)
 
     def test_real_riscv_fixed_opcode_conv_stream(self):
-        cc=Path('/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-linux-gnu-gcc');qemu=shutil.which('qemu-riscv64')
+        cc=RISCV_LINUX_CC;qemu=shutil.which('qemu-riscv64')
         if not cc.is_file() or not qemu:self.skipTest('RISC-V compiler/QEMU unavailable')
         # The reproducibility test restores the native header; reinstall just
         # the terminal instruction recorder for the RISC-V executable.
