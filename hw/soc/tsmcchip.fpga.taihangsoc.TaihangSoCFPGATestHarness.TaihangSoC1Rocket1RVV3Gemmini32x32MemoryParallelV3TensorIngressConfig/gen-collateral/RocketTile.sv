@@ -325,217 +325,231 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
   wire         _respArb_io_in_2_q_io_deq_valid;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire [4:0]   _respArb_io_in_2_q_io_deq_bits_rd;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire [63:0]  _respArb_io_in_2_q_io_deq_bits_data;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  wire         _dcIF_2_io_cache_req_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [39:0]  _dcIF_2_io_cache_req_bits_addr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [8:0]   _dcIF_2_io_cache_req_bits_tag;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [4:0]   _dcIF_2_io_cache_req_bits_cmd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [2:0]   _dcIF_2_io_cache_req_bits_size;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _dcIF_2_io_cache_req_bits_signed;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [1:0]   _dcIF_2_io_cache_req_bits_dprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _dcIF_2_io_cache_req_bits_dv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _dcIF_2_io_cache_req_bits_phys;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _dcIF_2_io_cache_req_bits_no_alloc;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _dcIF_2_io_cache_req_bits_no_xcpt;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [15:0]  _dcIF_2_io_cache_req_bits_mask;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [127:0] _dcIF_2_io_cache_s1_data_data;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [15:0]  _dcIF_2_io_cache_s1_data_mask;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
+  wire         _dcIF_2_io_cache_req_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [39:0]  _dcIF_2_io_cache_req_bits_addr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [8:0]   _dcIF_2_io_cache_req_bits_tag;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [4:0]   _dcIF_2_io_cache_req_bits_cmd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [2:0]   _dcIF_2_io_cache_req_bits_size;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _dcIF_2_io_cache_req_bits_signed;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [1:0]   _dcIF_2_io_cache_req_bits_dprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _dcIF_2_io_cache_req_bits_dv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _dcIF_2_io_cache_req_bits_phys;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _dcIF_2_io_cache_req_bits_no_alloc;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _dcIF_2_io_cache_req_bits_no_xcpt;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [15:0]  _dcIF_2_io_cache_req_bits_mask;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [127:0] _dcIF_2_io_cache_s1_data_data;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [15:0]  _dcIF_2_io_cache_s1_data_mask;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
   wire         _respArb_io_in_1_q_io_enq_ready;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire         _respArb_io_in_1_q_io_deq_valid;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire [4:0]   _respArb_io_in_1_q_io_deq_bits_rd;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire [63:0]  _respArb_io_in_1_q_io_deq_bits_data;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  wire         _dcIF_1_io_cache_req_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [39:0]  _dcIF_1_io_cache_req_bits_addr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [8:0]   _dcIF_1_io_cache_req_bits_tag;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [4:0]   _dcIF_1_io_cache_req_bits_cmd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [2:0]   _dcIF_1_io_cache_req_bits_size;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _dcIF_1_io_cache_req_bits_signed;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [1:0]   _dcIF_1_io_cache_req_bits_dprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _dcIF_1_io_cache_req_bits_dv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _dcIF_1_io_cache_req_bits_phys;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _dcIF_1_io_cache_req_bits_no_alloc;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _dcIF_1_io_cache_req_bits_no_xcpt;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [15:0]  _dcIF_1_io_cache_req_bits_mask;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [127:0] _dcIF_1_io_cache_s1_data_data;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [15:0]  _dcIF_1_io_cache_s1_data_mask;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
+  wire         _dcIF_1_io_cache_req_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [39:0]  _dcIF_1_io_cache_req_bits_addr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [8:0]   _dcIF_1_io_cache_req_bits_tag;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [4:0]   _dcIF_1_io_cache_req_bits_cmd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [2:0]   _dcIF_1_io_cache_req_bits_size;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _dcIF_1_io_cache_req_bits_signed;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [1:0]   _dcIF_1_io_cache_req_bits_dprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _dcIF_1_io_cache_req_bits_dv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _dcIF_1_io_cache_req_bits_phys;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _dcIF_1_io_cache_req_bits_no_alloc;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _dcIF_1_io_cache_req_bits_no_xcpt;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [15:0]  _dcIF_1_io_cache_req_bits_mask;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [127:0] _dcIF_1_io_cache_s1_data_data;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [15:0]  _dcIF_1_io_cache_s1_data_mask;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
   wire         _respArb_io_in_0_q_io_enq_ready;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire         _respArb_io_in_0_q_io_deq_valid;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire [4:0]   _respArb_io_in_0_q_io_deq_bits_rd;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
   wire [63:0]  _respArb_io_in_0_q_io_deq_bits_data;	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  wire         _dcIF_io_cache_req_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [39:0]  _dcIF_io_cache_req_bits_addr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [8:0]   _dcIF_io_cache_req_bits_tag;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [4:0]   _dcIF_io_cache_req_bits_cmd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [2:0]   _dcIF_io_cache_req_bits_size;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _dcIF_io_cache_req_bits_signed;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [1:0]   _dcIF_io_cache_req_bits_dprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _dcIF_io_cache_req_bits_dv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _dcIF_io_cache_req_bits_phys;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _dcIF_io_cache_req_bits_no_alloc;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _dcIF_io_cache_req_bits_no_xcpt;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [15:0]  _dcIF_io_cache_req_bits_mask;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [127:0] _dcIF_io_cache_s1_data_data;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire [15:0]  _dcIF_io_cache_s1_data_mask;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-  wire         _cmdRouter_io_in_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [6:0]   _cmdRouter_io_out_0_bits_inst_funct;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [4:0]   _cmdRouter_io_out_0_bits_inst_rs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [4:0]   _cmdRouter_io_out_0_bits_inst_rs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_inst_xd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_inst_xs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_inst_xs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [4:0]   _cmdRouter_io_out_0_bits_inst_rd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [6:0]   _cmdRouter_io_out_0_bits_inst_opcode;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [63:0]  _cmdRouter_io_out_0_bits_rs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [63:0]  _cmdRouter_io_out_0_bits_rs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_debug;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_cease;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_wfi;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [31:0]  _cmdRouter_io_out_0_bits_status_isa;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_0_bits_status_dprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_dv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_0_bits_status_prv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_v;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_sd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [22:0]  _cmdRouter_io_out_0_bits_status_zero2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_mpv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_gva;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_mbe;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_sbe;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_0_bits_status_sxl;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_0_bits_status_uxl;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_sd_rv32;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [7:0]   _cmdRouter_io_out_0_bits_status_zero1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_tsr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_tw;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_tvm;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_mxr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_sum;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_mprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_0_bits_status_xs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_0_bits_status_fs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_0_bits_status_mpp;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_0_bits_status_vs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_spp;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_mpie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_ube;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_spie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_upie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_mie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_hie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_sie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_0_bits_status_uie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [6:0]   _cmdRouter_io_out_1_bits_inst_funct;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [4:0]   _cmdRouter_io_out_1_bits_inst_rs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [4:0]   _cmdRouter_io_out_1_bits_inst_rs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_inst_xd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_inst_xs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_inst_xs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [4:0]   _cmdRouter_io_out_1_bits_inst_rd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [6:0]   _cmdRouter_io_out_1_bits_inst_opcode;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [63:0]  _cmdRouter_io_out_1_bits_rs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [63:0]  _cmdRouter_io_out_1_bits_rs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_debug;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_cease;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_wfi;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [31:0]  _cmdRouter_io_out_1_bits_status_isa;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_1_bits_status_dprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_dv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_1_bits_status_prv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_v;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_sd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [22:0]  _cmdRouter_io_out_1_bits_status_zero2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_mpv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_gva;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_mbe;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_sbe;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_1_bits_status_sxl;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_1_bits_status_uxl;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_sd_rv32;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [7:0]   _cmdRouter_io_out_1_bits_status_zero1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_tsr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_tw;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_tvm;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_mxr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_sum;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_mprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_1_bits_status_xs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_1_bits_status_fs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_1_bits_status_mpp;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_1_bits_status_vs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_spp;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_mpie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_ube;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_spie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_upie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_mie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_hie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_sie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_1_bits_status_uie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [6:0]   _cmdRouter_io_out_2_bits_inst_funct;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [4:0]   _cmdRouter_io_out_2_bits_inst_rs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [4:0]   _cmdRouter_io_out_2_bits_inst_rs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_inst_xd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_inst_xs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_inst_xs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [4:0]   _cmdRouter_io_out_2_bits_inst_rd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [6:0]   _cmdRouter_io_out_2_bits_inst_opcode;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [63:0]  _cmdRouter_io_out_2_bits_rs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [63:0]  _cmdRouter_io_out_2_bits_rs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_debug;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_cease;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_wfi;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [31:0]  _cmdRouter_io_out_2_bits_status_isa;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_2_bits_status_dprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_dv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_2_bits_status_prv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_v;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_sd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [22:0]  _cmdRouter_io_out_2_bits_status_zero2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_mpv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_gva;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_mbe;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_sbe;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_2_bits_status_sxl;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_2_bits_status_uxl;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_sd_rv32;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [7:0]   _cmdRouter_io_out_2_bits_status_zero1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_tsr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_tw;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_tvm;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_mxr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_sum;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_mprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_2_bits_status_xs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_2_bits_status_fs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_2_bits_status_mpp;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [1:0]   _cmdRouter_io_out_2_bits_status_vs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_spp;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_mpie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_ube;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_spie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_upie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_mie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_hie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_sie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_out_2_bits_status_uie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_busy;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_loopconv_request_accept_0;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_loopconv_request_accept_1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_loopconv_request_accept_2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [7:0]   _cmdRouter_io_loopconv_request_queue_count_0;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [7:0]   _cmdRouter_io_loopconv_request_queue_count_1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire [7:0]   _cmdRouter_io_loopconv_request_queue_count_2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_loopconv_assembler_partial_0;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_loopconv_assembler_partial_1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _cmdRouter_io_loopconv_assembler_partial_2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  wire         _respArb_io_in_0_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
-  wire         _respArb_io_in_1_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
-  wire         _respArb_io_in_2_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
-  wire         _respArb_io_out_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
-  wire [4:0]   _respArb_io_out_bits_rd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
-  wire [63:0]  _respArb_io_out_bits_data;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
+  wire         _dcIF_io_cache_req_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [39:0]  _dcIF_io_cache_req_bits_addr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [8:0]   _dcIF_io_cache_req_bits_tag;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [4:0]   _dcIF_io_cache_req_bits_cmd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [2:0]   _dcIF_io_cache_req_bits_size;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _dcIF_io_cache_req_bits_signed;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [1:0]   _dcIF_io_cache_req_bits_dprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _dcIF_io_cache_req_bits_dv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _dcIF_io_cache_req_bits_phys;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _dcIF_io_cache_req_bits_no_alloc;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _dcIF_io_cache_req_bits_no_xcpt;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [15:0]  _dcIF_io_cache_req_bits_mask;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [127:0] _dcIF_io_cache_s1_data_data;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire [15:0]  _dcIF_io_cache_s1_data_mask;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+  wire         _cmdRouter_io_in_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [6:0]   _cmdRouter_io_out_0_bits_inst_funct;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [4:0]   _cmdRouter_io_out_0_bits_inst_rs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [4:0]   _cmdRouter_io_out_0_bits_inst_rs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_inst_xd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_inst_xs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_inst_xs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [4:0]   _cmdRouter_io_out_0_bits_inst_rd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [6:0]   _cmdRouter_io_out_0_bits_inst_opcode;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [63:0]  _cmdRouter_io_out_0_bits_rs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [63:0]  _cmdRouter_io_out_0_bits_rs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_debug;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_cease;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_wfi;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [31:0]  _cmdRouter_io_out_0_bits_status_isa;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_0_bits_status_dprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_dv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_0_bits_status_prv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_v;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_sd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [22:0]  _cmdRouter_io_out_0_bits_status_zero2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_mpv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_gva;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_mbe;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_sbe;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_0_bits_status_sxl;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_0_bits_status_uxl;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_sd_rv32;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [7:0]   _cmdRouter_io_out_0_bits_status_zero1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_tsr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_tw;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_tvm;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_mxr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_sum;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_mprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_0_bits_status_xs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_0_bits_status_fs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_0_bits_status_mpp;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_0_bits_status_vs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_spp;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_mpie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_ube;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_spie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_upie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_mie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_hie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_sie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_0_bits_status_uie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [6:0]   _cmdRouter_io_out_1_bits_inst_funct;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [4:0]   _cmdRouter_io_out_1_bits_inst_rs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [4:0]   _cmdRouter_io_out_1_bits_inst_rs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_inst_xd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_inst_xs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_inst_xs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [4:0]   _cmdRouter_io_out_1_bits_inst_rd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [6:0]   _cmdRouter_io_out_1_bits_inst_opcode;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [63:0]  _cmdRouter_io_out_1_bits_rs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [63:0]  _cmdRouter_io_out_1_bits_rs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_debug;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_cease;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_wfi;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [31:0]  _cmdRouter_io_out_1_bits_status_isa;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_1_bits_status_dprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_dv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_1_bits_status_prv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_v;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_sd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [22:0]  _cmdRouter_io_out_1_bits_status_zero2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_mpv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_gva;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_mbe;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_sbe;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_1_bits_status_sxl;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_1_bits_status_uxl;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_sd_rv32;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [7:0]   _cmdRouter_io_out_1_bits_status_zero1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_tsr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_tw;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_tvm;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_mxr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_sum;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_mprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_1_bits_status_xs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_1_bits_status_fs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_1_bits_status_mpp;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_1_bits_status_vs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_spp;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_mpie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_ube;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_spie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_upie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_mie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_hie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_sie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_1_bits_status_uie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [6:0]   _cmdRouter_io_out_2_bits_inst_funct;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [4:0]   _cmdRouter_io_out_2_bits_inst_rs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [4:0]   _cmdRouter_io_out_2_bits_inst_rs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_inst_xd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_inst_xs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_inst_xs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [4:0]   _cmdRouter_io_out_2_bits_inst_rd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [6:0]   _cmdRouter_io_out_2_bits_inst_opcode;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [63:0]  _cmdRouter_io_out_2_bits_rs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [63:0]  _cmdRouter_io_out_2_bits_rs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_debug;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_cease;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_wfi;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [31:0]  _cmdRouter_io_out_2_bits_status_isa;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_2_bits_status_dprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_dv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_2_bits_status_prv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_v;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_sd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [22:0]  _cmdRouter_io_out_2_bits_status_zero2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_mpv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_gva;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_mbe;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_sbe;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_2_bits_status_sxl;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_2_bits_status_uxl;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_sd_rv32;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [7:0]   _cmdRouter_io_out_2_bits_status_zero1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_tsr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_tw;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_tvm;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_mxr;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_sum;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_mprv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_2_bits_status_xs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_2_bits_status_fs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_2_bits_status_mpp;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_2_bits_status_vs;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_spp;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_mpie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_ube;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_spie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_upie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_mie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_hie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_sie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_2_bits_status_uie;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_3_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [6:0]   _cmdRouter_io_out_3_bits_inst_funct;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_out_3_bits_inst_xd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [4:0]   _cmdRouter_io_out_3_bits_inst_rd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [63:0]  _cmdRouter_io_out_3_bits_rs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [63:0]  _cmdRouter_io_out_3_bits_rs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire [1:0]   _cmdRouter_io_out_3_bits_status_prv;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _cmdRouter_io_busy;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  wire         _respArb_io_in_0_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
+  wire         _respArb_io_in_1_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
+  wire         _respArb_io_in_2_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
+  wire         _respArb_io_in_3_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
+  wire         _respArb_io_out_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
+  wire [4:0]   _respArb_io_out_bits_rd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
+  wire [63:0]  _respArb_io_out_bits_data;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
+  wire         _commandFrontend_io_control_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+  wire         _commandFrontend_io_response_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+  wire [4:0]   _commandFrontend_io_response_rd;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+  wire [63:0]  _commandFrontend_io_response_data;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+  wire         _commandFrontend_io_interrupt;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+  wire         _commandFrontend_io_transport_busy;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+  wire [2:0]   _commandFrontend_io_legacy_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+  wire [2:0]   _commandFrontend_io_stream_owner;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+  wire [2:0]   _commandFrontend_io_gemmini_cmd_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+  wire [20:0]  _commandFrontend_io_gemmini_cmd_funct;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+  wire [191:0] _commandFrontend_io_gemmini_cmd_rs1;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+  wire [191:0] _commandFrontend_io_gemmini_cmd_rs2;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+  wire [2:0]   _commandFrontend_io_mem_req_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+  wire [95:0]  _commandFrontend_io_mem_req_address;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+  wire [2:0]   _commandFrontend_io_mem_resp_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
   wire         _ptw_io_requestor_0_req_ready;	// @[generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19]
   wire         _ptw_io_requestor_0_resp_valid;	// @[generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19]
   wire         _ptw_io_requestor_0_resp_bits_ae_ptw;	// @[generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19]
@@ -783,20 +797,20 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
   wire         _dcacheArb_io_mem_s1_kill;	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25]
   wire [127:0] _dcacheArb_io_mem_s1_data_data;	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25]
   wire [15:0]  _dcacheArb_io_mem_s1_data_mask;	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25]
-  wire         _fpuOpt_io_fcsr_flags_valid;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-  wire [4:0]   _fpuOpt_io_fcsr_flags_bits;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-  wire [63:0]  _fpuOpt_io_store_data;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-  wire [63:0]  _fpuOpt_io_toint_data;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-  wire         _fpuOpt_io_fcsr_rdy;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-  wire         _fpuOpt_io_nack_mem;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-  wire         _fpuOpt_io_illegal_rm;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-  wire         _fpuOpt_io_dec_wen;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-  wire         _fpuOpt_io_dec_ren1;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-  wire         _fpuOpt_io_dec_ren2;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-  wire         _fpuOpt_io_dec_ren3;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-  wire         _fpuOpt_io_sboard_set;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-  wire         _fpuOpt_io_sboard_clr;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-  wire [4:0]   _fpuOpt_io_sboard_clra;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
+  wire         _fpuOpt_io_fcsr_flags_valid;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+  wire [4:0]   _fpuOpt_io_fcsr_flags_bits;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+  wire [63:0]  _fpuOpt_io_store_data;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+  wire [63:0]  _fpuOpt_io_toint_data;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+  wire         _fpuOpt_io_fcsr_rdy;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+  wire         _fpuOpt_io_nack_mem;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+  wire         _fpuOpt_io_illegal_rm;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+  wire         _fpuOpt_io_dec_wen;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+  wire         _fpuOpt_io_dec_ren1;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+  wire         _fpuOpt_io_dec_ren2;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+  wire         _fpuOpt_io_dec_ren3;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+  wire         _fpuOpt_io_sboard_set;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+  wire         _fpuOpt_io_sboard_clr;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+  wire [4:0]   _fpuOpt_io_sboard_clra;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
   wire         _vector_unit_auto_atl_out_a_valid;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65]
   wire [2:0]   _vector_unit_auto_atl_out_a_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65]
   wire [2:0]   _vector_unit_auto_atl_out_a_bits_param;	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65]
@@ -875,24 +889,96 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
   wire         _frontend_io_ptw_req_bits_valid;	// @[generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28]
   wire [26:0]  _frontend_io_ptw_req_bits_bits_addr;	// @[generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28]
   wire         _frontend_io_ptw_req_bits_bits_need_gpa;	// @[generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28]
-  wire         _applyOrElse_2_io_cmd_ready;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-  wire         _applyOrElse_2_io_resp_valid;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-  wire [4:0]   _applyOrElse_2_io_resp_bits_rd;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-  wire [63:0]  _applyOrElse_2_io_resp_bits_data;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-  wire         _applyOrElse_2_io_busy;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-  wire [63:0]  _applyOrElse_2_io_csrs_0_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-  wire [63:0]  _applyOrElse_2_io_csrs_1_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-  wire [63:0]  _applyOrElse_2_io_csrs_2_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-  wire [63:0]  _applyOrElse_2_io_csrs_3_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-  wire         _applyOrElse_1_io_cmd_ready;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-  wire         _applyOrElse_1_io_resp_valid;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-  wire [4:0]   _applyOrElse_1_io_resp_bits_rd;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-  wire [63:0]  _applyOrElse_1_io_resp_bits_data;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-  wire         _applyOrElse_1_io_busy;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-  wire [63:0]  _applyOrElse_1_io_csrs_0_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-  wire [63:0]  _applyOrElse_1_io_csrs_1_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-  wire [63:0]  _applyOrElse_1_io_csrs_2_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-  wire [63:0]  _applyOrElse_1_io_csrs_3_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
+  wire         _commandFrontendMemory_2_auto_in_a_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_2_auto_in_d_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [2:0]   _commandFrontendMemory_2_auto_in_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [1:0]   _commandFrontendMemory_2_auto_in_d_bits_param;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [3:0]   _commandFrontendMemory_2_auto_in_d_bits_size;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [5:0]   _commandFrontendMemory_2_auto_in_d_bits_source;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [6:0]   _commandFrontendMemory_2_auto_in_d_bits_sink;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_2_auto_in_d_bits_denied;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [255:0] _commandFrontendMemory_2_auto_in_d_bits_data;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_2_auto_in_d_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_2_fetch_req_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_2_fetch_resp_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [255:0] _commandFrontendMemory_2_fetch_resp_data;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_2_fetch_resp_error;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_1_auto_in_a_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_1_auto_in_d_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [2:0]   _commandFrontendMemory_1_auto_in_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [1:0]   _commandFrontendMemory_1_auto_in_d_bits_param;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [3:0]   _commandFrontendMemory_1_auto_in_d_bits_size;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [5:0]   _commandFrontendMemory_1_auto_in_d_bits_source;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [6:0]   _commandFrontendMemory_1_auto_in_d_bits_sink;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_1_auto_in_d_bits_denied;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [255:0] _commandFrontendMemory_1_auto_in_d_bits_data;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_1_auto_in_d_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_1_fetch_req_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_1_fetch_resp_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [255:0] _commandFrontendMemory_1_fetch_resp_data;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_1_fetch_resp_error;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_auto_in_a_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_auto_in_d_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [2:0]   _commandFrontendMemory_auto_in_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [1:0]   _commandFrontendMemory_auto_in_d_bits_param;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [3:0]   _commandFrontendMemory_auto_in_d_bits_size;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [5:0]   _commandFrontendMemory_auto_in_d_bits_source;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [6:0]   _commandFrontendMemory_auto_in_d_bits_sink;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_auto_in_d_bits_denied;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [255:0] _commandFrontendMemory_auto_in_d_bits_data;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_auto_in_d_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_fetch_req_ready;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_fetch_resp_valid;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire [255:0] _commandFrontendMemory_fetch_resp_data;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _commandFrontendMemory_fetch_resp_error;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  wire         _applyOrElse_2_auto_spad_id_out_a_valid;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire [2:0]   _applyOrElse_2_auto_spad_id_out_a_bits_opcode;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire [2:0]   _applyOrElse_2_auto_spad_id_out_a_bits_param;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire [3:0]   _applyOrElse_2_auto_spad_id_out_a_bits_size;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire [5:0]   _applyOrElse_2_auto_spad_id_out_a_bits_source;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire [32:0]  _applyOrElse_2_auto_spad_id_out_a_bits_address;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire [31:0]  _applyOrElse_2_auto_spad_id_out_a_bits_mask;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire [255:0] _applyOrElse_2_auto_spad_id_out_a_bits_data;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire         _applyOrElse_2_auto_spad_id_out_a_bits_corrupt;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire         _applyOrElse_2_auto_spad_id_out_d_ready;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire         _applyOrElse_2_io_cmd_ready;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire         _applyOrElse_2_io_resp_valid;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire [4:0]   _applyOrElse_2_io_resp_bits_rd;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire [63:0]  _applyOrElse_2_io_resp_bits_data;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire         _applyOrElse_2_io_busy;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire [63:0]  _applyOrElse_2_io_csrs_0_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire [63:0]  _applyOrElse_2_io_csrs_1_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire [63:0]  _applyOrElse_2_io_csrs_2_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire [63:0]  _applyOrElse_2_io_csrs_3_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  wire         _applyOrElse_1_auto_spad_id_out_a_valid;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire [2:0]   _applyOrElse_1_auto_spad_id_out_a_bits_opcode;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire [2:0]   _applyOrElse_1_auto_spad_id_out_a_bits_param;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire [3:0]   _applyOrElse_1_auto_spad_id_out_a_bits_size;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire [5:0]   _applyOrElse_1_auto_spad_id_out_a_bits_source;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire [32:0]  _applyOrElse_1_auto_spad_id_out_a_bits_address;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire [31:0]  _applyOrElse_1_auto_spad_id_out_a_bits_mask;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire [255:0] _applyOrElse_1_auto_spad_id_out_a_bits_data;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire         _applyOrElse_1_auto_spad_id_out_a_bits_corrupt;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire         _applyOrElse_1_auto_spad_id_out_d_ready;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire         _applyOrElse_1_io_cmd_ready;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire         _applyOrElse_1_io_resp_valid;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire [4:0]   _applyOrElse_1_io_resp_bits_rd;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire [63:0]  _applyOrElse_1_io_resp_bits_data;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire         _applyOrElse_1_io_busy;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire [63:0]  _applyOrElse_1_io_csrs_0_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire [63:0]  _applyOrElse_1_io_csrs_1_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire [63:0]  _applyOrElse_1_io_csrs_2_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire [63:0]  _applyOrElse_1_io_csrs_3_sdata;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  wire         _applyOrElse_auto_spad_id_out_a_valid;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+  wire [2:0]   _applyOrElse_auto_spad_id_out_a_bits_opcode;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+  wire [2:0]   _applyOrElse_auto_spad_id_out_a_bits_param;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+  wire [3:0]   _applyOrElse_auto_spad_id_out_a_bits_size;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+  wire [5:0]   _applyOrElse_auto_spad_id_out_a_bits_source;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+  wire [32:0]  _applyOrElse_auto_spad_id_out_a_bits_address;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+  wire [31:0]  _applyOrElse_auto_spad_id_out_a_bits_mask;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+  wire [255:0] _applyOrElse_auto_spad_id_out_a_bits_data;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+  wire         _applyOrElse_auto_spad_id_out_a_bits_corrupt;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+  wire         _applyOrElse_auto_spad_id_out_d_ready;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
   wire         _applyOrElse_io_cmd_ready;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
   wire         _applyOrElse_io_resp_valid;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
   wire [4:0]   _applyOrElse_io_resp_bits_rd;	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
@@ -1026,6 +1112,9 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
   wire         _tlMasterXbar_auto_anon_in_0_d_bits_denied;	// @[generators/rocket-chip/src/main/scala/subsystem/HierarchicalElement.scala:55:42]
   wire [255:0] _tlMasterXbar_auto_anon_in_0_d_bits_data;	// @[generators/rocket-chip/src/main/scala/subsystem/HierarchicalElement.scala:55:42]
   wire         _tlMasterXbar_auto_anon_in_0_e_ready;	// @[generators/rocket-chip/src/main/scala/subsystem/HierarchicalElement.scala:55:42]
+  wire [6:0]   applyOrElse_io_cmd_bits_inst_funct = _commandFrontend_io_stream_owner[0] ? _commandFrontend_io_gemmini_cmd_funct[6:0] : _cmdRouter_io_out_0_bits_inst_funct;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:40:50, :43:{24,39}]
+  wire [6:0]   applyOrElse_1_io_cmd_bits_inst_funct = _commandFrontend_io_stream_owner[1] ? _commandFrontend_io_gemmini_cmd_funct[13:7] : _cmdRouter_io_out_1_bits_inst_funct;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:40:50, :43:{24,39}]
+  wire [6:0]   applyOrElse_2_io_cmd_bits_inst_funct = _commandFrontend_io_stream_owner[2] ? _commandFrontend_io_gemmini_cmd_funct[20:14] : _cmdRouter_io_out_2_bits_inst_funct;	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:40:50, :43:{24,39}]
   reg          wfiNodeOut_0_REG;	// @[generators/rocket-chip/src/main/scala/tile/Interrupts.scala:131:36]
   always @(posedge clock) begin	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     if (reset)	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
@@ -1423,75 +1512,75 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
   Gemmini applyOrElse (	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
     .clock                           (clock),
     .reset                           (reset),
-    .auto_spad_id_out_a_ready        (auto_buffer_out_0_a_ready),
-    .auto_spad_id_out_a_valid        (auto_buffer_out_0_a_valid),
-    .auto_spad_id_out_a_bits_opcode  (auto_buffer_out_0_a_bits_opcode),
-    .auto_spad_id_out_a_bits_param   (auto_buffer_out_0_a_bits_param),
-    .auto_spad_id_out_a_bits_size    (auto_buffer_out_0_a_bits_size),
-    .auto_spad_id_out_a_bits_source  (auto_buffer_out_0_a_bits_source),
-    .auto_spad_id_out_a_bits_address (auto_buffer_out_0_a_bits_address),
-    .auto_spad_id_out_a_bits_mask    (auto_buffer_out_0_a_bits_mask),
-    .auto_spad_id_out_a_bits_data    (auto_buffer_out_0_a_bits_data),
-    .auto_spad_id_out_a_bits_corrupt (auto_buffer_out_0_a_bits_corrupt),
-    .auto_spad_id_out_d_ready        (auto_buffer_out_0_d_ready),
-    .auto_spad_id_out_d_valid        (auto_buffer_out_0_d_valid),
-    .auto_spad_id_out_d_bits_opcode  (auto_buffer_out_0_d_bits_opcode),
-    .auto_spad_id_out_d_bits_param   (auto_buffer_out_0_d_bits_param),
-    .auto_spad_id_out_d_bits_size    (auto_buffer_out_0_d_bits_size),
-    .auto_spad_id_out_d_bits_source  (auto_buffer_out_0_d_bits_source),
-    .auto_spad_id_out_d_bits_sink    (auto_buffer_out_0_d_bits_sink),
-    .auto_spad_id_out_d_bits_denied  (auto_buffer_out_0_d_bits_denied),
-    .auto_spad_id_out_d_bits_data    (auto_buffer_out_0_d_bits_data),
-    .auto_spad_id_out_d_bits_corrupt (auto_buffer_out_0_d_bits_corrupt),
+    .auto_spad_id_out_a_ready        (_commandFrontendMemory_auto_in_a_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_a_valid        (_applyOrElse_auto_spad_id_out_a_valid),
+    .auto_spad_id_out_a_bits_opcode  (_applyOrElse_auto_spad_id_out_a_bits_opcode),
+    .auto_spad_id_out_a_bits_param   (_applyOrElse_auto_spad_id_out_a_bits_param),
+    .auto_spad_id_out_a_bits_size    (_applyOrElse_auto_spad_id_out_a_bits_size),
+    .auto_spad_id_out_a_bits_source  (_applyOrElse_auto_spad_id_out_a_bits_source),
+    .auto_spad_id_out_a_bits_address (_applyOrElse_auto_spad_id_out_a_bits_address),
+    .auto_spad_id_out_a_bits_mask    (_applyOrElse_auto_spad_id_out_a_bits_mask),
+    .auto_spad_id_out_a_bits_data    (_applyOrElse_auto_spad_id_out_a_bits_data),
+    .auto_spad_id_out_a_bits_corrupt (_applyOrElse_auto_spad_id_out_a_bits_corrupt),
+    .auto_spad_id_out_d_ready        (_applyOrElse_auto_spad_id_out_d_ready),
+    .auto_spad_id_out_d_valid        (_commandFrontendMemory_auto_in_d_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_opcode  (_commandFrontendMemory_auto_in_d_bits_opcode),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_param   (_commandFrontendMemory_auto_in_d_bits_param),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_size    (_commandFrontendMemory_auto_in_d_bits_size),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_source  (_commandFrontendMemory_auto_in_d_bits_source),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_sink    (_commandFrontendMemory_auto_in_d_bits_sink),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_denied  (_commandFrontendMemory_auto_in_d_bits_denied),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_data    (_commandFrontendMemory_auto_in_d_bits_data),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_corrupt (_commandFrontendMemory_auto_in_d_bits_corrupt),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
     .io_cmd_ready                    (_applyOrElse_io_cmd_ready),
-    .io_cmd_valid                    (_cmdRouter_io_out_0_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_funct          (_cmdRouter_io_out_0_bits_inst_funct),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_rs2            (_cmdRouter_io_out_0_bits_inst_rs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_rs1            (_cmdRouter_io_out_0_bits_inst_rs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_xd             (_cmdRouter_io_out_0_bits_inst_xd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_xs1            (_cmdRouter_io_out_0_bits_inst_xs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_xs2            (_cmdRouter_io_out_0_bits_inst_xs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_rd             (_cmdRouter_io_out_0_bits_inst_rd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_opcode         (_cmdRouter_io_out_0_bits_inst_opcode),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_rs1                 (_cmdRouter_io_out_0_bits_rs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_rs2                 (_cmdRouter_io_out_0_bits_rs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_debug        (_cmdRouter_io_out_0_bits_status_debug),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_cease        (_cmdRouter_io_out_0_bits_status_cease),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_wfi          (_cmdRouter_io_out_0_bits_status_wfi),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_isa          (_cmdRouter_io_out_0_bits_status_isa),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_dprv         (_cmdRouter_io_out_0_bits_status_dprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_dv           (_cmdRouter_io_out_0_bits_status_dv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_prv          (_cmdRouter_io_out_0_bits_status_prv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_v            (_cmdRouter_io_out_0_bits_status_v),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sd           (_cmdRouter_io_out_0_bits_status_sd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_zero2        (_cmdRouter_io_out_0_bits_status_zero2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mpv          (_cmdRouter_io_out_0_bits_status_mpv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_gva          (_cmdRouter_io_out_0_bits_status_gva),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mbe          (_cmdRouter_io_out_0_bits_status_mbe),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sbe          (_cmdRouter_io_out_0_bits_status_sbe),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sxl          (_cmdRouter_io_out_0_bits_status_sxl),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_uxl          (_cmdRouter_io_out_0_bits_status_uxl),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sd_rv32      (_cmdRouter_io_out_0_bits_status_sd_rv32),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_zero1        (_cmdRouter_io_out_0_bits_status_zero1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_tsr          (_cmdRouter_io_out_0_bits_status_tsr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_tw           (_cmdRouter_io_out_0_bits_status_tw),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_tvm          (_cmdRouter_io_out_0_bits_status_tvm),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mxr          (_cmdRouter_io_out_0_bits_status_mxr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sum          (_cmdRouter_io_out_0_bits_status_sum),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mprv         (_cmdRouter_io_out_0_bits_status_mprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_xs           (_cmdRouter_io_out_0_bits_status_xs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_fs           (_cmdRouter_io_out_0_bits_status_fs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mpp          (_cmdRouter_io_out_0_bits_status_mpp),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_vs           (_cmdRouter_io_out_0_bits_status_vs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_spp          (_cmdRouter_io_out_0_bits_status_spp),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mpie         (_cmdRouter_io_out_0_bits_status_mpie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_ube          (_cmdRouter_io_out_0_bits_status_ube),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_spie         (_cmdRouter_io_out_0_bits_status_spie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_upie         (_cmdRouter_io_out_0_bits_status_upie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mie          (_cmdRouter_io_out_0_bits_status_mie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_hie          (_cmdRouter_io_out_0_bits_status_hie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sie          (_cmdRouter_io_out_0_bits_status_sie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_uie          (_cmdRouter_io_out_0_bits_status_uie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
+    .io_cmd_valid                    (_commandFrontend_io_gemmini_cmd_valid[0]),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:44:41]
+    .io_cmd_bits_inst_funct          (applyOrElse_io_cmd_bits_inst_funct),	// @[generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:24]
+    .io_cmd_bits_inst_rs2            (_commandFrontend_io_stream_owner[0] ? 5'h0 : _cmdRouter_io_out_0_bits_inst_rs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_rs1            (_commandFrontend_io_stream_owner[0] ? 5'h0 : _cmdRouter_io_out_0_bits_inst_rs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_xd             (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_inst_xd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_xs1            (_commandFrontend_io_stream_owner[0] | _cmdRouter_io_out_0_bits_inst_xs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_xs2            (_commandFrontend_io_stream_owner[0] | _cmdRouter_io_out_0_bits_inst_xs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_rd             (_commandFrontend_io_stream_owner[0] ? 5'h0 : _cmdRouter_io_out_0_bits_inst_rd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_opcode         (_commandFrontend_io_stream_owner[0] ? 7'hB : _cmdRouter_io_out_0_bits_inst_opcode),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:37:29, :43:{24,39}]
+    .io_cmd_bits_rs1                 (_commandFrontend_io_stream_owner[0] ? _commandFrontend_io_gemmini_cmd_rs1[63:0] : _cmdRouter_io_out_0_bits_rs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:41:41, :43:{24,39}]
+    .io_cmd_bits_rs2                 (_commandFrontend_io_stream_owner[0] ? _commandFrontend_io_gemmini_cmd_rs2[63:0] : _cmdRouter_io_out_0_bits_rs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:42:41, :43:{24,39}]
+    .io_cmd_bits_status_debug        (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_debug),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_cease        (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_cease),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_wfi          (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_wfi),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_isa          (_commandFrontend_io_stream_owner[0] ? 32'h0 : _cmdRouter_io_out_0_bits_status_isa),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_dprv         (_commandFrontend_io_stream_owner[0] ? 2'h3 : _cmdRouter_io_out_0_bits_status_dprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_dv           (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_dv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_prv          (_commandFrontend_io_stream_owner[0] ? 2'h3 : _cmdRouter_io_out_0_bits_status_prv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_v            (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_v),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sd           (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_sd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_zero2        (_commandFrontend_io_stream_owner[0] ? 23'h0 : _cmdRouter_io_out_0_bits_status_zero2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mpv          (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_mpv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_gva          (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_gva),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mbe          (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_mbe),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sbe          (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_sbe),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sxl          (_commandFrontend_io_stream_owner[0] ? 2'h0 : _cmdRouter_io_out_0_bits_status_sxl),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_uxl          (_commandFrontend_io_stream_owner[0] ? 2'h0 : _cmdRouter_io_out_0_bits_status_uxl),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sd_rv32      (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_sd_rv32),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_zero1        (_commandFrontend_io_stream_owner[0] ? 8'h0 : _cmdRouter_io_out_0_bits_status_zero1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_tsr          (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_tsr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_tw           (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_tw),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_tvm          (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_tvm),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mxr          (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_mxr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sum          (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_sum),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mprv         (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_mprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_xs           (_commandFrontend_io_stream_owner[0] ? 2'h0 : _cmdRouter_io_out_0_bits_status_xs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_fs           (_commandFrontend_io_stream_owner[0] ? 2'h0 : _cmdRouter_io_out_0_bits_status_fs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mpp          (_commandFrontend_io_stream_owner[0] ? 2'h3 : _cmdRouter_io_out_0_bits_status_mpp),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_vs           (_commandFrontend_io_stream_owner[0] ? 2'h0 : _cmdRouter_io_out_0_bits_status_vs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_spp          (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_spp),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mpie         (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_mpie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_ube          (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_ube),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_spie         (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_spie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_upie         (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_upie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mie          (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_mie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_hie          (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_hie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sie          (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_sie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_uie          (~(_commandFrontend_io_stream_owner[0]) & _cmdRouter_io_out_0_bits_status_uie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
     .io_resp_ready                   (_respArb_io_in_0_q_io_enq_ready),	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
     .io_resp_valid                   (_applyOrElse_io_resp_valid),
     .io_resp_bits_rd                 (_applyOrElse_io_resp_bits_rd),
@@ -1501,82 +1590,80 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_csrs_1_sdata                 (_applyOrElse_io_csrs_1_sdata),
     .io_csrs_2_sdata                 (_applyOrElse_io_csrs_2_sdata),
     .io_csrs_3_sdata                 (_applyOrElse_io_csrs_3_sdata),
-    .io_loopconv_request_accept      (_cmdRouter_io_loopconv_request_accept_0),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_loopconv_request_queue_count (_cmdRouter_io_loopconv_request_queue_count_0),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_loopconv_assembler_partial   (_cmdRouter_io_loopconv_assembler_partial_0)	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
+    .io_loopconv_request_accept      (_applyOrElse_io_cmd_ready & _commandFrontend_io_gemmini_cmd_valid[0] & applyOrElse_io_cmd_bits_inst_funct == 7'hF)	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:24, :44:41, :47:{47,72}, src/main/scala/chisel3/util/Decoupled.scala:51:35]
   );	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
-  Gemmini_1 applyOrElse_1 (	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
+  Gemmini_1 applyOrElse_1 (	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
     .clock                           (clock),
     .reset                           (reset),
-    .auto_spad_id_out_a_ready        (auto_buffer_out_1_a_ready),
-    .auto_spad_id_out_a_valid        (auto_buffer_out_1_a_valid),
-    .auto_spad_id_out_a_bits_opcode  (auto_buffer_out_1_a_bits_opcode),
-    .auto_spad_id_out_a_bits_param   (auto_buffer_out_1_a_bits_param),
-    .auto_spad_id_out_a_bits_size    (auto_buffer_out_1_a_bits_size),
-    .auto_spad_id_out_a_bits_source  (auto_buffer_out_1_a_bits_source),
-    .auto_spad_id_out_a_bits_address (auto_buffer_out_1_a_bits_address),
-    .auto_spad_id_out_a_bits_mask    (auto_buffer_out_1_a_bits_mask),
-    .auto_spad_id_out_a_bits_data    (auto_buffer_out_1_a_bits_data),
-    .auto_spad_id_out_a_bits_corrupt (auto_buffer_out_1_a_bits_corrupt),
-    .auto_spad_id_out_d_ready        (auto_buffer_out_1_d_ready),
-    .auto_spad_id_out_d_valid        (auto_buffer_out_1_d_valid),
-    .auto_spad_id_out_d_bits_opcode  (auto_buffer_out_1_d_bits_opcode),
-    .auto_spad_id_out_d_bits_param   (auto_buffer_out_1_d_bits_param),
-    .auto_spad_id_out_d_bits_size    (auto_buffer_out_1_d_bits_size),
-    .auto_spad_id_out_d_bits_source  (auto_buffer_out_1_d_bits_source),
-    .auto_spad_id_out_d_bits_sink    (auto_buffer_out_1_d_bits_sink),
-    .auto_spad_id_out_d_bits_denied  (auto_buffer_out_1_d_bits_denied),
-    .auto_spad_id_out_d_bits_data    (auto_buffer_out_1_d_bits_data),
-    .auto_spad_id_out_d_bits_corrupt (auto_buffer_out_1_d_bits_corrupt),
+    .auto_spad_id_out_a_ready        (_commandFrontendMemory_1_auto_in_a_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_a_valid        (_applyOrElse_1_auto_spad_id_out_a_valid),
+    .auto_spad_id_out_a_bits_opcode  (_applyOrElse_1_auto_spad_id_out_a_bits_opcode),
+    .auto_spad_id_out_a_bits_param   (_applyOrElse_1_auto_spad_id_out_a_bits_param),
+    .auto_spad_id_out_a_bits_size    (_applyOrElse_1_auto_spad_id_out_a_bits_size),
+    .auto_spad_id_out_a_bits_source  (_applyOrElse_1_auto_spad_id_out_a_bits_source),
+    .auto_spad_id_out_a_bits_address (_applyOrElse_1_auto_spad_id_out_a_bits_address),
+    .auto_spad_id_out_a_bits_mask    (_applyOrElse_1_auto_spad_id_out_a_bits_mask),
+    .auto_spad_id_out_a_bits_data    (_applyOrElse_1_auto_spad_id_out_a_bits_data),
+    .auto_spad_id_out_a_bits_corrupt (_applyOrElse_1_auto_spad_id_out_a_bits_corrupt),
+    .auto_spad_id_out_d_ready        (_applyOrElse_1_auto_spad_id_out_d_ready),
+    .auto_spad_id_out_d_valid        (_commandFrontendMemory_1_auto_in_d_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_opcode  (_commandFrontendMemory_1_auto_in_d_bits_opcode),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_param   (_commandFrontendMemory_1_auto_in_d_bits_param),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_size    (_commandFrontendMemory_1_auto_in_d_bits_size),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_source  (_commandFrontendMemory_1_auto_in_d_bits_source),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_sink    (_commandFrontendMemory_1_auto_in_d_bits_sink),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_denied  (_commandFrontendMemory_1_auto_in_d_bits_denied),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_data    (_commandFrontendMemory_1_auto_in_d_bits_data),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_corrupt (_commandFrontendMemory_1_auto_in_d_bits_corrupt),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
     .io_cmd_ready                    (_applyOrElse_1_io_cmd_ready),
-    .io_cmd_valid                    (_cmdRouter_io_out_1_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_funct          (_cmdRouter_io_out_1_bits_inst_funct),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_rs2            (_cmdRouter_io_out_1_bits_inst_rs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_rs1            (_cmdRouter_io_out_1_bits_inst_rs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_xd             (_cmdRouter_io_out_1_bits_inst_xd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_xs1            (_cmdRouter_io_out_1_bits_inst_xs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_xs2            (_cmdRouter_io_out_1_bits_inst_xs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_rd             (_cmdRouter_io_out_1_bits_inst_rd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_opcode         (_cmdRouter_io_out_1_bits_inst_opcode),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_rs1                 (_cmdRouter_io_out_1_bits_rs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_rs2                 (_cmdRouter_io_out_1_bits_rs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_debug        (_cmdRouter_io_out_1_bits_status_debug),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_cease        (_cmdRouter_io_out_1_bits_status_cease),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_wfi          (_cmdRouter_io_out_1_bits_status_wfi),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_isa          (_cmdRouter_io_out_1_bits_status_isa),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_dprv         (_cmdRouter_io_out_1_bits_status_dprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_dv           (_cmdRouter_io_out_1_bits_status_dv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_prv          (_cmdRouter_io_out_1_bits_status_prv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_v            (_cmdRouter_io_out_1_bits_status_v),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sd           (_cmdRouter_io_out_1_bits_status_sd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_zero2        (_cmdRouter_io_out_1_bits_status_zero2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mpv          (_cmdRouter_io_out_1_bits_status_mpv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_gva          (_cmdRouter_io_out_1_bits_status_gva),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mbe          (_cmdRouter_io_out_1_bits_status_mbe),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sbe          (_cmdRouter_io_out_1_bits_status_sbe),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sxl          (_cmdRouter_io_out_1_bits_status_sxl),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_uxl          (_cmdRouter_io_out_1_bits_status_uxl),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sd_rv32      (_cmdRouter_io_out_1_bits_status_sd_rv32),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_zero1        (_cmdRouter_io_out_1_bits_status_zero1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_tsr          (_cmdRouter_io_out_1_bits_status_tsr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_tw           (_cmdRouter_io_out_1_bits_status_tw),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_tvm          (_cmdRouter_io_out_1_bits_status_tvm),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mxr          (_cmdRouter_io_out_1_bits_status_mxr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sum          (_cmdRouter_io_out_1_bits_status_sum),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mprv         (_cmdRouter_io_out_1_bits_status_mprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_xs           (_cmdRouter_io_out_1_bits_status_xs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_fs           (_cmdRouter_io_out_1_bits_status_fs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mpp          (_cmdRouter_io_out_1_bits_status_mpp),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_vs           (_cmdRouter_io_out_1_bits_status_vs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_spp          (_cmdRouter_io_out_1_bits_status_spp),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mpie         (_cmdRouter_io_out_1_bits_status_mpie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_ube          (_cmdRouter_io_out_1_bits_status_ube),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_spie         (_cmdRouter_io_out_1_bits_status_spie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_upie         (_cmdRouter_io_out_1_bits_status_upie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mie          (_cmdRouter_io_out_1_bits_status_mie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_hie          (_cmdRouter_io_out_1_bits_status_hie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sie          (_cmdRouter_io_out_1_bits_status_sie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_uie          (_cmdRouter_io_out_1_bits_status_uie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
+    .io_cmd_valid                    (_commandFrontend_io_gemmini_cmd_valid[1]),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:44:41]
+    .io_cmd_bits_inst_funct          (applyOrElse_1_io_cmd_bits_inst_funct),	// @[generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:24]
+    .io_cmd_bits_inst_rs2            (_commandFrontend_io_stream_owner[1] ? 5'h0 : _cmdRouter_io_out_1_bits_inst_rs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_rs1            (_commandFrontend_io_stream_owner[1] ? 5'h0 : _cmdRouter_io_out_1_bits_inst_rs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_xd             (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_inst_xd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_xs1            (_commandFrontend_io_stream_owner[1] | _cmdRouter_io_out_1_bits_inst_xs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_xs2            (_commandFrontend_io_stream_owner[1] | _cmdRouter_io_out_1_bits_inst_xs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_rd             (_commandFrontend_io_stream_owner[1] ? 5'h0 : _cmdRouter_io_out_1_bits_inst_rd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_opcode         (_commandFrontend_io_stream_owner[1] ? 7'h2B : _cmdRouter_io_out_1_bits_inst_opcode),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:37:29, :43:{24,39}]
+    .io_cmd_bits_rs1                 (_commandFrontend_io_stream_owner[1] ? _commandFrontend_io_gemmini_cmd_rs1[127:64] : _cmdRouter_io_out_1_bits_rs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:41:41, :43:{24,39}]
+    .io_cmd_bits_rs2                 (_commandFrontend_io_stream_owner[1] ? _commandFrontend_io_gemmini_cmd_rs2[127:64] : _cmdRouter_io_out_1_bits_rs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:42:41, :43:{24,39}]
+    .io_cmd_bits_status_debug        (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_debug),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_cease        (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_cease),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_wfi          (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_wfi),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_isa          (_commandFrontend_io_stream_owner[1] ? 32'h0 : _cmdRouter_io_out_1_bits_status_isa),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_dprv         (_commandFrontend_io_stream_owner[1] ? 2'h3 : _cmdRouter_io_out_1_bits_status_dprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_dv           (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_dv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_prv          (_commandFrontend_io_stream_owner[1] ? 2'h3 : _cmdRouter_io_out_1_bits_status_prv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_v            (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_v),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sd           (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_sd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_zero2        (_commandFrontend_io_stream_owner[1] ? 23'h0 : _cmdRouter_io_out_1_bits_status_zero2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mpv          (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_mpv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_gva          (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_gva),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mbe          (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_mbe),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sbe          (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_sbe),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sxl          (_commandFrontend_io_stream_owner[1] ? 2'h0 : _cmdRouter_io_out_1_bits_status_sxl),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_uxl          (_commandFrontend_io_stream_owner[1] ? 2'h0 : _cmdRouter_io_out_1_bits_status_uxl),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sd_rv32      (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_sd_rv32),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_zero1        (_commandFrontend_io_stream_owner[1] ? 8'h0 : _cmdRouter_io_out_1_bits_status_zero1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_tsr          (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_tsr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_tw           (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_tw),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_tvm          (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_tvm),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mxr          (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_mxr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sum          (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_sum),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mprv         (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_mprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_xs           (_commandFrontend_io_stream_owner[1] ? 2'h0 : _cmdRouter_io_out_1_bits_status_xs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_fs           (_commandFrontend_io_stream_owner[1] ? 2'h0 : _cmdRouter_io_out_1_bits_status_fs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mpp          (_commandFrontend_io_stream_owner[1] ? 2'h3 : _cmdRouter_io_out_1_bits_status_mpp),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_vs           (_commandFrontend_io_stream_owner[1] ? 2'h0 : _cmdRouter_io_out_1_bits_status_vs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_spp          (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_spp),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mpie         (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_mpie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_ube          (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_ube),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_spie         (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_spie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_upie         (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_upie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mie          (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_mie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_hie          (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_hie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sie          (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_sie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_uie          (~(_commandFrontend_io_stream_owner[1]) & _cmdRouter_io_out_1_bits_status_uie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
     .io_resp_ready                   (_respArb_io_in_1_q_io_enq_ready),	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
     .io_resp_valid                   (_applyOrElse_1_io_resp_valid),
     .io_resp_bits_rd                 (_applyOrElse_1_io_resp_bits_rd),
@@ -1586,82 +1673,80 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_csrs_1_sdata                 (_applyOrElse_1_io_csrs_1_sdata),
     .io_csrs_2_sdata                 (_applyOrElse_1_io_csrs_2_sdata),
     .io_csrs_3_sdata                 (_applyOrElse_1_io_csrs_3_sdata),
-    .io_loopconv_request_accept      (_cmdRouter_io_loopconv_request_accept_1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_loopconv_request_queue_count (_cmdRouter_io_loopconv_request_queue_count_1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_loopconv_assembler_partial   (_cmdRouter_io_loopconv_assembler_partial_1)	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  );	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-  Gemmini_2 applyOrElse_2 (	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
+    .io_loopconv_request_accept      (_applyOrElse_1_io_cmd_ready & _commandFrontend_io_gemmini_cmd_valid[1] & applyOrElse_1_io_cmd_bits_inst_funct == 7'hF)	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:24, :44:41, :47:{47,72}, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  );	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+  Gemmini_2 applyOrElse_2 (	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
     .clock                           (clock),
     .reset                           (reset),
-    .auto_spad_id_out_a_ready        (auto_buffer_out_2_a_ready),
-    .auto_spad_id_out_a_valid        (auto_buffer_out_2_a_valid),
-    .auto_spad_id_out_a_bits_opcode  (auto_buffer_out_2_a_bits_opcode),
-    .auto_spad_id_out_a_bits_param   (auto_buffer_out_2_a_bits_param),
-    .auto_spad_id_out_a_bits_size    (auto_buffer_out_2_a_bits_size),
-    .auto_spad_id_out_a_bits_source  (auto_buffer_out_2_a_bits_source),
-    .auto_spad_id_out_a_bits_address (auto_buffer_out_2_a_bits_address),
-    .auto_spad_id_out_a_bits_mask    (auto_buffer_out_2_a_bits_mask),
-    .auto_spad_id_out_a_bits_data    (auto_buffer_out_2_a_bits_data),
-    .auto_spad_id_out_a_bits_corrupt (auto_buffer_out_2_a_bits_corrupt),
-    .auto_spad_id_out_d_ready        (auto_buffer_out_2_d_ready),
-    .auto_spad_id_out_d_valid        (auto_buffer_out_2_d_valid),
-    .auto_spad_id_out_d_bits_opcode  (auto_buffer_out_2_d_bits_opcode),
-    .auto_spad_id_out_d_bits_param   (auto_buffer_out_2_d_bits_param),
-    .auto_spad_id_out_d_bits_size    (auto_buffer_out_2_d_bits_size),
-    .auto_spad_id_out_d_bits_source  (auto_buffer_out_2_d_bits_source),
-    .auto_spad_id_out_d_bits_sink    (auto_buffer_out_2_d_bits_sink),
-    .auto_spad_id_out_d_bits_denied  (auto_buffer_out_2_d_bits_denied),
-    .auto_spad_id_out_d_bits_data    (auto_buffer_out_2_d_bits_data),
-    .auto_spad_id_out_d_bits_corrupt (auto_buffer_out_2_d_bits_corrupt),
+    .auto_spad_id_out_a_ready        (_commandFrontendMemory_2_auto_in_a_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_a_valid        (_applyOrElse_2_auto_spad_id_out_a_valid),
+    .auto_spad_id_out_a_bits_opcode  (_applyOrElse_2_auto_spad_id_out_a_bits_opcode),
+    .auto_spad_id_out_a_bits_param   (_applyOrElse_2_auto_spad_id_out_a_bits_param),
+    .auto_spad_id_out_a_bits_size    (_applyOrElse_2_auto_spad_id_out_a_bits_size),
+    .auto_spad_id_out_a_bits_source  (_applyOrElse_2_auto_spad_id_out_a_bits_source),
+    .auto_spad_id_out_a_bits_address (_applyOrElse_2_auto_spad_id_out_a_bits_address),
+    .auto_spad_id_out_a_bits_mask    (_applyOrElse_2_auto_spad_id_out_a_bits_mask),
+    .auto_spad_id_out_a_bits_data    (_applyOrElse_2_auto_spad_id_out_a_bits_data),
+    .auto_spad_id_out_a_bits_corrupt (_applyOrElse_2_auto_spad_id_out_a_bits_corrupt),
+    .auto_spad_id_out_d_ready        (_applyOrElse_2_auto_spad_id_out_d_ready),
+    .auto_spad_id_out_d_valid        (_commandFrontendMemory_2_auto_in_d_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_opcode  (_commandFrontendMemory_2_auto_in_d_bits_opcode),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_param   (_commandFrontendMemory_2_auto_in_d_bits_param),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_size    (_commandFrontendMemory_2_auto_in_d_bits_size),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_source  (_commandFrontendMemory_2_auto_in_d_bits_source),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_sink    (_commandFrontendMemory_2_auto_in_d_bits_sink),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_denied  (_commandFrontendMemory_2_auto_in_d_bits_denied),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_data    (_commandFrontendMemory_2_auto_in_d_bits_data),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .auto_spad_id_out_d_bits_corrupt (_commandFrontendMemory_2_auto_in_d_bits_corrupt),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
     .io_cmd_ready                    (_applyOrElse_2_io_cmd_ready),
-    .io_cmd_valid                    (_cmdRouter_io_out_2_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_funct          (_cmdRouter_io_out_2_bits_inst_funct),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_rs2            (_cmdRouter_io_out_2_bits_inst_rs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_rs1            (_cmdRouter_io_out_2_bits_inst_rs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_xd             (_cmdRouter_io_out_2_bits_inst_xd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_xs1            (_cmdRouter_io_out_2_bits_inst_xs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_xs2            (_cmdRouter_io_out_2_bits_inst_xs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_rd             (_cmdRouter_io_out_2_bits_inst_rd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_inst_opcode         (_cmdRouter_io_out_2_bits_inst_opcode),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_rs1                 (_cmdRouter_io_out_2_bits_rs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_rs2                 (_cmdRouter_io_out_2_bits_rs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_debug        (_cmdRouter_io_out_2_bits_status_debug),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_cease        (_cmdRouter_io_out_2_bits_status_cease),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_wfi          (_cmdRouter_io_out_2_bits_status_wfi),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_isa          (_cmdRouter_io_out_2_bits_status_isa),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_dprv         (_cmdRouter_io_out_2_bits_status_dprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_dv           (_cmdRouter_io_out_2_bits_status_dv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_prv          (_cmdRouter_io_out_2_bits_status_prv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_v            (_cmdRouter_io_out_2_bits_status_v),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sd           (_cmdRouter_io_out_2_bits_status_sd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_zero2        (_cmdRouter_io_out_2_bits_status_zero2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mpv          (_cmdRouter_io_out_2_bits_status_mpv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_gva          (_cmdRouter_io_out_2_bits_status_gva),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mbe          (_cmdRouter_io_out_2_bits_status_mbe),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sbe          (_cmdRouter_io_out_2_bits_status_sbe),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sxl          (_cmdRouter_io_out_2_bits_status_sxl),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_uxl          (_cmdRouter_io_out_2_bits_status_uxl),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sd_rv32      (_cmdRouter_io_out_2_bits_status_sd_rv32),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_zero1        (_cmdRouter_io_out_2_bits_status_zero1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_tsr          (_cmdRouter_io_out_2_bits_status_tsr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_tw           (_cmdRouter_io_out_2_bits_status_tw),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_tvm          (_cmdRouter_io_out_2_bits_status_tvm),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mxr          (_cmdRouter_io_out_2_bits_status_mxr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sum          (_cmdRouter_io_out_2_bits_status_sum),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mprv         (_cmdRouter_io_out_2_bits_status_mprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_xs           (_cmdRouter_io_out_2_bits_status_xs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_fs           (_cmdRouter_io_out_2_bits_status_fs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mpp          (_cmdRouter_io_out_2_bits_status_mpp),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_vs           (_cmdRouter_io_out_2_bits_status_vs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_spp          (_cmdRouter_io_out_2_bits_status_spp),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mpie         (_cmdRouter_io_out_2_bits_status_mpie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_ube          (_cmdRouter_io_out_2_bits_status_ube),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_spie         (_cmdRouter_io_out_2_bits_status_spie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_upie         (_cmdRouter_io_out_2_bits_status_upie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_mie          (_cmdRouter_io_out_2_bits_status_mie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_hie          (_cmdRouter_io_out_2_bits_status_hie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_sie          (_cmdRouter_io_out_2_bits_status_sie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_cmd_bits_status_uie          (_cmdRouter_io_out_2_bits_status_uie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
+    .io_cmd_valid                    (_commandFrontend_io_gemmini_cmd_valid[2]),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:44:41]
+    .io_cmd_bits_inst_funct          (applyOrElse_2_io_cmd_bits_inst_funct),	// @[generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:24]
+    .io_cmd_bits_inst_rs2            (_commandFrontend_io_stream_owner[2] ? 5'h0 : _cmdRouter_io_out_2_bits_inst_rs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_rs1            (_commandFrontend_io_stream_owner[2] ? 5'h0 : _cmdRouter_io_out_2_bits_inst_rs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_xd             (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_inst_xd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_xs1            (_commandFrontend_io_stream_owner[2] | _cmdRouter_io_out_2_bits_inst_xs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_xs2            (_commandFrontend_io_stream_owner[2] | _cmdRouter_io_out_2_bits_inst_xs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_rd             (_commandFrontend_io_stream_owner[2] ? 5'h0 : _cmdRouter_io_out_2_bits_inst_rd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_inst_opcode         (_commandFrontend_io_stream_owner[2] ? 7'h5B : _cmdRouter_io_out_2_bits_inst_opcode),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_rs1                 (_commandFrontend_io_stream_owner[2] ? _commandFrontend_io_gemmini_cmd_rs1[191:128] : _cmdRouter_io_out_2_bits_rs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:41:41, :43:{24,39}]
+    .io_cmd_bits_rs2                 (_commandFrontend_io_stream_owner[2] ? _commandFrontend_io_gemmini_cmd_rs2[191:128] : _cmdRouter_io_out_2_bits_rs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:42:41, :43:{24,39}]
+    .io_cmd_bits_status_debug        (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_debug),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_cease        (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_cease),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_wfi          (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_wfi),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_isa          (_commandFrontend_io_stream_owner[2] ? 32'h0 : _cmdRouter_io_out_2_bits_status_isa),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_dprv         (_commandFrontend_io_stream_owner[2] ? 2'h3 : _cmdRouter_io_out_2_bits_status_dprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_dv           (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_dv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_prv          (_commandFrontend_io_stream_owner[2] ? 2'h3 : _cmdRouter_io_out_2_bits_status_prv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_v            (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_v),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sd           (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_sd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_zero2        (_commandFrontend_io_stream_owner[2] ? 23'h0 : _cmdRouter_io_out_2_bits_status_zero2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mpv          (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_mpv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_gva          (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_gva),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mbe          (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_mbe),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sbe          (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_sbe),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sxl          (_commandFrontend_io_stream_owner[2] ? 2'h0 : _cmdRouter_io_out_2_bits_status_sxl),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_uxl          (_commandFrontend_io_stream_owner[2] ? 2'h0 : _cmdRouter_io_out_2_bits_status_uxl),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sd_rv32      (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_sd_rv32),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_zero1        (_commandFrontend_io_stream_owner[2] ? 8'h0 : _cmdRouter_io_out_2_bits_status_zero1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_tsr          (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_tsr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_tw           (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_tw),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_tvm          (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_tvm),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mxr          (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_mxr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sum          (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_sum),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mprv         (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_mprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_xs           (_commandFrontend_io_stream_owner[2] ? 2'h0 : _cmdRouter_io_out_2_bits_status_xs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_fs           (_commandFrontend_io_stream_owner[2] ? 2'h0 : _cmdRouter_io_out_2_bits_status_fs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mpp          (_commandFrontend_io_stream_owner[2] ? 2'h3 : _cmdRouter_io_out_2_bits_status_mpp),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_vs           (_commandFrontend_io_stream_owner[2] ? 2'h0 : _cmdRouter_io_out_2_bits_status_vs),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_spp          (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_spp),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mpie         (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_mpie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_ube          (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_ube),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_spie         (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_spie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_upie         (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_upie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_mie          (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_mie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_hie          (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_hie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_sie          (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_sie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
+    .io_cmd_bits_status_uie          (~(_commandFrontend_io_stream_owner[2]) & _cmdRouter_io_out_2_bits_status_uie),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:{24,39}]
     .io_resp_ready                   (_respArb_io_in_2_q_io_enq_ready),	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
     .io_resp_valid                   (_applyOrElse_2_io_resp_valid),
     .io_resp_bits_rd                 (_applyOrElse_2_io_resp_bits_rd),
@@ -1671,10 +1756,161 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_csrs_1_sdata                 (_applyOrElse_2_io_csrs_1_sdata),
     .io_csrs_2_sdata                 (_applyOrElse_2_io_csrs_2_sdata),
     .io_csrs_3_sdata                 (_applyOrElse_2_io_csrs_3_sdata),
-    .io_loopconv_request_accept      (_cmdRouter_io_loopconv_request_accept_2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_loopconv_request_queue_count (_cmdRouter_io_loopconv_request_queue_count_2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .io_loopconv_assembler_partial   (_cmdRouter_io_loopconv_assembler_partial_2)	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  );	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
+    .io_loopconv_request_accept      (_applyOrElse_2_io_cmd_ready & _commandFrontend_io_gemmini_cmd_valid[2] & applyOrElse_2_io_cmd_bits_inst_funct == 7'hF)	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:24, :44:41, :47:{47,72}, src/main/scala/chisel3/util/Decoupled.scala:51:35]
+  );	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+  CommandFrontendTL commandFrontendMemory (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .clock                   (clock),
+    .reset                   (reset),
+    .auto_in_a_ready         (_commandFrontendMemory_auto_in_a_ready),
+    .auto_in_a_valid         (_applyOrElse_auto_spad_id_out_a_valid),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+    .auto_in_a_bits_opcode   (_applyOrElse_auto_spad_id_out_a_bits_opcode),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+    .auto_in_a_bits_param    (_applyOrElse_auto_spad_id_out_a_bits_param),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+    .auto_in_a_bits_size     (_applyOrElse_auto_spad_id_out_a_bits_size),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+    .auto_in_a_bits_source   (_applyOrElse_auto_spad_id_out_a_bits_source),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+    .auto_in_a_bits_address  (_applyOrElse_auto_spad_id_out_a_bits_address),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+    .auto_in_a_bits_mask     (_applyOrElse_auto_spad_id_out_a_bits_mask),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+    .auto_in_a_bits_data     (_applyOrElse_auto_spad_id_out_a_bits_data),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+    .auto_in_a_bits_corrupt  (_applyOrElse_auto_spad_id_out_a_bits_corrupt),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+    .auto_in_d_ready         (_applyOrElse_auto_spad_id_out_d_ready),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
+    .auto_in_d_valid         (_commandFrontendMemory_auto_in_d_valid),
+    .auto_in_d_bits_opcode   (_commandFrontendMemory_auto_in_d_bits_opcode),
+    .auto_in_d_bits_param    (_commandFrontendMemory_auto_in_d_bits_param),
+    .auto_in_d_bits_size     (_commandFrontendMemory_auto_in_d_bits_size),
+    .auto_in_d_bits_source   (_commandFrontendMemory_auto_in_d_bits_source),
+    .auto_in_d_bits_sink     (_commandFrontendMemory_auto_in_d_bits_sink),
+    .auto_in_d_bits_denied   (_commandFrontendMemory_auto_in_d_bits_denied),
+    .auto_in_d_bits_data     (_commandFrontendMemory_auto_in_d_bits_data),
+    .auto_in_d_bits_corrupt  (_commandFrontendMemory_auto_in_d_bits_corrupt),
+    .auto_out_a_ready        (auto_buffer_out_0_a_ready),
+    .auto_out_a_valid        (auto_buffer_out_0_a_valid),
+    .auto_out_a_bits_opcode  (auto_buffer_out_0_a_bits_opcode),
+    .auto_out_a_bits_param   (auto_buffer_out_0_a_bits_param),
+    .auto_out_a_bits_size    (auto_buffer_out_0_a_bits_size),
+    .auto_out_a_bits_source  (auto_buffer_out_0_a_bits_source),
+    .auto_out_a_bits_address (auto_buffer_out_0_a_bits_address),
+    .auto_out_a_bits_mask    (auto_buffer_out_0_a_bits_mask),
+    .auto_out_a_bits_data    (auto_buffer_out_0_a_bits_data),
+    .auto_out_a_bits_corrupt (auto_buffer_out_0_a_bits_corrupt),
+    .auto_out_d_ready        (auto_buffer_out_0_d_ready),
+    .auto_out_d_valid        (auto_buffer_out_0_d_valid),
+    .auto_out_d_bits_opcode  (auto_buffer_out_0_d_bits_opcode),
+    .auto_out_d_bits_param   (auto_buffer_out_0_d_bits_param),
+    .auto_out_d_bits_size    (auto_buffer_out_0_d_bits_size),
+    .auto_out_d_bits_source  (auto_buffer_out_0_d_bits_source),
+    .auto_out_d_bits_sink    (auto_buffer_out_0_d_bits_sink),
+    .auto_out_d_bits_denied  (auto_buffer_out_0_d_bits_denied),
+    .auto_out_d_bits_data    (auto_buffer_out_0_d_bits_data),
+    .auto_out_d_bits_corrupt (auto_buffer_out_0_d_bits_corrupt),
+    .fetch_req_valid         (_commandFrontend_io_mem_req_valid[0]),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:52:37]
+    .fetch_req_ready         (_commandFrontendMemory_fetch_req_ready),
+    .fetch_req_address       (_commandFrontend_io_mem_req_address[31:0]),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:52:76]
+    .fetch_resp_valid        (_commandFrontendMemory_fetch_resp_valid),
+    .fetch_resp_ready        (_commandFrontend_io_mem_resp_ready[0]),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:53:39]
+    .fetch_resp_data         (_commandFrontendMemory_fetch_resp_data),
+    .fetch_resp_error        (_commandFrontendMemory_fetch_resp_error)
+  );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  CommandFrontendTL commandFrontendMemory_1 (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .clock                   (clock),
+    .reset                   (reset),
+    .auto_in_a_ready         (_commandFrontendMemory_1_auto_in_a_ready),
+    .auto_in_a_valid         (_applyOrElse_1_auto_spad_id_out_a_valid),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .auto_in_a_bits_opcode   (_applyOrElse_1_auto_spad_id_out_a_bits_opcode),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .auto_in_a_bits_param    (_applyOrElse_1_auto_spad_id_out_a_bits_param),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .auto_in_a_bits_size     (_applyOrElse_1_auto_spad_id_out_a_bits_size),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .auto_in_a_bits_source   (_applyOrElse_1_auto_spad_id_out_a_bits_source),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .auto_in_a_bits_address  (_applyOrElse_1_auto_spad_id_out_a_bits_address),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .auto_in_a_bits_mask     (_applyOrElse_1_auto_spad_id_out_a_bits_mask),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .auto_in_a_bits_data     (_applyOrElse_1_auto_spad_id_out_a_bits_data),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .auto_in_a_bits_corrupt  (_applyOrElse_1_auto_spad_id_out_a_bits_corrupt),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .auto_in_d_ready         (_applyOrElse_1_auto_spad_id_out_d_ready),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .auto_in_d_valid         (_commandFrontendMemory_1_auto_in_d_valid),
+    .auto_in_d_bits_opcode   (_commandFrontendMemory_1_auto_in_d_bits_opcode),
+    .auto_in_d_bits_param    (_commandFrontendMemory_1_auto_in_d_bits_param),
+    .auto_in_d_bits_size     (_commandFrontendMemory_1_auto_in_d_bits_size),
+    .auto_in_d_bits_source   (_commandFrontendMemory_1_auto_in_d_bits_source),
+    .auto_in_d_bits_sink     (_commandFrontendMemory_1_auto_in_d_bits_sink),
+    .auto_in_d_bits_denied   (_commandFrontendMemory_1_auto_in_d_bits_denied),
+    .auto_in_d_bits_data     (_commandFrontendMemory_1_auto_in_d_bits_data),
+    .auto_in_d_bits_corrupt  (_commandFrontendMemory_1_auto_in_d_bits_corrupt),
+    .auto_out_a_ready        (auto_buffer_out_1_a_ready),
+    .auto_out_a_valid        (auto_buffer_out_1_a_valid),
+    .auto_out_a_bits_opcode  (auto_buffer_out_1_a_bits_opcode),
+    .auto_out_a_bits_param   (auto_buffer_out_1_a_bits_param),
+    .auto_out_a_bits_size    (auto_buffer_out_1_a_bits_size),
+    .auto_out_a_bits_source  (auto_buffer_out_1_a_bits_source),
+    .auto_out_a_bits_address (auto_buffer_out_1_a_bits_address),
+    .auto_out_a_bits_mask    (auto_buffer_out_1_a_bits_mask),
+    .auto_out_a_bits_data    (auto_buffer_out_1_a_bits_data),
+    .auto_out_a_bits_corrupt (auto_buffer_out_1_a_bits_corrupt),
+    .auto_out_d_ready        (auto_buffer_out_1_d_ready),
+    .auto_out_d_valid        (auto_buffer_out_1_d_valid),
+    .auto_out_d_bits_opcode  (auto_buffer_out_1_d_bits_opcode),
+    .auto_out_d_bits_param   (auto_buffer_out_1_d_bits_param),
+    .auto_out_d_bits_size    (auto_buffer_out_1_d_bits_size),
+    .auto_out_d_bits_source  (auto_buffer_out_1_d_bits_source),
+    .auto_out_d_bits_sink    (auto_buffer_out_1_d_bits_sink),
+    .auto_out_d_bits_denied  (auto_buffer_out_1_d_bits_denied),
+    .auto_out_d_bits_data    (auto_buffer_out_1_d_bits_data),
+    .auto_out_d_bits_corrupt (auto_buffer_out_1_d_bits_corrupt),
+    .fetch_req_valid         (_commandFrontend_io_mem_req_valid[1]),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:52:37]
+    .fetch_req_ready         (_commandFrontendMemory_1_fetch_req_ready),
+    .fetch_req_address       (_commandFrontend_io_mem_req_address[63:32]),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:52:76]
+    .fetch_resp_valid        (_commandFrontendMemory_1_fetch_resp_valid),
+    .fetch_resp_ready        (_commandFrontend_io_mem_resp_ready[1]),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:53:39]
+    .fetch_resp_data         (_commandFrontendMemory_1_fetch_resp_data),
+    .fetch_resp_error        (_commandFrontendMemory_1_fetch_resp_error)
+  );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+  CommandFrontendTL commandFrontendMemory_2 (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
+    .clock                   (clock),
+    .reset                   (reset),
+    .auto_in_a_ready         (_commandFrontendMemory_2_auto_in_a_ready),
+    .auto_in_a_valid         (_applyOrElse_2_auto_spad_id_out_a_valid),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .auto_in_a_bits_opcode   (_applyOrElse_2_auto_spad_id_out_a_bits_opcode),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .auto_in_a_bits_param    (_applyOrElse_2_auto_spad_id_out_a_bits_param),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .auto_in_a_bits_size     (_applyOrElse_2_auto_spad_id_out_a_bits_size),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .auto_in_a_bits_source   (_applyOrElse_2_auto_spad_id_out_a_bits_source),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .auto_in_a_bits_address  (_applyOrElse_2_auto_spad_id_out_a_bits_address),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .auto_in_a_bits_mask     (_applyOrElse_2_auto_spad_id_out_a_bits_mask),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .auto_in_a_bits_data     (_applyOrElse_2_auto_spad_id_out_a_bits_data),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .auto_in_a_bits_corrupt  (_applyOrElse_2_auto_spad_id_out_a_bits_corrupt),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .auto_in_d_ready         (_applyOrElse_2_auto_spad_id_out_d_ready),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .auto_in_d_valid         (_commandFrontendMemory_2_auto_in_d_valid),
+    .auto_in_d_bits_opcode   (_commandFrontendMemory_2_auto_in_d_bits_opcode),
+    .auto_in_d_bits_param    (_commandFrontendMemory_2_auto_in_d_bits_param),
+    .auto_in_d_bits_size     (_commandFrontendMemory_2_auto_in_d_bits_size),
+    .auto_in_d_bits_source   (_commandFrontendMemory_2_auto_in_d_bits_source),
+    .auto_in_d_bits_sink     (_commandFrontendMemory_2_auto_in_d_bits_sink),
+    .auto_in_d_bits_denied   (_commandFrontendMemory_2_auto_in_d_bits_denied),
+    .auto_in_d_bits_data     (_commandFrontendMemory_2_auto_in_d_bits_data),
+    .auto_in_d_bits_corrupt  (_commandFrontendMemory_2_auto_in_d_bits_corrupt),
+    .auto_out_a_ready        (auto_buffer_out_2_a_ready),
+    .auto_out_a_valid        (auto_buffer_out_2_a_valid),
+    .auto_out_a_bits_opcode  (auto_buffer_out_2_a_bits_opcode),
+    .auto_out_a_bits_param   (auto_buffer_out_2_a_bits_param),
+    .auto_out_a_bits_size    (auto_buffer_out_2_a_bits_size),
+    .auto_out_a_bits_source  (auto_buffer_out_2_a_bits_source),
+    .auto_out_a_bits_address (auto_buffer_out_2_a_bits_address),
+    .auto_out_a_bits_mask    (auto_buffer_out_2_a_bits_mask),
+    .auto_out_a_bits_data    (auto_buffer_out_2_a_bits_data),
+    .auto_out_a_bits_corrupt (auto_buffer_out_2_a_bits_corrupt),
+    .auto_out_d_ready        (auto_buffer_out_2_d_ready),
+    .auto_out_d_valid        (auto_buffer_out_2_d_valid),
+    .auto_out_d_bits_opcode  (auto_buffer_out_2_d_bits_opcode),
+    .auto_out_d_bits_param   (auto_buffer_out_2_d_bits_param),
+    .auto_out_d_bits_size    (auto_buffer_out_2_d_bits_size),
+    .auto_out_d_bits_source  (auto_buffer_out_2_d_bits_source),
+    .auto_out_d_bits_sink    (auto_buffer_out_2_d_bits_sink),
+    .auto_out_d_bits_denied  (auto_buffer_out_2_d_bits_denied),
+    .auto_out_d_bits_data    (auto_buffer_out_2_d_bits_data),
+    .auto_out_d_bits_corrupt (auto_buffer_out_2_d_bits_corrupt),
+    .fetch_req_valid         (_commandFrontend_io_mem_req_valid[2]),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:52:37]
+    .fetch_req_ready         (_commandFrontendMemory_2_fetch_req_ready),
+    .fetch_req_address       (_commandFrontend_io_mem_req_address[95:64]),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:52:76]
+    .fetch_resp_valid        (_commandFrontendMemory_2_fetch_resp_valid),
+    .fetch_resp_ready        (_commandFrontend_io_mem_resp_ready[2]),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:53:39]
+    .fetch_resp_data         (_commandFrontendMemory_2_fetch_resp_data),
+    .fetch_resp_error        (_commandFrontendMemory_2_fetch_resp_error)
+  );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27]
   Frontend frontend (	// @[generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28]
     .clock                                     (clock),
     .reset                                     (reset),
@@ -1923,7 +2159,7 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_dmem_s2_xcpt_ae_ld                     (_dcacheArb_io_requestor_5_s2_xcpt_ae_ld),	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25]
     .io_dmem_s2_xcpt_ae_st                     (_dcacheArb_io_requestor_5_s2_xcpt_ae_st)	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25]
   );	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65]
-  FPU fpuOpt (	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
+  FPU fpuOpt (	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
     .clock               (clock),
     .reset               (reset),
     .io_inst             (_core_io_fpu_inst),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
@@ -1951,7 +2187,7 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_sboard_set       (_fpuOpt_io_sboard_set),
     .io_sboard_clr       (_fpuOpt_io_sboard_clr),
     .io_sboard_clra      (_fpuOpt_io_sboard_clra)
-  );	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
+  );	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
   HellaCacheArbiter_1 dcacheArb (	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25]
     .clock                                     (clock),
     .io_requestor_0_req_ready                  (_dcacheArb_io_requestor_0_req_ready),
@@ -1963,20 +2199,20 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_requestor_0_resp_bits_data             (_dcacheArb_io_requestor_0_resp_bits_data),
     .io_requestor_0_s2_xcpt_ae_ld              (_dcacheArb_io_requestor_0_s2_xcpt_ae_ld),
     .io_requestor_1_req_ready                  (_dcacheArb_io_requestor_1_req_ready),
-    .io_requestor_1_req_valid                  (_dcIF_io_cache_req_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_1_req_bits_addr              (_dcIF_io_cache_req_bits_addr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_1_req_bits_tag               (_dcIF_io_cache_req_bits_tag),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_1_req_bits_cmd               (_dcIF_io_cache_req_bits_cmd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_1_req_bits_size              (_dcIF_io_cache_req_bits_size),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_1_req_bits_signed            (_dcIF_io_cache_req_bits_signed),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_1_req_bits_dprv              (_dcIF_io_cache_req_bits_dprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_1_req_bits_dv                (_dcIF_io_cache_req_bits_dv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_1_req_bits_phys              (_dcIF_io_cache_req_bits_phys),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_1_req_bits_no_alloc          (_dcIF_io_cache_req_bits_no_alloc),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_1_req_bits_no_xcpt           (_dcIF_io_cache_req_bits_no_xcpt),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_1_req_bits_mask              (_dcIF_io_cache_req_bits_mask),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_1_s1_data_data               (_dcIF_io_cache_s1_data_data),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_1_s1_data_mask               (_dcIF_io_cache_s1_data_mask),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
+    .io_requestor_1_req_valid                  (_dcIF_io_cache_req_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_1_req_bits_addr              (_dcIF_io_cache_req_bits_addr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_1_req_bits_tag               (_dcIF_io_cache_req_bits_tag),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_1_req_bits_cmd               (_dcIF_io_cache_req_bits_cmd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_1_req_bits_size              (_dcIF_io_cache_req_bits_size),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_1_req_bits_signed            (_dcIF_io_cache_req_bits_signed),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_1_req_bits_dprv              (_dcIF_io_cache_req_bits_dprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_1_req_bits_dv                (_dcIF_io_cache_req_bits_dv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_1_req_bits_phys              (_dcIF_io_cache_req_bits_phys),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_1_req_bits_no_alloc          (_dcIF_io_cache_req_bits_no_alloc),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_1_req_bits_no_xcpt           (_dcIF_io_cache_req_bits_no_xcpt),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_1_req_bits_mask              (_dcIF_io_cache_req_bits_mask),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_1_s1_data_data               (_dcIF_io_cache_s1_data_data),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_1_s1_data_mask               (_dcIF_io_cache_s1_data_mask),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
     .io_requestor_1_s2_nack                    (_dcacheArb_io_requestor_1_s2_nack),
     .io_requestor_1_resp_valid                 (_dcacheArb_io_requestor_1_resp_valid),
     .io_requestor_1_resp_bits_tag              (_dcacheArb_io_requestor_1_resp_bits_tag),
@@ -1988,20 +2224,20 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_requestor_1_s2_xcpt_ae_ld              (_dcacheArb_io_requestor_1_s2_xcpt_ae_ld),
     .io_requestor_1_s2_xcpt_ae_st              (_dcacheArb_io_requestor_1_s2_xcpt_ae_st),
     .io_requestor_2_req_ready                  (_dcacheArb_io_requestor_2_req_ready),
-    .io_requestor_2_req_valid                  (_dcIF_1_io_cache_req_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_2_req_bits_addr              (_dcIF_1_io_cache_req_bits_addr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_2_req_bits_tag               (_dcIF_1_io_cache_req_bits_tag),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_2_req_bits_cmd               (_dcIF_1_io_cache_req_bits_cmd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_2_req_bits_size              (_dcIF_1_io_cache_req_bits_size),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_2_req_bits_signed            (_dcIF_1_io_cache_req_bits_signed),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_2_req_bits_dprv              (_dcIF_1_io_cache_req_bits_dprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_2_req_bits_dv                (_dcIF_1_io_cache_req_bits_dv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_2_req_bits_phys              (_dcIF_1_io_cache_req_bits_phys),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_2_req_bits_no_alloc          (_dcIF_1_io_cache_req_bits_no_alloc),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_2_req_bits_no_xcpt           (_dcIF_1_io_cache_req_bits_no_xcpt),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_2_req_bits_mask              (_dcIF_1_io_cache_req_bits_mask),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_2_s1_data_data               (_dcIF_1_io_cache_s1_data_data),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_2_s1_data_mask               (_dcIF_1_io_cache_s1_data_mask),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
+    .io_requestor_2_req_valid                  (_dcIF_1_io_cache_req_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_2_req_bits_addr              (_dcIF_1_io_cache_req_bits_addr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_2_req_bits_tag               (_dcIF_1_io_cache_req_bits_tag),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_2_req_bits_cmd               (_dcIF_1_io_cache_req_bits_cmd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_2_req_bits_size              (_dcIF_1_io_cache_req_bits_size),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_2_req_bits_signed            (_dcIF_1_io_cache_req_bits_signed),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_2_req_bits_dprv              (_dcIF_1_io_cache_req_bits_dprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_2_req_bits_dv                (_dcIF_1_io_cache_req_bits_dv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_2_req_bits_phys              (_dcIF_1_io_cache_req_bits_phys),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_2_req_bits_no_alloc          (_dcIF_1_io_cache_req_bits_no_alloc),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_2_req_bits_no_xcpt           (_dcIF_1_io_cache_req_bits_no_xcpt),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_2_req_bits_mask              (_dcIF_1_io_cache_req_bits_mask),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_2_s1_data_data               (_dcIF_1_io_cache_s1_data_data),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_2_s1_data_mask               (_dcIF_1_io_cache_s1_data_mask),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
     .io_requestor_2_s2_nack                    (_dcacheArb_io_requestor_2_s2_nack),
     .io_requestor_2_resp_valid                 (_dcacheArb_io_requestor_2_resp_valid),
     .io_requestor_2_resp_bits_tag              (_dcacheArb_io_requestor_2_resp_bits_tag),
@@ -2013,20 +2249,20 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_requestor_2_s2_xcpt_ae_ld              (_dcacheArb_io_requestor_2_s2_xcpt_ae_ld),
     .io_requestor_2_s2_xcpt_ae_st              (_dcacheArb_io_requestor_2_s2_xcpt_ae_st),
     .io_requestor_3_req_ready                  (_dcacheArb_io_requestor_3_req_ready),
-    .io_requestor_3_req_valid                  (_dcIF_2_io_cache_req_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_3_req_bits_addr              (_dcIF_2_io_cache_req_bits_addr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_3_req_bits_tag               (_dcIF_2_io_cache_req_bits_tag),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_3_req_bits_cmd               (_dcIF_2_io_cache_req_bits_cmd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_3_req_bits_size              (_dcIF_2_io_cache_req_bits_size),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_3_req_bits_signed            (_dcIF_2_io_cache_req_bits_signed),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_3_req_bits_dprv              (_dcIF_2_io_cache_req_bits_dprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_3_req_bits_dv                (_dcIF_2_io_cache_req_bits_dv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_3_req_bits_phys              (_dcIF_2_io_cache_req_bits_phys),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_3_req_bits_no_alloc          (_dcIF_2_io_cache_req_bits_no_alloc),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_3_req_bits_no_xcpt           (_dcIF_2_io_cache_req_bits_no_xcpt),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_3_req_bits_mask              (_dcIF_2_io_cache_req_bits_mask),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_3_s1_data_data               (_dcIF_2_io_cache_s1_data_data),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
-    .io_requestor_3_s1_data_mask               (_dcIF_2_io_cache_s1_data_mask),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
+    .io_requestor_3_req_valid                  (_dcIF_2_io_cache_req_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_3_req_bits_addr              (_dcIF_2_io_cache_req_bits_addr),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_3_req_bits_tag               (_dcIF_2_io_cache_req_bits_tag),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_3_req_bits_cmd               (_dcIF_2_io_cache_req_bits_cmd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_3_req_bits_size              (_dcIF_2_io_cache_req_bits_size),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_3_req_bits_signed            (_dcIF_2_io_cache_req_bits_signed),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_3_req_bits_dprv              (_dcIF_2_io_cache_req_bits_dprv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_3_req_bits_dv                (_dcIF_2_io_cache_req_bits_dv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_3_req_bits_phys              (_dcIF_2_io_cache_req_bits_phys),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_3_req_bits_no_alloc          (_dcIF_2_io_cache_req_bits_no_alloc),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_3_req_bits_no_xcpt           (_dcIF_2_io_cache_req_bits_no_xcpt),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_3_req_bits_mask              (_dcIF_2_io_cache_req_bits_mask),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_3_s1_data_data               (_dcIF_2_io_cache_s1_data_data),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
+    .io_requestor_3_s1_data_mask               (_dcIF_2_io_cache_s1_data_mask),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
     .io_requestor_3_s2_nack                    (_dcacheArb_io_requestor_3_s2_nack),
     .io_requestor_3_resp_valid                 (_dcacheArb_io_requestor_3_resp_valid),
     .io_requestor_3_resp_bits_tag              (_dcacheArb_io_requestor_3_resp_bits_tag),
@@ -2373,7 +2609,44 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_dpath_pmp_7_mask                    (_core_io_ptw_pmp_7_mask),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
     .io_dpath_customCSRs_csrs_0_value       (_core_io_ptw_customCSRs_csrs_0_value)	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
   );	// @[generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19]
-  RRArbiter_220 respArb (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
+  CommandFrontendCluster commandFrontend (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+    .clock                (clock),
+    .reset                (reset),
+    .io_control_valid     (_cmdRouter_io_out_3_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+    .io_control_ready     (_commandFrontend_io_control_ready),
+    .io_control_funct     (_cmdRouter_io_out_3_bits_inst_funct),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+    .io_control_rs1       (_cmdRouter_io_out_3_bits_rs1),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+    .io_control_rs2       (_cmdRouter_io_out_3_bits_rs2),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+    .io_control_rd        (_cmdRouter_io_out_3_bits_inst_rd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+    .io_control_xd        (_cmdRouter_io_out_3_bits_inst_xd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+    .io_control_prv       (_cmdRouter_io_out_3_bits_status_prv),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+    .io_response_valid    (_commandFrontend_io_response_valid),
+    .io_response_ready    (_respArb_io_in_3_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
+    .io_response_rd       (_commandFrontend_io_response_rd),
+    .io_response_data     (_commandFrontend_io_response_data),
+    .io_interrupt         (_commandFrontend_io_interrupt),
+    .io_transport_busy    (_commandFrontend_io_transport_busy),
+    .io_legacy_valid      ({_cmdRouter_io_out_2_valid, _cmdRouter_io_out_1_valid, _cmdRouter_io_out_0_valid}),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:22:72]
+    .io_legacy_ready      (_commandFrontend_io_legacy_ready),
+    .io_legacy_funct      ({_cmdRouter_io_out_2_bits_inst_funct, _cmdRouter_io_out_1_bits_inst_funct, _cmdRouter_io_out_0_bits_inst_funct}),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:21:40]
+    .io_legacy_rs1        ({_cmdRouter_io_out_2_bits_rs1, _cmdRouter_io_out_1_bits_rs1, _cmdRouter_io_out_0_bits_rs1}),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:21:40]
+    .io_legacy_rs2        ({_cmdRouter_io_out_2_bits_rs2, _cmdRouter_io_out_1_bits_rs2, _cmdRouter_io_out_0_bits_rs2}),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:21:40]
+    .io_stream_owner      (_commandFrontend_io_stream_owner),
+    .io_gemmini_cmd_valid (_commandFrontend_io_gemmini_cmd_valid),
+    .io_gemmini_cmd_ready ({_applyOrElse_2_io_cmd_ready, _applyOrElse_1_io_cmd_ready, _applyOrElse_io_cmd_ready}),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:26:70]
+    .io_gemmini_cmd_funct (_commandFrontend_io_gemmini_cmd_funct),
+    .io_gemmini_cmd_rs1   (_commandFrontend_io_gemmini_cmd_rs1),
+    .io_gemmini_cmd_rs2   (_commandFrontend_io_gemmini_cmd_rs2),
+    .io_gemmini_busy      ({_applyOrElse_2_io_busy, _applyOrElse_1_io_busy, _applyOrElse_io_busy}),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:27:60]
+    .io_mem_req_valid     (_commandFrontend_io_mem_req_valid),
+    .io_mem_req_ready     ({_commandFrontendMemory_2_fetch_req_ready, _commandFrontendMemory_1_fetch_req_ready, _commandFrontendMemory_fetch_req_ready}),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:29:70]
+    .io_mem_req_address   (_commandFrontend_io_mem_req_address),
+    .io_mem_resp_valid    ({_commandFrontendMemory_2_fetch_resp_valid, _commandFrontendMemory_1_fetch_resp_valid, _commandFrontendMemory_fetch_resp_valid}),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:30:72]
+    .io_mem_resp_ready    (_commandFrontend_io_mem_resp_ready),
+    .io_mem_resp_data     ({_commandFrontendMemory_2_fetch_resp_data, _commandFrontendMemory_1_fetch_resp_data, _commandFrontendMemory_fetch_resp_data}),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:21:40]
+    .io_mem_resp_error    ({_commandFrontendMemory_2_fetch_resp_error, _commandFrontendMemory_1_fetch_resp_error, _commandFrontendMemory_fetch_resp_error})	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:131:27, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:32:72]
+  );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+  RRArbiter_220 respArb (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
     .clock             (clock),
     .io_in_0_ready     (_respArb_io_in_0_ready),
     .io_in_0_valid     (_respArb_io_in_0_q_io_deq_valid),	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
@@ -2387,225 +2660,228 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_in_2_valid     (_respArb_io_in_2_q_io_deq_valid),	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
     .io_in_2_bits_rd   (_respArb_io_in_2_q_io_deq_bits_rd),	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
     .io_in_2_bits_data (_respArb_io_in_2_q_io_deq_bits_data),	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    .io_in_3_ready     (_respArb_io_in_3_ready),
+    .io_in_3_valid     (_commandFrontend_io_response_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+    .io_in_3_bits_rd   (_commandFrontend_io_response_rd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+    .io_in_3_bits_data (_commandFrontend_io_response_data),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
     .io_out_ready      (_core_io_rocc_resp_ready),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
     .io_out_valid      (_respArb_io_out_valid),
     .io_out_bits_rd    (_respArb_io_out_bits_rd),
     .io_out_bits_data  (_respArb_io_out_bits_data)
-  );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
-  RoccCommandRouter cmdRouter (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-    .clock                             (clock),
-    .reset                             (reset),
-    .io_in_ready                       (_cmdRouter_io_in_ready),
-    .io_in_valid                       (_core_io_rocc_cmd_valid),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_inst_funct             (_core_io_rocc_cmd_bits_inst_funct),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_inst_rs2               (_core_io_rocc_cmd_bits_inst_rs2),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_inst_rs1               (_core_io_rocc_cmd_bits_inst_rs1),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_inst_xd                (_core_io_rocc_cmd_bits_inst_xd),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_inst_xs1               (_core_io_rocc_cmd_bits_inst_xs1),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_inst_xs2               (_core_io_rocc_cmd_bits_inst_xs2),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_inst_rd                (_core_io_rocc_cmd_bits_inst_rd),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_inst_opcode            (_core_io_rocc_cmd_bits_inst_opcode),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_rs1                    (_core_io_rocc_cmd_bits_rs1),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_rs2                    (_core_io_rocc_cmd_bits_rs2),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_debug           (_core_io_rocc_cmd_bits_status_debug),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_cease           (_core_io_rocc_cmd_bits_status_cease),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_wfi             (_core_io_rocc_cmd_bits_status_wfi),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_isa             (_core_io_rocc_cmd_bits_status_isa),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_dprv            (_core_io_rocc_cmd_bits_status_dprv),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_dv              (_core_io_rocc_cmd_bits_status_dv),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_prv             (_core_io_rocc_cmd_bits_status_prv),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_v               (_core_io_rocc_cmd_bits_status_v),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_mpv             (_core_io_rocc_cmd_bits_status_mpv),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_gva             (_core_io_rocc_cmd_bits_status_gva),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_tsr             (_core_io_rocc_cmd_bits_status_tsr),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_tw              (_core_io_rocc_cmd_bits_status_tw),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_tvm             (_core_io_rocc_cmd_bits_status_tvm),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_mxr             (_core_io_rocc_cmd_bits_status_mxr),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_sum             (_core_io_rocc_cmd_bits_status_sum),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_mprv            (_core_io_rocc_cmd_bits_status_mprv),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_fs              (_core_io_rocc_cmd_bits_status_fs),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_mpp             (_core_io_rocc_cmd_bits_status_mpp),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_vs              (_core_io_rocc_cmd_bits_status_vs),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_spp             (_core_io_rocc_cmd_bits_status_spp),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_mpie            (_core_io_rocc_cmd_bits_status_mpie),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_spie            (_core_io_rocc_cmd_bits_status_spie),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_mie             (_core_io_rocc_cmd_bits_status_mie),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_in_bits_status_sie             (_core_io_rocc_cmd_bits_status_sie),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_out_0_ready                    (_applyOrElse_io_cmd_ready),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
-    .io_out_0_valid                    (_cmdRouter_io_out_0_valid),
-    .io_out_0_bits_inst_funct          (_cmdRouter_io_out_0_bits_inst_funct),
-    .io_out_0_bits_inst_rs2            (_cmdRouter_io_out_0_bits_inst_rs2),
-    .io_out_0_bits_inst_rs1            (_cmdRouter_io_out_0_bits_inst_rs1),
-    .io_out_0_bits_inst_xd             (_cmdRouter_io_out_0_bits_inst_xd),
-    .io_out_0_bits_inst_xs1            (_cmdRouter_io_out_0_bits_inst_xs1),
-    .io_out_0_bits_inst_xs2            (_cmdRouter_io_out_0_bits_inst_xs2),
-    .io_out_0_bits_inst_rd             (_cmdRouter_io_out_0_bits_inst_rd),
-    .io_out_0_bits_inst_opcode         (_cmdRouter_io_out_0_bits_inst_opcode),
-    .io_out_0_bits_rs1                 (_cmdRouter_io_out_0_bits_rs1),
-    .io_out_0_bits_rs2                 (_cmdRouter_io_out_0_bits_rs2),
-    .io_out_0_bits_status_debug        (_cmdRouter_io_out_0_bits_status_debug),
-    .io_out_0_bits_status_cease        (_cmdRouter_io_out_0_bits_status_cease),
-    .io_out_0_bits_status_wfi          (_cmdRouter_io_out_0_bits_status_wfi),
-    .io_out_0_bits_status_isa          (_cmdRouter_io_out_0_bits_status_isa),
-    .io_out_0_bits_status_dprv         (_cmdRouter_io_out_0_bits_status_dprv),
-    .io_out_0_bits_status_dv           (_cmdRouter_io_out_0_bits_status_dv),
-    .io_out_0_bits_status_prv          (_cmdRouter_io_out_0_bits_status_prv),
-    .io_out_0_bits_status_v            (_cmdRouter_io_out_0_bits_status_v),
-    .io_out_0_bits_status_sd           (_cmdRouter_io_out_0_bits_status_sd),
-    .io_out_0_bits_status_zero2        (_cmdRouter_io_out_0_bits_status_zero2),
-    .io_out_0_bits_status_mpv          (_cmdRouter_io_out_0_bits_status_mpv),
-    .io_out_0_bits_status_gva          (_cmdRouter_io_out_0_bits_status_gva),
-    .io_out_0_bits_status_mbe          (_cmdRouter_io_out_0_bits_status_mbe),
-    .io_out_0_bits_status_sbe          (_cmdRouter_io_out_0_bits_status_sbe),
-    .io_out_0_bits_status_sxl          (_cmdRouter_io_out_0_bits_status_sxl),
-    .io_out_0_bits_status_uxl          (_cmdRouter_io_out_0_bits_status_uxl),
-    .io_out_0_bits_status_sd_rv32      (_cmdRouter_io_out_0_bits_status_sd_rv32),
-    .io_out_0_bits_status_zero1        (_cmdRouter_io_out_0_bits_status_zero1),
-    .io_out_0_bits_status_tsr          (_cmdRouter_io_out_0_bits_status_tsr),
-    .io_out_0_bits_status_tw           (_cmdRouter_io_out_0_bits_status_tw),
-    .io_out_0_bits_status_tvm          (_cmdRouter_io_out_0_bits_status_tvm),
-    .io_out_0_bits_status_mxr          (_cmdRouter_io_out_0_bits_status_mxr),
-    .io_out_0_bits_status_sum          (_cmdRouter_io_out_0_bits_status_sum),
-    .io_out_0_bits_status_mprv         (_cmdRouter_io_out_0_bits_status_mprv),
-    .io_out_0_bits_status_xs           (_cmdRouter_io_out_0_bits_status_xs),
-    .io_out_0_bits_status_fs           (_cmdRouter_io_out_0_bits_status_fs),
-    .io_out_0_bits_status_mpp          (_cmdRouter_io_out_0_bits_status_mpp),
-    .io_out_0_bits_status_vs           (_cmdRouter_io_out_0_bits_status_vs),
-    .io_out_0_bits_status_spp          (_cmdRouter_io_out_0_bits_status_spp),
-    .io_out_0_bits_status_mpie         (_cmdRouter_io_out_0_bits_status_mpie),
-    .io_out_0_bits_status_ube          (_cmdRouter_io_out_0_bits_status_ube),
-    .io_out_0_bits_status_spie         (_cmdRouter_io_out_0_bits_status_spie),
-    .io_out_0_bits_status_upie         (_cmdRouter_io_out_0_bits_status_upie),
-    .io_out_0_bits_status_mie          (_cmdRouter_io_out_0_bits_status_mie),
-    .io_out_0_bits_status_hie          (_cmdRouter_io_out_0_bits_status_hie),
-    .io_out_0_bits_status_sie          (_cmdRouter_io_out_0_bits_status_sie),
-    .io_out_0_bits_status_uie          (_cmdRouter_io_out_0_bits_status_uie),
-    .io_out_1_ready                    (_applyOrElse_1_io_cmd_ready),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-    .io_out_1_valid                    (_cmdRouter_io_out_1_valid),
-    .io_out_1_bits_inst_funct          (_cmdRouter_io_out_1_bits_inst_funct),
-    .io_out_1_bits_inst_rs2            (_cmdRouter_io_out_1_bits_inst_rs2),
-    .io_out_1_bits_inst_rs1            (_cmdRouter_io_out_1_bits_inst_rs1),
-    .io_out_1_bits_inst_xd             (_cmdRouter_io_out_1_bits_inst_xd),
-    .io_out_1_bits_inst_xs1            (_cmdRouter_io_out_1_bits_inst_xs1),
-    .io_out_1_bits_inst_xs2            (_cmdRouter_io_out_1_bits_inst_xs2),
-    .io_out_1_bits_inst_rd             (_cmdRouter_io_out_1_bits_inst_rd),
-    .io_out_1_bits_inst_opcode         (_cmdRouter_io_out_1_bits_inst_opcode),
-    .io_out_1_bits_rs1                 (_cmdRouter_io_out_1_bits_rs1),
-    .io_out_1_bits_rs2                 (_cmdRouter_io_out_1_bits_rs2),
-    .io_out_1_bits_status_debug        (_cmdRouter_io_out_1_bits_status_debug),
-    .io_out_1_bits_status_cease        (_cmdRouter_io_out_1_bits_status_cease),
-    .io_out_1_bits_status_wfi          (_cmdRouter_io_out_1_bits_status_wfi),
-    .io_out_1_bits_status_isa          (_cmdRouter_io_out_1_bits_status_isa),
-    .io_out_1_bits_status_dprv         (_cmdRouter_io_out_1_bits_status_dprv),
-    .io_out_1_bits_status_dv           (_cmdRouter_io_out_1_bits_status_dv),
-    .io_out_1_bits_status_prv          (_cmdRouter_io_out_1_bits_status_prv),
-    .io_out_1_bits_status_v            (_cmdRouter_io_out_1_bits_status_v),
-    .io_out_1_bits_status_sd           (_cmdRouter_io_out_1_bits_status_sd),
-    .io_out_1_bits_status_zero2        (_cmdRouter_io_out_1_bits_status_zero2),
-    .io_out_1_bits_status_mpv          (_cmdRouter_io_out_1_bits_status_mpv),
-    .io_out_1_bits_status_gva          (_cmdRouter_io_out_1_bits_status_gva),
-    .io_out_1_bits_status_mbe          (_cmdRouter_io_out_1_bits_status_mbe),
-    .io_out_1_bits_status_sbe          (_cmdRouter_io_out_1_bits_status_sbe),
-    .io_out_1_bits_status_sxl          (_cmdRouter_io_out_1_bits_status_sxl),
-    .io_out_1_bits_status_uxl          (_cmdRouter_io_out_1_bits_status_uxl),
-    .io_out_1_bits_status_sd_rv32      (_cmdRouter_io_out_1_bits_status_sd_rv32),
-    .io_out_1_bits_status_zero1        (_cmdRouter_io_out_1_bits_status_zero1),
-    .io_out_1_bits_status_tsr          (_cmdRouter_io_out_1_bits_status_tsr),
-    .io_out_1_bits_status_tw           (_cmdRouter_io_out_1_bits_status_tw),
-    .io_out_1_bits_status_tvm          (_cmdRouter_io_out_1_bits_status_tvm),
-    .io_out_1_bits_status_mxr          (_cmdRouter_io_out_1_bits_status_mxr),
-    .io_out_1_bits_status_sum          (_cmdRouter_io_out_1_bits_status_sum),
-    .io_out_1_bits_status_mprv         (_cmdRouter_io_out_1_bits_status_mprv),
-    .io_out_1_bits_status_xs           (_cmdRouter_io_out_1_bits_status_xs),
-    .io_out_1_bits_status_fs           (_cmdRouter_io_out_1_bits_status_fs),
-    .io_out_1_bits_status_mpp          (_cmdRouter_io_out_1_bits_status_mpp),
-    .io_out_1_bits_status_vs           (_cmdRouter_io_out_1_bits_status_vs),
-    .io_out_1_bits_status_spp          (_cmdRouter_io_out_1_bits_status_spp),
-    .io_out_1_bits_status_mpie         (_cmdRouter_io_out_1_bits_status_mpie),
-    .io_out_1_bits_status_ube          (_cmdRouter_io_out_1_bits_status_ube),
-    .io_out_1_bits_status_spie         (_cmdRouter_io_out_1_bits_status_spie),
-    .io_out_1_bits_status_upie         (_cmdRouter_io_out_1_bits_status_upie),
-    .io_out_1_bits_status_mie          (_cmdRouter_io_out_1_bits_status_mie),
-    .io_out_1_bits_status_hie          (_cmdRouter_io_out_1_bits_status_hie),
-    .io_out_1_bits_status_sie          (_cmdRouter_io_out_1_bits_status_sie),
-    .io_out_1_bits_status_uie          (_cmdRouter_io_out_1_bits_status_uie),
-    .io_out_2_ready                    (_applyOrElse_2_io_cmd_ready),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-    .io_out_2_valid                    (_cmdRouter_io_out_2_valid),
-    .io_out_2_bits_inst_funct          (_cmdRouter_io_out_2_bits_inst_funct),
-    .io_out_2_bits_inst_rs2            (_cmdRouter_io_out_2_bits_inst_rs2),
-    .io_out_2_bits_inst_rs1            (_cmdRouter_io_out_2_bits_inst_rs1),
-    .io_out_2_bits_inst_xd             (_cmdRouter_io_out_2_bits_inst_xd),
-    .io_out_2_bits_inst_xs1            (_cmdRouter_io_out_2_bits_inst_xs1),
-    .io_out_2_bits_inst_xs2            (_cmdRouter_io_out_2_bits_inst_xs2),
-    .io_out_2_bits_inst_rd             (_cmdRouter_io_out_2_bits_inst_rd),
-    .io_out_2_bits_inst_opcode         (_cmdRouter_io_out_2_bits_inst_opcode),
-    .io_out_2_bits_rs1                 (_cmdRouter_io_out_2_bits_rs1),
-    .io_out_2_bits_rs2                 (_cmdRouter_io_out_2_bits_rs2),
-    .io_out_2_bits_status_debug        (_cmdRouter_io_out_2_bits_status_debug),
-    .io_out_2_bits_status_cease        (_cmdRouter_io_out_2_bits_status_cease),
-    .io_out_2_bits_status_wfi          (_cmdRouter_io_out_2_bits_status_wfi),
-    .io_out_2_bits_status_isa          (_cmdRouter_io_out_2_bits_status_isa),
-    .io_out_2_bits_status_dprv         (_cmdRouter_io_out_2_bits_status_dprv),
-    .io_out_2_bits_status_dv           (_cmdRouter_io_out_2_bits_status_dv),
-    .io_out_2_bits_status_prv          (_cmdRouter_io_out_2_bits_status_prv),
-    .io_out_2_bits_status_v            (_cmdRouter_io_out_2_bits_status_v),
-    .io_out_2_bits_status_sd           (_cmdRouter_io_out_2_bits_status_sd),
-    .io_out_2_bits_status_zero2        (_cmdRouter_io_out_2_bits_status_zero2),
-    .io_out_2_bits_status_mpv          (_cmdRouter_io_out_2_bits_status_mpv),
-    .io_out_2_bits_status_gva          (_cmdRouter_io_out_2_bits_status_gva),
-    .io_out_2_bits_status_mbe          (_cmdRouter_io_out_2_bits_status_mbe),
-    .io_out_2_bits_status_sbe          (_cmdRouter_io_out_2_bits_status_sbe),
-    .io_out_2_bits_status_sxl          (_cmdRouter_io_out_2_bits_status_sxl),
-    .io_out_2_bits_status_uxl          (_cmdRouter_io_out_2_bits_status_uxl),
-    .io_out_2_bits_status_sd_rv32      (_cmdRouter_io_out_2_bits_status_sd_rv32),
-    .io_out_2_bits_status_zero1        (_cmdRouter_io_out_2_bits_status_zero1),
-    .io_out_2_bits_status_tsr          (_cmdRouter_io_out_2_bits_status_tsr),
-    .io_out_2_bits_status_tw           (_cmdRouter_io_out_2_bits_status_tw),
-    .io_out_2_bits_status_tvm          (_cmdRouter_io_out_2_bits_status_tvm),
-    .io_out_2_bits_status_mxr          (_cmdRouter_io_out_2_bits_status_mxr),
-    .io_out_2_bits_status_sum          (_cmdRouter_io_out_2_bits_status_sum),
-    .io_out_2_bits_status_mprv         (_cmdRouter_io_out_2_bits_status_mprv),
-    .io_out_2_bits_status_xs           (_cmdRouter_io_out_2_bits_status_xs),
-    .io_out_2_bits_status_fs           (_cmdRouter_io_out_2_bits_status_fs),
-    .io_out_2_bits_status_mpp          (_cmdRouter_io_out_2_bits_status_mpp),
-    .io_out_2_bits_status_vs           (_cmdRouter_io_out_2_bits_status_vs),
-    .io_out_2_bits_status_spp          (_cmdRouter_io_out_2_bits_status_spp),
-    .io_out_2_bits_status_mpie         (_cmdRouter_io_out_2_bits_status_mpie),
-    .io_out_2_bits_status_ube          (_cmdRouter_io_out_2_bits_status_ube),
-    .io_out_2_bits_status_spie         (_cmdRouter_io_out_2_bits_status_spie),
-    .io_out_2_bits_status_upie         (_cmdRouter_io_out_2_bits_status_upie),
-    .io_out_2_bits_status_mie          (_cmdRouter_io_out_2_bits_status_mie),
-    .io_out_2_bits_status_hie          (_cmdRouter_io_out_2_bits_status_hie),
-    .io_out_2_bits_status_sie          (_cmdRouter_io_out_2_bits_status_sie),
-    .io_out_2_bits_status_uie          (_cmdRouter_io_out_2_bits_status_uie),
-    .io_busy                           (_cmdRouter_io_busy),
-    .io_loopconv_request_accept_0      (_cmdRouter_io_loopconv_request_accept_0),
-    .io_loopconv_request_accept_1      (_cmdRouter_io_loopconv_request_accept_1),
-    .io_loopconv_request_accept_2      (_cmdRouter_io_loopconv_request_accept_2),
-    .io_loopconv_request_queue_count_0 (_cmdRouter_io_loopconv_request_queue_count_0),
-    .io_loopconv_request_queue_count_1 (_cmdRouter_io_loopconv_request_queue_count_1),
-    .io_loopconv_request_queue_count_2 (_cmdRouter_io_loopconv_request_queue_count_2),
-    .io_loopconv_assembler_partial_0   (_cmdRouter_io_loopconv_assembler_partial_0),
-    .io_loopconv_assembler_partial_1   (_cmdRouter_io_loopconv_assembler_partial_1),
-    .io_loopconv_assembler_partial_2   (_cmdRouter_io_loopconv_assembler_partial_2)
-  );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
-  SimpleHellaCacheIF dcIF (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
+  );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
+  RoccCommandRouter cmdRouter (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+    .clock                        (clock),
+    .reset                        (reset),
+    .io_in_ready                  (_cmdRouter_io_in_ready),
+    .io_in_valid                  (_core_io_rocc_cmd_valid),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_inst_funct        (_core_io_rocc_cmd_bits_inst_funct),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_inst_rs2          (_core_io_rocc_cmd_bits_inst_rs2),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_inst_rs1          (_core_io_rocc_cmd_bits_inst_rs1),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_inst_xd           (_core_io_rocc_cmd_bits_inst_xd),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_inst_xs1          (_core_io_rocc_cmd_bits_inst_xs1),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_inst_xs2          (_core_io_rocc_cmd_bits_inst_xs2),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_inst_rd           (_core_io_rocc_cmd_bits_inst_rd),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_inst_opcode       (_core_io_rocc_cmd_bits_inst_opcode),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_rs1               (_core_io_rocc_cmd_bits_rs1),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_rs2               (_core_io_rocc_cmd_bits_rs2),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_debug      (_core_io_rocc_cmd_bits_status_debug),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_cease      (_core_io_rocc_cmd_bits_status_cease),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_wfi        (_core_io_rocc_cmd_bits_status_wfi),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_isa        (_core_io_rocc_cmd_bits_status_isa),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_dprv       (_core_io_rocc_cmd_bits_status_dprv),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_dv         (_core_io_rocc_cmd_bits_status_dv),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_prv        (_core_io_rocc_cmd_bits_status_prv),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_v          (_core_io_rocc_cmd_bits_status_v),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_mpv        (_core_io_rocc_cmd_bits_status_mpv),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_gva        (_core_io_rocc_cmd_bits_status_gva),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_tsr        (_core_io_rocc_cmd_bits_status_tsr),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_tw         (_core_io_rocc_cmd_bits_status_tw),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_tvm        (_core_io_rocc_cmd_bits_status_tvm),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_mxr        (_core_io_rocc_cmd_bits_status_mxr),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_sum        (_core_io_rocc_cmd_bits_status_sum),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_mprv       (_core_io_rocc_cmd_bits_status_mprv),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_fs         (_core_io_rocc_cmd_bits_status_fs),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_mpp        (_core_io_rocc_cmd_bits_status_mpp),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_vs         (_core_io_rocc_cmd_bits_status_vs),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_spp        (_core_io_rocc_cmd_bits_status_spp),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_mpie       (_core_io_rocc_cmd_bits_status_mpie),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_spie       (_core_io_rocc_cmd_bits_status_spie),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_mie        (_core_io_rocc_cmd_bits_status_mie),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_in_bits_status_sie        (_core_io_rocc_cmd_bits_status_sie),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_out_0_ready               (_commandFrontend_io_legacy_ready[0]),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:45:47]
+    .io_out_0_valid               (_cmdRouter_io_out_0_valid),
+    .io_out_0_bits_inst_funct     (_cmdRouter_io_out_0_bits_inst_funct),
+    .io_out_0_bits_inst_rs2       (_cmdRouter_io_out_0_bits_inst_rs2),
+    .io_out_0_bits_inst_rs1       (_cmdRouter_io_out_0_bits_inst_rs1),
+    .io_out_0_bits_inst_xd        (_cmdRouter_io_out_0_bits_inst_xd),
+    .io_out_0_bits_inst_xs1       (_cmdRouter_io_out_0_bits_inst_xs1),
+    .io_out_0_bits_inst_xs2       (_cmdRouter_io_out_0_bits_inst_xs2),
+    .io_out_0_bits_inst_rd        (_cmdRouter_io_out_0_bits_inst_rd),
+    .io_out_0_bits_inst_opcode    (_cmdRouter_io_out_0_bits_inst_opcode),
+    .io_out_0_bits_rs1            (_cmdRouter_io_out_0_bits_rs1),
+    .io_out_0_bits_rs2            (_cmdRouter_io_out_0_bits_rs2),
+    .io_out_0_bits_status_debug   (_cmdRouter_io_out_0_bits_status_debug),
+    .io_out_0_bits_status_cease   (_cmdRouter_io_out_0_bits_status_cease),
+    .io_out_0_bits_status_wfi     (_cmdRouter_io_out_0_bits_status_wfi),
+    .io_out_0_bits_status_isa     (_cmdRouter_io_out_0_bits_status_isa),
+    .io_out_0_bits_status_dprv    (_cmdRouter_io_out_0_bits_status_dprv),
+    .io_out_0_bits_status_dv      (_cmdRouter_io_out_0_bits_status_dv),
+    .io_out_0_bits_status_prv     (_cmdRouter_io_out_0_bits_status_prv),
+    .io_out_0_bits_status_v       (_cmdRouter_io_out_0_bits_status_v),
+    .io_out_0_bits_status_sd      (_cmdRouter_io_out_0_bits_status_sd),
+    .io_out_0_bits_status_zero2   (_cmdRouter_io_out_0_bits_status_zero2),
+    .io_out_0_bits_status_mpv     (_cmdRouter_io_out_0_bits_status_mpv),
+    .io_out_0_bits_status_gva     (_cmdRouter_io_out_0_bits_status_gva),
+    .io_out_0_bits_status_mbe     (_cmdRouter_io_out_0_bits_status_mbe),
+    .io_out_0_bits_status_sbe     (_cmdRouter_io_out_0_bits_status_sbe),
+    .io_out_0_bits_status_sxl     (_cmdRouter_io_out_0_bits_status_sxl),
+    .io_out_0_bits_status_uxl     (_cmdRouter_io_out_0_bits_status_uxl),
+    .io_out_0_bits_status_sd_rv32 (_cmdRouter_io_out_0_bits_status_sd_rv32),
+    .io_out_0_bits_status_zero1   (_cmdRouter_io_out_0_bits_status_zero1),
+    .io_out_0_bits_status_tsr     (_cmdRouter_io_out_0_bits_status_tsr),
+    .io_out_0_bits_status_tw      (_cmdRouter_io_out_0_bits_status_tw),
+    .io_out_0_bits_status_tvm     (_cmdRouter_io_out_0_bits_status_tvm),
+    .io_out_0_bits_status_mxr     (_cmdRouter_io_out_0_bits_status_mxr),
+    .io_out_0_bits_status_sum     (_cmdRouter_io_out_0_bits_status_sum),
+    .io_out_0_bits_status_mprv    (_cmdRouter_io_out_0_bits_status_mprv),
+    .io_out_0_bits_status_xs      (_cmdRouter_io_out_0_bits_status_xs),
+    .io_out_0_bits_status_fs      (_cmdRouter_io_out_0_bits_status_fs),
+    .io_out_0_bits_status_mpp     (_cmdRouter_io_out_0_bits_status_mpp),
+    .io_out_0_bits_status_vs      (_cmdRouter_io_out_0_bits_status_vs),
+    .io_out_0_bits_status_spp     (_cmdRouter_io_out_0_bits_status_spp),
+    .io_out_0_bits_status_mpie    (_cmdRouter_io_out_0_bits_status_mpie),
+    .io_out_0_bits_status_ube     (_cmdRouter_io_out_0_bits_status_ube),
+    .io_out_0_bits_status_spie    (_cmdRouter_io_out_0_bits_status_spie),
+    .io_out_0_bits_status_upie    (_cmdRouter_io_out_0_bits_status_upie),
+    .io_out_0_bits_status_mie     (_cmdRouter_io_out_0_bits_status_mie),
+    .io_out_0_bits_status_hie     (_cmdRouter_io_out_0_bits_status_hie),
+    .io_out_0_bits_status_sie     (_cmdRouter_io_out_0_bits_status_sie),
+    .io_out_0_bits_status_uie     (_cmdRouter_io_out_0_bits_status_uie),
+    .io_out_1_ready               (_commandFrontend_io_legacy_ready[1]),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:45:47]
+    .io_out_1_valid               (_cmdRouter_io_out_1_valid),
+    .io_out_1_bits_inst_funct     (_cmdRouter_io_out_1_bits_inst_funct),
+    .io_out_1_bits_inst_rs2       (_cmdRouter_io_out_1_bits_inst_rs2),
+    .io_out_1_bits_inst_rs1       (_cmdRouter_io_out_1_bits_inst_rs1),
+    .io_out_1_bits_inst_xd        (_cmdRouter_io_out_1_bits_inst_xd),
+    .io_out_1_bits_inst_xs1       (_cmdRouter_io_out_1_bits_inst_xs1),
+    .io_out_1_bits_inst_xs2       (_cmdRouter_io_out_1_bits_inst_xs2),
+    .io_out_1_bits_inst_rd        (_cmdRouter_io_out_1_bits_inst_rd),
+    .io_out_1_bits_inst_opcode    (_cmdRouter_io_out_1_bits_inst_opcode),
+    .io_out_1_bits_rs1            (_cmdRouter_io_out_1_bits_rs1),
+    .io_out_1_bits_rs2            (_cmdRouter_io_out_1_bits_rs2),
+    .io_out_1_bits_status_debug   (_cmdRouter_io_out_1_bits_status_debug),
+    .io_out_1_bits_status_cease   (_cmdRouter_io_out_1_bits_status_cease),
+    .io_out_1_bits_status_wfi     (_cmdRouter_io_out_1_bits_status_wfi),
+    .io_out_1_bits_status_isa     (_cmdRouter_io_out_1_bits_status_isa),
+    .io_out_1_bits_status_dprv    (_cmdRouter_io_out_1_bits_status_dprv),
+    .io_out_1_bits_status_dv      (_cmdRouter_io_out_1_bits_status_dv),
+    .io_out_1_bits_status_prv     (_cmdRouter_io_out_1_bits_status_prv),
+    .io_out_1_bits_status_v       (_cmdRouter_io_out_1_bits_status_v),
+    .io_out_1_bits_status_sd      (_cmdRouter_io_out_1_bits_status_sd),
+    .io_out_1_bits_status_zero2   (_cmdRouter_io_out_1_bits_status_zero2),
+    .io_out_1_bits_status_mpv     (_cmdRouter_io_out_1_bits_status_mpv),
+    .io_out_1_bits_status_gva     (_cmdRouter_io_out_1_bits_status_gva),
+    .io_out_1_bits_status_mbe     (_cmdRouter_io_out_1_bits_status_mbe),
+    .io_out_1_bits_status_sbe     (_cmdRouter_io_out_1_bits_status_sbe),
+    .io_out_1_bits_status_sxl     (_cmdRouter_io_out_1_bits_status_sxl),
+    .io_out_1_bits_status_uxl     (_cmdRouter_io_out_1_bits_status_uxl),
+    .io_out_1_bits_status_sd_rv32 (_cmdRouter_io_out_1_bits_status_sd_rv32),
+    .io_out_1_bits_status_zero1   (_cmdRouter_io_out_1_bits_status_zero1),
+    .io_out_1_bits_status_tsr     (_cmdRouter_io_out_1_bits_status_tsr),
+    .io_out_1_bits_status_tw      (_cmdRouter_io_out_1_bits_status_tw),
+    .io_out_1_bits_status_tvm     (_cmdRouter_io_out_1_bits_status_tvm),
+    .io_out_1_bits_status_mxr     (_cmdRouter_io_out_1_bits_status_mxr),
+    .io_out_1_bits_status_sum     (_cmdRouter_io_out_1_bits_status_sum),
+    .io_out_1_bits_status_mprv    (_cmdRouter_io_out_1_bits_status_mprv),
+    .io_out_1_bits_status_xs      (_cmdRouter_io_out_1_bits_status_xs),
+    .io_out_1_bits_status_fs      (_cmdRouter_io_out_1_bits_status_fs),
+    .io_out_1_bits_status_mpp     (_cmdRouter_io_out_1_bits_status_mpp),
+    .io_out_1_bits_status_vs      (_cmdRouter_io_out_1_bits_status_vs),
+    .io_out_1_bits_status_spp     (_cmdRouter_io_out_1_bits_status_spp),
+    .io_out_1_bits_status_mpie    (_cmdRouter_io_out_1_bits_status_mpie),
+    .io_out_1_bits_status_ube     (_cmdRouter_io_out_1_bits_status_ube),
+    .io_out_1_bits_status_spie    (_cmdRouter_io_out_1_bits_status_spie),
+    .io_out_1_bits_status_upie    (_cmdRouter_io_out_1_bits_status_upie),
+    .io_out_1_bits_status_mie     (_cmdRouter_io_out_1_bits_status_mie),
+    .io_out_1_bits_status_hie     (_cmdRouter_io_out_1_bits_status_hie),
+    .io_out_1_bits_status_sie     (_cmdRouter_io_out_1_bits_status_sie),
+    .io_out_1_bits_status_uie     (_cmdRouter_io_out_1_bits_status_uie),
+    .io_out_2_ready               (_commandFrontend_io_legacy_ready[2]),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:45:47]
+    .io_out_2_valid               (_cmdRouter_io_out_2_valid),
+    .io_out_2_bits_inst_funct     (_cmdRouter_io_out_2_bits_inst_funct),
+    .io_out_2_bits_inst_rs2       (_cmdRouter_io_out_2_bits_inst_rs2),
+    .io_out_2_bits_inst_rs1       (_cmdRouter_io_out_2_bits_inst_rs1),
+    .io_out_2_bits_inst_xd        (_cmdRouter_io_out_2_bits_inst_xd),
+    .io_out_2_bits_inst_xs1       (_cmdRouter_io_out_2_bits_inst_xs1),
+    .io_out_2_bits_inst_xs2       (_cmdRouter_io_out_2_bits_inst_xs2),
+    .io_out_2_bits_inst_rd        (_cmdRouter_io_out_2_bits_inst_rd),
+    .io_out_2_bits_inst_opcode    (_cmdRouter_io_out_2_bits_inst_opcode),
+    .io_out_2_bits_rs1            (_cmdRouter_io_out_2_bits_rs1),
+    .io_out_2_bits_rs2            (_cmdRouter_io_out_2_bits_rs2),
+    .io_out_2_bits_status_debug   (_cmdRouter_io_out_2_bits_status_debug),
+    .io_out_2_bits_status_cease   (_cmdRouter_io_out_2_bits_status_cease),
+    .io_out_2_bits_status_wfi     (_cmdRouter_io_out_2_bits_status_wfi),
+    .io_out_2_bits_status_isa     (_cmdRouter_io_out_2_bits_status_isa),
+    .io_out_2_bits_status_dprv    (_cmdRouter_io_out_2_bits_status_dprv),
+    .io_out_2_bits_status_dv      (_cmdRouter_io_out_2_bits_status_dv),
+    .io_out_2_bits_status_prv     (_cmdRouter_io_out_2_bits_status_prv),
+    .io_out_2_bits_status_v       (_cmdRouter_io_out_2_bits_status_v),
+    .io_out_2_bits_status_sd      (_cmdRouter_io_out_2_bits_status_sd),
+    .io_out_2_bits_status_zero2   (_cmdRouter_io_out_2_bits_status_zero2),
+    .io_out_2_bits_status_mpv     (_cmdRouter_io_out_2_bits_status_mpv),
+    .io_out_2_bits_status_gva     (_cmdRouter_io_out_2_bits_status_gva),
+    .io_out_2_bits_status_mbe     (_cmdRouter_io_out_2_bits_status_mbe),
+    .io_out_2_bits_status_sbe     (_cmdRouter_io_out_2_bits_status_sbe),
+    .io_out_2_bits_status_sxl     (_cmdRouter_io_out_2_bits_status_sxl),
+    .io_out_2_bits_status_uxl     (_cmdRouter_io_out_2_bits_status_uxl),
+    .io_out_2_bits_status_sd_rv32 (_cmdRouter_io_out_2_bits_status_sd_rv32),
+    .io_out_2_bits_status_zero1   (_cmdRouter_io_out_2_bits_status_zero1),
+    .io_out_2_bits_status_tsr     (_cmdRouter_io_out_2_bits_status_tsr),
+    .io_out_2_bits_status_tw      (_cmdRouter_io_out_2_bits_status_tw),
+    .io_out_2_bits_status_tvm     (_cmdRouter_io_out_2_bits_status_tvm),
+    .io_out_2_bits_status_mxr     (_cmdRouter_io_out_2_bits_status_mxr),
+    .io_out_2_bits_status_sum     (_cmdRouter_io_out_2_bits_status_sum),
+    .io_out_2_bits_status_mprv    (_cmdRouter_io_out_2_bits_status_mprv),
+    .io_out_2_bits_status_xs      (_cmdRouter_io_out_2_bits_status_xs),
+    .io_out_2_bits_status_fs      (_cmdRouter_io_out_2_bits_status_fs),
+    .io_out_2_bits_status_mpp     (_cmdRouter_io_out_2_bits_status_mpp),
+    .io_out_2_bits_status_vs      (_cmdRouter_io_out_2_bits_status_vs),
+    .io_out_2_bits_status_spp     (_cmdRouter_io_out_2_bits_status_spp),
+    .io_out_2_bits_status_mpie    (_cmdRouter_io_out_2_bits_status_mpie),
+    .io_out_2_bits_status_ube     (_cmdRouter_io_out_2_bits_status_ube),
+    .io_out_2_bits_status_spie    (_cmdRouter_io_out_2_bits_status_spie),
+    .io_out_2_bits_status_upie    (_cmdRouter_io_out_2_bits_status_upie),
+    .io_out_2_bits_status_mie     (_cmdRouter_io_out_2_bits_status_mie),
+    .io_out_2_bits_status_hie     (_cmdRouter_io_out_2_bits_status_hie),
+    .io_out_2_bits_status_sie     (_cmdRouter_io_out_2_bits_status_sie),
+    .io_out_2_bits_status_uie     (_cmdRouter_io_out_2_bits_status_uie),
+    .io_out_3_ready               (_commandFrontend_io_control_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
+    .io_out_3_valid               (_cmdRouter_io_out_3_valid),
+    .io_out_3_bits_inst_funct     (_cmdRouter_io_out_3_bits_inst_funct),
+    .io_out_3_bits_inst_xd        (_cmdRouter_io_out_3_bits_inst_xd),
+    .io_out_3_bits_inst_rd        (_cmdRouter_io_out_3_bits_inst_rd),
+    .io_out_3_bits_rs1            (_cmdRouter_io_out_3_bits_rs1),
+    .io_out_3_bits_rs2            (_cmdRouter_io_out_3_bits_rs2),
+    .io_out_3_bits_status_prv     (_cmdRouter_io_out_3_bits_status_prv),
+    .io_busy                      (_cmdRouter_io_busy)
+  );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
+  SimpleHellaCacheIF dcIF (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
     .clock                           (clock),
     .reset                           (reset),
     .io_requestor_req_ready          (/* unused */),
     .io_requestor_req_valid          (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_addr      (40'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_requestor_req_bits_tag       (9'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_requestor_req_bits_cmd       (5'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
-    .io_requestor_req_bits_size      (3'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/subsystem/HierarchicalElement.scala:55:42, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
+    .io_requestor_req_bits_addr      (40'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_tag       (9'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_cmd       (5'h0),
+    .io_requestor_req_bits_size      (3'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/subsystem/HierarchicalElement.scala:55:42, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :178:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :296:62, :301:25]
     .io_requestor_req_bits_signed    (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_dprv      (2'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
+    .io_requestor_req_bits_dprv      (2'h0),
     .io_requestor_req_bits_dv        (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_phys      (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_no_alloc  (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_no_xcpt   (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_data      (128'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20, generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .io_requestor_req_bits_mask      (16'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_data      (128'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20, generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
+    .io_requestor_req_bits_mask      (16'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
     .io_requestor_resp_valid         (/* unused */),
     .io_requestor_resp_bits_tag      (/* unused */),
     .io_requestor_resp_bits_data_raw (/* unused */),
@@ -2634,7 +2910,7 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_cache_s2_xcpt_pf_st          (_dcacheArb_io_requestor_1_s2_xcpt_pf_st),	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25]
     .io_cache_s2_xcpt_ae_ld          (_dcacheArb_io_requestor_1_s2_xcpt_ae_ld),	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25]
     .io_cache_s2_xcpt_ae_st          (_dcacheArb_io_requestor_1_s2_xcpt_ae_st)	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25]
-  );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
+  );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
   Queue2_RoCCResponse respArb_io_in_0_q (	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
     .clock            (clock),
     .reset            (reset),
@@ -2642,28 +2918,28 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_enq_valid     (_applyOrElse_io_resp_valid),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
     .io_enq_bits_rd   (_applyOrElse_io_resp_bits_rd),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
     .io_enq_bits_data (_applyOrElse_io_resp_bits_data),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
-    .io_deq_ready     (_respArb_io_in_0_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
+    .io_deq_ready     (_respArb_io_in_0_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
     .io_deq_valid     (_respArb_io_in_0_q_io_deq_valid),
     .io_deq_bits_rd   (_respArb_io_in_0_q_io_deq_bits_rd),
     .io_deq_bits_data (_respArb_io_in_0_q_io_deq_bits_data)
   );	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  SimpleHellaCacheIF dcIF_1 (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
+  SimpleHellaCacheIF dcIF_1 (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
     .clock                           (clock),
     .reset                           (reset),
     .io_requestor_req_ready          (/* unused */),
     .io_requestor_req_valid          (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_addr      (40'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_requestor_req_bits_tag       (9'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_requestor_req_bits_cmd       (5'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
-    .io_requestor_req_bits_size      (3'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/subsystem/HierarchicalElement.scala:55:42, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
+    .io_requestor_req_bits_addr      (40'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_tag       (9'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_cmd       (5'h0),
+    .io_requestor_req_bits_size      (3'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/subsystem/HierarchicalElement.scala:55:42, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :178:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :296:62, :301:25]
     .io_requestor_req_bits_signed    (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_dprv      (2'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
+    .io_requestor_req_bits_dprv      (2'h0),
     .io_requestor_req_bits_dv        (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_phys      (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_no_alloc  (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_no_xcpt   (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_data      (128'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20, generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .io_requestor_req_bits_mask      (16'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_data      (128'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20, generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
+    .io_requestor_req_bits_mask      (16'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
     .io_requestor_resp_valid         (/* unused */),
     .io_requestor_resp_bits_tag      (/* unused */),
     .io_requestor_resp_bits_data_raw (/* unused */),
@@ -2692,36 +2968,36 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_cache_s2_xcpt_pf_st          (_dcacheArb_io_requestor_2_s2_xcpt_pf_st),	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25]
     .io_cache_s2_xcpt_ae_ld          (_dcacheArb_io_requestor_2_s2_xcpt_ae_ld),	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25]
     .io_cache_s2_xcpt_ae_st          (_dcacheArb_io_requestor_2_s2_xcpt_ae_st)	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25]
-  );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
+  );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
   Queue2_RoCCResponse respArb_io_in_1_q (	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
     .clock            (clock),
     .reset            (reset),
     .io_enq_ready     (_respArb_io_in_1_q_io_enq_ready),
-    .io_enq_valid     (_applyOrElse_1_io_resp_valid),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-    .io_enq_bits_rd   (_applyOrElse_1_io_resp_bits_rd),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-    .io_enq_bits_data (_applyOrElse_1_io_resp_bits_data),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-    .io_deq_ready     (_respArb_io_in_1_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
+    .io_enq_valid     (_applyOrElse_1_io_resp_valid),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .io_enq_bits_rd   (_applyOrElse_1_io_resp_bits_rd),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .io_enq_bits_data (_applyOrElse_1_io_resp_bits_data),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .io_deq_ready     (_respArb_io_in_1_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
     .io_deq_valid     (_respArb_io_in_1_q_io_deq_valid),
     .io_deq_bits_rd   (_respArb_io_in_1_q_io_deq_bits_rd),
     .io_deq_bits_data (_respArb_io_in_1_q_io_deq_bits_data)
   );	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  SimpleHellaCacheIF dcIF_2 (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
+  SimpleHellaCacheIF dcIF_2 (	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
     .clock                           (clock),
     .reset                           (reset),
     .io_requestor_req_ready          (/* unused */),
     .io_requestor_req_valid          (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_addr      (40'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_requestor_req_bits_tag       (9'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
-    .io_requestor_req_bits_cmd       (5'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
-    .io_requestor_req_bits_size      (3'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/subsystem/HierarchicalElement.scala:55:42, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
+    .io_requestor_req_bits_addr      (40'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_tag       (9'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_cmd       (5'h0),
+    .io_requestor_req_bits_size      (3'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/subsystem/HierarchicalElement.scala:55:42, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :178:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :296:62, :301:25]
     .io_requestor_req_bits_signed    (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_dprv      (2'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:142:65, :170:20, :289:62, :294:25]
+    .io_requestor_req_bits_dprv      (2'h0),
     .io_requestor_req_bits_dv        (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_phys      (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_no_alloc  (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
     .io_requestor_req_bits_no_xcpt   (1'h0),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:166:7]
-    .io_requestor_req_bits_data      (128'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20, generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
-    .io_requestor_req_bits_mask      (16'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
+    .io_requestor_req_bits_data      (128'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20, generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:230:28]
+    .io_requestor_req_bits_mask      (16'h0),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/rocket/Frontend.scala:393:28, generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:278:43, :292:25, generators/rocket-chip/src/main/scala/rocket/PTW.scala:822:19, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:170:20]
     .io_requestor_resp_valid         (/* unused */),
     .io_requestor_resp_bits_tag      (/* unused */),
     .io_requestor_resp_bits_data_raw (/* unused */),
@@ -2750,15 +3026,15 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_cache_s2_xcpt_pf_st          (_dcacheArb_io_requestor_3_s2_xcpt_pf_st),	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25]
     .io_cache_s2_xcpt_ae_ld          (_dcacheArb_io_requestor_3_s2_xcpt_ae_ld),	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25]
     .io_cache_s2_xcpt_ae_st          (_dcacheArb_io_requestor_3_s2_xcpt_ae_st)	// @[generators/rocket-chip/src/main/scala/rocket/HellaCache.scala:292:25]
-  );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:164:24]
+  );	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:178:24]
   Queue2_RoCCResponse respArb_io_in_2_q (	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
     .clock            (clock),
     .reset            (reset),
     .io_enq_ready     (_respArb_io_in_2_q_io_enq_ready),
-    .io_enq_valid     (_applyOrElse_2_io_resp_valid),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-    .io_enq_bits_rd   (_applyOrElse_2_io_resp_bits_rd),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-    .io_enq_bits_data (_applyOrElse_2_io_resp_bits_data),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-    .io_deq_ready     (_respArb_io_in_2_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
+    .io_enq_valid     (_applyOrElse_2_io_resp_valid),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .io_enq_bits_rd   (_applyOrElse_2_io_resp_bits_rd),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .io_enq_bits_data (_applyOrElse_2_io_resp_bits_data),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .io_deq_ready     (_respArb_io_in_2_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
     .io_deq_valid     (_respArb_io_in_2_q_io_deq_valid),
     .io_deq_bits_rd   (_respArb_io_in_2_q_io_deq_bits_rd),
     .io_deq_bits_data (_respArb_io_in_2_q_io_deq_bits_data)
@@ -2904,29 +3180,29 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_fpu_inst                                 (_core_io_fpu_inst),
     .io_fpu_fromint_data                         (_core_io_fpu_fromint_data),
     .io_fpu_fcsr_rm                              (_core_io_fpu_fcsr_rm),
-    .io_fpu_fcsr_flags_valid                     (_fpuOpt_io_fcsr_flags_valid),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-    .io_fpu_fcsr_flags_bits                      (_fpuOpt_io_fcsr_flags_bits),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
+    .io_fpu_fcsr_flags_valid                     (_fpuOpt_io_fcsr_flags_valid),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+    .io_fpu_fcsr_flags_bits                      (_fpuOpt_io_fcsr_flags_bits),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
     .io_fpu_v_sew                                (_core_io_fpu_v_sew),
-    .io_fpu_store_data                           (_fpuOpt_io_store_data),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-    .io_fpu_toint_data                           (_fpuOpt_io_toint_data),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
+    .io_fpu_store_data                           (_fpuOpt_io_store_data),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+    .io_fpu_toint_data                           (_fpuOpt_io_toint_data),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
     .io_fpu_ll_resp_val                          (_core_io_fpu_ll_resp_val),
     .io_fpu_ll_resp_type                         (_core_io_fpu_ll_resp_type),
     .io_fpu_ll_resp_tag                          (_core_io_fpu_ll_resp_tag),
     .io_fpu_ll_resp_data                         (_core_io_fpu_ll_resp_data),
     .io_fpu_valid                                (_core_io_fpu_valid),
-    .io_fpu_fcsr_rdy                             (_fpuOpt_io_fcsr_rdy),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-    .io_fpu_nack_mem                             (_fpuOpt_io_nack_mem),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-    .io_fpu_illegal_rm                           (_fpuOpt_io_illegal_rm),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
+    .io_fpu_fcsr_rdy                             (_fpuOpt_io_fcsr_rdy),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+    .io_fpu_nack_mem                             (_fpuOpt_io_nack_mem),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+    .io_fpu_illegal_rm                           (_fpuOpt_io_illegal_rm),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
     .io_fpu_killx                                (_core_io_fpu_killx),
     .io_fpu_killm                                (_core_io_fpu_killm),
-    .io_fpu_dec_wen                              (_fpuOpt_io_dec_wen),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-    .io_fpu_dec_ren1                             (_fpuOpt_io_dec_ren1),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-    .io_fpu_dec_ren2                             (_fpuOpt_io_dec_ren2),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-    .io_fpu_dec_ren3                             (_fpuOpt_io_dec_ren3),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-    .io_fpu_sboard_set                           (_fpuOpt_io_sboard_set),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-    .io_fpu_sboard_clr                           (_fpuOpt_io_sboard_clr),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-    .io_fpu_sboard_clra                          (_fpuOpt_io_sboard_clra),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:289:62]
-    .io_rocc_cmd_ready                           (_cmdRouter_io_in_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27]
+    .io_fpu_dec_wen                              (_fpuOpt_io_dec_wen),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+    .io_fpu_dec_ren1                             (_fpuOpt_io_dec_ren1),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+    .io_fpu_dec_ren2                             (_fpuOpt_io_dec_ren2),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+    .io_fpu_dec_ren3                             (_fpuOpt_io_dec_ren3),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+    .io_fpu_sboard_set                           (_fpuOpt_io_sboard_set),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+    .io_fpu_sboard_clr                           (_fpuOpt_io_sboard_clr),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+    .io_fpu_sboard_clra                          (_fpuOpt_io_sboard_clra),	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.scala:296:62]
+    .io_rocc_cmd_ready                           (_cmdRouter_io_in_ready),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:167:27]
     .io_rocc_cmd_valid                           (_core_io_rocc_cmd_valid),
     .io_rocc_cmd_bits_inst_funct                 (_core_io_rocc_cmd_bits_inst_funct),
     .io_rocc_cmd_bits_inst_rs2                   (_core_io_rocc_cmd_bits_inst_rs2),
@@ -2963,22 +3239,23 @@ module RocketTile(	// @[generators/rocket-chip/src/main/scala/tile/RocketTile.sc
     .io_rocc_cmd_bits_status_mie                 (_core_io_rocc_cmd_bits_status_mie),
     .io_rocc_cmd_bits_status_sie                 (_core_io_rocc_cmd_bits_status_sie),
     .io_rocc_resp_ready                          (_core_io_rocc_resp_ready),
-    .io_rocc_resp_valid                          (_respArb_io_out_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
-    .io_rocc_resp_bits_rd                        (_respArb_io_out_bits_rd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
-    .io_rocc_resp_bits_data                      (_respArb_io_out_bits_data),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:153:25]
-    .io_rocc_busy                                (_cmdRouter_io_busy | _applyOrElse_io_busy | _applyOrElse_1_io_busy | _applyOrElse_2_io_busy),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :191:21, :208:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:154:27, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:260:{49,95}]
+    .io_rocc_resp_valid                          (_respArb_io_out_valid),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
+    .io_rocc_resp_bits_rd                        (_respArb_io_out_bits_rd),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
+    .io_rocc_resp_bits_data                      (_respArb_io_out_bits_data),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:166:25]
+    .io_rocc_busy                                (_cmdRouter_io_busy | _applyOrElse_io_busy & ~(_commandFrontend_io_stream_owner[0]) | _applyOrElse_1_io_busy & ~(_commandFrontend_io_stream_owner[1]) | _applyOrElse_2_io_busy & ~(_commandFrontend_io_stream_owner[2]) | _commandFrontend_io_transport_busy | _respArb_io_out_valid),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21, :193:21, :212:21, generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63, :166:25, :167:27, generators/rocket-chip/src/main/scala/tile/RocketTile.scala:261:{24,27}, :262:16, :264:{48,62}, :265:67, generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala:43:39]
+    .io_rocc_interrupt                           (_commandFrontend_io_interrupt),	// @[generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala:163:63]
     .io_rocc_csrs_0_sdata                        (_applyOrElse_io_csrs_0_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
     .io_rocc_csrs_1_sdata                        (_applyOrElse_io_csrs_1_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
     .io_rocc_csrs_2_sdata                        (_applyOrElse_io_csrs_2_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
     .io_rocc_csrs_3_sdata                        (_applyOrElse_io_csrs_3_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:177:21]
-    .io_rocc_csrs_4_sdata                        (_applyOrElse_1_io_csrs_0_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-    .io_rocc_csrs_5_sdata                        (_applyOrElse_1_io_csrs_1_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-    .io_rocc_csrs_6_sdata                        (_applyOrElse_1_io_csrs_2_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-    .io_rocc_csrs_7_sdata                        (_applyOrElse_1_io_csrs_3_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:191:21]
-    .io_rocc_csrs_8_sdata                        (_applyOrElse_2_io_csrs_0_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-    .io_rocc_csrs_9_sdata                        (_applyOrElse_2_io_csrs_1_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-    .io_rocc_csrs_10_sdata                       (_applyOrElse_2_io_csrs_2_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
-    .io_rocc_csrs_11_sdata                       (_applyOrElse_2_io_csrs_3_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:208:21]
+    .io_rocc_csrs_4_sdata                        (_applyOrElse_1_io_csrs_0_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .io_rocc_csrs_5_sdata                        (_applyOrElse_1_io_csrs_1_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .io_rocc_csrs_6_sdata                        (_applyOrElse_1_io_csrs_2_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .io_rocc_csrs_7_sdata                        (_applyOrElse_1_io_csrs_3_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:193:21]
+    .io_rocc_csrs_8_sdata                        (_applyOrElse_2_io_csrs_0_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .io_rocc_csrs_9_sdata                        (_applyOrElse_2_io_csrs_1_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .io_rocc_csrs_10_sdata                       (_applyOrElse_2_io_csrs_2_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
+    .io_rocc_csrs_11_sdata                       (_applyOrElse_2_io_csrs_3_sdata),	// @[fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala:212:21]
     .io_wfi                                      (_core_io_wfi),
     .io_vector_status_dv                         (_core_io_vector_status_dv),
     .io_vector_status_prv                        (_core_io_vector_status_prv),

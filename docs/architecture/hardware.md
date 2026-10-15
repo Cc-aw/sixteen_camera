@@ -13,6 +13,9 @@ flowchart LR
     Video --> Tensor[Tensor DMA / TensorIngress]
     Tensor --> L2[MemoryParallelV3 双 bank L2]
     CPU[Rocket + RVV] --> L2
+    CPU -->|custom3 控制| FE[三路自主命令前端 / FIFO8]
+    FE -->|取表 / 本路 DMA 仲裁| L2
+    FE -->|命令 / 所有权| G
     G[3 × Gemmini32] <--> L2
     L2 <--> DDR[512-bit DDR 出口]
     G --> Head[Head publication / URAM]
@@ -20,7 +23,7 @@ flowchart LR
     PPU --> Display
 ```
 
-SoC 为 100 MHz，三路 DIM32 Gemmini 均启用当前 MaxPool，native opcode 为 custom3/custom2/custom1。
+SoC 目标为 100 MHz，三路 DIM32 Gemmini 均启用当前 MaxPool。按照既有逻辑 worker 0/1/2，native opcode 改为 custom2/custom1/custom0，前端 lane 为 2/1/0；custom3 保留为前端控制。CSR 与 SLR 对应关系不变。详见 [命令前端](command-frontend.md)。V33 独立基准按物理 lane0/1/2 运行，实时 v26 Runtime 尚未适配。
 MemoryParallelV3 保持双 bank、512 KiB L2、512-bit/ID2 内存出口；Tensor 为 256-bit/ID5 AXI 入口，统计 ABI 为 1.1。
 cache 五通道寄存队列、registered secondary pool、refill reload 和 Head/PPU 通道均继承现有实现。
 

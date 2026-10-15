@@ -1,5 +1,9 @@
 # 当前交付与验收
 
+V33 独立三图前端基准已移植，正式/诊断版验收见 [V33 记录](v33-frontend.md)。当前实时 Runtime 仍未适配；下文硬件阶段与单版本重构表均保留为各自阶段记录。
+
+本轮硬件接入三路自主命令前端，软件按用户要求保持不变。下方重构验收表属于前端移植前的基线，不能作为当前软硬件配对或当前实现时序的证明。前端本轮结果见 [前端移植验收](command-frontend.md)，接口见 [前端架构](../architecture/command-frontend.md)。
+
 日期：2026-10-15。唯一身份为 `triple32_v3_tensor` + YOLOv5nu v26，
 3 × DIM32、100 MHz、credit=4、hardware SAFE_MAX=4；十六路视频完整保留。
 真实路径见 [交付清单](../../hw/manifests/current.json)。

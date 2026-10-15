@@ -12,7 +12,11 @@ assert re.search(r'input\s+\[255:0\]\s+axi4_fbus_w_bits_data',top)
 assert 'inst_jtag_tunnel' in read('ChipTop.sv')
 workers=re.findall(r'^  Gemmini(?:_\d+)?\s+\w+\s*\(',read('RocketTile.sv'),re.M)
 assert len(workers)==count,(len(workers),count)
-assert 'RegisteredIngressAtomicReserve' in read('RoccCommandRouter.sv')
+if (r/'CommandFrontendCluster.sv').is_file():
+    assert 'RegisteredIngressAtomicReserve' not in read('RoccCommandRouter.sv')
+    assert 'CommandFrontendCluster' in read('RocketTile.sv')
+else:
+    assert 'RegisteredIngressAtomicReserve' in read('RoccCommandRouter.sv')
 assert 'NUM_READ_PORTS(64)' in read('AccumulatorScale.sv')
 for name in ['AccScalePipe.sv','ScalePipe.sv']:assert 'MulRawFN' in read(name)
 assert 'responseQueue' in read('StreamReader.sv')

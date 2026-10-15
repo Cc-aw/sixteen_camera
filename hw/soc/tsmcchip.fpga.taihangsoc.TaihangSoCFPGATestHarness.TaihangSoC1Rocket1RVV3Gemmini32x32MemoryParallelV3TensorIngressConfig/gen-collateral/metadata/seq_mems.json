@@ -266,21 +266,6 @@
     ]
   },
   {
-    "module_name": "ram_ext",
-    "depth": 2,
-    "width": 2121,
-    "masked": false,
-    "read": 1,
-    "write": 1,
-    "readwrite": 0,
-    "extra_ports": [],
-    "hierarchy": [
-      "ChipTop.system.tile_prci_domain.element_reset_domain_rockettile.cmdRouter.paths_2.stream.ram.ram_ext",
-      "ChipTop.system.tile_prci_domain.element_reset_domain_rockettile.cmdRouter.paths_1.stream.ram.ram_ext",
-      "ChipTop.system.tile_prci_domain.element_reset_domain_rockettile.cmdRouter.paths_0.stream.ram.ram_ext"
-    ]
-  },
-  {
     "module_name": "mem_1_ext",
     "depth": 1024,
     "width": 512,

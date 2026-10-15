@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-15",
+  "scope": "hardware only",
+  "baseline_commit": "ad356e4",
+  "config": "TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig",
+  "workspace": "/tmp/sixteen-camera-command-frontend-chipyard",
+  "source_import": "hw/soc/source/command_frontend/IMPORT_MANIFEST.json",
+  "generated_collateral_files": 784,
+  "firmware_compatibility": "pending_frontend_port",
+  "software_changed": false,
+  "board_rtl_constraints_ip_changed": false,
+  "donor_frontend_rtl_byte_identical": 4,
+  "tests": {
+    "full_scala_generation": "PASS",
+    "structure_and_production_manifest": "PASS",
+    "dependency_sources_and_tools": "PASS (firmware dependency closure explicitly deferred)",
+    "frontend_cycle_equivalence_engine_cluster_memory": "PASS",
+    "frontend_memory_widths": "PASS",
+    "frontend_real_dim32_fp16_three_workers": "PASS",
+    "tensor_ingress_protocol_and_real_l2": "PASS",
+    "firmware_abi_guard": "PASS (expected refusal; no firmware rebuilt)",
+    "vivado_project": "PASS",
+    "vivado_elaborate": "PASS",
+    "other_rtl_and_timing_repair": "PASS",
+    "software_model_board": "NOT_RUN (deferred by user)"
+  },
+  "local_bitstream_implementation_board": "NOT_RUN",
+  "evidence": "build/reports/command_frontend/",
+  "effective_scala_delta": {
+    "added": 4,
+    "changed": 4,
+    "removed": 0,
+    "others": "identical to ad356e4"
+  },
+  "logs_sha256": {
+    "check.log": "b173404fb32a1035d4a6a332fe469a504be98b29801f311bd3b686e8c9a77f38",
+    "dependencies.log": "165122ec47b763fed7b60d0762932e039ff0cd70b60a78ca6c5139b6bd1c0eae",
+    "elaborate.log": "7f98d36b09f3990314f27358f1694df8714ce56ff960a27a3a492720a8298cb6",
+    "final-scope.log": "fd11278e32e4a9909577029e2579817b915c64ec6bb03997380505028cca28c8",
+    "firmware-guard.log": "5b4b974d6d19ad9d8acef3dd236250efbbc1680693cd01a451be46744ce5eb0e",
+    "frontend.log": "847aa42ee6b114eba1aa2154d6a58f1ecacb2ef905efbcb0756878a9c38697b0",
+    "generation.log": "bacaa6758e2523c6393f66cf9b0140b1e2eaebbdcffe525f949f84b92d4685d3",
+    "project.log": "44fe8f45c185cbe5961f7d9d6ad91c1c0e6c0214cf3676035364a9bb325ca53c",
+    "rtl-regressions.log": "6df494191ba2c56b1bceb3f449db2846e52f5e334795f4e6c4e041c3984ba1c4",
+    "structure.log": "7b0a05f2191c31ff99ecf658627fc02948a4a658bc0403b6cdfc00d64421847d",
+    "tensor-ingress.log": "8e7e77777747846628bccce923d10eb34580e74941c330da91aca8ac04060d9f"
+  }
+}

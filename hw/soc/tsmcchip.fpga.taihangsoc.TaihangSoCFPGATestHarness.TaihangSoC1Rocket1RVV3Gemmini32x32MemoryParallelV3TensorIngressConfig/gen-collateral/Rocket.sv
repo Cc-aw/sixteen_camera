@@ -287,6 +287,7 @@ module Rocket(	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scal
   input  [4:0]   io_rocc_resp_bits_rd,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   input  [63:0]  io_rocc_resp_bits_data,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   input          io_rocc_busy,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
+  input          io_rocc_interrupt,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   input  [63:0]  io_rocc_csrs_0_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   input  [63:0]  io_rocc_csrs_1_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
   input  [63:0]  io_rocc_csrs_2_sdata,	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:138:14]
@@ -1749,6 +1750,7 @@ module Rocket(	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scal
     .io_fcsr_rm                                  (_csr_io_fcsr_rm),
     .io_fcsr_flags_valid                         (io_fpu_fcsr_flags_valid | io_vector_set_fflags_valid),	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:879:54]
     .io_fcsr_flags_bits                          (io_fpu_fcsr_flags_bits & {5{io_fpu_fcsr_flags_valid}} | io_vector_set_fflags_bits & {5{io_vector_set_fflags_valid}}),	// @[generators/rocket-chip/src/main/scala/rocket/RocketCore.scala:880:{53,59,89,110,116}]
+    .io_rocc_interrupt                           (io_rocc_interrupt),
     .io_interrupt                                (_csr_io_interrupt),
     .io_interrupt_cause                          (_csr_io_interrupt_cause),
     .io_bp_0_control_action                      (_csr_io_bp_0_control_action),

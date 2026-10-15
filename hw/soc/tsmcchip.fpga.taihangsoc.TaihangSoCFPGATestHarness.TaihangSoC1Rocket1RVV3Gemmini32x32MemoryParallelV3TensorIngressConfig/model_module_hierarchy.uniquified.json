@@ -52174,6 +52174,39 @@
                       ]
                     },
                     {
+                      "instance_name": "commandFrontendMemory",
+                      "module_name": "CommandFrontendTL",
+                      "instances": [
+                        {
+                          "instance_name": "mux",
+                          "module_name": "CommandFrontendMemoryMux",
+                          "instances": []
+                        }
+                      ]
+                    },
+                    {
+                      "instance_name": "commandFrontendMemory_1",
+                      "module_name": "CommandFrontendTL",
+                      "instances": [
+                        {
+                          "instance_name": "mux",
+                          "module_name": "CommandFrontendMemoryMux",
+                          "instances": []
+                        }
+                      ]
+                    },
+                    {
+                      "instance_name": "commandFrontendMemory_2",
+                      "module_name": "CommandFrontendTL",
+                      "instances": [
+                        {
+                          "instance_name": "mux",
+                          "module_name": "CommandFrontendMemoryMux",
+                          "instances": []
+                        }
+                      ]
+                    },
+                    {
                       "instance_name": "frontend",
                       "module_name": "Frontend",
                       "instances": [
@@ -54751,6 +54784,27 @@
                       ]
                     },
                     {
+                      "instance_name": "commandFrontend",
+                      "module_name": "CommandFrontendCluster",
+                      "instances": [
+                        {
+                          "instance_name": "engines_0",
+                          "module_name": "CommandFrontendEngine",
+                          "instances": []
+                        },
+                        {
+                          "instance_name": "engines_1",
+                          "module_name": "CommandFrontendEngine",
+                          "instances": []
+                        },
+                        {
+                          "instance_name": "engines_2",
+                          "module_name": "CommandFrontendEngine",
+                          "instances": []
+                        }
+                      ]
+                    },
+                    {
                       "instance_name": "respArb",
                       "module_name": "RRArbiter_220",
                       "instances": []
@@ -54760,71 +54814,13 @@
                       "module_name": "RoccCommandRouter",
                       "instances": [
                         {
-                          "instance_name": "paths_0",
-                          "module_name": "RegisteredIngressAtomicReserve",
+                          "instance_name": "queued_q",
+                          "module_name": "Queue2_RoCCCommand",
                           "instances": [
                             {
-                              "instance_name": "stream",
-                              "module_name": "Queue2_StreamItem",
-                              "instances": [
-                                {
-                                  "instance_name": "ram",
-                                  "module_name": "ram",
-                                  "instances": [
-                                    {
-                                      "instance_name": "ram_ext",
-                                      "module_name": "ram_ext",
-                                      "instances": []
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          "instance_name": "paths_1",
-                          "module_name": "RegisteredIngressAtomicReserve",
-                          "instances": [
-                            {
-                              "instance_name": "stream",
-                              "module_name": "Queue2_StreamItem",
-                              "instances": [
-                                {
-                                  "instance_name": "ram",
-                                  "module_name": "ram",
-                                  "instances": [
-                                    {
-                                      "instance_name": "ram_ext",
-                                      "module_name": "ram_ext",
-                                      "instances": []
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        {
-                          "instance_name": "paths_2",
-                          "module_name": "RegisteredIngressAtomicReserve",
-                          "instances": [
-                            {
-                              "instance_name": "stream",
-                              "module_name": "Queue2_StreamItem",
-                              "instances": [
-                                {
-                                  "instance_name": "ram",
-                                  "module_name": "ram",
-                                  "instances": [
-                                    {
-                                      "instance_name": "ram_ext",
-                                      "module_name": "ram_ext",
-                                      "instances": []
-                                    }
-                                  ]
-                                }
-                              ]
+                              "instance_name": "ram_ext",
+                              "module_name": "ram_2x265",
+                              "instances": []
                             }
                           ]
                         }

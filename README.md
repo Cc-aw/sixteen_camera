@@ -1,21 +1,21 @@
 # sixteen_camera
 
-Xilinx VU13P 十六路视频与 AI 平台。当前唯一交付为 `triple32_v3_tensor`：1 Rocket、1 RVV、3 × Gemmini32，100 MHz，配合 YOLOv5nu v26 三 worker、credit=4。
+Xilinx VU13P 十六路视频与 AI 平台。当前唯一硬件为 `triple32_v3_tensor`：1 Rocket、1 RVV、3 × Gemmini32，目标 100 MHz，含三路自主命令前端。
 八路 OV7670 与 HDMI 封装的八路图像共组成十六路视频，保留采集、DDR、TensorIngress、Head/PPU 和 1080p60 显示叠加。
 
-实时视频与 image025/036/142 三图基准共用模型源码、生成器、权重和 ABI。交付身份及真实路径由 [current.json](hw/manifests/current.json) 记录，生产构建拒绝退休配置或不匹配参数。
+Gemmini 使用 custom0/1/2，custom3 用于前端控制。当前已接入 [V33 独立三图基准](sw/benchmarks/frontend/README.md)，包含正式版及 V33 诊断版。实时 v26 Runtime 尚未适配新 ABI，视频固件入口仍拒绝旧组合。硬件实现与接口见 [命令前端](docs/architecture/command-frontend.md)。
 
 ```bash
 make help
 make check-deps
-make firmware
 make benchmark
-make test-software
+make test-v33
+make test-frontend SOC_WORKSPACE=<已生成工作区>
 ```
 
 先配置 `tools/config/tools.local.mk`，工具和构建顺序见 [快速开始](docs/quickstart.md)。
 硬件入口为 [hw/](hw/README.md)，软件入口为 [sw/](sw/README.md)，模型入口为 [YOLOv5nu](sw/models/yolov5nu/README.md)，完整导航见 [docs/](docs/README.md)。
-视频 ELF 位于 `build/firmware/video/video.elf`，基准 ELF 位于 `build/firmware/benchmark/benchmark.elf`。
+V33 基准正式/诊断 ELF 位于 `build/firmware/frontend/`；`build/firmware/video/video.elf` 保留为尚未适配的实时固件。
 
 `make soc SOC_REFERENCE=<Chipyard> SOC_WORKSPACE=<新目录>` 使用独立源码副本生成当前 SoC；`make project`、`make elaborate`、`make bitstream` 分别创建工程、检查 elaboration 和实现硬件。
 `make test-rtl SOC_WORKSPACE=<已生成工作区>` 运行 RTL 聚合回归；`make help-tests` 列出定向测试。

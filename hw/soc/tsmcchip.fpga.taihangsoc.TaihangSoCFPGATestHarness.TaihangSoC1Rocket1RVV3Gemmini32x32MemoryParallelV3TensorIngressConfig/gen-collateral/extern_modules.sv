@@ -43,7 +43,5 @@
 
 // external module rockettile_icache_data_arrays_0_ext
 
-// external module ram_ext
-
 // external module mem_1_ext
 

@@ -1,5 +1,11 @@
 # 当前验证集合
 
+`make test-v33` 验证当前独立 V33 前端软件：本地建表/原生 oracle、实际调度函数的假设备回归、原生PPU生命周期、10项日志契约和两份ELF；不包含实时 Runtime 适配或 V34。
+
+实时 Runtime 尚未适配，以下 v26 模型/固件测试保留为迁移前基线，不能作为新 ABI 的软件验收。
+`make test-frontend SOC_WORKSPACE=<已完整生成的工作区>` 覆盖引擎/cluster/mux 逐周期对照、33 位地址/64 source 仲裁和三路实际 DIM32/FP16 计算。
+`test-frontend-memory`、`test-frontend-compute` 可独立使用当前生成 RTL；只有逐周期对照需要重建工作区内的 Scala assembly。
+
 `make test-software` 聚合 `tests/model/yolov5nu/` 原生模型回归和全部 `tests/host/run_*_test.sh`，
 覆盖应用、Facade、Backend、设备 HAL、ownership、scheduler、fault、timeout、drain/restart 和稀疏 worker。
 原 R0–R5 冻结事件、版本/回收轨迹和单/双活跃 worker 场景继续保留。

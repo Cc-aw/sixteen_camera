@@ -18,7 +18,8 @@ def main():
     failures = []
     snapshots = []
     for name in ['sw/third_party/sources.lock.json', 'sw/models/yolov5nu/sources.lock.json',
-                 'sw/third_party/gemmini/sources.lock.json']:
+                 'sw/third_party/gemmini/sources.lock.json',
+                 'sw/models/yolov5nu/frozen/frontend_v33/sources.lock.json']:
         snapshots.extend(json.loads((ROOT / name).read_text())['sources'])
     shell = json.loads((ROOT / 'hw/soc/source/shell/IMPORT_MANIFEST.json').read_text())
     snapshots.extend({'path': path, 'sha256': digest} for path, digest in shell['sha256'].items())
@@ -27,6 +28,12 @@ def main():
                      for item in hardware['files'])
     snapshots.extend({'path': item['destination'], 'sha256': item['imported_sha256']}
                      for item in hardware.get('timing_repair', {}).get('files', []))
+    frontend = json.loads((ROOT / 'hw/soc/source/command_frontend/IMPORT_MANIFEST.json').read_text())
+    snapshots.extend({'path': item['destination'], 'sha256': item['sha256']}
+                     for item in frontend['files'])
+    v33 = json.loads((ROOT / 'sw/benchmarks/frontend/IMPORT_MANIFEST.json').read_text())
+    snapshots.extend({'path': item['destination'], 'sha256': item['sha256']}
+                     for item in v33['files'])
     for item in snapshots:
         path = ROOT / item['path']
         if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != item['sha256']:
@@ -36,6 +43,9 @@ def main():
     product = json.loads((ROOT / 'hw/manifests/current.json').read_text())
     depfiles = [p for key in ('video_build', 'benchmark_build')
                 for p in (ROOT / product[key]).rglob('*.d')]
+    if product['firmware_compatibility']['status'] != 'ready':
+        print('VIDEO_RUNTIME_DEPENDENCIES=NOT_CHECKED (Runtime migration deferred)')
+        depfiles = list((ROOT / product['benchmark_build']).rglob('*.d'))
     for depfile in depfiles:
         for word in depfile.read_text().replace('\\\n', ' ').split():
             if word.endswith(':'):

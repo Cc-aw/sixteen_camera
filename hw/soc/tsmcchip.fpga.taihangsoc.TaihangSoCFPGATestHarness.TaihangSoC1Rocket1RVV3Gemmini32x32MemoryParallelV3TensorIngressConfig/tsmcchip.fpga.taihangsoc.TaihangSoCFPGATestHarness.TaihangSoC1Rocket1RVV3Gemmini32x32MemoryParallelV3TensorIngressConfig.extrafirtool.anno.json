@@ -5,10 +5,10 @@
 	},
 	{
 		"class": "sifive.enterprise.firrtl.TestHarnessHierarchyAnnotation",
-		"filename": "/tmp/sixteen-camera-single-version-chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/model_module_hierarchy.json"
+		"filename": "/tmp/sixteen-camera-command-frontend-chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/model_module_hierarchy.json"
 	},
 	{
 		"class": "sifive.enterprise.firrtl.ModuleHierarchyAnnotation",
-		"filename": "/tmp/sixteen-camera-single-version-chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/top_module_hierarchy.json"
+		"filename": "/tmp/sixteen-camera-command-frontend-chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/top_module_hierarchy.json"
 	}
 ]

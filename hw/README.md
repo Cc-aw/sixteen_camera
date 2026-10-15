@@ -4,6 +4,8 @@
 保留十六路视频采集、TensorIngress、双 bank L2、DDR、Head/PPU 与显示叠加。
 交付身份及实际生成目录见 [current.json](manifests/current.json)。
 
+当前 SoC 已接入三路自主命令前端，保留 TensorIngress/MemoryParallelV3/MaxPool。custom3 为控制，Gemmini 使用 custom0/1/2。[V33 独立基准](../sw/benchmarks/frontend/README.md)已移植，实时 Runtime 尚未适配。实现与重新生成说明见 [命令前端](../docs/architecture/command-frontend.md)，硬件测试见 [验收记录](../docs/validation/command-frontend.md)。
+
 - `rtl/`：手写板级集成；入口 `rtl/top_wrapper.sv`，生产闭包由 `manifests/rtl_manifest.tcl` 列出。
 - [soc/](soc/README.md)：SoC 生成源码、冻结依赖和唯一导出。
 - `constraints/`：板级及 CDC/实现约束；保持既有层级和时序策略。

@@ -24,12 +24,14 @@ export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD
 .PHONY: help check firmware firmware-benchmark bitstream elaborate test-tensor test-tensor-ingress test-cache test-ppu test-video test-runtime test-software
 help:
 	@printf '%s\n' \
-	  'Current product: triple32_v3_tensor + YOLOv5nu v26 (3x32, credit=4)' \
+	  'Current hardware: triple32_v3_tensor + autonomous command frontend (3x32)' \
+	  'Standalone benchmark: V33 frontend; realtime v26 Runtime adaptation pending' \
 	  'make check / check-deps    Validate production identity, sources and tools' \
 	  'make soc SOC_REFERENCE=<ref> SOC_WORKSPACE=<new>  Generate the current SoC' \
 	  'make project / elaborate / bitstream  Reconstruct and build hardware' \
-	  'make firmware             Build current video firmware' \
-	  'make benchmark            Build the shared v26 three-image benchmark' \
+	  'make benchmark            Build V33 formal and diagnostic frontend ELFs' \
+	  'make test-v33 / check-v33-firmware  Check V33 plans, scheduler, PPU, logs and ELFs' \
+	  'make firmware             Realtime Runtime adaptation required' \
 	  'make test-software         Run host and model regressions' \
 	  'make test-rtl              Run RTL regressions (SoC workspace required)' \
 	  'make program-bitstream / program  Load matching hardware / ELF' \
@@ -39,7 +41,16 @@ help:
 .PHONY: help-tests soc benchmark test-model test-rtl
 soc: soc-triple32-v3-tensor
 benchmark: firmware-benchmark
-test-rtl: test-video test-video-pipeline test-tensor test-tensor-ingress test-memory-v3 test-ppu test-cache
+test-rtl: test-video test-video-pipeline test-tensor test-tensor-ingress test-memory-v3 test-ppu test-cache test-frontend
+
+.PHONY: test-frontend test-frontend-equivalence test-frontend-memory test-frontend-compute
+test-frontend: test-frontend-equivalence test-frontend-memory test-frontend-compute
+test-frontend-equivalence:
+	SOC_WORKSPACE="$(SOC_WORKSPACE)" python3 tests/rtl/command_frontend/test_equivalence.py
+test-frontend-memory:
+	python3 tests/rtl/command_frontend/test_memory_widths.py
+test-frontend-compute:
+	VIVADO_BIN="$(VIVADO_BIN)" python3 tests/rtl/command_frontend/test_real_gemmini.py
 help-tests:
 	@printf '%s\n' \
 	  'Software: test-software test-host test-model test-v26 check-v26-firmware' \
@@ -49,6 +60,7 @@ help-tests:
 	  'Layer traces: test-runtime-r3 test-runtime-r4a test-runtime-r4b test-runtime-r5' \
 	  'RTL: test-rtl test-video test-video-pipeline test-tensor test-tensor-ingress test-memory-v3 test-ppu test-cache' \
 	  'Timing repair: test-v3-timing-repair SOC_WORKSPACE=<rebuilt-workspace>' \
+	  'Frontend: test-frontend SOC_WORKSPACE=<rebuilt-workspace> (equivalence, memory widths, real DIM32 compute)' \
 	  'Details and prerequisites: tests/README.md'
 
 .PHONY: project
@@ -63,16 +75,28 @@ check:
 	@python3 tools/check/check_current_product.py
 
 firmware: check
+	@python3 tools/check/check_current_product.py --firmware
 	@test -z "$(SOC_CONFIG)" || { echo 'SOC_CONFIG selects hardware only; use SOC_VARIANT with a matching firmware ABI'; exit 2; }
 	@case "$(SOC_VARIANT)" in triple32_v3_tensor) ;; *) echo 'Firmware needs a supported SOC_VARIANT'; exit 2 ;; esac
 	cd "$(PROJECT_ROOT)" && python3 tools/build/build_$(SOC_VARIANT)_video_yolov5nu.py
 
 .PHONY: check-v26-firmware test-v26
 check-v26-firmware:
+	@python3 tools/check/check_current_product.py --firmware
 	python3 tools/check/check_firmware.py
 
 firmware-benchmark: check
-	$(MAKE) -C sw/benchmarks/triple_infer all
+	@python3 tools/check/check_current_product.py --benchmark
+	$(MAKE) -C sw/benchmarks/frontend all
+
+.PHONY: test-v33 check-v33-firmware program-benchmark
+test-v33: check
+	$(MAKE) -C sw/benchmarks/frontend check
+check-v33-firmware: check
+	$(MAKE) -C sw/benchmarks/frontend audit
+	python3 -B sw/benchmarks/frontend/scripts/manifest.py --check
+program-benchmark:
+	bash sw/benchmarks/frontend/download.sh $(PROGRAM_ARGS)
 
 test-model:
 	$(MAKE) -C sw/benchmarks/triple_infer check
@@ -186,6 +210,7 @@ outputs:
 
 .PHONY: program check-deps
 program:
+	@python3 tools/check/check_current_product.py --firmware
 	cd "$(PROJECT_ROOT)" && VIDEO_VARIANT="$(SOC_VARIANT)" bash tools/program/run_firmware.sh $(PROGRAM_ARGS)
 
 check-deps: check

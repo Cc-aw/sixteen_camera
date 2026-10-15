@@ -403,6 +403,8 @@ Scratchpad_1.sv
 Gemmini_1.sv
 Scratchpad_2.sv
 Gemmini_2.sv
+CommandFrontendMemoryMux.sv
+CommandFrontendTL.sv
 ICache.sv
 ShiftQueue.sv
 PMPChecker_s2.sv
@@ -591,9 +593,11 @@ Arbiter2_Valid_PTWReq.sv
 OptimizationBarrier_UInt.sv
 OptimizationBarrier_PTE.sv
 PTW.sv
+CommandFrontendEngine.sv
+CommandFrontendCluster.sv
 RRArbiter_220.sv
-Queue2_StreamItem.sv
-RegisteredIngressAtomicReserve.sv
+ram_2x265.sv
+Queue2_RoCCCommand.sv
 RoccCommandRouter.sv
 ram_2x69.sv
 Queue2_RoCCResponse.sv
@@ -759,5 +763,4 @@ rockettile_icache_data_arrays_4.sv
 rockettile_icache_data_arrays_5.sv
 rockettile_icache_data_arrays_6.sv
 rockettile_icache_data_arrays_7.sv
-ram.sv
 mem_1.sv

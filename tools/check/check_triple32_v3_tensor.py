@@ -24,7 +24,20 @@ assert not re.search(r"\bspi_", top)
 cache = (rtl / "InclusiveCache.sv").read_text()
 assert len(re.findall(r"^  InclusiveCacheBankScheduler(?:_\d+)?\s+\w+\s*\(", cache, re.M)) == 2
 assert (rtl / "TaihangTensorIngress.sv").is_file()
-assert "replay_release" in (rtl / "RoccCommandRouter.sv").read_text()
+router = (rtl / "RoccCommandRouter.sv").read_text()
+assert "replay_release" not in router and "RegisteredIngressAtomicReserve" not in router
+for lane, opcode in enumerate(("B", "2B", "5B", "7B")):
+    assert re.search(rf"matches_{lane}\s*=\s*\w+\s*==\s*7'h{opcode}\b", router), (lane, opcode)
+tile = (rtl / "RocketTile.sv").read_text()
+assert len(re.findall(r"^  CommandFrontendCluster\s+\w+\s*\(", tile, re.M)) == 1
+assert len(re.findall(r"^  CommandFrontendTL(?:_\d+)?\s+\w+\s*\(", tile, re.M)) == 3
+assert len(re.findall(r"^  CommandFrontendEngine\s+\w+\s*\(",
+                      (rtl / "CommandFrontendCluster.sv").read_text(), re.M)) == 3
+busy = re.search(r"\.io_rocc_busy\s+\(([^\n]+)", tile)[1]
+assert all(f"~(_commandFrontend_io_stream_owner[{lane}])" in busy for lane in range(3))
+assert "_commandFrontend_io_transport_busy" in busy and "_respArb_io_out_valid" in busy
+assert re.search(r"\.io_rocc_interrupt\s+\(_commandFrontend_io_interrupt\)", tile)
+assert len(re.findall(r"\.io_loopconv_request_accept\s+\([^\n]+== 7'hF\)", tile)) == 3
 divider = (rtl / "IterativeIntegerDivider.sv").read_text()
 assert "requestCapturePending" in divider and "requestIn1" in divider
 metadata = list(rtl.parent.glob("*.l2.json"))
@@ -39,6 +52,7 @@ for index, bank in enumerate(banks):
 assert sum(bank["ways"] * (1 << len(bank["setBits"])) * bank["blockBytes"] for bank in banks) == 524288
 headers = list((rtl / "include").glob("gemmini_params_32x32*custom*_xcvu13p.h"))
 assert len(headers) == 3, "Expected three newly generated worker parameter headers"
+assert {re.search(r"custom(\d)", p.name)[1] for p in headers} == {"0", "1", "2"}
 for channel, module in zip("ABCDE", ("SinkA", "SourceB", "SinkC", "SourceD", "SinkE")):
     body = (rtl / f"{module}.sv").read_text()
     queues = re.findall(r"^  (Queue2_TLBundle" + channel + r"_\S+)\s+\w+\s*\(", body, re.M)
@@ -70,4 +84,4 @@ for name in ("Gemmini", "Gemmini_1", "Gemmini_2"):
         assert f"loops_{slot}_no_pool <= _cmd_q_io_deq_bits_cmd_rs2[0]" in loop_body
 perf = (rtl / "MemoryParallelPerf.sv").read_text()
 assert "4d50563300010001" in perf.lower(), "Tensor memory statistics ABI 1.1 is missing"
-print("TRIPLE32_V3_TENSOR_STRUCTURE=PASS memory=512/2 tensor=256/5 banks=2 workers=3 MaxPool=3 full_inner_buffers=5 registered_secondary_pool=34x102 grouped_scheduler=on stats_ABI=1.1")
+print("TRIPLE32_V3_TENSOR_STRUCTURE=PASS frontend=3 control=custom3 direct=custom0/1/2 memory=512/2 tensor=256/5 banks=2 workers=3 MaxPool=3 full_inner_buffers=5 registered_secondary_pool=34x102 grouped_scheduler=on stats_ABI=1.1")

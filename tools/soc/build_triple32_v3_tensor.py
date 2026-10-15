@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SHELL = ROOT / "hw/soc/source/shell"
 BASE = SHELL / "npu100_video"
 V3 = SHELL / "memory_parallel_v3"
+FRONTEND = ROOT / "hw/soc/source/command_frontend"
 CONFIG = "TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig"
 NAME = "tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness." + CONFIG
 
@@ -33,10 +34,14 @@ def validate_workspace_sources(workspace):
          Path("fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram")),
         (V3 / "chipyard", Path(".")),
         (V3 / "scala", Path("fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram")),
+        (FRONTEND / "integration", Path(".")),
+        (FRONTEND / "scala", Path("generators/rocket-chip/src/main/scala/tile/commandfrontend")),
     ]:
         for path in source.rglob("*"):
             if path.is_file():
                 expected[str(destination / path.relative_to(source))] = path
+    expected.pop("generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendConfig.scala")
+    expected["fpga/src/main/scala/taihang_soc/CommandFrontendConfig.scala"] = FRONTEND / "scala/CommandFrontendConfig.scala"
     expected["fpga/src/main/scala/taihang_soc/TensorIngress.scala"] = (
         ROOT / "hw/soc/source/tensor_ingress/TensorIngress.scala")
     expected["fpga/src/main/scala/taihang_soc/Npu100Video.scala"] = (
@@ -73,7 +78,8 @@ def prepare(reference, workspace):
   .settings(Compile / unmanagedSources ~= (_.filter { f =>
     f.getPath.contains("/xcvu13p_gemmini_32x32_packed_inference_ram/") ||
     f.getPath.endsWith("/taihang_soc/Npu100Video.scala") ||
-    f.getPath.endsWith("/taihang_soc/TensorIngress.scala")
+    f.getPath.endsWith("/taihang_soc/TensorIngress.scala") ||
+    f.getPath.endsWith("/taihang_soc/CommandFrontendConfig.scala")
   }))''')
     needle = '      }.filter(_.exists)\n  )'
     if text.count(needle) != 1:
@@ -98,6 +104,11 @@ def prepare(reference, workspace):
     for path in (V3 / "scala").glob("*.scala"):
         shutil.copy2(path, package)
     shutil.copy2(ROOT / "hw/soc/source/tensor_ingress/TensorIngress.scala", taihang)
+    shutil.copytree(FRONTEND / "integration", workspace, dirs_exist_ok=True)
+    frontend_package = workspace / "generators/rocket-chip/src/main/scala/tile/commandfrontend"
+    frontend_package.mkdir(parents=True, exist_ok=True)
+    for path in (FRONTEND / "scala").glob("*.scala"):
+        shutil.copy2(path, taihang if path.name == "CommandFrontendConfig.scala" else frontend_package)
     (workspace / ".triple32-v3-tensor.json").write_text(json.dumps({
         "config": NAME, "reference": str(reference),
         "created": datetime.datetime.now(datetime.timezone.utc).isoformat(),
@@ -141,7 +152,8 @@ def generate(workspace):
     headers = workspace / "generators/gemmini/software/gemmini-rocc-tests/include"
     (rtl / "include").mkdir(exist_ok=True)
     # Gemmini writes at Chipyard's root when its optional software tree is absent.
-    generated_headers = list(headers.glob("gemmini_params_32x32*xcvu13p.h")) + list(workspace.glob("gemmini_params_32x32*xcvu13p.h"))
+    generated_headers = [path for directory in (headers, workspace) for opcode in (0, 1, 2)
+                         for path in directory.glob(f"gemmini_params_32x32*custom{opcode}_xcvu13p.h")]
     for header in generated_headers:
         shutil.copy2(header, rtl / "include" / header.name)
     subprocess.run(["python3", str(ROOT / "tools/check/check_triple32_v3_tensor.py"), str(rtl)], check=True)

@@ -1,0 +1,224 @@
+{
+  "schema": 1,
+  "donor": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_timing_v3_2026-10-07/sw/yolov5/triple32/frontend",
+  "baseline": "memory_schedule/v32",
+  "baseline_elf_sha256": "7aa5962cb3c00badf2afde3ef31935e21d2a938635d9a9dd8c80ac737692dd7e",
+  "baseline_elf_policy": "provenance only; not a generation input or shipped executable",
+  "sources": [
+    {
+      "snapshot": "parallel_model.inc",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/parallel_model.inc",
+      "sha256": "f0845dfee780b66b21a198806ddf797b8ec51d69afe61832a641569abb98a6cf"
+    },
+    {
+      "snapshot": "fixed_conv_packets.inc",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/fixed_conv_packets.inc",
+      "sha256": "748605c83ffac3468b11b0fb0d8926a62ef9ab4902757bec3a883f2817b43f7b"
+    },
+    {
+      "snapshot": "prepared_packets.inc",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/prepared_packets.inc",
+      "sha256": "2b09a611022a12979207fc8543e1e2b40a9a0c47858bbed5ea6fba201203534c"
+    },
+    {
+      "snapshot": "software_batch_packets.inc",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/software_batch_packets.inc",
+      "sha256": "8e3c9e1287f970aed586f5d2abb93bf02e1325ee7f7108bc4e442e0c4bfc1d38"
+    },
+    {
+      "snapshot": "fixed_plans_guard.inc",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/fixed_plans_guard.inc",
+      "sha256": "51aa9a55926e8ec497ad4e72a9dee999a957ef256847d4dd416e465c4dcdfaff"
+    },
+    {
+      "snapshot": "fixed_plans.json",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/fixed_plans.json",
+      "sha256": "f5e859051dd9e095dfa0dcce770b1eec2f738c9d9be99b3cc72cf25d39a1381d"
+    },
+    {
+      "snapshot": "memory_schedule_manifest.json",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/memory_schedule_manifest.json",
+      "sha256": "014465b99cca8e73d4576e2539e8c1106bca706ffd60352b339b841eb9ac250c"
+    },
+    {
+      "snapshot": "memory_schedule_plan.h",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/memory_schedule_plan.h",
+      "sha256": "3ccfc3d6e72475d02439ecd9fae023d7755908a421eda573d46b232e55661cd6"
+    },
+    {
+      "snapshot": "memory_kernels.json",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/memory_kernels.json",
+      "sha256": "2ada47fc1c3b605dcad78f2812930d26cbdc83fa1af093cb5e5af09dd7af06fc"
+    },
+    {
+      "snapshot": "inputs.c",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/inputs.c",
+      "sha256": "9e7157758f307d06ee5f005fd4d95b3ae7393f2b0a573836a8f2902408f8f70e"
+    },
+    {
+      "snapshot": "inputs.h",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/inputs.h",
+      "sha256": "f156642dfd23d1f4d097cb9aeb5126dce451280c183855913b5d9aec8326bb23"
+    },
+    {
+      "snapshot": "inputs_manifest.json",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/inputs_manifest.json",
+      "sha256": "3629422447f62b118c630c6fa64d2a3e73a455e0d4153079b38a341438c141a4"
+    },
+    {
+      "snapshot": "capacity_manifest.json",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/capacity_manifest.json",
+      "sha256": "df416c919ef2428366fdf6b6239ffbbf44e72ec23856fa6c84cf279838a8144c"
+    },
+    {
+      "snapshot": "include/gemmini.h",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/include/gemmini.h",
+      "sha256": "d514389e0ea365dddea315f83636afb2a2506794f881986e4095e399ccfa895e"
+    },
+    {
+      "snapshot": "include/gemmini_counter.h",
+      "path": "sw/third_party/gemmini/include/gemmini_counter.h",
+      "sha256": "5826242287784b9a383d45fdcb6791f8a1651d9d320a1a5f011585a9885b5669"
+    },
+    {
+      "snapshot": "include/gemmini_float16.h",
+      "path": "sw/third_party/gemmini/include/gemmini_float16.h",
+      "sha256": "758c0644c78d8c92a5334b680bfde458823c71e9a1df127474664cc25e2cfaaa"
+    },
+    {
+      "snapshot": "include/gemmini_merged_pool.h",
+      "path": "sw/third_party/gemmini/include/gemmini_merged_pool.h",
+      "sha256": "d27e9c59ae1de68acdd1fb6c00c238920e6697ce4be4c7450f330f1714cd740d"
+    },
+    {
+      "snapshot": "include/accumulator.h",
+      "path": "sw/third_party/gemmini/include/accumulator.h",
+      "sha256": "3a0dfd584a097225470be0a6f3661dc85630cc365f3a5efad1d81275dbed9447"
+    },
+    {
+      "snapshot": "include/character.h",
+      "path": "sw/third_party/gemmini/include/character.h",
+      "sha256": "b92a6787b85e38d0887df6d7a8b93f0b119551890cb47ae048ad9bc0bc1f96b8"
+    },
+    {
+      "snapshot": "include/gemmini_nn.h",
+      "path": "sw/third_party/gemmini/include/gemmini_nn.h",
+      "sha256": "881078997fd9abbd6bec8cac2451830ffadd458c504cf417ebac0785e394a30f"
+    },
+    {
+      "snapshot": "include/gemmini_testutils.h",
+      "path": "sw/third_party/gemmini/include/gemmini_testutils.h",
+      "sha256": "ec58aa5ef24a6fc066fa7410d35b77516c2af0c137f6f037e028140e8912ea62"
+    },
+    {
+      "snapshot": "include/translator.h",
+      "path": "sw/third_party/gemmini/include/translator.h",
+      "sha256": "42383d22d34be62e03772710740ecc385a706746ee11a1898e77e26776237857"
+    },
+    {
+      "snapshot": "include/yolov5nu_silu_lut_rvv.h",
+      "path": "sw/models/yolov5nu/include/yolov5nu_silu_lut_rvv.h",
+      "sha256": "a7538206eafb6aa089b9271c02d54a2c92468418a3c38f607950af93de91b7ec"
+    },
+    {
+      "snapshot": "include/yolov5nu_silu_opencv_rvv.h",
+      "path": "sw/models/yolov5nu/include/yolov5nu_silu_opencv_rvv.h",
+      "sha256": "074ed3d7b0d77051d6254ec0eb8fba67cb4ce9d6f495a3098d48b9799eb5b252"
+    },
+    {
+      "snapshot": "include/yolov5nu_stage3_rvv.h",
+      "path": "sw/models/yolov5nu/include/yolov5nu_stage3_rvv.h",
+      "sha256": "574eafe8a0531d6027ac6a56b0489713e3b5183505bdab944e225e87822d1369"
+    },
+    {
+      "snapshot": "include/yolov5nu_stage4_rvv.h",
+      "path": "sw/models/yolov5nu/include/yolov5nu_stage4_rvv.h",
+      "sha256": "c35588dff4d69c8f59391627aa4c23d81129ea315b060314ce1a707b9dcb0bbe"
+    },
+    {
+      "snapshot": "rocc-software/src/riscv_test_rocc.h",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/rocc-software/src/riscv_test_rocc.h",
+      "sha256": "c7f53ca7c6c8b2db79b9a79b8cf56234381c45f96f441b21f4ce53689a322f29"
+    },
+    {
+      "snapshot": "rocc-software/src/xcustom.h",
+      "path": "sw/third_party/gemmini/rocc-software/src/xcustom.h",
+      "sha256": "9582eb00cee774e4680fde6408a0d607bba85196a0a4fd803f7b7ddd801aad69"
+    },
+    {
+      "snapshot": "include/gemmini_params.h",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/include/gemmini_params.h",
+      "sha256": "5c95c13aec125b0671a5165cf0daa05dfaea2308710e19195005ca9e69e80077"
+    },
+    {
+      "snapshot": "yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h",
+      "path": "sw/models/yolov5nu/assets/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h",
+      "sha256": "19d6ad52c6ccf0c392076f98de7d859d7d47c47d82589feac27f7e5b9a534b7f"
+    },
+    {
+      "snapshot": "yolov5nu_dim16_dual.h",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/yolov5nu_dim16_dual.h",
+      "sha256": "42f96b49c2bd7f343eb9d8929e0405be3045feb8cb86d264dd165b6095188499"
+    },
+    {
+      "snapshot": "yolov5nu_head_layout.h",
+      "path": "sw/models/yolov5nu/include/runtime/yolov5nu_head_layout.h",
+      "sha256": "81637629d95308360bbffc1c70926b39667b8464b51fbc9bd58c1551cf72974d"
+    },
+    {
+      "snapshot": "memory_kernels_runtime.inc",
+      "path": "sw/models/yolov5nu/codegen/memory_kernels_runtime.inc",
+      "sha256": "d5578150378c57665ed9ca34b67b7c40153e4ae2086f1bd13d599c3a92d211a9"
+    },
+    {
+      "snapshot": "memory_kernels.h",
+      "path": "sw/models/yolov5nu/include/memory_kernels.h",
+      "sha256": "7acdbf04df0a227d8cb12396792ba0a0a6b482b511edcfef4e3fa00fed2197b0"
+    },
+    {
+      "snapshot": "packet_dispatch_runtime.inc",
+      "path": "sw/models/yolov5nu/codegen/packet_dispatch_runtime.inc",
+      "sha256": "7d77577d4336eab967d7e4074552cb22b0c0b1263b6842c0d02630f4c1e1fca7"
+    },
+    {
+      "snapshot": "ai/postprocess/ai_ppu_publication.c",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/ai/postprocess/ai_ppu_publication.c",
+      "sha256": "604d358da90d12c8e7b3ada16f89f6e12d2874c8a4e0d6fae1a048fcb918db66"
+    },
+    {
+      "snapshot": "ai/postprocess/ai_ppu_publication.h",
+      "path": "sw/src/ai/postprocess/ai_ppu_publication.h",
+      "sha256": "ca33461843a782d2d76a24003462c0bbf77d79042d79b56ab753f60eb3ee7dca"
+    },
+    {
+      "snapshot": "ai/postprocess/ai_ppu_queue.c",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/ai/postprocess/ai_ppu_queue.c",
+      "sha256": "183d0abcab9306a17e469e2adf6d6fec358f9b70f630a1847e6f8d354c35449e"
+    },
+    {
+      "snapshot": "ai/postprocess/ai_ppu_queue.h",
+      "path": "sw/src/ai/postprocess/ai_ppu_queue.h",
+      "sha256": "44890ae6fea460681fb59b979e0df5e87a1c74fd7cd0448f3e3359ea22324c18"
+    },
+    {
+      "snapshot": "ai/runtime/ai_head_slot_queue.c",
+      "path": "sw/src/ai/runtime/ai_head_slot_queue.c",
+      "sha256": "6a709b1d07315a8c1d881560f0050c043e6597f5d682ab87853cd9a6f61751db"
+    },
+    {
+      "snapshot": "ai/runtime/ai_head_slot_queue.h",
+      "path": "sw/src/ai/runtime/ai_head_slot_queue.h",
+      "sha256": "1e4fba6c1d95dff67895c543f06b855f8f36e4e304802d9fff9867886d82ccac"
+    },
+    {
+      "snapshot": "ai/backend/ai_model_abi.h",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/ai/backend/ai_model_abi.h",
+      "sha256": "9e454e60353734a5e22cbdb98456195739df1aaa3fdfb0cc8f83333b346c6aca"
+    },
+    {
+      "snapshot": "platform/platform.h",
+      "path": "sw/models/yolov5nu/frozen/frontend_v33/platform/platform.h",
+      "sha256": "38bc1284da57a482a6a6250d3f567b8826e91b8489026bbcf97cd89bd9358708"
+    }
+  ]
+}

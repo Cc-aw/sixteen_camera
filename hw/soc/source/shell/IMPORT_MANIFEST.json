@@ -10,7 +10,7 @@
     "hw/soc/source/shell/npu100_video/validate_source.sh": "fef8381bd9c1f6bbd671b861153c29a57dc8f7264a0bcf71c284a7952b51e2c9",
     "hw/soc/source/shell/npu100_video/video_config.diff": "35e0bc5e1779fde33722360870a036896fa4d283d2ebd1105ed070dba48c090b",
     "hw/soc/source/shell/npu100_video/tests/check_config_0918.py": "e44a0150f8e0c639f5c71426714abdd71c839ae71458300a95af21f25b6e6e26",
-    "hw/soc/source/shell/npu100_video/tests/check_merged_rtl.py": "46f05e0a63d1d90ae0202f93446abc4e6ee072b17754bcbc65d2e0ac4dd8654b",
+    "hw/soc/source/shell/npu100_video/tests/check_merged_rtl.py": "929e6451f7629986768bba3b810ed4871a03f41c02555e1bf83199ce65d3c84c",
     "hw/soc/source/shell/npu100_video/tests/check_video_rtl.py": "cfc081d51589b583cbd53535d24febae135ab2d95d9549641e25a7f5387ab4c3",
     "hw/soc/source/shell/npu100_video/tests/scala/MemoryDmaTest.scala": "2899c5c068492f10da9958b3531d6f59e66120922016568730a1a70fbdb1cd5a",
     "hw/soc/source/shell/npu100_video/tests/scala/ReplayTest.scala": "008135e112a1f02de86c3d144251fa1893272a51cf63594e84a6ba459903dfbc",
@@ -144,5 +144,8 @@
   "timing_repair_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_timing_v3_2026-10-07/soc_shell/memory_parallel_v3_timing_repair",
   "pre_refactor_sha256": {
     "hw/soc/source/shell/npu100_video/prepare_workspace.py": "536619b22150452b47ab95adc17b1d9beb84047a3ebee823150c43ada2bc398e"
+  },
+  "previous_sha256": {
+    "hw/soc/source/shell/npu100_video/tests/check_merged_rtl.py": "46f05e0a63d1d90ae0202f93446abc4e6ee072b17754bcbc65d2e0ac4dd8654b"
   }
 }

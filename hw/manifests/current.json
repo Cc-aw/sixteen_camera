@@ -12,14 +12,14 @@
   "runtime_profile": "v26",
   "credit_limit": 4,
   "opcodes": [
-    "custom3",
     "custom2",
-    "custom1"
+    "custom1",
+    "custom0"
   ],
   "parameter_headers": [
-    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom3_xcvu13p.h",
     "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom2_xcvu13p.h",
-    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom1_xcvu13p.h"
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom1_xcvu13p.h",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom0_xcvu13p.h"
   ],
   "model_rules": "sw/models/yolov5nu/model.mk",
   "model_source": "sw/models/yolov5nu/src/model.c",
@@ -36,6 +36,36 @@
   "reference_manifest": "hw/soc/source/shell/REFERENCE_MANIFEST.json",
   "video_build": "build/firmware/video",
   "video_elf": "build/firmware/video/video.elf",
-  "benchmark_build": "build/firmware/benchmark",
-  "benchmark_elf": "build/firmware/benchmark/benchmark.elf"
+  "benchmark_build": "build/firmware/frontend",
+  "benchmark_elf": "build/firmware/frontend/yolov5_three_way_12.elf",
+  "command_frontend": {
+    "enabled": true,
+    "control_opcode": "custom3",
+    "control_abi": 2,
+    "record_bytes": 32,
+    "fifo_depth": 8,
+    "worker_lanes": [
+      2,
+      1,
+      0
+    ],
+    "source": "hw/soc/source/command_frontend",
+    "import_manifest": "hw/soc/source/command_frontend/IMPORT_MANIFEST.json"
+  },
+  "firmware_compatibility": {
+    "status": "pending_frontend_port",
+    "reason": "Realtime v26 Runtime still uses the previous custom3/custom2/custom1 ABI; standalone V33 benchmark is ready."
+  },
+  "frontend_benchmark": {
+    "version": 33,
+    "status": "ready",
+    "source": "sw/benchmarks/frontend/src/main.c",
+    "rules": "sw/benchmarks/frontend/Makefile",
+    "generator": "sw/benchmarks/frontend/scripts/prepare.py",
+    "source_lock": "sw/models/yolov5nu/frozen/frontend_v33/sources.lock.json",
+    "import_manifest": "sw/benchmarks/frontend/IMPORT_MANIFEST.json",
+    "frames_per_mode": 12,
+    "diagnostic_elf": "build/firmware/frontend/yolov5_frontend_diag_12.elf",
+    "runtime_adapted": false
+  }
 }

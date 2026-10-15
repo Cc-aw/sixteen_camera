@@ -2,10 +2,11 @@
 
 - `source/shell/`：当前 Scala/Chisel shell、MemoryParallelV3 覆盖、冻结 Rocket/Chipyard/L2 依赖和来源记录。
 - `source/tensor_ingress/TensorIngress.scala`：当前 TensorIngress 生成源码。
+- `source/command_frontend/`：三路自主命令前端 Scala、RoCC 接入覆盖和供体来源记录。
 - `tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/`：唯一生成导出，包含 `gen-collateral/include/` 参数头和 `GENERATION_CONTEXT.json`。
 
 本轮保留导出的长目录和内部相对布局；[交付清单](../manifests/current.json)提供唯一映射。
-完整 Scala Config 类名、RoCC opcode、SAFE_MAX、RTL 和约束不随源码迁移改变。
+完整 Scala Config 类名与导出目录保留。前端移植将 Gemmini opcode 改为 custom0/1/2，custom3 为控制；SAFE_MAX、计算参数和板级约束保持原规格。现有软件尚未适配。
 
 生成入口仍为 [tools/soc/build_triple32_v3_tensor.py](../../tools/soc/build_triple32_v3_tensor.py)。
 从仓库根执行 `make soc SOC_REFERENCE=<参考 Chipyard> SOC_WORKSPACE=<新工作区>`，在独立 Chipyard 副本中正常编译和生成，

@@ -1,0 +1,20 @@
+[
+  {
+    "image": "025",
+    "bytes": 921600,
+    "sha256": "d73772514b44a2ec778e4fa7d8543cc0e8c62a3fc08cf1ebd59b1fe552b8775b",
+    "source": "sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/imagenet/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h"
+  },
+  {
+    "image": "036",
+    "bytes": 921600,
+    "sha256": "6a2011e80d5ac48cd5c3b860059a4e2dc2fb1f969c398ffc3d535b320dfe9296",
+    "source": "sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/imagenet/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image036-profile_params.h"
+  },
+  {
+    "image": "142",
+    "bytes": 921600,
+    "sha256": "b972487f8fcbe948c7f021022d2311e3c65a1855a976b8011c43c0c0e57bd79c",
+    "source": "sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/imagenet/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image142-profile_params.h"
+  }
+]

@@ -18,7 +18,9 @@ Run commands from the repository root:
 - `make help`: list supported workflows.
 - `make check`: validate production manifests; `make check-deps`: also check tools and source dependencies.
 - `make project`: reconstruct the Vivado project from Tcl.
-- `make firmware`: build v26 firmware for the current `triple32_v3_tensor` hardware (three DIM32 MaxPool workers plus TensorIngress).
+- `make firmware`: requires firmware compatibility with the current hardware ABI; blocked while the hardware frontend port awaits software adaptation.
+- `make benchmark`: build standalone V33 frontend formal/diagnostic firmware; `make test-v33` verifies plans, scheduling, PPU lifecycle, logs, and ELFs without adapting the realtime Runtime.
+- `make test-frontend SOC_WORKSPACE=<rebuilt-workspace>`: test the autonomous command frontend, DMA arbitration, and three real DIM32 Gemminis.
 - `make elaborate`: check RTL elaboration; `make bitstream`: synthesize and implement hardware.
 - `make test-software`: run all host software and native model tests.
 - `make test-video test-tensor test-ppu`: run subsystem RTL regressions.

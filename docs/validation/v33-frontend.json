@@ -1,0 +1,41 @@
+{
+  "version": 33,
+  "runtime_adapted": false,
+  "v34_imported": false,
+  "board_tested": false,
+  "frames_per_mode": 12,
+  "tests": {
+    "formal_and_diagnostic_build": "PASS",
+    "native_oracle_18_tables": "PASS",
+    "dispatch_formal_and_diagnostic_100_seeds_600_fault_cases_each": "PASS",
+    "ppu_formal_and_diagnostic_36_frames_5_fault_cases_each": "PASS",
+    "log_contract_10_tests": "PASS",
+    "clean_output_build_and_regressions": "PASS",
+    "elf_and_hardware_binding": "PASS",
+    "source_and_dependency_closure": "PASS",
+    "formal_and_diagnostic_loader_check": "PASS",
+    "runtime_abi_guard": "PASS (expected refusal)"
+  },
+  "model_inputs": 43,
+  "shared_existing_inputs": 22,
+  "generated_donor_equivalent": 12,
+  "scope_unchanged": [
+    "sw/src",
+    "sw/models/yolov5nu/src",
+    "sw/models/yolov5nu/codegen",
+    "sw/third_party"
+  ],
+  "outputs": {
+    "yolov5_three_way_12.elf": "ab6fc68c22972cba046cfecd8d57dd7282fbe021978bbbcd38f22c882012003d",
+    "yolov5_frontend_diag_12.elf": "9ab18aa75d5f11542bcc79f75a0faa9ff47cfd09a7357b4c5a49b34b0c675afa",
+    "frontend_manifest.json": "9046d9b7c0b297eff979db6c1257083b68ea003cb17cdabc468b99d066b12998"
+  },
+  "artifacts": "build/firmware/frontend/",
+  "logs": "build/reports/v33/",
+  "v33_execution_sources_unchanged_from_donor": 9,
+  "binding_guards": {
+    "stale_staging_rejected": true,
+    "restored_staging_passed": true,
+    "diagnostic_as_formal_rejected": true
+  }
+}

@@ -38021,6 +38021,36 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|CommandFrontendMemoryMux",
+    "group": "CommandFrontendMemoryMux"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|CommandFrontendTL",
+    "group": "CommandFrontendTL"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|CommandFrontendMemoryMux_1",
+    "group": "CommandFrontendMemoryMux"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|CommandFrontendTL_1",
+    "group": "CommandFrontendTL"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|CommandFrontendMemoryMux_2",
+    "group": "CommandFrontendMemoryMux"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|CommandFrontendTL_2",
+    "group": "CommandFrontendTL"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
     "target": "~TaihangSoCFPGATestHarness|MaxPeriodFibonacciLFSR_3",
     "group": "MaxPeriodFibonacciLFSR"
   },
@@ -40291,38 +40321,33 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|CommandFrontendEngine",
+    "group": "CommandFrontendEngine"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|CommandFrontendEngine_1",
+    "group": "CommandFrontendEngine"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|CommandFrontendEngine_2",
+    "group": "CommandFrontendEngine"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|CommandFrontendCluster",
+    "group": "CommandFrontendCluster"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
     "target": "~TaihangSoCFPGATestHarness|RRArbiter_220",
     "group": "RRArbiter"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_StreamItem",
-    "group": "Queue2_StreamItem"
-  },
-  {
-    "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|RegisteredIngressAtomicReserve",
-    "group": "RegisteredIngressAtomicReserve"
-  },
-  {
-    "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_StreamItem_1",
-    "group": "Queue2_StreamItem"
-  },
-  {
-    "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|RegisteredIngressAtomicReserve_1",
-    "group": "RegisteredIngressAtomicReserve"
-  },
-  {
-    "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_StreamItem_2",
-    "group": "Queue2_StreamItem"
-  },
-  {
-    "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|RegisteredIngressAtomicReserve_2",
-    "group": "RegisteredIngressAtomicReserve"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_RoCCCommand",
+    "group": "Queue2_RoCCCommand"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -124176,10 +124201,10 @@
   },
   {
     "class": "sifive.enterprise.firrtl.TestHarnessHierarchyAnnotation",
-    "filename": "/tmp/sixteen-camera-single-version-chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/model_module_hierarchy.json"
+    "filename": "/tmp/sixteen-camera-command-frontend-chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/model_module_hierarchy.json"
   },
   {
     "class": "sifive.enterprise.firrtl.ModuleHierarchyAnnotation",
-    "filename": "/tmp/sixteen-camera-single-version-chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/top_module_hierarchy.json"
+    "filename": "/tmp/sixteen-camera-command-frontend-chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/top_module_hierarchy.json"
   }
 ]

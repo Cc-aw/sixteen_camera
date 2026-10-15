@@ -1,6 +1,6 @@
 # 快速开始
 
-唯一组合是 `triple32_v3_tensor` + YOLOv5nu v26（3 × DIM32、100 MHz、credit=4）。
+当前硬件已启用三路自主命令前端。独立 V33 基准使用 `make benchmark`、`make test-v33` 和 `make program-benchmark PROGRAM_ARGS=--check`，详见 [V33 操作说明](../sw/benchmarks/frontend/README.md)。下文实时视频的构建/烧写步骤需等 Runtime 适配后使用；根入口继续拒绝旧 ABI。硬件前端测试见 [验收记录](validation/command-frontend.md)。
 
 ## 环境与来源
 
