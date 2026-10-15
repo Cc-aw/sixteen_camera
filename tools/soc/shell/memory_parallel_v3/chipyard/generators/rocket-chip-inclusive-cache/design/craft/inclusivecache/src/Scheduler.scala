@@ -68,7 +68,7 @@ class InclusiveCacheBankScheduler(params: InclusiveCacheParameters, perfEnabled:
 
   val directory = Module(new Directory(params))
   val bankedStore = Module(new BankedStore(params))
-  val requests = Module(new ListBuffer(ListBufferParameters(new QueuedRequest(params), 3*params.mshrs, params.secondary, false, fastPeek = true)))
+  val requests = Module(new RegisteredListBuffer(ListBufferParameters(new QueuedRequest(params), 3*params.mshrs, params.secondary, false)))
   val mshrs = Seq.fill(params.mshrs) { Module(new MSHR(params)) }
   val abc_mshrs = mshrs.init.init
   val bc_mshr = mshrs.init.last
@@ -115,18 +115,40 @@ class InclusiveCacheBankScheduler(params: InclusiveCacheParameters, perfEnabled:
       (directory.io.write.ready || !m.io.schedule.bits.dir.valid)
   }.reverse)
 
-  // Round-robin arbitration of MSHRs
-  val robin_filter = RegInit(0.U(params.mshrs.W))
-  val robin_request = Cat(mshr_request, mshr_request & robin_filter)
-  val mshr_selectOH2 = ~(leftOR(robin_request) << 1) & robin_request
-  val mshr_selectOH = mshr_selectOH2(2*params.mshrs-1, params.mshrs) | mshr_selectOH2(params.mshrs-1, 0)
+  // The winner identity is registered; live eligibility and payload are
+  // revalidated together on commit. Nested coherence/returns can invalidate
+  // a candidate without issuing an obsolete multi-channel operation.
+  val winner = RegInit(0.U(params.mshrs.W))
+  val mshr_selectOH = Mux((winner & mshr_request).orR,winner,0.U(params.mshrs.W))
   val mshr_select = OHToUInt(mshr_selectOH)
   val schedule = Mux1H(mshr_selectOH, mshrs.map(_.io.schedule.bits))
-  val scheduleTag = Mux1H(mshr_selectOH, mshrs.map(_.io.status.bits.tag))
-  val scheduleSet = Mux1H(mshr_selectOH, mshrs.map(_.io.status.bits.set))
-
-  // When an MSHR wins the schedule, it has lowest priority next time
-  when (mshr_request.orR) { robin_filter := ~rightOR(mshr_selectOH) }
+  val groups = (0 until params.mshrs-2).grouped(8).map(_.toSeq).toSeq :+
+    Seq(params.mshrs-2, params.mshrs-1)
+  val filters = groups.map(g => RegInit(0.U(g.size.W)))
+  val groupFilter = RegInit(0.U(groups.size.W))
+  def rr(req: UInt, filter: UInt, width: Int): UInt = {
+    val doubled = Cat(req,req & filter)
+    val first = ~(leftOR(doubled) << 1) & doubled
+    first(2*width-1,width) | first(width-1,0)
+  }
+  val candidates = mshr_request & ~Mux(schedule.reload,mshr_selectOH,0.U)
+  val groupRequests = groups.map(g=>Cat(g.reverse.map(i=>candidates(i))))
+  val groupGranted = VecInit(groups.map(g=>g.map(i=>mshr_selectOH(i)).reduce(_||_))).asUInt
+  val groupWinners = groups.zipWithIndex.map { case(g,j)=>
+    val grant = Cat(g.reverse.map(i=>mshr_selectOH(i)))
+    val nextFilter = Mux(grant.orR,~rightOR(grant),filters(j))
+    when(grant.orR) { filters(j):=nextFilter }
+    rr(groupRequests(j),nextFilter,g.size)
+  }
+  val nextGroupFilter = Mux(groupGranted.orR,~rightOR(groupGranted),groupFilter)
+  when(groupGranted.orR) { groupFilter:=nextGroupFilter }
+  val selectedGroup = rr(VecInit(groupRequests.map(_.orR)).asUInt,nextGroupFilter,groups.size)
+  val nextWinner = Wire(Vec(params.mshrs,Bool()))
+  for((g,j)<-groups.zipWithIndex; (i,k)<-g.zipWithIndex) {
+    nextWinner(i):=selectedGroup(j) && groupWinners(j)(k)
+  }
+  winner:=nextWinner.asUInt
+  assert(PopCount(mshr_selectOH)<=1.U)
 
   // Fill in which MSHR sends the request
   schedule.a.bits.source := mshr_select
@@ -202,75 +224,82 @@ class InclusiveCacheBankScheduler(params: InclusiveCacheParameters, perfEnabled:
     Mux(lowerMatches(params.mshrs-2), 1.U << (params.mshrs-2),
     lowerMatches))
 
-  // If this goes to the scheduled MSHR, it may need to be bypassed
-  // Alternatively, the MSHR may be refilled from a request queued in the ListBuffer
-  val selected_requests = Cat(mshr_selectOH, mshr_selectOH, mshr_selectOH) & requests.io.valid
-  val a_pop = selected_requests((0 + 1) * params.mshrs - 1, 0 * params.mshrs).orR
-  val b_pop = selected_requests((1 + 1) * params.mshrs - 1, 1 * params.mshrs).orR
-  val c_pop = selected_requests((2 + 1) * params.mshrs - 1, 2 * params.mshrs).orR
-  val bypassMatches = (mshr_selectOH & lowerMatches1).orR &&
-                      Mux(c_pop || request.bits.prio(2), !c_pop, Mux(b_pop || request.bits.prio(1), !b_pop, !a_pop))
-  val may_pop = a_pop || b_pop || c_pop
-  val bypass = request.valid && queue && bypassMatches
-  val will_reload = schedule.reload && (may_pop || bypass)
-  val will_pop = schedule.reload && may_pop && !bypass
-
-  params.ccover(mshr_selectOH.orR && bypass, "SCHEDULER_BYPASS", "Bypass new request directly to conflicting MSHR")
-  params.ccover(mshr_selectOH.orR && will_reload, "SCHEDULER_RELOAD", "Back-to-back service of two requests")
-  params.ccover(mshr_selectOH.orR && will_pop, "SCHEDULER_POP", "Service of a secondary miss")
-
-  // Repeat the above logic, but without the fan-in
-  mshrs.zipWithIndex.foreach { case (m, i) =>
-    val sel = mshr_selectOH(i)
-    m.io.schedule.ready := sel
-    val a_pop = requests.io.valid(params.mshrs * 0 + i)
-    val b_pop = requests.io.valid(params.mshrs * 1 + i)
-    val c_pop = requests.io.valid(params.mshrs * 2 + i)
-    val bypassMatches = lowerMatches1(i) &&
-                        Mux(c_pop || request.bits.prio(2), !c_pop, Mux(b_pop || request.bits.prio(1), !b_pop, !a_pop))
-    val may_pop = a_pop || b_pop || c_pop
-    val bypass = request.valid && queue && bypassMatches
-    val will_reload = m.io.schedule.bits.reload && (may_pop || bypass)
-    m.io.allocate.bits.viewAsSupertype(chiselTypeOf(requests.io.data)) := Mux(bypass, WireInit(new QueuedRequest(params), init = request.bits), requests.io.data)
-    m.io.allocate.bits.set := m.io.status.bits.set
-    m.io.allocate.bits.repeat := m.io.allocate.bits.tag === m.io.status.bits.tag
-    m.io.allocate.valid := sel && will_reload
+  // Keep set ownership across retirement and synchronous refill. Include
+  // same-edge queue push, otherwise a just-arriving request is orphaned.
+  val reloadWaiting = RegInit(VecInit(Seq.fill(params.mshrs)(false.B)))
+  mshrs.zipWithIndex.foreach { case(m,i)=>
+    m.io.schedule.ready:=mshr_selectOH(i)
+    val queued = requests.io.valid(i) || requests.io.valid(params.mshrs+i) ||
+      requests.io.valid(2*params.mshrs+i)
+    val arriving = requests.io.push.fire && lowerMatches1(i)
+    val reserve = mshr_selectOH(i) && schedule.reload && (queued || arriving)
+    m.io.reloadReserved:=reserve
+    when(reserve) { reloadWaiting(i):=true.B }
+    m.io.allocate.valid:=false.B
+    m.io.allocate.bits:=0.U.asTypeOf(m.io.allocate.bits)
+  }
+  val queuedAny = (requests.io.valid | (requests.io.valid >> params.mshrs) |
+    (requests.io.valid >> (2*params.mshrs)))(params.mshrs-1,0)
+  val reloadReadFilter = RegInit(0.U(params.mshrs.W))
+  val readOH = rr(reloadWaiting.asUInt & queuedAny,reloadReadFilter,params.mshrs)
+  val readMSHR = OHToUInt(readOH)
+  val readC = (requests.io.valid(3*params.mshrs-1,2*params.mshrs) & readOH).orR
+  val readB = (requests.io.valid(2*params.mshrs-1,params.mshrs) & readOH).orR
+  requests.io.pop.valid := (reloadWaiting.asUInt & queuedAny).orR
+  // Include carry: a six-bit MSHR index plus 34 needs seven bits for the
+  // highest B queues. Truncating before the final queue index can alias A.
+  requests.io.pop.bits := Mux(readC,readMSHR +& (2*params.mshrs).U,
+    Mux(readB,readMSHR +& params.mshrs.U,readMSHR))
+  when(requests.io.pop.fire) {
+    reloadWaiting(readMSHR):=false.B
+    reloadReadFilter:= ~rightOR(readOH)
   }
 
-  // Determine which of the queued requests to pop (supposing will_pop)
-  val prio_requests = ~(~requests.io.valid | (requests.io.valid >> params.mshrs) | (requests.io.valid >> 2*params.mshrs))
-  val pop_select = Cat(mshr_selectOH, mshr_selectOH, mshr_selectOH) & prio_requests
-  val pop_index = OHToUInt(pop_select)
-  requests.io.peekOH.get := pop_select
-  requests.io.pop.valid := will_pop
-  requests.io.pop.bits  := pop_index
-
-  // Reload from the Directory if the next MSHR operation changes tags
-  val lb_tag_mismatch = scheduleTag =/= requests.io.data.tag
-  val mshr_uses_directory_assuming_no_bypass = schedule.reload && may_pop && lb_tag_mismatch
-  val mshr_uses_directory_for_lb = will_pop && lb_tag_mismatch
-  val mshr_uses_directory = will_reload && scheduleTag =/= Mux(bypass, request.bits.tag, requests.io.data.tag)
-
-  // Is there an MSHR free for this request?
+  val resultIndex = requests.io.result.bits.index
+  val reloadMSHR = Mux(resultIndex < params.mshrs.U,resultIndex,
+    Mux(resultIndex < (2*params.mshrs).U,resultIndex-params.mshrs.U,resultIndex-(2*params.mshrs).U))
+  val reloadOH = UIntToOH(reloadMSHR,params.mshrs)
+  val reloadSet = Mux1H(reloadOH,mshrs.map(_.io.status.bits.set))
   val mshr_validOH = Cat(mshrs.map(_.io.status.valid).reverse)
   val mshr_free = (~mshr_validOH & prioFilter).orR
+  val freshAllocationCases =
+    (alloc && mshr_free) ||
+    (nestB && !bc_mshr.io.status.valid && !c_mshr.io.status.valid) ||
+    (nestC && !c_mshr.io.status.valid)
+  val preferReload = RegInit(true.B)
+  val freshWanted = request.valid && freshAllocationCases
+  val mshr_uses_directory = requests.io.result.valid && directory.io.ready &&
+    (!freshWanted || preferReload)
+  requests.io.result.ready := directory.io.ready && (!freshWanted || preferReload)
+  when(requests.io.result.fire) {
+    for((m,i)<-mshrs.zipWithIndex) when(reloadOH(i)) {
+      m.io.allocate.valid:=true.B
+      m.io.allocate.bits.viewAsSupertype(chiselTypeOf(requests.io.result.bits.data)):=requests.io.result.bits.data
+      m.io.allocate.bits.set:=reloadSet
+      // Both tag-change and same-tag reload read the directory after the
+      // preceding writeback; there is no retire->peek->plan bypass cone.
+      m.io.allocate.bits.repeat:=false.B
+    }
+  }
+  params.ccover(requests.io.pop.fire,"SCHEDULER_POP","Secondary synchronous read")
+  params.ccover(requests.io.result.fire,"SCHEDULER_RELOAD","Pipelined MSHR refill")
 
   // Fanout the request to the appropriate handler (if any)
-  val bypassQueue = schedule.reload && bypassMatches
   val request_alloc_cases =
-     (alloc && !mshr_uses_directory_assuming_no_bypass && mshr_free) ||
-     (nestB && !mshr_uses_directory_assuming_no_bypass && !bc_mshr.io.status.valid && !c_mshr.io.status.valid) ||
-     (nestC && !mshr_uses_directory_assuming_no_bypass && !c_mshr.io.status.valid)
-  request.ready := request_alloc_cases || (queue && (bypassQueue || requests.io.push.ready))
+     (alloc && !mshr_uses_directory && mshr_free) ||
+     (nestB && !mshr_uses_directory && !bc_mshr.io.status.valid && !c_mshr.io.status.valid) ||
+     (nestC && !mshr_uses_directory && !c_mshr.io.status.valid)
+  request.ready := request_alloc_cases || (queue && requests.io.push.ready)
   val alloc_uses_directory = request.valid && request_alloc_cases
 
   // When a request goes through, it will need to hit the Directory
   directory.io.read.valid := mshr_uses_directory || alloc_uses_directory
-  directory.io.read.bits.set := Mux(mshr_uses_directory_for_lb, scheduleSet,          request.bits.set)
-  directory.io.read.bits.tag := Mux(mshr_uses_directory_for_lb, requests.io.data.tag, request.bits.tag)
+  directory.io.read.bits.set := Mux(mshr_uses_directory, reloadSet, request.bits.set)
+  directory.io.read.bits.tag := Mux(mshr_uses_directory, requests.io.result.bits.data.tag, request.bits.tag)
+  when(directory.io.read.valid && directory.io.ready) { preferReload:= !mshr_uses_directory }
 
   // Enqueue the request if not bypassed directly into an MSHR
-  requests.io.push.valid := request.valid && queue && !bypassQueue
+  requests.io.push.valid := request.valid && queue
   requests.io.push.bits.data  := request.bits
   requests.io.push.bits.index := Mux1H(
     request.bits.prio, Seq(
@@ -280,14 +309,14 @@ class InclusiveCacheBankScheduler(params: InclusiveCacheParameters, perfEnabled:
 
   val mshr_insertOH = ~(leftOR(~mshr_validOH) << 1) & ~mshr_validOH & prioFilter
   (mshr_insertOH.asBools zip mshrs) map { case (s, m) =>
-    when (request.valid && alloc && s && !mshr_uses_directory_assuming_no_bypass) {
+    when (request.valid && alloc && s && !mshr_uses_directory) {
       m.io.allocate.valid := true.B
       m.io.allocate.bits.viewAsSupertype(chiselTypeOf(request.bits)) := request.bits
       m.io.allocate.bits.repeat := false.B
     }
   }
 
-  when (request.valid && nestB && !bc_mshr.io.status.valid && !c_mshr.io.status.valid && !mshr_uses_directory_assuming_no_bypass) {
+  when (request.valid && nestB && !bc_mshr.io.status.valid && !c_mshr.io.status.valid && !mshr_uses_directory) {
     bc_mshr.io.allocate.valid := true.B
     bc_mshr.io.allocate.bits.viewAsSupertype(chiselTypeOf(request.bits)) := request.bits
     bc_mshr.io.allocate.bits.repeat := false.B
@@ -295,7 +324,7 @@ class InclusiveCacheBankScheduler(params: InclusiveCacheParameters, perfEnabled:
   }
   bc_mshr.io.allocate.bits.prio(0) := false.B
 
-  when (request.valid && nestC && !c_mshr.io.status.valid && !mshr_uses_directory_assuming_no_bypass) {
+  when (request.valid && nestC && !c_mshr.io.status.valid && !mshr_uses_directory) {
     c_mshr.io.allocate.valid := true.B
     c_mshr.io.allocate.bits.viewAsSupertype(chiselTypeOf(request.bits)) := request.bits
     c_mshr.io.allocate.bits.repeat := false.B
@@ -307,7 +336,7 @@ class InclusiveCacheBankScheduler(params: InclusiveCacheParameters, perfEnabled:
 
   // Fanout the result of the Directory lookup
   val dirTarget = Mux(alloc, mshr_insertOH, Mux(nestB,(BigInt(1) << (params.mshrs-2)).U,(BigInt(1) << (params.mshrs-1)).U))
-  val directoryFanout = params.dirReg(RegNext(Mux(mshr_uses_directory, mshr_selectOH, Mux(alloc_uses_directory, dirTarget, 0.U))))
+  val directoryFanout = params.dirReg(RegNext(Mux(mshr_uses_directory, reloadOH, Mux(alloc_uses_directory, dirTarget, 0.U))))
   mshrs.zipWithIndex.foreach { case (m, i) =>
     m.io.directory.valid := directoryFanout(i)
     m.io.directory.bits := directory.io.result.bits

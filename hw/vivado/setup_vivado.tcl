@@ -174,6 +174,16 @@ proc ::sixteen_camera_setup::setup_bd {} {
                 [get_property MODE [get_bd_intf_pins u_mig_perf/S_AXI]] ne "Monitor"} {
                 error "V3 requires the passive MIG Monitor interface"
             }
+            # Existing projects must consume the repaired full-throughput
+            # boundary too; reopening an old BD otherwise retains mode 7.
+            set slice [get_bd_cells -quiet m00_full_regslice]
+            if {[llength $slice] != 1} {error "V3 requires one final DDR register slice"}
+            foreach channel {AW W B AR R} {
+                if {[get_property CONFIG.REG_$channel $slice] != 1} {
+                    set_property CONFIG.REG_$channel 1 $slice
+                    puts "V3_DDR_SLICE_UPDATED channel=$channel mode=1"
+                }
+            }
         } elseif {[get_property CONFIG.DATA_WIDTH [get_bd_intf_ports S00_AXI]] != 256} {
             error "DDR BD is incompatible with this SoC; use a matching VIVADO_PROJECT"
         }

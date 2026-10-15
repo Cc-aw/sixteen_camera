@@ -91,6 +91,20 @@
     ]
   },
   {
+    "module_name": "payload_ext",
+    "depth": 34,
+    "width": 53,
+    "masked": false,
+    "read": 1,
+    "write": 1,
+    "readwrite": 0,
+    "extra_ports": [],
+    "hierarchy": [
+      "ChipTop.system.coh_wrapper.l2.inclusive_cache_bank_sched_1.requests.payload.payload_ext",
+      "ChipTop.system.coh_wrapper.l2.inclusive_cache_bank_sched.requests.payload.payload_ext"
+    ]
+  },
+  {
     "module_name": "rockettile_dcache_data_arrays_0_ext",
     "depth": 256,
     "width": 1024,

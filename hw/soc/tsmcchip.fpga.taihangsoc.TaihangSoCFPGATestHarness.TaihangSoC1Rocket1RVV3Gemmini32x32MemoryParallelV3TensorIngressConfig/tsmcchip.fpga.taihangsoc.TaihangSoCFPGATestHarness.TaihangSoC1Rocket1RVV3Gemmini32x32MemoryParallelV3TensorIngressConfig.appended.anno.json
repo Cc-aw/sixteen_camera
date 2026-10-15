@@ -1676,8 +1676,13 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|ListBuffer_QueuedRequest_q102_e34_fast",
-    "group": "ListBuffer_QueuedRequest_q102_e34_fast"
+    "target": "~TaihangSoCFPGATestHarness|Queue4_1_Anon",
+    "group": "Queue4_1_Anon"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|RegisteredListBuffer_q102_e34",
+    "group": "RegisteredListBuffer_q102_e34"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -2011,8 +2016,13 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|ListBuffer_QueuedRequest_q102_e34_fast_1",
-    "group": "ListBuffer_QueuedRequest_q102_e34_fast"
+    "target": "~TaihangSoCFPGATestHarness|Queue4_1_Anon_1",
+    "group": "Queue4_1_Anon"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|RegisteredListBuffer_q102_e34_1",
+    "group": "RegisteredListBuffer_q102_e34"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -124166,10 +124176,10 @@
   },
   {
     "class": "sifive.enterprise.firrtl.TestHarnessHierarchyAnnotation",
-    "filename": "/tmp/sixteen-camera-latest-triple32-chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/model_module_hierarchy.json"
+    "filename": "/tmp/sixteen-camera-v3-repair-chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/model_module_hierarchy.json"
   },
   {
     "class": "sifive.enterprise.firrtl.ModuleHierarchyAnnotation",
-    "filename": "/tmp/sixteen-camera-latest-triple32-chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/top_module_hierarchy.json"
+    "filename": "/tmp/sixteen-camera-v3-repair-chipyard/fpga/generated-src/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/top_module_hierarchy.json"
   }
 ]

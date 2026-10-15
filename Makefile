@@ -38,6 +38,7 @@ help:
 	  'make test-ppu                       PPU publication tests' \
 	  'make test-video                     Video refactor tests' \
 	  'make test-video-pipeline            Full-frame / FIFO / MIG return timing pipelines' \
+	  'make test-v3-timing-repair SOC_WORKSPACE=/tmp/chipyard  L2 refill / DDR slice regressions' \
 	  'make test-runtime                   Host stream runtime tests (2/3 workers)' \
 	  'make runtime-baseline               Capture R0 software baseline under build/' \
 	  'make test-runtime-baseline          ABI, identity trace and known-gap characterization' \
@@ -104,7 +105,7 @@ test-tensor:
 
 test-tensor-ingress:
 	cd "$(PROJECT_ROOT)" && python3 tests/rtl/run_tensor_ingress_tests.py
-	cd "$(PROJECT_ROOT)" && python3 tests/rtl/run_tensor_ingress_l2_test.py
+	cd "$(PROJECT_ROOT)" && python3 tests/rtl/run_tensor_ingress_l2_test.py $(if $(SOC_WORKSPACE),--workspace "$(SOC_WORKSPACE)")
 
 test-cache: check
 	cd "$(PROJECT_ROOT)" && python3 tests/rtl/run_ppu_cache_control_test.py
@@ -204,3 +205,8 @@ test-memory-v3:
 .PHONY: test-video-pipeline
 test-video-pipeline:
 	python3 tests/rtl/run_video_timing_pipeline_tests.py
+
+.PHONY: test-v3-timing-repair
+test-v3-timing-repair:
+	@test -n "$(SOC_WORKSPACE)" || { echo 'Set SOC_WORKSPACE to the rebuilt private Chipyard path'; exit 2; }
+	python3 tests/rtl/run_v3_timing_repair_tests.py --workspace "$(SOC_WORKSPACE)" --output "$(PROJECT_ROOT)/build/sim/v3_timing_repair_$$(date +%Y%m%d_%H%M%S)_$$$$"

@@ -26,6 +26,8 @@ def main():
     hardware = json.loads((ROOT / 'tools/soc/shell/LATEST_HARDWARE_IMPORT.json').read_text())
     snapshots.extend({'path': item['destination'], 'sha256': item['imported_sha256']}
                      for item in hardware['files'])
+    snapshots.extend({'path': item['destination'], 'sha256': item['imported_sha256']}
+                     for item in hardware.get('timing_repair', {}).get('files', []))
     for item in snapshots:
         path = ROOT / item['path']
         if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != item['sha256']:

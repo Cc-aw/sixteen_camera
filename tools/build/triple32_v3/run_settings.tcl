@@ -2,7 +2,7 @@
 set ::triple32_v3_flow_dir [file dirname [file normalize [info script]]]
 proc apply_triple32_v3_run_settings {} {
     set flow $::triple32_v3_flow_dir
-    foreach name {pre_opt.tcl placement_3x32.tcl postroute_timing_close.tcl} {
+    foreach name {pre_opt.tcl placement_3x32.tcl placement_timing_repair.tcl postroute_timing_close.tcl} {
         set path [file join $flow $name]
         if {![llength [get_files -all -quiet $path]]} {
             add_files -fileset utils_1 -norecurse $path
@@ -29,7 +29,7 @@ proc apply_triple32_v3_run_settings {} {
     set_property STEPS.OPT_DESIGN.ARGS.DIRECTIVE ExploreWithRemap $impl
     set_property STEPS.OPT_DESIGN.TCL.PRE [file join $flow pre_opt.tcl] $impl
     set_property STEPS.PLACE_DESIGN.ARGS.DIRECTIVE SSI_SpreadLogic_high $impl
-    set_property STEPS.PLACE_DESIGN.TCL.PRE [file join $flow placement_3x32.tcl] $impl
+    set_property STEPS.PLACE_DESIGN.TCL.PRE [file join $flow placement_timing_repair.tcl] $impl
     set_property STEPS.PHYS_OPT_DESIGN.IS_ENABLED 1 $impl
     set_property STEPS.PHYS_OPT_DESIGN.ARGS.DIRECTIVE AggressiveExplore $impl
     set_property STEPS.ROUTE_DESIGN.ARGS.DIRECTIVE AlternateCLBRouting $impl

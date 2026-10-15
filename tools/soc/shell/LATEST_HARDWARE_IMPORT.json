@@ -38,7 +38,7 @@
       "source": "soc_shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
       "destination": "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
       "source_sha256": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359",
-      "imported_sha256": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359"
+      "imported_sha256": "743f78ea5bc848f58a0f916e0e30b42e10f7e60da006eb39a1a1e5fe6bd7120b"
     },
     {
       "source": "soc_shell/memory_parallel_v3/tests/MemoryV3Test.scala",
@@ -133,7 +133,7 @@
     "v26 software and Runtime R5 resource ownership"
   ],
   "generation_entry": "tools/soc/build_triple32_v3_tensor.py",
-  "generator_sha256": "7de5c3fd67a65d653edecb16983c64052e8544a964ce7080332010245fd4bd78",
+  "generator_sha256": "438a072901bef1ec3b4d1c9e6974ae9a5e475bf3c00c73e6280dc35fb8f3c695",
   "implementation": {
     "synthesis": "Flow_PerfOptimized_high / PerformanceOptimized / retiming / resource_sharing off / SHREG_MIN_SIZE5",
     "placement": "SSI_SpreadLogic_high",
@@ -150,10 +150,16 @@
     ],
     "reset_constraints": "Precise first-stage D / asynchronous assertion pins only; functional and second-stage data paths stay timed",
     "files": {
-      "tools/build/triple32_v3/run_settings.tcl": "cd3122afed594c5eb39ca08aa3bd975477a31a83fb6459047f6ef7646126a197",
+      "tools/build/triple32_v3/run_settings.tcl": "78c8adabe4a87982efe734bc8412020a2858bc63e57b1fdce84ce4e690981342",
       "tools/build/triple32_v3/pre_opt.tcl": "d67c30f924d0ea3f896efa2a5cb35cb5e97eb09b4232e2529ff9f531787cb102",
-      "tools/build/triple32_v3/postroute_timing_close.tcl": "aa9a0f72fc65ea6febe831b295e2d183a21bc218bbaea031eeaa302417bb0242"
-    }
+      "tools/build/triple32_v3/postroute_timing_close.tcl": "aa9a0f72fc65ea6febe831b295e2d183a21bc218bbaea031eeaa302417bb0242",
+      "tools/build/triple32_v3/placement_timing_repair.tcl": "ab84740e8cb9f335333b0e19ec43a54ee05bfaad6b58589db965a00d04597c74",
+      "tools/build/triple32_v3/placement_3x32.tcl": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781",
+      "hw/vivado/create_design_1_v3.tcl": "e4e76366bc38bd3011e5388fb346b6bf5f0adf11d569686d58f9ada9457d705e",
+      "hw/vivado/setup_vivado.tcl": "a2bbb352392af6107ec1c5ac835759fe4564a0c3689d2db17b63e726cdcf4e49"
+    },
+    "ddr_slice_mode": 1,
+    "ddr_soft_slr": 0
   },
   "retired_paths": [
     "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV1Gemmini4x4PackedFullOps256BitConfig",
@@ -165,5 +171,79 @@
     "tools/build/build_dual16_video_yolov5nu.py",
     "tools/soc/build_tensor_ingress.py",
     "tools/soc/taihang_tensor_ingress/TensorIngressConfigs.scala"
-  ]
+  ],
+  "timing_repair": {
+    "donor": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_timing_v3_2026-10-07",
+    "baseline_commit": "def049ad2851bb38d511b276a3604b92c3f0acb3",
+    "files": [
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
+        "destination": "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
+        "source_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7",
+        "imported_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
+        "destination": "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
+        "source_sha256": "743f78ea5bc848f58a0f916e0e30b42e10f7e60da006eb39a1a1e5fe6bd7120b",
+        "imported_sha256": "743f78ea5bc848f58a0f916e0e30b42e10f7e60da006eb39a1a1e5fe6bd7120b"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala",
+        "destination": "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala",
+        "source_sha256": "fd19ab3ff63f67b36216d2805490fc60669b2908dae54d87701af7196543736c",
+        "imported_sha256": "fd19ab3ff63f67b36216d2805490fc60669b2908dae54d87701af7196543736c"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/RegisteredListBuffer.scala",
+        "destination": "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/RegisteredListBuffer.scala",
+        "source_sha256": "865e720f4eff1a9434da580067f20875960b816673ee2b040e2e48b1503ce54c",
+        "imported_sha256": "865e720f4eff1a9434da580067f20875960b816673ee2b040e2e48b1503ce54c"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/tests/TimingCacheTest.scala",
+        "destination": "tests/rtl/scala/TimingCacheTest.scala",
+        "source_sha256": "5b845ac86a6f4ab1d5ae13214dd30b1cbbb55febf421c4c5b38f0d323e3dd978",
+        "imported_sha256": "5b845ac86a6f4ab1d5ae13214dd30b1cbbb55febf421c4c5b38f0d323e3dd978"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/tests/RegisteredListBufferTest.scala",
+        "destination": "tests/rtl/scala/RegisteredListBufferTest.scala",
+        "source_sha256": "a35e0c9d1af7863adebbaa4fb12ed44a4e7706b2bf289a2044a107ad293b294c",
+        "imported_sha256": "a35e0c9d1af7863adebbaa4fb12ed44a4e7706b2bf289a2044a107ad293b294c"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/tests/tb_ddr_register_slice.sv",
+        "destination": "tests/rtl/benches/timing/tb_ddr_register_slice.sv",
+        "source_sha256": "38c46ed85a6df5376c3972e6ab783468ccb47cebc28bb203884764dba648dee6",
+        "imported_sha256": "38c46ed85a6df5376c3972e6ab783468ccb47cebc28bb203884764dba648dee6"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/overlay/scripts/npu3x32_100mhz/placement_timing_repair.tcl",
+        "destination": "tools/build/triple32_v3/placement_timing_repair.tcl",
+        "source_sha256": "ab84740e8cb9f335333b0e19ec43a54ee05bfaad6b58589db965a00d04597c74",
+        "imported_sha256": "ab84740e8cb9f335333b0e19ec43a54ee05bfaad6b58589db965a00d04597c74"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/overlay/prj/create_design_1.tcl",
+        "destination": "hw/vivado/create_design_1_v3.tcl",
+        "source_sha256": "27bb4eb576542b94041ec00c663d3835a088990f6e5fa8758b494f42acda6b04",
+        "imported_sha256": "e4e76366bc38bd3011e5388fb346b6bf5f0adf11d569686d58f9ada9457d705e"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/overlay/scripts/npu3x32_100mhz/placement_3x32.tcl",
+        "destination": "tools/build/triple32_v3/placement_3x32.tcl",
+        "source_sha256": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781",
+        "imported_sha256": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/overlay/rtl/memory/memory_perf_mig_tap.v",
+        "destination": "hw/rtl/memory/memory_perf_mig_tap.v",
+        "source_sha256": "9159aba7c5210add03ab8888c731820b3a74cad85547ff9df3e1a951d1ad0e09",
+        "imported_sha256": "9159aba7c5210add03ab8888c731820b3a74cad85547ff9df3e1a951d1ad0e09"
+      }
+    ],
+    "scope": "Shared V3 cache/DDR timing repair; current MaxPool, TensorIngress/ABI1.1 and v26/R5 retained; autonomous frontend excluded",
+    "package": "soc_shell/memory_parallel_v3_timing_repair"
+  }
 }

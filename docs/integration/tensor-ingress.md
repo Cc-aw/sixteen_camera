@@ -66,7 +66,12 @@ TL A 背压高说明 SBUS/L2 接收受限；source 耗尽同时伴随响应延�
 
 `run_tensor_ingress_tests.py` 验证提前 AccessAck、D 乱序、同 ID 多事务、source 耗尽、记录回绕、错误输入及整体复位。
 
-`run_tensor_ingress_l2_test.py` 使用新配置实际生成的入口、InclusiveCache、CacheCork 和 SRAM 模型，并经过新的板级 CDC。覆盖冷行整行覆盖无旧数据 Get、驻留行覆盖、模拟 CPU 持有脏行时的 ProbeAckData、一组超过八路的替换写回、读回校验、CSR 快照。额外将请求改为 PutPartialData 作为对照，检查冷行确实需要读取旧数据。这个测试验证缓存行为，不代表真实 DDR 或推理并发下的板上吞吐。
+`run_tensor_ingress_l2_test.py` 现在调用当前 V3 双 bank L2 / Tensor writer 的 Scala 回归，
+使用实际重新编译的 shell assembly；支持 `--workspace`，默认读取唯一导出的生成上下文。
+覆盖冷行整行覆盖无 DDR Get、双 bank 多客户端并发、CPU ProbeAckData、脏行 flush/eviction、
+32 个 source ID，以及 Tensor 事务与读返回重叠。AXI 协议由独立 core 测试，板级 CDC
+由 `make test-tensor` 覆盖。此前单 bank、旧 source ID 映射的测试 wrapper 已退休。
+这些离线测试不代表板上吞吐。
 
 完整 FPGA 时序及板上带宽须以对应配置的综合、布局布线报告与实际运行记录为准。
 

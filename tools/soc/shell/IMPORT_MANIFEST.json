@@ -133,10 +133,13 @@
     "tools/soc/shell/memory_parallel_v3/tests/tb_memory_v3_outstanding.sv": "714cc9fcb8a01a1bbb79118aee03df06932f2d0aaa5fbeafb4e9a6447e977d51",
     "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala": "aab9093c32f239a0bc3425e61cad37945c1a016a73062bad05d75f7e7c814866",
     "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/InclusiveCache.scala": "a76b65f479e111dc3a7a36d6446d016c4c78eb46756bcb5bea253fdb23795e90",
-    "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359",
+    "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala": "743f78ea5bc848f58a0f916e0e30b42e10f7e60da006eb39a1a1e5fe6bd7120b",
     "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala": "3f75c284517c9abce7797d171cf85b2e50c0f79ea95bb1df840daaff04c76e14",
     "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip/src/main/scala/subsystem/BusTopology.scala": "717a917ae365d9e690c1365a4794c9be9701f6038e4308c8e6e121c685c44aaa",
     "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala": "3e72066a61c3d5445805f244e53363abd1d7b9b0d0a7b549f1759d3b3f578483",
-    "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7"
-  }
+    "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7",
+    "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala": "fd19ab3ff63f67b36216d2805490fc60669b2908dae54d87701af7196543736c",
+    "tools/soc/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/RegisteredListBuffer.scala": "865e720f4eff1a9434da580067f20875960b816673ee2b040e2e48b1503ce54c"
+  },
+  "timing_repair_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_timing_v3_2026-10-07/soc_shell/memory_parallel_v3_timing_repair"
 }

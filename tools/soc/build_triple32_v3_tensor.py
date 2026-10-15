@@ -153,17 +153,23 @@ def generate(workspace):
     target.mkdir(parents=True)
     shutil.copytree(rtl, target / "gen-collateral")
     for path in generated.iterdir():
-        if path.is_file() and path.suffix in {".json", ".dts", ".h"}:
+        if path.is_file() and path.suffix in {".json", ".dts", ".h", ".conf"}:
             shutil.copy2(path, target / path.name)
     sources = {str(p.relative_to(workspace)): digest(p) for p in workspace.rglob("*.scala") if p.is_file() and "target" not in p.parts}
-    (target / "GENERATION_CONTEXT.json").write_text(json.dumps({
+    context = {
         "config": NAME, "generated_at_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "source_workspace": str(workspace), "build_sbt_sha256": digest(workspace / "build.sbt"),
         "effective_scala": sources,
         "scala_snapshot_scope": "Prepared-workspace Scala files excluding target; build.sbt source filters govern compilation",
         "raw_rtl_sha256": raw_hashes,
         "final_rtl_sha256": {str(p.relative_to(rtl)): digest(p) for p in rtl.rglob("*") if p.is_file()},
+    }
+    (target / "GENERATION_CONTEXT.json").write_text(json.dumps(context, indent=2) + "\n")
+    (SHELL / "V3_GENERATION_CONTEXT.json").write_text(json.dumps({
+        key: context[key] for key in ("config", "generated_at_utc", "source_workspace", "build_sbt_sha256")
     }, indent=2) + "\n")
+    (SHELL / "V3_EFFECTIVE_SCALA.sha256").write_text("".join(
+        f"{value}  {key}\n" for key, value in sorted(sources.items())))
     print("SOC_CONFIG=" + NAME)
 
 

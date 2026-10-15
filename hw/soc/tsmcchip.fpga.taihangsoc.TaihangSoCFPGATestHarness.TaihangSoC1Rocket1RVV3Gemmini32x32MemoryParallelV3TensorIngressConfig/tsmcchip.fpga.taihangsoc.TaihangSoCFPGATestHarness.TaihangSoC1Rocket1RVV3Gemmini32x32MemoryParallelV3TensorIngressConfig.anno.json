@@ -1676,8 +1676,13 @@
   },
   {
     "class":"firrtl.transforms.DedupGroupAnnotation",
-    "target":"~TaihangSoCFPGATestHarness|ListBuffer_QueuedRequest_q102_e34_fast",
-    "group":"ListBuffer_QueuedRequest_q102_e34_fast"
+    "target":"~TaihangSoCFPGATestHarness|Queue4_1_Anon",
+    "group":"Queue4_1_Anon"
+  },
+  {
+    "class":"firrtl.transforms.DedupGroupAnnotation",
+    "target":"~TaihangSoCFPGATestHarness|RegisteredListBuffer_q102_e34",
+    "group":"RegisteredListBuffer_q102_e34"
   },
   {
     "class":"firrtl.transforms.DedupGroupAnnotation",
@@ -2011,8 +2016,13 @@
   },
   {
     "class":"firrtl.transforms.DedupGroupAnnotation",
-    "target":"~TaihangSoCFPGATestHarness|ListBuffer_QueuedRequest_q102_e34_fast_1",
-    "group":"ListBuffer_QueuedRequest_q102_e34_fast"
+    "target":"~TaihangSoCFPGATestHarness|Queue4_1_Anon_1",
+    "group":"Queue4_1_Anon"
+  },
+  {
+    "class":"firrtl.transforms.DedupGroupAnnotation",
+    "target":"~TaihangSoCFPGATestHarness|RegisteredListBuffer_q102_e34_1",
+    "group":"RegisteredListBuffer_q102_e34"
   },
   {
     "class":"firrtl.transforms.DedupGroupAnnotation",

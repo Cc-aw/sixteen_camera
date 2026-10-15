@@ -341,7 +341,8 @@ proc create_root_design { parentCell } {
     CONFIG.S02_ARB_PRIORITY {14} \
   ] $axi_interconnect_0
 
-  # Fully register all AXI channels immediately before the DDR MIG. Keeping
+  # Full-throughput FWD/REV with skid buffers (mode 1) on all five channels.
+  # Register all AXI channels immediately before the DDR MIG. Keeping
   # this as an explicit IP gives the placer a clean pipeline boundary at the
   # SLR crossing instead of relying on the interconnect's internal coupler.
   set m00_full_regslice [ create_bd_cell -type ip \
@@ -350,11 +351,11 @@ proc create_root_design { parentCell } {
     CONFIG.ADDR_WIDTH {32} \
     CONFIG.DATA_WIDTH {512} \
     CONFIG.ID_WIDTH {4} \
-    CONFIG.REG_AW {7} \
-    CONFIG.REG_W  {7} \
-    CONFIG.REG_B  {7} \
-    CONFIG.REG_AR {7} \
-    CONFIG.REG_R  {7} \
+    CONFIG.REG_AW {1} \
+    CONFIG.REG_W  {1} \
+    CONFIG.REG_B  {1} \
+    CONFIG.REG_AR {1} \
+    CONFIG.REG_R  {1} \
   ] $m00_full_regslice
 
 

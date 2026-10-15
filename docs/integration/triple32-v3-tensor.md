@@ -11,6 +11,12 @@
 TensorIngress 导出已退出 `hw/soc/`，对应固件/生成入口也已退休。历史实现由 Git 保存，
 原本地工程和固件产物备份在忽略的 `build/ports/latest-hardware/baseline/`。
 
+2026-10-15 继续移入 Oct07 开发目录内独立的
+`soc_shell/memory_parallel_v3_timing_repair` 修复：寄存仲裁身份、同步共享请求池、
+保留 set 所有权的同步 refill，以及 DDR 五通道 mode1 FWD/REV 切片和 SLR0
+布局引导。配置名、三路 MaxPool、TensorIngress 和内存统计 ABI1.1 保持兼容。
+实现和验证记录见 [V3 时序修复](../validation/v3-timing-repair.md)。
+
 ## 硬件契约和变化
 
 | 项目 | 当前配置 |
@@ -22,7 +28,8 @@ TensorIngress 导出已退出 `hw/soc/`，对应固件/生成入口也已退休�
 | L2 | 双 bank、总512 KiB；每 bank 8 ways、512 sets、32普通+2一致性 MSHR |
 | L2 bank / set | A12；set bits 6–11、13–15 |
 | 内侧通道 | A/B/C/D/E 各两条目 non-flow/non-pipe 寄存队列 |
-| 请求队列 | 共享 entry pool、one-hot front pointer 和 winner 选择；保留 linked-list 顺序 |
+| 请求队列 | 每 bank 102 个逻辑队列共享 34-entry 同步 payload RAM，窄指针，4个读响应 credit |
+| L2调度 | 普通 MSHR 分4组各8个，另含2个一致性 MSHR；寄存 winner 并在提交时重验 |
 | SBUS / Gemmini DMA / Tensor | 256 bit；Tensor 本地 ID5，独立 source范围512–543 |
 | L2外侧 / SoC memory / DDR S00 | 512 bit / 本地ID2；S00读写各32 outstanding |
 | Head | 六个1 MiB槽；512-bit写、256-bit PPU读 |
@@ -79,6 +86,11 @@ GUI 和批处理共用 `tools/build/triple32_v3/run_settings.tcl`：
 | post-route追加优化 | WNS<0时第二次 AggressiveExplore |
 | mesh放置 | DSP硬pblock：SLR0、SLR1、SLR3；第三路queue/RS软引导SLR3 |
 | L2放置 | 两bank分别软引导SLR0、SLR2；无routing containment |
+| DDR边界 | 五通道 REG_*=1 FWD/REV；crossbar和最终slice软引导SLR0 |
+
+`placement_timing_repair.tcl` 先调用原 mesh/L2 放置，再设置 DDR 局部性；不新增
+时序例外或降低时钟。旧 BD 通过 `make project` 自动将五通道 mode7 更新为
+mode1，再 validate / regenerate；S00 仍为512 bit、ID2、读写各32 outstanding。
 
 reset例外只针对已实现同步器的首级D或异步assert引脚，第二级D和业务路径继续
 参与时序；统计mailbox保留有限max-delay与逐bank bus-skew约束，没有整域false-path。
