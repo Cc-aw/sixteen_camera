@@ -8,8 +8,7 @@
 - `codegen/`：fixed plans、packets、prepared WS/LUT、memory kernels 和相邻生成模板。
 - `frozen/native/`：当前生成器实际读取的原生 C/头文件，保留原 `dim16_dual` 名称和内容。
 - `assets/`：Stage8F AOT 原始材料与当前权重/参数。
-- `metadata/`：导入来源和 v26 源码锁；根 `sources.lock.json` 记录原模型材料来源。
-- `runtime/`、`v17a.mk`：暂留待依赖审计的旧生成入口，正式构建不使用。
+- `metadata/`：原始导入记录；统一 `sources.lock.json` 校验原模型材料和当前 v26 完整闭包。
 
 从仓库根运行 `make firmware`、`make benchmark`、`make test-model`。
 原生回归位于 [tests/model/yolov5nu](../../../tests/model/yolov5nu/)，三图外壳位于 [sw/benchmarks/triple_infer](../../benchmarks/triple_infer/)，日志工具位于 [tools/analyze/yolov5nu](../../../tools/analyze/yolov5nu/)。

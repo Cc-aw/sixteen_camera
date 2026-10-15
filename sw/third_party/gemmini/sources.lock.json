@@ -1,91 +1,92 @@
 {
   "donor": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_timing_v3_2026-10-07",
-  "configuration": "v17 A / ppu-head-clean",
+  "configuration": "Current DIM32/FP16 ABI for YOLOv5nu v26",
   "sources": [
     {
-      "path": "sw/third_party/gemmini_v3/LICENSE",
+      "path": "sw/third_party/gemmini/LICENSE",
       "origin": "current-project support or integration adaptation",
       "sha256": "c3b204bde93ad5054b0797fdbbb23a36e68d25672dc2d5ed39c3f69299457fac"
     },
     {
-      "path": "sw/third_party/gemmini_v3/README.md",
+      "path": "sw/third_party/gemmini/README.md",
       "origin": "current-project support or integration adaptation",
       "sha256": "739c3f2b87c7b0269bbf23d173981fbc83360a9be2cc5982e5ff14860b17874a"
     },
     {
-      "path": "sw/third_party/gemmini_v3/include/accumulator.h",
+      "path": "sw/third_party/gemmini/include/accumulator.h",
       "origin": "current-project support or integration adaptation",
       "sha256": "3a0dfd584a097225470be0a6f3661dc85630cc365f3a5efad1d81275dbed9447"
     },
     {
-      "path": "sw/third_party/gemmini_v3/include/character.h",
+      "path": "sw/third_party/gemmini/include/character.h",
       "origin": "current-project support or integration adaptation",
       "sha256": "b92a6787b85e38d0887df6d7a8b93f0b119551890cb47ae048ad9bc0bc1f96b8"
     },
     {
-      "path": "sw/third_party/gemmini_v3/include/gemmini.h",
+      "path": "sw/third_party/gemmini/include/gemmini.h",
       "origin": "soc_shell/npu100_video/software/gemmini-rocc-tests/include/gemmini.h",
       "sha256": "94f24b730ef4e17e3e748dec7517f5751bfbb3dd9ac29f6d464a5f6dec8b3f40"
     },
     {
-      "path": "sw/third_party/gemmini_v3/include/gemmini_counter.h",
+      "path": "sw/third_party/gemmini/include/gemmini_counter.h",
       "origin": "soc_shell/npu100_video/software/gemmini-rocc-tests/include/gemmini_counter.h",
       "sha256": "5826242287784b9a383d45fdcb6791f8a1651d9d320a1a5f011585a9885b5669"
     },
     {
-      "path": "sw/third_party/gemmini_v3/include/gemmini_float16.h",
+      "path": "sw/third_party/gemmini/include/gemmini_float16.h",
       "origin": "soc_shell/npu100_video/software/gemmini-rocc-tests/include/gemmini_float16.h",
       "sha256": "758c0644c78d8c92a5334b680bfde458823c71e9a1df127474664cc25e2cfaaa"
     },
     {
-      "path": "sw/third_party/gemmini_v3/include/gemmini_merged_pool.h",
+      "path": "sw/third_party/gemmini/include/gemmini_merged_pool.h",
       "origin": "soc_shell/npu100_video/software/gemmini-rocc-tests/include/gemmini_merged_pool.h",
       "sha256": "d27e9c59ae1de68acdd1fb6c00c238920e6697ce4be4c7450f330f1714cd740d"
     },
     {
-      "path": "sw/third_party/gemmini_v3/include/gemmini_nn.h",
+      "path": "sw/third_party/gemmini/include/gemmini_nn.h",
       "origin": "current-project support or integration adaptation",
       "sha256": "881078997fd9abbd6bec8cac2451830ffadd458c504cf417ebac0785e394a30f"
     },
     {
-      "path": "sw/third_party/gemmini_v3/include/gemmini_params.h",
+      "path": "sw/third_party/gemmini/include/gemmini_params.h",
       "origin": "current-project support or integration adaptation",
       "sha256": "b3c0f69930c7074ad6f120641ba1717e27c18e8aa9d14daed0e5ea1930853e2b"
     },
     {
-      "path": "sw/third_party/gemmini_v3/include/gemmini_testutils.h",
+      "path": "sw/third_party/gemmini/include/gemmini_testutils.h",
       "origin": "current-project support or integration adaptation",
       "sha256": "ec58aa5ef24a6fc066fa7410d35b77516c2af0c137f6f037e028140e8912ea62"
     },
     {
-      "path": "sw/third_party/gemmini_v3/include/translator.h",
+      "path": "sw/third_party/gemmini/include/translator.h",
       "origin": "current-project support or integration adaptation",
       "sha256": "42383d22d34be62e03772710740ecc385a706746ee11a1898e77e26776237857"
     },
     {
-      "path": "sw/third_party/gemmini_v3/include/yolov5nu_silu_lut_rvv.h",
+      "path": "sw/third_party/gemmini/include/yolov5nu_silu_lut_rvv.h",
       "origin": "current-project support or integration adaptation",
       "sha256": "a7538206eafb6aa089b9271c02d54a2c92468418a3c38f607950af93de91b7ec"
     },
     {
-      "path": "sw/third_party/gemmini_v3/include/yolov5nu_silu_opencv_rvv.h",
+      "path": "sw/third_party/gemmini/include/yolov5nu_silu_opencv_rvv.h",
       "origin": "current-project support or integration adaptation",
       "sha256": "074ed3d7b0d77051d6254ec0eb8fba67cb4ce9d6f495a3098d48b9799eb5b252"
     },
     {
-      "path": "sw/third_party/gemmini_v3/include/yolov5nu_stage3_rvv.h",
+      "path": "sw/third_party/gemmini/include/yolov5nu_stage3_rvv.h",
       "origin": "current-project support or integration adaptation",
       "sha256": "574eafe8a0531d6027ac6a56b0489713e3b5183505bdab944e225e87822d1369"
     },
     {
-      "path": "sw/third_party/gemmini_v3/include/yolov5nu_stage4_rvv.h",
+      "path": "sw/third_party/gemmini/include/yolov5nu_stage4_rvv.h",
       "origin": "current-project support or integration adaptation",
       "sha256": "c35588dff4d69c8f59391627aa4c23d81129ea315b060314ce1a707b9dcb0bbe"
     },
     {
-      "path": "sw/third_party/gemmini_v3/rocc-software/src/xcustom.h",
+      "path": "sw/third_party/gemmini/rocc-software/src/xcustom.h",
       "origin": "current-project support or integration adaptation",
       "sha256": "9582eb00cee774e4680fde6408a0d607bba85196a0a4fd803f7b7ddd801aad69"
     }
-  ]
+  ],
+  "previous_configuration": "v17 A / ppu-head-clean"
 }

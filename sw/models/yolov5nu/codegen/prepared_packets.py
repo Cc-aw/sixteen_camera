@@ -130,9 +130,9 @@ static void wait_record(void){record(255,0,0);}
             '#define ROCC_INSTRUCTION_0_R_R(op,a,b,f) record(f,(uint64_t)(a),(uint64_t)(b));')
         (tmp/'include/gemmini.h').write_text(h)
         (tmp/'native.c').write_text(pre+main)
-        includes = [tmp, ROOT/'sw/third_party/gemmini_v3',
-                    ROOT/'sw/third_party/gemmini_v3/include',
-                    ROOT/'sw/third_party/gemmini_v3']
+        includes = [tmp, ROOT/'sw/third_party/gemmini',
+                    ROOT/'sw/third_party/gemmini/include',
+                    ROOT/'sw/third_party/gemmini']
         command = shlex.split(host_cc)+['-std=gnu11','-O2','-include',str(Path(params_path).resolve())]
         command += ['-I'+str(p) for p in includes]+[str(tmp/'native.c'),'-lm','-o',str(tmp/'native')]
         build = subprocess.run(command, capture_output=True, text=True)

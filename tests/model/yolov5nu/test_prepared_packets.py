@@ -101,7 +101,7 @@ static acc_t biases[2][1024];
         (out/'stream.c').write_text(pre+main)
         flags=['-std=gnu11','-O2','-include',str(PARAMS),'-I'+str(out),
                '-I'+str(ABI.parent.parent),'-I'+str(ABI.parent),
-               '-I'+str(HERE.parents[3]/'sw/third_party/gemmini_v3')]
+               '-I'+str(HERE.parents[3]/'sw/third_party/gemmini')]
         cls.flags=flags
         cls.exe=out/'stream'
         r=subprocess.run(['gcc']+flags+[str(out/'stream.c'),'-lm','-o',str(cls.exe)],capture_output=True,text=True)

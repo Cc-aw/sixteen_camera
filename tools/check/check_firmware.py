@@ -56,13 +56,13 @@ def main():
     require("frcsr" in switch and "fscsr" in switch and "vcsr" in switch,
             "task switch does not preserve FP/VCSR environment")
     require("vs8r.v" not in switch and "vl8re8.v" not in switch,
-            "V17 A requires the light task context")
+            "v26 requires the light task context")
     manifest = json.loads(elf.with_suffix(".json").read_text())
-    require(manifest["soc_variant"] == "triple32_v3_tensor" and manifest["firmware"] in ("v17 A", "v26"),
+    require(manifest["soc_variant"] == "triple32_v3_tensor" and manifest["firmware"] == "v26",
             "firmware identity mismatch")
     require(manifest["elf_sha256"] == hashlib.sha256(elf.read_bytes()).hexdigest(), "ELF hash mismatch")
     require(manifest["source_lock_sha256"] == hashlib.sha256(
-        (ROOT / "sw/models/yolov5nu/metadata/v26-sources.lock.json").read_bytes()).hexdigest(),
+        (ROOT / "sw/models/yolov5nu/sources.lock.json").read_bytes()).hexdigest(),
         "source snapshot changed since firmware build")
     config = manifest["soc_config"]
     params = ROOT / "hw/soc" / config / "gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom3_xcvu13p.h"

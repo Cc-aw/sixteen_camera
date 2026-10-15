@@ -50,7 +50,7 @@ def source_inventory():
     paths = [ROOT / "sw/src/main.c", ROOT / "sw/Makefile",
              ROOT / "sw/src/platform/platform.h", ROOT / "sw/src/platform/cache_ops.c",
              ROOT / "sw/src/platform/tensor_ingress.h"]
-    for directory in ("sw/src/ai", "sw/models/yolov5nu", "sw/models/yolov5nu/runtime"):
+    for directory in ("sw/src/ai", "sw/models/yolov5nu"):
         paths.extend(p for p in (ROOT / directory).rglob("*")
                      if p.is_file() and p.suffix in (".c", ".h", ".S", ".inc", ".mk", ".py")
                      and "__pycache__" not in p.parts and "tests" not in p.parts)

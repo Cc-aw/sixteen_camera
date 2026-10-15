@@ -20,7 +20,7 @@ export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD
 .PHONY: test-ppu-device test-runtime-ppu-hal
 .PHONY: test-overlay-device test-runtime-overlay-hal test-cache-ops
 .PHONY: test-runtime-resources test-runtime-faults test-runtime-scheduler test-runtime-r3 test-runtime-backend test-runtime-r4a test-runtime-r4b test-runtime-r5
-.PHONY: help check firmware firmware-benchmark test-v17a check-v17a-firmware bitstream elaborate test-tensor test-tensor-ingress test-cache test-ppu test-video test-runtime test-software
+.PHONY: help check firmware firmware-benchmark bitstream elaborate test-tensor test-tensor-ingress test-cache test-ppu test-video test-runtime test-software
 help:
 	@printf '%s\n' \
 	  'Current product: triple32_v3_tensor + YOLOv5nu v26 (3x32, credit=4)' \
@@ -101,8 +101,8 @@ firmware: check
 	cd "$(PROJECT_ROOT)" && python3 tools/build/build_$(SOC_VARIANT)_video_yolov5nu.py
 
 .PHONY: check-v26-firmware test-v26
-check-v26-firmware check-v17a-firmware:
-	python3 tools/check/check_v17a_firmware.py
+check-v26-firmware:
+	python3 tools/check/check_firmware.py
 
 firmware-benchmark: check
 	$(MAKE) -C sw/benchmarks/triple_infer all
@@ -110,7 +110,7 @@ firmware-benchmark: check
 test-model:
 	$(MAKE) -C sw/benchmarks/triple_infer check
 
-test-v26 test-v17a: test-model
+test-v26: test-model
 	bash tests/host/run_v17a_live_scheduler_test.sh
 	bash tests/host/run_v26_live_scheduler_test.sh
 	bash tests/host/run_v17a_backend_test.sh
@@ -202,7 +202,10 @@ test-runtime-r4b:
 test-runtime-r4a:
 	bash tests/host/run_runtime_backend_adapter_trace_test.sh
 
-test-software: test-model
+.PHONY: test-host
+test-software: test-model test-host
+
+test-host:
 	@cd "$(PROJECT_ROOT)" && for test_script in tests/host/run_*_test.sh; do \
 	  bash "$$test_script" || exit; \
 	done

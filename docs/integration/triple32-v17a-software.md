@@ -42,7 +42,7 @@ make program SOC_VARIANT=triple32_v3_tensor PROGRAM_ARGS=--check
 | 信用轮询 / layer profiling | 关闭 / 关闭 |
 
 模型与任务切换、包生成器、PPU 基准源码保存在 `sw/models/yolov5nu/triple32/`，
-FP16 V3 ABI 保存在 `sw/third_party/gemmini_v3/`。硬件参数直接使用此次 SoC
+FP16 V3 ABI 保存在 `sw/third_party/gemmini/`。硬件参数直接使用此次 SoC
 重新生成的 custom3 参数头，模型编译检查 DIM、bank、accumulator 和 FP16 宽度。
 三个量化输入为 image025、036、142，各 921600 字节；权重只使用一份现有 AOT。
 

@@ -27,7 +27,7 @@ def macro(header, name):
 
 
 def native_program(header, params_path):
-    float16 = Path(__file__).resolve().parents[4] / 'sw/third_party/gemmini_v3/include/gemmini_float16.h'
+    float16 = Path(__file__).resolve().parents[4] / 'sw/third_party/gemmini/include/gemmini_float16.h'
     # All packing macros come from the actual ABI. Do not reimplement them in
     # Python or change scale precision when moving work out of inference.
     constants = '\n'.join(line for line in header.splitlines() if
@@ -174,7 +174,7 @@ _Static_assert(GEMMINI_DISABLE_B_REUSE == 0 && GEMMINI_CONV_TILE_FENCE == 0,
     (out/'fixed_plans_guard.inc').write_text(guard)
     manifest['fixed_packets']=packed
     manifest['packet_table_bytes']=sum(len(p['tiles'])*80 for p in packed.values())
-    float16=Path(__file__).resolve().parents[4] / 'sw/third_party/gemmini_v3/include/gemmini_float16.h'
+    float16=Path(__file__).resolve().parents[4] / 'sw/third_party/gemmini/include/gemmini_float16.h'
     manifest['packet_fp16_sha256']=hashlib.sha256(float16.read_bytes()).hexdigest()
     (out/'fixed_plans.json').write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\n')
     return model

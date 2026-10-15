@@ -27,8 +27,7 @@
   "frozen_input": "sw/models/yolov5nu/frozen/native/yolov5nu_dim16_dual.c",
   "source_locks": [
     "sw/models/yolov5nu/sources.lock.json",
-    "sw/models/yolov5nu/metadata/v26-sources.lock.json",
-    "sw/third_party/gemmini_v3/sources.lock.json"
+    "sw/third_party/gemmini/sources.lock.json"
   ],
   "generation_context": "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/GENERATION_CONTEXT.json",
   "soc_sources": "hw/soc/source/shell",

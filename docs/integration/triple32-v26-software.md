@@ -77,7 +77,7 @@ make -C sw/models/yolov5nu/triple32 credit-cap3 credit-cap4-diag
 `capacity_manifest.json` 记录三图输入、工具链、计划和 ELF 哈希。
 `check-v26-firmware` 审核实际 ELF 的 PPU read barrier、light FP/VCSR context、
 正式版无上下文诊断计时、credit/Pool/Resize 代码路径及三个 Gemmini 入口容量。
-旧 `test-v17a` / `check-v17a-firmware` 命令作为兼容入口保留。
+旧 `test-v17a` / `check-v17a-firmware` 入口已退休；使用 `test-v26` / `check-v26-firmware`。
 
 离线回归覆盖包参数与顺序、Split-K、FP16、credit 上限/入口变化/错误/超时、
 等待证明复用、Pool/Resize 数值和 guard、延迟 DMA、真实 RVV256/full/light

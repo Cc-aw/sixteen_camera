@@ -45,6 +45,479 @@
       "path": "tests/data/yolov5nu/hardware_silu_luts.json",
       "origin": "sw/yolov5/generators/gemmini/software/gemmini-ort/models/detection/stage8_640x480_hardware_aware/hardware_silu_luts.json",
       "sha256": "b75c038dbd21a6b01f324ed6dc91e12566396d418c457b429ea1425097f5f525"
+    },
+    {
+      "path": "sw/benchmarks/triple_infer/Makefile",
+      "origin": "current-project support or integration adaptation",
+      "sha256": "8373b6cdecd8d202e32a1e5938b2654a8839240bdff1d1f4035b536e82f6c076",
+      "pre_refactor_sha256": "78ebb90178c34210c017daaa0c04039527e7c00b597cd72ea35310af959a1f91"
+    },
+    {
+      "path": "sw/models/yolov5nu/src/README.md",
+      "origin": "current-project support or integration adaptation",
+      "sha256": "e11e4016c9d38b76c4aece5e0e9d3a4fa5468fe27b0a16ecb345dbc15917fa58",
+      "pre_refactor_sha256": "e448371cb04200c4fb14c5a0fbc67fce7c47c3d9480ac9cd5f1aea697ff711a3"
+    },
+    {
+      "path": "tools/analyze/yolov5nu/analyze_log.py",
+      "origin": "sw/yolov5/triple32/analyze_log.py",
+      "sha256": "51cd8b80fe4ee434970099098c3862a36fa4d3a8225f7df4b437b5f5763aaf3d",
+      "pre_refactor_sha256": "ba2db7691d4f71e55605b0afcc510ddd22a8de1179853ef8ca437856ea0d4c31"
+    },
+    {
+      "path": "tools/analyze/yolov5nu/capacity_log.py",
+      "origin": "sw/yolov5/triple32/capacity_log.py",
+      "sha256": "f4d9da043895ffd73f1c7b1d516f4c5e57e66b11d08313b2f2a1419cdb67ccdb"
+    },
+    {
+      "path": "sw/benchmarks/triple_infer/capacity_manifest.py",
+      "origin": "sw/yolov5/triple32/capacity_manifest.py",
+      "sha256": "299468a9d08e7f7d1dacce36f4e512f27f109a5fbb0ef7b30ce7d969c3b78189",
+      "pre_refactor_sha256": "9a51f057b4a4d26f5968da9c2e5e4f2eda2259e413c8751525b4a9afe347b74f"
+    },
+    {
+      "path": "sw/models/yolov5nu/src/capacity_observer.c",
+      "origin": "sw/yolov5/triple32/capacity_observer.c",
+      "sha256": "053498e8da1de8856ed0c23e917606dfa6a8f5afe431b542bc135cca5a37d0a5"
+    },
+    {
+      "path": "sw/models/yolov5nu/include/capacity_observer.h",
+      "origin": "sw/yolov5/triple32/capacity_observer.h",
+      "sha256": "89d1ea57599748c3aac83d6ae6ebd193607042881cb2d448c60875ed5f849761"
+    },
+    {
+      "path": "tools/analyze/yolov5nu/check_log.py",
+      "origin": "sw/yolov5/triple32/check_log.py",
+      "sha256": "e2acb4056277babdd388ef87ef7569dbef94e7476f76ac150f7167038cdbd0eb"
+    },
+    {
+      "path": "sw/benchmarks/triple_infer/compare.c",
+      "origin": "sw/yolov5/triple32/compare.c",
+      "sha256": "45fc4882bf4fc0f52d82daa6336621896c966aa9ff12fbb8f8292abfcbcc1377"
+    },
+    {
+      "path": "sw/models/yolov5nu/include/console.h",
+      "origin": "current-project support or integration adaptation",
+      "sha256": "0ae548555c9e243be6a7f9fc16f86d93e9a9b1ad97229abb73964147601a224e"
+    },
+    {
+      "path": "tools/analyze/yolov5nu/credit_log.py",
+      "origin": "sw/yolov5/triple32/credit_log.py",
+      "sha256": "6b2c51591bad65c32a1e5487ce72871ef0fc0a91e24f70bff1bfee40cb3920aa"
+    },
+    {
+      "path": "sw/models/yolov5nu/codegen/diagnostic_codegen.py",
+      "origin": "sw/yolov5/triple32/diagnostic_codegen.py",
+      "sha256": "e34d44a597accbb8018d2f3f6630de08a681f301087f5a044bdecd62835718a4"
+    },
+    {
+      "path": "tools/analyze/yolov5nu/diagnostic_traffic.py",
+      "origin": "sw/yolov5/triple32/diagnostic_traffic.py",
+      "sha256": "ec08faa2c02109d2f6d679a620c672bd106b3bd5286f1132366731ea822e8b4a"
+    },
+    {
+      "path": "sw/models/yolov5nu/src/diagnostics.c",
+      "origin": "sw/yolov5/triple32/diagnostics.c",
+      "sha256": "b3075537ba71362a0da9e37b99f53f216c182d5b63d8fd48a0d4a1d5d7ce2e77"
+    },
+    {
+      "path": "sw/models/yolov5nu/include/diagnostics.h",
+      "origin": "sw/yolov5/triple32/diagnostics.h",
+      "sha256": "4dde56162c8654bd8396ac0ca726bae32f2e384bef6a73e36871a896ba8ff13a"
+    },
+    {
+      "path": "sw/models/yolov5nu/codegen/fixed_packets.py",
+      "origin": "sw/yolov5/triple32/fixed_packets.py",
+      "sha256": "1381fe09c6c5ff0a37deb7b3f2ba29226b6c3d501dcf0168dcbb1656d198984b",
+      "pre_refactor_sha256": "25e38fc1165fead36171018297225bb8666599cb4c804fedf4adb7251d2ac43d"
+    },
+    {
+      "path": "sw/models/yolov5nu/codegen/fixed_packets_runtime.inc",
+      "origin": "sw/yolov5/triple32/fixed_packets_runtime.inc",
+      "sha256": "4192d8ae507bd73a0a828bf0f12babf384b37cdfe392a0511d01ba777fa00aa2"
+    },
+    {
+      "path": "sw/models/yolov5nu/codegen/fixed_plans.py",
+      "origin": "sw/yolov5/triple32/fixed_plans.py",
+      "sha256": "b09df5c71a839eb51125433741e36a97c522d5f41d95c7bd2bb6073ac5eb795e"
+    },
+    {
+      "path": "sw/benchmarks/triple_infer/generate_inputs.py",
+      "origin": "sw/yolov5/triple32/generate_inputs.py",
+      "sha256": "862a3e9c74fa2c9caead4ef785d1f6436f7a613e974c81212d8d4dffa6cfd6f4",
+      "pre_refactor_sha256": "9288b69cab41d5549ba7d96514c902637108adf28220bab16cf76d950e45da00"
+    },
+    {
+      "path": "sw/models/yolov5nu/codegen/generate_parallel.py",
+      "origin": "sw/yolov5/triple32/generate_parallel.py",
+      "sha256": "c3b819f785e5819ffedae1bdbe13d406a26a65e1260e5fedc4c35ef5bf388f6e",
+      "pre_refactor_sha256": "73630f0ae75449bb178d4db97ccf9cae03d283d7504b20087d4bf20c2ea66eab"
+    },
+    {
+      "path": "tools/analyze/yolov5nu/hardware_log.py",
+      "origin": "sw/yolov5/triple32/hardware_log.py",
+      "sha256": "771258508f24110fb5503b02d384a24d09244b14ac61ae63784e28d583b25030"
+    },
+    {
+      "path": "sw/models/yolov5nu/metadata/import_manifest.json",
+      "origin": "current-project support or integration adaptation",
+      "sha256": "e45dfb3b6154d03de1bc0e106da652c8a6869d377f5e115fa31cd41d8eb81633",
+      "pre_refactor_sha256": "b23b02b2cc50ce41eb6112f4fdfa970dc5464cb4a43ee0373bb84453c63b9f8f"
+    },
+    {
+      "path": "sw/models/yolov5nu/metadata/import_v26_manifest.json",
+      "origin": "current-project support or integration adaptation",
+      "sha256": "ba97140611651e5d89946955b3b98fd145ad375a8f292107cbe2e63416fa01f0",
+      "pre_refactor_sha256": "b9ac8060424e6f7c1fdf915a1de54cb1168487e6615692a8212eb43a7f8ad7e6"
+    },
+    {
+      "path": "sw/models/yolov5nu/src/independent.c",
+      "origin": "sw/yolov5/triple32/independent.c",
+      "sha256": "5a1e004eb204685e9304450169dad476102ca56cd97af090b9a3748d06c440b8"
+    },
+    {
+      "path": "sw/models/yolov5nu/include/independent.h",
+      "origin": "sw/yolov5/triple32/independent.h",
+      "sha256": "dd6f248308c9c824322923b17982fa3af8fb2bed22cbae2bc34f84bdb9aa5998"
+    },
+    {
+      "path": "sw/benchmarks/triple_infer/linker.ld",
+      "origin": "sw/yolov5/triple32/linker.ld",
+      "sha256": "c8c07240057273c3f59ec799e8ce354675b47c6c5d012ee927d5cf96dd958381"
+    },
+    {
+      "path": "sw/benchmarks/triple_infer/main.c",
+      "origin": "sw/yolov5/triple32/main.c",
+      "sha256": "fc94439bccb234a652d2a0b7f21d3d6c99bc0b42a4ab1a0299097b59070a5856"
+    },
+    {
+      "path": "sw/models/yolov5nu/include/memory_kernels.h",
+      "origin": "sw/yolov5/triple32/memory_kernels.h",
+      "sha256": "7acdbf04df0a227d8cb12396792ba0a0a6b482b511edcfef4e3fa00fed2197b0"
+    },
+    {
+      "path": "sw/models/yolov5nu/codegen/memory_kernels.py",
+      "origin": "sw/yolov5/triple32/memory_kernels.py",
+      "sha256": "f73bb0cc187bfbba814053b9b5ebf1b379cb2a6efc81c6ce49c03ae15b857b47"
+    },
+    {
+      "path": "sw/models/yolov5nu/codegen/memory_kernels_runtime.inc",
+      "origin": "sw/yolov5/triple32/memory_kernels_runtime.inc",
+      "sha256": "d5578150378c57665ed9ca34b67b7c40153e4ae2086f1bd13d599c3a92d211a9"
+    },
+    {
+      "path": "tools/analyze/yolov5nu/memory_log.py",
+      "origin": "sw/yolov5/triple32/memory_log.py",
+      "sha256": "6328ec2b2791be520935f2ade9eb50382e7205e5eea0d062a5c6ba510656928d",
+      "pre_refactor_sha256": "8bd9d8cb0eef6dcbe621c1d030fa3d07b1b16bf3fbb353a41b53a27d20116752"
+    },
+    {
+      "path": "sw/models/yolov5nu/src/memory_selftest.inc",
+      "origin": "sw/yolov5/triple32/memory_selftest.inc",
+      "sha256": "9ef94c4c196da99b6022fcffd896e117e627dfacf6f0382b8a57da9ced532d4b"
+    },
+    {
+      "path": "sw/models/yolov5nu/include/mmio.h",
+      "origin": "sw/yolov5/triple32/mmio.h",
+      "sha256": "bf651a560565cdd6f5ec508050c8960905e8fb62cfa2b470d77e83bc7d26eb07"
+    },
+    {
+      "path": "sw/models/yolov5nu/src/model.c",
+      "origin": "sw/yolov5/triple32/model.c",
+      "sha256": "c5ac16059425e3a29873d266675962544abd46c745ca0f011910156444a2462f"
+    },
+    {
+      "path": "sw/models/yolov5nu/frozen/native/worker_profile.c.inc",
+      "origin": "sw/yolov5/dim16_dual/worker_profile.c.inc",
+      "sha256": "a2cd5d4a77f754dddd7d542e52e7b85d7bb57263830d1d0c38f3613f7f5c5526"
+    },
+    {
+      "path": "sw/models/yolov5nu/frozen/native/yolov5nu_dim16_dual.c",
+      "origin": "sw/yolov5/dim16_dual/yolov5nu_dim16_dual.c",
+      "sha256": "fb95464a7e3092c3674adcc550c159ad3f839a1918388fc046c075b167900893"
+    },
+    {
+      "path": "sw/models/yolov5nu/frozen/native/yolov5nu_dim16_dual.h",
+      "origin": "sw/yolov5/dim16_dual/yolov5nu_dim16_dual.h",
+      "sha256": "9cba25d16fbe45fbb8f581850f7e01dfc50307d492ac633c3e1f6d8f10355dd9"
+    },
+    {
+      "path": "sw/models/yolov5nu/frozen/native/yolov5nu_head_layout.h",
+      "origin": "sw/yolov5/dim16_dual/yolov5nu_head_layout.h",
+      "sha256": "81637629d95308360bbffc1c70926b39667b8464b51fbc9bd58c1551cf72974d"
+    },
+    {
+      "path": "sw/models/yolov5nu/codegen/packet_dispatch_runtime.inc",
+      "origin": "sw/yolov5/triple32/packet_dispatch_runtime.inc",
+      "sha256": "7d77577d4336eab967d7e4074552cb22b0c0b1263b6842c0d02630f4c1e1fca7"
+    },
+    {
+      "path": "sw/models/yolov5nu/include/platform.h",
+      "origin": "current-project support or integration adaptation",
+      "sha256": "6cf2a9235c404a4b1a8e94678be8dc76ddb4a64105ca8f92d988307f855a0e0b"
+    },
+    {
+      "path": "sw/benchmarks/triple_infer/ppu.c",
+      "origin": "sw/yolov5/triple32/ppu.c",
+      "sha256": "92f37e202a52692e95d89e7b3d1984127453177ef9bc46961ea3461c711d2ef3"
+    },
+    {
+      "path": "sw/models/yolov5nu/include/ppu.h",
+      "origin": "sw/yolov5/triple32/ppu.h",
+      "sha256": "5b87b81be312e0d9be29ffe536566cf51c7a4c4ea7c06b25137e16510a7cbc8c"
+    },
+    {
+      "path": "sw/benchmarks/triple_infer/ppu_early.inc",
+      "origin": "sw/yolov5/triple32/ppu_early.inc",
+      "sha256": "46e7a9ecb64c68036f495b28a87198aad2ae90ad9fb5033b938e4d72f4b82bce"
+    },
+    {
+      "path": "tools/analyze/yolov5nu/ppu_early_log.py",
+      "origin": "sw/yolov5/triple32/ppu_early_log.py",
+      "sha256": "cd387ccc8bb56b068f8be209f49144b2562ced8d081b793de28f354808fa20ea"
+    },
+    {
+      "path": "sw/benchmarks/triple_infer/ppu_head_clean.inc",
+      "origin": "sw/yolov5/triple32/ppu_head_clean.inc",
+      "sha256": "5bd6f25682ba5453a476b920f7d5ebaa630d1d63d5da53e4af7447d7ac1ba6d8"
+    },
+    {
+      "path": "tools/analyze/yolov5nu/ppu_head_log.py",
+      "origin": "sw/yolov5/triple32/ppu_head_log.py",
+      "sha256": "2c91daf10ce9f37431e87b8335605eea9a57ac4e14a30ef90f0d947a77b52df2"
+    },
+    {
+      "path": "sw/models/yolov5nu/codegen/prepared_packets.py",
+      "origin": "sw/yolov5/triple32/prepared_packets.py",
+      "sha256": "67e0da175b745fef104d5461f601e2671b17fa5a88e4c54a749e2a973750d12f",
+      "pre_refactor_sha256": "274cdddccc719feb9a76d3254b0fcbc864aebfece3f440fc964c8fde4766cfbe"
+    },
+    {
+      "path": "sw/models/yolov5nu/codegen/prepared_packets_runtime.inc",
+      "origin": "sw/yolov5/triple32/prepared_packets_runtime.inc",
+      "sha256": "9672bdb1023b14bcca30ce8b47a78679345f4aea8adbbbbf78136e7f9d2ec9b9"
+    },
+    {
+      "path": "tools/analyze/yolov5nu/rocc_layers.py",
+      "origin": "sw/yolov5/triple32/rocc_layers.py",
+      "sha256": "e64113b934180448de1273638705ae5633427169feb44ae46446809d555498d1"
+    },
+    {
+      "path": "sw/models/yolov5nu/codegen/software_batch.py",
+      "origin": "sw/yolov5/triple32/software_batch.py",
+      "sha256": "3031f6ebea46713157e746455c8e1aa53a5b93f5fc189668adbd45623b03404c"
+    },
+    {
+      "path": "tools/analyze/yolov5nu/software_batch_log.py",
+      "origin": "sw/yolov5/triple32/software_batch_log.py",
+      "sha256": "96abeca439b5d6d4c7cedaf79dd69fa9bf20fd2ee3a6837e4632424dc7ad7d38"
+    },
+    {
+      "path": "sw/models/yolov5nu/codegen/software_batch_runtime.inc",
+      "origin": "sw/yolov5/triple32/software_batch_runtime.inc",
+      "sha256": "6b28e7242ba3108de716e6df3f822f92d13f911c624d4421ecbef17b0bc117ef"
+    },
+    {
+      "path": "tools/analyze/yolov5nu/submit_log.py",
+      "origin": "sw/yolov5/triple32/submit_log.py",
+      "sha256": "0cea2e087c7a5ddcb919728841263c8fc9f925494910a26f63bf1749af729726"
+    },
+    {
+      "path": "tools/analyze/yolov5nu/supply_diag_log.py",
+      "origin": "sw/yolov5/triple32/supply_diag_log.py",
+      "sha256": "b9e712ce4f4cadc87cbe8aa7534ea8fb37e577f46fd32e7fe117625888305c55",
+      "pre_refactor_sha256": "39672ec7e9c0ef95b643dd660ec59acb97377434263bf9137305d24ad04a22e7"
+    },
+    {
+      "path": "sw/benchmarks/triple_infer/support.c",
+      "origin": "sw/yolov5/triple32/support.c",
+      "sha256": "392ec4874cd91f50969a1f9506f996642790e25446453a75933bd491a0a87897"
+    },
+    {
+      "path": "sw/models/yolov5nu/src/task_context_config.h",
+      "origin": "sw/yolov5/triple32/task_context_config.h",
+      "sha256": "b5f62fb1df035a0b5ccfec1934256ab060102c97ac06da025492f2d00518e1b8"
+    },
+    {
+      "path": "sw/models/yolov5nu/src/task_switch.S",
+      "origin": "sw/yolov5/triple32/task_switch.S",
+      "sha256": "1865394cf70cc7a2e09936dd9d8555af86c7ea5c471bd1493acd6ce154f107c0"
+    },
+    {
+      "path": "tests/model/yolov5nu/live_include/mmio.h",
+      "origin": "sw/yolov5/triple32/tests/live_include/mmio.h",
+      "sha256": "e2f37a1a55b65c16637b89075a3bfc8ba113cd8696a3a4ca3d46ee50820203fb"
+    },
+    {
+      "path": "tests/model/yolov5nu/memory_backend.c",
+      "origin": "sw/yolov5/triple32/tests/memory_backend.c",
+      "sha256": "89c1bb0fc2581055fb23d712782e9f4c31f262d9a9e5967a21efdf6b81afb2a7"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_benchmark.py",
+      "origin": "sw/yolov5/triple32/tests/test_benchmark.py",
+      "sha256": "eb73d08eab09ac76d8cc52b352dc0e61f7f495dbdea548d277af9e323f6cff24",
+      "pre_refactor_sha256": "514732f88b5fbf45fc71010a7d44768ff232ecf97c3ebe0ef895d740bf9a717d"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_benchmark_main.py",
+      "origin": "sw/yolov5/triple32/tests/test_benchmark_main.py",
+      "sha256": "8b130f78664fd8d4226e19a9b7e2c00b8760dd67119df476430916f82cd2e35e",
+      "pre_refactor_sha256": "0bded6814fba7d0f71fe14cac8e7ae782fd6dd9ef9929446d58d7acd3739f350"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_capacity.py",
+      "origin": "sw/yolov5/triple32/tests/test_capacity.py",
+      "sha256": "254345ca5c44a9eb09c84797c894182097dcf58a59f28459be36ff67ab73c5c9",
+      "pre_refactor_sha256": "af78d135dbfe283a0132be8bf7932d0aea22d07f3ffd68f530028538d1c3c7b9"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_compare.c",
+      "origin": "sw/yolov5/triple32/tests/test_compare.c",
+      "sha256": "50685700ca96ff566ce478134dc23c7b00797112c0abb87ea6cddc0961a69ea7"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_credit.py",
+      "origin": "sw/yolov5/triple32/tests/test_credit.py",
+      "sha256": "ca0a1301ad6831a28f6cb4988c085abd9dc2dee3546ad020a1ba9d7fef265cef",
+      "pre_refactor_sha256": "c8605b6c2897c10e398b7760550849248793ac384e8becef32b43103026f3078"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_fixed_packets.py",
+      "origin": "sw/yolov5/triple32/tests/test_fixed_packets.py",
+      "sha256": "38ce6b9fc71b3acc867cbea64a93dcd9deed54dd37159a07f43cd58077e67190",
+      "pre_refactor_sha256": "c3cd84ed5d31c7e0db5ced771f3416cd018b54287256caa7e9cc9869e784cc50"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_fixed_plans.py",
+      "origin": "sw/yolov5/triple32/tests/test_fixed_plans.py",
+      "sha256": "a04ce45fe1c039d127a488eb21c0b05c348cdda0a4605ce2fd62527925ca52a3",
+      "pre_refactor_sha256": "79bf81392698d1edde6726fac1fafe33fb5276058a2129a28a2a4f349f60c68e"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_hardware_log.py",
+      "origin": "sw/yolov5/triple32/tests/test_hardware_log.py",
+      "sha256": "69618ae1fca722e3e91d9372d5226df393590c7466551ab69b3861809f3e150b",
+      "pre_refactor_sha256": "db2a1e408ef11de2f82acbca5e536e39da3320f819c57355b920f7f2bccca4f9"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_head_publication.py",
+      "origin": "sw/yolov5/triple32/tests/test_head_publication.py",
+      "sha256": "02cfd139444e8e147b7a5c76bd30bbc35c228bd7b92b897a289e909f277898ba",
+      "pre_refactor_sha256": "1161142e7083f2ca1b6142b17bb410b6b8e3bde8cb6c87ea5e6eee9bf09df5c5"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_independent.py",
+      "origin": "sw/yolov5/triple32/tests/test_independent.py",
+      "sha256": "1dcbbf78845ad340a80e430f434ee29bb4e2015bb713583299b44bdbb9aecead",
+      "pre_refactor_sha256": "abdbd396ffccdc946161073f55984de44a4e6ec4943c17811c16735349a9327a"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_log.py",
+      "origin": "sw/yolov5/triple32/tests/test_log.py",
+      "sha256": "7a7b837829036b6f3c86ea05a5137255f8b054b29a72f5ccfea8484ae44e9658",
+      "pre_refactor_sha256": "2ecae62f87cf274de220b5c1485e202e3bd0ea51e55e782a4852fd6efbe32a15"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_memory_kernels.py",
+      "origin": "sw/yolov5/triple32/tests/test_memory_kernels.py",
+      "sha256": "5e41be2fbcd1f7a4b0b46ff4a84f509a5cf4635c7f0c2b4548fdc510964563c8",
+      "pre_refactor_sha256": "318a3ac9c3ca7c6acc56787526dc8d36ec602adf2bf6e14f3a211cd514a7d82e"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_parallel.py",
+      "origin": "sw/yolov5/triple32/tests/test_parallel.py",
+      "sha256": "ab4904a093dd4052d58d461c6f98afd48752e2d8ad1dda06fceda67eaa6840b4",
+      "pre_refactor_sha256": "5a121405570add66426bc5ddf28fc6bee48d6e599b55796561b6da8b8170b6c4"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_ppu_driver.py",
+      "origin": "sw/yolov5/triple32/tests/test_ppu_driver.py",
+      "sha256": "f089e86ea064201e50e18c096543c77f9573f0f3ee9a5769c39ee2dd6d990bef",
+      "pre_refactor_sha256": "2033ac200bbc02b599e4b129705a2218ca20cf05e43b78c0cc9ae409219417c6"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_ppu_early.py",
+      "origin": "sw/yolov5/triple32/tests/test_ppu_early.py",
+      "sha256": "7977fd4109c26d45b8d4a795607f3a7bae3d74b7bdc72ca7e2a615645b94799b",
+      "pre_refactor_sha256": "a17c97a1d413d026bc816d1ffbdf5e2bdc49fe6a5514b89b5809ba9b68c3dcbc"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_ppu_early_log.py",
+      "origin": "sw/yolov5/triple32/tests/test_ppu_early_log.py",
+      "sha256": "2fc5369d0b4b86a020582497de98cf2fbee77a6975ba8248aaa26215d3b5bdb5",
+      "pre_refactor_sha256": "acf49c2e94504c56d4b2c838d514a0b1f7ba821371389f13a23c6ea7e18bda27"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_prepared_packets.py",
+      "origin": "sw/yolov5/triple32/tests/test_prepared_packets.py",
+      "sha256": "160c9bb995a96b8c4beb03f4d0809fc41b8478716840680c6f886f4048f8e9c0",
+      "pre_refactor_sha256": "72f73377ada673ae1316669de51bf59cb69f0dfd90a6d5d34a05d1fec26efbfb"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_rocc_layers.py",
+      "origin": "sw/yolov5/triple32/tests/test_rocc_layers.py",
+      "sha256": "349bd39f74fb7c2adb23abb1d8e1163a4672f1d34531bf7c1ed8ac88e4acab3d",
+      "pre_refactor_sha256": "a6743fed3c23f17a8751cd466d569ed451d4cce8528f65adf15d3c742b872a20"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_submit_optimizations.py",
+      "origin": "sw/yolov5/triple32/tests/test_submit_optimizations.py",
+      "sha256": "92121c3247224200010bb14592ec01a8a395b77cad5de37253b3265b48100e31",
+      "pre_refactor_sha256": "949542e87a72109cf47eac0436aa282d7fcdeabbf925007fa8ddff17bd34af56"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_supply_diag.py",
+      "origin": "sw/yolov5/triple32/tests/test_supply_diag.py",
+      "sha256": "d64a7a8c194be6b9c7c766a62d6d9425563c431c8419f0d293a9dc08bec18653",
+      "pre_refactor_sha256": "1d229834c44869ebb2ce0702a6af5ef47b68da8c0425664b8fdf1cb2605b88eb"
+    },
+    {
+      "path": "tests/model/yolov5nu/test_wait_reuse.py",
+      "origin": "sw/yolov5/triple32/tests/test_wait_reuse.py",
+      "sha256": "cac13dc3904cf32a769340f714e510de9794a0d08fbb5a0c6c51446cd489b5dd",
+      "pre_refactor_sha256": "20e0926d41e357094a0bf81a7805d5a1b67a655dac30143649f698eef41629f3"
+    },
+    {
+      "path": "sw/models/yolov5nu/model.mk",
+      "origin": "current-project support or integration adaptation",
+      "sha256": "d06d79bf0dd9aa9513512a9f31e54589ad74bf1403f719bcf816688080cc82b6",
+      "pre_refactor_sha256": "5b769251adbe9dde0186ecb1e79d2563b5c1381b4e4f9faa41c7cc80cf4354d8"
+    },
+    {
+      "path": "sw/models/yolov5nu/codegen/wait_reuse.py",
+      "origin": "sw/yolov5/triple32/wait_reuse.py",
+      "sha256": "9f6bd5cf591b3deb617e9345685b20849925d2e69c83a2e4b402fcff492397ba"
+    },
+    {
+      "path": "tools/analyze/yolov5nu/wait_reuse_log.py",
+      "origin": "sw/yolov5/triple32/wait_reuse_log.py",
+      "sha256": "58e978f87238dfe81b9aee231ac23740449f39e20a34ffde70b6501bb7075dfc",
+      "pre_refactor_sha256": "44080c70eb28628418627585a8cae1493d2b460569d86a1a1a02a8449d3a9c3a"
+    },
+    {
+      "path": "sw/models/yolov5nu/include/yolo32.h",
+      "origin": "sw/yolov5/triple32/yolo32.h",
+      "sha256": "fce9a87d664f07867f7ce993c6d9333b789d9e301e739ebee8d0d38837296939"
+    },
+    {
+      "path": "tests/data/yolov5nu/v17a/image025.bin",
+      "origin": "sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/imagenet/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h",
+      "sha256": "d73772514b44a2ec778e4fa7d8543cc0e8c62a3fc08cf1ebd59b1fe552b8775b"
+    },
+    {
+      "path": "tests/data/yolov5nu/v17a/image036.bin",
+      "origin": "sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/imagenet/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image036-profile_params.h",
+      "sha256": "6a2011e80d5ac48cd5c3b860059a4e2dc2fb1f969c398ffc3d535b320dfe9296"
+    },
+    {
+      "path": "tests/data/yolov5nu/v17a/image142.bin",
+      "origin": "sw/yolov5/generators/gemmini/software/gemmini-rocc-tests/imagenet/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image142-profile_params.h",
+      "sha256": "b972487f8fcbe948c7f021022d2311e3c65a1855a976b8011c43c0c0e57bd79c"
     }
-  ]
+  ],
+  "runtime_import": {
+    "donor": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_timing_v3_2026-10-07",
+    "configuration": "v26 credit-cap4 formal / R5 live integration; cap3 and diagnostic benchmark controls"
+  }
 }

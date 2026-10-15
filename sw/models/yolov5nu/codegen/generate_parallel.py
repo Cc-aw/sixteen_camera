@@ -6,7 +6,7 @@ import re
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
-ABI = ROOT / 'sw/third_party/gemmini_v3/include/gemmini.h'
+ABI = ROOT / 'sw/third_party/gemmini/include/gemmini.h'
 MODEL = HERE.parent / 'frozen/native/yolov5nu_dim16_dual.c'
 
 

@@ -292,25 +292,25 @@
     },
     {
       "source": "soc_shell/npu100_video/software/gemmini-rocc-tests/include/gemmini.h",
-      "destination": "sw/third_party/gemmini_v3/include/gemmini.h",
+      "destination": "sw/third_party/gemmini/include/gemmini.h",
       "source_sha256": "94f24b730ef4e17e3e748dec7517f5751bfbb3dd9ac29f6d464a5f6dec8b3f40",
       "imported_sha256": "94f24b730ef4e17e3e748dec7517f5751bfbb3dd9ac29f6d464a5f6dec8b3f40"
     },
     {
       "source": "soc_shell/npu100_video/software/gemmini-rocc-tests/include/gemmini_counter.h",
-      "destination": "sw/third_party/gemmini_v3/include/gemmini_counter.h",
+      "destination": "sw/third_party/gemmini/include/gemmini_counter.h",
       "source_sha256": "5826242287784b9a383d45fdcb6791f8a1651d9d320a1a5f011585a9885b5669",
       "imported_sha256": "5826242287784b9a383d45fdcb6791f8a1651d9d320a1a5f011585a9885b5669"
     },
     {
       "source": "soc_shell/npu100_video/software/gemmini-rocc-tests/include/gemmini_float16.h",
-      "destination": "sw/third_party/gemmini_v3/include/gemmini_float16.h",
+      "destination": "sw/third_party/gemmini/include/gemmini_float16.h",
       "source_sha256": "758c0644c78d8c92a5334b680bfde458823c71e9a1df127474664cc25e2cfaaa",
       "imported_sha256": "758c0644c78d8c92a5334b680bfde458823c71e9a1df127474664cc25e2cfaaa"
     },
     {
       "source": "soc_shell/npu100_video/software/gemmini-rocc-tests/include/gemmini_merged_pool.h",
-      "destination": "sw/third_party/gemmini_v3/include/gemmini_merged_pool.h",
+      "destination": "sw/third_party/gemmini/include/gemmini_merged_pool.h",
       "source_sha256": "d27e9c59ae1de68acdd1fb6c00c238920e6697ce4be4c7450f330f1714cd740d",
       "imported_sha256": "d27e9c59ae1de68acdd1fb6c00c238920e6697ce4be4c7450f330f1714cd740d"
     },

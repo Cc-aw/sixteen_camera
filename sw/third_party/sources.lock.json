@@ -2,46 +2,6 @@
   "baseline_commit": "3715539",
   "sources": [
     {
-      "path": "sw/third_party/gemmini/include/gemmini.h",
-      "origin": "/home/wzr/chipyard/generators/gemmini/software/gemmini-rocc-tests/include/gemmini.h",
-      "sha256": "1cb21e9ba2ab0165c5994d6c1937dc7f1975c3c42adbd90009f955c387aeb2d2"
-    },
-    {
-      "path": "sw/third_party/gemmini/include/gemmini_counter.h",
-      "origin": "/home/wzr/chipyard/generators/gemmini/software/gemmini-rocc-tests/include/gemmini_counter.h",
-      "sha256": "5826242287784b9a383d45fdcb6791f8a1651d9d320a1a5f011585a9885b5669"
-    },
-    {
-      "path": "sw/third_party/gemmini/include/gemmini_nn.h",
-      "origin": "/home/wzr/chipyard/generators/gemmini/software/gemmini-rocc-tests/include/gemmini_nn.h",
-      "sha256": "881078997fd9abbd6bec8cac2451830ffadd458c504cf417ebac0785e394a30f"
-    },
-    {
-      "path": "sw/third_party/gemmini/include/gemmini_params.h",
-      "origin": "/home/wzr/chipyard/generators/gemmini/software/gemmini-rocc-tests/include/gemmini_params.h",
-      "sha256": "3758ae967af3a179497660970201093a7fb624be00173990ce33d3f5c38da924"
-    },
-    {
-      "path": "sw/third_party/gemmini/include/gemmini_params_taihang_16x16_packed_gemmini0.h",
-      "origin": "/home/wzr/chipyard/generators/gemmini/software/gemmini-rocc-tests/include/gemmini_params_taihang_16x16_packed_gemmini0.h",
-      "sha256": "709467f640989a20ffc53ffbadb16978ccdb7e8d8e371bdd7ecfe01d55c7f8ec"
-    },
-    {
-      "path": "sw/third_party/gemmini/include/gemmini_params_taihang_single_4x4_packed.h",
-      "origin": "/home/wzr/chipyard/generators/gemmini/software/gemmini-rocc-tests/include/gemmini_params_taihang_single_4x4_packed.h",
-      "sha256": "6d303db017c1c70d411a7b5e7091c5e8853d0e431b4475c1fd5222c97a86c615"
-    },
-    {
-      "path": "sw/third_party/gemmini/include/gemmini_testutils.h",
-      "origin": "/home/wzr/chipyard/generators/gemmini/software/gemmini-rocc-tests/include/gemmini_testutils.h",
-      "sha256": "ec58aa5ef24a6fc066fa7410d35b77516c2af0c137f6f037e028140e8912ea62"
-    },
-    {
-      "path": "sw/third_party/gemmini/rocc-software/src/xcustom.h",
-      "origin": "/home/wzr/chipyard/generators/gemmini/software/gemmini-rocc-tests/rocc-software/src/xcustom.h",
-      "sha256": "9582eb00cee774e4680fde6408a0d607bba85196a0a4fd803f7b7ddd801aad69"
-    },
-    {
       "path": "sw/third_party/amd/v_hdmi_common_v1_7/src/xv_hdmic.c",
       "origin": "/mnt/data/wzr/13p/ALL_MIPI_HDMI/4k/4k60to1k60/demo/11.FH1159/2_software/XCZU15EG/ZYNQMPSOC_15EG_HDMI_4K_LOOP/Vitis/exdes_wrapper/psu_cortexa53_0/standalone_psu_cortexa53_0/bsp/psu_cortexa53_0/libsrc/v_hdmi_common_v1_7/src/xv_hdmic.c",
       "sha256": "6778268f4f7b35e4563e1928f7b42c9ce6d7498c3b7bdcc222e4d0fd7a3df854"

@@ -94,7 +94,7 @@ static void yolo32_fail(const char *s){puts(s);exit(23);}
         main+='assert(packets==3*469);puts("PASS: all 58 convolutions, 1407 native packets; full operands, FP16 scales, offsets, NULL reuse and packet boundaries");return 0;}\n'
         src=out/'stream.c';src.write_text(pre+main)
         flags=['-std=gnu11','-O2','-include',str(PARAMS),'-I'+str(out),'-I'+str(ABI.parent.parent),'-I'+str(ABI.parent)]
-        flags+=['-I'+str(HERE.parents[3]/'sw/third_party/gemmini_v3')]
+        flags+=['-I'+str(HERE.parents[3]/'sw/third_party/gemmini')]
         cls.exe=out/'stream'
         result=subprocess.run(['gcc']+flags+[str(src),'-lm','-o',str(cls.exe)],capture_output=True,text=True)
         if result.returncode:raise RuntimeError(result.stderr)

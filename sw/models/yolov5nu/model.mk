@@ -1,6 +1,6 @@
 # Shared native v26 model and scheduler for benchmark and video firmware.
 V26_ROOT := $(PROJECT_ROOT)/sw/models/yolov5nu
-V26_ABI := $(PROJECT_ROOT)/sw/third_party/gemmini_v3
+V26_ABI := $(PROJECT_ROOT)/sw/third_party/gemmini
 V26_CONFIG := tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig
 V26_PARAMS := $(PROJECT_ROOT)/hw/soc/$(V26_CONFIG)/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom3_xcvu13p.h
 V26_CREDIT_LIMIT ?= 4

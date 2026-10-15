@@ -7,7 +7,7 @@ import importlib.util
 import sys
 
 spec = importlib.util.spec_from_file_location(
-    'elf_audit', Path(sys.argv[1]) / 'tools/check/check_v17a_firmware.py')
+    'elf_audit', Path(sys.argv[1]) / 'tools/check/check_firmware.py')
 audit = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(audit)
 root = 'ai_ppu_queue_submit'

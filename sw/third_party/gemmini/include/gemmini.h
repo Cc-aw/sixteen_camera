@@ -15,6 +15,7 @@
 #include "include/gemmini_params.h"
 
 #define GEMMINI_ASSERTIONS
+#include "gemmini_float16.h"
 
 /* Enable per-convolution batch/weight reuse diagnostics at compile time. */
 #ifndef GEMMINI_BATCH_DEBUG
@@ -160,6 +161,9 @@ static bool acc_t_isnan(acc_t x) {
 
 #ifdef HAS_MVIN_SCALE
 static scale_t scale_t_bits_to_scale_t(scale_t_bits x) {
+#if defined(MVIN_SCALE_EXP_BITS) && MVIN_SCALE_EXP_BITS == 5 && MVIN_SCALE_SIG_BITS == 11
+    return gemmini_half_to_float(x);
+#else
     union {
         scale_t_bits b;
         scale_t f;
@@ -167,9 +171,13 @@ static scale_t scale_t_bits_to_scale_t(scale_t_bits x) {
 
     un.b = x;
     return un.f;
+#endif
 }
 
 static scale_t_bits scale_t_to_scale_t_bits(scale_t x) {
+#if defined(MVIN_SCALE_EXP_BITS) && MVIN_SCALE_EXP_BITS == 5 && MVIN_SCALE_SIG_BITS == 11
+    return gemmini_float_to_half(x);
+#else
     union {
         scale_t_bits b;
         scale_t f;
@@ -177,6 +185,7 @@ static scale_t_bits scale_t_to_scale_t_bits(scale_t x) {
 
     un.f = x;
     return un.b;
+#endif
 }
 #else
 #define scale_t_to_scale_t_bits(x) 0
@@ -205,6 +214,9 @@ static scale_acc_t_bits scale_acc_t_to_scale_acc_t_bits(scale_acc_t x) {
 #endif
 
 static acc_scale_t acc_scale_t_bits_to_acc_scale_t(acc_scale_t_bits x) {
+#if defined(ACC_SCALE_EXP_BITS) && ACC_SCALE_EXP_BITS == 5 && ACC_SCALE_SIG_BITS == 11
+    return gemmini_half_to_float(x);
+#else
     union {
         acc_scale_t_bits b;
         acc_scale_t f;
@@ -212,9 +224,13 @@ static acc_scale_t acc_scale_t_bits_to_acc_scale_t(acc_scale_t_bits x) {
 
     un.b = x;
     return un.f;
+#endif
 }
 
 static acc_scale_t_bits acc_scale_t_to_acc_scale_t_bits(acc_scale_t x) {
+#if defined(ACC_SCALE_EXP_BITS) && ACC_SCALE_EXP_BITS == 5 && ACC_SCALE_SIG_BITS == 11
+    return gemmini_float_to_half(x);
+#else
     union {
         acc_scale_t_bits b;
         acc_scale_t f;
@@ -222,6 +238,7 @@ static acc_scale_t_bits acc_scale_t_to_acc_scale_t_bits(acc_scale_t x) {
 
     un.f = x;
     return un.b;
+#endif
 }
 
 #ifdef GEMMINI_POOL_RUNTIME_DISPATCH
@@ -232,13 +249,23 @@ extern void gemmini_pool_record_command(unsigned funct);
 #else
 #define GEMMINI_POOL_RECORD_COMMAND(funct) do { (void)(funct); } while (0)
 #endif
+#ifndef GEMMINI_POOL_COMMAND_ARGS_HOOK
+#define GEMMINI_POOL_COMMAND_ARGS_HOOK(funct, rs1, rs2) do { } while (0)
+#endif
+#ifndef GEMMINI_POOL_COMMAND_RETURN_HOOK
+#define GEMMINI_POOL_COMMAND_RETURN_HOOK(funct) do { (void)(funct); } while (0)
+#endif
 #define ROCC_INSTRUCTION_RS1_RS2(x, rs1, rs2, funct) { \
   GEMMINI_POOL_RECORD_COMMAND(funct); \
+  GEMMINI_POOL_COMMAND_ARGS_HOOK(funct, rs1, rs2); \
   if (gemmini_pool_active_worker == 0) { \
     ROCC_INSTRUCTION_0_R_R(3, rs1, rs2, funct); \
-  } else { \
+  } else if (gemmini_pool_active_worker == 1) { \
     ROCC_INSTRUCTION_0_R_R(2, rs1, rs2, funct); \
-  } \
+  } else if (gemmini_pool_active_worker == 2) { \
+    ROCC_INSTRUCTION_0_R_R(1, rs1, rs2, funct); \
+  } else { __builtin_trap(); } \
+  GEMMINI_POOL_COMMAND_RETURN_HOOK(funct); \
 }
 #else
 #define GEMMINI_POOL_RECORD_COMMAND(funct) do { (void)(funct); } while (0)
@@ -362,7 +389,9 @@ _STATIC void gemmini_config_silu_lut(const elem_t lut[256]) {
   ROCC_INSTRUCTION_RS1_RS2(XCUSTOM_ACC, skip, 0, k_FLUSH)
 
 // fence
+#ifndef gemmini_fence
 #define gemmini_fence() asm volatile("fence")
+#endif
 
 // Counter access
 #define gemmini_counter_access(rd, config_reg) \
@@ -436,7 +465,7 @@ static int ceil_divide_int(int a, int b){
     ROCC_INSTRUCTION_RS1_RS2(XCUSTOM_ACC, ((uint64_t)(a_spad_id) << 18) | ((uint64_t)(b_spad_id) << 16) | ((uint64_t)(act) << 8) | ((low_D) << 2) | ((full_C) << 1) | (ex_accumulate), ((uint64_t)(C) << 32) | 0x200U | (skips) | ((is_resadd) << 2) | ((B_transpose) << 1) | (A_transpose), k_LOOP_WS) \
   }
 
-/* IPOAE-A（Author 作者：王志瑞）：LoopConv credit admission 只在显式打开并且硬件导出了专用
+/* IPOAT-A（Author 作者：王志瑞）：LoopConv credit admission 只在显式打开并且硬件导出了专用
    status CSR 的构建中生效。等待体只读取该状态 CSR 并执行 NOP；它不会轮询 busy、
    发射 RoCC、访问内存、刷新 cache 或依赖任何软件 completion。 */
 #if defined(GEMMINI_LOOPCONV_CREDIT_ADMISSION) && GEMMINI_LOOPCONV_CREDIT_ADMISSION
@@ -473,9 +502,16 @@ static int ceil_divide_int(int a, int b){
 #endif
 _STATIC inline uint64_t gemmini_loopconv_status_read(void) {
   uint64_t value;
+#if defined(GEMMINI_POOL_RUNTIME_DISPATCH) && defined(GEMMINI_LOOPCONV_WORKER2_STATUS_CSR)
+  if (gemmini_pool_active_worker == 2) {
+    __asm__ volatile("csrr %0, " STR(GEMMINI_LOOPCONV_WORKER2_STATUS_CSR)
+                     : "=r"(value) :: "memory");
+    return value;
+  }
+#endif
 #if defined(GEMMINI_POOL_RUNTIME_DISPATCH) && \
     defined(GEMMINI_LOOPCONV_WORKER1_STATUS_CSR)
-  if (gemmini_pool_active_worker != 0) {
+  if (gemmini_pool_active_worker == 1) {
     __asm__ volatile("csrr %0, " STR(GEMMINI_LOOPCONV_WORKER1_STATUS_CSR)
                      : "=r"(value) :: "memory");
     return value;
@@ -493,9 +529,16 @@ _STATIC inline uint64_t gemmini_loopconv_cycle_read(void) {
 #ifdef GEMMINI_LOOPCONV_ACCEPTED_CSR
 _STATIC inline uint32_t gemmini_loopconv_accepted_count_read(void) {
   uint64_t value;
+#if defined(GEMMINI_POOL_RUNTIME_DISPATCH) && defined(GEMMINI_LOOPCONV_WORKER2_ACCEPTED_CSR)
+  if (gemmini_pool_active_worker == 2) {
+    __asm__ volatile("csrr %0, " STR(GEMMINI_LOOPCONV_WORKER2_ACCEPTED_CSR)
+                     : "=r"(value) :: "memory");
+    return value;
+  }
+#endif
 #if defined(GEMMINI_POOL_RUNTIME_DISPATCH) && \
     defined(GEMMINI_LOOPCONV_WORKER1_ACCEPTED_CSR)
-  if (gemmini_pool_active_worker != 0) {
+  if (gemmini_pool_active_worker == 1) {
     __asm__ volatile("csrr %0, " STR(GEMMINI_LOOPCONV_WORKER1_ACCEPTED_CSR)
                      : "=r"(value) :: "memory");
     return (uint32_t)value;
@@ -509,9 +552,16 @@ _STATIC inline uint32_t gemmini_loopconv_accepted_count_read(void) {
 #ifdef GEMMINI_LOOPCONV_RETIRED_CSR
 _STATIC inline uint32_t gemmini_loopconv_retired_count_read(void) {
   uint64_t value;
+#if defined(GEMMINI_POOL_RUNTIME_DISPATCH) && defined(GEMMINI_LOOPCONV_WORKER2_RETIRED_CSR)
+  if (gemmini_pool_active_worker == 2) {
+    __asm__ volatile("csrr %0, " STR(GEMMINI_LOOPCONV_WORKER2_RETIRED_CSR)
+                     : "=r"(value) :: "memory");
+    return value;
+  }
+#endif
 #if defined(GEMMINI_POOL_RUNTIME_DISPATCH) && \
     defined(GEMMINI_LOOPCONV_WORKER1_RETIRED_CSR)
-  if (gemmini_pool_active_worker != 0) {
+  if (gemmini_pool_active_worker == 1) {
     __asm__ volatile("csrr %0, " STR(GEMMINI_LOOPCONV_WORKER1_RETIRED_CSR)
                      : "=r"(value) :: "memory");
     return (uint32_t)value;
@@ -1955,7 +2005,6 @@ static void sp_tiled_conv(
       }
 
       gemmini_extended_config_st(out_channels * sizeof(elem_t), act, scale);
-<<<<<<< HEAD
       */
 //    }
 //  }

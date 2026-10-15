@@ -1,11 +1,10 @@
 TOOLCHAIN ?= riscv64-unknown-elf-
-GEMMINI_TESTS := $(CURDIR)/third_party/gemmini
 PROJECT_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/..)
 SOC_VARIANT ?= triple32_v3_tensor
 ifneq ($(SOC_VARIANT),triple32_v3_tensor)
 $(error Only the current triple32_v3_tensor configuration is supported)
 endif
-GEMMINI_ABI_ROOT := $(PROJECT_ROOT)/sw/third_party/gemmini_v3
+GEMMINI_ABI_ROOT := $(PROJECT_ROOT)/sw/third_party/gemmini
 MODEL_WORKERS := 3
 MODEL_DIM := 32
 
@@ -42,7 +41,7 @@ ARCH_FLAGS := -march=rv64gcv -mabi=lp64d -mcmodel=medany
 # require the fixed name xparameters.h, supplied by src/board ahead of the BSP.
 CFLAGS := $(ARCH_FLAGS) -std=c11 -Os -g3 -ffreestanding -fno-builtin \
 	-fno-common -fdata-sections -ffunction-sections -Wall -Wextra -Werror \
-	-DXV_CONFIG_LOG_DISABLE_ALL -Isrc -Isrc/board -I$(GEMMINI_ABI_ROOT) -I$(GEMMINI_TESTS) \
+	-DXV_CONFIG_LOG_DISABLE_ALL -Isrc -Isrc/board -I$(GEMMINI_ABI_ROOT) \
 	-DAI_MODEL_WORKER_COUNT=$(MODEL_WORKERS)U \
 	-DYOLOV5NU_DIM16_WORKER_COUNT=$(MODEL_WORKERS)U \
 	-DYOLOV5NU_GEMMINI_DIM=$(MODEL_DIM) \
@@ -152,7 +151,7 @@ $(BUILD)/v26/firmware-config.stamp: force-v26-config
 	@python3 -c 'import sys; from pathlib import Path; p=Path(sys.argv[1]); v=sys.argv[2]+"\n"; p.write_text(v) if not p.exists() or p.read_text()!=v else None' "$@" "$(V26_BUILD_SIGNATURE)"
 $(OBJECTS): Makefile $(V26_ROOT)/model.mk $(BUILD)/v26/firmware-config.stamp
 
-.PHONY: all clean size check-tools yolov5nu-regenerate
+.PHONY: all clean size check-tools
 all: check-tools $(TARGET).elf $(TARGET).bin $(TARGET).hex $(TARGET).dump size
 
 check-tools:
@@ -171,12 +170,6 @@ $(BUILD)/%.o: src/%.c | $(BUILD)
 	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
-YOLOV5_GEN_ROOT := $(CURDIR)/models/yolov5nu
-YOLOV5_IMAGENET := $(YOLOV5_GEN_ROOT)/assets
-YOLOV5_PARAMS := $(YOLOV5_IMAGENET)/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h
-
-yolov5nu-regenerate:
-	python3 models/yolov5nu/runtime/generate_runtime.py
 
 
 define make-board-rule

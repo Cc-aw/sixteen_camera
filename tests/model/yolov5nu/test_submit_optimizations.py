@@ -120,7 +120,7 @@ class FixedOpcodeConv(conv_tests.FixedPacketsTests):
         from generate_parallel import ABI
         cls.flags=['-std=gnu11','-O2','-include',str(PARAMS),'-I'+str(cls.out),
                    '-I'+str(ABI.parent.parent),'-I'+str(ABI.parent),
-                   '-I'+str(HERE.parents[3]/'sw/third_party/gemmini_v3'),
+                   '-I'+str(HERE.parents[3]/'sw/third_party/gemmini'),
                    '-DYOLO32_PACKET_DISPATCH=1']
         subprocess.run(['gcc']+cls.flags+[str(cls.out/'stream.c'),'-lm','-o',str(cls.exe)],check=True,capture_output=True)
 

@@ -14,7 +14,7 @@
 | `sw/src/drivers/ppu/ai_ppu_device_queue.c` | 队列启用/expect/submit/peek/pop、单命令地址提交、状态/reader/计数/原始 detection 读取 |
 | `sw/src/ai/postprocess/ai_ppu_publication.c`、`ai_ppu_queue.c` | 原 API 兼容适配，转换原 Head 描述符及结果类型；设备实现通过这两个原编译入口各包含一次 |
 | `sw/src/ai/backend/ai_model_backend_yolov5nu.c` | 所有直接 PPU CSR 访问接设备接口；仍负责 cache flush、时钟/超时、Head 所有权、完整身份匹配、回收及 fault 策略 |
-| `tools/check/check_v17a_firmware.py` | ELF 检查沿 PPU 适配调用继续追踪设备函数，防止屏障藏在下层而被误判 |
+| `tools/check/check_firmware.py` | ELF 检查沿 PPU 适配调用继续追踪设备函数，防止屏障藏在下层而被误判 |
 | `tests/host/`、`tests/data/runtime/r1a/`、根 Makefile | 冻结旧 publication/queue/backend oracle；设备、live/legacy 后端轨迹及 ELF 审计负例；增加两个测试入口 |
 
 保留旧文件作为**过渡编译入口**有明确原因：V17A 的 ordered MMIO 只配置于原 publication/queue

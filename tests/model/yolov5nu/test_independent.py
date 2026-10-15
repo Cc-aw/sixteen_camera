@@ -304,7 +304,7 @@ int main(void){
         cls.riscv_light = root/'riscv-light-test'
         cls.riscv_available = cls.qemu and (TOOLCHAIN/'riscv64-unknown-linux-gnu-gcc').exists()
         if cls.riscv_available:
-            includes = ['-I'+str(HERE.parents[3]/'sw/third_party/gemmini_v3/include')]
+            includes = ['-I'+str(HERE.parents[3]/'sw/third_party/gemmini/include')]
             for full,exe in ((1,cls.riscv),(0,cls.riscv_light)):
                 flags=[a.replace('YOLO32_CONTEXT_FULL=1',f'YOLO32_CONTEXT_FULL={full}') for a in args]
                 subprocess.run([str(TOOLCHAIN/'riscv64-unknown-linux-gnu-gcc'), '-static', '-march=rv64gcv', '-mabi=lp64d']+
@@ -358,7 +358,7 @@ int main(void){
         executables=[[host]]
         if self.riscv_available:
             riscv=self.root/'single-packet-riscv-test'
-            include='-I'+str(HERE.parents[3]/'sw/third_party/gemmini_v3/include')
+            include='-I'+str(HERE.parents[3]/'sw/third_party/gemmini/include')
             subprocess.run([str(TOOLCHAIN/'riscv64-unknown-linux-gnu-gcc'),'-static','-march=rv64gcv','-mabi=lp64d']+
                 args+[include]+sources+[str(self.local/'task_switch.S'),'-o',str(riscv)],check=True,capture_output=True)
             executables.append([self.qemu,'-cpu','rv64,v=true,vlen=256',riscv])
@@ -637,8 +637,8 @@ void yolo32_ppu_early_service(void){
         flags = ['-Wno-unused-function','-Wno-unused-parameter','-Wno-unused-variable',
                        '-Wno-sign-compare','-Wno-misleading-indentation', '-include',str(params), '-I'+str(out),
                        '-I'+str(self.local),'-I'+str(ABI.parent.parent),'-I'+str(ABI.parent),
-                       '-I'+str(HERE.parents[3]/'sw/third_party/gemmini_v3/include'),
-                       '-I'+str(HERE.parents[3]/'sw/third_party/gemmini_v3')]
+                       '-I'+str(HERE.parents[3]/'sw/third_party/gemmini/include'),
+                       '-I'+str(HERE.parents[3]/'sw/third_party/gemmini')]
         if fixed_packets:
             flags += ['-I'+str(generated), '-DYOLO32_FIXED_PLANS=1', '-DYOLO32_FIXED_PACKETS=1']
         if prepared:

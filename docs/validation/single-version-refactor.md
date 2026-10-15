@@ -102,3 +102,29 @@ ELF 的调试路径变化不作为行为不等价的依据。
 `make test-software` PASS：175 项原生模型测试无跳过，全部 Host/RV64 runner 通过。
 证据：`build/refactor/p3/`。
 Vivado/综合/实现/板测：**NOT RUN**（P3）。
+
+## P4：按闭包精确清理
+
+逐项删除理由、SHA、Git 恢复路径和 ABI 迁移表见
+[退休清单](single-version-retirements.json)，原始引用搜索及 `.d` 证据位于
+`build/refactor/p4/`。18 项退休文件包括 single4 Linux 配置/说明、未使用的 v17a
+Make 片段、旧 runtime 生成链、退休硬件的板端工具和旧 Gemmini 快照。
+两个当前 ELF 的 224 个实际源码依赖中均没有这些候选；生成器明确使用
+`frozen/native`，现有离线测试未减少，稀疏 worker 和故障/回收用例均保留。
+
+| 旧路径 | 新路径或处理 |
+| --- | --- |
+| `sw/third_party/gemmini_v3/` | `sw/third_party/gemmini/`，17 项源码/许可原样保留 |
+| `models/yolov5nu/metadata/v26-sources.lock.json` | 合并入模型根 `sources.lock.json`，保留原 SHA |
+| `tools/check/check_v17a_firmware.py` | `tools/check/check_firmware.py`，仅审核当前 v26 交付 |
+| `test-v17a`、`check-v17a-firmware`、`yolov5nu-regenerate` | 退休入口；当前入口为 `test-model/test-v26`、`check-v26-firmware` 和共享模型生成规则 |
+
+Gemmini 两份 LICENSE 内容相同；原 V3 目录源码哈希与新的当前目录逐项相同。
+预处理 include 轨迹和 `.d` 同时检查，两个 ELF 的 `.text` 仍与 P0 相同。
+`make check-deps`、视频/基准构建、实际 ELF 审核 PASS；原生模型 175 项 PASS。首次 Host 聚合在 ELF 测试仍引用旧审核脚本时失败；
+已将该引用改为 `check_firmware.py`，原断言不变，`make test-host` 全部 PASS，`make test-v26` 再次 PASS（175 项、无跳过及实时/后端测试）。
+初次失败日志保留在 `test-software.log`，修正后的完整 Host 日志为 `test-host-retry.log`。
+
+`frozen/native` 和当前 V17A-family adapter 为 REQUIRED。禁用实验的动态生成引用及
+shell 冻结辅助工具尚不具备完整删除证据，标记 **BLOCKED** 并保留，未裁剪当前协议或算法。
+Vivado/综合/实现/板测：**NOT RUN**（P4）。

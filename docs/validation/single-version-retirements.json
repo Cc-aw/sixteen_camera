@@ -1,0 +1,178 @@
+{
+  "baseline_tag": "before-single-version-refactor-20261015",
+  "retired": [
+    {
+      "path": "hw/configs/taihang_soc/LinuxConfigs.scala",
+      "sha256": "c1d913f92b0bd175506b1aba165cef0ff86bd1a44f672fee2c6781fa0a219858",
+      "reason": "No generator, manifest or SBT source filter reads hw/configs; the current generator installs only frozen reference plus shell overlays and TensorIngress. No current source references the single4 Linux Config classes.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:hw/configs/taihang_soc/LinuxConfigs.scala"
+    },
+    {
+      "path": "sw/models/yolov5nu/v17a.mk",
+      "sha256": "ecf0607237ec745e7b93ea44ffe9a6dcc9748a9dc22518c0f18a2a204731f770",
+      "reason": "Both evaluated production entries include model.mk. No current Make include uses this retired fragment; keep the active V17A-family backend.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:sw/models/yolov5nu/triple32/v17a.mk"
+    },
+    {
+      "path": "sw/models/yolov5nu/runtime/generate_runtime.py",
+      "sha256": "c2c8ceeb10f8a7f03420e402240a795daffc1b0cfd535905521fe0b00e714825",
+      "reason": "Both current Make entries generate from frozen/native using codegen/generate_parallel.py. Retire the unused yolov5nu-regenerate target; retained API headers have moved to include/runtime.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:sw/models/yolov5nu/runtime/generate_runtime.py"
+    },
+    {
+      "path": "sw/models/yolov5nu/runtime/README.md",
+      "sha256": "ded54bf9868883af8786cb3ca929592b017820275d66edbde5dd90d29ef7aa96",
+      "reason": "Both current Make entries generate from frozen/native using codegen/generate_parallel.py. Retire the unused yolov5nu-regenerate target; retained API headers have moved to include/runtime.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:sw/models/yolov5nu/runtime/README.md"
+    },
+    {
+      "path": "sw/models/yolov5nu/runtime/worker_profile.c.inc",
+      "sha256": "3ac54dd4f3efb12569d8d4d9e2fe662e196ee2e5584950148f2cf5a353ad9c84",
+      "reason": "Both current Make entries generate from frozen/native using codegen/generate_parallel.py. Retire the unused yolov5nu-regenerate target; retained API headers have moved to include/runtime.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:sw/models/yolov5nu/runtime/worker_profile.c.inc"
+    },
+    {
+      "path": "sw/models/yolov5nu/runtime/yolov5nu_dim16_dual.c",
+      "sha256": "87f9aca7ad678afaf2dcc9a4b736287ef199a41deeeccd7b61c58f74cc7b9ec3",
+      "reason": "Both current Make entries generate from frozen/native using codegen/generate_parallel.py. Retire the unused yolov5nu-regenerate target; retained API headers have moved to include/runtime.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:sw/models/yolov5nu/runtime/yolov5nu_dim16_dual.c"
+    },
+    {
+      "path": "tests/rtl/run_yolov5nu_dual_correctness.sh",
+      "sha256": "e6503f9103b7004b489feb0bcf20741266918b44dca2f851a312e7fc2c534da5",
+      "reason": "Board-only entry invokes retired SOC_VARIANT=dual16 and its log parser accepts retired models. Current M/t/a benchmark and 175 native plus sparse-worker Host/RV64 tests replace the retired flow; no current offline test is removed.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:tests/rtl/run_yolov5nu_dual_correctness.sh"
+    },
+    {
+      "path": "tests/rtl/test_yolov5nu_dual_correctness.py",
+      "sha256": "28d8070ed38800a9fb21fc8dea051397440dba68cb7c465ff5efc2824ccf7aba",
+      "reason": "Board-only entry invokes retired SOC_VARIANT=dual16 and its log parser accepts retired models. Current M/t/a benchmark and 175 native plus sparse-worker Host/RV64 tests replace the retired flow; no current offline test is removed.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:tests/rtl/test_yolov5nu_dual_correctness.py"
+    },
+    {
+      "path": "sw/third_party/gemmini/LICENSE",
+      "sha256": "c3b204bde93ad5054b0797fdbbb23a36e68d25672dc2d5ed39c3f69299457fac",
+      "reason": "Both current ELF .d closures select the V3 ABI; the old include root contributes no file. Replace with byte-preserved V3 tree; LICENSE is identical.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:sw/third_party/gemmini/LICENSE"
+    },
+    {
+      "path": "sw/third_party/gemmini/include/gemmini.h",
+      "sha256": "1cb21e9ba2ab0165c5994d6c1937dc7f1975c3c42adbd90009f955c387aeb2d2",
+      "reason": "Both current ELF .d closures select the V3 ABI; the old include root contributes no file. Replace with byte-preserved V3 tree; LICENSE is identical.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:sw/third_party/gemmini/include/gemmini.h"
+    },
+    {
+      "path": "sw/third_party/gemmini/include/gemmini_counter.h",
+      "sha256": "5826242287784b9a383d45fdcb6791f8a1651d9d320a1a5f011585a9885b5669",
+      "reason": "Both current ELF .d closures select the V3 ABI; the old include root contributes no file. Replace with byte-preserved V3 tree; LICENSE is identical.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:sw/third_party/gemmini/include/gemmini_counter.h"
+    },
+    {
+      "path": "sw/third_party/gemmini/include/gemmini_nn.h",
+      "sha256": "881078997fd9abbd6bec8cac2451830ffadd458c504cf417ebac0785e394a30f",
+      "reason": "Both current ELF .d closures select the V3 ABI; the old include root contributes no file. Replace with byte-preserved V3 tree; LICENSE is identical.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:sw/third_party/gemmini/include/gemmini_nn.h"
+    },
+    {
+      "path": "sw/third_party/gemmini/include/gemmini_params.h",
+      "sha256": "3758ae967af3a179497660970201093a7fb624be00173990ce33d3f5c38da924",
+      "reason": "Both current ELF .d closures select the V3 ABI; the old include root contributes no file. Replace with byte-preserved V3 tree; LICENSE is identical.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:sw/third_party/gemmini/include/gemmini_params.h"
+    },
+    {
+      "path": "sw/third_party/gemmini/include/gemmini_params_taihang_16x16_packed_gemmini0.h",
+      "sha256": "709467f640989a20ffc53ffbadb16978ccdb7e8d8e371bdd7ecfe01d55c7f8ec",
+      "reason": "Both current ELF .d closures select the V3 ABI; the old include root contributes no file. Replace with byte-preserved V3 tree; LICENSE is identical.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:sw/third_party/gemmini/include/gemmini_params_taihang_16x16_packed_gemmini0.h"
+    },
+    {
+      "path": "sw/third_party/gemmini/include/gemmini_params_taihang_single_4x4_packed.h",
+      "sha256": "6d303db017c1c70d411a7b5e7091c5e8853d0e431b4475c1fd5222c97a86c615",
+      "reason": "Both current ELF .d closures select the V3 ABI; the old include root contributes no file. Replace with byte-preserved V3 tree; LICENSE is identical.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:sw/third_party/gemmini/include/gemmini_params_taihang_single_4x4_packed.h"
+    },
+    {
+      "path": "sw/third_party/gemmini/include/gemmini_testutils.h",
+      "sha256": "ec58aa5ef24a6fc066fa7410d35b77516c2af0c137f6f037e028140e8912ea62",
+      "reason": "Both current ELF .d closures select the V3 ABI; the old include root contributes no file. Replace with byte-preserved V3 tree; LICENSE is identical.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:sw/third_party/gemmini/include/gemmini_testutils.h"
+    },
+    {
+      "path": "sw/third_party/gemmini/rocc-software/src/xcustom.h",
+      "sha256": "9582eb00cee774e4680fde6408a0d607bba85196a0a4fd803f7b7ddd801aad69",
+      "reason": "Both current ELF .d closures select the V3 ABI; the old include root contributes no file. Replace with byte-preserved V3 tree; LICENSE is identical.",
+      "active_dependency": false,
+      "recover": "before-single-version-refactor-20261015:sw/third_party/gemmini/rocc-software/src/xcustom.h"
+    },
+    {
+      "path": "docs/integration/linux-single4.md",
+      "sha256": "eae71a703e506292e4d993f8477edc683f8f6ad8f03bcd60bc391cb892c996cf",
+      "reason": "Retired single4-only integration document; current navigation and source are retired together.",
+      "recover": "before-single-version-refactor-20261015:docs/integration/linux-single4.md"
+    }
+  ],
+  "abi_moves": {
+    "sw/third_party/gemmini_v3/LICENSE": "sw/third_party/gemmini/LICENSE",
+    "sw/third_party/gemmini_v3/README.md": "sw/third_party/gemmini/README.md",
+    "sw/third_party/gemmini_v3/sources.lock.json": "sw/third_party/gemmini/sources.lock.json",
+    "sw/third_party/gemmini_v3/include/accumulator.h": "sw/third_party/gemmini/include/accumulator.h",
+    "sw/third_party/gemmini_v3/include/character.h": "sw/third_party/gemmini/include/character.h",
+    "sw/third_party/gemmini_v3/include/gemmini.h": "sw/third_party/gemmini/include/gemmini.h",
+    "sw/third_party/gemmini_v3/include/gemmini_counter.h": "sw/third_party/gemmini/include/gemmini_counter.h",
+    "sw/third_party/gemmini_v3/include/gemmini_float16.h": "sw/third_party/gemmini/include/gemmini_float16.h",
+    "sw/third_party/gemmini_v3/include/gemmini_merged_pool.h": "sw/third_party/gemmini/include/gemmini_merged_pool.h",
+    "sw/third_party/gemmini_v3/include/gemmini_nn.h": "sw/third_party/gemmini/include/gemmini_nn.h",
+    "sw/third_party/gemmini_v3/include/gemmini_params.h": "sw/third_party/gemmini/include/gemmini_params.h",
+    "sw/third_party/gemmini_v3/include/gemmini_testutils.h": "sw/third_party/gemmini/include/gemmini_testutils.h",
+    "sw/third_party/gemmini_v3/include/translator.h": "sw/third_party/gemmini/include/translator.h",
+    "sw/third_party/gemmini_v3/include/yolov5nu_silu_lut_rvv.h": "sw/third_party/gemmini/include/yolov5nu_silu_lut_rvv.h",
+    "sw/third_party/gemmini_v3/include/yolov5nu_silu_opencv_rvv.h": "sw/third_party/gemmini/include/yolov5nu_silu_opencv_rvv.h",
+    "sw/third_party/gemmini_v3/include/yolov5nu_stage3_rvv.h": "sw/third_party/gemmini/include/yolov5nu_stage3_rvv.h",
+    "sw/third_party/gemmini_v3/include/yolov5nu_stage4_rvv.h": "sw/third_party/gemmini/include/yolov5nu_stage4_rvv.h",
+    "sw/third_party/gemmini_v3/rocc-software/src/xcustom.h": "sw/third_party/gemmini/rocc-software/src/xcustom.h"
+  },
+  "metadata_merge": {
+    "sw/models/yolov5nu/metadata/v26-sources.lock.json": "sw/models/yolov5nu/sources.lock.json"
+  },
+  "tool_move": {
+    "tools/check/check_v17a_firmware.py": "tools/check/check_firmware.py"
+  },
+  "retained": [
+    {
+      "path": "sw/models/yolov5nu/frozen/native/",
+      "reason": "Actual current generator input; old API names do not indicate retirement.",
+      "status": "REQUIRED"
+    },
+    {
+      "path": "sw/src/ai/backend/adapters/v17a/",
+      "reason": "Current v26 ABI family; no API rename or execution change.",
+      "status": "REQUIRED"
+    },
+    {
+      "path": "sw/models/yolov5nu/codegen/software_batch.py",
+      "reason": "Disabled formal branch still has dynamic generator references; retain pending a separate dependency/semantic review.",
+      "status": "BLOCKED"
+    },
+    {
+      "path": "hw/soc/source/shell/",
+      "reason": "Retain frozen source context and test helpers; no further pruning without a complete helper dependency audit.",
+      "status": "BLOCKED"
+    }
+  ]
+}
