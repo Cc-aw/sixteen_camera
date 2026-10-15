@@ -44,7 +44,9 @@ def validate(product, root=ROOT, evaluate=True):
                 "generator", "frozen_input", "generation_context", "soc_sources", "tensor_ingress_source",
                 "soc_generator", "reference_manifest"):
         path = root / product[key]
-        require(not Path(product[key]).is_absolute() and path.resolve().is_relative_to(root.resolve()),
+        # Vivado's Tcl exec may select its bundled Python, older than the
+        # project's code-generation interpreter. Keep this bridge compatible.
+        require(not Path(product[key]).is_absolute() and root.resolve() in path.resolve().parents,
                 "Nonlocal product path: " + key)
         require(path.exists(), "Missing product input: " + str(path))
     require(product["collateral_directory"] == product["soc_directory"] + "/gen-collateral",
