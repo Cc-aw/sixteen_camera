@@ -34,6 +34,7 @@ help:
 	  'make benchmark            Build V33 formal and diagnostic frontend ELFs' \
 	  'make benchmark-sw-p3 / test-sw-p3 / audit-sw-p3  Build, test and audit reference (SW_P3_MODE=compare for candidates)' \
 	  'make benchmark-v34 / test-v34 / program-v34  V34 HOST/Gemmini/MPV3 diagnostics' \
+	  'make benchmark-first-layer-s2d / test-first-layer-s2d / program-first-layer-s2d  RVV first-layer serial/parallel A/B' \
 	  'make test-v33 / check-v33-firmware  Check V33 plans, scheduler, PPU, logs and ELFs' \
 	  'make firmware             Realtime Runtime adaptation required' \
 	  'make test-software         Run host and model regressions' \
@@ -278,3 +279,15 @@ audit-v34:
 	$(MAKE) -f sw/benchmarks/frontend/v34.mk audit
 program-v34:
 	bash sw/benchmarks/frontend/download-v34.sh $(PROGRAM_ARGS)
+
+.PHONY: benchmark-first-layer-s2d test-first-layer-s2d test-first-layer-s2d-rtl audit-first-layer-s2d program-first-layer-s2d
+benchmark-first-layer-s2d:
+	$(MAKE) -f sw/benchmarks/frontend/first-layer-s2d.mk all
+test-first-layer-s2d:
+	$(MAKE) -f sw/benchmarks/frontend/first-layer-s2d.mk test
+test-first-layer-s2d-rtl:
+	$(MAKE) -f sw/benchmarks/frontend/first-layer-s2d.mk test-rtl
+audit-first-layer-s2d:
+	$(MAKE) -f sw/benchmarks/frontend/first-layer-s2d.mk audit
+program-first-layer-s2d:
+	bash sw/benchmarks/frontend/download-first-layer-s2d.sh $(PROGRAM_ARGS)
