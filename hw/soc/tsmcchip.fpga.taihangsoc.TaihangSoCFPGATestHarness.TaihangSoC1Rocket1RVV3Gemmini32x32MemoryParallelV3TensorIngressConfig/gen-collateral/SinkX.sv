@@ -26,7 +26,7 @@ module SinkX(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusive
     .io_deq_bits_address    (_x_q_io_deq_bits_address),
     .io_deq_bits_invalidate (io_req_bits_control_invalidate)
   );	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  assign io_req_bits_tag = _x_q_io_deq_bits_address[32:16];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:217:22, :218:19, generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkX.scala:29:7, src/main/scala/chisel3/util/Decoupled.scala:362:21]
-  assign io_req_bits_set = {_x_q_io_deq_bits_address[15:13], _x_q_io_deq_bits_address[11:6]};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:217:22, :219:28, generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkX.scala:29:7, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_req_bits_tag = _x_q_io_deq_bits_address[32:16];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:215:22, :216:19, generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkX.scala:29:7, src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign io_req_bits_set = {_x_q_io_deq_bits_address[15:13], _x_q_io_deq_bits_address[11:6]};	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:215:22, :217:28, generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkX.scala:29:7, src/main/scala/chisel3/util/Decoupled.scala:362:21]
 endmodule
 

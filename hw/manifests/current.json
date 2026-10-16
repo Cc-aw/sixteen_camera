@@ -68,6 +68,7 @@
     "diagnostic_elf": "build/firmware/frontend/yolov5_frontend_diag_12.elf",
     "runtime_adapted": false
   },
-  "l2_secondary_entries": 68,
-  "head_read_decouple": true
+  "l2_secondary_entries": 34,
+  "head_read_decouple": false,
+  "l2_implementation": "s1_combinational"
 }

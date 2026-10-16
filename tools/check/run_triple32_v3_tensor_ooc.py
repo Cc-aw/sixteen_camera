@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """Synthesize changed subsystems only, using their actual generated dependencies."""
 import argparse
+import hashlib
 import importlib.util
+import json
 import os
 from pathlib import Path
 import re
 import resource
+import shutil
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -16,8 +19,10 @@ parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--targets", nargs="+", choices=["tensor", "l2", "sbus", "head", "counters", "pool-store", "pool-dma"],
                     default=["tensor", "l2", "sbus", "head", "counters"])
 parser.add_argument("--output", type=Path, required=True)
+parser.add_argument("--rtl", type=Path, default=ROOT / "hw/soc" / generator.NAME / "gen-collateral",
+                    help="Checked generated candidate directory (default: production export)")
 args = parser.parse_args()
-rtl = ROOT / "hw/soc" / generator.NAME / "gen-collateral"
+rtl = args.rtl.resolve()
 modules = {}
 for path in sorted(rtl.glob("*")):
     if path.suffix in {".v", ".sv"}:
@@ -53,6 +58,21 @@ for kind in args.targets:
                    "hw/rtl/ai/postprocess/axi4_head_uram_router_v3.sv", "tests/rtl/benches/memory/memory_v3_head_ooc.sv"]]
     else:
         sources = [ROOT / "hw/rtl/memory/memory_perf_counters.sv"]
+    # Freeze the tested inputs; private candidate generation may continue while
+    # Vivado starts, and the OOC evidence must identify exactly what it read.
+    frozen = out / "rtl"
+    frozen.mkdir()
+    records = []
+    for source in sources:
+        destination = frozen / source.name
+        if destination.exists():
+            raise SystemExit("Duplicate OOC source basename: " + source.name)
+        shutil.copyfile(source, destination)
+        digest = hashlib.sha256(destination.read_bytes()).hexdigest()
+        assert digest == hashlib.sha256(source.read_bytes()).hexdigest(), "OOC source changed during snapshot"
+        records.append(dict(source=str(source), snapshot=str(destination), sha256=digest))
+    (out / "source_snapshot.json").write_text(json.dumps(records, indent=2) + "\n")
+    sources = [Path(item["snapshot"]) for item in records]
     filelist = out / "sources.txt"
     filelist.write_text("".join(str(p) + "\n" for p in sources))
     with (out / "console.log").open("w") as log:

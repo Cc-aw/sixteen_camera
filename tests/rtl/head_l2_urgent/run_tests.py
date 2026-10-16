@@ -68,17 +68,25 @@ def head(r):
     common = [ROOT / 'hw/rtl/interfaces/axi4_if.sv', ROOT / 'hw/rtl/ai/postprocess/head_uram_store.sv',
               ROOT / 'hw/rtl/ai/postprocess/axi4_head_uram_router_v3.sv']
     comparisons = []
-    for width, legacy in ((512, False), (256, False), (512, True)):
+    supports_h1 = 'parameter bit READ_DECOUPLE' in common[-1].read_text()
+    bench = HERE / 'tb_head_router_ordering.sv'
+    if not supports_h1:
+        body = bench.read_text().replace(',.READ_DECOUPLE(READ_DECOUPLE)', '')
+        body = body.replace('dut.head_active', "(dut.read_state == 3'd2)")
+        bench = ROOT / 'build/sim/head_l2_urgent/tb_head_s1_ordering.sv'
+        bench.parent.mkdir(parents=True, exist_ok=True)
+        bench.write_text(body)
+    for width, legacy in (((512, False), (256, False), (512, True)) if supports_h1 else ((512, True), (256, True))):
         name = f'head_{width}_' + ('legacy' if legacy else 'decoupled')
         dest = ROOT / 'build/sim/head_l2_urgent' / name
         dest.mkdir(parents=True, exist_ok=True)
         top = 'tb_head_router_ordering'
         cmd = [verilator, '--binary', '--timing', '--assert', '-Wno-fatal', '-j', '4',
                '--top-module', top, f'-GDATA_WIDTH={width}', f'-GREAD_DECOUPLE={int(not legacy)}',
-               '--Mdir', dest, *common, HERE / (top + '.sv')]
+               '--Mdir', dest, *common, bench]
         if not r.run(name + '_compile', cmd):
             continue
-        for seed in (SEEDS if not legacy else SEEDS[:1]):
+        for seed in (SEEDS if not legacy or not supports_h1 else SEEDS[:1]):
             r.run(name + f'_seed{seed}', [dest / ('V' + top), f'+SEED={seed}', '+REQUESTS=10000'], 'HEAD_READ_PASS')
         if width == 512:
             progress_name = name + '_progress'
@@ -93,8 +101,10 @@ def head(r):
     original = ROOT / 'tests/rtl/benches/ppu/tb_axi4_head_uram_router.sv'
     adapted = ROOT / 'build/sim/head_l2_urgent/tb_v3_compat.sv'
     adapted.parent.mkdir(parents=True, exist_ok=True)
-    adapted.write_text(original.read_text().replace('    axi4_head_uram_router #(', '    axi4_head_uram_router_v3 #(')
-                       .replace('.SHADOW_DDR(TEST_SHADOW_DDR)', ".SHADOW_DDR(TEST_SHADOW_DDR), .READ_DECOUPLE(1'b1)"))
+    body = original.read_text().replace('    axi4_head_uram_router #(', '    axi4_head_uram_router_v3 #(')
+    if supports_h1:
+        body = body.replace('.SHADOW_DDR(TEST_SHADOW_DDR)', ".SHADOW_DDR(TEST_SHADOW_DDR), .READ_DECOUPLE(1'b1)")
+    adapted.write_text(body)
     for shadow in (0, 1):
         name = f'head_v3_compat_shadow{shadow}'
         dest = ROOT / 'build/sim/head_l2_urgent' / name
@@ -114,7 +124,8 @@ def l2(r, workspace):
     dest = ROOT / 'build/sim/head_l2_urgent' / f'l2_{stamp}_{os.getpid()}'
     r.run('l2_capacity_coherence', [sys.executable, ROOT / 'tests/rtl/run_v3_timing_repair_tests.py',
           '--workspace', workspace, '--output', dest, '--targets', 'pool', 'cache'], 'V3_TIMING_REPAIR_TESTS=PASS')
-    log = dest / 'RegisteredListBufferTest/console.log'
+    pool_test = 'S1ListBufferTest' if json.loads((ROOT / 'hw/manifests/current.json').read_text()).get('l2_implementation') == 's1_combinational' else 'RegisteredListBufferTest'
+    log = dest / pool_test / 'console.log'
     if log.exists():
         matches = [dict(entries=int(e), seed=int(s), peak=int(p)) for e, s, p in re.findall(
             r'entries=(\d+) queues=102 seed=(\d+).*?peak=(\d+)', log.read_text())]
@@ -145,10 +156,16 @@ def offline_checks(r):
 
 
 def main():
+    global OUT
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--suite', choices=('head', 'l2', 'integration', 'all'), default='all')
     parser.add_argument('--workspace', default=os.environ.get('SOC_WORKSPACE'))
+    parser.add_argument('--output', type=Path)
     args = parser.parse_args()
+    if args.output:
+        OUT = args.output.resolve()
+    elif json.loads((ROOT / 'hw/manifests/current.json').read_text()).get('l2_implementation') == 's1_combinational':
+        OUT = ROOT / 'build/reports/s1_restore/urgent_regression'
     r = Runner(args.suite)
     if args.suite in ('head', 'all'): head(r)
     if args.suite in ('l2', 'all'): l2(r, args.workspace)

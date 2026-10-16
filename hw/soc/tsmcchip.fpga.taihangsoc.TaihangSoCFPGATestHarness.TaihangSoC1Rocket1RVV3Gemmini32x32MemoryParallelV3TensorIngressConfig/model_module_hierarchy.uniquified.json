@@ -2890,29 +2890,22 @@
                         },
                         {
                           "instance_name": "requests",
-                          "module_name": "RegisteredListBuffer_q102_e68",
+                          "module_name": "ListBuffer_QueuedRequest_q102_e34_fast",
                           "instances": [
                             {
-                              "instance_name": "payload",
-                              "module_name": "payload",
-                              "instances": [
-                                {
-                                  "instance_name": "payload_ext",
-                                  "module_name": "payload_ext",
-                                  "instances": []
-                                }
-                              ]
+                              "instance_name": "head_ext",
+                              "module_name": "head_102x6",
+                              "instances": []
                             },
                             {
-                              "instance_name": "responses",
-                              "module_name": "Queue4_1_Anon",
-                              "instances": [
-                                {
-                                  "instance_name": "ram_ext",
-                                  "module_name": "ram_4x60",
-                                  "instances": []
-                                }
-                              ]
+                              "instance_name": "tail_ext",
+                              "module_name": "tail_102x6",
+                              "instances": []
+                            },
+                            {
+                              "instance_name": "next_ext",
+                              "module_name": "next_34x6",
+                              "instances": []
                             }
                           ]
                         },
@@ -3727,29 +3720,22 @@
                         },
                         {
                           "instance_name": "requests",
-                          "module_name": "RegisteredListBuffer_q102_e68",
+                          "module_name": "ListBuffer_QueuedRequest_q102_e34_fast",
                           "instances": [
                             {
-                              "instance_name": "payload",
-                              "module_name": "payload",
-                              "instances": [
-                                {
-                                  "instance_name": "payload_ext",
-                                  "module_name": "payload_ext",
-                                  "instances": []
-                                }
-                              ]
+                              "instance_name": "head_ext",
+                              "module_name": "head_102x6",
+                              "instances": []
                             },
                             {
-                              "instance_name": "responses",
-                              "module_name": "Queue4_1_Anon",
-                              "instances": [
-                                {
-                                  "instance_name": "ram_ext",
-                                  "module_name": "ram_4x60",
-                                  "instances": []
-                                }
-                              ]
+                              "instance_name": "tail_ext",
+                              "module_name": "tail_102x6",
+                              "instances": []
+                            },
+                            {
+                              "instance_name": "next_ext",
+                              "module_name": "next_34x6",
+                              "instances": []
                             }
                           ]
                         },

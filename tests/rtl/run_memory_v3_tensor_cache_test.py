@@ -13,10 +13,11 @@ generator = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(generator)
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--workspace", type=Path, required=True)
+parser.add_argument("--output", type=Path, default=ROOT / "build/sim/memory_v3_tensor_cache")
 args = parser.parse_args()
 cy = args.workspace.resolve()
 generator.validate_workspace_sources(cy)
-out = ROOT / "build/sim/memory_v3_tensor_cache"
+out = args.output.resolve()
 (out / "classes").mkdir(parents=True, exist_ok=True)
 shutil.copy2(cy / ".classpath_cache/chipyard_fpga.jar", out / "dependencies.jar")
 jar = out / "dependencies.jar"

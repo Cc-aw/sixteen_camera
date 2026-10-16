@@ -2,6 +2,7 @@
 """Run synchronous secondary-pool, coherent L2 and vendor DDR slice tests."""
 import argparse
 import importlib.util
+import json
 import os
 from pathlib import Path
 import shutil
@@ -47,7 +48,9 @@ def main():
     java = cy / ".conda-env/lib/jvm/bin/java"
     compiler = cache / "org/scala-lang/scala-compiler/2.13.16/scala-compiler-2.13.16.jar"
     plugin = cache / "org/chipsalliance/chisel-plugin_2.13.16/6.7.0/chisel-plugin_2.13.16-6.7.0.jar"
-    tests = {"pool": "RegisteredListBufferTest", "cache": "TimingCacheTest"}
+    product = json.loads((ROOT / 'hw/manifests/current.json').read_text())
+    pool_test = "S1ListBufferTest" if product.get('l2_implementation') == 's1_combinational' else "RegisteredListBufferTest"
+    tests = {"pool": pool_test, "cache": "TimingCacheTest"}
     selected = [name for target, name in tests.items() if target in args.targets]
     if selected:
         run([java, "-Xmx4G", "-cp", f"{compiler}:{jar}", "scala.tools.nsc.Main",

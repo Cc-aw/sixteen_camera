@@ -27,8 +27,6 @@
 
 // external module cc_banks_0_ext
 
-// external module payload_ext
-
 // external module rockettile_dcache_data_arrays_0_ext
 
 // external module rockettile_dcache_tag_array_ext

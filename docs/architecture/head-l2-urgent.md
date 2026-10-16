@@ -1,71 +1,73 @@
-# Head / L2 urgent candidate
+# Current Head / L2: restored S1 implementation
 
-Baseline: `3440bc10a15467f7ba42bb2ffac21a343e1956d6`, product
-`triple32_v3_tensor`. The source implementation specification is
-[sixteen_camera_Head_L2_urgent_codex_implementation.md](sixteen_camera_Head_L2_urgent_codex_implementation.md).
+The user superseded the H1/L1 candidate on 2026-10-16 and requested the Head and
+L2 from this reference bitstream:
 
-Production `postprocess_memory_bridge_v3` explicitly enables `READ_DECOUPLE=1`,
-`READ_QUEUE_DEPTH_PER_ID=8`, `READ_ACCEPT_LIMIT=32`. `SHADOW_DDR=1` or
-`READ_DECOUPLE=0` selects the original read implementation at elaboration.
-Write control and all six Head stores are shared, without duplicated payload RAM.
+```text
+/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/prj/sixteen_camera.runs/impl_frontend/top_wrapper.bit
+```
 
-The new `head_read_decoupler`, in the router's existing SV source file, stores
-complete AR descriptors in one FIFO per external AXI ID. Round-robin dispatch
-advances only on reservation. Each ID can own only one destination while its
-issued count is nonzero. Reservation happens before the DDR AR register can
-stall, and ownership retires only on upstream RLAST handshake. Queued requests
-are ordered by their ID FIFO. The DDR register can sustain one address per cycle;
-a single ID can consume all 32 outstanding credits while its FIFO drains.
+The user explicitly retained the current TensorIngress and DDR configuration.
+The production product remains `triple32_v3_tensor`, with one generated SoC
+export. This restores the specified Head/L2 behavior; the retained Tensor port,
+statistics integration and DDR register slice mean the entire design is not a
+copy of the S1 bitstream.
 
-Head execution and DDR address issue operate independently. DDR and Head each
-have a two-beat return FIFO with occupancy-based input ready. R arbitration locks
-on first VALID presentation, including a stalled presentation, through upstream
-RLAST. It never locks a source that has no response. Global acceptance credit
-includes every queued, reserved, executing and buffered transaction.
+The production Head router and bridge are copied from S1 with module names
+changed to `axi4_head_uram_router_v3` and `postprocess_memory_bridge_v3` for the
+existing integration. There are no other transformations. H1's per-ID request
+FIFOs, destination-owner counters, AR stage and added R FIFOs are removed. DDR
+reads and writes remain independently pipelined, with the original 32 DDR
+outstanding capability. Switching to a local Head slot drains that direction's
+DDR responses first, as S1 did. The six shared Head stores, local 256-bit PPU
+port, 512-bit SoC port, error behavior and shadow option remain the S1 behavior.
+`current.json` records `head_read_decouple=false`.
 
-An accepted PPU request retains bank/half ownership until its response is
-consumed. The Head executor cannot reserve while that PPU request is outstanding.
-An eligible Head dispatch blocks a simultaneous new PPU request; a Head waiting
-only for its ID's DDR owner does not claim RAM. During AXI execution, the executor
-retains bank/address ownership through the final URAM-to-FIFO transfer. The
-store's one-response register retains an irrevocable synchronous read when the
-Head FIFO is full; no new read can overwrite it. PPU can resume once that final
-transfer completes, while AXI target credit remains held until upstream retirement.
-Errors use the same local response FIFO and preserve the requested beat count.
+L2 uses the S1 `Scheduler.scala`, `MSHR.scala`, `ListBuffer.scala`,
+`Parameters.scala`, `Configs.scala` and `SinkD.scala` byte for byte. It restores:
 
-L2 adds trailing `secondaryEntries: Option[Int] = None` fields to
-`InclusiveCacheParams` and `InclusiveCacheMicroParameters`. V3 sets `Some(68)`;
-other configurations retain the previous derived default. The new overlay
-`Parameters.scala` is based on the frozen reference, which remains unchanged.
-`memCycles=64`, 32+2 MSHRs, 102 logical queues, four response credits, synchronous
-payload RAM, scheduler/winner/reload logic and set ownership are unchanged.
-The production checker reads one exact capacity from `current.json`; it checks
-real scheduler instances, memory depth, entry pointers and pending response credit.
+* A shared 34-entry payload pool per bank with 102 logical queues, register
+  payload slots, one-hot front pointers and combinational `fastPeek`.
+* The S1 combinational round-robin MSHR arbiter and direct retirement/refill,
+  including S1's own directory/repeat rules and nested coherence interlocks.
+* S1 interior/exterior buffer settings, including registered outer A/D queues.
 
-Two banks still provide 512 KiB total, 8 ways/bank, 512 sets/bank, 64-byte lines,
-bank A12 and the existing set mapping. SoC memory stays 512-bit/ID2, Tensor
-256-bit/ID5, Gemmini 3×DIM32, target 100 MHz, MPV3 ABI1.1 and frontend ABI2.
-Model, golden results, V33 plan/input and realtime firmware compatibility stay
-unchanged. Legacy counter event definitions and CLEAR/STOP behavior are preserved.
+The 68-entry synchronous pool, four response-credit queue, reload-wait machinery,
+safe prefetch, registered grouped candidate preparation and outer data-only flow
+are removed. `RegisteredListBuffer.scala` is removed from the production source
+closure. `current.json` records `l2_implementation=s1_combinational` and
+`l2_secondary_entries=34`.
 
-Independent rollback:
+Across the inclusive-cache source package, only `InclusiveCache.scala` differs
+from S1. Its existing adaptation classifies the retained Tensor client and wires
+statistics ABI1.1 events; it does not replace the restored controller algorithm.
+The SoC still has 32 ordinary + 2 coherence MSHRs per bank, two banks, 512 KiB,
+8 ways, 512 sets per bank, 64-byte lines and bank A12. Memory remains 512-bit/ID2,
+Tensor 256-bit/ID5, three Gemmini DIM32 workers and target 100 MHz. Frontend ABI2,
+model and golden results are unchanged by this task.
 
-* H1: change production bridge `.READ_DECOUPLE(1'b1)` to `1'b0` and set
-  `current.json`'s `head_read_decouple=false`, then rebuild hardware. L2 can
-  remain at 68. The checker requires the exact setting in the product manifest.
-* L1: set V3 `secondaryEntries=Some(34)` and `current.json`'s
-  `l2_secondary_entries=34`, update the changed Scala import digest, and regenerate
-  in another fresh private workspace. The checker then requires exactly 34;
-  do not replace generated RTL by hand. H1 can remain enabled.
+DDR refers to the external memory interface. Its AXI register slice remains
+mode 1 (FULL), as the user requested; the reference S1 used mode 7 (LIGHT).
+TensorIngress retains its dedicated coherent SBUS write path. Restoring Head/L2
+does not establish board performance or routed timing for this combination.
 
-Functional source patches are saved separately under
-`build/reports/head_l2_urgent/patches/`; apply the corresponding patch in reverse
-only to unchanged candidate sources, then refresh provenance and rebuild. They
-exclude generated RTL because source rollback must be followed by elaboration.
-No production Config or SoC export was duplicated.
+The official Scala/Chisel generator and memory mapping scripts produce the sole
+RTL export. Atomic staging preserves a complete generation context. The source
+checker requires the actual 34-entry fast-peek pool, old arbiter, absence of H1
+and registered-pool machinery, original geometry and retained interfaces.
 
-The user requested one complete implementation launch and observation only
-through synthesis completion. The standard locked bitstream flow continues
-implementation automatically after synthesis. Final place/route/timing and any
-bitstream remain unverified until that background flow finishes. See the
-[validation record](../validation/head-l2-urgent.md) for actual status.
+`build/reports/s1_restore/source_restore.json` identifies each donor file, source
+and normalized hashes, retained DDR/Tensor files, and the final generated export.
+The rejected candidate is archived under
+`build/reports/s1_restore/rejected_candidate/`; its prior implementation was
+stopped before synthesis completed. Earlier H1/L1 patches, reports and bitstream
+remain historical evidence and must not be presented as the restored build.
+
+The [validation record](../validation/head-l2-urgent.md) records actual tests,
+comparison scope and the replacement full implementation state. No FPGA or
+firmware download is part of this restoration.
+
+The restored version is saved without launching full implementation, per the
+user's final instruction. Local Head/L2 synthesis and simulation evidence is
+kept with the snapshot; full-design timing and a restored-version bitstream have
+not been produced. The saved status is `NOT_STARTED_AT_USER_REQUEST`.

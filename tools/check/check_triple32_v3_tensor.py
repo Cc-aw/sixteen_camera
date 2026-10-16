@@ -11,7 +11,14 @@ rtl = Path(sys.argv[1]).resolve()
 product = json.loads((ROOT / "hw/manifests/current.json").read_text())
 secondary_entries = product["l2_secondary_entries"]
 bridge = (ROOT / "hw/rtl/memory/postprocess_memory_bridge_v3.sv").read_text()
-assert f".READ_DECOUPLE(1'b{int(product['head_read_decouple'])})" in bridge, "Head configuration disagrees with production manifest"
+s1_l2 = product.get("l2_implementation") == "s1_combinational"
+if s1_l2:
+    assert secondary_entries == 34 and not product['head_read_decouple']
+    assert "READ_DECOUPLE" not in bridge
+    head = (ROOT / "hw/rtl/ai/postprocess/axi4_head_uram_router_v3.sv").read_text()
+    assert "head_read_decoupler" not in head and "READ_ACCEPT_LIMIT" not in head
+else:
+    assert f".READ_DECOUPLE(1'b{int(product['head_read_decouple'])})" in bridge, "Head configuration disagrees with production manifest"
 subprocess.run([sys.executable, str(ROOT / "hw/soc/source/shell/npu100_video/tests/check_merged_rtl.py"),
                 str(rtl), "3", "TaihangSoCFPGATestHarness"], check=True)
 top = (rtl / "TaihangSoCFPGATestHarness.sv").read_text()
@@ -64,22 +71,69 @@ for channel, module in zip("ABCDE", ("SinkA", "SourceB", "SinkC", "SourceD", "Si
     queue = (rtl / f"{queues[0]}.sv").read_text()
     assert "assign io_enq_ready = ~full;" in queue and "assign io_deq_valid = ~empty;" in queue
 scheduler = (rtl / "InclusiveCacheBankScheduler.sv").read_text()
-assert re.search(rf"RegisteredListBuffer_q102_e{secondary_entries}(?:_\d+)?\s+requests\s*\(", scheduler)
-assert "reloadWaiting" in scheduler and "reloadReadFilter" in scheduler and "winner" in scheduler
-assert ".io_peekOH" not in scheduler, "Old combinational secondary payload bypass remains"
-mshr = (rtl / "MSHR.sv").read_text()
-assert "awaiting_reload" in mshr and "io_reloadReserved" in mshr
-pool = (rtl / f"RegisteredListBuffer_q102_e{secondary_entries}.sv").read_text()
-assert "payload" in pool and "pending" in pool
-assert re.search(r"_responses_io_count\} \+ \{3'h0, pending\} < 4'h4", pool), "Pending read must consume one of four response credits"
-response_module = re.search(r"^  (Queue4_\w+) responses \(", pool, re.M)
-assert response_module, "Missing four-entry secondary response queue"
-response_body = (rtl / (response_module[1] + ".sv")).read_text()
-assert re.search(r"reg  \[1:0\]  enq_ptr_value", response_body)
-assert re.search(rf"reg +\[{(secondary_entries-1).bit_length()-1}:0\] +head_101;", pool), "Queue101 and 7-bit entry pointers must survive"
-assert re.search(rf"reg +\[{secondary_entries-1}:0\] +used;", pool)
-mems = list(rtl.parent.glob("*.conf"))
-assert any(re.search(rf"name payload_ext depth {secondary_entries} width \d+ ports write,read", p.read_text()) for p in mems), "Secondary payload must use synchronous 1R1W RAM"
+if s1_l2:
+    assert re.search(r"ListBuffer_QueuedRequest_q102_e34_fast\s+requests\s*\(", scheduler)
+    assert "robin_filter" in scheduler and ".io_peekOH" in scheduler
+    assert "reloadWaiting" not in scheduler and "winner" not in scheduler
+    assert "RegisteredListBuffer" not in scheduler and "prefetched" not in scheduler
+    mshr = (rtl / "MSHR.sv").read_text()
+    assert "awaiting_reload" not in mshr and "io_reloadReserved" not in mshr
+    pool = (rtl / "ListBuffer_QueuedRequest_q102_e34_fast.sv").read_text()
+    assert re.search(r"reg +\[33:0\] +used;", pool)
+    assert re.search(r"reg +\[33:0\] +frontOH_101;", pool)
+    assert "dataSlots_33_" in pool and "dataSlots_34_" not in pool
+    assert "responseValid" not in pool and "pending" not in pool
+    assert not list(rtl.glob("RegisteredListBuffer*"))
+    for module, channel in (("SourceA", "A"), ("SinkD", "D")):
+        body = (rtl / (module + ".sv")).read_text()
+        queue = re.search(r"^  (Queue2_TLBundle"+channel+r"_\S+) \w+ \(", body, re.M)
+        assert queue and "d_bypass" not in body
+        qbody = (rtl / (queue[1] + ".sv")).read_text()
+        assert "assign io_enq_ready = ~full;" in qbody and "assign io_deq_valid = ~empty;" in qbody
+else:
+    sink_d = (rtl / "SinkD.sv").read_text()
+    if "d_bypass" in sink_d:
+        # Performance configuration: preserve occupancy-only READY and registered
+        # control acknowledgements while data responses may use an empty queue.
+        assert re.search(r"d_bypass = ~_d_queue_io_deq_valid & io_d_valid & io_d_bits_opcode\[0\]", sink_d)
+        assert ".io_enq_ready        (io_d_ready)" in sink_d
+        outer_d = re.search(r"^  (Queue2_TLBundleD_\S+) d_queue", sink_d, re.M)
+        assert outer_d
+        outer_d_body = (rtl / (outer_d[1] + ".sv")).read_text()
+        assert "assign io_enq_ready = ~full;" in outer_d_body
+        assert "assign io_deq_valid = ~empty;" in outer_d_body
+        outer_a = re.search(r"^  (Queue2_TLBundleA_\S+) io_a_q", (rtl / "SourceA.sv").read_text(), re.M)
+        assert outer_a
+        outer_a_body = (rtl / (outer_a[1] + ".sv")).read_text()
+        assert "assign io_enq_ready = ~full;" in outer_a_body
+        assert "io_enq_valid | ~empty" in outer_a_body
+    assert re.search(rf"RegisteredListBuffer_q102_e{secondary_entries}(?:_\d+)?\s+requests\s*\(", scheduler)
+    assert "reloadWaiting" in scheduler and "reloadReadFilter" in scheduler and "winner" in scheduler
+    assert ".io_peekOH" not in scheduler, "Old combinational secondary payload bypass remains"
+    mshr = (rtl / "MSHR.sv").read_text()
+    assert "awaiting_reload" in mshr and "io_reloadReserved" in mshr
+    pool = (rtl / f"RegisteredListBuffer_q102_e{secondary_entries}.sv").read_text()
+    assert "payload" in pool and "pending" in pool
+    if "responseValid_0" in pool:
+        assert len(re.findall(r"reg +responseValid_\d+;", pool)) == 4
+        credit = re.search(r"wire \[3:0\] +outstanding = ([^;]+);", pool)
+        assert credit and "{3'h0, pending}" in credit[1]
+        assert all(f"responseValid_{i}" in credit[1] for i in range(4))
+        assert "outstanding < 4'h4" in pool, "Pending RAM read must consume a result credit"
+        assert "outstanding < 4'h3" in pool, "Prefetch must reserve an urgent result credit"
+        assert re.search(r"reg +\[1:0\] +lockedSlot;", pool)
+        assert "io_eligible" in scheduler and "prefetchSafe" in scheduler
+    else:
+        # Independently rebuildable original synchronous-pool fallback.
+        assert re.search(r"_responses_io_count\} \+ \{3'h0, pending\} < 4'h4", pool)
+        response_module = re.search(r"^  (Queue4_\w+) responses \(", pool, re.M)
+        assert response_module, "Missing four-entry secondary response queue"
+        response_body = (rtl / (response_module[1] + ".sv")).read_text()
+        assert re.search(r"reg  \[1:0\]  enq_ptr_value", response_body)
+    assert re.search(rf"reg +\[{(secondary_entries-1).bit_length()-1}:0\] +head_101;", pool), "Queue101 and 7-bit entry pointers must survive"
+    assert re.search(rf"reg +\[{secondary_entries-1}:0\] +used;", pool)
+    mems = list(rtl.parent.glob("*.conf"))
+    assert any(re.search(rf"name payload_ext depth {secondary_entries} width \d+ ports write,read", p.read_text()) for p in mems), "Secondary payload must use synchronous 1R1W RAM"
 assert len(re.findall(r"^  MSHR(?:_\d+)?\s+\w+\s*\(", scheduler, re.M)) == 34
 for name in ("Gemmini", "Gemmini_1", "Gemmini_2"):
     worker = (rtl / f"{name}.sv").read_text()
@@ -95,4 +149,4 @@ for name in ("Gemmini", "Gemmini_1", "Gemmini_2"):
         assert f"loops_{slot}_no_pool <= _cmd_q_io_deq_bits_cmd_rs2[0]" in loop_body
 perf = (rtl / "MemoryParallelPerf.sv").read_text()
 assert "4d50563300010001" in perf.lower(), "Tensor memory statistics ABI 1.1 is missing"
-print(f"TRIPLE32_V3_TENSOR_STRUCTURE=PASS frontend=3 control=custom3 direct=custom0/1/2 memory=512/2 tensor=256/5 banks=2 workers=3 MaxPool=3 full_inner_buffers=5 registered_secondary_pool={secondary_entries}x102 grouped_scheduler=on stats_ABI=1.1")
+print(f"TRIPLE32_V3_TENSOR_STRUCTURE=PASS frontend=3 control=custom3 direct=custom0/1/2 memory=512/2 tensor=256/5 banks=2 workers=3 MaxPool=3 full_inner_buffers=5 secondary_pool={secondary_entries}x102 l2={'S1_COMBINATIONAL' if s1_l2 else 'REGISTERED'} stats_ABI=1.1")

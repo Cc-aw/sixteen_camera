@@ -18,7 +18,7 @@ class TimingCacheTestHarness(implicit p: Parameters) extends LazyModule {
   val back = LazyModule(new TLXbar)
   val l2 = LazyModule(new InclusiveCache(
     CacheParameters(level=2, ways=8, sets=512, blockBytes=64, beatBytes=32,hintsSkipProbe=false),
-    InclusiveCacheMicroParameters(writeBytes=8,portFactor=4,memCycles=64,secondaryEntries=Some(68),innerBuf=InclusiveCachePortParameters.full),
+    InclusiveCacheMicroParameters(writeBytes=8,portFactor=4,memCycles=64,innerBuf=InclusiveCachePortParameters.full,outerBuf=InclusiveCachePortParameters.full),
     Some(InclusiveCacheControlParameters(address=0x2010000,beatBytes=8,bankedControl=false))) {
       val simultaneousTest = InModuleBody {
         val result = IO(Output(Bool()))
@@ -65,6 +65,7 @@ object TimingCacheTest extends App {
     var cycles=0; var parallel=0; var probeCount=0; var secondaryPeak=0
     var dirtyAddress=BigInt(-1); var dirtyData=BigInt(0); var permission=0
     var probe: Option[(BigInt,Int,Int,Int,Boolean)] = None
+    var voluntaryRelease=false
     val random = new scala.util.Random(407)
     d.io.ports.foreach { x =>
       zero(x.a.bits); x.a.valid.poke(false.B); x.d.ready.poke(true.B)
@@ -86,7 +87,7 @@ object TimingCacheTest extends App {
       val cpu=d.io.ports(2)
       cpu.c.valid.poke(probe.nonEmpty.B)
       probe.foreach { case (addr,src,param,beat,hasData) =>
-        zero(cpu.c.bits); cpu.c.bits.opcode.poke((if(hasData) 5 else 4).U)
+        zero(cpu.c.bits); cpu.c.bits.opcode.poke((if(voluntaryRelease) 7 else if(hasData) 5 else 4).U)
         cpu.c.bits.param.poke(param.U); cpu.c.bits.size.poke(6.U)
         cpu.c.bits.source.poke(src.U); cpu.c.bits.address.poke(addr.U)
         cpu.c.bits.data.poke((dirtyData + beat).U)
@@ -110,6 +111,7 @@ object TimingCacheTest extends App {
       }
       if(cpu.c.valid.peek().litToBoolean && cpu.c.ready.peek().litToBoolean) {
         probe=probe.flatMap { case (a,s,p,b,data) => if(!data || b==1) None else Some((a,s,p,b+1,data)) }
+        if(probe.isEmpty) voluntaryRelease=false
       }
       d.clock.step()
     }
@@ -187,6 +189,43 @@ object TimingCacheTest extends App {
     }
     flush(dirtyAddress); require(probeCount==2 && permission==0)
     send(1,4,dirtyAddress); require(recv(1)._3==dirtyData && recv(1)._3==dirtyData+1)
+    // Dirty ReleaseData must pass concurrent hot same-set secondary requests.
+    // Check the restored S1 C/B/A priority and direct refill path.
+    send(2,6,dirtyAddress,param=1)
+    val again0=recv(2);val again1=recv(2)
+    require(again0._1==5 && again1._1==5 && again0._3==dirtyData)
+    d.io.ports(2).e.bits.sink.poke(again0._4.U);d.io.ports(2).e.valid.poke(true.B)
+    while(!d.io.ports(2).e.ready.peek().litToBoolean) tick()
+    tick();d.io.ports(2).e.valid.poke(false.B)
+    permission=2;dirtyData+=0x1000
+    val peer=dirtyAddress+0x10000
+    send(0,4,peer);require(recv(0)._3==0 && recv(0)._3==0)
+    // Replacement is random even while another way is invalid. Establish
+    // both residents before issuing a legal voluntary release; never release
+    // a line after the cache has already probed its CPU owner to N.
+    var residentAttempts=0
+    while(permission!=2) {
+      residentAttempts+=1;require(residentAttempts<=16,"could not establish same-set residents")
+      send(2,6,dirtyAddress,param=1)
+      val r0=recv(2);val r1=recv(2)
+      require(r0._1==5 && r1._1==5 && r0._3==dirtyData && r1._3==dirtyData+1)
+      d.io.ports(2).e.bits.sink.poke(r0._4.U);d.io.ports(2).e.valid.poke(true.B)
+      while(!d.io.ports(2).e.ready.peek().litToBoolean) tick()
+      tick();d.io.ports(2).e.valid.poke(false.B);permission=2
+      send(0,4,peer);require(recv(0)._3==0 && recv(0)._3==0)
+    }
+    for(src<-0 until 16) send(0,4,peer,source=src)
+    require(permission==2,s"CPU dirty owner was evicted before voluntary release: probes=$probeCount")
+    voluntaryRelease=true;probe=Some((dirtyAddress,0,1,0,true))
+    while(probe.nonEmpty) tick()
+    permission=0;require(recv(2)._1==6,"dirty release was not acknowledged")
+    val hotSeen=Array.fill(16)(0)
+    for(_<-0 until 32) {
+      val (op,src,value,_)=recv(0)
+      require(op==1 && src<16 && value==0);hotSeen(src)+=1
+    }
+    require(hotSeen.forall(_==2))
+    send(1,4,dirtyAddress);require(recv(1)._3==dirtyData && recv(1)._3==dirtyData+1)
     flush(line(0)); flush(line(2),invalidate=true)
     send(0,4,line(0)); require(recv(0)._3==0x10000 && recv(0)._3==0x10001)
     // 96 outstanding reads share one bank and one set, alternate tags, and
@@ -204,7 +243,7 @@ object TimingCacheTest extends App {
       }
       require(seen.forall(_==2))
     }
-    require(secondaryPeak>34, s"expanded pool never exercised: peak=$secondaryPeak")
-    println(s"MEMORY_V3_CACHE_PASS secondary_peak=$secondaryPeak cycles=$cycles simultaneous=$parallel probes=$probeCount dirty_flush=yes source_ids=32 same_set_requests=96")
+    require(secondaryPeak==34, s"S1 pool capacity not exercised: peak=$secondaryPeak")
+    println(s"MEMORY_V3_CACHE_PASS secondary_peak=$secondaryPeak cycles=$cycles simultaneous=$parallel probes=$probeCount dirty_flush=yes dirty_release_with_queued_reads=yes source_ids=32 same_set_requests=96")
   }
 }

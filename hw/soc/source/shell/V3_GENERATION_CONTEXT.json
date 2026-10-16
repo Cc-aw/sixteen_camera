@@ -1,6 +1,6 @@
 {
   "config": "tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig",
-  "generated_at_utc": "2026-10-15T14:13:43.499113+00:00",
+  "generated_at_utc": "2026-10-16T06:10:05.912129+00:00",
   "source_workspace": "/tmp/sixteen-camera-head-l2-urgent-chipyard",
   "build_sbt_sha256": "31a7ef128d41a77399778a7912d150fcc244947750aa9643a61d15544e478111"
 }

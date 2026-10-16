@@ -21,8 +21,8 @@ class TensorCacheTestHarness(implicit p: Parameters) extends LazyModule {
   val writer = LazyModule(new TaihangTensorIngress(8))
   val l2 = LazyModule(new InclusiveCache(
     CacheParameters(level=2, ways=8, sets=512, blockBytes=64, beatBytes=32,hintsSkipProbe=false),
-    InclusiveCacheMicroParameters(writeBytes=8,portFactor=4,memCycles=64,secondaryEntries=Some(68),
-      innerBuf=InclusiveCachePortParameters.full),
+    InclusiveCacheMicroParameters(writeBytes=8,portFactor=4,memCycles=64,
+      innerBuf=InclusiveCachePortParameters.full,outerBuf=InclusiveCachePortParameters.full),
     Some(InclusiveCacheControlParameters(address=0x2010000,beatBytes=8,bankedControl=false))) {
       val simultaneousTest = InModuleBody {
         val result = IO(Output(Bool()))

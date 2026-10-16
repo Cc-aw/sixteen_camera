@@ -197,9 +197,10 @@ Queue1_DirectoryWrite.sv
 MaxPeriodFibonacciLFSR.sv
 Directory.sv
 BankedStore.sv
-ram_4x60.sv
-Queue4_1_Anon.sv
-RegisteredListBuffer_q102_e68.sv
+head_102x6.sv
+tail_102x6.sv
+next_34x6.sv
+ListBuffer_QueuedRequest_q102_e34_fast.sv
 MSHR.sv
 InclusiveCacheBankScheduler.sv
 InclusiveCache.sv
@@ -741,7 +742,6 @@ cc_banks_28.sv
 cc_banks_29.sv
 cc_banks_30.sv
 cc_banks_31.sv
-payload.sv
 rockettile_dcache_data_arrays_0.sv
 rockettile_dcache_tag_array.sv
 mem.sv

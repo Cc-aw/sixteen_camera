@@ -120,8 +120,7 @@ case class InclusiveCacheMicroParameters(
   portFactor: Int = 4,  // numSubBanks = (widest TL port * portFactor) / writeBytes
   dirReg:     Boolean = false,
   innerBuf:   InclusiveCachePortParameters = InclusiveCachePortParameters.fullC, // or none
-  outerBuf:   InclusiveCachePortParameters = InclusiveCachePortParameters.full,  // or flowAE
-  secondaryEntries: Option[Int] = None)
+  outerBuf:   InclusiveCachePortParameters = InclusiveCachePortParameters.full)   // or flowAE
 {
   require (writeBytes > 0 && isPow2(writeBytes))
   require (memCycles > 0)
@@ -160,8 +159,7 @@ case class InclusiveCacheParameters(
 
   // Provision enough resources to achieve full throughput with missing single-beat accesses
   val mshrs = InclusiveCacheParameters.all_mshrs(cache, micro)
-  val secondary = micro.secondaryEntries.getOrElse(max(mshrs, micro.memCycles - mshrs))
-  require(secondary >= mshrs, "secondary pool must cover all MSHRs")
+  val secondary = max(mshrs, micro.memCycles - mshrs)
   val putLists = micro.memCycles // allow every request to be single beat
   val putBeats = max(2*cache.blockBeats, micro.memCycles)
   val relLists = 2

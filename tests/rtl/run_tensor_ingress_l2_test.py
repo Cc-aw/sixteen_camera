@@ -9,6 +9,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[2]
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--workspace", type=Path)
+parser.add_argument("--output", type=Path)
 args = parser.parse_args()
 workspace = args.workspace
 if workspace is None:
@@ -18,5 +19,8 @@ if workspace is None:
     workspace = Path(json.loads(contexts[0].read_text())["source_workspace"])
 if not (workspace / ".classpath_cache/chipyard_fpga.jar").is_file():
     raise SystemExit("Rebuild the SoC workspace, then pass --workspace <path>")
-subprocess.run([sys.executable, str(ROOT / "tests/rtl/run_memory_v3_tensor_cache_test.py"),
-                "--workspace", str(workspace)], check=True)
+command = [sys.executable, str(ROOT / "tests/rtl/run_memory_v3_tensor_cache_test.py"),
+           "--workspace", str(workspace)]
+if args.output is not None:
+    command += ["--output", str(args.output)]
+subprocess.run(command, check=True)

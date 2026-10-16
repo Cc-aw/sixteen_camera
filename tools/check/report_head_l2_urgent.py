@@ -41,7 +41,7 @@ def main():
         updated_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
         head_read_decouple=product['head_read_decouple'], l2_secondary_entries=product['l2_secondary_entries'],
         preserved=dict(banks=2,l2_bytes=524288,mshrs_normal_per_bank=32,mshrs_coherent_per_bank=2,
-            logical_queues_per_bank=102,response_credits=4,clock_hz=100000000,
+            logical_queues_per_bank=102,response_credits=0 if product.get('l2_implementation') == 's1_combinational' else 4,clock_hz=100000000,
             soc_memory='512/ID2',tensor='256/ID5',gemmini='3xDIM32',mpv3_abi='1.1',frontend_abi=2),
         modified_sources_sha256=sources, effective_scala_sha256=effective,
         generation_context=str(generated/'GENERATION_CONTEXT.json'), generation_context_sha256=sha(generated/'GENERATION_CONTEXT.json'),

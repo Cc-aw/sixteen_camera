@@ -32,6 +32,10 @@ def worker():
                  supervisor_pid=os.getpid(), build_state='RUNNING', synthesis_state='WAITING',
                  log=str(log), project_runs=str(PROJECT), board_run='NOT_RUN',
                  model_throughput='NOT_MEASURED', speedup_2p8_or_3p0='NOT_CLAIMED')
+    inputs = REPORT / 'input_manifest.json'
+    if inputs.is_file():
+        state['input_manifest'] = str(inputs)
+        state['input_manifest_sha256'] = hashlib.sha256(inputs.read_bytes()).hexdigest()
     save(state)
     with log.open('w') as output:
         proc = subprocess.Popen(['make', 'bitstream'], cwd=ROOT, stdout=output, stderr=subprocess.STDOUT)
@@ -80,10 +84,15 @@ def worker():
 
 
 def main():
+    global REPORT, STATE
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--report-dir', type=Path, default=REPORT,
+                        help='Independent durable record directory; an existing record is never overwritten')
     parser.add_argument('--worker', action='store_true')
     parser.add_argument('--status', action='store_true')
     args = parser.parse_args()
+    REPORT = args.report_dir.resolve()
+    STATE = REPORT / 'implementation_state.json'
     REPORT.mkdir(parents=True, exist_ok=True)
     (REPORT / 'logs').mkdir(exist_ok=True)
     if args.status:

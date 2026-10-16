@@ -9,7 +9,7 @@ module tb_memory_v3_head #(parameter bit READ_DECOUPLE = 1'b0);
     reg [6:0] word_addr=0;
     wire [255:0] data;
     wire [31:0] perf;
-    axi4_head_uram_router_v3 #(.DATA_WIDTH(512),.ID_WIDTH(2),.SLOT_BYTES(4096),.READ_DECOUPLE(READ_DECOUPLE)) dut (
+    axi4_head_uram_router_v3 #(.DATA_WIDTH(512),.ID_WIDTH(2),.SLOT_BYTES(4096)) dut (
         .clk(clk),.resetn(resetn),.s_axi(s),.m_ddr_axi(d),
         .local_read_bank(bank),.local_read_req_valid(req),.local_read_req_ready(req_ready),
         .local_read_req_word_addr(word_addr),.local_read_rsp_data(data),

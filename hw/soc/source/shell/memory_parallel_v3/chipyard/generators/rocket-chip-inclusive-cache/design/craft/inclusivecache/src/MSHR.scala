@@ -84,7 +84,6 @@ case object S_TRUNK_CD extends CacheState
 class MSHR(params: InclusiveCacheParameters) extends Module
 {
   val io = IO(new Bundle {
-    val reloadReserved = Input(Bool()) // held set across synchronous refill
     val allocate  = Flipped(Valid(new AllocateRequest(params))) // refills MSHR for next cycle
     val directory = Flipped(Valid(new DirectoryResult(params))) // triggers schedule setup
     val status    = Valid(new MSHRStatus(params))
@@ -96,11 +95,6 @@ class MSHR(params: InclusiveCacheParameters) extends Module
   })
 
   val request_valid = RegInit(false.B)
-  val awaiting_reload = RegInit(false.B)
-  when(awaiting_reload) {
-    assert(request_valid,"refill lost its reserved set")
-    assert(!io.schedule.valid,"reserved MSHR scheduled twice")
-  }
   val request = Reg(new FullRequest(params))
   val meta_valid = RegInit(false.B)
   val meta = Reg(new DirectoryResult(params))
@@ -213,8 +207,7 @@ class MSHR(params: InclusiveCacheParameters) extends Module
     when (no_wait)                                        { s_writeback  := true.B }
     // Await the next operation
     when (no_wait) {
-      request_valid := io.reloadReserved
-      awaiting_reload := io.reloadReserved
+      request_valid := false.B
       meta_valid := false.B
     }
   }
@@ -538,9 +531,8 @@ class MSHR(params: InclusiveCacheParameters) extends Module
   }
 
   when (io.allocate.valid) {
-    assert (!request_valid || awaiting_reload || (no_wait && io.schedule.fire))
+    assert (!request_valid || (no_wait && io.schedule.fire))
     request_valid := true.B
-    awaiting_reload := false.B
     request := io.allocate.bits
   }
 

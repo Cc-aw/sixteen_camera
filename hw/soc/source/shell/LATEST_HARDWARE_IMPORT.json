@@ -26,20 +26,31 @@
       "source": "soc_shell/memory_parallel_v3/scala/MemoryParallelV3.scala",
       "destination": "hw/soc/source/shell/memory_parallel_v3/scala/MemoryParallelV3.scala",
       "source_sha256": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98",
-      "imported_sha256": "21a346f7d6201a2b43fa14c5288e005e6f7aa7f4c38388f5536a6a0ef1a01544",
-      "local_candidate": "Head/L2 urgent: independent 68-entry secondary pool and expanded RTL regression"
+      "imported_sha256": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98",
+      "local_candidate": "S1 Head/L2 restore; TensorIngress and DDR retained",
+      "performance_previous_imported_sha256": "21a346f7d6201a2b43fa14c5288e005e6f7aa7f4c38388f5536a6a0ef1a01544",
+      "before_s1_restore_imported_sha256": "62e9ac55aca01f94119412ffa57eaf6fdb27c5ae55f71b1352792becc978af02",
+      "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/memory_parallel_v3/scala/MemoryParallelV3.scala",
+      "s1_restore_sha256": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98"
     },
     {
       "source": "soc_shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
       "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
       "source_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7",
-      "imported_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7"
+      "imported_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7",
+      "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/chipyard_build/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
+      "s1_restore_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7"
     },
     {
       "source": "soc_shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
       "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
       "source_sha256": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359",
-      "imported_sha256": "743f78ea5bc848f58a0f916e0e30b42e10f7e60da006eb39a1a1e5fe6bd7120b"
+      "imported_sha256": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359",
+      "performance_previous_imported_sha256": "743f78ea5bc848f58a0f916e0e30b42e10f7e60da006eb39a1a1e5fe6bd7120b",
+      "local_candidate": "S1 Head/L2 restore; TensorIngress and DDR retained",
+      "before_s1_restore_imported_sha256": "dd88fd316bad914c9f633e057e238dc5b202a05dab57e4ee6b5168984ac5988a",
+      "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/chipyard_build/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
+      "s1_restore_sha256": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359"
     },
     {
       "source": "soc_shell/memory_parallel_v3/tests/MemoryV3Test.scala",
@@ -124,6 +135,32 @@
       "destination": "tests/rtl/benches/timing/ui_return_synthesis_top.sv",
       "source_sha256": "c518233ac91591d93593e7bc78e64b4180893d832a1bbd34e33c428b743a180f",
       "imported_sha256": "c518233ac91591d93593e7bc78e64b4180893d832a1bbd34e33c428b743a180f"
+    },
+    {
+      "source": "hw/soc/source/shell/reference/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala",
+      "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala",
+      "source_sha256": "1e2d15d8b79a740835a773a2309f44cd7940f3edf06d7bf639e3e246321f097d",
+      "imported_sha256": "1e2d15d8b79a740835a773a2309f44cd7940f3edf06d7bf639e3e246321f097d",
+      "local_candidate": "S1 Head/L2 restore; TensorIngress and DDR retained",
+      "before_s1_restore_imported_sha256": "fd4eed4b659a08d14438469491952d1f00165687fe0a408d877203ba5c6f5ea9",
+      "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/chipyard_build/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala",
+      "s1_restore_sha256": "1e2d15d8b79a740835a773a2309f44cd7940f3edf06d7bf639e3e246321f097d"
+    },
+    {
+      "source": "hw/soc/source/shell/reference/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkD.scala",
+      "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkD.scala",
+      "source_sha256": "375abb38cc395101f54d4332ddc3c4a200a71e331a5409269d7c913410b56f6c",
+      "imported_sha256": "375abb38cc395101f54d4332ddc3c4a200a71e331a5409269d7c913410b56f6c",
+      "local_candidate": "S1 Head/L2 restore; TensorIngress and DDR retained",
+      "before_s1_restore_imported_sha256": "5b65d7aeb6273f85a48f47d3f798fb57af63a604a2186d3db177bb3f19db109d",
+      "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/chipyard_build/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkD.scala",
+      "s1_restore_sha256": "375abb38cc395101f54d4332ddc3c4a200a71e331a5409269d7c913410b56f6c"
+    },
+    {
+      "source": "local S1 ListBuffer scoreboard",
+      "destination": "tests/rtl/scala/S1ListBufferTest.scala",
+      "source_sha256": "3fc05a7e44bd7a1278b14e229784d9409dd81787a3f60f5db06420330d44741a",
+      "imported_sha256": "3fc05a7e44bd7a1278b14e229784d9409dd81787a3f60f5db06420330d44741a"
     }
   ],
   "preserved": [
@@ -181,39 +218,40 @@
         "source": "soc_shell/memory_parallel_v3_timing_repair/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
         "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
         "source_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7",
-        "imported_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7"
+        "imported_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7",
+        "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/chipyard_build/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
+        "s1_restore_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7"
       },
       {
         "source": "soc_shell/memory_parallel_v3_timing_repair/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
         "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
         "source_sha256": "743f78ea5bc848f58a0f916e0e30b42e10f7e60da006eb39a1a1e5fe6bd7120b",
-        "imported_sha256": "743f78ea5bc848f58a0f916e0e30b42e10f7e60da006eb39a1a1e5fe6bd7120b"
+        "imported_sha256": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359",
+        "performance_previous_imported_sha256": "743f78ea5bc848f58a0f916e0e30b42e10f7e60da006eb39a1a1e5fe6bd7120b",
+        "local_candidate": "S1 Head/L2 restore; TensorIngress and DDR retained",
+        "before_s1_restore_imported_sha256": "dd88fd316bad914c9f633e057e238dc5b202a05dab57e4ee6b5168984ac5988a",
+        "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/chipyard_build/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
+        "s1_restore_sha256": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359"
       },
       {
         "source": "soc_shell/memory_parallel_v3_timing_repair/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala",
         "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala",
         "source_sha256": "fd19ab3ff63f67b36216d2805490fc60669b2908dae54d87701af7196543736c",
-        "imported_sha256": "fd19ab3ff63f67b36216d2805490fc60669b2908dae54d87701af7196543736c"
-      },
-      {
-        "source": "soc_shell/memory_parallel_v3_timing_repair/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/RegisteredListBuffer.scala",
-        "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/RegisteredListBuffer.scala",
-        "source_sha256": "865e720f4eff1a9434da580067f20875960b816673ee2b040e2e48b1503ce54c",
-        "imported_sha256": "865e720f4eff1a9434da580067f20875960b816673ee2b040e2e48b1503ce54c"
+        "imported_sha256": "b4baadd3b6515917337f2c21f6d7dda7a176f934508eb95c77c32748800c576b",
+        "performance_previous_imported_sha256": "fd19ab3ff63f67b36216d2805490fc60669b2908dae54d87701af7196543736c",
+        "local_candidate": "S1 Head/L2 restore; TensorIngress and DDR retained",
+        "before_s1_restore_imported_sha256": "b0a1d92af34cb1be3bbaafca1f00b3a3376531869a5f414e86c730cb12933287",
+        "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/chipyard_build/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala",
+        "s1_restore_sha256": "b4baadd3b6515917337f2c21f6d7dda7a176f934508eb95c77c32748800c576b"
       },
       {
         "source": "soc_shell/memory_parallel_v3_timing_repair/tests/TimingCacheTest.scala",
         "destination": "tests/rtl/scala/TimingCacheTest.scala",
         "source_sha256": "5b845ac86a6f4ab1d5ae13214dd30b1cbbb55febf421c4c5b38f0d323e3dd978",
-        "imported_sha256": "5d9eaa3ea8c259cf10ae7e1b6d7780eab7edce796660a8182caebb9d9027b5a7",
-        "local_candidate": "Head/L2 urgent: independent 68-entry secondary pool and expanded RTL regression"
-      },
-      {
-        "source": "soc_shell/memory_parallel_v3_timing_repair/tests/RegisteredListBufferTest.scala",
-        "destination": "tests/rtl/scala/RegisteredListBufferTest.scala",
-        "source_sha256": "a35e0c9d1af7863adebbaa4fb12ed44a4e7706b2bf289a2044a107ad293b294c",
-        "imported_sha256": "5bfa3654be8f800fc3096b9aebfa14566218e933d51bd03be502c053f00aff2e",
-        "local_candidate": "Head/L2 urgent: independent 68-entry secondary pool and expanded RTL regression"
+        "imported_sha256": "d74c723abbda92fbeb72ab0d8548fa5f75efdbc5cbdf17ccc2a6aa3e2f11aaef",
+        "local_candidate": "S1 Head/L2 restore; TensorIngress and DDR retained",
+        "performance_previous_imported_sha256": "5d9eaa3ea8c259cf10ae7e1b6d7780eab7edce796660a8182caebb9d9027b5a7",
+        "before_s1_restore_imported_sha256": "2a4b2ee5755535c0e92da2951ba89e54d5eaa7e00b6de8290d7c0e7fbcfb4591"
       },
       {
         "source": "soc_shell/memory_parallel_v3_timing_repair/tests/tb_ddr_register_slice.sv",

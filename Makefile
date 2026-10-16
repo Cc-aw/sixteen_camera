@@ -60,6 +60,7 @@ help-tests:
 	  'Layer traces: test-runtime-r3 test-runtime-r4a test-runtime-r4b test-runtime-r5' \
 	  'RTL: test-rtl test-video test-video-pipeline test-tensor test-tensor-ingress test-memory-v3 test-ppu test-cache' \
 	  'Timing repair: test-v3-timing-repair SOC_WORKSPACE=<rebuilt-workspace>' \
+	  'Memory performance: test-head-performance / test-l2-performance [PERF_RTL=<reference>] [PERF_COUNT=4096]' \
 	  'Frontend: test-frontend SOC_WORKSPACE=<rebuilt-workspace> (equivalence, memory widths, real DIM32 compute)' \
 	  'Details and prerequisites: tests/README.md'
 
@@ -237,10 +238,17 @@ test-v3-timing-repair:
 program-bitstream:
 	cd "$(PROJECT_ROOT)" && bash tools/program/download_bitstream.sh $(PROGRAM_ARGS)
 
-.PHONY: test-head-read-decouple test-l2-secondary-capacity test-head-l2-urgent
+.PHONY: test-head-read-decouple test-head-s1 test-l2-secondary-capacity test-head-l2-urgent
+test-head-s1: test-head-read-decouple
 test-head-read-decouple:
 	python3 tests/rtl/head_l2_urgent/run_tests.py --suite head
 test-l2-secondary-capacity:
 	python3 tests/rtl/head_l2_urgent/run_tests.py --suite l2 $(if $(SOC_WORKSPACE),--workspace "$(SOC_WORKSPACE)")
 test-head-l2-urgent:
 	python3 tests/rtl/head_l2_urgent/run_tests.py --suite all $(if $(SOC_WORKSPACE),--workspace "$(SOC_WORKSPACE)")
+
+.PHONY: test-head-performance test-l2-performance
+test-head-performance:
+	python3 tests/rtl/performance/run_head_compare.py --output "$(PROJECT_ROOT)/build/reports/hardware_performance/head_$$(date +%Y%m%d_%H%M%S)_$$$$"
+test-l2-performance:
+	python3 tests/rtl/performance/run_l2_compare.py $(if $(PERF_RTL),--rtl "$(PERF_RTL)") --count "$(or $(PERF_COUNT),512)" --output "$(PROJECT_ROOT)/build/reports/hardware_performance/l2_$$(date +%Y%m%d_%H%M%S)_$$$$"

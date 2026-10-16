@@ -226,7 +226,7 @@ module SourceC(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusi
     .io_enq_bits_opcode  (s3_req_opcode),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceC.scala:104:25]
     .io_enq_bits_param   (s3_req_param),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceC.scala:104:25]
     .io_enq_bits_source  (s3_req_source),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceC.scala:104:25]
-    .io_enq_bits_address ({s3_req_tag, s3_req_set[8:6], 1'h0, s3_req_set[5:0], 6'h0}),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:232:8, generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceC.scala:104:25]
+    .io_enq_bits_address ({s3_req_tag, s3_req_set[8:6], 1'h0, s3_req_set[5:0], 6'h0}),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:230:8, generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceC.scala:104:25]
     .io_enq_bits_data    (io_bs_dat_data),
     .io_deq_ready        (io_c_ready),
     .io_deq_valid        (_queue_io_deq_valid),
