@@ -199,7 +199,7 @@ Directory.sv
 BankedStore.sv
 ram_4x60.sv
 Queue4_1_Anon.sv
-RegisteredListBuffer_q102_e34.sv
+RegisteredListBuffer_q102_e68.sv
 MSHR.sv
 InclusiveCacheBankScheduler.sv
 InclusiveCache.sv

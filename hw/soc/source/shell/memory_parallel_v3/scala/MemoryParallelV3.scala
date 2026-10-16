@@ -33,7 +33,7 @@ class WithMemoryParallelV3 extends Config((site, here, up) => {
   // while sustaining one beat per cycle once the pipeline is populated.
   // Keep the original exterior flowAD buffers and all cache capacities.
   case InclusiveCacheKey => up(InclusiveCacheKey, site).copy(
-    sets = 512, ways = 8, memCycles = 64,
+    sets = 512, ways = 8, memCycles = 64, secondaryEntries = Some(68),
     bufInnerInterior = InclusiveCachePortParameters.full)
   case MemoryBusKey => up(MemoryBusKey, site).copy(beatBytes = 64)
   case ExtMem => up(ExtMem, site).map(x => x.copy(master = x.master.copy(beatBytes = 64, idBits = 2)))

@@ -1,7 +1,7 @@
 # 当前三路 MaxPool 与 TensorIngress 硬件
 
-当前唯一交付硬件为 `triple32_v3_tensor`，默认 `make project/firmware/bitstream/program`
-均使用它。配置名保持 `TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig`，
+当前唯一交付硬件为 `triple32_v3_tensor`，默认 `make project/bitstream` 使用它。
+实时 Runtime 待前端适配，`make firmware` 的 ABI 阻断保持有效。配置名保持 `TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig`，
 没有新增带开发目录日期或 timing 版本的并行配置。
 
 2026-10-14 移入开发目录
@@ -17,6 +17,11 @@ TensorIngress 导出已退出 `hw/soc/`，对应固件/生成入口也已退休�
 布局引导。配置名、三路 MaxPool、TensorIngress 和内存统计 ABI1.1 保持兼容。
 实现和验证记录见 [V3 时序修复](../validation/v3-timing-repair.md)。
 
+2026-10-15 H1＋L1 候选在同一产品中启用按 ID 保序的 Head 读解耦，并将每 bank
+secondary 共享池独立扩至 68 项。Scala 已重新编译、RTL 已重新生成，完整构建已启动。
+当前状态与回退以 [Head/L2 验证](../validation/head-l2-urgent.md) 为准；
+下文较早的局部综合记录不代表本轮整机实现或板测结果。
+
 ## 硬件契约和变化
 
 | 项目 | 当前配置 |
@@ -28,11 +33,11 @@ TensorIngress 导出已退出 `hw/soc/`，对应固件/生成入口也已退休�
 | L2 | 双 bank、总512 KiB；每 bank 8 ways、512 sets、32普通+2一致性 MSHR |
 | L2 bank / set | A12；set bits 6–11、13–15 |
 | 内侧通道 | A/B/C/D/E 各两条目 non-flow/non-pipe 寄存队列 |
-| 请求队列 | 每 bank 102 个逻辑队列共享 34-entry 同步 payload RAM，窄指针，4个读响应 credit |
+| 请求队列 | 每 bank 102 个逻辑队列共享 68-entry 同步 payload RAM，窄指针，4个读响应 credit |
 | L2调度 | 普通 MSHR 分4组各8个，另含2个一致性 MSHR；寄存 winner 并在提交时重验 |
 | SBUS / Gemmini DMA / Tensor | 256 bit；Tensor 本地 ID5，独立 source范围512–543 |
 | L2外侧 / SoC memory / DDR S00 | 512 bit / 本地ID2；S00读写各32 outstanding |
-| Head | 六个1 MiB槽；512-bit写、256-bit PPU读 |
+| Head | 六个1 MiB槽；512-bit AXI、256-bit PPU读；READ_DECOUPLE=1、每 ID FIFO8、总接受 credit32 |
 | Tensor CSR / 内存统计 CSR | `0x02012000` / `0x02020000`；MPV3 ABI1.1、14个统计块 |
 
 Tensor 收齐两拍后以 `PutFullData(size=6)` 写入 L2 上游；冷行整行覆盖不读取旧
@@ -108,12 +113,13 @@ python3 tools/check/run_triple32_v3_tensor_ooc.py \
   --targets l2 pool-store pool-dma tensor --output build/reports/new_soc_ooc
 python3 tools/check/run_video_pipeline_ooc.py --output build/reports/new_video_ooc
 make check-deps
-make firmware firmware-benchmark check-v26-firmware
+make test-v33
 ```
 
 工程为 `build/projects/triple32_v3_tensor/sixteen_camera.xpr`。
 已检查实际SoC/DDR端口、双bank五通道寄存队列、one-hot请求选择、三路MaxPool、
-Tensor端口和统计ABI1.1。局部综合覆盖改动子系统，不启动整机synth_1/impl_1。
+Tensor端口和统计ABI1.1。此前局部综合覆盖改动子系统；本轮 H1＋L1 已启动
+完整 synth_1/impl_1 流程，按用户要求仅监听至综合结束。
 `tools/check/check_hardware_project.tcl` 审核保存的GUI属性，并以 `-scripts_only`
 生成综合/实现脚本，确认与配置一致且两个run未执行。
 
@@ -121,16 +127,12 @@ Tensor端口和统计ABI1.1。局部综合覆盖改动子系统，不启动整�
 当前软件仍为 [v26](triple32-v26-software.md) credit-cap4 正式版；旧ABI/mock主机
 测试用于协议回归，不代表仍交付旧硬件规格。
 
-## 下一步上板
+## 当前候选验收边界
 
-本次硬件已变更，必须重新生成并加载最新bitstream，再下载匹配的v26固件：
+H1＋L1 的自动验证、重新生成来源和完整构建状态见
+[Head/L2 验证记录](../validation/head-l2-urgent.md)。本轮不下载 FPGA、固件或 Flash。
+V33 独立基准保持现有模型、输入、计划表和 ABI；实时 v26 Runtime 仍待适配。
 
-```bash
-make bitstream
-bash tools/program/download_bitstream.sh
-make program PROGRAM_ARGS=--no-build
-```
-
-完整综合、实现、bitstream和开发板下载均留给用户执行。局部综合的WNS不能代表
-整机布线后时序；以新run的最终setup/hold、route、bus-skew报告为准。
-数值检查使用v26独立三图基准的 `M/t/a`，随后验证实时视频持续推理、排空和重启。
+局部综合 WNS 不能代表整机布线后时序。完整实现的 setup/hold、route、CDC、
+bus-skew 与 bitstream 在后台流程完成后才可验收；未执行新的板测，
+`BOARD_RUN=NOT_RUN`、`MODEL_THROUGHPUT=NOT_MEASURED`，不宣称整网性能提升。

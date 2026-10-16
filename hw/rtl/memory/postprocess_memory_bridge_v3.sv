@@ -139,7 +139,8 @@ module postprocess_memory_bridge_v3 #(
 
     axi4_head_uram_router_v3 #(
         .DATA_WIDTH(512), .ID_WIDTH(2), .LOCAL_DATA_WIDTH(256),
-        .SHADOW_DDR(HEAD_SHADOW_DDR)
+        .READ_DECOUPLE(1'b1), .READ_QUEUE_DEPTH_PER_ID(8),
+        .READ_ACCEPT_LIMIT(32), .SHADOW_DDR(HEAD_SHADOW_DDR)
     ) u_head_uram_router (
         .perf_events(head_perf_events),
         .clk(soc_clk), .resetn(soc_resetn),

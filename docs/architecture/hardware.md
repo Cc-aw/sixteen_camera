@@ -25,7 +25,7 @@ flowchart LR
 
 SoC 目标为 100 MHz，三路 DIM32 Gemmini 均启用当前 MaxPool。按照既有逻辑 worker 0/1/2，native opcode 改为 custom2/custom1/custom0，前端 lane 为 2/1/0；custom3 保留为前端控制。CSR 与 SLR 对应关系不变。详见 [命令前端](command-frontend.md)。V33 独立基准按物理 lane0/1/2 运行，实时 v26 Runtime 尚未适配。
 MemoryParallelV3 保持双 bank、512 KiB L2、512-bit/ID2 内存出口；Tensor 为 256-bit/ID5 AXI 入口，统计 ABI 为 1.1。
-cache 五通道寄存队列、registered secondary pool、refill reload 和 Head/PPU 通道均继承现有实现。
+cache 五通道寄存队列、同步 refill reload 和 set 所有权保持原实现；每 bank 的 secondary 共享池独立扩至 68 项。生产 Head 读路径启用按 AXI ID 保序的解耦队列，写路径和 PPU 所有权语义保持不变。详见 [Head/L2 候选实现](head-l2-urgent.md)。
 
 `hw/rtl/` 保存板级视频、总线、DDR、控制及 AI 外设；`hw/soc/source/` 保存 SoC 生成源。
 生成器仍在 `tools/soc/`，唯一生成导出路径见 [current.json](../../hw/manifests/current.json)。

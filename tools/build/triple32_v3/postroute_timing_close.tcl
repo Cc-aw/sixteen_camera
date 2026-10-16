@@ -17,10 +17,16 @@ if {$before_wns < 0.0} {
 }
 
 set setup_path [get_timing_paths -delay_type max -max_paths 1 -nworst 1]
+if {[llength $setup_path] == 0} {
+    error "No max-delay timing path is available after physical optimization"
+}
 set after_wns [get_property SLACK [lindex $setup_path 0]]
 puts [format "TIMING_CLOSE_AFTER_WNS_NS=%.3f" $after_wns]
 
-set report_dir [file dirname [get_property DIRECTORY [get_runs impl_1]]]
+# Implementation run hooks execute in a non-project child process: there
+# need not be a get_runs impl_1 object. Its working directory is the run
+# output directory, and is also valid when replaying a routed checkpoint.
+set report_dir [file normalize [pwd]]
 file mkdir $report_dir
 report_timing_summary -delay_type min_max -report_unconstrained \
     -file [file join $report_dir postroute_timing_close_summary.rpt]

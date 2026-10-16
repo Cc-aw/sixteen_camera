@@ -29,7 +29,7 @@ module SourceA(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusi
     .io_enq_bits_opcode  ({2'h3, ~io_req_bits_block}),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceA.scala:50:24]
     .io_enq_bits_param   (io_req_bits_param),
     .io_enq_bits_source  (io_req_bits_source),
-    .io_enq_bits_address ({io_req_bits_tag, io_req_bits_set[8:6], 1'h0, io_req_bits_set[5:0], 6'h0}),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:230:8]
+    .io_enq_bits_address ({io_req_bits_tag, io_req_bits_set[8:6], 1'h0, io_req_bits_set[5:0], 6'h0}),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:232:8]
     .io_deq_ready        (io_a_ready),
     .io_deq_valid        (io_a_valid),
     .io_deq_bits_opcode  (io_a_bits_opcode),

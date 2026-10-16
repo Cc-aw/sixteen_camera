@@ -2993,7 +2993,7 @@ module InclusiveCacheBankScheduler(	// @[generators/rocket-chip-inclusive-cache/
     .io_sourceD_wadr_bits_mask (_sourceD_io_bs_wadr_bits_mask),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala:44:23]
     .io_sourceD_wdat_data      (_sourceD_io_bs_wdat_data)	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala:44:23]
   );	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala:70:27]
-  RegisteredListBuffer_q102_e34 requests (	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala:71:24]
+  RegisteredListBuffer_q102_e68 requests (	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala:71:24]
     .clock                                  (clock),
     .reset                                  (reset),
     .io_push_ready                          (_requests_io_push_ready),

@@ -227,20 +227,20 @@ module cc_banks_0_ext(
 endmodule
 
 module payload_ext(
-  input  [5:0]  R0_addr,
+  input  [6:0]  R0_addr,
   input         R0_clk,
   output [52:0] R0_data,
   input         R0_en,
-  input  [5:0]  W0_addr,
+  input  [6:0]  W0_addr,
   input         W0_clk,
   input  [52:0] W0_data,
   input         W0_en
 );
-  wire [5:0] mem_0_0_R0_addr;
+  wire [6:0] mem_0_0_R0_addr;
   wire  mem_0_0_R0_clk;
   wire [52:0] mem_0_0_R0_data;
   wire  mem_0_0_R0_en;
-  wire [5:0] mem_0_0_W0_addr;
+  wire [6:0] mem_0_0_W0_addr;
   wire  mem_0_0_W0_clk;
   wire [52:0] mem_0_0_W0_data;
   wire  mem_0_0_W0_en;
@@ -3234,11 +3234,11 @@ end // initial
 endmodule
 
 module split_payload_ext(
-  input  [5:0]  R0_addr,
+  input  [6:0]  R0_addr,
   input         R0_clk,
   output [52:0] R0_data,
   input         R0_en,
-  input  [5:0]  W0_addr,
+  input  [6:0]  W0_addr,
   input         W0_clk,
   input  [52:0] W0_data,
   input         W0_en
@@ -3253,22 +3253,22 @@ module split_payload_ext(
   reg [31:0] _RAND_2;
   reg [31:0] _RAND_3;
 `endif // RANDOMIZE_REG_INIT
-  reg [52:0] ram [0:33];
+  reg [52:0] ram [0:67];
   wire  ram_R_0_en;
-  wire [5:0] ram_R_0_addr;
+  wire [6:0] ram_R_0_addr;
   wire [52:0] ram_R_0_data;
   wire [52:0] ram_W_0_data;
-  wire [5:0] ram_W_0_addr;
+  wire [6:0] ram_W_0_addr;
   wire  ram_W_0_mask;
   wire  ram_W_0_en;
   reg  ram_R_0_en_pipe_0;
-  reg [5:0] ram_R_0_addr_pipe_0;
+  reg [6:0] ram_R_0_addr_pipe_0;
   assign ram_R_0_en = ram_R_0_en_pipe_0;
   assign ram_R_0_addr = ram_R_0_addr_pipe_0;
   `ifndef RANDOMIZE_GARBAGE_ASSIGN
   assign ram_R_0_data = ram[ram_R_0_addr];
   `else
-  assign ram_R_0_data = ram_R_0_addr >= 6'h22 ? _RAND_1[52:0] : ram[ram_R_0_addr];
+  assign ram_R_0_data = ram_R_0_addr >= 7'h44 ? _RAND_1[52:0] : ram[ram_R_0_addr];
   `endif // RANDOMIZE_GARBAGE_ASSIGN
   assign ram_W_0_data = W0_data;
   assign ram_W_0_addr = W0_addr;
@@ -3326,14 +3326,14 @@ initial begin
 `endif // RANDOMIZE_GARBAGE_ASSIGN
 `ifdef RANDOMIZE_MEM_INIT
   _RAND_0 = {2{`RANDOM}};
-  for (initvar = 0; initvar < 34; initvar = initvar+1)
+  for (initvar = 0; initvar < 68; initvar = initvar+1)
     ram[initvar] = _RAND_0[52:0];
 `endif // RANDOMIZE_MEM_INIT
 `ifdef RANDOMIZE_REG_INIT
   _RAND_2 = {1{`RANDOM}};
   ram_R_0_en_pipe_0 = _RAND_2[0:0];
   _RAND_3 = {1{`RANDOM}};
-  ram_R_0_addr_pipe_0 = _RAND_3[5:0];
+  ram_R_0_addr_pipe_0 = _RAND_3[6:0];
 `endif // RANDOMIZE_REG_INIT
   `endif // RANDOMIZE
 end // initial

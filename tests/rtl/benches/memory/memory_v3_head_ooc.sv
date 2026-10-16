@@ -2,7 +2,8 @@
 
 // Flat-port production-parameter harness for P2 resource/timing checks.
 module memory_v3_head_ooc #(
-    parameter bit SHADOW_DDR = 1'b0
+    parameter bit SHADOW_DDR = 1'b0,
+    parameter bit READ_DECOUPLE = 1'b1
 ) (
     input  wire         clk,
     input  wire         resetn,
@@ -147,7 +148,7 @@ module memory_v3_head_ooc #(
     assign ddr_axi.rvalid = d_rvalid;
     assign d_rready = ddr_axi.rready;
 
-    axi4_head_uram_router_v3 #(.DATA_WIDTH(512), .ID_WIDTH(2), .SHADOW_DDR(SHADOW_DDR)) dut (
+    axi4_head_uram_router_v3 #(.DATA_WIDTH(512), .ID_WIDTH(2), .READ_DECOUPLE(READ_DECOUPLE), .SHADOW_DDR(SHADOW_DDR)) dut (
         .clk(clk), .resetn(resetn), .s_axi(s_axi), .m_ddr_axi(ddr_axi),
         .local_read_bank(local_bank),
         .local_read_req_valid(local_req_valid),

@@ -11,7 +11,7 @@ VIVADO_BIN ?= vivado
 ifneq ($(SOC_VARIANT),triple32_v3_tensor)
 $(error Only the current triple32_v3_tensor configuration is supported)
 endif
-export SOC_VARIANT VIVADO_BIN
+export SOC_VARIANT VIVADO_BIN HEAD_VERILATOR
 export VIVADO_PROJECT
 export SOC_REFERENCE SOC_WORKSPACE RISCV_LINUX_CC RISCV_TOOLCHAIN_DIR
 export SOC_CONFIG TOOLCHAIN OPENOCD_BIN OPENOCD_CFG GDB_BIN GDB_PYTHONHOME BOARD_JTAG_SERIAL BITSTREAM_FILE
@@ -236,3 +236,11 @@ test-v3-timing-repair:
 .PHONY: program-bitstream
 program-bitstream:
 	cd "$(PROJECT_ROOT)" && bash tools/program/download_bitstream.sh $(PROGRAM_ARGS)
+
+.PHONY: test-head-read-decouple test-l2-secondary-capacity test-head-l2-urgent
+test-head-read-decouple:
+	python3 tests/rtl/head_l2_urgent/run_tests.py --suite head
+test-l2-secondary-capacity:
+	python3 tests/rtl/head_l2_urgent/run_tests.py --suite l2 $(if $(SOC_WORKSPACE),--workspace "$(SOC_WORKSPACE)")
+test-head-l2-urgent:
+	python3 tests/rtl/head_l2_urgent/run_tests.py --suite all $(if $(SOC_WORKSPACE),--workspace "$(SOC_WORKSPACE)")

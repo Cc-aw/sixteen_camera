@@ -42,7 +42,8 @@ case class InclusiveCacheParams(
   bufInnerInterior: InclusiveCachePortParameters = InclusiveCachePortParameters.fullC,
   bufInnerExterior: InclusiveCachePortParameters = InclusiveCachePortParameters.flowAD,
   bufOuterInterior: InclusiveCachePortParameters = InclusiveCachePortParameters.full,
-  bufOuterExterior: InclusiveCachePortParameters = InclusiveCachePortParameters.none)
+  bufOuterExterior: InclusiveCachePortParameters = InclusiveCachePortParameters.none,
+  secondaryEntries: Option[Int] = None)
 
 case object InclusiveCacheKey extends Field[InclusiveCacheParams]
 
@@ -82,7 +83,8 @@ class WithInclusiveCache(
       bufInnerInterior,
       bufInnerExterior,
       bufOuterInterior,
-      bufOuterExterior) = p(InclusiveCacheKey)
+      bufOuterExterior,
+      secondaryEntries) = p(InclusiveCacheKey)
 
     val l2Ctrl = ctrlAddr.map { addr =>
       InclusiveCacheControlParameters(
@@ -103,7 +105,8 @@ class WithInclusiveCache(
         portFactor = portFactor,
         memCycles = memCycles,
         innerBuf = bufInnerInterior,
-        outerBuf = bufOuterInterior),
+        outerBuf = bufOuterInterior,
+        secondaryEntries = secondaryEntries),
       l2Ctrl))
 
     def skipMMIO(x: TLClientParameters) = {

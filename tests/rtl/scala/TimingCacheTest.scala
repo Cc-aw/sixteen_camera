@@ -18,7 +18,7 @@ class TimingCacheTestHarness(implicit p: Parameters) extends LazyModule {
   val back = LazyModule(new TLXbar)
   val l2 = LazyModule(new InclusiveCache(
     CacheParameters(level=2, ways=8, sets=512, blockBytes=64, beatBytes=32,hintsSkipProbe=false),
-    InclusiveCacheMicroParameters(writeBytes=8,portFactor=4,memCycles=64,innerBuf=InclusiveCachePortParameters.full),
+    InclusiveCacheMicroParameters(writeBytes=8,portFactor=4,memCycles=64,secondaryEntries=Some(68),innerBuf=InclusiveCachePortParameters.full),
     Some(InclusiveCacheControlParameters(address=0x2010000,beatBytes=8,bankedControl=false))) {
       val simultaneousTest = InModuleBody {
         val result = IO(Output(Bool()))
@@ -34,6 +34,7 @@ class TimingCacheTestHarness(implicit p: Parameters) extends LazyModule {
   l2.ctrls.head.ctrlnode := control
   lazy val module = new Impl
   class Impl extends LazyModuleImp(this) {
+    val secondaryUsed = l2.module.mods.map(s => chiseltest.experimental.expose(s.requests.used))
     val io = IO(new Bundle {
       val ports = MixedVec(clients.out.map { case (_,e) => Flipped(new TLBundle(e.bundle)) })
       val ctrl = Flipped(new TLBundle(control.out.head._2.bundle))
@@ -61,7 +62,7 @@ object TimingCacheTest extends App {
   }
   RawTester.test(LazyModule(new TimingCacheTestHarness).module, annotations) { d =>
     val queues = Array.fill(3)(scala.collection.mutable.Queue.empty[(Int,Int,BigInt,Int)])
-    var cycles=0; var parallel=0; var probeCount=0
+    var cycles=0; var parallel=0; var probeCount=0; var secondaryPeak=0
     var dirtyAddress=BigInt(-1); var dirtyData=BigInt(0); var permission=0
     var probe: Option[(BigInt,Int,Int,Int,Boolean)] = None
     val random = new scala.util.Random(407)
@@ -75,6 +76,7 @@ object TimingCacheTest extends App {
     zero(d.io.ctrl.a.bits); d.io.ctrl.a.valid.poke(false.B); d.io.ctrl.d.ready.poke(false.B)
     d.reset.poke(true.B); d.clock.step(5); d.reset.poke(false.B)
     def tick(): Unit = {
+      secondaryPeak=secondaryPeak.max(d.secondaryUsed.map(_.peek().litValue.bitCount).max)
       cycles+=1; require(cycles<150000, "cache test timeout")
       for(i <- 0 until 3) {
         val x=d.io.ports(i)
@@ -202,6 +204,7 @@ object TimingCacheTest extends App {
       }
       require(seen.forall(_==2))
     }
-    println(s"MEMORY_V3_CACHE_PASS cycles=$cycles simultaneous=$parallel probes=$probeCount dirty_flush=yes source_ids=32 same_set_requests=96")
+    require(secondaryPeak>34, s"expanded pool never exercised: peak=$secondaryPeak")
+    println(s"MEMORY_V3_CACHE_PASS secondary_peak=$secondaryPeak cycles=$cycles simultaneous=$parallel probes=$probeCount dirty_flush=yes source_ids=32 same_set_requests=96")
   }
 }
