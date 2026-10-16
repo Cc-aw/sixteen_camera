@@ -11,6 +11,8 @@ VIVADO_BIN ?= vivado
 ifneq ($(SOC_VARIANT),triple32_v3_tensor)
 $(error Only the current triple32_v3_tensor configuration is supported)
 endif
+SW_P3_MODE ?= reference
+export SW_P3_MODE
 export SOC_VARIANT VIVADO_BIN HEAD_VERILATOR
 export VIVADO_PROJECT
 export SOC_REFERENCE SOC_WORKSPACE RISCV_LINUX_CC RISCV_TOOLCHAIN_DIR
@@ -30,6 +32,8 @@ help:
 	  'make soc SOC_REFERENCE=<ref> SOC_WORKSPACE=<new>  Generate the current SoC' \
 	  'make project / elaborate / bitstream  Reconstruct and build hardware' \
 	  'make benchmark            Build V33 formal and diagnostic frontend ELFs' \
+	  'make benchmark-sw-p3 / test-sw-p3 / audit-sw-p3  Build, test and audit reference (SW_P3_MODE=compare for candidates)' \
+	  'make benchmark-v34 / test-v34 / program-v34  V34 HOST/Gemmini/MPV3 diagnostics' \
 	  'make test-v33 / check-v33-firmware  Check V33 plans, scheduler, PPU, logs and ELFs' \
 	  'make firmware             Realtime Runtime adaptation required' \
 	  'make test-software         Run host and model regressions' \
@@ -252,3 +256,25 @@ test-head-performance:
 	python3 tests/rtl/performance/run_head_compare.py --output "$(PROJECT_ROOT)/build/reports/hardware_performance/head_$$(date +%Y%m%d_%H%M%S)_$$$$"
 test-l2-performance:
 	python3 tests/rtl/performance/run_l2_compare.py $(if $(PERF_RTL),--rtl "$(PERF_RTL)") --count "$(or $(PERF_COUNT),512)" --output "$(PROJECT_ROOT)/build/reports/hardware_performance/l2_$$(date +%Y%m%d_%H%M%S)_$$$$"
+
+# SW-P3 is an isolated derived frontend; the frozen V33 targets stay strict.
+.PHONY: benchmark-sw-p3 test-sw-p3 audit-sw-p3 program-sw-p3
+benchmark-sw-p3: test-v33
+	$(MAKE) -f sw/benchmarks/frontend/sw-p3.mk all
+test-sw-p3: test-v33
+	$(MAKE) -f sw/benchmarks/frontend/sw-p3.mk test
+audit-sw-p3:
+	$(MAKE) -f sw/benchmarks/frontend/sw-p3.mk audit
+program-sw-p3:
+	bash sw/benchmarks/frontend/download-sw-p3.sh $(PROGRAM_ARGS)
+
+# Imported V34 diagnostics preserve the frozen V33 formal entry.
+.PHONY: benchmark-v34 test-v34 audit-v34 program-v34
+benchmark-v34: test-v33
+	$(MAKE) -f sw/benchmarks/frontend/v34.mk all
+test-v34: test-v33
+	$(MAKE) -f sw/benchmarks/frontend/v34.mk test
+audit-v34:
+	$(MAKE) -f sw/benchmarks/frontend/v34.mk audit
+program-v34:
+	bash sw/benchmarks/frontend/download-v34.sh $(PROGRAM_ARGS)

@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_timing_v3_2026-10-07/sw/yolov5/triple32/frontend",
+  "files": {
+    "sw/benchmarks/frontend/src/boundary_main.c": {
+      "upstream": "src/boundary_main.c",
+      "sha256": "5b09ce57bdb6d68843ccfa6937f1e28e9e983dd95c3963bc4f04e450633201ac"
+    },
+    "sw/benchmarks/frontend/src/boundary_diag.inc": {
+      "upstream": "src/boundary_diag.inc",
+      "sha256": "019961089a38b97868306ea7b4609fac06d00dba2ea6676dae1fa703ef98c29b"
+    },
+    "sw/benchmarks/frontend/src/memory_diag.inc": {
+      "upstream": "src/memory_diag.inc",
+      "sha256": "1b1eb4174bc03df1eb2784b4476fad0ed47f1bf1da56c172ef90d7557501b929"
+    },
+    "sw/benchmarks/frontend/src/boundary_irq.c": {
+      "upstream": "src/boundary_irq.c",
+      "sha256": "aad4fd9d3cf60aa0bac0ed65c4c405b5d60e3dee64799f2ed4546ec25797cf66"
+    },
+    "sw/benchmarks/frontend/scripts/analyze_boundary_log.py": {
+      "upstream": "scripts/analyze_boundary_log.py",
+      "sha256": "ab98a5244e7b2374bc20245f56dced484f83a9f0d29c5e4bbdd0b8174dbed3d4"
+    },
+    "sw/benchmarks/frontend/scripts/analyze_log.py": {
+      "upstream": "scripts/analyze_log.py",
+      "sha256": "77b5cbe69021638a242d1a32191cd5d257bf1874ac51209e3e7ef699266d586e"
+    },
+    "sw/benchmarks/frontend/scripts/check_boundary_elf.py": {
+      "upstream": "scripts/check_elf.py",
+      "sha256": "c43129b7c726dac3d5b9abd40e58294f5d593a7c551a22fe1e312b8cfb17f93b"
+    },
+    "tests/model/frontend_v34/test_boundary.py": {
+      "upstream": "scripts/test_boundary.py",
+      "sha256": "1b0ff1809c8180c1e867858fde4439ae973ef5827e8929b0120bf4a56e8c425f"
+    }
+  },
+  "adaptations": [
+    "Repository-relative build and regression paths",
+    "MPV3 ABI 1.2 four-bank support; all 16 blocks retained",
+    "Explicit three-mode result-buffer assertion",
+    "Hardware/source/artifact manifest binding"
+  ]
+}

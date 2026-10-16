@@ -149,6 +149,9 @@ static void at_phase(unsigned worker_id,unsigned phase) {
         cpu_model_work='six native MaxPool padding/copy boundaries per frame',
         graph_sha256=digest(GEN / 'graph.inc'))
     (GEN / 'manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')
+    if os.environ.get('SW_P3') == '1':
+        from parallel_cache_plan import prepare_candidate
+        prepare_candidate(SNAP, GEN)
     print('ATSOFT1,GENERATED,baseline=v32,phases=165,conv=462,ws=224,model_ops_removed=0')
 
 if __name__ == '__main__':
