@@ -78,7 +78,7 @@ module InclusiveCacheControl(	// @[generators/rocket-chip-inclusive-cache/design
   wire             _out_back_front_q_io_deq_bits_read;	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
   wire [8:0]       _out_back_front_q_io_deq_bits_index;	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
   wire [7:0]       _out_back_front_q_io_deq_bits_mask;	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-  wire [7:0][63:0] _GEN = '{64'h0, 64'h0, 64'h0, 64'h0, 64'h0, 64'h0, 64'h0, 64'h6090802};
+  wire [7:0][63:0] _GEN = '{64'h0, 64'h0, 64'h0, 64'h0, 64'h0, 64'h0, 64'h0, 64'h6090804};
   reg              flushInValid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Control.scala:46:33]
   reg  [63:0]      flushInAddress;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Control.scala:47:29]
   reg              flushIsInvalidate;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Control.scala:48:32]

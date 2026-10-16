@@ -2,6 +2,12 @@
 set repo [file dirname [file dirname [file dirname [file normalize [info script]]]]]
 set project [file join $repo build projects triple32_v3_tensor sixteen_camera.xpr]
 set out [file join $repo build reports hardware_project_audit]
+if {[info exists ::env(VIVADO_PROJECT)] && $::env(VIVADO_PROJECT) ne ""} {
+    set project [file normalize $::env(VIVADO_PROJECT)]
+}
+if {[info exists ::env(HARDWARE_PROJECT_AUDIT_DIR)] && $::env(HARDWARE_PROJECT_AUDIT_DIR) ne ""} {
+    set out [file normalize $::env(HARDWARE_PROJECT_AUDIT_DIR)]
+}
 file mkdir $out
 open_project $project
 set expected [dict create \

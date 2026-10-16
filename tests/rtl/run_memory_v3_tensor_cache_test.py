@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Test the rebuilt writer with the real V3 two-bank L2 and 512-bit outer bus."""
+"""Test the rebuilt writer with real V3 two/four-bank L2 and 512-bit outer bus."""
 import argparse
 import importlib.util
 import os
@@ -14,6 +14,7 @@ spec.loader.exec_module(generator)
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--workspace", type=Path, required=True)
 parser.add_argument("--output", type=Path, default=ROOT / "build/sim/memory_v3_tensor_cache")
+parser.add_argument("--banks", type=int, nargs="+", choices=(2, 4), default=[4])
 args = parser.parse_args()
 cy = args.workspace.resolve()
 generator.validate_workspace_sources(cy)
@@ -35,5 +36,8 @@ subprocess.run([str(java), "-Xmx4G", "-cp", f"{compiler}:{jar}", "scala.tools.ns
                 "-classpath", str(jar), f"-Xplugin:{plugin}", "-language:reflectiveCalls",
                 "-d", str(out / "classes"), str(ROOT / "tests/rtl/scala/MemoryV3TensorTest.scala")],
                env=env, check=True)
-subprocess.run([str(java), "-Xmx6G", "-XX:ActiveProcessorCount=4", "-cp", f"{out / 'classes'}:{jar}",
-                "memoryv3test.MemoryV3TensorTest", "sim"], cwd=out, env=env, check=True)
+for banks in args.banks:
+    destination = out / f"banks{banks}"
+    destination.mkdir(exist_ok=True)
+    subprocess.run([str(java), "-Xmx6G", "-XX:ActiveProcessorCount=4", "-cp", f"{out / 'classes'}:{jar}",
+                    "memoryv3test.MemoryV3TensorTest", "sim", str(banks)], cwd=destination, env=env, check=True)

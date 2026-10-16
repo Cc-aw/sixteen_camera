@@ -1,23 +1,19 @@
 {
-  "abi": "1.0",
+  "abi": "1.2",
   "base": "0x02020000",
   "size": 65536,
   "endian": "little",
   "selector": "block_id * 32 + slot",
   "counter_width": 64,
   "reserved_slots": 0,
-  "invalid_blocks": [
-    13,
-    14,
-    15
-  ],
+  "invalid_blocks": [],
   "registers": [
     {
       "offset": "0x00",
       "name": "version",
       "width": 64,
       "access": "RO",
-      "value": "0x4d50563300010000"
+      "value": "0x4d50563300010002"
     },
     {
       "offset": "0x08",
@@ -54,14 +50,14 @@
       "name": "bank_mask",
       "width": 64,
       "access": "RO",
-      "value": 4096
+      "value": 12288
     },
     {
       "offset": "0x38",
       "name": "l2_bytes",
       "width": 64,
       "access": "RO",
-      "value": 524288
+      "value": 1048576
     },
     {
       "offset": "0x40",
@@ -82,14 +78,14 @@
       "name": "block_count",
       "width": 64,
       "access": "RO",
-      "value": 13
+      "value": 16
     },
     {
       "offset": "0x58",
       "name": "l2_banks",
       "width": 64,
       "access": "RO",
-      "value": 2
+      "value": 4
     },
     {
       "offset": "0x60",
@@ -196,6 +192,16 @@
         "width": 64,
         "kind": "timestamp",
         "clear_resets": false
+      },
+      "14": {
+        "name": "bank2_requests",
+        "width": 64,
+        "kind": "sum"
+      },
+      "15": {
+        "name": "bank3_requests",
+        "width": 64,
+        "kind": "sum"
       }
     },
     "l2": {
@@ -295,7 +301,7 @@
         "kind": "sum"
       },
       "19": {
-        "name": "both_banks_d_fire_cycles",
+        "name": "bank0_and_bank1_d_fire_cycles",
         "width": 64,
         "kind": "sum"
       },
@@ -304,6 +310,21 @@
         "width": 64,
         "kind": "timestamp",
         "clear_resets": false
+      },
+      "20": {
+        "name": "at_least_two_banks_d_fire_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "21": {
+        "name": "at_least_three_banks_d_fire_cycles",
+        "width": 64,
+        "kind": "sum"
+      },
+      "22": {
+        "name": "all_four_banks_d_fire_cycles",
+        "width": 64,
+        "kind": "sum"
       }
     },
     "axi": {
@@ -466,19 +487,19 @@
   "blocks": [
     {
       "id": 0,
-      "name": "Gemmini0_custom1",
+      "name": "Gemmini0",
       "clock_hz": 100000000,
       "layout": "client"
     },
     {
       "id": 1,
-      "name": "Gemmini1_custom2",
+      "name": "Gemmini1",
       "clock_hz": 100000000,
       "layout": "client"
     },
     {
       "id": 2,
-      "name": "Gemmini2_custom3",
+      "name": "Gemmini2",
       "clock_hz": 100000000,
       "layout": "client"
     },
@@ -541,6 +562,24 @@
       "name": "Head_router",
       "clock_hz": 100000000,
       "layout": "head"
+    },
+    {
+      "id": 13,
+      "name": "Tensor_writer",
+      "clock_hz": 100000000,
+      "layout": "client"
+    },
+    {
+      "id": 14,
+      "name": "L2_bank2",
+      "clock_hz": 100000000,
+      "layout": "l2"
+    },
+    {
+      "id": 15,
+      "name": "L2_bank3",
+      "clock_hz": 100000000,
+      "layout": "l2"
     }
   ],
   "notes": [
@@ -551,6 +590,11 @@
     "AXI flight tracking persists through CLEAR and disabled measurement.",
     "R occupied bus bytes includes unused lanes for narrow reads.",
     "Frozen DATA is zero while busy or invalid; split 32-bit reads are stable between snapshot/clear/reset.",
-    "Idle S02 has only enabled cycles and timestamp."
+    "Idle S02 has only enabled cycles and timestamp.",
+    "ABI1.2 appends banks2/3 as blocks14/15, client bank requests as slots14/15; completed D messages remain slot13.",
+    "Four-bank geometry: 1 MiB, mask0x3000, sets A6:A11 and A14:A16, 128 KiB bank/set period.",
+    "Two-bank fallback remains ABI1.1 with 14 blocks, mask0x1000 and 512 KiB.",
+    "L2 slot19 preserves bank0-and-bank1 D-fire; slots20..22 count wider simultaneous returns.",
+    "Per-cycle client stalls are summed bank-cycles and may reach four; they are not wall-clock delay."
   ]
 }

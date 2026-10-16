@@ -18,8 +18,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--workspace", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
-    parser.add_argument("--targets", nargs="+", choices=["pool", "cache", "ddr"],
-                        default=["pool", "cache", "ddr"])
+    parser.add_argument("--banks", type=int, nargs="+", choices=(2, 4), default=[4])
+    parser.add_argument("--targets", nargs="+", choices=["pool", "cache", "mmio", "ddr"],
+                        default=["pool", "cache", "mmio", "ddr"])
     parser.add_argument("--vivado", type=Path, default=Path(os.environ.get(
         "VIVADO_BIN", shutil.which("vivado") or "vivado")))
     args = parser.parse_args()
@@ -50,19 +51,23 @@ def main():
     plugin = cache / "org/chipsalliance/chisel-plugin_2.13.16/6.7.0/chisel-plugin_2.13.16-6.7.0.jar"
     product = json.loads((ROOT / 'hw/manifests/current.json').read_text())
     pool_test = "S1ListBufferTest" if product.get('l2_implementation') == 's1_combinational' else "RegisteredListBufferTest"
-    tests = {"pool": pool_test, "cache": "TimingCacheTest"}
+    tests = {"pool": pool_test, "cache": "TimingCacheTest", "mmio": "MemoryV3MmioTest"}
     selected = [name for target, name in tests.items() if target in args.targets]
     if selected:
         run([java, "-Xmx4G", "-cp", f"{compiler}:{jar}", "scala.tools.nsc.Main",
              "-classpath", jar, f"-Xplugin:{plugin}", "-language:reflectiveCalls",
-             "-d", classes, *[ROOT / f"tests/rtl/scala/{name}.scala" for name in selected]],
+             "-d", classes, *[(ROOT / "hw/soc/source/shell/memory_parallel_v3/tests/MemoryV3MmioTest.scala"
+                               if name == "MemoryV3MmioTest" else ROOT / f"tests/rtl/scala/{name}.scala") for name in selected]],
             out, "compile.log")
     for name in selected:
-        dest = out / name
-        dest.mkdir()
-        run([java, "-Xmx6G", "-XX:ActiveProcessorCount=4", "-cp", f"{classes}:{jar}",
-             "autonomoustest." + name, "sim"], dest, "console.log")
-        print(name + "=PASS", flush=True)
+        for banks in ([None] if name == pool_test else args.banks):
+            dest = out / (name + (f"_banks{banks}" if banks else ""))
+            dest.mkdir()
+            package = "memoryv3test." if name == "MemoryV3MmioTest" else "autonomoustest."
+            arguments = [str(banks)] if name == "MemoryV3MmioTest" else ["sim"] + ([str(banks)] if banks else [])
+            run([java, "-Xmx6G", "-XX:ActiveProcessorCount=4", "-cp", f"{classes}:{jar}",
+                 package + name, *arguments], dest, "console.log")
+            print(name + f" banks={banks}=PASS", flush=True)
     if "ddr" in args.targets:
         ip = args.vivado.resolve().parent.parent / "data/ip/xilinx"
         for mode in (7, 1):

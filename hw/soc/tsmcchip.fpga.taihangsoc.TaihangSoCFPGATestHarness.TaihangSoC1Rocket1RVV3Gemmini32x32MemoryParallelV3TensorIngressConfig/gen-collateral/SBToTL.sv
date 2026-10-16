@@ -75,7 +75,7 @@ module SBToTL(	// @[generators/rocket-chip/src/main/scala/devices/debug/SBA.scal
   input  [2:0]   auto_out_d_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [1:0]   auto_out_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [3:0]   auto_out_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [6:0]   auto_out_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [7:0]   auto_out_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_out_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [7:0]   auto_out_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_out_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -190,7 +190,7 @@ module SBToTL(	// @[generators/rocket-chip/src/main/scala/devices/debug/SBA.scal
       `FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip/src/main/scala/devices/debug/SBA.scala:273:9]
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  Queue2_TLBundleD_a33d8s1k7z4u d_q (	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  Queue2_TLBundleD_a33d8s1k8z4u d_q (	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
     .clock               (clock),
     .reset               (reset),
     .io_enq_ready        (auto_out_d_ready),

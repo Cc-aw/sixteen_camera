@@ -1,14 +1,23 @@
 #!/usr/bin/env python3
 """Check the generated merged SoC's actual interfaces and cache geometry."""
 from pathlib import Path
+import argparse
 import json
 import re
 import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[2]
-rtl = Path(sys.argv[1]).resolve()
+sys.path.insert(0, str(ROOT / "tools/soc"))
+from l2_geometry import L2Geometry
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("rtl", type=Path)
+parser.add_argument("--l2-banks", type=int, choices=(2, 4))
+args = parser.parse_args()
+rtl = args.rtl.resolve()
 product = json.loads((ROOT / "hw/manifests/current.json").read_text())
+geometry = L2Geometry(args.l2_banks or product.get("l2", {}).get("banks", 2))
 secondary_entries = product["l2_secondary_entries"]
 bridge = (ROOT / "hw/rtl/memory/postprocess_memory_bridge_v3.sv").read_text()
 s1_l2 = product.get("l2_implementation") == "s1_combinational"
@@ -33,7 +42,7 @@ for direction, name, width in [
     assert re.search(rf"\b{direction}\s+\[{width-1}:0\]\s+{name}\b", top), name
 assert not re.search(r"\bspi_", top)
 cache = (rtl / "InclusiveCache.sv").read_text()
-assert len(re.findall(r"^  InclusiveCacheBankScheduler(?:_\d+)?\s+\w+\s*\(", cache, re.M)) == 2
+assert len(re.findall(r"^  InclusiveCacheBankScheduler(?:_\d+)?\s+\w+\s*\(", cache, re.M)) == geometry.banks
 assert (rtl / "TaihangTensorIngress.sv").is_file()
 router = (rtl / "RoccCommandRouter.sv").read_text()
 assert "replay_release" not in router and "RegisteredIngressAtomicReserve" not in router
@@ -53,14 +62,7 @@ divider = (rtl / "IterativeIntegerDivider.sv").read_text()
 assert "requestCapturePending" in divider and "requestIn1" in divider
 metadata = list(rtl.parent.glob("*.l2.json"))
 assert len(metadata) == 1, "Missing L2 generation metadata"
-banks = json.loads(metadata[0].read_text())["banks"]
-assert len(banks) == 2
-for index, bank in enumerate(banks):
-    assert bank["ways"] == 8 and bank["blockBytes"] == 64
-    assert bank["setBits"] == [6, 7, 8, 9, 10, 11, 13, 14, 15]
-    assert all(entry["mask"] & 4096 == 0 and (entry["base"] >> 12) & 1 == index
-               for entry in bank["addresses"])
-assert sum(bank["ways"] * (1 << len(bank["setBits"])) * bank["blockBytes"] for bank in banks) == 524288
+assert L2Geometry.from_metadata(metadata[0]) == geometry
 headers = list((rtl / "include").glob("gemmini_params_32x32*custom*_xcvu13p.h"))
 assert len(headers) == 3, "Expected three newly generated worker parameter headers"
 assert {re.search(r"custom(\d)", p.name)[1] for p in headers} == {"0", "1", "2"}
@@ -148,5 +150,6 @@ for name in ("Gemmini", "Gemmini_1", "Gemmini_2"):
         assert f"loops_{slot}_outer_bounds_pool_size <= _cmd_q_io_deq_bits_cmd_rs1[31:16]" in loop_body
         assert f"loops_{slot}_no_pool <= _cmd_q_io_deq_bits_cmd_rs2[0]" in loop_body
 perf = (rtl / "MemoryParallelPerf.sv").read_text()
-assert "4d50563300010001" in perf.lower(), "Tensor memory statistics ABI 1.1 is missing"
-print(f"TRIPLE32_V3_TENSOR_STRUCTURE=PASS frontend=3 control=custom3 direct=custom0/1/2 memory=512/2 tensor=256/5 banks=2 workers=3 MaxPool=3 full_inner_buffers=5 secondary_pool={secondary_entries}x102 l2={'S1_COMBINATIONAL' if s1_l2 else 'REGISTERED'} stats_ABI=1.1")
+version = "4d50563300010002" if geometry.banks == 4 else "4d50563300010001"
+assert version in perf.lower(), "Tensor memory statistics ABI disagrees with L2 profile"
+print(f"TRIPLE32_V3_TENSOR_STRUCTURE=PASS frontend=3 control=custom3 direct=custom0/1/2 memory=512/2 tensor=256/5 banks={geometry.banks} l2_bytes={geometry.capacity_bytes} workers=3 MaxPool=3 full_inner_buffers=5 secondary_pool={secondary_entries}x102 l2={'S1_COMBINATIONAL' if s1_l2 else 'REGISTERED'} stats_ABI={geometry.statistics_abi}")

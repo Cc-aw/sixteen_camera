@@ -43,9 +43,9 @@
     `define INIT_RANDOM_PROLOG_
   `endif // RANDOMIZE
 `endif // not def INIT_RANDOM_PROLOG_
-module MemoryParallelPerf(	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
-  input         clock,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
-  input         reset,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
+module MemoryParallelPerf(	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
+  input         clock,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
+  input         reset,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
   output [2:0]  auto_external_out_command,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output        auto_external_out_request,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input         auto_external_out_acknowledge,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -66,229 +66,293 @@ module MemoryParallelPerf(	// @[generators/rocket-chip/src/main/scala/subsystem/
   output [1:0]  auto_in_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [14:0] auto_in_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [63:0] auto_in_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [15:0] io_events_0_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_0_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_0_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_0_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_0_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_0_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_0_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_0_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_0_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_0_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_0_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_0_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_0_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_1_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_1_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_1_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_1_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_1_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_1_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_1_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_1_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_1_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_1_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_1_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_1_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_1_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_2_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_2_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_2_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_2_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_2_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_2_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_2_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_2_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_2_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_2_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_2_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_2_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_2_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_3_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_3_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_3_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_3_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_3_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_3_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_3_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_3_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_3_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_3_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_3_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_3_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_3_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_4_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_4_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_4_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_4_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_4_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_4_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_4_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_4_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_4_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_4_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_4_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_4_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_4_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_14,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_15,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_16,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_17,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_18,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_5_19,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_14,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_15,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_16,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_17,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_18,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_6_19,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_13_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_13_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_13_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_13_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_13_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_13_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_13_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_13_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_13_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_13_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_13_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_13_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
-  input  [15:0] io_events_13_13	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:65:16]
+  input  [15:0] io_events_0_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_0_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_0_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_0_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_0_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_0_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_0_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_0_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_0_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_0_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_0_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_0_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_0_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_0_14,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_0_15,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_1_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_1_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_1_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_1_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_1_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_1_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_1_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_1_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_1_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_1_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_1_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_1_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_1_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_1_14,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_1_15,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_2_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_2_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_2_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_2_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_2_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_2_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_2_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_2_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_2_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_2_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_2_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_2_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_2_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_2_14,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_2_15,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_3_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_3_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_3_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_3_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_3_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_3_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_3_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_3_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_3_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_3_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_3_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_3_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_3_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_3_14,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_3_15,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_4_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_4_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_4_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_4_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_4_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_4_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_4_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_4_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_4_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_4_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_4_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_4_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_4_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_4_14,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_4_15,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_14,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_15,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_16,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_17,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_18,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_19,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_20,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_21,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_5_22,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_14,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_15,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_16,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_17,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_18,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_19,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_20,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_21,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_6_22,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_13_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_13_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_13_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_13_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_13_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_13_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_13_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_13_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_13_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_13_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_13_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_13_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_13_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_13_14,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_13_15,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_14,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_15,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_16,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_17,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_18,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_19,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_20,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_21,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_14_22,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_1,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_2,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_3,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_4,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_5,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_6,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_7,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_8,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_9,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_10,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_11,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_12,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_13,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_14,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_15,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_16,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_17,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_18,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_19,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_20,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_21,	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
+  input  [15:0] io_events_15_22	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:16]
 );
 
   wire              _out_wofireMux_T_2;	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
   wire              out_backSel_1;	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-  wire [2:0]        commandData;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:75:31, :104:28, :105:42, :106:40]
-  wire              pulse;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:74:25, :104:28, :105:42]
+  wire [2:0]        commandData;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:81:31, :112:28, :113:42, :114:40]
+  wire              pulse;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:80:25, :112:28, :113:42]
   wire              _out_back_front_q_io_deq_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
   wire              _out_back_front_q_io_deq_bits_read;	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
   wire [12:0]       _out_back_front_q_io_deq_bits_index;	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
   wire [63:0]       _out_back_front_q_io_deq_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
   wire [7:0]        _out_back_front_q_io_deq_bits_mask;	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-  wire [63:0]       _banks_7_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
-  wire [63:0]       _banks_6_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
-  wire [63:0]       _banks_5_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
-  wire [63:0]       _banks_4_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
-  wire [63:0]       _banks_3_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
-  wire [63:0]       _banks_2_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
-  wire [63:0]       _banks_1_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
-  wire [63:0]       _banks_0_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
-  reg  [2:0]        command;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:67:26]
-  reg               request;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:68:26]
-  reg               busy;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:69:23]
-  reg               enabled;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:26]
-  reg               valid;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:24]
-  reg  [31:0]       sequence_0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:72:27]
-  reg  [8:0]        selected;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:73:27]
-  reg               invalidCommand;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:76:33]
-  wire              localCmd_valid = pulse | ~auto_external_out_available;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:74:25, :78:{29,32}, :104:28, :105:42]
-  wire [2:0]        localCmd_bits = auto_external_out_available ? commandData : 3'h3;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:75:31, :79:25, :104:28, :105:42, :106:40]
-  wire [7:0][63:0]  _GEN = {{_banks_7_io_data}, {_banks_6_io_data}, {_banks_5_io_data}, {_banks_4_io_data}, {_banks_3_io_data}, {_banks_2_io_data}, {_banks_1_io_data}, {_banks_0_io_data}};	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21, :100:10]
+  wire [63:0]       _banks_9_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  wire [63:0]       _banks_8_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  wire [63:0]       _banks_7_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  wire [63:0]       _banks_6_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  wire [63:0]       _banks_5_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  wire [63:0]       _banks_4_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  wire [63:0]       _banks_3_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  wire [63:0]       _banks_2_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  wire [63:0]       _banks_1_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  wire [63:0]       _banks_0_io_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  reg  [2:0]        command;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:73:26]
+  reg               request;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:74:26]
+  reg               busy;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:75:23]
+  reg               enabled;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:76:26]
+  reg               valid;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:77:24]
+  reg  [31:0]       sequence_0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:78:27]
+  reg  [8:0]        selected;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:27]
+  reg               invalidCommand;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:82:33]
+  wire              localCmd_valid = pulse | ~auto_external_out_available;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:80:25, :84:{29,32}, :112:28, :113:42]
+  wire [2:0]        localCmd_bits = auto_external_out_available ? commandData : 3'h3;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:81:31, :85:25, :112:28, :113:42, :114:40]
+  wire [15:0][63:0] _GEN = {{_banks_9_io_data}, {_banks_8_io_data}, {_banks_7_io_data}, {auto_external_out_data}, {auto_external_out_data}, {auto_external_out_data}, {auto_external_out_data}, {auto_external_out_data}, {auto_external_out_data}, {_banks_6_io_data}, {_banks_5_io_data}, {_banks_4_io_data}, {_banks_3_io_data}, {_banks_2_io_data}, {_banks_1_io_data}, {_banks_0_io_data}};	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21, :107:22, src/main/scala/chisel3/util/Mux.scala:126:16]
   wire              _out_T_27 = _out_back_front_q_io_deq_bits_index[12:4] == 9'h0;	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
   wire [31:0]       _out_womask_T_13 = {{8{_out_back_front_q_io_deq_bits_mask[3]}}, {8{_out_back_front_q_io_deq_bits_mask[2]}}, {8{_out_back_front_q_io_deq_bits_mask[1]}}, {8{_out_back_front_q_io_deq_bits_mask[0]}}};	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-  wire              out_f_wovalid = ~busy & auto_external_out_available;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:69:23, :103:25, :120:35]
-  wire              _out_T_50 = _out_wofireMux_T_2 & out_backSel_1 & _out_T_27 & (&_out_womask_T_13) & out_f_wovalid;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:103:25, :104:18, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-  wire              _out_T_53 = (|(_out_back_front_q_io_deq_bits_data[31:0])) & _out_back_front_q_io_deq_bits_data[31:0] < 32'h5;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:105:{19,26,34}, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-  assign pulse = _out_T_50 & _out_T_53;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:74:25, :104:{18,28}, :105:{26,42}, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-  wire              _GEN_0 = _out_T_50 & _out_T_53;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:75:31, :104:{18,28}, :105:{26,42}, :106:40, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-  assign commandData = _GEN_0 ? _out_back_front_q_io_deq_bits_data[2:0] : 3'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:75:31, :104:28, :105:42, :106:{40,47}, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
+  wire              out_f_wovalid = ~busy & auto_external_out_available;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:75:23, :111:25, :128:35]
+  wire              _out_T_50 = _out_wofireMux_T_2 & out_backSel_1 & _out_T_27 & (&_out_womask_T_13) & out_f_wovalid;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:111:25, :112:18, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
+  wire              _out_T_53 = (|(_out_back_front_q_io_deq_bits_data[31:0])) & _out_back_front_q_io_deq_bits_data[31:0] < 32'h5;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:113:{19,26,34}, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
+  assign pulse = _out_T_50 & _out_T_53;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:80:25, :112:{18,28}, :113:{26,42}, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
+  wire              _GEN_0 = _out_T_50 & _out_T_53;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:81:31, :112:{18,28}, :113:{26,42}, :114:40, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
+  assign commandData = _GEN_0 ? _out_back_front_q_io_deq_bits_data[2:0] : 3'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:81:31, :112:28, :113:42, :114:{40,47}, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
   assign out_backSel_1 = _out_back_front_q_io_deq_bits_index[3:0] == 4'h1;	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
   assign _out_wofireMux_T_2 = _out_back_front_q_io_deq_valid & auto_in_d_ready & ~_out_back_front_q_io_deq_bits_read;	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-  wire [15:0]       _GEN_1 = {{1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {|{out_f_wovalid | ~(&_out_womask_T_13), _out_back_front_q_io_deq_bits_index[12:4]}}, {1'h1}};	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :103:25, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24, generators/rocket-chip/src/main/scala/util/MuxLiteral.scala:49:10]
+  wire [15:0]       _GEN_1 = {{1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {1'h1}, {|{out_f_wovalid | ~(&_out_womask_T_13), _out_back_front_q_io_deq_bits_index[12:4]}}, {1'h1}};	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :111:25, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24, generators/rocket-chip/src/main/scala/util/MuxLiteral.scala:49:10]
   wire              out_oready = _out_back_front_q_io_deq_bits_read | _GEN_1[_out_back_front_q_io_deq_bits_index[3:0]];	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24, generators/rocket-chip/src/main/scala/util/MuxLiteral.scala:49:10]
-  wire [15:0]       _GEN_2 = {{1'h1}, {1'h1}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}};	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24, generators/rocket-chip/src/main/scala/util/MuxLiteral.scala:49:10]
-  wire [15:0][63:0] _GEN_3 = {{64'h0}, {64'h0}, {64'h20}, {64'h200}, {64'h2}, {64'hE}, {64'h11E1A300}, {64'h5F5E100}, {64'h80000}, {64'h1000}, {valid & ~busy ? (selected[8:5] == 4'hD ? _banks_7_io_data : selected[8:5] < 4'h7 ? _GEN[selected[7:5]] : auto_external_out_data) : 64'h0}, {{55'h0, selected}}, {{32'h0, sequence_0}}, {{59'h0, invalidCommand, auto_external_out_available, valid, enabled, busy}}, {64'h0}, {64'h4D50563300010001}};	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:69:23, :70:26, :71:24, :72:27, :73:27, :76:33, :92:21, :99:{23,32,38}, :100:{10,25,50}, :101:21, :120:{25,32,35}, :125:46, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24, generators/rocket-chip/src/main/scala/util/MuxLiteral.scala:49:{10,48}]
-  wire              _GEN_4 = busy & auto_external_out_acknowledge == request;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:68:26, :69:23, :83:{15,34}]
-  wire              _GEN_5 = _GEN_4 & command == 3'h4;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:67:26, :71:24, :83:{15,47}, :85:{20,29,37}]
-  wire              _GEN_6 = _GEN_5 | valid;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:24, :83:47, :85:{29,37}]
-  wire              _GEN_7 = auto_external_out_available & enabled;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:26, :87:26, :88:50]
-  wire              _out_T_58 = _out_back_front_q_io_deq_bits_data[31:0] == 32'h3;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:110:37, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-  always @(posedge clock) begin	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
-    if (reset) begin	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
-      command <= 3'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:67:26]
-      request <= 1'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :68:26]
-      busy <= 1'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :69:23]
-      enabled <= 1'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :70:26]
-      valid <= 1'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :71:24]
-      sequence_0 <= 32'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:72:27]
-      selected <= 9'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:73:27]
-      invalidCommand <= 1'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :76:33]
+  wire [15:0]       _GEN_2 = {{1'h1}, {1'h1}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}, {_out_T_27}};	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24, generators/rocket-chip/src/main/scala/util/MuxLiteral.scala:49:10]
+  wire [15:0][63:0] _GEN_3 = {{64'h0}, {64'h0}, {64'h20}, {64'h200}, {64'h4}, {64'h10}, {64'h11E1A300}, {64'h5F5E100}, {64'h100000}, {64'h3000}, {valid & ~busy ? _GEN[selected[8:5]] : 64'h0}, {{55'h0, selected}}, {{32'h0, sequence_0}}, {{59'h0, invalidCommand, auto_external_out_available, valid, enabled, busy}}, {64'h0}, {64'h4D50563300010002}};	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:75:23, :76:26, :77:24, :78:27, :79:27, :82:33, :107:{16,22}, :109:21, :128:{25,32,35}, :133:46, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24, generators/rocket-chip/src/main/scala/util/MuxLiteral.scala:49:{10,48}, src/main/scala/chisel3/util/Mux.scala:126:16]
+  wire              _GEN_4 = busy & auto_external_out_acknowledge == request;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:74:26, :75:23, :89:{15,34}]
+  wire              _GEN_5 = _GEN_4 & command == 3'h4;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:73:26, :77:24, :89:{15,47}, :91:{20,29,37}]
+  wire              _GEN_6 = _GEN_5 | valid;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:77:24, :89:47, :91:{29,37}]
+  wire              _GEN_7 = auto_external_out_available & enabled;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:76:26, :93:26, :94:50]
+  wire              _out_T_58 = _out_back_front_q_io_deq_bits_data[31:0] == 32'h3;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:118:37, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
+  always @(posedge clock) begin	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
+    if (reset) begin	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
+      command <= 3'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:73:26]
+      request <= 1'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :74:26]
+      busy <= 1'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :75:23]
+      enabled <= 1'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :76:26]
+      valid <= 1'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :77:24]
+      sequence_0 <= 32'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:78:27]
+      selected <= 9'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:27]
+      invalidCommand <= 1'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :82:33]
     end
-    else begin	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
-      if (_GEN_0)	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:75:31, :104:28, :105:42, :106:40]
-        command <= _out_back_front_q_io_deq_bits_data[2:0];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:67:26, :106:47, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-      request <= _GEN_0 ? ~request : auto_external_out_available & request;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:68:26, :75:31, :87:26, :88:70, :104:28, :105:42, :106:40, :107:{41,44}]
-      busy <= _GEN_0 | ~(~auto_external_out_available | _GEN_4) & busy;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:69:23, :75:31, :78:32, :83:{15,47}, :84:12, :87:26, :88:12, :104:28, :105:42, :106:40, :107:59]
-      enabled <= _GEN_0 ? ~(_out_back_front_q_io_deq_bits_data[31:0] == 32'h2 | _out_T_58) & (_out_back_front_q_io_deq_bits_data[31:0] == 32'h1 | _GEN_7) : _GEN_7;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:26, :75:31, :87:26, :88:50, :104:28, :105:42, :106:40, :109:{21,30,40}, :110:{21,29,37,46,56}, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-      valid <= _GEN_0 ? ~(_out_T_58 | _out_back_front_q_io_deq_bits_data[31:0] == 32'h4 | ~auto_external_out_available) & _GEN_6 : auto_external_out_available & _GEN_6;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:24, :75:31, :78:32, :83:47, :85:{29,37}, :87:26, :88:30, :104:28, :105:42, :106:40, :110:37, :111:{29,37,46,54}, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-      if (_GEN_5)	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:71:24, :83:47, :85:{29,37}]
-        sequence_0 <= sequence_0 + 32'h1;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:72:27, :85:69]
+    else begin	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
+      if (_GEN_0)	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:81:31, :112:28, :113:42, :114:40]
+        command <= _out_back_front_q_io_deq_bits_data[2:0];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:73:26, :114:47, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
+      request <= _GEN_0 ? ~request : auto_external_out_available & request;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:74:26, :81:31, :93:26, :94:70, :112:28, :113:42, :114:40, :115:{41,44}]
+      busy <= _GEN_0 | ~(~auto_external_out_available | _GEN_4) & busy;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:75:23, :81:31, :84:32, :89:{15,47}, :90:12, :93:26, :94:12, :112:28, :113:42, :114:40, :115:59]
+      enabled <= _GEN_0 ? ~(_out_back_front_q_io_deq_bits_data[31:0] == 32'h2 | _out_T_58) & (_out_back_front_q_io_deq_bits_data[31:0] == 32'h1 | _GEN_7) : _GEN_7;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:76:26, :81:31, :93:26, :94:50, :112:28, :113:42, :114:40, :117:{21,30,40}, :118:{21,29,37,46,56}, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
+      valid <= _GEN_0 ? ~(_out_T_58 | _out_back_front_q_io_deq_bits_data[31:0] == 32'h4 | ~auto_external_out_available) & _GEN_6 : auto_external_out_available & _GEN_6;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:77:24, :81:31, :84:32, :89:47, :91:{29,37}, :93:26, :94:30, :112:28, :113:42, :114:40, :118:37, :119:{29,37,46,54}, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
+      if (_GEN_5)	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:77:24, :89:47, :91:{29,37}]
+        sequence_0 <= sequence_0 + 32'h1;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:78:27, :91:69]
       if (_out_wofireMux_T_2 & _out_back_front_q_io_deq_bits_index[3:0] == 4'h4 & _out_T_27 & (&_out_womask_T_13))	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-        selected <= _out_back_front_q_io_deq_bits_data[8:0];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:73:27, :117:37, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-      if (_out_T_50)	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:104:18, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-        invalidCommand <= ~_out_T_53;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:76:33, :105:{26,42}, :108:26, :112:38]
+        selected <= _out_back_front_q_io_deq_bits_data[8:0];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:27, :125:37, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
+      if (_out_T_50)	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:112:18, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
+        invalidCommand <= ~_out_T_53;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:82:33, :113:{26,42}, :116:26, :120:38]
     end
   end // always @(posedge)
-  `ifdef ENABLE_INITIAL_REG_	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
-    `ifdef FIRRTL_BEFORE_INITIAL	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
-      `FIRRTL_BEFORE_INITIAL	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
+  `ifdef ENABLE_INITIAL_REG_	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
+    `ifdef FIRRTL_BEFORE_INITIAL	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
+      `FIRRTL_BEFORE_INITIAL	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
     `endif // FIRRTL_BEFORE_INITIAL
-    logic [31:0] _RANDOM[0:1];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
-    initial begin	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
-      `ifdef INIT_RANDOM_PROLOG_	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
-        `INIT_RANDOM_PROLOG_	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
+    logic [31:0] _RANDOM[0:1];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
+    initial begin	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
+      `ifdef INIT_RANDOM_PROLOG_	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
+        `INIT_RANDOM_PROLOG_	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
       `endif // INIT_RANDOM_PROLOG_
-      `ifdef RANDOMIZE_REG_INIT	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
+      `ifdef RANDOMIZE_REG_INIT	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
         for (logic [1:0] i = 2'h0; i < 2'h2; i += 2'h1) begin
-          _RANDOM[i[0]] = `RANDOM;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
-        end	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
-        command = _RANDOM[1'h0][2:0];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :67:26]
-        request = _RANDOM[1'h0][3];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :67:26, :68:26]
-        busy = _RANDOM[1'h0][4];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :67:26, :69:23]
-        enabled = _RANDOM[1'h0][5];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :67:26, :70:26]
-        valid = _RANDOM[1'h0][6];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :67:26, :71:24]
-        sequence_0 = {_RANDOM[1'h0][31:7], _RANDOM[1'h1][6:0]};	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :67:26, :72:27]
-        selected = _RANDOM[1'h1][15:7];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :72:27, :73:27]
-        invalidCommand = _RANDOM[1'h1][16];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :72:27, :76:33]
+          _RANDOM[i[0]] = `RANDOM;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
+        end	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
+        command = _RANDOM[1'h0][2:0];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :73:26]
+        request = _RANDOM[1'h0][3];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :73:26, :74:26]
+        busy = _RANDOM[1'h0][4];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :73:26, :75:23]
+        enabled = _RANDOM[1'h0][5];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :73:26, :76:26]
+        valid = _RANDOM[1'h0][6];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :73:26, :77:24]
+        sequence_0 = {_RANDOM[1'h0][31:7], _RANDOM[1'h1][6:0]};	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :73:26, :78:27]
+        selected = _RANDOM[1'h1][15:7];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :78:27, :79:27]
+        invalidCommand = _RANDOM[1'h1][16];	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :78:27, :82:33]
       `endif // RANDOMIZE_REG_INIT
     end // initial
-    `ifdef FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
-      `FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9]
+    `ifdef FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
+      `FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9]
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  MemoryParallelCounterBank banks_0 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
+  MemoryParallelCounterBank banks_0 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
     .clock            (clock),
     .reset            (reset),
-    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:78:29]
-    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:25]
+    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:84:29]
+    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:85:25]
     .io_events_1      (io_events_0_1),
     .io_events_2      (io_events_0_2),
     .io_events_3      (io_events_0_3),
@@ -302,14 +366,16 @@ module MemoryParallelPerf(	// @[generators/rocket-chip/src/main/scala/subsystem/
     .io_events_11     (io_events_0_11),
     .io_events_12     (io_events_0_12),
     .io_events_13     (io_events_0_13),
-    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:73:27, :95:29]
+    .io_events_14     (io_events_0_14),
+    .io_events_15     (io_events_0_15),
+    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:27, :102:29]
     .io_data          (_banks_0_io_data)
-  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
-  MemoryParallelCounterBank banks_1 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
+  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  MemoryParallelCounterBank banks_1 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
     .clock            (clock),
     .reset            (reset),
-    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:78:29]
-    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:25]
+    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:84:29]
+    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:85:25]
     .io_events_1      (io_events_1_1),
     .io_events_2      (io_events_1_2),
     .io_events_3      (io_events_1_3),
@@ -323,14 +389,16 @@ module MemoryParallelPerf(	// @[generators/rocket-chip/src/main/scala/subsystem/
     .io_events_11     (io_events_1_11),
     .io_events_12     (io_events_1_12),
     .io_events_13     (io_events_1_13),
-    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:73:27, :95:29]
+    .io_events_14     (io_events_1_14),
+    .io_events_15     (io_events_1_15),
+    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:27, :102:29]
     .io_data          (_banks_1_io_data)
-  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
-  MemoryParallelCounterBank banks_2 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
+  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  MemoryParallelCounterBank banks_2 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
     .clock            (clock),
     .reset            (reset),
-    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:78:29]
-    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:25]
+    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:84:29]
+    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:85:25]
     .io_events_1      (io_events_2_1),
     .io_events_2      (io_events_2_2),
     .io_events_3      (io_events_2_3),
@@ -344,14 +412,16 @@ module MemoryParallelPerf(	// @[generators/rocket-chip/src/main/scala/subsystem/
     .io_events_11     (io_events_2_11),
     .io_events_12     (io_events_2_12),
     .io_events_13     (io_events_2_13),
-    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:73:27, :95:29]
+    .io_events_14     (io_events_2_14),
+    .io_events_15     (io_events_2_15),
+    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:27, :102:29]
     .io_data          (_banks_2_io_data)
-  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
-  MemoryParallelCounterBank banks_3 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
+  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  MemoryParallelCounterBank banks_3 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
     .clock            (clock),
     .reset            (reset),
-    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:78:29]
-    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:25]
+    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:84:29]
+    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:85:25]
     .io_events_1      (io_events_3_1),
     .io_events_2      (io_events_3_2),
     .io_events_3      (io_events_3_3),
@@ -365,14 +435,16 @@ module MemoryParallelPerf(	// @[generators/rocket-chip/src/main/scala/subsystem/
     .io_events_11     (io_events_3_11),
     .io_events_12     (io_events_3_12),
     .io_events_13     (io_events_3_13),
-    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:73:27, :95:29]
+    .io_events_14     (io_events_3_14),
+    .io_events_15     (io_events_3_15),
+    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:27, :102:29]
     .io_data          (_banks_3_io_data)
-  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
-  MemoryParallelCounterBank banks_4 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
+  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  MemoryParallelCounterBank banks_4 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
     .clock            (clock),
     .reset            (reset),
-    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:78:29]
-    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:25]
+    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:84:29]
+    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:85:25]
     .io_events_1      (io_events_4_1),
     .io_events_2      (io_events_4_2),
     .io_events_3      (io_events_4_3),
@@ -386,14 +458,16 @@ module MemoryParallelPerf(	// @[generators/rocket-chip/src/main/scala/subsystem/
     .io_events_11     (io_events_4_11),
     .io_events_12     (io_events_4_12),
     .io_events_13     (io_events_4_13),
-    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:73:27, :95:29]
+    .io_events_14     (io_events_4_14),
+    .io_events_15     (io_events_4_15),
+    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:27, :102:29]
     .io_data          (_banks_4_io_data)
-  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
-  MemoryParallelCounterBank_5 banks_5 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
+  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  MemoryParallelCounterBank_5 banks_5 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
     .clock            (clock),
     .reset            (reset),
-    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:78:29]
-    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:25]
+    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:84:29]
+    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:85:25]
     .io_events_1      (io_events_5_1),
     .io_events_2      (io_events_5_2),
     .io_events_3      (io_events_5_3),
@@ -413,14 +487,17 @@ module MemoryParallelPerf(	// @[generators/rocket-chip/src/main/scala/subsystem/
     .io_events_17     (io_events_5_17),
     .io_events_18     (io_events_5_18),
     .io_events_19     (io_events_5_19),
-    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:73:27, :95:29]
+    .io_events_20     (io_events_5_20),
+    .io_events_21     (io_events_5_21),
+    .io_events_22     (io_events_5_22),
+    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:27, :102:29]
     .io_data          (_banks_5_io_data)
-  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
-  MemoryParallelCounterBank_5 banks_6 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
+  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  MemoryParallelCounterBank_5 banks_6 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
     .clock            (clock),
     .reset            (reset),
-    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:78:29]
-    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:25]
+    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:84:29]
+    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:85:25]
     .io_events_1      (io_events_6_1),
     .io_events_2      (io_events_6_2),
     .io_events_3      (io_events_6_3),
@@ -440,14 +517,17 @@ module MemoryParallelPerf(	// @[generators/rocket-chip/src/main/scala/subsystem/
     .io_events_17     (io_events_6_17),
     .io_events_18     (io_events_6_18),
     .io_events_19     (io_events_6_19),
-    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:73:27, :95:29]
+    .io_events_20     (io_events_6_20),
+    .io_events_21     (io_events_6_21),
+    .io_events_22     (io_events_6_22),
+    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:27, :102:29]
     .io_data          (_banks_6_io_data)
-  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
-  MemoryParallelCounterBank banks_7 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
+  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  MemoryParallelCounterBank banks_7 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
     .clock            (clock),
     .reset            (reset),
-    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:78:29]
-    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:25]
+    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:84:29]
+    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:85:25]
     .io_events_1      (io_events_13_1),
     .io_events_2      (io_events_13_2),
     .io_events_3      (io_events_13_3),
@@ -461,9 +541,71 @@ module MemoryParallelPerf(	// @[generators/rocket-chip/src/main/scala/subsystem/
     .io_events_11     (io_events_13_11),
     .io_events_12     (io_events_13_12),
     .io_events_13     (io_events_13_13),
-    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:73:27, :95:29]
+    .io_events_14     (io_events_13_14),
+    .io_events_15     (io_events_13_15),
+    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:27, :102:29]
     .io_data          (_banks_7_io_data)
-  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:92:21]
+  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  MemoryParallelCounterBank_5 banks_8 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+    .clock            (clock),
+    .reset            (reset),
+    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:84:29]
+    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:85:25]
+    .io_events_1      (io_events_14_1),
+    .io_events_2      (io_events_14_2),
+    .io_events_3      (io_events_14_3),
+    .io_events_4      (io_events_14_4),
+    .io_events_5      (io_events_14_5),
+    .io_events_6      (io_events_14_6),
+    .io_events_7      (io_events_14_7),
+    .io_events_8      (io_events_14_8),
+    .io_events_9      (io_events_14_9),
+    .io_events_10     (io_events_14_10),
+    .io_events_11     (io_events_14_11),
+    .io_events_12     (io_events_14_12),
+    .io_events_13     (io_events_14_13),
+    .io_events_14     (io_events_14_14),
+    .io_events_15     (io_events_14_15),
+    .io_events_16     (io_events_14_16),
+    .io_events_17     (io_events_14_17),
+    .io_events_18     (io_events_14_18),
+    .io_events_19     (io_events_14_19),
+    .io_events_20     (io_events_14_20),
+    .io_events_21     (io_events_14_21),
+    .io_events_22     (io_events_14_22),
+    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:27, :102:29]
+    .io_data          (_banks_8_io_data)
+  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+  MemoryParallelCounterBank_5 banks_9 (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
+    .clock            (clock),
+    .reset            (reset),
+    .io_command_valid (localCmd_valid),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:84:29]
+    .io_command_bits  (localCmd_bits),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:85:25]
+    .io_events_1      (io_events_15_1),
+    .io_events_2      (io_events_15_2),
+    .io_events_3      (io_events_15_3),
+    .io_events_4      (io_events_15_4),
+    .io_events_5      (io_events_15_5),
+    .io_events_6      (io_events_15_6),
+    .io_events_7      (io_events_15_7),
+    .io_events_8      (io_events_15_8),
+    .io_events_9      (io_events_15_9),
+    .io_events_10     (io_events_15_10),
+    .io_events_11     (io_events_15_11),
+    .io_events_12     (io_events_15_12),
+    .io_events_13     (io_events_15_13),
+    .io_events_14     (io_events_15_14),
+    .io_events_15     (io_events_15_15),
+    .io_events_16     (io_events_15_16),
+    .io_events_17     (io_events_15_17),
+    .io_events_18     (io_events_15_18),
+    .io_events_19     (io_events_15_19),
+    .io_events_20     (io_events_15_20),
+    .io_events_21     (io_events_15_21),
+    .io_events_22     (io_events_15_22),
+    .io_index         (selected[4:0]),	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:79:27, :102:29]
+    .io_data          (_banks_9_io_data)
+  );	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:98:21]
   Queue1_RegMapperInput_i13_m8 out_back_front_q (	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
     .clock                               (clock),
     .reset                               (reset),
@@ -484,11 +626,11 @@ module MemoryParallelPerf(	// @[generators/rocket-chip/src/main/scala/subsystem/
     .io_deq_bits_extra_tlrr_extra_source (auto_in_d_bits_source),
     .io_deq_bits_extra_tlrr_extra_size   (auto_in_d_bits_size)
   );	// @[generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-  assign auto_external_out_command = command;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :67:26]
-  assign auto_external_out_request = request;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :68:26]
-  assign auto_external_out_index = selected;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, :73:27]
-  assign auto_in_d_valid = _out_back_front_q_io_deq_valid & out_oready;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
-  assign auto_in_d_bits_opcode = {2'h0, _out_back_front_q_io_deq_bits_read};	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24, :105:19]
-  assign auto_in_d_bits_data = _GEN_2[_out_back_front_q_io_deq_bits_index[3:0]] ? _GEN_3[_out_back_front_q_io_deq_bits_index[3:0]] : 64'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:64:9, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24, generators/rocket-chip/src/main/scala/util/MuxLiteral.scala:49:10]
+  assign auto_external_out_command = command;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :73:26]
+  assign auto_external_out_request = request;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :74:26]
+  assign auto_external_out_index = selected;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, :79:27]
+  assign auto_in_d_valid = _out_back_front_q_io_deq_valid & out_oready;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24]
+  assign auto_in_d_bits_opcode = {2'h0, _out_back_front_q_io_deq_bits_read};	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24, :105:19]
+  assign auto_in_d_bits_data = _GEN_2[_out_back_front_q_io_deq_bits_index[3:0]] ? _GEN_3[_out_back_front_q_io_deq_bits_index[3:0]] : 64'h0;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala:70:9, generators/rocket-chip/src/main/scala/tilelink/RegisterRouter.scala:87:24, generators/rocket-chip/src/main/scala/util/MuxLiteral.scala:49:10]
 endmodule
 

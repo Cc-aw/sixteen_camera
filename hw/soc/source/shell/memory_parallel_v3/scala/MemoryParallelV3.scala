@@ -26,12 +26,16 @@ class WithMemoryPerfHarness extends HarnessBinder({
     val perf = IO(chiselTypeOf(port.io)).suggestName("memory_perf")
     perf <> port.io
 })
-class WithMemoryParallelV3 extends Config((site, here, up) => {
-  case SubsystemBankedCoherenceKey => up(SubsystemBankedCoherenceKey, site).copy(nBanks = 2, bankMask = Some(BigInt(0x1000)))
+class WithMemoryParallelV3(nBanks: Int = 4) extends Config((site, here, up) => {
+  case SubsystemBankedCoherenceKey =>
+    require(nBanks == 2 || nBanks == 4, "V3 supports the saved two-bank and four-bank profiles")
+    up(SubsystemBankedCoherenceKey, site).copy(nBanks = nBanks,
+      bankMask = Some(BigInt(nBanks - 1) << 12))
   // Register all five channels at each bank boundary. The two-entry,
   // non-flow/non-pipe queues break BOTH data and ready combinational chains
   // while sustaining one beat per cycle once the pipeline is populated.
-  // Keep the original exterior flowAD buffers and all cache capacities.
+  // Keep S1's per-bank capacity and exterior buffers. Four identical 256 KiB
+  // banks provide 1 MiB; the two-bank fallback provides the saved 512 KiB.
   case InclusiveCacheKey => up(InclusiveCacheKey, site).copy(
     sets = 512, ways = 8, memCycles = 64,
     bufInnerInterior = InclusiveCachePortParameters.full)

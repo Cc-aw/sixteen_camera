@@ -5,7 +5,7 @@ module MemoryBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   output [2:0]   auto_buffer_out_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]   auto_buffer_out_a_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]   auto_buffer_out_a_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output [6:0]   auto_buffer_out_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [7:0]   auto_buffer_out_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [27:0]  auto_buffer_out_a_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [63:0]  auto_buffer_out_a_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [511:0] auto_buffer_out_a_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -15,7 +15,7 @@ module MemoryBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   input  [2:0]   auto_buffer_out_d_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [1:0]   auto_buffer_out_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]   auto_buffer_out_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [6:0]   auto_buffer_out_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [7:0]   auto_buffer_out_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_buffer_out_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_buffer_out_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [511:0] auto_buffer_out_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -62,6 +62,44 @@ module MemoryBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   output         auto_fixedClockNode_anon_out_0_reset,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_mbus_clock_groups_in_member_mbus_0_clock,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_mbus_clock_groups_in_member_mbus_0_reset,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_bus_xing_in_3_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_bus_xing_in_3_a_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_bus_xing_in_3_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_bus_xing_in_3_a_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_bus_xing_in_3_a_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [5:0]   auto_bus_xing_in_3_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [32:0]  auto_bus_xing_in_3_a_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [63:0]  auto_bus_xing_in_3_a_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [511:0] auto_bus_xing_in_3_a_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_bus_xing_in_3_a_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_bus_xing_in_3_d_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_bus_xing_in_3_d_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_bus_xing_in_3_d_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [1:0]   auto_bus_xing_in_3_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_bus_xing_in_3_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [5:0]   auto_bus_xing_in_3_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_bus_xing_in_3_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [511:0] auto_bus_xing_in_3_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_bus_xing_in_3_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_bus_xing_in_2_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_bus_xing_in_2_a_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_bus_xing_in_2_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_bus_xing_in_2_a_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_bus_xing_in_2_a_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [5:0]   auto_bus_xing_in_2_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [32:0]  auto_bus_xing_in_2_a_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [63:0]  auto_bus_xing_in_2_a_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [511:0] auto_bus_xing_in_2_a_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_bus_xing_in_2_a_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_bus_xing_in_2_d_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_bus_xing_in_2_d_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_bus_xing_in_2_d_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [1:0]   auto_bus_xing_in_2_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_bus_xing_in_2_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [5:0]   auto_bus_xing_in_2_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_bus_xing_in_2_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [511:0] auto_bus_xing_in_2_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_bus_xing_in_2_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_bus_xing_in_1_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_bus_xing_in_1_a_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]   auto_bus_xing_in_1_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -107,7 +145,7 @@ module MemoryBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   wire [2:0]   _buffer_1_auto_in_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [1:0]   _buffer_1_auto_in_d_bits_param;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [2:0]   _buffer_1_auto_in_d_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-  wire [6:0]   _buffer_1_auto_in_d_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
+  wire [7:0]   _buffer_1_auto_in_d_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire         _buffer_1_auto_in_d_bits_denied;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [511:0] _buffer_1_auto_in_d_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire         _buffer_1_auto_in_d_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
@@ -115,7 +153,7 @@ module MemoryBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   wire         _coupler_to_memory_controller_port_named_axi4_auto_widget_anon_in_d_valid;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire [2:0]   _coupler_to_memory_controller_port_named_axi4_auto_widget_anon_in_d_bits_opcode;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire [2:0]   _coupler_to_memory_controller_port_named_axi4_auto_widget_anon_in_d_bits_size;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
-  wire [6:0]   _coupler_to_memory_controller_port_named_axi4_auto_widget_anon_in_d_bits_source;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
+  wire [7:0]   _coupler_to_memory_controller_port_named_axi4_auto_widget_anon_in_d_bits_source;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire         _coupler_to_memory_controller_port_named_axi4_auto_widget_anon_in_d_bits_denied;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire [511:0] _coupler_to_memory_controller_port_named_axi4_auto_widget_anon_in_d_bits_data;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire         _coupler_to_memory_controller_port_named_axi4_auto_widget_anon_in_d_bits_corrupt;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
@@ -123,14 +161,14 @@ module MemoryBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   wire         _coupler_to_memory_controller_port_named_axi4_auto_tl_in_d_valid;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire [2:0]   _coupler_to_memory_controller_port_named_axi4_auto_tl_in_d_bits_opcode;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire [2:0]   _coupler_to_memory_controller_port_named_axi4_auto_tl_in_d_bits_size;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
-  wire [6:0]   _coupler_to_memory_controller_port_named_axi4_auto_tl_in_d_bits_source;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
+  wire [7:0]   _coupler_to_memory_controller_port_named_axi4_auto_tl_in_d_bits_source;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire         _coupler_to_memory_controller_port_named_axi4_auto_tl_in_d_bits_denied;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire [511:0] _coupler_to_memory_controller_port_named_axi4_auto_tl_in_d_bits_data;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire         _coupler_to_memory_controller_port_named_axi4_auto_tl_in_d_bits_corrupt;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire         _coupler_to_memory_controller_port_named_axi4_auto_tl_out_a_valid;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire [2:0]   _coupler_to_memory_controller_port_named_axi4_auto_tl_out_a_bits_opcode;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire [2:0]   _coupler_to_memory_controller_port_named_axi4_auto_tl_out_a_bits_size;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
-  wire [6:0]   _coupler_to_memory_controller_port_named_axi4_auto_tl_out_a_bits_source;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
+  wire [7:0]   _coupler_to_memory_controller_port_named_axi4_auto_tl_out_a_bits_source;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire [32:0]  _coupler_to_memory_controller_port_named_axi4_auto_tl_out_a_bits_address;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire [63:0]  _coupler_to_memory_controller_port_named_axi4_auto_tl_out_a_bits_mask;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   wire [511:0] _coupler_to_memory_controller_port_named_axi4_auto_tl_out_a_bits_data;	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
@@ -140,7 +178,7 @@ module MemoryBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   wire [2:0]   _picker_auto_in_1_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [1:0]   _picker_auto_in_1_d_bits_param;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [2:0]   _picker_auto_in_1_d_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
-  wire [6:0]   _picker_auto_in_1_d_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
+  wire [7:0]   _picker_auto_in_1_d_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire         _picker_auto_in_1_d_bits_denied;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [511:0] _picker_auto_in_1_d_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire         _picker_auto_in_1_d_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
@@ -148,7 +186,7 @@ module MemoryBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   wire         _picker_auto_in_0_d_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [2:0]   _picker_auto_in_0_d_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [2:0]   _picker_auto_in_0_d_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
-  wire [6:0]   _picker_auto_in_0_d_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
+  wire [7:0]   _picker_auto_in_0_d_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire         _picker_auto_in_0_d_bits_denied;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [511:0] _picker_auto_in_0_d_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire         _picker_auto_in_0_d_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
@@ -156,7 +194,7 @@ module MemoryBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   wire [2:0]   _picker_auto_out_1_a_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [2:0]   _picker_auto_out_1_a_bits_param;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [2:0]   _picker_auto_out_1_a_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
-  wire [6:0]   _picker_auto_out_1_a_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
+  wire [7:0]   _picker_auto_out_1_a_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [27:0]  _picker_auto_out_1_a_bits_address;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [63:0]  _picker_auto_out_1_a_bits_mask;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [511:0] _picker_auto_out_1_a_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
@@ -165,7 +203,7 @@ module MemoryBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   wire         _picker_auto_out_0_a_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [2:0]   _picker_auto_out_0_a_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [2:0]   _picker_auto_out_0_a_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
-  wire [6:0]   _picker_auto_out_0_a_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
+  wire [7:0]   _picker_auto_out_0_a_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [32:0]  _picker_auto_out_0_a_bits_address;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [63:0]  _picker_auto_out_0_a_bits_mask;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
   wire [511:0] _picker_auto_out_0_a_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/ProbePicker.scala:69:28]
@@ -174,7 +212,7 @@ module MemoryBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   wire [2:0]   _mbus_xbar_auto_anon_out_1_a_bits_opcode;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
   wire [2:0]   _mbus_xbar_auto_anon_out_1_a_bits_param;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
   wire [2:0]   _mbus_xbar_auto_anon_out_1_a_bits_size;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
-  wire [6:0]   _mbus_xbar_auto_anon_out_1_a_bits_source;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
+  wire [7:0]   _mbus_xbar_auto_anon_out_1_a_bits_source;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
   wire [27:0]  _mbus_xbar_auto_anon_out_1_a_bits_address;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
   wire [63:0]  _mbus_xbar_auto_anon_out_1_a_bits_mask;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
   wire [511:0] _mbus_xbar_auto_anon_out_1_a_bits_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
@@ -183,7 +221,7 @@ module MemoryBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
   wire         _mbus_xbar_auto_anon_out_0_a_valid;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
   wire [2:0]   _mbus_xbar_auto_anon_out_0_a_bits_opcode;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
   wire [2:0]   _mbus_xbar_auto_anon_out_0_a_bits_size;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
-  wire [6:0]   _mbus_xbar_auto_anon_out_0_a_bits_source;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
+  wire [7:0]   _mbus_xbar_auto_anon_out_0_a_bits_source;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
   wire [32:0]  _mbus_xbar_auto_anon_out_0_a_bits_address;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
   wire [63:0]  _mbus_xbar_auto_anon_out_0_a_bits_mask;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
   wire [511:0] _mbus_xbar_auto_anon_out_0_a_bits_data;	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
@@ -199,9 +237,47 @@ module MemoryBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
     .auto_anon_out_0_clock (_fixedClockNode_auto_anon_out_0_clock),
     .auto_anon_out_0_reset (_fixedClockNode_auto_anon_out_0_reset)
   );	// @[generators/rocket-chip/src/main/scala/prci/ClockGroup.scala:115:114]
-  TLXbar_mbus_i2_o2_a33d512s7k1z3u mbus_xbar (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
+  TLXbar_mbus_i4_o2_a33d512s8k1z3u mbus_xbar (	// @[generators/rocket-chip/src/main/scala/subsystem/MemoryBus.scala:47:32]
     .clock                          (_fixedClockNode_auto_anon_out_0_clock),	// @[generators/rocket-chip/src/main/scala/prci/ClockGroup.scala:115:114]
     .reset                          (_fixedClockNode_auto_anon_out_0_reset),	// @[generators/rocket-chip/src/main/scala/prci/ClockGroup.scala:115:114]
+    .auto_anon_in_3_a_ready         (auto_bus_xing_in_3_a_ready),
+    .auto_anon_in_3_a_valid         (auto_bus_xing_in_3_a_valid),
+    .auto_anon_in_3_a_bits_opcode   (auto_bus_xing_in_3_a_bits_opcode),
+    .auto_anon_in_3_a_bits_param    (auto_bus_xing_in_3_a_bits_param),
+    .auto_anon_in_3_a_bits_size     (auto_bus_xing_in_3_a_bits_size),
+    .auto_anon_in_3_a_bits_source   (auto_bus_xing_in_3_a_bits_source),
+    .auto_anon_in_3_a_bits_address  (auto_bus_xing_in_3_a_bits_address),
+    .auto_anon_in_3_a_bits_mask     (auto_bus_xing_in_3_a_bits_mask),
+    .auto_anon_in_3_a_bits_data     (auto_bus_xing_in_3_a_bits_data),
+    .auto_anon_in_3_a_bits_corrupt  (auto_bus_xing_in_3_a_bits_corrupt),
+    .auto_anon_in_3_d_ready         (auto_bus_xing_in_3_d_ready),
+    .auto_anon_in_3_d_valid         (auto_bus_xing_in_3_d_valid),
+    .auto_anon_in_3_d_bits_opcode   (auto_bus_xing_in_3_d_bits_opcode),
+    .auto_anon_in_3_d_bits_param    (auto_bus_xing_in_3_d_bits_param),
+    .auto_anon_in_3_d_bits_size     (auto_bus_xing_in_3_d_bits_size),
+    .auto_anon_in_3_d_bits_source   (auto_bus_xing_in_3_d_bits_source),
+    .auto_anon_in_3_d_bits_denied   (auto_bus_xing_in_3_d_bits_denied),
+    .auto_anon_in_3_d_bits_data     (auto_bus_xing_in_3_d_bits_data),
+    .auto_anon_in_3_d_bits_corrupt  (auto_bus_xing_in_3_d_bits_corrupt),
+    .auto_anon_in_2_a_ready         (auto_bus_xing_in_2_a_ready),
+    .auto_anon_in_2_a_valid         (auto_bus_xing_in_2_a_valid),
+    .auto_anon_in_2_a_bits_opcode   (auto_bus_xing_in_2_a_bits_opcode),
+    .auto_anon_in_2_a_bits_param    (auto_bus_xing_in_2_a_bits_param),
+    .auto_anon_in_2_a_bits_size     (auto_bus_xing_in_2_a_bits_size),
+    .auto_anon_in_2_a_bits_source   (auto_bus_xing_in_2_a_bits_source),
+    .auto_anon_in_2_a_bits_address  (auto_bus_xing_in_2_a_bits_address),
+    .auto_anon_in_2_a_bits_mask     (auto_bus_xing_in_2_a_bits_mask),
+    .auto_anon_in_2_a_bits_data     (auto_bus_xing_in_2_a_bits_data),
+    .auto_anon_in_2_a_bits_corrupt  (auto_bus_xing_in_2_a_bits_corrupt),
+    .auto_anon_in_2_d_ready         (auto_bus_xing_in_2_d_ready),
+    .auto_anon_in_2_d_valid         (auto_bus_xing_in_2_d_valid),
+    .auto_anon_in_2_d_bits_opcode   (auto_bus_xing_in_2_d_bits_opcode),
+    .auto_anon_in_2_d_bits_param    (auto_bus_xing_in_2_d_bits_param),
+    .auto_anon_in_2_d_bits_size     (auto_bus_xing_in_2_d_bits_size),
+    .auto_anon_in_2_d_bits_source   (auto_bus_xing_in_2_d_bits_source),
+    .auto_anon_in_2_d_bits_denied   (auto_bus_xing_in_2_d_bits_denied),
+    .auto_anon_in_2_d_bits_data     (auto_bus_xing_in_2_d_bits_data),
+    .auto_anon_in_2_d_bits_corrupt  (auto_bus_xing_in_2_d_bits_corrupt),
     .auto_anon_in_1_a_ready         (auto_bus_xing_in_1_a_ready),
     .auto_anon_in_1_a_valid         (auto_bus_xing_in_1_a_valid),
     .auto_anon_in_1_a_bits_opcode   (auto_bus_xing_in_1_a_bits_opcode),
@@ -437,7 +513,7 @@ module MemoryBus(	// @[generators/rocket-chip/src/main/scala/prci/ClockDomain.sc
     .auto_tl_out_d_bits_data            (_coupler_to_memory_controller_port_named_axi4_auto_widget_anon_in_d_bits_data),	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
     .auto_tl_out_d_bits_corrupt         (_coupler_to_memory_controller_port_named_axi4_auto_widget_anon_in_d_bits_corrupt)	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
   );	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyScope.scala:99:27]
-  TLBuffer_a28d512s7k1z3u buffer_1 (	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
+  TLBuffer_a28d512s8k1z3u buffer_1 (	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
     .clock                   (_fixedClockNode_auto_anon_out_0_clock),	// @[generators/rocket-chip/src/main/scala/prci/ClockGroup.scala:115:114]
     .reset                   (_fixedClockNode_auto_anon_out_0_reset),	// @[generators/rocket-chip/src/main/scala/prci/ClockGroup.scala:115:114]
     .auto_in_a_ready         (_buffer_1_auto_in_a_ready),

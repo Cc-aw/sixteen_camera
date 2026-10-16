@@ -8,9 +8,9 @@ import freechips.rocketchip.diplomacy.IdRange
 import freechips.rocketchip.subsystem._
 import freechips.rocketchip.tilelink._
 
-class MmioTestHarness(implicit p:Parameters) extends LazyModule {
+class MmioTestHarness(bankCount:Int)(implicit p:Parameters) extends LazyModule {
   val client=TLClientNode(Seq(TLMasterPortParameters.v1(Seq(TLClientParameters(name="cpu",sourceId=IdRange(0,1))))))
-  val perf=LazyModule(new MemoryParallelPerf(8))
+  val perf=LazyModule(new MemoryParallelPerf(8,bankCount,BigInt(bankCount-1)<<12,bankCount*262144))
   perf.node := client
   val external=BundleBridgeSink[MemoryParallelPerfExternal]()
   external := perf.external
@@ -23,16 +23,20 @@ class MmioTestHarness(implicit p:Parameters) extends LazyModule {
     client.out.head._1 <> io.cpu
     io.ext <> external.bundle
     perf.module.io.events := 0.U.asTypeOf(perf.module.io.events)
-    for(b<-0 until 7) {
+    for(b<-((0 until 7) :+ 13) ++ (if(bankCount==4) Seq(14,15) else Nil)) {
       perf.module.io.events(b)(0) := 1.U
-      perf.module.io.events(b)(1) := 3.U
-      perf.module.io.events(b)(11) := 7.U
+      perf.module.io.events(b)(1) := (b+3).U
+      perf.module.io.events(b)(11) := (b+7).U
+      perf.module.io.events(b)(13) := 5.U
+      perf.module.io.events(b)(14) := 11.U
+      perf.module.io.events(b)(15) := 13.U
     }
   }
 }
 object MemoryV3MmioTest extends App {
+  val bankCount=if(args.nonEmpty) args(0).toInt else 4
   implicit val p:Parameters=Parameters.empty
-  RawTester.test(LazyModule(new MmioTestHarness).module,
+  RawTester.test(LazyModule(new MmioTestHarness(bankCount)).module,
     Seq(chiseltest.simulator.VerilatorBackendAnnotation,firrtl2.options.TargetDirAnnotation("sim"))) { d =>
     val x=d.io.cpu
     x.a.valid.poke(false.B);x.d.ready.poke(false.B)
@@ -69,12 +73,21 @@ object MemoryV3MmioTest extends App {
       while((access(0x10)&1)!=0){timeout+=1;require(timeout<30)}
     }
     def counter(block:Int,slot:Int):BigInt={access(0x20,true,block*32+slot,2);access(0x28)}
-    require(access(0)==BigInt("4d50563300010000",16))
-    require(access(0x30)==0x1000 && access(0x38)==524288 && access(0x60)==512)
+    val version=if(bankCount==4) "4d50563300010002" else "4d50563300010001"
+    require(access(0)==BigInt(version,16))
+    require(access(0x30)==BigInt(bankCount-1)*4096 && access(0x38)==bankCount*262144 && access(0x60)==512)
+    require(access(0x58)==bankCount && access(0x50)==(if(bankCount==4)16 else 14))
     d.io.ext.available.poke(true.B);tick()
     cmd(3);cmd(1);for(_<-0 until 73)tick();cmd(2);cmd(4)
     val cycles=counter(0,0)
-    require(cycles>=73 && counter(0,1)==cycles*3 && counter(5,11)==7)
+    require(cycles>=73 && counter(0,1)==cycles*3 && counter(5,11)==12)
+    require(counter(13,1)==cycles*16, "Tensor block13 moved or disappeared")
+    require(counter(0,13)==cycles*5 && counter(0,14)==cycles*11 && counter(0,15)==cycles*13,
+      "completed messages and new bank requests alias")
+    if(bankCount==4) {
+      require(counter(14,1)==cycles*17 && counter(15,1)==cycles*18, "new bank blocks not local")
+      require(counter(14,11)==21 && counter(15,11)==22, "new bank peak counters are summed")
+    }
     val whole=counter(0,31)
     val low=access(0x28,size=2);for(_<-0 until 11)tick();val high=access(0x2c,size=2)
     require((high<<32|low)==whole, "32-bit split snapshot read tore")
@@ -86,6 +99,6 @@ object MemoryV3MmioTest extends App {
     cmd(9);require((access(0x10)&16)!=0,"invalid command status missing")
     d.io.ext.available.poke(false.B);tick();tick()
     require((access(0x10)&15)==0)
-    println("MEMORY_V3_MMIO_PASS base=0x02020000 commands=yes local_and_external=yes split32_snapshot=yes peak=yes reset_status=yes")
+    println(s"MEMORY_V3_MMIO_PASS banks=$bankCount base=0x02020000 commands=yes local_and_external=yes split32_snapshot=yes peak=all_banks reset_status=yes ABI=$version")
   }
 }

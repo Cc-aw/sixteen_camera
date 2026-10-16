@@ -16,7 +16,7 @@ spec = importlib.util.spec_from_file_location("generator", ROOT / "tools/soc/bui
 generator = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(generator)
 parser = argparse.ArgumentParser(description=__doc__)
-parser.add_argument("--targets", nargs="+", choices=["tensor", "l2", "sbus", "head", "counters", "pool-store", "pool-dma"],
+parser.add_argument("--targets", nargs="+", choices=["tensor", "l2", "sbus", "mbus", "coherence", "head", "counters", "pool-store", "pool-dma"],
                     default=["tensor", "l2", "sbus", "head", "counters"])
 parser.add_argument("--output", type=Path, required=True)
 parser.add_argument("--rtl", type=Path, default=ROOT / "hw/soc" / generator.NAME / "gen-collateral",
@@ -46,6 +46,7 @@ def dependencies(top):
 
 args.output.resolve().mkdir(parents=True, exist_ok=False)
 tops = {"tensor": "TaihangTensorIngress", "l2": "InclusiveCache", "sbus": "SystemBus",
+        "mbus": "MemoryBus", "coherence": "CoherenceManagerWrapper",
         "pool-store": "StoreController", "pool-dma": "StreamWriter"}
 resource.setrlimit(resource.RLIMIT_STACK, (resource.RLIM_INFINITY, resource.RLIM_INFINITY))
 for kind in args.targets:

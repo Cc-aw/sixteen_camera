@@ -7,3 +7,8 @@ class TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig exte
   new WithThreeAutonomousCommandFrontends ++
   new WithTaihangTensorIngress ++
   new TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3Config)
+
+/** Saved S1 geometry, with the same current Head, Tensor and DDR integration. */
+class TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankConfig extends Config(
+  new WithMemoryParallelV3(2) ++
+  new TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig)

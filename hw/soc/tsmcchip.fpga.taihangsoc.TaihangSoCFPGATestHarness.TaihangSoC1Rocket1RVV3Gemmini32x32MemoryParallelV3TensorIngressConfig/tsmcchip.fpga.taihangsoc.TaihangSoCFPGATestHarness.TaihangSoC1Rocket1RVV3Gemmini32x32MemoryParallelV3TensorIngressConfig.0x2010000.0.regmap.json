@@ -9,7 +9,7 @@
         "bitWidth" : 8,
         "name" : "Banks",
         "description" : "Number of banks in the cache",
-        "resetValue" : 2,
+        "resetValue" : 4,
         "group" : "Config",
         "groupDesc" : "Information about the Cache Configuration",
         "accessType" : "R"

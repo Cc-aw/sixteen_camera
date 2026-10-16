@@ -75,12 +75,12 @@ module TLWidthWidget16(	// @[generators/rocket-chip/src/main/scala/tilelink/Widt
   output [1:0]   auto_anon_in_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [3:0]   auto_anon_in_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_anon_in_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output [6:0]   auto_anon_in_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [7:0]   auto_anon_in_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_anon_in_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [127:0] auto_anon_in_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_anon_in_e_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_anon_in_e_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [6:0]   auto_anon_in_e_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [7:0]   auto_anon_in_e_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_anon_out_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_anon_out_a_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]   auto_anon_out_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -110,12 +110,12 @@ module TLWidthWidget16(	// @[generators/rocket-chip/src/main/scala/tilelink/Widt
   input  [1:0]   auto_anon_out_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [3:0]   auto_anon_out_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_anon_out_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [6:0]   auto_anon_out_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [7:0]   auto_anon_out_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_anon_out_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [255:0] auto_anon_out_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_anon_out_e_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_anon_out_e_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output [6:0]   auto_anon_out_e_bits_sink	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [7:0]   auto_anon_out_e_bits_sink	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
 );
 
   wire         _repeated_repeater_io_deq_valid;	// @[generators/rocket-chip/src/main/scala/util/Repeater.scala:36:26]
@@ -282,7 +282,7 @@ module TLWidthWidget16(	// @[generators/rocket-chip/src/main/scala/tilelink/Widt
       `FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:27:9]
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  Repeater_TLBundleD_a33d256s1k7z4c repeated_repeater (	// @[generators/rocket-chip/src/main/scala/util/Repeater.scala:36:26]
+  Repeater_TLBundleD_a33d256s1k8z4c repeated_repeater (	// @[generators/rocket-chip/src/main/scala/util/Repeater.scala:36:26]
     .clock              (clock),
     .reset              (reset),
     .io_repeat          (~repeat_last),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:107:35, :148:7]
@@ -305,7 +305,7 @@ module TLWidthWidget16(	// @[generators/rocket-chip/src/main/scala/tilelink/Widt
     .io_deq_bits_denied (auto_anon_in_d_bits_denied),
     .io_deq_bits_data   (_repeated_repeater_io_deq_bits_data)
   );	// @[generators/rocket-chip/src/main/scala/util/Repeater.scala:36:26]
-  Repeater_TLBundleB_a33d256s1k7z4c repeated_repeater_1 (	// @[generators/rocket-chip/src/main/scala/util/Repeater.scala:36:26]
+  Repeater_TLBundleB_a33d256s1k8z4c repeated_repeater_1 (	// @[generators/rocket-chip/src/main/scala/util/Repeater.scala:36:26]
     .io_enq_ready        (auto_anon_out_b_ready),
     .io_enq_valid        (auto_anon_out_b_valid),
     .io_enq_bits_param   (auto_anon_out_b_bits_param),

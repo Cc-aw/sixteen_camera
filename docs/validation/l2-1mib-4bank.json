@@ -1,0 +1,401 @@
+{
+  "schema": 1,
+  "updated_utc": "2026-10-16T08:19:47.721739+00:00",
+  "baseline_commit": "2326f08390f96cebfbb66fbb2afe14a3691fca7a",
+  "implementation": "S1 combinational L2, 1 MiB/four banks, current S1 Head/TensorIngress/DDR mode1",
+  "source_state": "L2_CHANGESET_PREPARED_FOR_USER_REQUESTED_GIT_COMMIT",
+  "git_parent_at_delivery": "ecbd5775bdff63a84bc409d8207b680244e985c1",
+  "software_geometry_already_in_parent_commit": "ecbd577",
+  "geometry": {
+    "banks": 4,
+    "capacity_bytes": 1048576,
+    "ways": 8,
+    "sets_per_bank": 512,
+    "line_bytes": 64,
+    "bank_mask": 12288,
+    "statistics_abi": "1.2",
+    "fallback_banks": 2
+  },
+  "unchanged": {
+    "per_bank_secondary_entries": 34,
+    "per_bank_logical_queues": 102,
+    "per_bank_ordinary_mshrs": 32,
+    "per_bank_coherence_mshrs": 2,
+    "memory": "512-bit/ID2",
+    "tensor": "256-bit/ID5",
+    "workers": "3xDIM32",
+    "frontend_abi": 2,
+    "clock_hz": 100000000
+  },
+  "generation": {
+    "status": "PASS",
+    "directory": "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig",
+    "context_sha256": "bb2875c498d3302955ce314298116971b563164f3a574da574f12b64256e31de",
+    "generated_files": 786,
+    "source_audit": "build/reports/l2_1m_4bank/source_audit.json",
+    "source_audit_sha256": "0ff80416c990ff65a2b97f449deff3375aea4eeda5c5f3d9b35f22365895325a"
+  },
+  "validation": {
+    "geometry": {
+      "status": "PASS",
+      "command": "python3 tests/host/test_l2_geometry.py",
+      "log": "build/reports/l2_1m_4bank/geometry_final.log",
+      "log_sha256": "58976e1ebef02b28fad1bcf93e82831c9ac8cc4bf93fac3ea64e4eed88432c50"
+    },
+    "product_identity": {
+      "status": "PASS",
+      "command": "python3 tests/host/test_current_product.py",
+      "log": "build/reports/l2_1m_4bank/product_identity_final.log",
+      "log_sha256": "d7a6e7598ebf7c0461cc6afa5d7cc1e47e7eacc86689d57967243a8fbebbaba3"
+    },
+    "production": {
+      "status": "PASS",
+      "command": "make check test-cache test-memory-v3 test-ppu",
+      "log": "build/reports/l2_1m_4bank/production_regression.log",
+      "log_sha256": "d1113dd188dbf45cd8ef36db1316cf22703ff1bec7726a2b20905ab0d1164e26"
+    },
+    "final_product": {
+      "status": "PASS",
+      "command": "make check test-cache",
+      "log": "build/reports/l2_1m_4bank/production_final.log",
+      "log_sha256": "359194c7f01d3455cedc4f590a05a62e2a4578f62210cba8908078d8712a6687"
+    },
+    "pool": {
+      "status": "PASS",
+      "command": "python3 tests/rtl/run_v3_timing_repair_tests.py --targets pool",
+      "log": "build/reports/l2_1m_4bank/coherence.log",
+      "log_sha256": "bce3931a0b20d607ec603e535527046d25f20e0f6ca30185d9e9e50a75bd0302"
+    },
+    "coherence": {
+      "status": "PASS",
+      "command": "python3 tests/rtl/run_v3_timing_repair_tests.py --targets cache --banks 2 4",
+      "log": "build/reports/l2_1m_4bank/coherence_acceptance.log",
+      "log_sha256": "ba8b8d9f5975e8cdcd093d41639057d3d17e9a36878246825d3c3b1244d322e0"
+    },
+    "statistics_mmio": {
+      "status": "PASS",
+      "command": "python3 tests/rtl/run_v3_timing_repair_tests.py --targets mmio --banks 2 4",
+      "log": "build/reports/l2_1m_4bank/coherence_v2.log",
+      "log_sha256": "df1025c4e7cde56627ff5ce9523684169087e35a24eca67542c497e3e91c6e18"
+    },
+    "tensor_coherence": {
+      "status": "PASS",
+      "command": "python3 tests/rtl/run_memory_v3_tensor_cache_test.py --banks 2 4",
+      "log": "build/reports/l2_1m_4bank/tensor_acceptance.log",
+      "log_sha256": "48e4b51837a5f26b5eb1361cd028e468c0c840191d0f2a4ea2bd3f8b22561c2d"
+    },
+    "software_geometry": {
+      "status": "PASS",
+      "command": "make -f sw/benchmarks/frontend/sw-p3.mk all",
+      "log": "build/reports/l2_1m_4bank/sw_p3_final.log",
+      "log_sha256": "d69c66ca3558d7c437bf03ee32106280d206182454b88ccf924cedac964b2feb"
+    },
+    "software_protocol": {
+      "status": "PASS",
+      "command": "python3 -B tests/model/frontend_parallel_cache/run_tests.py",
+      "log": "build/reports/l2_1m_4bank/sw_p3_tests.log",
+      "log_sha256": "dd87ad59909f581bc01d3f96051783e9764c99a3387aec8a1dea642a008026e7"
+    },
+    "project_reconstruction": {
+      "status": "PASS",
+      "command": "VIVADO_PROJECT=build/projects/l2_1m_4bank_candidate/sixteen_camera.xpr make project",
+      "log": "build/reports/l2_1m_4bank/project.log",
+      "log_sha256": "ffc838ff103d2178d84989c23b9e4f488cb7f2849be19020334e1287e625fd1c"
+    },
+    "project_audit": {
+      "status": "PASS",
+      "command": "VIVADO_PROJECT=<candidate> vivado -mode batch -source tools/check/check_hardware_project.tcl",
+      "log": "build/reports/l2_1m_4bank/project_audit/console.log",
+      "log_sha256": "9a48dbaceb21a297dc392a2c2eea2260acb0a4f1d2247af532f0e0950d3a3131"
+    },
+    "placement_tcl": {
+      "status": "PASS",
+      "command": "tclsh with two/four-bank hierarchy stubs; incomplete three-bank rejection",
+      "log": "build/reports/l2_1m_4bank/placement_guides.log",
+      "log_sha256": "f7f89821e21cad862590ed1b8d4b32d98793eee08153dfcc8ac344403df64e9a"
+    },
+    "dependency_audit": {
+      "status": "FAIL_PREEXISTING_SOFTWARE_IMPORT_DIGEST",
+      "command": "make check-deps",
+      "log": "build/reports/l2_1m_4bank/dependencies_handoff.log",
+      "log_sha256": "09645328e5b41a2450aba2ab8a725a01586defe0081d499f4b6587f87a3a36c6"
+    }
+  },
+  "coherence_resource_evidence": [
+    "MEMORY_V3_CACHE_PASS banks=2 secondary_peak=34 pool_peaks=34,34 mshr_peaks=32,32 cycles=3014 simultaneous=108 probes=6 dirty_flush=all_banks dirty_release_with_queued_reads=yes source_ids=32 same_set_requests_per_bank=96",
+    "MEMORY_V3_CACHE_PASS banks=4 secondary_peak=34 pool_peaks=34,34,34,34 mshr_peaks=32,32,32,32 cycles=4342 simultaneous=5 probes=10 dirty_flush=all_banks dirty_release_with_queued_reads=yes source_ids=32 same_set_requests_per_bank=96"
+  ],
+  "local_synthesis": {
+    "l2": {
+      "status": "PASS",
+      "wns_ns": 1.015,
+      "resources": {
+        "luts": 138940,
+        "registers": 80809,
+        "bram_tiles": 272,
+        "uram": 0
+      },
+      "scope": "unplaced out-of-context synthesis, not full routed timing",
+      "directory": "build/reports/l2_1m_4bank/ooc/l2",
+      "source_snapshot_sha256": "3abe3d33470a701074db339a76d7bdb3dd59be824f2766378c166055c4d05265",
+      "checkpoint_sha256": "5be4417a5c588293151e2204d7952a2ba3d18c573cbedeaffbbfb00fdff04465"
+    },
+    "sbus": {
+      "status": "PASS",
+      "wns_ns": 3.473,
+      "resources": {
+        "luts": 17186,
+        "registers": 2490,
+        "bram_tiles": 0,
+        "uram": 0
+      },
+      "scope": "unplaced out-of-context synthesis, not full routed timing",
+      "directory": "build/reports/l2_1m_4bank/ooc/sbus",
+      "source_snapshot_sha256": "bccbd26e1ed2be9bc1a74033eb5344e357b843a7462ad8244ea9c127781a3301",
+      "checkpoint_sha256": "09f90d19ac65c9a8636f8ef4c6a1905ae39ecc0c20c353fb065fe8584180e18e"
+    },
+    "mbus": {
+      "status": "PASS",
+      "wns_ns": 6.804,
+      "resources": {
+        "luts": 6517,
+        "registers": 1035,
+        "bram_tiles": 0,
+        "uram": 0
+      },
+      "scope": "unplaced out-of-context synthesis, not full routed timing",
+      "directory": "build/reports/l2_1m_4bank/ooc_mbus/mbus",
+      "source_snapshot_sha256": "c1e4ee9a1532f944e216d3e330a6d4e92778bbac9153ffc822b0c3b3504bedba",
+      "checkpoint_sha256": "6d5b2be6548ba7a463fdd7fad15385cd66d1572fcf69a29f5a88ffd1feb28d58"
+    }
+  },
+  "full_system_synthesis": {
+    "build_state": "PASS",
+    "full_synthesis_state": "COMPLETE",
+    "start_utc": "2026-10-16T07:27:52.239145+00:00",
+    "supervisor_pid": 2,
+    "command": [
+      "/mnt/data/Vivado/Vivado/2023.2/bin/vivado",
+      "-mode",
+      "batch",
+      "-source",
+      "/mnt/data/wzr/13p/ov7670/sixteen_camera/tools/build/build_video_synthesis.tcl",
+      "-log",
+      "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/reports/l2_1m_4bank/full_synthesis/vivado.log",
+      "-journal",
+      "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/reports/l2_1m_4bank/full_synthesis/vivado.jou"
+    ],
+    "project": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/projects/l2_1m_4bank_candidate/sixteen_camera.xpr",
+    "generation_context_sha256": "bb2875c498d3302955ce314298116971b563164f3a574da574f12b64256e31de",
+    "implementation": "NOT_RUN",
+    "bitstream": "NOT_GENERATED",
+    "timing_scope": "UNPLACED_SYNTHESIS_ESTIMATE",
+    "updated_utc": "2026-10-16T08:17:28.776619+00:00",
+    "vivado_pid": 4,
+    "exit_code": 0,
+    "ended_utc": "2026-10-16T08:17:28.239247+00:00",
+    "checkpoint": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/projects/l2_1m_4bank_candidate/sixteen_camera.runs/synth_1/top_wrapper.dcp",
+    "checkpoint_sha256": "df275b5b062e97f705171d028600a6374f3dc9161e520d140219b13eeed949ba",
+    "result_sha256": "5794e5cc253926253e5eff8d506da703f45cdea459b2b5e0c77409d97aebaba9",
+    "synthesis_log_sha256": "6ed906161948ed1d5bd333f2d7ec5266b7ce3778aa64ae3ed076e0965f22a7f1",
+    "compiler_summary": {
+      "errors": 0,
+      "critical_warnings": 0,
+      "warnings": 1433
+    },
+    "console_log_sha256": "12cf913e08681027505859d67ba6c99f3702a89ee29d27d19a6be98f98dd954f",
+    "message_counts": {
+      "ERROR": 0,
+      "CRITICAL WARNING": 1,
+      "WARNING": 665
+    },
+    "unplaced_timing_estimate": {
+      "wns_ns": -1.142,
+      "tns_ns": -4448.007,
+      "whs_ns": -4.615,
+      "ths_ns": -58518.562,
+      "timing_met": false,
+      "scope": "Unplaced estimate before implementation pre_opt hook; not routed acceptance",
+      "timing_report_sha256": "869a5997ff172b89d5bb7ee99995b3699e91163f293ebca08f494720419e4b74",
+      "check_timing_sha256": "56fbea87f654079759e8234f6d80a51abf031783a8a4b8a7ecab853ed6ad5e45"
+    },
+    "resources": {
+      "luts": 961628,
+      "logic_luts": 867917,
+      "lutram_luts": 91336,
+      "srl_luts": 2375,
+      "registers": 932932,
+      "bram_tiles": 1605.5,
+      "uram": 372,
+      "dsp": 3002
+    },
+    "resources_scope": "Linked complete synthesized hierarchy including IP; unplaced",
+    "run_level_resources_excluding_separate_ip": {
+      "luts": 918406.0,
+      "registers": 870750.0,
+      "bram_tiles": 1571.0,
+      "uram": 372.0,
+      "dsp": 2999.0
+    },
+    "synthesized_l2_banks": [
+      "inclusive_cache_bank_sched",
+      "inclusive_cache_bank_sched_1",
+      "inclusive_cache_bank_sched_2",
+      "inclusive_cache_bank_sched_3"
+    ],
+    "utilization_hierarchy_sha256": "afb06e94b647dede18afa37b8f9afd8d0c57dd4f62aaa4081d6b45e289f29b25",
+    "utilization_summary_sha256": "54753870090281a8e4d19a9cfca3bdb50bad1ef62fcd716f5038635db51dcd3d",
+    "frozen_source_count": 918,
+    "frozen_source_manifest_sha256": "74220df41cd56564c692d85ad0214cb48a5f3134cc2ab347afff22951f16c7dd",
+    "state_file": "build/reports/l2_1m_4bank/full_synthesis/state.json",
+    "state_sha256": "50d0a3df77990209ca07b5cc93a7cc5b9f30a34c2db903ad2c5d3b00c6748ed4",
+    "report_directory": "build/reports/l2_1m_4bank/full_synthesis"
+  },
+  "full_implementation": {
+    "build_state": "RUNNING",
+    "supervisor_pid": 2,
+    "requested_utc": "2026-10-16T07:37:09.909531+00:00",
+    "synthesis_state": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/reports/l2_1m_4bank/full_synthesis/state.json",
+    "bitstream": "NOT_GENERATED",
+    "board_run": "NOT_RUN",
+    "updated_utc": "2026-10-16T08:19:41.676294+00:00",
+    "start_utc": "2026-10-16T08:17:31.116259+00:00",
+    "project": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/projects/l2_1m_4bank_candidate/sixteen_camera.xpr",
+    "command": [
+      "/mnt/data/Vivado/Vivado/2023.2/bin/vivado",
+      "-mode",
+      "batch",
+      "-source",
+      "/mnt/data/wzr/13p/ov7670/sixteen_camera/tools/build/continue_video_implementation.tcl",
+      "-log",
+      "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/reports/l2_1m_4bank/full_implementation/vivado.log",
+      "-journal",
+      "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/reports/l2_1m_4bank/full_implementation/vivado.jou"
+    ],
+    "synthesis_checkpoint_sha256": "df275b5b062e97f705171d028600a6374f3dc9161e520d140219b13eeed949ba",
+    "generation_context_sha256": "bb2875c498d3302955ce314298116971b563164f3a574da574f12b64256e31de",
+    "vivado_pid": 3,
+    "completed_steps": [],
+    "failed_steps": [],
+    "state_file": "build/reports/l2_1m_4bank/full_implementation/state.json",
+    "scope": "Live background state; this delivery monitors only through synthesis completion"
+  },
+  "performance": {
+    "status": "FUNCTIONAL_SCOREBOARDS_PASS",
+    "integrated_scenarios_per_profile": 76,
+    "isolated_scenarios_per_profile": 32,
+    "isolated_hot_cycles": "IDENTICAL",
+    "single_bank_integrated_hit_cycles": "IDENTICAL",
+    "four_simultaneous_client_returns": "OBSERVED",
+    "slower_integrated_scenarios": 8,
+    "worst_cycle_increase_percent": 0.9413241292751895,
+    "comparison": "build/reports/l2_1m_4bank/comparison.json",
+    "comparison_sha256": "58c1e1e5f0ddaaf67c25c7ba8792c5328100c6f1dea08438d9635e32dd884a11",
+    "address_pattern": "all 33 physical address bits encoded in each line, with beat-distinguishing bytes",
+    "pattern_strengthening_cycle_results": "ALL_72_MAIN_SCENARIOS_IDENTICAL_TO_INITIAL_PATTERN",
+    "cold_read_limit": "128-cycle cold reads can be slower under the unchanged shared 32-DDR-outstanding limit; no scheduling redesign in this expansion",
+    "inference_boundary": "Shared limit is observed saturated; exact arbitration contribution not isolated"
+  },
+  "fallback": {
+    "private_generation_command": "python3 tools/soc/build_triple32_v3_tensor.py --workspace <prepared-workspace> --resume --l2-banks 2 --no-export",
+    "profile": "TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankConfig",
+    "geometry": "512 KiB/two banks/mask0x1000/statistics ABI1.1",
+    "artifact_directory": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/reports/l2_1m_4bank/fallback/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankConfig",
+    "core_rtl_normalized_matches_saved_baseline": {
+      "InclusiveCacheBankScheduler.sv": true,
+      "MSHR.sv": true,
+      "ListBuffer_QueuedRequest_q102_e34_fast.sv": true,
+      "SinkD.sv": true,
+      "SourceA.sv": true,
+      "Directory.sv": true,
+      "BankedStore.sv": true
+    },
+    "production_rebuild": "Use saved commit2326f08 in an isolated worktree; do not overwrite concurrent software edits"
+  },
+  "candidate_project": {
+    "path": "build/projects/l2_1m_4bank_candidate/sixteen_camera.xpr",
+    "audit": "PASS_SCRIPTS_ONLY",
+    "synthesis_status": "synth_design Complete!",
+    "implementation_status": "RUNNING",
+    "placement": "bank0/1/2/3 soft SLR0/2/1/3 guides; mock hierarchy validation only, full placement not run"
+  },
+  "limitations": {
+    "FULL_SYSTEM_SYNTHESIS": "PASS",
+    "FULL_IMPLEMENTATION": "RUNNING",
+    "BITSTREAM": "NOT_GENERATED",
+    "FPGA_ELF_PROGRAMMING": "NOT_RUN",
+    "BOARD_PERFORMANCE": "NOT_MEASURED",
+    "FULL_ELF_GEMMINI_MODEL": "NOT_RUN",
+    "DDR_CONTROLLER_PHY_REGISTER_SLICE": "NOT_MODELED_IN_PERFORMANCE_SIMULATION",
+    "AXI_INTER_ID_MEMORY_REORDERING": "NOT_EXERCISED_BY_FIFO_MEMORY_ENDPOINT",
+    "check_dependencies": "FAIL_PREEXISTING_SOFTWARE_IMPORT_DIGEST",
+    "check_dependencies_detail": "sw/benchmarks/frontend/scripts/prepare.py was already modified before this task; hardware import and frozen-source checks passed",
+    "software_concurrency": "Unrelated V34/reference-profile worktree edits observed and retained; SW-P3 results identify the validated artifact snapshot"
+  },
+  "modified_source_sha256": {
+    "docs/architecture/head-l2-urgent.md": "752d1d96fce019b351b847497a6088ee4539e3f8b1b4ad8e32e8877d7fdf603c",
+    "docs/architecture/l2-1mib-4bank-implementation.md": "12cad5001ae1047a640901cb09f2c09657866af161e65bc8056db38b79bf5975",
+    "docs/integration/triple32-v3-tensor.md": "1791e2d11c2d8f01a25bec877003edbb75d6f941483d564b52ef0276587db1bc",
+    "docs/validation/l2-1mib-4bank.md": "572716df93a6c70aa7e5eca5365a43ae76c17f1784c0eb0290efb76f3ea8b959",
+    "hw/manifests/current.json": "674801d45a5bf99171524bbf8cef2ef786fb939be14445f4eedd1d1fabbe97d8",
+    "hw/soc/source/shell/IMPORT_MANIFEST.json": "b3b68c3c78252352fbdfd594e731652985ccc8eeb3ed2b2ba86def1446c67869",
+    "hw/soc/source/shell/LATEST_HARDWARE_IMPORT.json": "347f73f9e4331a085e742a7cb3b2332f5e30351d5b304ea0e2d9a5be0868bb7c",
+    "hw/soc/source/shell/V3_EFFECTIVE_SCALA.sha256": "9e32b734ed7ef2bbe2b3e4916200004c7e6344dcff1dde467e0b52a0fb39b8b3",
+    "hw/soc/source/shell/V3_GENERATION_CONTEXT.json": "8405a74b3f7e7fec6b53c9b48c51670c0d32aefea73a2b94159d0f4c44f19108",
+    "hw/soc/source/shell/memory_parallel_v3/REGISTERS.txt": "e7e77cc0aa375c757ae4977466e2b83d176b1b85423bba4da43728fcf44acd95",
+    "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/InclusiveCache.scala": "56ff4748e55a1bb96b267019db11e9524c9c6e9efb9ccac869ef550225f7fc98",
+    "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala": "e119e0101185c1291dc4cfa1afb21348d01f3dcf0f67f3e3e52aceb4a5289e8e",
+    "hw/soc/source/shell/memory_parallel_v3/registers.json": "597a6ee513fc017ec0c854bde30f3a363c716d19aefb9c585aae90b91a3dfb3a",
+    "hw/soc/source/shell/memory_parallel_v3/scala/MemoryParallelV3.scala": "7af3eec4e801034570486a3babb96b2fd42797702bb51cdbdbd25de2c288014e",
+    "hw/soc/source/shell/memory_parallel_v3/scala/MemoryParallelV3TensorIngress.scala": "72c7620dc8fa33a2f2719d530b8885fcd387fe03b73b6f5f75a1a0a729cd079b",
+    "hw/soc/source/shell/memory_parallel_v3/tests/MemoryV3MmioTest.scala": "9e5ca457e0f998c30edd2fa22934380df13641d03625caabc65b342e51bf72c2",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/GENERATION_CONTEXT.json": "bb2875c498d3302955ce314298116971b563164f3a574da574f12b64256e31de",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/model_module_hierarchy.json": "88d3be96183f37c62f9f66fdecff55fc3b0adbc0d5061446a57f7f4e4a6bcfa7",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/model_module_hierarchy.uniquified.json": "2c2faefecf7a681905e4f511fa0601dcb3a61dc0fda4a2760e047e8df59f9681",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/top_module_hierarchy.json": "0f788a663289535c0a9c4c1a19a692ff8fef5b718c42f35b977aac421106bc60",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig.0x2010000.0.regmap.json": "7c10f8a1413c7166c6ebb1961b125402dd2def6a26837b594b2561008c512621",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig.anno.json": "2264484141c95ad335f8ecbe687dc0bff63e0aacaf70efcdb70a266097878d25",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig.appended.anno.json": "e2d1b2e3cb9dc568c12376c66cb7db6b6ac4964032707a2673b4eb3de32466b5",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig.dts": "3e751665d43c8701278ff4ec13a486ce73fc552ef990d7dde644b6a0234ff263",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig.json": "c6d484e8ec53a62b8cd703722de2ffb99ceef3e8ff186f6bbef6f4d96a9eb5f6",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig.l2.json": "563158dcf27b09d6a91b3569ae0d61330a59e20eb8eef430325865542db8fa77",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig.mems.conf": "b28e82d3a2f705d87dbea60b732c952c2546f91960c68f0f79d78dcf76b9eb07",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig.top.mems.conf": "b28e82d3a2f705d87dbea60b732c952c2546f91960c68f0f79d78dcf76b9eb07",
+    "sw/benchmarks/frontend/scripts/parallel_cache_plan.py": "6b473720ba2106c81ddc3790f907d9f565a1078031fee89beb67fd4e754f5052",
+    "sw/benchmarks/frontend/scripts/parallel_cache_verify.py": "e203b52daf2417fe4d61d0a8c6035b4928e547deb625ec2db74c664612a9d664",
+    "sw/benchmarks/frontend/src/parallel_cache_layout.inc": "21ca93fd5c92ca3dc0802a16722ab396f7f72d794e6e86c33ef0c882ed1659bb",
+    "tests/host/test_current_product.py": "83fca907a344434a9280890822beebdb5f077870ecfc9e36bae0e4703ce2c88e",
+    "tests/host/test_l2_geometry.py": "3c802efe6a47bb4f3df25f20699cda8615b7e733391215a0251116d690a28909",
+    "tests/rtl/performance/README.md": "4ee4f18e7669c61936bd2f1984cca8cb01868f5ab03e2de6b5108ea12f39f4c1",
+    "tests/rtl/performance/banked_memory_workload.svh": "7df8a86dd45f127835f28db56b859727f04983f239b63f9952857388e797933a",
+    "tests/rtl/performance/l2_workload.svh": "67ecfe106a0bcaeb6aa836f1ac6d21dda34c682ac3de2898a88cea91fc870015",
+    "tests/rtl/performance/run_banked_memory_compare.py": "cf78f211088a854ad4b8b453b7835fdd858a169386959e1e4b74a50aee415185",
+    "tests/rtl/performance/run_memory_path_compare.py": "16f83dddad449f91e1af3c718795352754e37f74c8c6c84eb7532a1426c640ce",
+    "tests/rtl/run_memory_v3_tensor_cache_test.py": "81c9e63d0e1cf219c0e133fa00f3437ad8b144cbdc92f4bd55e31dbd6078be1a",
+    "tests/rtl/run_v3_timing_repair_tests.py": "3aa8b006a3d44170b9ed94455f9a85ef26d7499e3127c3d6b07b9061f1b1b38b",
+    "tests/rtl/scala/MemoryV3TensorTest.scala": "fe4b01721aae14ddb6050f7e1563770a5433552c1aeee650c0fdeb9d99e4b56d",
+    "tests/rtl/scala/TimingCacheTest.scala": "7063fc3668aecdd87ae60c9bab54ccec1aed7dbd6dd924b280076638fcfd1c46",
+    "tools/build/build_video_synthesis.tcl": "0e881ade1b83eab1945aa2880bb20900db57467401df6ec1a41eeb09a33fb7dc",
+    "tools/build/continue_video_implementation.tcl": "8d88e8174215895b12212106b887a8b6a866de64f1ff0c093524f32f77db6c6b",
+    "tools/build/launch_video_implementation.py": "269cf2268586abf4382f4d414bf955025b844b4e41dd0b5b69a39b2dafc44182",
+    "tools/build/launch_video_synthesis.py": "af882e7691f4e01f65d283e53f7a387f413745e18b89bb1de1c2b8ef83678f4e",
+    "tools/build/triple32_v3/placement_3x32.tcl": "b922a5a63e31147fedc25f3db48f954e13f11f25b6556b2a8af67433b4aaa01c",
+    "tools/build/triple32_v3/placement_l2_banks.tcl": "dedc9a563ee7dbd479119d1b58f8de342203850f8174f48a00f67d547049d842",
+    "tools/check/check_current_product.py": "600ebc235520b2d3cc8063296a97858a2a7270fcb5da2c0da2bdc7c89fc5bb78",
+    "tools/check/check_hardware_project.tcl": "26a5500613548d774ce6599de0d686d400aeaf1d1b20f93bc1413330b4c76afb",
+    "tools/check/check_triple32_v3_tensor.py": "d4db0495ce014137a00d0329cae84c6a43f34d1287784f123d4ec2813fdadeae",
+    "tools/check/report_head_l2_urgent.py": "963d4d319c8a270c8c7a20c1c7921d0f95e98f36daef3c1afd2d2714867fabf4",
+    "tools/check/report_l2_bank_expansion.py": "39c752979c76a208334e26ca28e0bea26223dc903be871c65ef004a58537405a",
+    "tools/check/run_triple32_v3_tensor_ooc.py": "ec10659166ad1cc67a4bf7cbd430abc48fae4a1c9820baae1879f76eb467d62a",
+    "tools/check/synth_triple32_v3_tensor_ooc.tcl": "40fefc456193cdd712449e23ba4cb8a8fdcabcce2f6cc5e351d7098e46b0339d",
+    "tools/soc/build_triple32_v3_tensor.py": "333b842269bacaa7094d53faec31597d886350524dbae027bcfbf1c4958897c1",
+    "tools/soc/l2_geometry.py": "336eedc01bf895ed6fe9a92f390601b19cb9fae36bb3c95834cdefe5b7c31835"
+  },
+  "concurrent_unrelated_files_excluded": {
+    "Makefile": "1006300b61ecab4ebdc30b5662c4b4d7d823aa36ba2ad0cc138786932cdd5a2e",
+    "sw/benchmarks/frontend/scripts/prepare.py": "c8ff2c4997cb568ca25a45f4d42612648fce7b06bef4830a533173165783e1fa",
+    "sw/benchmarks/frontend/scripts/analyze_boundary_log.py": "b09a5774a47ddc65219be35b36d50d40ce657b51301b59e85b35d2c63c0f384a",
+    "sw/benchmarks/frontend/src/memory_diag.inc": "12152550c8120e8186570c74f7fa7ff7ef297e153372217f8a3ccd6b8a072e80",
+    "tests/model/frontend_v34/test_boundary.py": "f11432ee7e5a0fe81eacbe1ca5a1935082e3d91f642ec04f962a9c680dc68f03"
+  }
+}

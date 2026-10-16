@@ -12,6 +12,7 @@ import freechips.rocketchip.subsystem._
 import tsmcchip.fpga.taihangsoc.{TaihangTensorIngress, TensorWriteIO}
 
 class TensorCacheTestHarness(implicit p: Parameters) extends LazyModule {
+  val banks = p(SubsystemBankedCoherenceKey).nBanks
   val clients = TLClientNode((0 until 3).map(i => TLMasterPortParameters.v1(Seq(TLClientParameters(
     name=s"tester$i", sourceId=IdRange(0,32), supportsProbe=if(i==2) TransferSizes(64,64) else TransferSizes.none)))))
   val control = TLClientNode(Seq(TLMasterPortParameters.v1(Seq(TLClientParameters(name="control",sourceId=IdRange(0,1))))))
@@ -26,11 +27,11 @@ class TensorCacheTestHarness(implicit p: Parameters) extends LazyModule {
     Some(InclusiveCacheControlParameters(address=0x2010000,beatBytes=8,bankedControl=false))) {
       val simultaneousTest = InModuleBody {
         val result = IO(Output(Bool()))
-        result := node.in.map(_._1.d.fire).reduce(_&&_)
+        result := PopCount(VecInit(node.in.map(_._1.d.fire))) >= 2.U
         result
       }
     })
-  val ram = LazyModule(new TLRAM(AddressSet(0xb0000000L, 0xfffff), beatBytes=64) {
+  val ram = LazyModule(new TLRAM(AddressSet(0xb0000000L, 0x1fffff), beatBytes=64) {
     val observedGets = InModuleBody {
       val result = IO(Output(UInt(32.W)))
       val count = RegInit(0.U(32.W))
@@ -43,7 +44,7 @@ class TensorCacheTestHarness(implicit p: Parameters) extends LazyModule {
   front.node :=* clients
   front.node := writer.node
   l2.node :*= front.node
-  back.node :=* BankBinder(BigInt(0x1000)) :*= TLCacheCork() :*= l2.node
+  back.node :=* BankBinder(BigInt(banks - 1) << 12) :*= TLCacheCork() :*= l2.node
   ram.node := TLBuffer(4) := back.node
   controlXbar.node := control
   l2.ctrls.head.ctrlnode := controlXbar.node
@@ -62,13 +63,16 @@ class TensorCacheTestHarness(implicit p: Parameters) extends LazyModule {
     io.tensor <> writer.module.io
     io.memoryGets := ram.observedGets
     io.simultaneous := l2.simultaneousTest
-    require(l2.node.in.size == 2)
+    require(l2.node.in.size == banks)
   }
 }
 
 object MemoryV3TensorTest extends App {
+  val banks = if(args.length > 1) args(1).toInt else 4
+  require(banks == 2 || banks == 4)
+  val period = banks * 32768
   implicit val p: Parameters = Parameters.empty.alterPartial {
-    case SubsystemBankedCoherenceKey => BankedCoherenceParams(nBanks=2, bankMask=Some(BigInt(0x1000)))
+    case SubsystemBankedCoherenceKey => BankedCoherenceParams(nBanks=banks, bankMask=Some(BigInt(banks - 1) << 12))
   }
   val output = args(0)
   val annotations = Seq(chiseltest.simulator.VerilatorBackendAnnotation,
@@ -151,6 +155,8 @@ object MemoryV3TensorTest extends App {
       x.a.valid.poke(false.B)
     }
     def recv(i:Int):(Int,Int,BigInt,Int) = { while(queues(i).isEmpty) tick(); queues(i).dequeue() }
+    // Keep this two-requester stream's ordering; exercise all banks separately
+    // through Tensor writes and ownership/flush below.
     def line(i:Int) = BigInt(0xb0000000L) + (i%2)*4096 + (i/2)*64
     def tensorWrite(addr:BigInt, value:BigInt):Unit = {
       val t=d.io.tensor
@@ -171,7 +177,7 @@ object MemoryV3TensorTest extends App {
       t.b.ready.poke(true.B); tick(); t.b.ready.poke(false.B)
       tensorInFlight=false
     }
-    def tensorLine(i:Int) = BigInt(0xb0080000L)+(i%2)*4096+(i/2)*64
+    def tensorLine(i:Int) = BigInt(0xb0080000L)+(i%banks)*4096+(i/banks)*64
     for (i <- 0 until 32) tensorWrite(tensorLine(i), BigInt(0x20000+i*2))
     require(d.io.memoryGets.peek().litValue==0, "Cold full-line Tensor write fetched old DDR data")
     for (i <- 0 until 32) {
@@ -258,11 +264,31 @@ object MemoryV3TensorTest extends App {
     flush(line(0)); flush(line(2),invalidate=true)
     send(0,4,line(0)); require(recv(0)._3==0x10000 && recv(0)._3==0x10001)
     // Ten tags in one eight-way set force dirty eviction through the 512-bit exit.
-    for(tag <- 0 until 10) tensorWrite(BigInt(0xb0000040L)+tag*65536, BigInt(0x40000+tag*2))
-    for(tag <- 0 until 10) {
-      send(tag%2,4,BigInt(0xb0000040L)+tag*65536)
-      require(recv(tag%2)._3==0x40000+tag*2 && recv(tag%2)._3==0x40001+tag*2)
+    for(bank <- 0 until banks) {
+      for(tag <- 0 until 10) tensorWrite(BigInt(0xb0000040L)+bank*4096+tag*period, BigInt(0x40000+bank*0x100+tag*2))
+      for(tag <- 0 until 10) {
+        send(tag%2,4,BigInt(0xb0000040L)+bank*4096+tag*period)
+        require(recv(tag%2)._3==0x40000+bank*0x100+tag*2 && recv(tag%2)._3==0x40001+bank*0x100+tag*2)
+      }
     }
-    println(s"MEMORY_V3_TENSOR_CACHE_PASS cycles=$cycles simultaneous=$parallel tensor_overlap=$tensorOverlap probes=$probeCount dirty_flush=yes dirty_eviction=yes source_ids=32")
+    for(bank <- 0 until banks) {
+      dirtyAddress=BigInt(0xb0188000L)+bank*4096
+      val original=BigInt(0x50000+bank*2)
+      tensorWrite(dirtyAddress,original)
+      send(2,6,dirtyAddress,param=1)
+      val g0=recv(2);val g1=recv(2)
+      require(g0._1==5 && g1._1==5 && g0._3==original && g1._3==original+1)
+      d.io.ports(2).e.bits.sink.poke(g0._4.U);d.io.ports(2).e.valid.poke(true.B)
+      while(!d.io.ports(2).e.ready.peek().litToBoolean) tick()
+      tick();d.io.ports(2).e.valid.poke(false.B)
+      permission=2;dirtyData=BigInt(0x60000+bank*2)
+      val probesBefore=probeCount
+      val overwritten=BigInt(0x70000+bank*2)
+      tensorWrite(dirtyAddress,overwritten)
+      require(probeCount==probesBefore+1 && permission==0,s"Tensor failed to invalidate CPU owner in bank $bank")
+      send(0,4,dirtyAddress);require(recv(0)._3==overwritten && recv(0)._3==overwritten+1)
+      flush(dirtyAddress)
+    }
+    println(s"MEMORY_V3_TENSOR_CACHE_PASS banks=$banks cycles=$cycles simultaneous=$parallel tensor_overlap=$tensorOverlap probes=$probeCount dirty_flush=yes dirty_eviction=all_banks tensor_cpu_ownership=all_banks source_ids=32")
   }
 }

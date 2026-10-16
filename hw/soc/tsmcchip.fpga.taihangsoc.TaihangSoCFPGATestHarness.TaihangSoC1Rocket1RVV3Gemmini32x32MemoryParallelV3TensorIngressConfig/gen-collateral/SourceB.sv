@@ -67,7 +67,7 @@ module SourceB(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusi
   output         io_req_ready,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:35:14]
   input          io_req_valid,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:35:14]
   input  [2:0]   io_req_bits_param,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:35:14]
-  input  [16:0]  io_req_bits_tag,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:35:14]
+  input  [15:0]  io_req_bits_tag,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:35:14]
   input  [8:0]   io_req_bits_set,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:35:14]
   input          io_req_bits_clients,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:35:14]
   input          io_b_ready,	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:35:14]
@@ -96,7 +96,7 @@ module SourceB(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusi
   `endif // not def SYNTHESIS
   wire        _param_T_1 = ~busy & io_req_valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:46:25, :61:21, src/main/scala/chisel3/util/Decoupled.scala:51:35]
   wire        b_valid = busy | io_req_valid;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:46:25, :68:21]
-  reg  [16:0] tag_r;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:72:52]
+  reg  [15:0] tag_r;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:72:52]
   reg  [8:0]  set_r;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:73:52]
   wire [8:0]  set = busy ? set_r : io_req_bits_set;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:46:25, :73:{18,52}]
   reg  [2:0]  param_r;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:74:56]
@@ -123,9 +123,9 @@ module SourceB(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusi
       `ifdef RANDOMIZE_REG_INIT	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:33:7]
         _RANDOM[/*Zero width*/ 1'b0] = `RANDOM;	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:33:7]
         busy = _RANDOM[/*Zero width*/ 1'b0][0];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:33:7, :46:25]
-        tag_r = _RANDOM[/*Zero width*/ 1'b0][17:1];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:33:7, :46:25, :72:52]
-        set_r = _RANDOM[/*Zero width*/ 1'b0][26:18];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:33:7, :46:25, :73:52]
-        param_r = _RANDOM[/*Zero width*/ 1'b0][29:27];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:33:7, :46:25, :74:56]
+        tag_r = _RANDOM[/*Zero width*/ 1'b0][16:1];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:33:7, :46:25, :72:52]
+        set_r = _RANDOM[/*Zero width*/ 1'b0][25:17];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:33:7, :46:25, :73:52]
+        param_r = _RANDOM[/*Zero width*/ 1'b0][28:26];	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:33:7, :46:25, :74:56]
       `endif // RANDOMIZE_REG_INIT
     end // initial
     `ifdef FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:33:7]
@@ -138,7 +138,7 @@ module SourceB(	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusi
     .io_enq_ready        (_io_b_q_io_enq_ready),
     .io_enq_valid        (b_valid),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:68:21]
     .io_enq_bits_param   (busy ? param_r[1:0] : io_req_bits_param[1:0]),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:35:14, :46:25, :74:{20,56}]
-    .io_enq_bits_address ({busy ? tag_r : io_req_bits_tag, set[8:6], 1'h0, set[5:0], 6'h0}),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:230:8, generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:33:7, :46:25, :72:{18,52}, :73:18]
+    .io_enq_bits_address ({busy ? tag_r : io_req_bits_tag, set[8:6], 2'h0, set[5:0], 6'h0}),	// @[generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala:230:8, generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceB.scala:46:25, :72:{18,52}, :73:18]
     .io_deq_ready        (io_b_ready),
     .io_deq_valid        (io_b_valid),
     .io_deq_bits_opcode  (io_b_bits_opcode),

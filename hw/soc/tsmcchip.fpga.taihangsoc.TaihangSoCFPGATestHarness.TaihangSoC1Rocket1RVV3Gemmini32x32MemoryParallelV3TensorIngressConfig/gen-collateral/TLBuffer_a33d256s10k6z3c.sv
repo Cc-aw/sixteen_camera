@@ -2,6 +2,90 @@
 module TLBuffer_a33d256s10k6z3c(	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
   input          clock,	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
   input          reset,	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  output         auto_in_3_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_in_3_a_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_in_3_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_in_3_a_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_in_3_a_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [9:0]   auto_in_3_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [32:0]  auto_in_3_a_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [31:0]  auto_in_3_a_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [255:0] auto_in_3_a_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_in_3_a_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_in_3_b_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_3_b_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_in_3_b_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [1:0]   auto_in_3_b_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_in_3_b_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [9:0]   auto_in_3_b_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [32:0]  auto_in_3_b_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [31:0]  auto_in_3_b_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [255:0] auto_in_3_b_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_3_b_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_3_c_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_in_3_c_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_in_3_c_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_in_3_c_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_in_3_c_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [9:0]   auto_in_3_c_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [32:0]  auto_in_3_c_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [255:0] auto_in_3_c_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_in_3_c_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_in_3_d_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_3_d_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_in_3_d_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [1:0]   auto_in_3_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_in_3_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [9:0]   auto_in_3_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [5:0]   auto_in_3_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_3_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [255:0] auto_in_3_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_3_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_3_e_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_in_3_e_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [5:0]   auto_in_3_e_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_2_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_in_2_a_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_in_2_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_in_2_a_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_in_2_a_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [9:0]   auto_in_2_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [32:0]  auto_in_2_a_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [31:0]  auto_in_2_a_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [255:0] auto_in_2_a_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_in_2_a_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_in_2_b_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_2_b_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_in_2_b_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [1:0]   auto_in_2_b_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_in_2_b_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [9:0]   auto_in_2_b_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [32:0]  auto_in_2_b_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [31:0]  auto_in_2_b_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [255:0] auto_in_2_b_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_2_b_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_2_c_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_in_2_c_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_in_2_c_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_in_2_c_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_in_2_c_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [9:0]   auto_in_2_c_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [32:0]  auto_in_2_c_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [255:0] auto_in_2_c_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_in_2_c_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_in_2_d_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_2_d_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_in_2_d_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [1:0]   auto_in_2_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_in_2_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [9:0]   auto_in_2_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [5:0]   auto_in_2_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_2_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [255:0] auto_in_2_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_2_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_in_2_e_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_in_2_e_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [5:0]   auto_in_2_e_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_in_1_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_in_1_a_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]   auto_in_1_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -86,6 +170,90 @@ module TLBuffer_a33d256s10k6z3c(	// @[generators/rocket-chip/src/main/scala/tile
   output         auto_in_0_e_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_in_0_e_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [5:0]   auto_in_0_e_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_3_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_out_3_a_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_out_3_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_out_3_a_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_out_3_a_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [9:0]   auto_out_3_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [32:0]  auto_out_3_a_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [31:0]  auto_out_3_a_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [255:0] auto_out_3_a_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_out_3_a_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_out_3_b_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_3_b_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_out_3_b_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [1:0]   auto_out_3_b_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_out_3_b_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [9:0]   auto_out_3_b_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [32:0]  auto_out_3_b_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [31:0]  auto_out_3_b_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [255:0] auto_out_3_b_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_3_b_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_3_c_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_out_3_c_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_out_3_c_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_out_3_c_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_out_3_c_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [9:0]   auto_out_3_c_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [32:0]  auto_out_3_c_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [255:0] auto_out_3_c_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_out_3_c_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_out_3_d_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_3_d_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_out_3_d_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [1:0]   auto_out_3_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_out_3_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [9:0]   auto_out_3_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [5:0]   auto_out_3_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_3_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [255:0] auto_out_3_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_3_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_3_e_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_out_3_e_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [5:0]   auto_out_3_e_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_2_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_out_2_a_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_out_2_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_out_2_a_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_out_2_a_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [9:0]   auto_out_2_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [32:0]  auto_out_2_a_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [31:0]  auto_out_2_a_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [255:0] auto_out_2_a_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_out_2_a_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_out_2_b_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_2_b_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_out_2_b_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [1:0]   auto_out_2_b_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_out_2_b_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [9:0]   auto_out_2_b_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [32:0]  auto_out_2_b_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [31:0]  auto_out_2_b_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [255:0] auto_out_2_b_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_2_b_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_2_c_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_out_2_c_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_out_2_c_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_out_2_c_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [2:0]   auto_out_2_c_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [9:0]   auto_out_2_c_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [32:0]  auto_out_2_c_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [255:0] auto_out_2_c_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_out_2_c_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_out_2_d_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_2_d_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_out_2_d_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [1:0]   auto_out_2_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [2:0]   auto_out_2_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [9:0]   auto_out_2_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [5:0]   auto_out_2_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_2_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [255:0] auto_out_2_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_2_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input          auto_out_2_e_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output         auto_out_2_e_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [5:0]   auto_out_2_e_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_out_1_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_out_1_a_valid,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]   auto_out_1_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -268,6 +436,124 @@ module TLBuffer_a33d256s10k6z3c(	// @[generators/rocket-chip/src/main/scala/tile
     .io_deq_bits_data    (auto_in_1_d_bits_data),
     .io_deq_bits_corrupt (auto_in_1_d_bits_corrupt)
   );	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  Queue1_TLBundleA_a33d256s10k6z3c nodeOut_a_q_2 (	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    .clock               (clock),
+    .reset               (reset),
+    .io_enq_ready        (auto_in_2_a_ready),
+    .io_enq_valid        (auto_in_2_a_valid),
+    .io_enq_bits_opcode  (auto_in_2_a_bits_opcode),
+    .io_enq_bits_param   (auto_in_2_a_bits_param),
+    .io_enq_bits_size    (auto_in_2_a_bits_size),
+    .io_enq_bits_source  (auto_in_2_a_bits_source),
+    .io_enq_bits_address (auto_in_2_a_bits_address),
+    .io_enq_bits_mask    (auto_in_2_a_bits_mask),
+    .io_enq_bits_data    (auto_in_2_a_bits_data),
+    .io_enq_bits_corrupt (auto_in_2_a_bits_corrupt),
+    .io_deq_ready        (auto_out_2_a_ready),
+    .io_deq_valid        (auto_out_2_a_valid),
+    .io_deq_bits_opcode  (auto_out_2_a_bits_opcode),
+    .io_deq_bits_param   (auto_out_2_a_bits_param),
+    .io_deq_bits_size    (auto_out_2_a_bits_size),
+    .io_deq_bits_source  (auto_out_2_a_bits_source),
+    .io_deq_bits_address (auto_out_2_a_bits_address),
+    .io_deq_bits_mask    (auto_out_2_a_bits_mask),
+    .io_deq_bits_data    (auto_out_2_a_bits_data),
+    .io_deq_bits_corrupt (auto_out_2_a_bits_corrupt)
+  );	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  Queue1_TLBundleD_a33d256s10k6z3c nodeIn_d_q_2 (	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    .clock               (clock),
+    .reset               (reset),
+    .io_enq_ready        (auto_out_2_d_ready),
+    .io_enq_valid        (auto_out_2_d_valid),
+    .io_enq_bits_opcode  (auto_out_2_d_bits_opcode),
+    .io_enq_bits_param   (auto_out_2_d_bits_param),
+    .io_enq_bits_size    (auto_out_2_d_bits_size),
+    .io_enq_bits_source  (auto_out_2_d_bits_source),
+    .io_enq_bits_sink    (auto_out_2_d_bits_sink),
+    .io_enq_bits_denied  (auto_out_2_d_bits_denied),
+    .io_enq_bits_data    (auto_out_2_d_bits_data),
+    .io_enq_bits_corrupt (auto_out_2_d_bits_corrupt),
+    .io_deq_ready        (auto_in_2_d_ready),
+    .io_deq_valid        (auto_in_2_d_valid),
+    .io_deq_bits_opcode  (auto_in_2_d_bits_opcode),
+    .io_deq_bits_param   (auto_in_2_d_bits_param),
+    .io_deq_bits_size    (auto_in_2_d_bits_size),
+    .io_deq_bits_source  (auto_in_2_d_bits_source),
+    .io_deq_bits_sink    (auto_in_2_d_bits_sink),
+    .io_deq_bits_denied  (auto_in_2_d_bits_denied),
+    .io_deq_bits_data    (auto_in_2_d_bits_data),
+    .io_deq_bits_corrupt (auto_in_2_d_bits_corrupt)
+  );	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  Queue1_TLBundleA_a33d256s10k6z3c nodeOut_a_q_3 (	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    .clock               (clock),
+    .reset               (reset),
+    .io_enq_ready        (auto_in_3_a_ready),
+    .io_enq_valid        (auto_in_3_a_valid),
+    .io_enq_bits_opcode  (auto_in_3_a_bits_opcode),
+    .io_enq_bits_param   (auto_in_3_a_bits_param),
+    .io_enq_bits_size    (auto_in_3_a_bits_size),
+    .io_enq_bits_source  (auto_in_3_a_bits_source),
+    .io_enq_bits_address (auto_in_3_a_bits_address),
+    .io_enq_bits_mask    (auto_in_3_a_bits_mask),
+    .io_enq_bits_data    (auto_in_3_a_bits_data),
+    .io_enq_bits_corrupt (auto_in_3_a_bits_corrupt),
+    .io_deq_ready        (auto_out_3_a_ready),
+    .io_deq_valid        (auto_out_3_a_valid),
+    .io_deq_bits_opcode  (auto_out_3_a_bits_opcode),
+    .io_deq_bits_param   (auto_out_3_a_bits_param),
+    .io_deq_bits_size    (auto_out_3_a_bits_size),
+    .io_deq_bits_source  (auto_out_3_a_bits_source),
+    .io_deq_bits_address (auto_out_3_a_bits_address),
+    .io_deq_bits_mask    (auto_out_3_a_bits_mask),
+    .io_deq_bits_data    (auto_out_3_a_bits_data),
+    .io_deq_bits_corrupt (auto_out_3_a_bits_corrupt)
+  );	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  Queue1_TLBundleD_a33d256s10k6z3c nodeIn_d_q_3 (	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+    .clock               (clock),
+    .reset               (reset),
+    .io_enq_ready        (auto_out_3_d_ready),
+    .io_enq_valid        (auto_out_3_d_valid),
+    .io_enq_bits_opcode  (auto_out_3_d_bits_opcode),
+    .io_enq_bits_param   (auto_out_3_d_bits_param),
+    .io_enq_bits_size    (auto_out_3_d_bits_size),
+    .io_enq_bits_source  (auto_out_3_d_bits_source),
+    .io_enq_bits_sink    (auto_out_3_d_bits_sink),
+    .io_enq_bits_denied  (auto_out_3_d_bits_denied),
+    .io_enq_bits_data    (auto_out_3_d_bits_data),
+    .io_enq_bits_corrupt (auto_out_3_d_bits_corrupt),
+    .io_deq_ready        (auto_in_3_d_ready),
+    .io_deq_valid        (auto_in_3_d_valid),
+    .io_deq_bits_opcode  (auto_in_3_d_bits_opcode),
+    .io_deq_bits_param   (auto_in_3_d_bits_param),
+    .io_deq_bits_size    (auto_in_3_d_bits_size),
+    .io_deq_bits_source  (auto_in_3_d_bits_source),
+    .io_deq_bits_sink    (auto_in_3_d_bits_sink),
+    .io_deq_bits_denied  (auto_in_3_d_bits_denied),
+    .io_deq_bits_data    (auto_in_3_d_bits_data),
+    .io_deq_bits_corrupt (auto_in_3_d_bits_corrupt)
+  );	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+  assign auto_in_3_b_valid = auto_out_3_b_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_3_b_bits_opcode = auto_out_3_b_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_3_b_bits_param = auto_out_3_b_bits_param;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_3_b_bits_size = auto_out_3_b_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_3_b_bits_source = auto_out_3_b_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_3_b_bits_address = auto_out_3_b_bits_address;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_3_b_bits_mask = auto_out_3_b_bits_mask;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_3_b_bits_data = auto_out_3_b_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_3_b_bits_corrupt = auto_out_3_b_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_3_c_ready = auto_out_3_c_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_3_e_ready = auto_out_3_e_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_2_b_valid = auto_out_2_b_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_2_b_bits_opcode = auto_out_2_b_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_2_b_bits_param = auto_out_2_b_bits_param;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_2_b_bits_size = auto_out_2_b_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_2_b_bits_source = auto_out_2_b_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_2_b_bits_address = auto_out_2_b_bits_address;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_2_b_bits_mask = auto_out_2_b_bits_mask;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_2_b_bits_data = auto_out_2_b_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_2_b_bits_corrupt = auto_out_2_b_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_2_c_ready = auto_out_2_c_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_in_2_e_ready = auto_out_2_e_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
   assign auto_in_1_b_valid = auto_out_1_b_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
   assign auto_in_1_b_bits_opcode = auto_out_1_b_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
   assign auto_in_1_b_bits_param = auto_out_1_b_bits_param;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
@@ -290,6 +576,28 @@ module TLBuffer_a33d256s10k6z3c(	// @[generators/rocket-chip/src/main/scala/tile
   assign auto_in_0_b_bits_corrupt = auto_out_0_b_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
   assign auto_in_0_c_ready = auto_out_0_c_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
   assign auto_in_0_e_ready = auto_out_0_e_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_3_b_ready = auto_in_3_b_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_3_c_valid = auto_in_3_c_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_3_c_bits_opcode = auto_in_3_c_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_3_c_bits_param = auto_in_3_c_bits_param;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_3_c_bits_size = auto_in_3_c_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_3_c_bits_source = auto_in_3_c_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_3_c_bits_address = auto_in_3_c_bits_address;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_3_c_bits_data = auto_in_3_c_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_3_c_bits_corrupt = auto_in_3_c_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_3_e_valid = auto_in_3_e_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_3_e_bits_sink = auto_in_3_e_bits_sink;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_2_b_ready = auto_in_2_b_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_2_c_valid = auto_in_2_c_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_2_c_bits_opcode = auto_in_2_c_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_2_c_bits_param = auto_in_2_c_bits_param;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_2_c_bits_size = auto_in_2_c_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_2_c_bits_source = auto_in_2_c_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_2_c_bits_address = auto_in_2_c_bits_address;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_2_c_bits_data = auto_in_2_c_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_2_c_bits_corrupt = auto_in_2_c_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_2_e_valid = auto_in_2_e_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
+  assign auto_out_2_e_bits_sink = auto_in_2_e_bits_sink;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
   assign auto_out_1_b_ready = auto_in_1_b_ready;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
   assign auto_out_1_c_valid = auto_in_1_c_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]
   assign auto_out_1_c_bits_opcode = auto_in_1_c_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:40:9]

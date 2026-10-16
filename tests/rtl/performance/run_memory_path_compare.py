@@ -33,6 +33,8 @@ def ports(rtl, module):
 
 
 def make_bench(rtl, base, decouple, banks=1, supports_h1=True):
+    if 'auto_in_2_a_valid' in ports(rtl, 'TLCacheCork'):
+        raise ValueError('Use run_banked_memory_compare.py for the four-bank generated interconnect')
     bank = ports(rtl, 'InclusiveCacheBankScheduler')
     cork = ports(rtl, 'TLCacheCork')
     bus = ports(rtl, 'MemoryBus')

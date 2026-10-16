@@ -133,18 +133,22 @@ def environment(workspace):
     return env
 
 
-def generate(workspace, export=True):
+def generate(workspace, export=True, l2_banks=4):
     if not (workspace / ".triple32-v3-tensor.json").is_file():
         raise SystemExit("Workspace was not prepared by this entry point")
     validate_workspace_sources(workspace)
+    if export and l2_banks != 4:
+        raise SystemExit("The two-bank fallback is a private --no-export candidate")
+    config = CONFIG if l2_banks == 4 else CONFIG.replace("TensorIngressConfig", "TensorIngress2BankConfig")
+    name = "tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness." + config
     env = environment(workspace)
     subprocess.run(["make", "-C", str(workspace / "fpga"), "-W", str(workspace / "build.sbt"),
                     "verilog", "SUB_PROJECT=taihang_soc", "SBT_PROJECT=chipyard_fpga",
                     "MODEL=TaihangSoCFPGATestHarness", "VLOG_MODEL=TaihangSoCFPGATestHarness",
                     "MODEL_PACKAGE=tsmcchip.fpga.taihangsoc", "CONFIG_PACKAGE=tsmcchip.fpga.taihangsoc",
-                    f"CONFIG={CONFIG}", "GENERATOR_PACKAGE=chipyard", "TOP=ChipTop", "TB=none"],
+                    f"CONFIG={config}", "GENERATOR_PACKAGE=chipyard", "TOP=ChipTop", "TB=none"],
                    env=env, check=True)
-    generated = workspace / "fpga/generated-src" / NAME
+    generated = workspace / "fpga/generated-src" / name
     rtl = generated / "gen-collateral"
     raw_hashes = {str(p.relative_to(rtl)): digest(p) for p in rtl.rglob("*") if p.is_file()}
     for script in ["apply_xcvu13p_gemmini_32x32_acc256_wide_uram.sh", "apply_xcvu13p_soc_cache_bram.sh", "apply_result_bram.sh"]:
@@ -156,8 +160,19 @@ def generate(workspace, export=True):
                          for path in directory.glob(f"gemmini_params_32x32*custom{opcode}_xcvu13p.h")]
     for header in generated_headers:
         shutil.copy2(header, rtl / "include" / header.name)
-    subprocess.run(["python3", str(ROOT / "tools/check/check_triple32_v3_tensor.py"), str(rtl)], check=True)
+    subprocess.run(["python3", str(ROOT / "tools/check/check_triple32_v3_tensor.py"), str(rtl),
+                    "--l2-banks", str(l2_banks)], check=True)
+    sources = {str(p.relative_to(workspace)): digest(p) for p in workspace.rglob("*.scala") if p.is_file() and "target" not in p.parts}
+    context = {
+        "config": name, "generated_at_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "source_workspace": str(workspace), "build_sbt_sha256": digest(workspace / "build.sbt"),
+        "effective_scala": sources, "l2_banks": l2_banks,
+        "scala_snapshot_scope": "Prepared-workspace Scala files excluding target; build.sbt source filters govern compilation",
+        "raw_rtl_sha256": raw_hashes,
+        "final_rtl_sha256": {str(p.relative_to(rtl)): digest(p) for p in rtl.rglob("*") if p.is_file()},
+    }
     if not export:
+        (generated / "GENERATION_CONTEXT.json").write_text(json.dumps(context, indent=2) + "\n")
         print("SOC_CANDIDATE_RTL=" + str(rtl))
         return
     # Prepare a complete export before replacing the sole production tree.
@@ -170,15 +185,6 @@ def generate(workspace, export=True):
     for path in generated.iterdir():
         if path.is_file() and path.suffix in {".json", ".dts", ".h", ".conf"}:
             shutil.copyfile(path, staged / path.name)
-    sources = {str(p.relative_to(workspace)): digest(p) for p in workspace.rglob("*.scala") if p.is_file() and "target" not in p.parts}
-    context = {
-        "config": NAME, "generated_at_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-        "source_workspace": str(workspace), "build_sbt_sha256": digest(workspace / "build.sbt"),
-        "effective_scala": sources,
-        "scala_snapshot_scope": "Prepared-workspace Scala files excluding target; build.sbt source filters govern compilation",
-        "raw_rtl_sha256": raw_hashes,
-        "final_rtl_sha256": {str(p.relative_to(rtl)): digest(p) for p in rtl.rglob("*") if p.is_file()},
-    }
     (staged / "GENERATION_CONTEXT.json").write_text(json.dumps(context, indent=2) + "\n")
     if target.exists():
         backup = ROOT / "build/soc_backups" / datetime.datetime.now().strftime("%Y%m%d_%H%M%S_%f")
@@ -211,6 +217,8 @@ def main():
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--no-export", action="store_true",
                         help="Generate and check private candidate RTL without replacing the production export")
+    parser.add_argument("--l2-banks", type=int, choices=(2, 4), default=4,
+                        help="4: production 1 MiB; 2: saved 512 KiB fallback, requires --no-export")
     parser.add_argument("--emit-core-only", action="store_true", help="Emit a protocol-test core from this workspace's rebuilt assembly")
     args = parser.parse_args()
     workspace = args.workspace.resolve()
@@ -224,7 +232,7 @@ def main():
             raise SystemExit("Set --reference or SOC_REFERENCE to the reference Chipyard")
         prepare(args.reference.resolve(), workspace)
     if not args.prepare_only:
-        generate(workspace, export=not args.no_export)
+        generate(workspace, export=not args.no_export, l2_banks=args.l2_banks)
 
 
 if __name__ == "__main__":

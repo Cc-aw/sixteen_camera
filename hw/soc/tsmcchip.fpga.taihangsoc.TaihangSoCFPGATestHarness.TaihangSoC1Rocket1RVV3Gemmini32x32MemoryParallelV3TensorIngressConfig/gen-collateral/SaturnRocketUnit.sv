@@ -18,7 +18,7 @@ module SaturnRocketUnit(	// @[generators/saturn/src/main/scala/rocket/Integratio
   input  [1:0]   auto_atl_out_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [3:0]   auto_atl_out_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [4:0]   auto_atl_out_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [6:0]   auto_atl_out_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [7:0]   auto_atl_out_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_atl_out_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [255:0] auto_atl_out_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_atl_out_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -321,7 +321,7 @@ module SaturnRocketUnit(	// @[generators/saturn/src/main/scala/rocket/Integratio
     .io_vec_store_ack_bits_tag        (_tl_if_io_vec_store_ack_bits_tag),
     .io_mem_busy                      (_tl_if_io_mem_busy)
   );	// @[generators/saturn/src/main/scala/rocket/Integration.scala:27:25]
-  TLBuffer_a33d256s5k7z4u buffer (	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
+  TLBuffer_a33d256s5k8z4u buffer (	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
     .clock                   (clock),
     .reset                   (reset),
     .auto_in_a_ready         (_buffer_auto_in_a_ready),

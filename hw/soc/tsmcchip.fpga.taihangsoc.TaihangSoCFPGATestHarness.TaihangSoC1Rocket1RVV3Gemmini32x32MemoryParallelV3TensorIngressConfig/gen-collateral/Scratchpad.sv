@@ -63,7 +63,7 @@ module Scratchpad(	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.sca
   input  [1:0]   auto_id_out_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [3:0]   auto_id_out_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [5:0]   auto_id_out_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [6:0]   auto_id_out_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [7:0]   auto_id_out_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_id_out_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [255:0] auto_id_out_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input          auto_id_out_d_bits_corrupt,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -4800,7 +4800,7 @@ module Scratchpad(	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.sca
   wire [1:0]    _boundary2_auto_in_d_bits_param;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:236:29]
   wire [3:0]    _boundary2_auto_in_d_bits_size;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:236:29]
   wire [5:0]    _boundary2_auto_in_d_bits_source;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:236:29]
-  wire [6:0]    _boundary2_auto_in_d_bits_sink;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:236:29]
+  wire [7:0]    _boundary2_auto_in_d_bits_sink;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:236:29]
   wire          _boundary2_auto_in_d_bits_denied;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:236:29]
   wire [255:0]  _boundary2_auto_in_d_bits_data;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:236:29]
   wire          _boundary2_auto_in_d_bits_corrupt;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:236:29]
@@ -4810,7 +4810,7 @@ module Scratchpad(	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.sca
   wire [1:0]    _boundary1_auto_in_d_bits_param;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:235:29]
   wire [3:0]    _boundary1_auto_in_d_bits_size;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:235:29]
   wire [5:0]    _boundary1_auto_in_d_bits_source;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:235:29]
-  wire [6:0]    _boundary1_auto_in_d_bits_sink;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:235:29]
+  wire [7:0]    _boundary1_auto_in_d_bits_sink;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:235:29]
   wire          _boundary1_auto_in_d_bits_denied;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:235:29]
   wire [255:0]  _boundary1_auto_in_d_bits_data;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:235:29]
   wire          _boundary1_auto_in_d_bits_corrupt;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:235:29]
@@ -4830,7 +4830,7 @@ module Scratchpad(	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.sca
   wire [1:0]    _boundary0_auto_in_d_bits_param;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:234:29]
   wire [3:0]    _boundary0_auto_in_d_bits_size;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:234:29]
   wire [5:0]    _boundary0_auto_in_d_bits_source;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:234:29]
-  wire [6:0]    _boundary0_auto_in_d_bits_sink;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:234:29]
+  wire [7:0]    _boundary0_auto_in_d_bits_sink;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:234:29]
   wire          _boundary0_auto_in_d_bits_denied;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:234:29]
   wire [255:0]  _boundary0_auto_in_d_bits_data;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:234:29]
   wire          _boundary0_auto_in_d_bits_corrupt;	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:234:29]
@@ -5045,7 +5045,7 @@ module Scratchpad(	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.sca
   wire [1:0]    _xbar_auto_anon_in_1_d_bits_param;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
   wire [3:0]    _xbar_auto_anon_in_1_d_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
   wire [4:0]    _xbar_auto_anon_in_1_d_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
-  wire [6:0]    _xbar_auto_anon_in_1_d_bits_sink;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
+  wire [7:0]    _xbar_auto_anon_in_1_d_bits_sink;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
   wire          _xbar_auto_anon_in_1_d_bits_denied;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
   wire [255:0]  _xbar_auto_anon_in_1_d_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
   wire          _xbar_auto_anon_in_1_d_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
@@ -5055,7 +5055,7 @@ module Scratchpad(	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.sca
   wire [1:0]    _xbar_auto_anon_in_0_d_bits_param;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
   wire [3:0]    _xbar_auto_anon_in_0_d_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
   wire [4:0]    _xbar_auto_anon_in_0_d_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
-  wire [6:0]    _xbar_auto_anon_in_0_d_bits_sink;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
+  wire [7:0]    _xbar_auto_anon_in_0_d_bits_sink;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
   wire          _xbar_auto_anon_in_0_d_bits_denied;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
   wire [255:0]  _xbar_auto_anon_in_0_d_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
   wire          _xbar_auto_anon_in_0_d_bits_corrupt;	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
@@ -6125,7 +6125,7 @@ module Scratchpad(	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.sca
       `FIRRTL_AFTER_INITIAL	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:240:9]
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  TLXbar_i2_o1_a33d256s6k7z4u xbar (	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
+  TLXbar_i2_o1_a33d256s6k8z4u xbar (	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
     .clock                         (clock),
     .reset                         (reset),
     .auto_anon_in_1_a_ready        (_xbar_auto_anon_in_1_a_ready),
@@ -6477,7 +6477,7 @@ module Scratchpad(	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.sca
     .io_counter_external_values_7 (io_counter_external_values_7),
     .io_counter_external_reset    (io_counter_external_reset)
   );	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:221:26]
-  TLBuffer_a33d256s5k7z4u buffer (	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
+  TLBuffer_a33d256s5k8z4u buffer (	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
     .clock                   (clock),
     .reset                   (reset),
     .auto_in_a_ready         (_buffer_auto_in_a_ready),
@@ -6518,7 +6518,7 @@ module Scratchpad(	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.sca
     .auto_out_d_bits_data    (_xbar_auto_anon_in_0_d_bits_data),	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
     .auto_out_d_bits_corrupt (_xbar_auto_anon_in_0_d_bits_corrupt)	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
   );	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-  TLBuffer_a33d256s5k7z4u buffer_1 (	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
+  TLBuffer_a33d256s5k8z4u buffer_1 (	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
     .clock                   (clock),
     .reset                   (reset),
     .auto_in_a_ready         (_buffer_1_auto_in_a_ready),
@@ -6559,7 +6559,7 @@ module Scratchpad(	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.sca
     .auto_out_d_bits_data    (_xbar_auto_anon_in_1_d_bits_data),	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
     .auto_out_d_bits_corrupt (_xbar_auto_anon_in_1_d_bits_corrupt)	// @[generators/rocket-chip/src/main/scala/tilelink/Xbar.scala:346:26]
   );	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-  TLBuffer_a33d256s6k7z4u boundary0 (	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:234:29]
+  TLBuffer_a33d256s6k8z4u boundary0 (	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:234:29]
     .clock                   (clock),
     .reset                   (reset),
     .auto_in_a_ready         (_boundary0_auto_in_a_ready),
@@ -6603,7 +6603,7 @@ module Scratchpad(	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.sca
     .auto_out_d_bits_data    (_boundary1_auto_in_d_bits_data),	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:235:29]
     .auto_out_d_bits_corrupt (_boundary1_auto_in_d_bits_corrupt)	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:235:29]
   );	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:234:29]
-  TLBuffer_a33d256s6k7z4u boundary1 (	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:235:29]
+  TLBuffer_a33d256s6k8z4u boundary1 (	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:235:29]
     .clock                   (clock),
     .reset                   (reset),
     .auto_in_a_ready         (_boundary1_auto_in_a_ready),
@@ -6647,7 +6647,7 @@ module Scratchpad(	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.sca
     .auto_out_d_bits_data    (_boundary2_auto_in_d_bits_data),	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:236:29]
     .auto_out_d_bits_corrupt (_boundary2_auto_in_d_bits_corrupt)	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:236:29]
   );	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:235:29]
-  TLBuffer_a33d256s6k7z4u boundary2 (	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:236:29]
+  TLBuffer_a33d256s6k8z4u boundary2 (	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:236:29]
     .clock                   (clock),
     .reset                   (reset),
     .auto_in_a_ready         (_boundary2_auto_in_a_ready),

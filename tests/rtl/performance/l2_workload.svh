@@ -20,9 +20,9 @@
     function automatic [32:0] address_for(input integer n, input integer kind);
         case(kind)
         0: address_for=33'h80000000+33'((n%64)*64);
-        1: address_for=33'h80000000+33'((n%4)*65536);
-        2: address_for=33'h81000000+33'((n%64)*64+(n/64)*8192);
-        default: address_for=33'h82000000+33'(((n/3)%4)*65536);
+        1: address_for=33'h80000000+33'((n%4)*131072);
+        2: address_for=33'h81000000+33'((n%64)*64+(n/64)*16384);
+        default: address_for=33'h82000000+33'(((n/3)%4)*131072);
         endcase
     endfunction
     always @(posedge clock) begin

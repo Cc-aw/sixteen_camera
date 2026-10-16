@@ -104,7 +104,7 @@ module TLSplitInterface(	// @[generators/saturn/src/main/scala/mem/TLInterface.s
     .io_resp_bits_data       (/* unused */),
     .io_resp_bits_tag        (io_vec_store_ack_bits_tag)
   );	// @[generators/saturn/src/main/scala/mem/TLInterface.scala:65:26]
-  TLXbar_i2_o1_a33d128s5k7z4u arb (	// @[generators/saturn/src/main/scala/mem/TLInterface.scala:67:23]
+  TLXbar_i2_o1_a33d128s5k8z4u arb (	// @[generators/saturn/src/main/scala/mem/TLInterface.scala:67:23]
     .clock                         (clock),
     .reset                         (reset),
     .auto_anon_in_1_a_ready        (_arb_auto_anon_in_1_a_ready),

@@ -1,4 +1,9 @@
-# Current Head / L2: restored S1 implementation
+# Current Head / L2: S1 controllers, 1 MiB four-bank geometry
+
+The subsequent [four-bank implementation plan](l2-1mib-4bank-implementation.md)
+expands the restored S1 baseline from 512 KiB/two banks to 1 MiB/four banks.
+Head, TensorIngress and DDR settings below are retained. The two-bank profile
+and its ABI1.1 remain available as an explicit private generation fallback.
 
 The user superseded the H1/L1 candidate on 2026-10-16 and requested the Head and
 L2 from this reference bitstream:
@@ -40,9 +45,10 @@ closure. `current.json` records `l2_implementation=s1_combinational` and
 
 Across the inclusive-cache source package, only `InclusiveCache.scala` differs
 from S1. Its existing adaptation classifies the retained Tensor client and wires
-statistics ABI1.1 events; it does not replace the restored controller algorithm.
-The SoC still has 32 ordinary + 2 coherence MSHRs per bank, two banks, 512 KiB,
-8 ways, 512 sets per bank, 64-byte lines and bank A12. Memory remains 512-bit/ID2,
+statistics ABI1.2 events for four banks; it does not replace the restored controller algorithm.
+The SoC has 32 ordinary + 2 coherence MSHRs per bank, four banks, 1 MiB,
+8 ways, 512 sets per bank, 64-byte lines and bank A13:A12. Sets use A6:A11 and
+A14:A16; the complete bank/set period is 128 KiB. Memory remains 512-bit/ID2,
 Tensor 256-bit/ID5, three Gemmini DIM32 workers and target 100 MHz. Frontend ABI2,
 model and golden results are unchanged by this task.
 
@@ -54,7 +60,7 @@ does not establish board performance or routed timing for this combination.
 The official Scala/Chisel generator and memory mapping scripts produce the sole
 RTL export. Atomic staging preserves a complete generation context. The source
 checker requires the actual 34-entry fast-peek pool, old arbiter, absence of H1
-and registered-pool machinery, original geometry and retained interfaces.
+and registered-pool machinery, selected bank geometry and retained interfaces.
 
 `build/reports/s1_restore/source_restore.json` identifies each donor file, source
 and normalized hashes, retained DDR/Tensor files, and the final generated export.
@@ -67,7 +73,9 @@ The [validation record](../validation/head-l2-urgent.md) records actual tests,
 comparison scope and the replacement full implementation state. No FPGA or
 firmware download is part of this restoration.
 
-The restored version is saved without launching full implementation, per the
+The restored baseline was saved without launching full implementation, per the
 user's final instruction. Local Head/L2 synthesis and simulation evidence is
 kept with the snapshot; full-design timing and a restored-version bitstream have
-not been produced. The saved status is `NOT_STARTED_AT_USER_REQUEST`.
+not been produced for that restored snapshot. The subsequent four-bank work
+includes the full bitstream flow at the user's request, with this turn monitoring
+until synthesis ends; its actual evidence is recorded in `docs/validation/l2-1mib-4bank.json`.

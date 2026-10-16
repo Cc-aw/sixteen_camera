@@ -26,12 +26,13 @@
       "source": "soc_shell/memory_parallel_v3/scala/MemoryParallelV3.scala",
       "destination": "hw/soc/source/shell/memory_parallel_v3/scala/MemoryParallelV3.scala",
       "source_sha256": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98",
-      "imported_sha256": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98",
-      "local_candidate": "S1 Head/L2 restore; TensorIngress and DDR retained",
+      "imported_sha256": "7af3eec4e801034570486a3babb96b2fd42797702bb51cdbdbd25de2c288014e",
+      "local_candidate": "S1 L2 1 MiB four banks; ABI1.2; explicit two-bank fallback",
       "performance_previous_imported_sha256": "21a346f7d6201a2b43fa14c5288e005e6f7aa7f4c38388f5536a6a0ef1a01544",
       "before_s1_restore_imported_sha256": "62e9ac55aca01f94119412ffa57eaf6fdb27c5ae55f71b1352792becc978af02",
       "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/memory_parallel_v3/scala/MemoryParallelV3.scala",
-      "s1_restore_sha256": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98"
+      "s1_restore_sha256": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98",
+      "before_l2_1m_4bank_imported_sha256": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98"
     },
     {
       "source": "soc_shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
@@ -98,7 +99,9 @@
       "source": "scripts/npu3x32_100mhz/placement_3x32.tcl",
       "destination": "tools/build/triple32_v3/placement_3x32.tcl",
       "source_sha256": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781",
-      "imported_sha256": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781"
+      "imported_sha256": "b922a5a63e31147fedc25f3db48f954e13f11f25b6556b2a8af67433b4aaa01c",
+      "before_l2_1m_4bank_imported_sha256": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781",
+      "local_candidate": "S1 two/four-bank soft placement guides"
     },
     {
       "source": "xdc/memory_parallel_v3_cdc.tcl",
@@ -248,10 +251,11 @@
         "source": "soc_shell/memory_parallel_v3_timing_repair/tests/TimingCacheTest.scala",
         "destination": "tests/rtl/scala/TimingCacheTest.scala",
         "source_sha256": "5b845ac86a6f4ab1d5ae13214dd30b1cbbb55febf421c4c5b38f0d323e3dd978",
-        "imported_sha256": "d74c723abbda92fbeb72ab0d8548fa5f75efdbc5cbdf17ccc2a6aa3e2f11aaef",
-        "local_candidate": "S1 Head/L2 restore; TensorIngress and DDR retained",
+        "imported_sha256": "7063fc3668aecdd87ae60c9bab54ccec1aed7dbd6dd924b280076638fcfd1c46",
+        "local_candidate": "S1 two/four-bank full resource, CPU ownership and Tensor coherence tests",
         "performance_previous_imported_sha256": "5d9eaa3ea8c259cf10ae7e1b6d7780eab7edce796660a8182caebb9d9027b5a7",
-        "before_s1_restore_imported_sha256": "2a4b2ee5755535c0e92da2951ba89e54d5eaa7e00b6de8290d7c0e7fbcfb4591"
+        "before_s1_restore_imported_sha256": "2a4b2ee5755535c0e92da2951ba89e54d5eaa7e00b6de8290d7c0e7fbcfb4591",
+        "before_l2_1m_4bank_imported_sha256": "d74c723abbda92fbeb72ab0d8548fa5f75efdbc5cbdf17ccc2a6aa3e2f11aaef"
       },
       {
         "source": "soc_shell/memory_parallel_v3_timing_repair/tests/tb_ddr_register_slice.sv",
@@ -275,7 +279,9 @@
         "source": "soc_shell/memory_parallel_v3_timing_repair/overlay/scripts/npu3x32_100mhz/placement_3x32.tcl",
         "destination": "tools/build/triple32_v3/placement_3x32.tcl",
         "source_sha256": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781",
-        "imported_sha256": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781"
+        "imported_sha256": "b922a5a63e31147fedc25f3db48f954e13f11f25b6556b2a8af67433b4aaa01c",
+        "before_l2_1m_4bank_imported_sha256": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781",
+        "local_candidate": "S1 two/four-bank soft placement guides"
       },
       {
         "source": "soc_shell/memory_parallel_v3_timing_repair/overlay/rtl/memory/memory_perf_mig_tap.v",

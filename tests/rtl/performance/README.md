@@ -98,3 +98,39 @@ workloads, source manifests and the final production generation hashes before
 reporting integrated cycle differences. `--require-reference-target` fails if
 any case exceeds the reference by more than two fill/tail clocks; a functional
 PASS alone never means every performance target passed.
+
+
+## Four-bank expansion and generated routing
+
+`run_banked_memory_compare.py` is the current two/four-bank comparison. It
+instantiates the generated SystemBus, CoherenceManagerWrapper (TLJbar, complete
+L2 and CacheCork), MemoryBus and current S1 Head. There is no handwritten bank
+routing or D-response arbiter. Synthetic traffic enters the three production
+Gemmini DMA ports; four-client cases also use the CPU port. The checked AXI
+endpoint supports full-line reads, dirty writebacks, independent AW/W/B,
+latency and backpressure. It is not a DDR controller/PHY/register-slice model.
+No ELF or Gemmini arithmetic is executed.
+
+```bash
+python3 tests/rtl/performance/run_banked_memory_compare.py \
+  --rtl /path/to/saved-two-bank/gen-collateral --output /tmp/l2-two-bank
+python3 tests/rtl/performance/run_banked_memory_compare.py --output /tmp/l2-four-bank
+python3 tools/check/report_l2_bank_expansion.py \
+  --baseline /tmp/l2-two-bank/results.json --candidate /tmp/l2-four-bank/results.json \
+  --output build/reports/l2_1m_4bank/comparison.json
+```
+
+Defaults cover 72 cases per design: one/three/four clients, latency16/128,
+backpressure in the longer-latency configuration, two seeds and six workloads:
+hot distributed lines, hot same-bank lines, cold stream, 768 KiB and 1280 KiB
+capacity working sets, and mixed full-line reads/writes with dirty replacement.
+Capacity cases use four equal warm passes before measurement; replacement can
+still cause misses. Report all cycles and traffic, including slower scenarios.
+Both designs receive identical physical addresses and operations. This does
+not establish a YOLO/ELF or board speedup.
+
+The older `run_memory_path_compare.py` models one/two banks and rejects the
+four-bank export. Isolated `l2_workload.svh` now uses 128 KiB tag spacing and
+16 KiB cold-stream spacing so all requests remain in bank0 under both profiles.
+Historical results retain their original frozen source/workload identities;
+do not mix them with newly generated workloads.

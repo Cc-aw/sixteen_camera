@@ -104,7 +104,11 @@ class InclusiveCache(
       c.copy(address = c.address + i * InclusiveCacheParameters.L2ControlSize))) }
   }.getOrElse(Nil)
 
-  val perf = if(p(MemoryParallelPerfKey)) Some(LazyModule(new MemoryParallelPerf(control.get.beatBytes))) else None
+  private val bankParams = p(SubsystemBankedCoherenceKey)
+  val perf = if(p(MemoryParallelPerfKey)) Some(LazyModule(new MemoryParallelPerf(
+    control.get.beatBytes, bankParams.nBanks,
+    bankParams.bankMask.getOrElse(BigInt(bankParams.nBanks - 1) * cache.blockBytes),
+    cache.sizeBytes * bankParams.nBanks))) else None
 
   lazy val module = new Impl
   class Impl extends LazyModuleImp(this) {
@@ -161,7 +165,8 @@ class InclusiveCache(
 
     perf.foreach { perf =>
       perf.module.io.events := 0.U.asTypeOf(perf.module.io.events)
-      require(mods.size == 2 && cache.sets == 512 && cache.ways == 8 && cache.blockBytes == 64)
+      require((mods.size == 2 || mods.size == 4) && mods.size == bankParams.nBanks &&
+        cache.sets == 512 && cache.ways == 8 && cache.blockBytes == 64)
       require(InclusiveCacheParameters.out_mshrs(cache, micro) == 32)
       val clients = node.edges.in.head.client.clients
       val streams = clients.filter(c => c.name == "stream-reader" || c.name == "stream-writer")
@@ -202,7 +207,9 @@ class InclusiveCache(
           e(8) := in.d.valid && !in.d.ready && d
           e(9) := in.c.fire && c
           e(10) := in.c.valid && !in.c.ready && c
-          e(11 + bank) := req
+          // ABI1.1 slot13 is completed D messages. New bank requests must not
+          // overwrite it, or shift any of the existing counters.
+          e(Seq(11, 12, 14, 15)(bank)) := req
           e(13) := doneD && d
           e
         }
@@ -211,9 +218,17 @@ class InclusiveCache(
         perf.module.io.events(blockIds(i))(j) := (if(j == 0) 1.U else observations.map(_(i)(j)).reduce(_+&_))
       }
       if (tensorClients.isEmpty) perf.module.io.events(13) := 0.U.asTypeOf(perf.module.io.events(13))
-      for(i <- 0 until 2) {
-        perf.module.io.events(5+i) := mods(i).io.perf.get
-        perf.module.io.events(5+i)(19) := node.in.map(_._1.d.fire).reduce(_&&_)
+      val returningBanks = PopCount(VecInit(node.in.map(_._1.d.fire)))
+      for(i <- mods.indices) {
+        val block = Seq(5, 6, 14, 15)(i)
+        perf.module.io.events(block) := mods(i).io.perf.get
+        // Preserve slot19: bank0 AND bank1 return, even with four banks.
+        perf.module.io.events(block)(19) := node.in(0)._1.d.fire && node.in(1)._1.d.fire
+        if (mods.size == 4) {
+          perf.module.io.events(block)(20) := returningBanks >= 2.U
+          perf.module.io.events(block)(21) := returningBanks >= 3.U
+          perf.module.io.events(block)(22) := returningBanks === 4.U
+        }
       }
     }
 

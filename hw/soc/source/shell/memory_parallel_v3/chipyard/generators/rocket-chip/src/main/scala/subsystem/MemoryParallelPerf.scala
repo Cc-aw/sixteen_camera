@@ -55,14 +55,20 @@ class MemoryParallelCounterBank(peakMask: BigInt = 0) extends Module {
   io.data := frozen(io.index)
 }
 
-class MemoryParallelPerf(beatBytes: Int)(implicit p: Parameters) extends LazyModule {
+class MemoryParallelPerf(beatBytes: Int, nBanks: Int = 2,
+  bankMask: BigInt = 0x1000, l2Bytes: Int = 524288)(implicit p: Parameters) extends LazyModule {
+  require(nBanks == 2 || nBanks == 4)
+  require(bankMask == (BigInt(nBanks - 1) << 12))
+  require(l2Bytes == nBanks * 256 * 1024)
+  val blockCount = if (nBanks == 4) 16 else 14
+  val version = if (nBanks == 4) BigInt("4d50563300010002", 16) else BigInt("4d50563300010001", 16)
   val device = new SimpleDevice("memory-performance", Seq("taihang,memory-performance-v3"))
   val node = TLRegisterNode(Seq(AddressSet(BigInt("02020000", 16), 0xffff)), device,
     beatBytes = beatBytes, concurrency = 1)
   val external = BundleBridgeSource(() => new MemoryParallelPerfExternal)
   lazy val module = new Impl
   class Impl extends LazyModuleImp(this) {
-    val io = IO(new Bundle { val events = Input(Vec(14, Vec(32, UInt(16.W)))) })
+    val io = IO(new Bundle { val events = Input(Vec(blockCount, Vec(32, UInt(16.W)))) })
     val ext = external.bundle
     val command = RegInit(0.U(3.W))
     val request = RegInit(false.B)
@@ -87,17 +93,19 @@ class MemoryParallelPerf(beatBytes: Int)(implicit p: Parameters) extends LazyMod
     when(!ext.available) {
       busy := false.B; valid := false.B; enabled := false.B; request := false.B
     }
-    val blockIds = (0 until 7) :+ 13
+    val blockIds = ((0 until 7) :+ 13) ++ (if(nBanks == 4) Seq(14, 15) else Nil)
     val banks = blockIds.map { i =>
-      val b = Module(new MemoryParallelCounterBank(if(i == 5 || i == 6) BigInt(1) << 11 else BigInt(0)))
+      val b = Module(new MemoryParallelCounterBank(
+        if(Seq(5, 6, 14, 15).contains(i)) BigInt(1) << 11 else BigInt(0)))
       b.io.command := localCmd
       b.io.events := io.events(i)
       b.io.index := selected(4,0)
       b
     }
     val localData = VecInit(banks.map(_.io.data))
-    val readData = Mux(selected(8,5) === 13.U, localData(7),
-      Mux(selected(8,5) < 7.U, localData(selected(7,5)), ext.data))
+    val readData = MuxCase(ext.data, blockIds.zipWithIndex.map { case (block, index) =>
+      (selected(8,5) === block.U) -> localData(index)
+    })
     val status = Cat(0.U(59.W), invalidCommand, ext.available, valid, enabled, busy)
     val control = RegField.w(32, RegWriteFn((write: Bool, data: UInt) => {
       val ready = !busy && ext.available
@@ -119,18 +127,18 @@ class MemoryParallelPerf(beatBytes: Int)(implicit p: Parameters) extends LazyMod
     }))
     val frozenData = Mux(valid && !busy, readData, 0.U(64.W))
     node.regmap(
-      0x00 -> Seq(RegField.r(64, "h4d50563300010001".U(64.W))), // MPV3 Tensor, ABI 1.1
+      0x00 -> Seq(RegField.r(64, version.U(64.W))), // MPV3: two-bank ABI1.1, four-bank ABI1.2
       0x08 -> Seq(control),
       0x10 -> Seq(RegField.r(64, status)),
       0x18 -> Seq(RegField.r(64, sequence.pad(64))),
       0x20 -> Seq(indexField),
       0x28 -> Seq(RegField.r(64, frozenData)),
-      0x30 -> Seq(RegField.r(64, 0x1000.U(64.W))),
-      0x38 -> Seq(RegField.r(64, 524288.U(64.W))),
+      0x30 -> Seq(RegField.r(64, bankMask.U(64.W))),
+      0x38 -> Seq(RegField.r(64, l2Bytes.U(64.W))),
       0x40 -> Seq(RegField.r(64, 100000000.U(64.W))),
       0x48 -> Seq(RegField.r(64, 300000000.U(64.W))),
-      0x50 -> Seq(RegField.r(64, 14.U(64.W))),
-      0x58 -> Seq(RegField.r(64, 2.U(64.W))),
+      0x50 -> Seq(RegField.r(64, blockCount.U(64.W))),
+      0x58 -> Seq(RegField.r(64, nBanks.U(64.W))),
       0x60 -> Seq(RegField.r(64, 512.U(64.W))),
       0x68 -> Seq(RegField.r(64, 32.U(64.W)))
     )

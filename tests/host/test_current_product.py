@@ -24,6 +24,9 @@ class CurrentProductTests(unittest.TestCase):
         files = [self.product[k] for k in ('model_rules', 'model_source', 'generator', 'frozen_input', 'generation_context', 'tensor_ingress_source', 'soc_generator', 'reference_manifest')]
         files += [self.product['collateral_directory'] + '/' + name + '.sv' for name in ('Gemmini', 'Gemmini_1', 'Gemmini_2')]
         files += self.product['parameter_headers'] + self.product['source_locks'] + ['sw/src/board/xparameters.h', 'sw/src/platform/platform.h']
+        files += [self.product['collateral_directory'] + '/RocketTile.sv']
+        files += [self.product['frontend_benchmark'][key] for key in ('source','rules','generator','source_lock','import_manifest')]
+        files += [str(p.relative_to(ROOT)) for p in (ROOT/self.product['soc_directory']).glob('*.l2.json')]
         for name in files:
             target = self.root / name
             target.parent.mkdir(parents=True, exist_ok=True)
@@ -70,6 +73,14 @@ class CurrentProductTests(unittest.TestCase):
                 product[key] = value
                 with self.assertRaises(ValueError):
                     checker.validate(product, self.root, evaluate=False)
+
+    def test_reject_stale_l2_geometry(self):
+        for key, value in (('banks',2),('capacity_bytes',524288),('bank_mask',4096),('statistics_abi','1.1')):
+            with self.subTest(field=key):
+                product=copy.deepcopy(self.product)
+                product['l2'][key]=value
+                with self.assertRaisesRegex(ValueError,'L2 geometry mismatch'):
+                    checker.validate(product,self.root,evaluate=False)
 
 
 if __name__ == '__main__':

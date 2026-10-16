@@ -53,7 +53,7 @@ module Queue1_DirectoryWrite(	// @[src/main/scala/chisel3/util/Decoupled.scala:2
   input         io_enq_bits_data_dirty,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   input  [1:0]  io_enq_bits_data_state,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   input         io_enq_bits_data_clients,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
-  input  [16:0] io_enq_bits_data_tag,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  input  [15:0] io_enq_bits_data_tag,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   input         io_deq_ready,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output        io_deq_valid,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output [8:0]  io_deq_bits_set,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
@@ -61,10 +61,10 @@ module Queue1_DirectoryWrite(	// @[src/main/scala/chisel3/util/Decoupled.scala:2
   output        io_deq_bits_data_dirty,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output [1:0]  io_deq_bits_data_state,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
   output        io_deq_bits_data_clients,	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
-  output [16:0] io_deq_bits_data_tag	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
+  output [15:0] io_deq_bits_data_tag	// @[src/main/scala/chisel3/util/Decoupled.scala:255:14]
 );
 
-  reg  [32:0] ram;	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
+  reg  [31:0] ram;	// @[src/main/scala/chisel3/util/Decoupled.scala:256:91]
   reg         full;	// @[src/main/scala/chisel3/util/Decoupled.scala:259:27]
   wire        do_enq = ~full & io_enq_valid;	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35, :259:27, :286:19]
   always @(posedge clock) begin	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7]
@@ -88,7 +88,7 @@ module Queue1_DirectoryWrite(	// @[src/main/scala/chisel3/util/Decoupled.scala:2
         for (logic [1:0] i = 2'h0; i < 2'h2; i += 2'h1) begin
           _RANDOM[i[0]] = `RANDOM;	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7]
         end	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7]
-        ram = {_RANDOM[1'h0][31:1], _RANDOM[1'h1][1:0]};	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+        ram = {_RANDOM[1'h0][31:1], _RANDOM[1'h1][0]};	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
         full = _RANDOM[1'h0][0];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91, :259:27]
       `endif // RANDOMIZE_REG_INIT
     end // initial
@@ -103,6 +103,6 @@ module Queue1_DirectoryWrite(	// @[src/main/scala/chisel3/util/Decoupled.scala:2
   assign io_deq_bits_data_dirty = ram[12];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
   assign io_deq_bits_data_state = ram[14:13];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
   assign io_deq_bits_data_clients = ram[15];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
-  assign io_deq_bits_data_tag = ram[32:16];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
+  assign io_deq_bits_data_tag = ram[31:16];	// @[src/main/scala/chisel3/util/Decoupled.scala:243:7, :256:91]
 endmodule
 

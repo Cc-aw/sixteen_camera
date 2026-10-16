@@ -340,7 +340,7 @@ module TLWidthWidget16_1(	// @[generators/rocket-chip/src/main/scala/tilelink/Wi
       `FIRRTL_AFTER_INITIAL	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:27:9]
     `endif // FIRRTL_AFTER_INITIAL
   `endif // ENABLE_INITIAL_REG_
-  Repeater_TLBundleD_a33d256s5k7z4u repeated_repeater (	// @[generators/rocket-chip/src/main/scala/util/Repeater.scala:36:26]
+  Repeater_TLBundleD_a33d256s5k8z4u repeated_repeater (	// @[generators/rocket-chip/src/main/scala/util/Repeater.scala:36:26]
     .clock              (clock),
     .reset              (reset),
     .io_repeat          (~repeat_last),	// @[generators/rocket-chip/src/main/scala/tilelink/WidthWidget.scala:107:35, :148:7]

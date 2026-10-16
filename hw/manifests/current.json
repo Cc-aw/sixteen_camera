@@ -70,5 +70,15 @@
   },
   "l2_secondary_entries": 34,
   "head_read_decouple": false,
-  "l2_implementation": "s1_combinational"
+  "l2_implementation": "s1_combinational",
+  "l2": {
+    "banks": 4,
+    "capacity_bytes": 1048576,
+    "ways": 8,
+    "sets_per_bank": 512,
+    "line_bytes": 64,
+    "bank_mask": 12288,
+    "statistics_abi": "1.2",
+    "fallback_banks": 2
+  }
 }

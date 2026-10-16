@@ -10,6 +10,8 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 MANIFEST = ROOT / "hw/manifests/current.json"
+sys.path.insert(0, str(ROOT / "tools/soc"))
+from l2_geometry import L2Geometry
 
 
 def require(condition, message):
@@ -55,6 +57,14 @@ def validate(product, root=ROOT, evaluate=True):
             "Generation context mapping mismatch")
     context = json.loads((root / product["generation_context"]).read_text())
     require(context["config"] == product["soc_config"], "Generation identity mismatch")
+    metadata = list((root / product["soc_directory"]).glob("*.l2.json"))
+    require(len(metadata) == 1, "Missing generated L2 geometry")
+    geometry = L2Geometry.from_metadata(metadata[0])
+    expected_l2 = geometry.describe()
+    require("l2" in product, "Missing L2 product geometry")
+    for key in ("banks", "capacity_bytes", "ways", "sets_per_bank", "line_bytes", "bank_mask", "statistics_abi"):
+        require(product["l2"].get(key) == expected_l2[key], "L2 geometry mismatch: " + key)
+    require(context.get("l2_banks", geometry.banks) == geometry.banks, "Generation L2 bank count mismatch")
     for lock in product["source_locks"]:
         require((root / lock).is_file(), "Missing source lock: " + lock)
     require(len(product["parameter_headers"]) == 3, "Expected three parameter headers")

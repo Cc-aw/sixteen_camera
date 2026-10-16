@@ -12,7 +12,7 @@ foreach path [split [string trim [read $fd]] "\n"] {
     read_verilog -sv $path
 }
 close $fd
-set tops [dict create tensor TaihangTensorIngress l2 InclusiveCache sbus SystemBus head memory_v3_head_ooc counters memory_perf_async_group pool-store StoreController pool-dma StreamWriter]
+set tops [dict create tensor TaihangTensorIngress l2 InclusiveCache sbus SystemBus mbus MemoryBus coherence CoherenceManagerWrapper head memory_v3_head_ooc counters memory_perf_async_group pool-store StoreController pool-dma StreamWriter]
 if {![dict exists $tops $kind]} {error "Unknown local synthesis target $kind"}
 synth_design -top [dict get $tops $kind] -part xcvu13p-fhga2104-2-i -mode out_of_context \
     -flatten_hierarchy rebuilt -directive PerformanceOptimized -retiming -resource_sharing off -shreg_min_size 5
@@ -29,7 +29,7 @@ if {$kind eq "counters"} {
         set clock_ports [get_ports clk]
         set urams [llength [get_cells -hier -filter {REF_NAME =~ URAM288*}]]
         if {$urams != 192} {error "Expected 192 Head URAM primitives, found $urams"}
-    } elseif {$kind eq "sbus"} {
+    } elseif {$kind in {sbus mbus coherence}} {
         set clock_ports [get_ports -filter {DIRECTION == IN && NAME =~ *_clock}]
     } else {
         set clock_ports [get_ports clock]

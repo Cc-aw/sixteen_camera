@@ -67,8 +67,8 @@
 		L10: cache-controller@2010000 {
 			cache-block-size = <64>;
 			cache-level = <2>;
-			cache-sets = <1024>;
-			cache-size = <524288>;
+			cache-sets = <2048>;
+			cache-size = <1048576>;
 			cache-unified;
 			compatible = "sifive,inclusivecache0", "cache";
 			next-level-cache = <&L22 &L25>;

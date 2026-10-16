@@ -5,7 +5,7 @@ module ScratchpadBank_24(	// @[generators/rocket-chip/src/main/scala/prci/ClockD
   input  [2:0]   auto_xbar_anon_in_a_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]   auto_xbar_anon_in_a_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [2:0]   auto_xbar_anon_in_a_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  input  [6:0]   auto_xbar_anon_in_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  input  [7:0]   auto_xbar_anon_in_a_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [27:0]  auto_xbar_anon_in_a_bits_address,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [63:0]  auto_xbar_anon_in_a_bits_mask,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   input  [511:0] auto_xbar_anon_in_a_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -15,7 +15,7 @@ module ScratchpadBank_24(	// @[generators/rocket-chip/src/main/scala/prci/ClockD
   output [2:0]   auto_xbar_anon_in_d_bits_opcode,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [1:0]   auto_xbar_anon_in_d_bits_param,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [2:0]   auto_xbar_anon_in_d_bits_size,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
-  output [6:0]   auto_xbar_anon_in_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+  output [7:0]   auto_xbar_anon_in_d_bits_source,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_xbar_anon_in_d_bits_sink,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output         auto_xbar_anon_in_d_bits_denied,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
   output [511:0] auto_xbar_anon_in_d_bits_data,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
@@ -27,7 +27,7 @@ module ScratchpadBank_24(	// @[generators/rocket-chip/src/main/scala/prci/ClockD
   wire         _buffer_auto_out_a_valid;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [2:0]   _buffer_auto_out_a_bits_opcode;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [2:0]   _buffer_auto_out_a_bits_size;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
-  wire [6:0]   _buffer_auto_out_a_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
+  wire [7:0]   _buffer_auto_out_a_bits_source;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [27:0]  _buffer_auto_out_a_bits_address;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [63:0]  _buffer_auto_out_a_bits_mask;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
   wire [511:0] _buffer_auto_out_a_bits_data;	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
@@ -36,7 +36,7 @@ module ScratchpadBank_24(	// @[generators/rocket-chip/src/main/scala/prci/ClockD
   wire         _ram_auto_in_d_valid;	// @[generators/testchipip/src/main/scala/soc/Scratchpad.scala:33:25]
   wire [2:0]   _ram_auto_in_d_bits_opcode;	// @[generators/testchipip/src/main/scala/soc/Scratchpad.scala:33:25]
   wire [2:0]   _ram_auto_in_d_bits_size;	// @[generators/testchipip/src/main/scala/soc/Scratchpad.scala:33:25]
-  wire [6:0]   _ram_auto_in_d_bits_source;	// @[generators/testchipip/src/main/scala/soc/Scratchpad.scala:33:25]
+  wire [7:0]   _ram_auto_in_d_bits_source;	// @[generators/testchipip/src/main/scala/soc/Scratchpad.scala:33:25]
   wire [511:0] _ram_auto_in_d_bits_data;	// @[generators/testchipip/src/main/scala/soc/Scratchpad.scala:33:25]
   TLRAM_ScratchpadBank ram (	// @[generators/testchipip/src/main/scala/soc/Scratchpad.scala:33:25]
     .clock                  (auto_clock_in_clock),
@@ -56,7 +56,7 @@ module ScratchpadBank_24(	// @[generators/rocket-chip/src/main/scala/prci/ClockD
     .auto_in_d_bits_source  (_ram_auto_in_d_bits_source),
     .auto_in_d_bits_data    (_ram_auto_in_d_bits_data)
   );	// @[generators/testchipip/src/main/scala/soc/Scratchpad.scala:33:25]
-  TLBuffer_a28d512s7k1z3u buffer (	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
+  TLBuffer_a28d512s8k1z3u buffer (	// @[generators/rocket-chip/src/main/scala/tilelink/Buffer.scala:75:28]
     .clock                   (auto_clock_in_clock),
     .reset                   (auto_clock_in_reset),
     .auto_in_a_ready         (auto_xbar_anon_in_a_ready),

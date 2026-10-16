@@ -31,8 +31,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_sbus_i6_o4_a33d256s10k7z4c",
-    "group": "TLXbar_sbus_i6_o4_a33d256s10k7z4c"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_sbus_i6_o6_a33d256s10k8z4c",
+    "group": "TLXbar_sbus_i6_o6_a33d256s10k8z4c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -396,18 +396,18 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k7z4u",
-    "group": "Queue2_TLBundleA_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k8z4u",
+    "group": "Queue2_TLBundleA_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k7z4u",
-    "group": "Queue2_TLBundleD_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k8z4u",
+    "group": "Queue2_TLBundleD_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k7z4u",
-    "group": "TLBuffer_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k8z4u",
+    "group": "TLBuffer_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -546,28 +546,28 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_fbus_i2_o1_a33d256s8k7z4u",
-    "group": "TLXbar_fbus_i2_o1_a33d256s8k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_fbus_i2_o1_a33d256s8k8z4u",
+    "group": "TLXbar_fbus_i2_o1_a33d256s8k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s8k7z4u",
-    "group": "Queue2_TLBundleA_a33d256s8k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s8k8z4u",
+    "group": "Queue2_TLBundleA_a33d256s8k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s8k7z4u",
-    "group": "Queue2_TLBundleD_a33d256s8k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s8k8z4u",
+    "group": "Queue2_TLBundleD_a33d256s8k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s8k7z4u",
-    "group": "TLBuffer_a33d256s8k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s8k8z4u",
+    "group": "TLBuffer_a33d256s8k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleD_a33d256s1k7z4u",
-    "group": "Repeater_TLBundleD_a33d256s1k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleD_a33d256s1k8z4u",
+    "group": "Repeater_TLBundleD_a33d256s1k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -581,18 +581,18 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s7k7z4u",
-    "group": "Queue2_TLBundleA_a33d256s7k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s7k8z4u",
+    "group": "Queue2_TLBundleA_a33d256s7k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s7k7z4u",
-    "group": "Queue2_TLBundleD_a33d256s7k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s7k8z4u",
+    "group": "Queue2_TLBundleD_a33d256s7k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s7k7z4u",
-    "group": "TLBuffer_a33d256s7k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s7k8z4u",
+    "group": "TLBuffer_a33d256s7k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -1296,8 +1296,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_mbus_i2_o2_a33d512s7k1z3u",
-    "group": "TLXbar_mbus_i2_o2_a33d512s7k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_mbus_i4_o2_a33d512s8k1z3u",
+    "group": "TLXbar_mbus_i4_o2_a33d512s8k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -1336,48 +1336,48 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_i1_o1_a33d512s7k1z3u",
-    "group": "TLXbar_i1_o1_a33d512s7k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_i1_o1_a33d512s8k1z3u",
+    "group": "TLXbar_i1_o1_a33d512s8k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue32_BundleMap",
-    "group": "Queue32_BundleMap"
+    "target": "~TaihangSoCFPGATestHarness|Queue64_BundleMap",
+    "group": "Queue64_BundleMap"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue32_BundleMap_1",
-    "group": "Queue32_BundleMap"
+    "target": "~TaihangSoCFPGATestHarness|Queue64_BundleMap_1",
+    "group": "Queue64_BundleMap"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue32_BundleMap_2",
-    "group": "Queue32_BundleMap"
+    "target": "~TaihangSoCFPGATestHarness|Queue64_BundleMap_2",
+    "group": "Queue64_BundleMap"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue32_BundleMap_3",
-    "group": "Queue32_BundleMap"
+    "target": "~TaihangSoCFPGATestHarness|Queue64_BundleMap_3",
+    "group": "Queue64_BundleMap"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue32_BundleMap_4",
-    "group": "Queue32_BundleMap"
+    "target": "~TaihangSoCFPGATestHarness|Queue64_BundleMap_4",
+    "group": "Queue64_BundleMap"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue32_BundleMap_5",
-    "group": "Queue32_BundleMap"
+    "target": "~TaihangSoCFPGATestHarness|Queue64_BundleMap_5",
+    "group": "Queue64_BundleMap"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue32_BundleMap_6",
-    "group": "Queue32_BundleMap"
+    "target": "~TaihangSoCFPGATestHarness|Queue64_BundleMap_6",
+    "group": "Queue64_BundleMap"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue32_BundleMap_7",
-    "group": "Queue32_BundleMap"
+    "target": "~TaihangSoCFPGATestHarness|Queue64_BundleMap_7",
+    "group": "Queue64_BundleMap"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -1421,18 +1421,18 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a28d512s7k1z3u",
-    "group": "Queue2_TLBundleA_a28d512s7k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a28d512s8k1z3u",
+    "group": "Queue2_TLBundleA_a28d512s8k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a28d512s7k1z3u",
-    "group": "Queue2_TLBundleD_a28d512s7k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a28d512s8k1z3u",
+    "group": "Queue2_TLBundleD_a28d512s8k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a28d512s7k1z3u",
-    "group": "TLBuffer_a28d512s7k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a28d512s8k1z3u",
+    "group": "TLBuffer_a28d512s8k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -1507,6 +1507,16 @@
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
     "target": "~TaihangSoCFPGATestHarness|MemoryParallelCounterBank_7",
+    "group": "MemoryParallelCounterBank"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MemoryParallelCounterBank_8",
+    "group": "MemoryParallelCounterBank"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MemoryParallelCounterBank_9",
     "group": "MemoryParallelCounterBank"
   },
   {
@@ -2191,6 +2201,676 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d512s5k3z3c_2",
+    "group": "Queue2_TLBundleA_a33d512s5k3z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SourceA_2",
+    "group": "SourceA"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleB_a33d256s10k6z3c_2",
+    "group": "Queue2_TLBundleB_a33d256s10k6z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SourceB_2",
+    "group": "SourceB"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue5_TLBundleC_a33d512s5k3z3c_2",
+    "group": "Queue5_TLBundleC_a33d512s5k3z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SourceC_2",
+    "group": "SourceC"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue3_BankedStoreInnerDecoded_2",
+    "group": "Queue3_BankedStoreInnerDecoded"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s10k6z3c_2",
+    "group": "Queue2_TLBundleD_a33d256s10k6z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Atomics_2",
+    "group": "Atomics"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SourceD_2",
+    "group": "SourceD"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleE_a33d512s5k3z3c_2",
+    "group": "Queue2_TLBundleE_a33d512s5k3z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SourceE_2",
+    "group": "SourceE"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue1_SourceXRequest_2",
+    "group": "Queue1_SourceXRequest"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SourceX_2",
+    "group": "SourceX"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s10k6z3c_2",
+    "group": "Queue2_TLBundleA_a33d256s10k6z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|ListBuffer_PutBufferAEntry_q64_e64_2",
+    "group": "ListBuffer_PutBufferAEntry_q64_e64"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SinkA_2",
+    "group": "SinkA"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleC_a33d256s10k6z3c_2",
+    "group": "Queue2_TLBundleC_a33d256s10k6z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue1_BankedStoreInnerAddress_2",
+    "group": "Queue1_BankedStoreInnerAddress"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|ListBuffer_PutBufferCEntry_q2_e4_2",
+    "group": "ListBuffer_PutBufferCEntry_q2_e4"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SinkC_2",
+    "group": "SinkC"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d512s5k3z3c_2",
+    "group": "Queue2_TLBundleD_a33d512s5k3z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SinkD_2",
+    "group": "SinkD"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleE_a33d256s10k6z3c_2",
+    "group": "Queue2_TLBundleE_a33d256s10k6z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SinkE_2",
+    "group": "SinkE"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue1_SinkXRequest_2",
+    "group": "Queue1_SinkXRequest"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SinkX_2",
+    "group": "SinkX"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue1_DirectoryWrite_2",
+    "group": "Queue1_DirectoryWrite"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MaxPeriodFibonacciLFSR_2",
+    "group": "MaxPeriodFibonacciLFSR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Directory_2",
+    "group": "Directory"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|BankedStore_2",
+    "group": "BankedStore"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|ListBuffer_QueuedRequest_q102_e34_fast_2",
+    "group": "ListBuffer_QueuedRequest_q102_e34_fast"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_68",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_69",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_70",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_71",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_72",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_73",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_74",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_75",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_76",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_77",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_78",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_79",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_80",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_81",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_82",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_83",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_84",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_85",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_86",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_87",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_88",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_89",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_90",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_91",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_92",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_93",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_94",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_95",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_96",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_97",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_98",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_99",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_100",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_101",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|InclusiveCacheBankScheduler_2",
+    "group": "InclusiveCacheBankScheduler"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d512s5k3z3c_3",
+    "group": "Queue2_TLBundleA_a33d512s5k3z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SourceA_3",
+    "group": "SourceA"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleB_a33d256s10k6z3c_3",
+    "group": "Queue2_TLBundleB_a33d256s10k6z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SourceB_3",
+    "group": "SourceB"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue5_TLBundleC_a33d512s5k3z3c_3",
+    "group": "Queue5_TLBundleC_a33d512s5k3z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SourceC_3",
+    "group": "SourceC"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue3_BankedStoreInnerDecoded_3",
+    "group": "Queue3_BankedStoreInnerDecoded"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s10k6z3c_3",
+    "group": "Queue2_TLBundleD_a33d256s10k6z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Atomics_3",
+    "group": "Atomics"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SourceD_3",
+    "group": "SourceD"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleE_a33d512s5k3z3c_3",
+    "group": "Queue2_TLBundleE_a33d512s5k3z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SourceE_3",
+    "group": "SourceE"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue1_SourceXRequest_3",
+    "group": "Queue1_SourceXRequest"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SourceX_3",
+    "group": "SourceX"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s10k6z3c_3",
+    "group": "Queue2_TLBundleA_a33d256s10k6z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|ListBuffer_PutBufferAEntry_q64_e64_3",
+    "group": "ListBuffer_PutBufferAEntry_q64_e64"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SinkA_3",
+    "group": "SinkA"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleC_a33d256s10k6z3c_3",
+    "group": "Queue2_TLBundleC_a33d256s10k6z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue1_BankedStoreInnerAddress_3",
+    "group": "Queue1_BankedStoreInnerAddress"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|ListBuffer_PutBufferCEntry_q2_e4_3",
+    "group": "ListBuffer_PutBufferCEntry_q2_e4"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SinkC_3",
+    "group": "SinkC"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d512s5k3z3c_3",
+    "group": "Queue2_TLBundleD_a33d512s5k3z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SinkD_3",
+    "group": "SinkD"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleE_a33d256s10k6z3c_3",
+    "group": "Queue2_TLBundleE_a33d256s10k6z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SinkE_3",
+    "group": "SinkE"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue1_SinkXRequest_3",
+    "group": "Queue1_SinkXRequest"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|SinkX_3",
+    "group": "SinkX"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue1_DirectoryWrite_3",
+    "group": "Queue1_DirectoryWrite"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MaxPeriodFibonacciLFSR_3",
+    "group": "MaxPeriodFibonacciLFSR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Directory_3",
+    "group": "Directory"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|BankedStore_3",
+    "group": "BankedStore"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|ListBuffer_QueuedRequest_q102_e34_fast_3",
+    "group": "ListBuffer_QueuedRequest_q102_e34_fast"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_102",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_103",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_104",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_105",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_106",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_107",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_108",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_109",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_110",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_111",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_112",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_113",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_114",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_115",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_116",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_117",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_118",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_119",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_120",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_121",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_122",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_123",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_124",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_125",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_126",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_127",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_128",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_129",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_130",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_131",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_132",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_133",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_134",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|MSHR_135",
+    "group": "MSHR"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|InclusiveCacheBankScheduler_3",
+    "group": "InclusiveCacheBankScheduler"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
     "target": "~TaihangSoCFPGATestHarness|InclusiveCache",
     "group": "InclusiveCache"
   },
@@ -2221,6 +2901,26 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue1_TLBundleA_a33d256s10k6z3c_2",
+    "group": "Queue1_TLBundleA_a33d256s10k6z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue1_TLBundleD_a33d256s10k6z3c_2",
+    "group": "Queue1_TLBundleD_a33d256s10k6z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue1_TLBundleA_a33d256s10k6z3c_3",
+    "group": "Queue1_TLBundleA_a33d256s10k6z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue1_TLBundleD_a33d256s10k6z3c_3",
+    "group": "Queue1_TLBundleD_a33d256s10k6z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
     "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s10k6z3c",
     "group": "TLBuffer_a33d256s10k6z3c"
   },
@@ -2236,12 +2936,12 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d512s5k3z3c_2",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d512s5k3z3c_4",
     "group": "Queue2_TLBundleD_a33d512s5k3z3c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d512s5k3z3c_3",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d512s5k3z3c_5",
     "group": "Queue2_TLBundleD_a33d512s5k3z3c"
   },
   {
@@ -2251,12 +2951,42 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d512s5k3z3c_4",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d512s5k3z3c_6",
     "group": "Queue2_TLBundleD_a33d512s5k3z3c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d512s5k3z3c_5",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d512s5k3z3c_7",
+    "group": "Queue2_TLBundleD_a33d512s5k3z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|IDPool_2",
+    "group": "IDPool"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d512s5k3z3c_8",
+    "group": "Queue2_TLBundleD_a33d512s5k3z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d512s5k3z3c_9",
+    "group": "Queue2_TLBundleD_a33d512s5k3z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|IDPool_3",
+    "group": "IDPool"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d512s5k3z3c_10",
+    "group": "Queue2_TLBundleD_a33d512s5k3z3c"
+  },
+  {
+    "class": "firrtl.transforms.DedupGroupAnnotation",
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d512s5k3z3c_11",
     "group": "Queue2_TLBundleD_a33d512s5k3z3c"
   },
   {
@@ -2291,8 +3021,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_MasterXbar_RocketTile_i3_o1_a33d256s6k7z4c",
-    "group": "TLXbar_MasterXbar_RocketTile_i3_o1_a33d256s6k7z4c"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_MasterXbar_RocketTile_i3_o1_a33d256s6k8z4c",
+    "group": "TLXbar_MasterXbar_RocketTile_i3_o1_a33d256s6k8z4c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -2331,13 +3061,13 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleD_a33d256s1k7z4c",
-    "group": "Repeater_TLBundleD_a33d256s1k7z4c"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleD_a33d256s1k8z4c",
+    "group": "Repeater_TLBundleD_a33d256s1k8z4c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleB_a33d256s1k7z4c",
-    "group": "Repeater_TLBundleB_a33d256s1k7z4c"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleB_a33d256s1k8z4c",
+    "group": "Repeater_TLBundleB_a33d256s1k8z4c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -2516,7 +3246,7 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|MaxPeriodFibonacciLFSR_2",
+    "target": "~TaihangSoCFPGATestHarness|MaxPeriodFibonacciLFSR_4",
     "group": "MaxPeriodFibonacciLFSR"
   },
   {
@@ -2551,8 +3281,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_i2_o1_a33d256s6k7z4u",
-    "group": "TLXbar_i2_o1_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_i2_o1_a33d256s6k8z4u",
+    "group": "TLXbar_i2_o1_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -2726,78 +3456,78 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k7z4u_1",
-    "group": "Queue2_TLBundleA_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k8z4u_1",
+    "group": "Queue2_TLBundleA_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k7z4u_1",
-    "group": "Queue2_TLBundleD_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k8z4u_1",
+    "group": "Queue2_TLBundleD_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k7z4u_1",
-    "group": "TLBuffer_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k8z4u_1",
+    "group": "TLBuffer_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k7z4u_2",
-    "group": "Queue2_TLBundleA_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k8z4u_2",
+    "group": "Queue2_TLBundleA_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k7z4u_2",
-    "group": "Queue2_TLBundleD_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k8z4u_2",
+    "group": "Queue2_TLBundleD_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k7z4u_2",
-    "group": "TLBuffer_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k8z4u_2",
+    "group": "TLBuffer_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k7z4u",
-    "group": "Queue2_TLBundleA_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k8z4u",
+    "group": "Queue2_TLBundleA_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k7z4u",
-    "group": "Queue2_TLBundleD_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k8z4u",
+    "group": "Queue2_TLBundleD_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k7z4u",
-    "group": "TLBuffer_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k8z4u",
+    "group": "TLBuffer_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k7z4u_1",
-    "group": "Queue2_TLBundleA_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k8z4u_1",
+    "group": "Queue2_TLBundleA_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k7z4u_1",
-    "group": "Queue2_TLBundleD_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k8z4u_1",
+    "group": "Queue2_TLBundleD_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k7z4u_1",
-    "group": "TLBuffer_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k8z4u_1",
+    "group": "TLBuffer_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k7z4u_2",
-    "group": "Queue2_TLBundleA_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k8z4u_2",
+    "group": "Queue2_TLBundleA_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k7z4u_2",
-    "group": "Queue2_TLBundleD_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k8z4u_2",
+    "group": "Queue2_TLBundleD_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k7z4u_2",
-    "group": "TLBuffer_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k8z4u_2",
+    "group": "TLBuffer_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -14371,8 +15101,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_i2_o1_a33d256s6k7z4u_1",
-    "group": "TLXbar_i2_o1_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_i2_o1_a33d256s6k8z4u_1",
+    "group": "TLXbar_i2_o1_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -14546,78 +15276,78 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k7z4u_3",
-    "group": "Queue2_TLBundleA_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k8z4u_3",
+    "group": "Queue2_TLBundleA_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k7z4u_3",
-    "group": "Queue2_TLBundleD_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k8z4u_3",
+    "group": "Queue2_TLBundleD_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k7z4u_3",
-    "group": "TLBuffer_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k8z4u_3",
+    "group": "TLBuffer_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k7z4u_4",
-    "group": "Queue2_TLBundleA_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k8z4u_4",
+    "group": "Queue2_TLBundleA_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k7z4u_4",
-    "group": "Queue2_TLBundleD_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k8z4u_4",
+    "group": "Queue2_TLBundleD_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k7z4u_4",
-    "group": "TLBuffer_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k8z4u_4",
+    "group": "TLBuffer_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k7z4u_3",
-    "group": "Queue2_TLBundleA_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k8z4u_3",
+    "group": "Queue2_TLBundleA_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k7z4u_3",
-    "group": "Queue2_TLBundleD_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k8z4u_3",
+    "group": "Queue2_TLBundleD_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k7z4u_3",
-    "group": "TLBuffer_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k8z4u_3",
+    "group": "TLBuffer_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k7z4u_4",
-    "group": "Queue2_TLBundleA_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k8z4u_4",
+    "group": "Queue2_TLBundleA_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k7z4u_4",
-    "group": "Queue2_TLBundleD_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k8z4u_4",
+    "group": "Queue2_TLBundleD_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k7z4u_4",
-    "group": "TLBuffer_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k8z4u_4",
+    "group": "TLBuffer_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k7z4u_5",
-    "group": "Queue2_TLBundleA_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k8z4u_5",
+    "group": "Queue2_TLBundleA_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k7z4u_5",
-    "group": "Queue2_TLBundleD_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k8z4u_5",
+    "group": "Queue2_TLBundleD_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k7z4u_5",
-    "group": "TLBuffer_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k8z4u_5",
+    "group": "TLBuffer_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -26191,8 +26921,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_i2_o1_a33d256s6k7z4u_2",
-    "group": "TLXbar_i2_o1_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_i2_o1_a33d256s6k8z4u_2",
+    "group": "TLXbar_i2_o1_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -26366,78 +27096,78 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k7z4u_5",
-    "group": "Queue2_TLBundleA_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k8z4u_5",
+    "group": "Queue2_TLBundleA_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k7z4u_5",
-    "group": "Queue2_TLBundleD_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k8z4u_5",
+    "group": "Queue2_TLBundleD_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k7z4u_5",
-    "group": "TLBuffer_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k8z4u_5",
+    "group": "TLBuffer_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k7z4u_6",
-    "group": "Queue2_TLBundleA_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k8z4u_6",
+    "group": "Queue2_TLBundleA_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k7z4u_6",
-    "group": "Queue2_TLBundleD_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k8z4u_6",
+    "group": "Queue2_TLBundleD_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k7z4u_6",
-    "group": "TLBuffer_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k8z4u_6",
+    "group": "TLBuffer_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k7z4u_6",
-    "group": "Queue2_TLBundleA_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k8z4u_6",
+    "group": "Queue2_TLBundleA_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k7z4u_6",
-    "group": "Queue2_TLBundleD_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k8z4u_6",
+    "group": "Queue2_TLBundleD_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k7z4u_6",
-    "group": "TLBuffer_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k8z4u_6",
+    "group": "TLBuffer_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k7z4u_7",
-    "group": "Queue2_TLBundleA_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k8z4u_7",
+    "group": "Queue2_TLBundleA_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k7z4u_7",
-    "group": "Queue2_TLBundleD_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k8z4u_7",
+    "group": "Queue2_TLBundleD_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k7z4u_7",
-    "group": "TLBuffer_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k8z4u_7",
+    "group": "TLBuffer_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k7z4u_8",
-    "group": "Queue2_TLBundleA_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k8z4u_8",
+    "group": "Queue2_TLBundleA_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k7z4u_8",
-    "group": "Queue2_TLBundleD_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k8z4u_8",
+    "group": "Queue2_TLBundleD_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k7z4u_8",
-    "group": "TLBuffer_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k8z4u_8",
+    "group": "TLBuffer_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -38041,7 +38771,7 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|MaxPeriodFibonacciLFSR_3",
+    "target": "~TaihangSoCFPGATestHarness|MaxPeriodFibonacciLFSR_5",
     "group": "MaxPeriodFibonacciLFSR"
   },
   {
@@ -38176,8 +38906,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_i2_o1_a33d128s5k7z4u",
-    "group": "TLXbar_i2_o1_a33d128s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_i2_o1_a33d128s5k8z4u",
+    "group": "TLXbar_i2_o1_a33d128s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -38186,23 +38916,23 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k7z4u_7",
-    "group": "Queue2_TLBundleA_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s5k8z4u_7",
+    "group": "Queue2_TLBundleA_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k7z4u_7",
-    "group": "Queue2_TLBundleD_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s5k8z4u_7",
+    "group": "Queue2_TLBundleD_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k7z4u_7",
-    "group": "TLBuffer_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s5k8z4u_7",
+    "group": "TLBuffer_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleD_a33d256s5k7z4u",
-    "group": "Repeater_TLBundleD_a33d256s5k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Repeater_TLBundleD_a33d256s5k8z4u",
+    "group": "Repeater_TLBundleD_a33d256s5k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -40011,8 +40741,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k7z4u_9",
-    "group": "TLBuffer_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k8z4u_9",
+    "group": "TLBuffer_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -40491,63 +41221,63 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k7z4u_9",
-    "group": "Queue2_TLBundleA_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k8z4u_9",
+    "group": "Queue2_TLBundleA_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k7z4u_9",
-    "group": "Queue2_TLBundleD_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k8z4u_9",
+    "group": "Queue2_TLBundleD_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k7z4u_10",
-    "group": "Queue2_TLBundleA_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k8z4u_10",
+    "group": "Queue2_TLBundleA_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k7z4u_10",
-    "group": "Queue2_TLBundleD_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k8z4u_10",
+    "group": "Queue2_TLBundleD_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k7z4u_11",
-    "group": "Queue2_TLBundleA_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k8z4u_11",
+    "group": "Queue2_TLBundleA_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k7z4u_11",
-    "group": "Queue2_TLBundleD_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k8z4u_11",
+    "group": "Queue2_TLBundleD_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k7z4c",
-    "group": "Queue2_TLBundleA_a33d256s6k7z4c"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a33d256s6k8z4c",
+    "group": "Queue2_TLBundleA_a33d256s6k8z4c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k7z4c",
-    "group": "Queue2_TLBundleD_a33d256s6k7z4c"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d256s6k8z4c",
+    "group": "Queue2_TLBundleD_a33d256s6k8z4c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleB_a33d256s6k7z4c",
-    "group": "Queue2_TLBundleB_a33d256s6k7z4c"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleB_a33d256s6k8z4c",
+    "group": "Queue2_TLBundleB_a33d256s6k8z4c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleC_a33d256s6k7z4c",
-    "group": "Queue2_TLBundleC_a33d256s6k7z4c"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleC_a33d256s6k8z4c",
+    "group": "Queue2_TLBundleC_a33d256s6k8z4c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleE_a33d256s6k7z4c",
-    "group": "Queue2_TLBundleE_a33d256s6k7z4c"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleE_a33d256s6k8z4c",
+    "group": "Queue2_TLBundleE_a33d256s6k8z4c"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k7z4u_10",
-    "group": "TLBuffer_a33d256s6k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a33d256s6k8z4u_10",
+    "group": "TLBuffer_a33d256s6k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -41016,8 +41746,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d8s1k7z4u",
-    "group": "Queue2_TLBundleD_a33d8s1k7z4u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a33d8s1k8z4u",
+    "group": "Queue2_TLBundleD_a33d8s1k8z4u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -41326,8 +42056,8 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLXbar_i1_o1_a28d512s7k1z3u",
-    "group": "TLXbar_i1_o1_a28d512s7k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|TLXbar_i1_o1_a28d512s8k1z3u",
+    "group": "TLXbar_i1_o1_a28d512s8k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -41341,18 +42071,18 @@
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a28d512s7k1z3u_1",
-    "group": "Queue2_TLBundleA_a28d512s7k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleA_a28d512s8k1z3u_1",
+    "group": "Queue2_TLBundleA_a28d512s8k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a28d512s7k1z3u_1",
-    "group": "Queue2_TLBundleD_a28d512s7k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|Queue2_TLBundleD_a28d512s8k1z3u_1",
+    "group": "Queue2_TLBundleD_a28d512s8k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
-    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a28d512s7k1z3u_1",
-    "group": "TLBuffer_a28d512s7k1z3u"
+    "target": "~TaihangSoCFPGATestHarness|TLBuffer_a28d512s8k1z3u_1",
+    "group": "TLBuffer_a28d512s8k1z3u"
   },
   {
     "class": "firrtl.transforms.DedupGroupAnnotation",
@@ -114329,7 +115059,7 @@
   },
   {
     "class": "firrtl.passes.InlineAnnotation",
-    "target": "TaihangSoCFPGATestHarness.TLXbar_i1_o1_a33d512s7k1z3u"
+    "target": "TaihangSoCFPGATestHarness.TLXbar_i1_o1_a33d512s8k1z3u"
   },
   {
     "class": "firrtl.passes.InlineAnnotation",
@@ -123423,7 +124153,7 @@
   },
   {
     "class": "firrtl.passes.InlineAnnotation",
-    "target": "TaihangSoCFPGATestHarness.TLBuffer_a33d256s6k7z4u_9"
+    "target": "TaihangSoCFPGATestHarness.TLBuffer_a33d256s6k8z4u_9"
   },
   {
     "class": "firrtl.passes.InlineAnnotation",
@@ -123545,7 +124275,7 @@
   },
   {
     "class": "firrtl.passes.InlineAnnotation",
-    "target": "TaihangSoCFPGATestHarness.TLXbar_i1_o1_a28d512s7k1z3u"
+    "target": "TaihangSoCFPGATestHarness.TLXbar_i1_o1_a28d512s8k1z3u"
   },
   {
     "class": "firrtl.passes.InlineAnnotation",
