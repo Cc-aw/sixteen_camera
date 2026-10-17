@@ -1,0 +1,1014 @@
+3508947 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libtinfo.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/dev/tty", O_RDWR|O_NONBLOCK) = -1 ENXIO (没有那个设备或地址)
+3508947 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508947 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508947 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/hw_server", O_RDONLY) = 3
+3508948 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508948 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508948 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508948, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508947 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/setupEnv.sh", O_RDONLY) = 3
+3508956 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508956 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508956 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508956, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508961 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508961, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508947 openat(AT_FDCWD, "/dev/null", O_WRONLY|O_CREAT|O_TRUNC, 0666) = 3
+3508963 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508963 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508963 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508963, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508964 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508964, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508965 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508965, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508966 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508966 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508966 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508966, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508967 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508967 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508967 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508967, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508968 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508968 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508968 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508968, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508969 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508969 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508969 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508969, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508970 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508970 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508970 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508970, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508971 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508971 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508971 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508971, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508972 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508972, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508973 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508973, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508974 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508974 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508974 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508974, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508975 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508975 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508975 openat(AT_FDCWD, "/etc/localtime", O_RDONLY|O_CLOEXEC) = 3
+3508975 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508975, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508976 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508976 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508976 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508976, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508977 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508977 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508977 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508977, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508978 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508978 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508978 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508978, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508979 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508979 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508979 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508979, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508980 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_IDENTIFICATION", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MEASUREMENT", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TELEPHONE", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_ADDRESS", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NAME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NAME", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_PAPER", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_PAPER", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MESSAGES/SYS_LC_MESSAGES", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_MONETARY", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_COLLATE", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_TIME", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_TIME", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_NUMERIC", O_RDONLY|O_CLOEXEC) = 3
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.UTF-8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3508980 openat(AT_FDCWD, "/usr/lib/locale/C.utf8/LC_CTYPE", O_RDONLY|O_CLOEXEC) = 3
+3508980 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508980, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508947 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/rdiArgs.sh", O_RDONLY) = 3
+3508981 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508981 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508981 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508981 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508981, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508982 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508982 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508982 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508982 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508982, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508983 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508983 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508983 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508983 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508983, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508984 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508984 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508984 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508984 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508984, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508985 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508985 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508985 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508985 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508985, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508986 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508986 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libtinfo.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508986 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508986 openat(AT_FDCWD, "/dev/tty", O_RDWR|O_NONBLOCK) = -1 ENXIO (没有那个设备或地址)
+3508986 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508986 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3508986 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/loader", O_RDONLY) = 3
+3508987 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508987 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508987 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508987 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508987, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508986 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/setupEnv.sh", O_RDONLY) = 3
+3508988 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508988 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508988 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508988 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508988, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508989 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508989, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508986 openat(AT_FDCWD, "/dev/null", O_WRONLY|O_CREAT|O_TRUNC, 0666) = 3
+3508990 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508990 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508990 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508990 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508990, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508991 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508991, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508992 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508992, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508993 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508993 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508993 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508993 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508993, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508994 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3508994 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3508994 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3508994 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508994, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509000 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509000 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509000 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509000 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509000, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509001 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509001 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509001 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509001 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509001, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509002 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509002 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509002 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509002 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509002, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509003 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509003 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509003 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509003 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509003, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509004 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509004, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509005 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509005 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509005 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509005 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509005, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509007 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509007 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509007 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509007 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509007, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509008 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509008 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509008 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509008 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509008, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509009 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509009 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509009 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509009 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509009, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508986 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/rdiArgs.sh", O_RDONLY) = 3
+3509011 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509011 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509011 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509011 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509011, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509012 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509012 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509012 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509012 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509012, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509013 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509013 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509013 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509013 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509013, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509014 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509014 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509014 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509014 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509014, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509015 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509015 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509015 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509015 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509015, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509016 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509016 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libtinfo.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509016 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509016 openat(AT_FDCWD, "/dev/tty", O_RDWR|O_NONBLOCK) = -1 ENXIO (没有那个设备或地址)
+3509016 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509016 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3509016 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/ldlibpath.sh", O_RDONLY) = 3
+3509017 +++ exited with 0 +++
+3509016 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509017, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509019 openat(AT_FDCWD, "/dev/null", O_WRONLY|O_CREAT|O_TRUNC, 0666) = 3
+3509019 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC <unfinished ...>
+3509020 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC <unfinished ...>
+3509019 <... openat resumed>)           = 3
+3509020 <... openat resumed>)           = 3
+3509021 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC <unfinished ...>
+3509020 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libacl.so.1", O_RDONLY|O_CLOEXEC <unfinished ...>
+3509019 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libm.so.6", O_RDONLY|O_CLOEXEC <unfinished ...>
+3509021 <... openat resumed>)           = 3
+3509020 <... openat resumed>)           = 3
+3509019 <... openat resumed>)           = 3
+3509021 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libexpat.so.1", O_RDONLY|O_CLOEXEC <unfinished ...>
+3509020 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libselinux.so.1", O_RDONLY|O_CLOEXEC <unfinished ...>
+3509019 <... openat resumed>)           = 3
+3509020 <... openat resumed>)           = 3
+3509020 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libz.so.1", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC <unfinished ...>
+3509021 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC <unfinished ...>
+3509019 <... openat resumed>)           = 3
+3509021 <... openat resumed>)           = 3
+3509020 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libpcre2-8.so.0", O_RDONLY|O_CLOEXEC) = 3
+3509020 openat(AT_FDCWD, "/proc/filesystems", O_RDONLY|O_CLOEXEC) = 3
+3509020 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509020 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3509019 openat(AT_FDCWD, "/usr/bin/pyvenv.cfg", O_RDONLY) = -1 ENOENT (没有那个文件或目录)
+3509019 openat(AT_FDCWD, "/usr/pyvenv.cfg", O_RDONLY) = -1 ENOENT (没有那个文件或目录)
+3509019 openat(AT_FDCWD, "/usr/bin/pybuilddir.txt", O_RDONLY) = -1 ENOENT (没有那个文件或目录)
+3509019 openat(AT_FDCWD, "/etc/localtime", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/encodings/__pycache__/__init__.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/codecs.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/encodings", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/encodings/__pycache__/aliases.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/encodings/__pycache__/utf_8.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/io.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/abc.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/site.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/os.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/stat.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/_collections_abc.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/posixpath.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/genericpath.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/_sitebuiltins.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/local/lib/python3.10/dist-packages", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3/dist-packages", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/sitecustomize.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/lib-dynload", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509019 openat(AT_FDCWD, "/usr/local/lib/python3.10/dist-packages", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3/dist-packages", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3/dist-packages/__pycache__/apport_python_hook.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/bin/lsb_release", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/bin/lsb_release", O_RDONLY) = 3
+3509019 openat(AT_FDCWD, "/usr/bin", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/optparse.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/textwrap.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/re.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/enum.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/types.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/sre_compile.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/sre_parse.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/sre_constants.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/functools.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/collections/__pycache__/__init__.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/keyword.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/operator.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/reprlib.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/copyreg.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/gettext.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/locale.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3/dist-packages/__pycache__/lsb_release.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/__future__.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/subprocess.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/signal.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/threading.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/_weakrefset.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/warnings.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/contextlib.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/selectors.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/collections", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/collections/__pycache__/abc.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/csv.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/share/distro-info/debian.csv", O_RDONLY|O_CLOEXEC) = 3
+3509019 openat(AT_FDCWD, "/usr/lib/os-release", O_RDONLY|O_CLOEXEC) = 3
+3509019 +++ exited with 0 +++
+3509020 +++ exited with 0 +++
+3509021 +++ exited with 0 +++
+3509018 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509019, si_uid=1002, si_status=0, si_utime=1, si_stime=0} ---
+3509018 +++ exited with 0 +++
+3509016 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509018, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509023 openat(AT_FDCWD, "/dev/null", O_WRONLY|O_CREAT|O_TRUNC, 0666) = 3
+3509025 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509024 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC <unfinished ...>
+3509025 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC <unfinished ...>
+3509024 <... openat resumed>)           = 3
+3509025 <... openat resumed>)           = 3
+3509023 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC <unfinished ...>
+3509024 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libacl.so.1", O_RDONLY|O_CLOEXEC <unfinished ...>
+3509023 <... openat resumed>)           = 3
+3509024 <... openat resumed>)           = 3
+3509023 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libm.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509024 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libselinux.so.1", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libexpat.so.1", O_RDONLY|O_CLOEXEC) = 3
+3509024 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libz.so.1", O_RDONLY|O_CLOEXEC) = 3
+3509025 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509024 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libpcre2-8.so.0", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509024 openat(AT_FDCWD, "/proc/filesystems", O_RDONLY|O_CLOEXEC) = 3
+3509024 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509024 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+3509023 openat(AT_FDCWD, "/usr/bin/pyvenv.cfg", O_RDONLY) = -1 ENOENT (没有那个文件或目录)
+3509023 openat(AT_FDCWD, "/usr/pyvenv.cfg", O_RDONLY) = -1 ENOENT (没有那个文件或目录)
+3509023 openat(AT_FDCWD, "/usr/bin/pybuilddir.txt", O_RDONLY) = -1 ENOENT (没有那个文件或目录)
+3509023 openat(AT_FDCWD, "/etc/localtime", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/encodings/__pycache__/__init__.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/codecs.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/encodings", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/encodings/__pycache__/aliases.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/encodings/__pycache__/utf_8.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/io.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/abc.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/site.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/os.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/stat.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/_collections_abc.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/posixpath.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/genericpath.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/_sitebuiltins.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/local/lib/python3.10/dist-packages", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3/dist-packages", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/sitecustomize.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/lib-dynload", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509023 openat(AT_FDCWD, "/usr/local/lib/python3.10/dist-packages", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3/dist-packages", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3/dist-packages/__pycache__/apport_python_hook.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/bin/lsb_release", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/bin/lsb_release", O_RDONLY) = 3
+3509023 openat(AT_FDCWD, "/usr/bin", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/optparse.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/textwrap.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/re.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/enum.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/types.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/sre_compile.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/sre_parse.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/sre_constants.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/functools.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/collections/__pycache__/__init__.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/keyword.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/operator.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/reprlib.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/copyreg.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/gettext.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/locale.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3/dist-packages/__pycache__/lsb_release.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/__future__.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/subprocess.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/signal.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/threading.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/_weakrefset.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/warnings.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/contextlib.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/selectors.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/collections", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/collections/__pycache__/abc.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/python3.10/__pycache__/csv.cpython-310.pyc", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/share/distro-info/debian.csv", O_RDONLY|O_CLOEXEC) = 3
+3509023 openat(AT_FDCWD, "/usr/lib/os-release", O_RDONLY|O_CLOEXEC) = 3
+3509023 +++ exited with 0 +++
+3509024 +++ exited with 0 +++
+3509025 +++ exited with 0 +++
+3509022 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509023, si_uid=1002, si_status=0, si_utime=2, si_stime=0} ---
+3509022 +++ exited with 0 +++
+3509016 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509022, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509016 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509016, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/glibc-hwcaps/x86-64-v3/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/glibc-hwcaps/x86-64-v2/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/tls/haswell/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/tls/haswell/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/tls/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/tls/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/haswell/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/haswell/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/glibc-hwcaps/x86-64-v3/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/glibc-hwcaps/x86-64-v2/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/tls/haswell/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/tls/haswell/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/tls/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/tls/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/haswell/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/haswell/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/glibc-hwcaps/x86-64-v3/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/glibc-hwcaps/x86-64-v2/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/tls/haswell/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/tls/haswell/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/tls/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/tls/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/haswell/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/haswell/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/glibc-hwcaps/x86-64-v3/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/glibc-hwcaps/x86-64-v2/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/tls/haswell/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/tls/haswell/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/tls/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/tls/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/haswell/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/haswell/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib/glibc-hwcaps/x86-64-v3/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib/glibc-hwcaps/x86-64-v2/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib/tls/haswell/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib/tls/haswell/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib/tls/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib/tls/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib/haswell/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib/haswell/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib//server/glibc-hwcaps/x86-64-v3/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib//server/glibc-hwcaps/x86-64-v2/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib//server/tls/haswell/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib//server/tls/haswell/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib//server/tls/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib//server/tls/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib//server/haswell/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib//server/haswell/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib//server/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib//server/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/../lnx64/tools/dot/lib/glibc-hwcaps/x86-64-v3/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/../lnx64/tools/dot/lib/glibc-hwcaps/x86-64-v2/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/../lnx64/tools/dot/lib/tls/haswell/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/../lnx64/tools/dot/lib/tls/haswell/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/../lnx64/tools/dot/lib/tls/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/../lnx64/tools/dot/lib/tls/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/../lnx64/tools/dot/lib/haswell/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/../lnx64/tools/dot/lib/haswell/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/../lnx64/tools/dot/lib/x86_64/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/bin/../lnx64/tools/dot/lib/libdl.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libdl.so.2", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib//server/librt.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/librt.so.1", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib//server/libm.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libm.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib//server/libpthread.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libpthread.so.0", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/jre17.0.7_7/lib//server/libc.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/libxftdi.so", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/libxftdi.so", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/libxftdi.so", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/libxftdi.so", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/../lib/glibc-hwcaps/x86-64-v3/libusb-1.0.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/../lib/glibc-hwcaps/x86-64-v2/libusb-1.0.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/../lib/tls/haswell/x86_64/libusb-1.0.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/../lib/tls/haswell/libusb-1.0.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/../lib/tls/x86_64/libusb-1.0.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/../lib/tls/libusb-1.0.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/../lib/haswell/x86_64/libusb-1.0.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/../lib/haswell/libusb-1.0.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/../lib/x86_64/libusb-1.0.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/../lib/libusb-1.0.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/libusb-1.0.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/libusb-1.0.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/libusb-1.0.so.0", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/libusb-1.0.so.0", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/libdpcomm.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/libdpcomm.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/libdpcomm.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/libdpcomm.so.2", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/libdabs.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/libdabs.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/libdabs.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/libdabs.so.2", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/libdftd2xx.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/libdftd2xx.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/libdftd2xx.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/libdftd2xx.so.1", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/libstdc++.so.6", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/libstdc++.so.6", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/libgcc_s.so.1", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/tmp/digilent-adept2-shm-dvtbl", O_RDWR|O_CREAT, 0777) = -1 EACCES (权限不够)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/libdjtg.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/libdjtg.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/libdjtg.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/libdjtg.so.2", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/tps/lnx64/java-cef-95.0.4638.69/bin/lib/linux64/libdmgr.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/22/libdmgr.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/Ubuntu/libdmgr.so.2", O_RDONLY|O_CLOEXEC) = -1 ENOENT (没有那个文件或目录)
+3509032 openat(AT_FDCWD, "/mnt/data/Vivado/Vivado/2023.2/lib/lnx64.o/libdmgr.so.2", O_RDONLY|O_CLOEXEC) = 3
+3509032 openat(AT_FDCWD, "/dev/urandom", O_RDONLY) = 3
+3509032 openat(AT_FDCWD, "/proc/self/loginuid", O_RDONLY) = 4
+3509032 openat(AT_FDCWD, "/etc/nsswitch.conf", O_RDONLY|O_CLOEXEC) = 4
+3509032 openat(AT_FDCWD, "/etc/passwd", O_RDONLY|O_CLOEXEC) = 4
+3509041 +++ exited with 0 +++
+3509040 +++ exited with 0 +++
+3509039 +++ exited with 0 +++
+3509038 +++ exited with 0 +++
+3509032 +++ exited with 0 +++
+3508986 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3509032, si_uid=1002, si_status=0, si_utime=0, si_stime=0} ---
+3508986 +++ exited with 0 +++
+3508947 --- SIGCHLD {si_signo=SIGCHLD, si_code=CLD_EXITED, si_pid=3508986, si_uid=1002, si_status=0, si_utime=1, si_stime=0} ---
+3508947 +++ exited with 0 +++

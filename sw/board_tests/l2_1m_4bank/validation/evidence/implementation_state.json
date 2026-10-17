@@ -1,0 +1,42 @@
+{
+  "build_state": "BITSTREAM_TIMING_UNMET",
+  "supervisor_pid": 2,
+  "requested_utc": "2026-10-16T07:37:09.909531+00:00",
+  "synthesis_state": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/reports/l2_1m_4bank/full_synthesis/state.json",
+  "bitstream": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/reports/l2_1m_4bank/full_implementation/video_triple32_v3_tensor_l2_1m_4bank.bit",
+  "board_run": "NOT_RUN",
+  "updated_utc": "2026-10-16T17:51:20.657851+00:00",
+  "start_utc": "2026-10-16T08:17:31.116259+00:00",
+  "project": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/projects/l2_1m_4bank_candidate/sixteen_camera.xpr",
+  "command": [
+    "/mnt/data/Vivado/Vivado/2023.2/bin/vivado",
+    "-mode",
+    "batch",
+    "-source",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/tools/build/continue_video_implementation.tcl",
+    "-log",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/reports/l2_1m_4bank/full_implementation/vivado.log",
+    "-journal",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/reports/l2_1m_4bank/full_implementation/vivado.jou"
+  ],
+  "synthesis_checkpoint_sha256": "df275b5b062e97f705171d028600a6374f3dc9161e520d140219b13eeed949ba",
+  "generation_context_sha256": "bb2875c498d3302955ce314298116971b563164f3a574da574f12b64256e31de",
+  "vivado_pid": 3,
+  "completed_steps": [
+    ".init_design.end.rst",
+    ".opt_design.end.rst",
+    ".phys_opt_design.end.rst",
+    ".place_design.end.rst",
+    ".post_route_phys_opt_design.end.rst",
+    ".route_design.end.rst",
+    ".vivado.end.rst",
+    ".write_bitstream.end.rst"
+  ],
+  "failed_steps": [],
+  "exit_code": 0,
+  "ended_utc": "2026-10-16T17:51:20.253154+00:00",
+  "bitstream_sha256": "b7290308c35b81961cb847cd9f538c508ebeffadaf9366407baf4436d5a8499a",
+  "routed_wns_ns": -7.159,
+  "routed_whs_ns": 0.0,
+  "timing_met": false
+}

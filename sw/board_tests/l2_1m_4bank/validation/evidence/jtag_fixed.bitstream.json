@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "file": "hardware/top_wrapper.bit",
+  "sha256": "b7290308c35b81961cb847cd9f538c508ebeffadaf9366407baf4436d5a8499a",
+  "run": "jtag_fixed_01",
+  "programmed_utc": "2026-10-17T02:49:20.108905+00:00",
+  "identity": "Host programming receipt; not a software-readable bitstream fingerprint"
+}

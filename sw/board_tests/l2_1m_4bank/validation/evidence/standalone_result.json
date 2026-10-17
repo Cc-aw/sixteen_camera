@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "copy_directory": "/tmp/l2_1m_4bank_standalone_lb__hnij/l2_1m_4bank",
+  "copy_method": "physical files; no archive or symbolic links",
+  "excluded": [
+    "build",
+    "logs",
+    "validation",
+    "config.local.mk",
+    "__pycache__",
+    "*.pyc"
+  ],
+  "board_accessed": false,
+  "commands": [
+    {
+      "command": [
+        "make",
+        "-C",
+        "/tmp/l2_1m_4bank_standalone_lb__hnij/l2_1m_4bank",
+        "-j4",
+        "all",
+        "host-check",
+        "CROSS=/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-",
+        "HOST_CC=cc",
+        "VIVADO_BIN=/mnt/data/Vivado/Vivado/2023.2/bin/vivado",
+        "OPENOCD_BIN=/home/wzr/riscv-openocd/src/openocd",
+        "GDB_BIN=/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gdb",
+        "GDB_PYTHONHOME=/home/wzr/chipyard/.conda-env",
+        "BOARD_JTAG_SERIAL=210357A7D00E"
+      ],
+      "exit_code": 0,
+      "log": "build/standalone_build.log"
+    },
+    {
+      "command": [
+        "make",
+        "-C",
+        "/tmp/l2_1m_4bank_standalone_lb__hnij/l2_1m_4bank",
+        "preflight",
+        "CROSS=/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-",
+        "HOST_CC=cc",
+        "VIVADO_BIN=/mnt/data/Vivado/Vivado/2023.2/bin/vivado",
+        "OPENOCD_BIN=/home/wzr/riscv-openocd/src/openocd",
+        "GDB_BIN=/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gdb",
+        "GDB_PYTHONHOME=/home/wzr/chipyard/.conda-env",
+        "BOARD_JTAG_SERIAL=210357A7D00E"
+      ],
+      "exit_code": 0,
+      "log": "build/standalone_preflight.log"
+    }
+  ],
+  "result": "PASS",
+  "completed_utc": "2026-10-17T02:36:27.411973+00:00"
+}

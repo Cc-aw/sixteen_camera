@@ -1,0 +1,110 @@
+make: 进入目录“/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank”
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/scripts/package.py prepare
+L2_BOARD_PREPARE=PASS build_id=5b2975ca38ebb1df9e0f7f4ca6daa9f3d67c89090ff55ae5a34390db4b22117c board_accessed=0
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/scripts/prepare.py
+ATSOFT1,GENERATED,baseline=v32,phases=165,conv=462,ws=224,model_ops_removed=0
+/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gcc -mabi=lp64d -mcmodel=medany -msmall-data-limit=0 -march=rv64gc -O2 -g -std=gnu11 -ffunction-sections -fdata-sections -ffreestanding -fno-builtin -fno-tree-vectorize -Wall -Wextra -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-sign-compare -Werror=implicit-function-declaration -Werror -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/generated -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/include -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/generated/include -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/model -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/model/include -MMD -MP -c /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/src/smoke_runtime.c -o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/smoke_runtime.o
+/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gcc -march=rv64gcv -mabi=lp64d -mcmodel=medany -msmall-data-limit=0 -O2 -g -std=gnu11 -ffunction-sections -fdata-sections -ffreestanding -fno-builtin -fno-tree-vectorize -Wall -Wextra -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-sign-compare -Werror=implicit-function-declaration -DATSOFT_THREE_WAY=1 -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/generated -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/include -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/generated/include -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/model -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/model/include -include /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/include/config.h -MMD -MP -c /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/src/reference_main.c -o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/reference.o
+/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gcc -march=rv64gcv -mabi=lp64d -mcmodel=medany -msmall-data-limit=0 -O2 -g -std=gnu11 -ffunction-sections -fdata-sections -ffreestanding -fno-builtin -fno-tree-vectorize -Wall -Wextra -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-sign-compare -Werror=implicit-function-declaration -DATSOFT_THREE_WAY=1 -DYOLO32_FRONTEND_DIAG=2 -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/generated -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/include -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/generated/include -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/model -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/model/include -include /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/include/config.h -MMD -MP -c /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/src/diagnostic_main.c -o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/diagnostic.o
+cc -O2 -g -std=gnu11 -ffunction-sections -fdata-sections -ffreestanding -fno-builtin -fno-tree-vectorize -Wall -Wextra -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-sign-compare -Werror=implicit-function-declaration -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/generated -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/include -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/generated/include -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/model -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/model/include -include /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/include/config.h -DATSOFT_THREE_WAY=1 /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/reference/src/main.c /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/model/inputs.c -Wl,--gc-sections -lm -o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/plan_check
+/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gcc -march=rv64gcv -mabi=lp64d -mcmodel=medany -msmall-data-limit=0 -nostdlib -nostartfiles -Wl,--gc-sections,-Map,/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/l2_smoke.map -T /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/reference/src/link.ld /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/reference/src/start.S /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/l2_smoke.o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/smoke_runtime.o -lgcc -o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/l2_smoke.elf
+/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/reference/src/main.c: In function ‘append’:
+/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/reference/src/main.c:64:13: note: the ABI for passing parameters with 32-byte alignment has changed in GCC 4.6
+   64 | static void append(GfCommand c) {
+      |             ^~~~~~
+/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gcc -march=rv64gcv -mabi=lp64d -mcmodel=medany -msmall-data-limit=0 -nostdlib -nostartfiles -Wl,--gc-sections,-Map,/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/yolov5_reference.map -T /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/reference/src/link.ld /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/reference/src/start.S /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/reference.o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/irq.o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/support.o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/inputs.o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/publication.o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/queue.o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/slots.o -lm -lgcc -o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/yolov5_reference.elf
+/home/wzr/chipyard/.conda-env/riscv-tools/bin/../lib/gcc/riscv64-unknown-elf/13.2.0/../../../../riscv64-unknown-elf/bin/ld: warning: /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/yolov5_reference.elf has a LOAD segment with RWX permissions
+/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/plan_check /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/adapted_plan.txt
+ATSOFT1,PLAN_PASS,tables=18,entries_per_frame=10870,raw=10478,conv=462,ws=224,pad_hosts=6,head_hosts=6,owned_operands=1,hardware_executed=0
+cc -O2 -g -std=gnu11 -ffunction-sections -fdata-sections -ffreestanding -fno-builtin -fno-tree-vectorize -Wall -Wextra -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-sign-compare -Werror=implicit-function-declaration -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/generated -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/include -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/generated/include -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/model -I/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/model/include -include /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/include/config.h -DATSOFT_THREE_WAY=1 -DATSOFT_NATIVE_ORACLE=1 /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/reference/src/main.c /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/model/inputs.c -Wl,--gc-sections -lm -o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/native_plan_check
+/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gcc -march=rv64gcv -mabi=lp64d -mcmodel=medany -msmall-data-limit=0 -nostdlib -nostartfiles -Wl,--gc-sections,-Map,/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/yolov5_diagnostic.map -T /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/reference/src/link.ld /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/reference/src/start.S /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/diagnostic.o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/boundary_irq.o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/support.o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/inputs.o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/publication.o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/queue.o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/obj/slots.o -lm -lgcc -o /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/yolov5_diagnostic.elf
+/home/wzr/chipyard/.conda-env/riscv-tools/bin/../lib/gcc/riscv64-unknown-elf/13.2.0/../../../../riscv64-unknown-elf/bin/ld: warning: /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/yolov5_diagnostic.elf has a LOAD segment with RWX permissions
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/scripts/package.py record
+ATSOFT1,ELF_CHECK_PASS,modes=3,diagnostics=0,model=v32,dim=32,scale=fp16,entry=0x82000000,direct=custom0,frontend=custom3,ppu=hardware,old_csrs=0,irq_preserves_rvv=1,hardware_accessed=0
+ATSOFT1,ELF_CHECK_PASS,modes=3,diagnostics=2,model=v32,dim=32,scale=fp16,entry=0x82000000,direct=custom0,frontend=custom3,ppu=hardware,old_csrs=0,irq_preserves_rvv=1,hardware_accessed=0
+L2_BOARD_BUILD=PASS self_contained=1 tests=3 board_accessed=0
+In file included from /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/reference/src/main.c:107:
+/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/generated/native_graph.inc: In function ‘yolov5nu_dim16_worker_poll’:
+/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/generated/native_graph.inc:2428:17: warning: variable ‘model_input’ set but not used [-Wunused-but-set-variable]
+ 2428 |   const elem_t *model_input;
+      |                 ^~~~~~~~~~~
+/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/reference/src/main.c: In function ‘append’:
+/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/reference/src/main.c:64:13: note: the ABI for passing parameters with 32-byte alignment has changed in GCC 4.6
+   64 | static void append(GfCommand c) {
+      |             ^~~~~~
+/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/native_plan_check /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/native_plan.txt
+ATSOFT1,PLAN_PASS,tables=18,entries_per_frame=10870,raw=10478,conv=462,ws=224,pad_hosts=6,head_hosts=6,owned_operands=1,hardware_executed=0
+cmp /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/adapted_plan.txt /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/native_plan.txt
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/tests/reference/test_log.py
+test_complete_formal_and_diag (__main__.Contract.test_complete_formal_and_diag) ... ok
+test_corrupt_fields_and_false_success (__main__.Contract.test_corrupt_fields_and_false_success) ... ok
+test_diag_contract (__main__.Contract.test_diag_contract) ... ok
+test_duplicate_and_unknown_fields (__main__.Contract.test_duplicate_and_unknown_fields) ... ok
+test_firmware_failure_and_old_logs (__main__.Contract.test_firmware_failure_and_old_logs) ... ok
+test_interval_integral_and_refill (__main__.Contract.test_interval_integral_and_refill) ... ok
+test_missing_duplicate_and_truncated (__main__.Contract.test_missing_duplicate_and_truncated) ... ok
+test_multiple_boots_keep_diagnostics_separate (__main__.Contract.test_multiple_boots_keep_diagnostics_separate) ... ok
+test_real_c_report_and_summaries (__main__.Contract.test_real_c_report_and_summaries) ... ok
+test_unbalanced_or_overlap (__main__.Contract.test_unbalanced_or_overlap) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.073s
+
+OK
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/tests/reference/test_boundary.py
+test_actual_scheduler_memory_and_report (__main__.Boundary.test_actual_scheduler_memory_and_report) ... ok
+test_asynchronous_schedule_seeds (__main__.Boundary.test_asynchronous_schedule_seeds) ... ok
+test_driver_rejects_selector_sequence_reset_and_owned_counter (__main__.Boundary.test_driver_rejects_selector_sequence_reset_and_owned_counter) ... expected-or-fatal:memory_selector
+expected-or-fatal:memory_snapshot
+expected-or-fatal:counter_on_owned_lane
+expected-or-fatal:memory_external_reset_or_invalid_command
+expected-or-fatal:memory_snapshot_changed
+ok
+test_four_bank_abi_and_extension_decoding (__main__.Boundary.test_four_bank_abi_and_extension_decoding) ... ok
+test_memory_missing_duplicate_and_bad_sequence (__main__.Boundary.test_memory_missing_duplicate_and_bad_sequence) ... ok
+test_missing_duplicate_and_corrupt_boundary (__main__.Boundary.test_missing_duplicate_and_corrupt_boundary) ... ok
+test_no_false_completion_from_primary_pass (__main__.Boundary.test_no_false_completion_from_primary_pass) ... ok
+test_preserved_v33_logs_and_mixed_boots (__main__.Boundary.test_preserved_v33_logs_and_mixed_boots) ... ok
+test_short_pair_and_counter_faults (__main__.Boundary.test_short_pair_and_counter_faults) ... ok
+test_unmapped_probe_has_explicit_missing_coverage (__main__.Boundary.test_unmapped_probe_has_explicit_missing_coverage) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 1.911s
+
+OK
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/tests/test_package.py
+test_actual_cpu_smoke_complete (__main__.Package.test_actual_cpu_smoke_complete) ... ok
+test_actual_smoke_rejects_mmio_and_data_faults (__main__.Package.test_actual_smoke_rejects_mmio_and_data_faults) ... ok
+test_diagnostic_four_bank_complete_and_partial_pass (__main__.Package.test_diagnostic_four_bank_complete_and_partial_pass) ... ok
+test_formal_workload_and_comparison_are_same_elf (__main__.Package.test_formal_workload_and_comparison_are_same_elf) ... ok
+test_local_inputs_and_path_escape (__main__.Package.test_local_inputs_and_path_escape) ... ok
+test_smoke_missing_duplicate_and_out_of_order_counters (__main__.Package.test_smoke_missing_duplicate_and_out_of_order_counters) ... ok
+test_unrelated_parent_file_does_not_invalidate (__main__.Package.test_unrelated_parent_file_does_not_invalidate) ... ok
+test_wrong_boot_identity_and_mixed_logs (__main__.Package.test_wrong_boot_identity_and_mixed_logs) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.671s
+
+OK
+L2_BOARD_AUDIT=PASS self_contained=1 board_accessed=0
+L2_BOARD_AUDIT=PASS self_contained=1 board_accessed=0
+L2_BOARD_AUDIT=PASS self_contained=1 board_accessed=0
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/tests/test_programming.py
+test_existing_regular_ipc_reopens_without_creation (__main__.Programming.test_existing_regular_ipc_reopens_without_creation) ... ok
+test_other_paths_exclusive_and_truncation_are_not_retried (__main__.Programming.test_other_paths_exclusive_and_truncation_are_not_retried) ... ok
+test_private_server_env_and_cleanup_on_success_and_failure (__main__.Programming.test_private_server_env_and_cleanup_on_success_and_failure) ... JTAG_SERVER=127.0.0.1:43567 private=1
+JTAG_SERVER_LOG=/tmp/adept_compat_r48i6fhd/logs/hw_server.log
+JTAG_SERVER=127.0.0.1:43567 private=1
+JTAG_SERVER_LOG=/tmp/adept_compat_r48i6fhd/logs/hw_server.log
+JTAG_DOWNLOAD=FAIL log=/tmp/adept_compat_r48i6fhd/logs/program.log server_log=/tmp/adept_compat_r48i6fhd/logs/hw_server.log
+ok
+test_server_cleanup_on_startup_failure (__main__.Programming.test_server_cleanup_on_startup_failure) ... JTAG_SERVER=127.0.0.1:43568 private=1
+JTAG_SERVER_LOG=/tmp/adept_compat_r48i6fhd/startup/hw_server.log
+ok
+test_symlink_fifo_and_missing_file_are_not_retried (__main__.Programming.test_symlink_fifo_and_missing_file_are_not_retried) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.104s
+
+OK
+make: 离开目录“/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank”

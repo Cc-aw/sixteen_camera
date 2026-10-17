@@ -1,0 +1,63 @@
+Open On-Chip Debugger 0.12.0+dev-04404-geb01c632a (2026-07-06-07:51)
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+Info : Nested Tap based Bscan Tunnel Selected
+Info : Bscan tunnel IR 0x8e4924 selected
+Info : clock speed 20000 kHz
+Info : JTAG tap: riscv.cpu tap/device found: 0x04b51093 (mfg: 0x049 (Xilinx), part: 0x4b51, ver: 0x0)
+Info : [riscv.cpu.0] datacount=8 progbufsize=16
+Info : [riscv.cpu.0] Vector support with vlenb=32
+Info : [riscv.cpu.0] Examined RISC-V core
+Info : [riscv.cpu.0]  XLEN=64, misa=0x8000000000b4112d
+[riscv.cpu.0] Target successfully examined.
+Info : [riscv.cpu.0] Examination succeed
+Info : [riscv.cpu.0] starting gdb server on 3333
+Info : Listening on port 3333 for gdb connections
+riscv.cpu.0 halted due to debug-request.
+Info : Listening on port 6666 for tcl connections
+Info : Listening on port 4444 for telnet connections
+Info : accepting 'gdb' connection on tcp/3333
+riscv.cpu.0 halted due to debug-request.
+riscv.cpu.0 halted due to debug-request.
+Error: [riscv.cpu.0] Timed out after 5s waiting for busy to go low (abstractcs=0x10001008). Increase the timeout with riscv set_command_timeout_sec.
+Error: [riscv.cpu.0] Failed to read memory (addr=0x833d5418)
+  progbuf=failed (execute abstract failed), sysbus=disabled, abstract=disabled
+Error: [riscv.cpu.0] Timed out after 5s waiting for busy to go low (abstractcs=0x10001108). Increase the timeout with riscv set_command_timeout_sec.
+Error: [riscv.cpu.0] Unexpected write to s1 via program buffer.
+Info : [riscv.cpu.0] datacount=8 progbufsize=16
+Error: [riscv.cpu.0] Timed out after 5s waiting for busy to go low (abstractcs=0x10001108). Increase the timeout with riscv set_command_timeout_sec.
+Error: [riscv.cpu.0] Examination failed
+Error: Target not examined yet
+Info : [riscv.cpu.0] datacount=8 progbufsize=16
+Error: [riscv.cpu.0] Timed out after 5s waiting for busy to go low (abstractcs=0x10001108). Increase the timeout with riscv set_command_timeout_sec.
+Error: [riscv.cpu.0] Examination failed
+Error: Target not examined yet
+Info : [riscv.cpu.0] datacount=8 progbufsize=16
+Error: [riscv.cpu.0] Timed out after 5s waiting for busy to go low (abstractcs=0x10001108). Increase the timeout with riscv set_command_timeout_sec.
+Error: [riscv.cpu.0] Examination failed
+Error: Target not examined yet
+Info : [riscv.cpu.0] datacount=8 progbufsize=16
+Error: [riscv.cpu.0] Timed out after 5s waiting for busy to go low (abstractcs=0x10001108). Increase the timeout with riscv set_command_timeout_sec.
+Error: [riscv.cpu.0] Examination failed
+Error: Target not examined yet
+Info : [riscv.cpu.0] datacount=8 progbufsize=16
+Error: [riscv.cpu.0] Timed out after 5s waiting for busy to go low (abstractcs=0x10001108). Increase the timeout with riscv set_command_timeout_sec.
+Error: [riscv.cpu.0] Examination failed
+Error: Target not examined yet
+Info : [riscv.cpu.0] datacount=8 progbufsize=16
+Error: [riscv.cpu.0] Timed out after 5s waiting for busy to go low (abstractcs=0x10001108). Increase the timeout with riscv set_command_timeout_sec.
+Error: [riscv.cpu.0] Examination failed
+Error: Target not examined yet
+Info : [riscv.cpu.0] datacount=8 progbufsize=16
+Error: [riscv.cpu.0] Timed out after 5s waiting for busy to go low (abstractcs=0x10001108). Increase the timeout with riscv set_command_timeout_sec.
+Error: [riscv.cpu.0] Examination failed
+Error: Target not examined yet
+Info : [riscv.cpu.0] datacount=8 progbufsize=16
+Error: [riscv.cpu.0] Timed out after 5s waiting for busy to go low (abstractcs=0x10001108). Increase the timeout with riscv set_command_timeout_sec.
+Error: [riscv.cpu.0] Examination failed
+Error: Target not examined yet
+Info : [riscv.cpu.0] datacount=8 progbufsize=16
+Error: [riscv.cpu.0] Timed out after 5s waiting for busy to go low (abstractcs=0x10001108). Increase the timeout with riscv set_command_timeout_sec.
+Error: [riscv.cpu.0] Examination failed
+Info : [riscv.cpu.0] datacount=8 progbufsize=16

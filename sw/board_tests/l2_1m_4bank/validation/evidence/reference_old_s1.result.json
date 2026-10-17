@@ -1,0 +1,636 @@
+{
+  "schema": 1,
+  "valid": true,
+  "test": "reference",
+  "build_id": "5b2975ca38ebb1df9e0f7f4ca6daa9f3d67c89090ff55ae5a34390db4b22117c",
+  "elf_sha256": "4e64eed91c7cae0aa0fe5820b0abf751e6019cf9787416280839f5722d550330",
+  "source_revision": "d7cbd61836cc2f4336e07c42d7ca2cd3a741a35b",
+  "elf_identity": "LOCAL_MANIFEST_DECLARATION",
+  "board_identity": "Host receipt or operator declaration; no on-board bitstream fingerprint",
+  "result": {
+    "sessions": [
+      {
+        "build": {
+          "schema": 1,
+          "version": 33,
+          "diagnostics": 0,
+          "frames": 12,
+          "modes": 3,
+          "clock_hz": 100000000,
+          "control_abi": 131072,
+          "entries_per_frame": 10870,
+          "raw_per_frame": 10478,
+          "drains_per_frame": 380,
+          "hosts_per_frame": 12,
+          "ppu": "hardware"
+        },
+        "modes": [
+          {
+            "summary": {
+              "executor": "direct_serial",
+              "frames": 12,
+              "devices": 1,
+              "cycles": 112643922,
+              "device0_frames": 12,
+              "device1_frames": 0,
+              "device2_frames": 0,
+              "launches": 0,
+              "host_calls": 144,
+              "cpu_pad_cycles": 447914,
+              "irqs": 0,
+              "irq_body_cycles": 0,
+              "triple_samples": 0,
+              "busy_samples": 0,
+              "diagnostics": 0,
+              "ppu": "hardware",
+              "comparison_outside_timing": 1
+            },
+            "frames": [
+              {
+                "executor": "direct_serial",
+                "frame": 0,
+                "device": 0,
+                "image": 0,
+                "slot": 0,
+                "begin_cycles": 232,
+                "end_cycles": 9387835,
+                "frame_cycles": 9387603,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "direct_serial",
+                "frame": 1,
+                "device": 0,
+                "image": 1,
+                "slot": 1,
+                "begin_cycles": 9387935,
+                "end_cycles": 18776628,
+                "frame_cycles": 9388693,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "direct_serial",
+                "frame": 2,
+                "device": 0,
+                "image": 2,
+                "slot": 0,
+                "begin_cycles": 18776752,
+                "end_cycles": 28164661,
+                "frame_cycles": 9387909,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "direct_serial",
+                "frame": 3,
+                "device": 0,
+                "image": 0,
+                "slot": 1,
+                "begin_cycles": 28164766,
+                "end_cycles": 37552379,
+                "frame_cycles": 9387613,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "direct_serial",
+                "frame": 4,
+                "device": 0,
+                "image": 1,
+                "slot": 0,
+                "begin_cycles": 37552522,
+                "end_cycles": 46939773,
+                "frame_cycles": 9387251,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "direct_serial",
+                "frame": 5,
+                "device": 0,
+                "image": 2,
+                "slot": 1,
+                "begin_cycles": 46939914,
+                "end_cycles": 56324252,
+                "frame_cycles": 9384338,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "direct_serial",
+                "frame": 6,
+                "device": 0,
+                "image": 0,
+                "slot": 0,
+                "begin_cycles": 56324432,
+                "end_cycles": 65708988,
+                "frame_cycles": 9384556,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "direct_serial",
+                "frame": 7,
+                "device": 0,
+                "image": 1,
+                "slot": 1,
+                "begin_cycles": 65709129,
+                "end_cycles": 75095158,
+                "frame_cycles": 9386029,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "direct_serial",
+                "frame": 8,
+                "device": 0,
+                "image": 2,
+                "slot": 0,
+                "begin_cycles": 75095259,
+                "end_cycles": 84481540,
+                "frame_cycles": 9386281,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "direct_serial",
+                "frame": 9,
+                "device": 0,
+                "image": 0,
+                "slot": 1,
+                "begin_cycles": 84481641,
+                "end_cycles": 93869047,
+                "frame_cycles": 9387406,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "direct_serial",
+                "frame": 10,
+                "device": 0,
+                "image": 1,
+                "slot": 0,
+                "begin_cycles": 93869148,
+                "end_cycles": 103257586,
+                "frame_cycles": 9388438,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "direct_serial",
+                "frame": 11,
+                "device": 0,
+                "image": 2,
+                "slot": 1,
+                "begin_cycles": 103257692,
+                "end_cycles": 112643797,
+                "frame_cycles": 9386105,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              }
+            ],
+            "derived": {
+              "ownership_overlap_cycles": [
+                1700,
+                112642222,
+                0,
+                0
+              ],
+              "lanes": [
+                {
+                  "device": 0,
+                  "frames": 12,
+                  "first_begin_cycles": 232,
+                  "last_end_cycles": 112643797,
+                  "lifetime_cycles": 112642222,
+                  "observed_refill_gap_cycles": 1343,
+                  "observed_refill_gap_max": 180,
+                  "final_tail_cycles": 125
+                }
+              ],
+              "frame_lifetime_median": 9387328.5
+            }
+          },
+          {
+            "summary": {
+              "executor": "frontend_serial",
+              "frames": 12,
+              "devices": 1,
+              "cycles": 110977269,
+              "device0_frames": 12,
+              "device1_frames": 0,
+              "device2_frames": 0,
+              "launches": 12,
+              "host_calls": 144,
+              "cpu_pad_cycles": 446604,
+              "irqs": 292,
+              "irq_body_cycles": 6153,
+              "triple_samples": 0,
+              "busy_samples": 1109,
+              "diagnostics": 0,
+              "ppu": "hardware",
+              "comparison_outside_timing": 1
+            },
+            "frames": [
+              {
+                "executor": "frontend_serial",
+                "frame": 0,
+                "device": 0,
+                "image": 0,
+                "slot": 0,
+                "begin_cycles": 591,
+                "end_cycles": 9247426,
+                "frame_cycles": 9246835,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_serial",
+                "frame": 1,
+                "device": 0,
+                "image": 1,
+                "slot": 1,
+                "begin_cycles": 9247614,
+                "end_cycles": 18495882,
+                "frame_cycles": 9248268,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_serial",
+                "frame": 2,
+                "device": 0,
+                "image": 2,
+                "slot": 0,
+                "begin_cycles": 18496030,
+                "end_cycles": 27744081,
+                "frame_cycles": 9248051,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_serial",
+                "frame": 3,
+                "device": 0,
+                "image": 0,
+                "slot": 1,
+                "begin_cycles": 27744211,
+                "end_cycles": 36992958,
+                "frame_cycles": 9248747,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_serial",
+                "frame": 4,
+                "device": 0,
+                "image": 1,
+                "slot": 0,
+                "begin_cycles": 36993126,
+                "end_cycles": 46240304,
+                "frame_cycles": 9247178,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_serial",
+                "frame": 5,
+                "device": 0,
+                "image": 2,
+                "slot": 1,
+                "begin_cycles": 46240475,
+                "end_cycles": 55489246,
+                "frame_cycles": 9248771,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_serial",
+                "frame": 6,
+                "device": 0,
+                "image": 0,
+                "slot": 0,
+                "begin_cycles": 55489415,
+                "end_cycles": 64737052,
+                "frame_cycles": 9247637,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_serial",
+                "frame": 7,
+                "device": 0,
+                "image": 1,
+                "slot": 1,
+                "begin_cycles": 64737219,
+                "end_cycles": 73987096,
+                "frame_cycles": 9249877,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_serial",
+                "frame": 8,
+                "device": 0,
+                "image": 2,
+                "slot": 0,
+                "begin_cycles": 73987227,
+                "end_cycles": 83235309,
+                "frame_cycles": 9248082,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_serial",
+                "frame": 9,
+                "device": 0,
+                "image": 0,
+                "slot": 1,
+                "begin_cycles": 83235440,
+                "end_cycles": 92484366,
+                "frame_cycles": 9248926,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_serial",
+                "frame": 10,
+                "device": 0,
+                "image": 1,
+                "slot": 0,
+                "begin_cycles": 92484495,
+                "end_cycles": 101731999,
+                "frame_cycles": 9247504,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_serial",
+                "frame": 11,
+                "device": 0,
+                "image": 2,
+                "slot": 1,
+                "begin_cycles": 101732170,
+                "end_cycles": 110977011,
+                "frame_cycles": 9244841,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              }
+            ],
+            "derived": {
+              "ownership_overlap_cycles": [
+                2552,
+                110974717,
+                0,
+                0
+              ],
+              "lanes": [
+                {
+                  "device": 0,
+                  "frames": 12,
+                  "first_begin_cycles": 591,
+                  "last_end_cycles": 110977011,
+                  "lifetime_cycles": 110974717,
+                  "observed_refill_gap_cycles": 1703,
+                  "observed_refill_gap_max": 188,
+                  "final_tail_cycles": 258
+                }
+              ],
+              "frame_lifetime_median": 9248066.5
+            }
+          },
+          {
+            "summary": {
+              "executor": "frontend_parallel",
+              "frames": 12,
+              "devices": 3,
+              "cycles": 43519817,
+              "device0_frames": 4,
+              "device1_frames": 4,
+              "device2_frames": 4,
+              "launches": 12,
+              "host_calls": 144,
+              "cpu_pad_cycles": 584999,
+              "irqs": 239,
+              "irq_body_cycles": 5235,
+              "triple_samples": 393,
+              "busy_samples": 435,
+              "diagnostics": 0,
+              "ppu": "hardware",
+              "comparison_outside_timing": 1
+            },
+            "frames": [
+              {
+                "executor": "frontend_parallel",
+                "frame": 0,
+                "device": 0,
+                "image": 0,
+                "slot": 0,
+                "begin_cycles": 327,
+                "end_cycles": 10939280,
+                "frame_cycles": 10938953,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_parallel",
+                "frame": 1,
+                "device": 1,
+                "image": 1,
+                "slot": 0,
+                "begin_cycles": 2443,
+                "end_cycles": 10963149,
+                "frame_cycles": 10960706,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_parallel",
+                "frame": 2,
+                "device": 2,
+                "image": 2,
+                "slot": 0,
+                "begin_cycles": 4291,
+                "end_cycles": 10915965,
+                "frame_cycles": 10911674,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_parallel",
+                "frame": 3,
+                "device": 2,
+                "image": 0,
+                "slot": 1,
+                "begin_cycles": 10916096,
+                "end_cycles": 21757725,
+                "frame_cycles": 10841629,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_parallel",
+                "frame": 4,
+                "device": 0,
+                "image": 1,
+                "slot": 1,
+                "begin_cycles": 10939359,
+                "end_cycles": 21781632,
+                "frame_cycles": 10842273,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_parallel",
+                "frame": 5,
+                "device": 1,
+                "image": 2,
+                "slot": 1,
+                "begin_cycles": 10963274,
+                "end_cycles": 21805661,
+                "frame_cycles": 10842387,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_parallel",
+                "frame": 6,
+                "device": 2,
+                "image": 0,
+                "slot": 0,
+                "begin_cycles": 21757888,
+                "end_cycles": 32607965,
+                "frame_cycles": 10850077,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_parallel",
+                "frame": 7,
+                "device": 0,
+                "image": 1,
+                "slot": 0,
+                "begin_cycles": 21781778,
+                "end_cycles": 32631824,
+                "frame_cycles": 10850046,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_parallel",
+                "frame": 8,
+                "device": 1,
+                "image": 2,
+                "slot": 0,
+                "begin_cycles": 21805785,
+                "end_cycles": 32656036,
+                "frame_cycles": 10850251,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_parallel",
+                "frame": 9,
+                "device": 2,
+                "image": 0,
+                "slot": 1,
+                "begin_cycles": 32608119,
+                "end_cycles": 43471619,
+                "frame_cycles": 10863500,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_parallel",
+                "frame": 10,
+                "device": 0,
+                "image": 1,
+                "slot": 1,
+                "begin_cycles": 32631899,
+                "end_cycles": 43495611,
+                "frame_cycles": 10863712,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              },
+              {
+                "executor": "frontend_parallel",
+                "frame": 11,
+                "device": 1,
+                "image": 2,
+                "slot": 1,
+                "begin_cycles": 32656115,
+                "end_cycles": 43519673,
+                "frame_cycles": 10863558,
+                "host_calls": 12,
+                "marker": "COMPLETE"
+              }
+            ],
+            "derived": {
+              "ownership_overlap_cycles": [
+                471,
+                26178,
+                26916,
+                43466252
+              ],
+              "lanes": [
+                {
+                  "device": 0,
+                  "frames": 4,
+                  "first_begin_cycles": 327,
+                  "last_end_cycles": 43495611,
+                  "lifetime_cycles": 43494984,
+                  "observed_refill_gap_cycles": 300,
+                  "observed_refill_gap_max": 146,
+                  "final_tail_cycles": 24206
+                },
+                {
+                  "device": 1,
+                  "frames": 4,
+                  "first_begin_cycles": 2443,
+                  "last_end_cycles": 43519673,
+                  "lifetime_cycles": 43516902,
+                  "observed_refill_gap_cycles": 328,
+                  "observed_refill_gap_max": 125,
+                  "final_tail_cycles": 144
+                },
+                {
+                  "device": 2,
+                  "frames": 4,
+                  "first_begin_cycles": 4291,
+                  "last_end_cycles": 43471619,
+                  "lifetime_cycles": 43466880,
+                  "observed_refill_gap_cycles": 448,
+                  "observed_refill_gap_max": 163,
+                  "final_tail_cycles": 48198
+                }
+              ],
+              "frame_lifetime_median": 10856875.5
+            }
+          }
+        ],
+        "complete": true,
+        "perf": {
+          "direct_cycles": 112643922,
+          "frontend_single_cycles": 110977269,
+          "frontend_parallel_cycles": 43519817,
+          "direct_to_single_x1000": 1015,
+          "frontend_scaling_x1000": 2550,
+          "direct_to_parallel_x1000": 2588
+        },
+        "ratios": {
+          "direct_to_single": 1.0150179673280662,
+          "frontend_scaling": 2.5500398818313044,
+          "direct_to_parallel": 2.5883362974619124,
+          "average_parallel_frame_cycles": 3626651.4166666665,
+          "target_2p8_parallel_max": 40229972,
+          "remaining_to_2p8": 3289845
+        }
+      }
+    ],
+    "text_report": "\u4f1a\u8bdd 1\uff0cdiagnostics=0\uff1b\u6bcf\u7ec4 12 \u5e27\uff0c\u5355\u4f4d\u4e3a\u5468\u671f\u3002\n  direct_serial: \u6574\u7ec4=112,643,922\uff0c\u5e27\u751f\u547d\u5468\u671f\u4e2d\u4f4d\u6570=9,387,328.5\uff1bHOST=144\uff0cCPU \u586b\u5145=447,914\uff0cIRQ \u51fd\u6570\u4f53=0\u3002\n  frontend_serial: \u6574\u7ec4=110,977,269\uff0c\u5e27\u751f\u547d\u5468\u671f\u4e2d\u4f4d\u6570=9,248,066.5\uff1bHOST=144\uff0cCPU \u586b\u5145=446,604\uff0cIRQ \u51fd\u6570\u4f53=6,153\u3002\n  frontend_parallel: \u6574\u7ec4=43,519,817\uff0c\u5e27\u751f\u547d\u5468\u671f\u4e2d\u4f4d\u6570=10,856,875.5\uff1bHOST=144\uff0cCPU \u586b\u5145=584,999\uff0cIRQ \u51fd\u6570\u4f53=5,235\u3002\n    \u540c\u65f6\u62e5\u6709 0/1/2/3 \u4e2a\u5e27\u7684\u5468\u671f=471,26,178,26,916,43,466,252\n    \u4e09\u8def\u786c\u4ef6 busy \u6761\u4ef6\u6837\u672c=393/435\uff1b\u7a00\u758f\u91c7\u6837\uff0c\u4e0d\u662f\u8fde\u7eed\u8ba1\u7b97\u5229\u7528\u7387\u3002\n    \u901a\u9053 0: \u5e27\u6570=4\uff0c\u89c2\u6d4b\u7eed\u5e27\u95f4\u9699\u5408\u8ba1=300\uff0c\u6700\u957f=146\u3002\n    \u901a\u9053 1: \u5e27\u6570=4\uff0c\u89c2\u6d4b\u7eed\u5e27\u95f4\u9699\u5408\u8ba1=328\uff0c\u6700\u957f=125\u3002\n    \u901a\u9053 2: \u5e27\u6570=4\uff0c\u89c2\u6d4b\u7eed\u5e27\u95f4\u9699\u5408\u8ba1=448\uff0c\u6700\u957f=163\u3002\n  CPU \u76f4\u63a5/\u5355\u524d\u7aef=1.015018\uff1b\u5355\u524d\u7aef/\u4e09\u524d\u7aef=2.550040\uff1bCPU \u76f4\u63a5/\u4e09\u524d\u7aef=2.588336\u3002\n  \u4e09\u524d\u7aef\u5e73\u5747\u6bcf\u5e27\u541e\u5410\u53e3\u5f84=3,626,651.42 \u5468\u671f\uff1b\u8fbe\u5230\u76f8\u5bf9 CPU \u76f4\u63a5\u8def\u5f84 2.8 \u500d\u4ecd\u9700\u51cf\u5c11=3,289,845 \u5468\u671f\u3002\n\u751f\u547d\u5468\u671f\u5305\u542b HOST \u548c PPU \u7b49\u5f85\uff1bHead \u53d1\u5e03\u3001\u586b\u5145\u3001IRQ \u7b49\u7edf\u8ba1\u53ef\u80fd\u5305\u542b\u963b\u585e\u6216\u76f8\u4e92\u91cd\u53e0\uff0c\u4e0d\u80fd\u76f8\u52a0\u4e3a\u53ef\u8282\u7701\u5468\u671f\u3002\u6b63\u5f0f\u548c\u8bca\u65ad\u7ed3\u679c\u5206\u522b\u6bd4\u8f83\u3002\n\u672c\u8f6e\u4e0d\u8f93\u51fa\u539f\u59cb Head \u6216\u5168\u90e8 PPU \u5b57\uff1b\u4e00\u81f4\u6027\u7531\u56fa\u4ef6\u5185\u90e8\u9010\u5e27\u6bd4\u8f83\u68c0\u6d4b\u6570\u53ca 40 \u4e2a PPU \u5b57\u786e\u8ba4\uff0c\u72ec\u7acb\u68c0\u6d4b\u7cbe\u5ea6\u672a\u9a8c\u8bc1\u3002",
+    "complete": true
+  },
+  "comparison_group": "old_2bank"
+}

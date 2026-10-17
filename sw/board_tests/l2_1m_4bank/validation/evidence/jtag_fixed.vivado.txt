@@ -1,0 +1,79 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:13:54 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Sat Oct 17 10:48:04 2026
+# Process ID: 3530108
+# Current directory: /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/logs/jtag_fixed_01
+# Command line: vivado -mode batch -log /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/logs/jtag_fixed_01/vivado_program.log -source /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/program/program_bitstream.tcl
+# Log file: /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/logs/jtag_fixed_01/vivado_program.log
+# Journal file: /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/logs/jtag_fixed_01/vivado.jou
+# Running On: tsmc184, OS: Linux, CPU Frequency: 5500.000 MHz, CPU Physical cores: 24, Host memory: 134794 MB
+#-----------------------------------------------------------
+source /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/program/program_bitstream.tcl
+# set script_dir [file dirname [file normalize [info script]]]
+# set bitstream_file [file normalize [file join $script_dir .. hardware top_wrapper.bit]]
+# if {[info exists ::env(BITSTREAM_FILE)] && $::env(BITSTREAM_FILE) ne ""} {
+#     set bitstream_file [file normalize $::env(BITSTREAM_FILE)]
+# }
+# if {![file exists $bitstream_file]} {
+#     error "Bitstream not found: $bitstream_file"
+# }
+# open_hw_manager
+# if {[info exists ::env(HW_SERVER_URL)] && $::env(HW_SERVER_URL) ne ""} {
+#     connect_hw_server -url $::env(HW_SERVER_URL)
+# } else {
+#     connect_hw_server
+# }
+INFO: [Labtools 27-2285] Connecting to hw_server url TCP:127.0.0.1:43301
+INFO: [Labtools 27-3415] Connecting to cs_server url TCP:localhost:0
+INFO: [Labtools 27-3417] Launching cs_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+
+******** Xilinx cs_server v2023.2.0
+  ****** Build date   : Oct 10 2023-12:01:56
+    **** Build number : 2023.2.1696910516
+      ** Copyright 2017-2022 Xilinx, Inc. All Rights Reserved.
+      ** Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+
+# if {[llength [get_hw_targets * -quiet]] == 0} {
+#     refresh_hw_server
+# }
+# if {[llength [get_hw_targets * -quiet]] == 0} {
+#     error "No Vivado hardware target found; inspect hw_server.log and digilent_adept.log in this run directory"
+# }
+# set targets [get_hw_targets *]
+# if {[info exists ::env(BOARD_JTAG_SERIAL)] && $::env(BOARD_JTAG_SERIAL) ne ""} {
+#     set targets [lsearch -all -inline -glob $targets "*$::env(BOARD_JTAG_SERIAL)*"]
+# }
+# if {[llength $targets] != 1} {error "Select exactly one board with BOARD_JTAG_SERIAL"}
+# open_hw_target [lindex $targets 0]
+INFO: [Labtoolstcl 44-466] Opening hw_target 127.0.0.1:43301/xilinx_tcf/Digilent/210357A7D00EA
+# set devices [get_hw_devices]
+# if {[llength $devices] == 0} {
+#     error "No FPGA device found on hardware target"
+# }
+# set device [lindex $devices 0]
+# set_property PROGRAM.FILE $bitstream_file $device
+# program_hw_devices $device
+INFO: [Labtools 27-3164] End of startup status: HIGH
+program_hw_devices: Time (s): cpu = 00:01:04 ; elapsed = 00:01:04 . Memory (MB): peak = 1385.727 ; gain = 0.000 ; free physical = 47877 ; free virtual = 92643
+# puts "BITSTREAM_PROGRAM=PASS"
+BITSTREAM_PROGRAM=PASS
+# if {[catch {refresh_hw_device $device} refresh_error]} {
+#     puts "BITSTREAM_REFRESH_WARNING=$refresh_error"
+# } else {
+#     puts "BITSTREAM_REFRESH=PASS"
+# }
+WARNING: [Labtools 27-3089] Calibration is still in-progress.
+INFO: [Labtools 27-2302] Device xcvu13p (JTAG device index = 0) is programmed with a design that has 1 MIG core(s).
+BITSTREAM_REFRESH=PASS
+# close_hw_target
+INFO: [Labtoolstcl 44-464] Closing hw_target 127.0.0.1:43301/xilinx_tcf/Digilent/210357A7D00EA
+# disconnect_hw_server
+# close_hw_manager
+INFO: [Common 17-206] Exiting Vivado at Sat Oct 17 10:49:19 2026...

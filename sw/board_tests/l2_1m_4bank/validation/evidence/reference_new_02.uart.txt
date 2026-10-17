@@ -1,0 +1,2 @@
+L2BTEST,BUILD,schema=1,test=reference,build_id=5b2975ca38ebb1df9e0f7f4ca6daa9f3d67c89090ff55ae5a34390db4b22117c,source=d7cbd61836cc2f4336e07c42d7ca2cd3a741a35b
+YOLO32_FRONTEND,BUILD,schema=1,version=33,diagnostics=0,frames=12,modes=3,clock_hz=100000000,control_abi=131072,entries_per_frame=10870,raw_per_frame=10478,drains_per_frame=380,hosts_per_frame=12,ppu=hardware

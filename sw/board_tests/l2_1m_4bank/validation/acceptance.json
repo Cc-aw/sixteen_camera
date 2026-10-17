@@ -1,0 +1,223 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-17T02:37:04.899396+00:00",
+  "feature": "S1 L2 1 MiB / 4 bank independent board tests",
+  "frozen_revision": "d7cbd61836cc2f4336e07c42d7ca2cd3a741a35b",
+  "build_id": "0b029896dae878e5d85baeb65ce01065cfe81940c349053b36de82250c132814",
+  "result": "OFFLINE_PASS_BOARD_NOT_RUN",
+  "board_accessed": false,
+  "archives_created": false,
+  "physical_copied_inputs": 76,
+  "local_source_files": 93,
+  "compiler": "riscv64-unknown-elf-gcc (gc891d8dc23e) 13.2.0",
+  "compiler_dependency_entries": 108,
+  "artifacts": {
+    "smoke": {
+      "path": "build/l2_smoke.elf",
+      "sha256": "eb2d87aa9edebf883d4b098f1e044e5c501e840a3e64c089de3d35e80f8ab04c",
+      "bytes": 34168,
+      "disassembly_sha256": "d147faf3f575e06a15fb6546efe6768b762c8d26d00eb6164f6ca1a0974c9657"
+    },
+    "reference": {
+      "path": "build/yolov5_reference.elf",
+      "sha256": "96d1c50167c099832d5f462bab6707bb48241d468b5a250b3b99df8c0646eb28",
+      "bytes": 6804504,
+      "disassembly_sha256": "d1a487b082eda0d011aab9a4ed2175427dd05888ae9a83125bd9027b11a9ced9"
+    },
+    "diagnostic": {
+      "path": "build/yolov5_diagnostic.elf",
+      "sha256": "abbf4491f76be9a3e630200157d8e278f41549ba1d99e89496780762c4ffa0ac",
+      "bytes": 6962784,
+      "disassembly_sha256": "d92dec81a065f86fe05d18ff72c5f0dd9e1fdedfa9925f0b7ec2df6e7503b0af"
+    }
+  },
+  "hardware": {
+    "schema": 1,
+    "source_revision": "d7cbd61836cc2f4336e07c42d7ca2cd3a741a35b",
+    "bitstream": "hardware/top_wrapper.bit",
+    "bitstream_sha256": "b7290308c35b81961cb847cd9f538c508ebeffadaf9366407baf4436d5a8499a",
+    "bitstream_bytes": 113318492,
+    "generation_context_sha256": "bb2875c498d3302955ce314298116971b563164f3a574da574f12b64256e31de",
+    "clock_hz": 100000000,
+    "ddr_clock_hz": 300000000,
+    "l2_banks": 4,
+    "l2_bytes": 1048576,
+    "bank_mask": 12288,
+    "sets_per_bank": 512,
+    "ways": 8,
+    "line_bytes": 64,
+    "secondary_entries": 34,
+    "ordinary_mshrs": 32,
+    "statistics_abi": "1.2",
+    "statistics_blocks": 16,
+    "frontend_abi": 2,
+    "memory_data_bits": 512,
+    "memory_id_bits": 2,
+    "tensor_data_bits": 256,
+    "tensor_id_bits": 5,
+    "head": "S1",
+    "ddr_slice_mode": 1,
+    "timing_met": false,
+    "routed_wns_ns": -7.159,
+    "routed_whs_ns": 0.0,
+    "board_tested": false
+  },
+  "checks": [
+    {
+      "name": "build_three_rv64gcv_lp64d_elfs_and_abi_audits",
+      "result": "PASS",
+      "command": "make -j4 test",
+      "log": "build/test_release.log"
+    },
+    {
+      "name": "frozen_v33_report_contracts",
+      "result": "PASS",
+      "tests": 10
+    },
+    {
+      "name": "frozen_v34_actual_c_scheduler_mmio_and_reports",
+      "result": "PASS",
+      "tests": 10,
+      "scope": "Host C / MMIO simulation with ASan/UBSan; not FPGA execution"
+    },
+    {
+      "name": "local_cpu_memory_faults_log_integrity_and_isolation",
+      "result": "PASS",
+      "tests": 8,
+      "scope": "Actual smoke C with host fake MMIO, injected faults and synthetic logs"
+    },
+    {
+      "name": "model_plan_against_frozen_native_oracle",
+      "result": "PASS",
+      "tables": 18,
+      "comparison": "Byte-identical normalized plans; no Gemmini numerical execution"
+    },
+    {
+      "name": "programming_preflight",
+      "result": "PASS",
+      "command": "make preflight",
+      "log": "build/preflight.log",
+      "scope": "Tools/config/ELF/bitstream checks only"
+    },
+    {
+      "name": "physical_copy_rebuild_outside_repository",
+      "result": "PASS",
+      "source_hashes_identical": true,
+      "copy_build_id": "031758a923774f8ff5988e0c601ec37c12f96dec3e006e14c5f649020ef7acd7",
+      "copy_dependency_entries": 108,
+      "note": "Rebuild path is included in build identity; relocated ELFs may differ. Fixed A/B runs must use the same unchanged reference ELF.",
+      "record": {
+        "schema": 1,
+        "copy_directory": "/tmp/l2_1m_4bank_standalone_lb__hnij/l2_1m_4bank",
+        "copy_method": "physical files; no archive or symbolic links",
+        "excluded": [
+          "build",
+          "logs",
+          "validation",
+          "config.local.mk",
+          "__pycache__",
+          "*.pyc"
+        ],
+        "board_accessed": false,
+        "commands": [
+          {
+            "command": [
+              "make",
+              "-C",
+              "/tmp/l2_1m_4bank_standalone_lb__hnij/l2_1m_4bank",
+              "-j4",
+              "all",
+              "host-check",
+              "CROSS=/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-",
+              "HOST_CC=cc",
+              "VIVADO_BIN=/mnt/data/Vivado/Vivado/2023.2/bin/vivado",
+              "OPENOCD_BIN=/home/wzr/riscv-openocd/src/openocd",
+              "GDB_BIN=/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gdb",
+              "GDB_PYTHONHOME=/home/wzr/chipyard/.conda-env",
+              "BOARD_JTAG_SERIAL=210357A7D00E"
+            ],
+            "exit_code": 0,
+            "log": "build/standalone_build.log"
+          },
+          {
+            "command": [
+              "make",
+              "-C",
+              "/tmp/l2_1m_4bank_standalone_lb__hnij/l2_1m_4bank",
+              "preflight",
+              "CROSS=/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-",
+              "HOST_CC=cc",
+              "VIVADO_BIN=/mnt/data/Vivado/Vivado/2023.2/bin/vivado",
+              "OPENOCD_BIN=/home/wzr/riscv-openocd/src/openocd",
+              "GDB_BIN=/home/wzr/chipyard/.conda-env/riscv-tools/bin/riscv64-unknown-elf-gdb",
+              "GDB_PYTHONHOME=/home/wzr/chipyard/.conda-env",
+              "BOARD_JTAG_SERIAL=210357A7D00E"
+            ],
+            "exit_code": 0,
+            "log": "build/standalone_preflight.log"
+          }
+        ],
+        "result": "PASS",
+        "completed_utc": "2026-10-17T02:36:27.411973+00:00"
+      }
+    },
+    {
+      "name": "provenance_hashes_and_no_symlinks",
+      "result": "PASS"
+    },
+    {
+      "name": "no_compression_archive",
+      "result": "PASS"
+    }
+  ],
+  "log_artifacts": {
+    "build/test_release.log": {
+      "sha256": "4b02805496440c66952c27fb1e1ed57476cadc46691a2f629cebc32945d96a46",
+      "bytes": 16080
+    },
+    "build/preflight.log": {
+      "sha256": "88ab3c117e703c4f7e5ee08d281267a12b55ce9ccabffe7bf631f68601652ea8",
+      "bytes": 1263
+    },
+    "build/standalone_build.log": {
+      "sha256": "aee1c8eed9b753ba0cff703091242f5bbdee5321220a7b9797e119e6ad59926f",
+      "bytes": 17707
+    },
+    "build/standalone_preflight.log": {
+      "sha256": "c94a9f49dcc1acc2df17df71ade4a445d2880591d38bcd8e23b5d10c41f25359",
+      "bytes": 1101
+    },
+    "build/relocation_result.json": {
+      "sha256": "c641a4a2eff0422b439f393c261c17206d735e6849a41909538fad91bee1ad56",
+      "bytes": 1692
+    },
+    "build/manifest.json": {
+      "sha256": "9825ae5afac1f41d1140ca7612435da77551a567292cd7df75eafeb000419a04",
+      "bytes": 11707
+    },
+    "build/native_plan.txt": {
+      "sha256": "5aaa25b33ac92ce694672b390c234e13c2adcd287b32de542b01d16aa45a9a7d",
+      "bytes": 739814
+    },
+    "build/adapted_plan.txt": {
+      "sha256": "5aaa25b33ac92ce694672b390c234e13c2adcd287b32de542b01d16aa45a9a7d",
+      "bytes": 739814
+    }
+  },
+  "not_executed": {
+    "fpga_programming": "NOT_RUN",
+    "cpu_l2_ddr_board_smoke": "NOT_RUN",
+    "complete_yolov5_board_reference": "NOT_RUN",
+    "complete_yolov5_board_diagnostics": "NOT_RUN",
+    "same_elf_old_new_board_comparison": "NOT_RUN",
+    "board_performance_benefit": "NOT_MEASURED",
+    "independent_model_accuracy": "NOT_PROVEN"
+  },
+  "limitations": [
+    "Target bitstream was generated with routed WNS -7.159 ns; timing is not met.",
+    "Offline synthetic statistics and cycles are not board performance observations.",
+    "CPU smoke does not independently validate TensorIngress or all TileLink coherence states.",
+    "Old S1 bitstream differs in Tensor/DDR configuration; whole-system comparisons cannot isolate L2.",
+    "Download receipts identify host-selected files; no software-readable bitstream fingerprint is available."
+  ]
+}

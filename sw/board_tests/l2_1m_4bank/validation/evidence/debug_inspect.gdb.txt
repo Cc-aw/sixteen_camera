@@ -1,0 +1,39 @@
+PROBE_COMMAND=set pagination off
+PROBE_COMMAND=set confirm off
+PROBE_COMMAND=set remotetimeout 15
+PROBE_COMMAND=target extended-remote localhost:3333
+field (v=<optimized out>, s=<optimized out>) at /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/src/../reference/src/main.c:56
+56	    text("ATSOFT1,FAIL,reason=");text(s);field(",value=",v);field(",frame=",current_frame);field(",lane=",current_lane);field(",phase=",current_phase);text("\n");
+PROBE_SAMPLE=0
+PROBE_COMMAND=monitor halt
+riscv.cpu.0 halted due to debug-request.
+PROBE_COMMAND=info registers pc ra sp mstatus mie mepc mcause mtval
+pc             0x820001e2	0x820001e2 <at_fail+74>
+ra             0x820001dc	0x820001dc <at_fail+68>
+sp             0x83dd6930	0x83dd6930
+mstatus        0x8000000a0001e608	SD:1 VM:00 MXR:0 PUM:0 MPRV:0 XS:3 FS:3 MPP:0 HPP:3 SPP:0 MPIE:0 HPIE:0 SPIE:0 UPIE:0 MIE:1 HIE:0 SIE:0 UIE:0
+mie            0x0	0
+mepc           0x0	0
+mcause         0x0	0
+mtval          0x0	0
+PROBE_COMMAND=x/12i $pc-12
+   0x820001d6 <at_fail+62>:	li	a4,-31
+   0x820001d8 <at_fail+64>:	jal	0x82000072 <text>
+   0x820001dc <at_fail+68>:	csrw	mie,zero
+   0x820001e0 <at_fail+72>:	nop
+=> 0x820001e2 <at_fail+74>:	nop
+   0x820001e4 <at_fail+76>:	j	0x820001e0 <at_fail+72>
+   0x820001e6 <at_fail+78>:	addi	sp,sp,-16
+   0x820001e8 <at_fail+80>:	li	a1,0
+   0x820001ea <at_fail+82>:	sd	ra,8(sp)
+   0x820001ec <at_fail+84>:	jal	0x82000152 <number+36>
+   0x820001f0 <at_fail+88>:	auipc	a5,0x13d3
+   0x820001f4 <at_fail+92>:	lw	a5,184(a5)
+PROBE_COMMAND=info line *$pc
+Line 56 of "/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/src/../reference/src/main.c" starts at address 0x820001e2 <at_fail+74> and ends at 0x820001ea <at_fail+82>.
+PROBE_COMMAND=bt
+#0  field (v=<optimized out>, s=<optimized out>) at /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/src/../reference/src/main.c:56
+#1  at_fail (s=0x820079d0 <ai_ppu_queue_ready+18> "watchdog_120000000000_cycles", v=<optimized out>) at /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/src/../reference/src/main.c:56
+#2  0x000000008200253a in field (v=<optimized out>, s=0x82008140 "\n\247\377\377\n\247\377\377\262\247\377\377V\247\377\3778\344\377\3772\344\377\377,\344\377\377&\344\377\377 \344\377\377\032\344\377\377\024\344\377\377\016\344\377\377\b\344\377\377\002\344\377\377\374\343\377\377\366\343\377\377\360\343\377\377\352\343\377\377\344\343\377\377\336\343\377\377\330\343\377\377\322\343\377\377\314\343\377\377\306\343\377\377\300\343\377\377\204\343\377\377\334\345\377\377\334\345\377\377\334\345\377\377\334\345\377\377\350\342\377\377") at /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/src/../reference/src/main.c:53
+#3  watchdog () at /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/src/../reference/src/main.c:279
+#4  0x00000000b29c60c0 in ?? ()

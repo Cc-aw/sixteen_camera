@@ -1,0 +1,6 @@
+/build/
+/logs/
+/config.local.mk
+/hardware/*.bit
+__pycache__/
+*.pyc

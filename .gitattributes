@@ -4,3 +4,9 @@ tests/data/yolov5nu/v17a/image*.bin binary
 hw/soc/**/gen-collateral/*.sv whitespace=-blank-at-eof
 # Keep CIRCT memory descriptions byte-for-byte, including trailing separators.
 hw/soc/**/*.conf whitespace=-blank-at-eol
+# Frozen board-test inputs and captured evidence must retain their recorded hashes.
+sw/board_tests/l2_1m_4bank/reference/** -text whitespace=-blank-at-eol,-blank-at-eof
+sw/board_tests/l2_1m_4bank/model/** -text whitespace=-blank-at-eol,-blank-at-eof
+sw/board_tests/l2_1m_4bank/include/** -text whitespace=-blank-at-eol,-blank-at-eof
+sw/board_tests/l2_1m_4bank/hardware/** -text
+sw/board_tests/l2_1m_4bank/validation/evidence/** -text whitespace=-blank-at-eol,-blank-at-eof

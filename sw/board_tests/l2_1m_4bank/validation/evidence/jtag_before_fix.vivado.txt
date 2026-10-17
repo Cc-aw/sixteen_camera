@@ -1,0 +1,58 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:13:54 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Sat Oct 17 10:39:17 2026
+# Process ID: 3482739
+# Current directory: /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/logs/new_bit_01
+# Command line: vivado -mode batch -log /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/logs/new_bit_01/vivado_program.log -source /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/program/program_bitstream.tcl
+# Log file: /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/logs/new_bit_01/vivado_program.log
+# Journal file: /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/logs/new_bit_01/vivado.jou
+# Running On: tsmc184, OS: Linux, CPU Frequency: 5500.000 MHz, CPU Physical cores: 24, Host memory: 134794 MB
+#-----------------------------------------------------------
+source /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/program/program_bitstream.tcl
+# set script_dir [file dirname [file normalize [info script]]]
+# set bitstream_file [file normalize [file join $script_dir .. hardware top_wrapper.bit]]
+# if {[info exists ::env(BITSTREAM_FILE)] && $::env(BITSTREAM_FILE) ne ""} {
+#     set bitstream_file [file normalize $::env(BITSTREAM_FILE)]
+# }
+# if {![file exists $bitstream_file]} {
+#     error "Bitstream not found: $bitstream_file"
+# }
+# open_hw_manager
+# connect_hw_server
+INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121
+INFO: [Labtools 27-2222] Launching hw_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+****** Xilinx hw_server v2023.2
+  **** Build date : Oct 13 2023 at 20:26:23
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+
+
+INFO: [Labtools 27-3415] Connecting to cs_server url TCP:localhost:0
+INFO: [Labtools 27-3417] Launching cs_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+
+******** Xilinx cs_server v2023.2.0
+  ****** Build date   : Oct 10 2023-12:01:56
+    **** Build number : 2023.2.1696910516
+      ** Copyright 2017-2022 Xilinx, Inc. All Rights Reserved.
+      ** Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+
+# if {[llength [get_hw_targets * -quiet]] == 0} {
+#     error "No Vivado hardware target found"
+# }
+No Vivado hardware target found
+    while executing
+"error "No Vivado hardware target found""
+    invoked from within
+"if {[llength [get_hw_targets * -quiet]] == 0} {
+    error "No Vivado hardware target found"
+}"
+    (file "/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/program/program_bitstream.tcl" line 12)
+INFO: [Common 17-206] Exiting Vivado at Sat Oct 17 10:39:28 2026...

@@ -1,0 +1,520 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-17T03:17:16.098830+00:00",
+  "hardware_commit": "d7cbd61836cc2f4336e07c42d7ca2cd3a741a35b",
+  "tested_build_id": "5b2975ca38ebb1df9e0f7f4ca6daa9f3d67c89090ff55ae5a34390db4b22117c",
+  "reference_elf_sha256": "4e64eed91c7cae0aa0fe5820b0abf751e6019cf9787416280839f5722d550330",
+  "overall_result": "CANDIDATE_FULL_MODEL_REGRESSION_UNRESOLVED",
+  "hardware_timing": {
+    "bitstream_generated": true,
+    "met": false,
+    "routed_wns_ns": -7.159,
+    "routed_whs_ns": 0.0
+  },
+  "checks": [
+    {
+      "name": "offline_suites",
+      "result": "PASS",
+      "tests": 33,
+      "source": "validation/evidence/offline_33_tests.txt"
+    },
+    {
+      "name": "copied_directory_rebuild",
+      "result": "PASS_INITIAL_PRE_JTAG_FIX_SNAPSHOT",
+      "details": "See acceptance.json for its distinct build ID and 28-test snapshot"
+    },
+    {
+      "name": "terminal_bitstream_programming",
+      "result": "PASS",
+      "scope": "Configuration completed; no functional or timing acceptance implied"
+    },
+    {
+      "name": "candidate_cpu_l2_smoke",
+      "result": "PASS",
+      "origin": "User-executed smoke_01 log, independently parsed",
+      "coverage": "4 bank geometry; 2 MiB address-dependent data, byte writes, same-set conflicts; 4 complete 16x32 snapshots"
+    },
+    {
+      "name": "candidate_minimal_rocc_status",
+      "result": "PASS",
+      "vlenb_bytes": 32,
+      "lanes": 3,
+      "scope": "Status queries only, no Gemmini arithmetic"
+    },
+    {
+      "name": "candidate_original_reference",
+      "result": "HANG_INCOMPLETE",
+      "runs": [
+        "reference_01",
+        "reference_02"
+      ],
+      "completed_frames_logged": 0,
+      "completed_modes_logged": 0
+    },
+    {
+      "name": "candidate_instrumented_direct_path",
+      "result": "HANG_INCOMPLETE",
+      "passed_stages": [
+        "18 command plans",
+        "PPU initialization",
+        "first frame admission"
+      ],
+      "observed_command_progress": {
+        "sparse_log": "No index128 marker after index63",
+        "dense_log": "Reached index640 marker"
+      },
+      "limitation": "Printing changes command supply timing; no unique blocked instruction established. The earlier sparse ELF was overwritten and its hash was not recorded."
+    },
+    {
+      "name": "old_s1_identical_reference_elf",
+      "result": "PASS",
+      "modes": 3,
+      "frames_per_mode": 12,
+      "total_frames": 36,
+      "ppu_equality": "Firmware compared count and 40 PPU words against direct mode",
+      "independent_accuracy": "NOT_PROVEN",
+      "download_identity_evidence": "Actual debug capture helper loaded the same unchanged ELF; its SHA checked against both candidate load receipts and current manifest. Parsed log retains LOCAL_MANIFEST_DECLARATION."
+    },
+    {
+      "name": "candidate_frontend_only_probe",
+      "result": "WATCHDOG_TIMEOUT",
+      "completed_frames": 0,
+      "watchdog_cycles": 500000000,
+      "clock_hz": 100000000,
+      "raw_status": 562949953945697,
+      "status_hex": "0x2000000080061",
+      "completed_cursor": 34,
+      "cursor": 146,
+      "fifo_level": 8,
+      "note": "Temporary source reduced watchdog to 5s but retained old reason text watchdog_120000000000_cycles. Diagnosis only; not formal V34 or performance measurement."
+    },
+    {
+      "name": "jtag_fault_site_inspection",
+      "result": "INCOMPLETE",
+      "note": "Original stuck state could not halt. Later frontend-only timeout reached at_fail spin; GDB captured PC 0x820001e2 there, then later accesses timed out. Reference symbols were used for a different diagnostic ELF, so this is not the original blocking PC or a reliable original call stack."
+    }
+  ],
+  "conclusions": {
+    "established": "Same unchanged reference ELF completes on the specified old S1 and does not complete on the new candidate; both direct and autonomous execution exhibit candidate failures.",
+    "root_cause": "NOT_ESTABLISHED_RTL_INTERCONNECT_OR_TIMING",
+    "l2_only_attribution": "NOT_ESTABLISHED; historical S1 also differs in Tensor/DDR configuration.",
+    "hardware_fix": "NOT_IMPLEMENTED",
+    "candidate_full_model_performance": "NOT_AVAILABLE",
+    "performance_benefit": "NOT_MEASURED"
+  },
+  "last_recorded_board_state": {
+    "programming_receipt": "validation/evidence/new_restored.bitstream.json",
+    "bitstream": "hardware/top_wrapper.bit",
+    "last_loaded_elf": "build/hang_debug/reference_frontend_only.elf",
+    "application_outcome": "Diagnostic timeout; subsequent debug reads incomplete",
+    "requested_final_clean_reprogram": "NOT_EXECUTED_USER_STOP_AND_AUTOMATIC_REVIEW_REJECTION",
+    "archive_task_hardware_actions": "NONE"
+  },
+  "local_binaries": {
+    "hardware/top_wrapper.bit": {
+      "sha256": "b7290308c35b81961cb847cd9f538c508ebeffadaf9366407baf4436d5a8499a",
+      "bytes": 113318492,
+      "storage": "Local file retained; generated binary excluded from Git"
+    },
+    "hardware/baseline_s1.bit": {
+      "sha256": "0bfaf3edb45f738f6ee1ade4409f20b862896cd01e638e78c622dd032ab07229",
+      "bytes": 113318492,
+      "storage": "Local file retained; generated binary excluded from Git"
+    },
+    "build/l2_smoke.elf": {
+      "sha256": "b24fae2778860554cdcc2126e6ae80d0a928b662e21ad7014290f320cff639b1",
+      "bytes": 34168,
+      "storage": "Local file retained; generated binary excluded from Git"
+    },
+    "build/yolov5_reference.elf": {
+      "sha256": "4e64eed91c7cae0aa0fe5820b0abf751e6019cf9787416280839f5722d550330",
+      "bytes": 6804504,
+      "storage": "Local file retained; generated binary excluded from Git"
+    },
+    "build/yolov5_diagnostic.elf": {
+      "sha256": "27e7d3b0936be0cc4b3cd61714c692c7a3b911193daff1918804b686da0af9c7",
+      "bytes": 6962784,
+      "storage": "Local file retained; generated binary excluded from Git"
+    },
+    "build/hang_debug/rocc_probe0.elf": {
+      "sha256": "df2293611ce75e7bbdcb53aea01768c7be7d1564a8b92863b6aefb543dc96ef8",
+      "bytes": 18240,
+      "storage": "Local file retained; generated binary excluded from Git"
+    },
+    "build/hang_debug/reference_trace.elf": {
+      "sha256": "d87736b65754026ad7dc5680a50644edaa3219c39acc459105438ba26511f9a0",
+      "bytes": 6816744,
+      "storage": "Local file retained; generated binary excluded from Git"
+    },
+    "build/hang_debug/reference_frontend_only.elf": {
+      "sha256": "afa9f540ccede823cdd5ba4dc39a0859454e9dc558dea83b8f46049a54a4ed56",
+      "bytes": 6788960,
+      "storage": "Local file retained; generated binary excluded from Git"
+    },
+    "build/hang_debug/rocc_probe1.elf": {
+      "sha256": "b7a56a059d16b342df74367efa2f8c3c0be2615f73bd8a08d8822d1f81873b85",
+      "bytes": 17168,
+      "storage": "Local file retained; generated binary excluded from Git",
+      "board_run": "NOT_RUN"
+    },
+    "build/hang_debug/reference_trace_dense.elf": {
+      "sha256": "6f377e408e46992eb5e1be1e1286ffb59e07cdae249bda87aea1dc3861645e32",
+      "bytes": 6816752,
+      "storage": "Local file retained; generated binary excluded from Git",
+      "board_run": "NOT_RUN"
+    },
+    "build/hang_debug/reference_trace_fenced.elf": {
+      "sha256": "035955a351cfa1723924502e5a278df9b85142d09fbb5bc69819a2cb67f4a271",
+      "bytes": 6816768,
+      "storage": "Local file retained; generated binary excluded from Git",
+      "board_run": "NOT_RUN"
+    }
+  },
+  "tracked_evidence": [
+    {
+      "archive": "validation/evidence/smoke_01.uart.txt",
+      "original_local_path": "logs/smoke_01/smoke.log",
+      "sha256": "9fe0a1b9b84a4e6a86fa16fc6149a7687bea90afbae9b84deed236b91f136756",
+      "bytes": 17285
+    },
+    {
+      "archive": "validation/evidence/smoke_01.result.json",
+      "original_local_path": "logs/smoke_01/smoke.json",
+      "sha256": "7c47695653f7290142d2c2d27aa1399c48827fa28abdebd6c363515305f5a4f9",
+      "bytes": 49493
+    },
+    {
+      "archive": "validation/evidence/smoke_01.load.json",
+      "original_local_path": "logs/smoke_01/smoke.load.json",
+      "sha256": "be1fb4729f47a5de66689a5cc7bb71a3c7f135e013bf3fcd6be08b39c18a09bc",
+      "bytes": 592
+    },
+    {
+      "archive": "validation/evidence/reference_new_01.uart.txt",
+      "original_local_path": "logs/reference_01/reference.log",
+      "sha256": "74070b6dd2919343ece370dc3ba835596155a0d77b076c72ce701bba3d407039",
+      "bytes": 371
+    },
+    {
+      "archive": "validation/evidence/reference_new_01.load.json",
+      "original_local_path": "logs/reference_01/reference.load.json",
+      "sha256": "dbb5ad4813a5e8b9925f99813af8e6d5b7f6a755b234db06c51cb092c7e13d3b",
+      "bytes": 596
+    },
+    {
+      "archive": "validation/evidence/reference_new_02.uart.txt",
+      "original_local_path": "logs/reference_02/reference.log",
+      "sha256": "74070b6dd2919343ece370dc3ba835596155a0d77b076c72ce701bba3d407039",
+      "bytes": 371
+    },
+    {
+      "archive": "validation/evidence/reference_new_02.load.json",
+      "original_local_path": "logs/reference_02/reference.load.json",
+      "sha256": "9f27f2dc39e08a0d99eeaca4bc1d96028cc57f98d79a9c87f4e6c5930218d7ec",
+      "bytes": 598
+    },
+    {
+      "archive": "validation/evidence/reference_new_02.openocd.txt",
+      "original_local_path": "logs/reference_02/reference.openocd.log",
+      "sha256": "90b1ff71415ee063f70e37cdf964ed4efa156d56ee31305fc796e6ce2716fe43",
+      "bytes": 1248
+    },
+    {
+      "archive": "validation/evidence/reference_old_s1.uart.txt",
+      "original_local_path": "build/hang_debug/old_s1_reference.uart.log",
+      "sha256": "d1547d52b52a08ee7062fb4a2fb093eff15d816cf869523c4ae605300a4b6ff3",
+      "bytes": 7822
+    },
+    {
+      "archive": "validation/evidence/reference_old_s1.result.json",
+      "original_local_path": "build/hang_debug/old_s1_reference.uart.json",
+      "sha256": "641909dfeb7b6a11404318d278df8a1c2d9447b43c1ae5b78d73c702c94c7a19",
+      "bytes": 22681
+    },
+    {
+      "archive": "validation/evidence/reference_old_s1.analysis.txt",
+      "original_local_path": "build/hang_debug/old_s1_reference.analysis.txt",
+      "sha256": "d20467062e4808c027b411fb875438d7ef945d53f7680547f5bb369f45e411bb",
+      "bytes": 1462
+    },
+    {
+      "archive": "validation/evidence/reference_old_s1.download.txt",
+      "original_local_path": "build/hang_debug/old_s1_reference.download.log",
+      "sha256": "5ef58340a1874e9a1b5d4c7eab5b20b58120608f3f873ba1bb109c27c368176b",
+      "bytes": 822
+    },
+    {
+      "archive": "validation/evidence/reference_old_s1.openocd.txt",
+      "original_local_path": "build/hang_debug/old_s1_reference.openocd.log",
+      "sha256": "90b1ff71415ee063f70e37cdf964ed4efa156d56ee31305fc796e6ce2716fe43",
+      "bytes": 1248
+    },
+    {
+      "archive": "validation/evidence/rocc_status_probe.uart.txt",
+      "original_local_path": "build/hang_debug/rocc_status_probe.uart.log",
+      "sha256": "3a7abdfdd44f54e473c94b821fae3639b13ee82ced82e1c946d1114b4c43a768",
+      "bytes": 295
+    },
+    {
+      "archive": "validation/evidence/rocc_status_probe.download.txt",
+      "original_local_path": "build/hang_debug/rocc_status_probe.download.log",
+      "sha256": "5403a3c897c70fc90355a488b3059ebe519cafbf0208455a9bde186dc776a28e",
+      "bytes": 819
+    },
+    {
+      "archive": "validation/evidence/reference_trace_sparse.uart.txt",
+      "original_local_path": "build/hang_debug/reference_trace.uart.log",
+      "sha256": "1ef2f53ddb103bd894c75ce49115321948d7fb23a88f41100daee6356e65f582",
+      "bytes": 6226
+    },
+    {
+      "archive": "validation/evidence/reference_trace_precise.uart.txt",
+      "original_local_path": "build/hang_debug/reference_trace_precise.uart.log",
+      "sha256": "53b4973497e7d0f6c5cf8afdeecd4cde8db53d39c4cbcd3261a336951963c582",
+      "bytes": 20734
+    },
+    {
+      "archive": "validation/evidence/frontend_only.uart.txt",
+      "original_local_path": "build/hang_debug/new_frontend_only.uart.log",
+      "sha256": "08daa44d190c51039f938a7f7f94e7e827905d641e03ed733ac204cc540e92ee",
+      "bytes": 1815
+    },
+    {
+      "archive": "validation/evidence/frontend_only.download.txt",
+      "original_local_path": "build/hang_debug/new_frontend_only.download.log",
+      "sha256": "451b9b389127cd887aade5d83e42760b1010fe565f93fa169e169c1638718548",
+      "bytes": 841
+    },
+    {
+      "archive": "validation/evidence/debug_inspect.gdb.txt",
+      "original_local_path": "build/hang_debug/gdb.log",
+      "sha256": "e978eba5d2d9ee183f5045318670ba95f336c8970193f3426f81c3b0f04894e9",
+      "bytes": 2890
+    },
+    {
+      "archive": "validation/evidence/debug_inspect.openocd.txt",
+      "original_local_path": "build/hang_debug/openocd.log",
+      "sha256": "a656f41f5389f588ab530006b87bd9f4004b76c6abf054f6a062d28bde65ede0",
+      "bytes": 3959
+    },
+    {
+      "archive": "validation/evidence/jtag_before_fix.vivado.txt",
+      "original_local_path": "logs/new_bit_01/vivado_program.log",
+      "sha256": "d08dc1e33750e70ab3e3c838083b0372cea694befb21c9502d4b7986a64f1b93",
+      "bytes": 2827
+    },
+    {
+      "archive": "validation/evidence/jtag_adept_failure.txt",
+      "original_local_path": "build/jtag_diagnosis/adept.log",
+      "sha256": "2df9e352939af56b8be3b9bbb5806a4a1d578349256ca22de7950a0ec3216843",
+      "bytes": 339
+    },
+    {
+      "archive": "validation/evidence/jtag_ipc_failure.strace.txt",
+      "original_local_path": "build/jtag_diagnosis/ipc_failure.strace",
+      "sha256": "d011b46ba56fff7ce86d4a4d4c19d4b6f8ae31ab150d74dca6fd822c554331ac",
+      "bytes": 105485
+    },
+    {
+      "archive": "validation/evidence/jtag_fixed.vivado.txt",
+      "original_local_path": "logs/jtag_fixed_01/vivado_program.log",
+      "sha256": "fc50d5e5a9958929c82c30e95d01427085897b4b661ea988a83d9328a5d344a8",
+      "bytes": 4021
+    },
+    {
+      "archive": "validation/evidence/jtag_fixed.hw_server.txt",
+      "original_local_path": "logs/jtag_fixed_01/hw_server.log",
+      "sha256": "d9dd80e2000562a61237ef1e7f617db391ea8f2f1eab0a3ea63a85a5a2e1f72f",
+      "bytes": 57
+    },
+    {
+      "archive": "validation/evidence/jtag_fixed.bitstream.json",
+      "original_local_path": "logs/jtag_fixed_01/bitstream.json",
+      "sha256": "fdb21b9bc9067cacaff16b73d3eed0cf7ce1694dc77b78eb1d0f9e1ab48bd99d",
+      "bytes": 307
+    },
+    {
+      "archive": "validation/evidence/old_s1.bitstream.json",
+      "original_local_path": "logs/hang_old_s1_control/bitstream.json",
+      "sha256": "9502e81166e4e0cce49ab3d056a44bbf40c7e7bafeaab7e367089a996b1b504d",
+      "bytes": 313
+    },
+    {
+      "archive": "validation/evidence/new_restored.bitstream.json",
+      "original_local_path": "logs/hang_new_restore_01/bitstream.json",
+      "sha256": "ed501b861d4cf585389bfc64bde066bb0aa8196bf654c7c27c87fbc781b1cd39",
+      "bytes": 313
+    },
+    {
+      "archive": "validation/evidence/new_restored.vivado.txt",
+      "original_local_path": "logs/hang_new_restore_01/vivado_program.log",
+      "sha256": "13110af672a281de5a9298be774d04a9bd9daf19c9a38a33697aa7e96195cc7b",
+      "bytes": 4045
+    },
+    {
+      "archive": "validation/evidence/offline_33_tests.txt",
+      "original_local_path": "build/test_jtag_fix.log",
+      "sha256": "2c81168d78f9bbe03f1c3e0c3b5ec019bc8a6c25bf9494bafc866cce71427ae0",
+      "bytes": 17375
+    },
+    {
+      "archive": "validation/evidence/offline_preflight.txt",
+      "original_local_path": "build/preflight_jtag_fix.log",
+      "sha256": "88ab3c117e703c4f7e5ee08d281267a12b55ce9ccabffe7bf631f68601652ea8",
+      "bytes": 1263
+    },
+    {
+      "archive": "validation/evidence/build_manifest.json",
+      "original_local_path": "build/manifest.json",
+      "sha256": "da13c310cb90b4c28ec56a1b42f5e0dcf66b823450b03bd1229efc4e243098fd",
+      "bytes": 12216
+    },
+    {
+      "archive": "validation/evidence/offline_initial_28_tests.txt",
+      "original_local_path": "build/test_release.log",
+      "sha256": "4b02805496440c66952c27fb1e1ed57476cadc46691a2f629cebc32945d96a46",
+      "bytes": 16080
+    },
+    {
+      "archive": "validation/evidence/standalone_build.txt",
+      "original_local_path": "build/standalone_build.log",
+      "sha256": "aee1c8eed9b753ba0cff703091242f5bbdee5321220a7b9797e119e6ad59926f",
+      "bytes": 17707
+    },
+    {
+      "archive": "validation/evidence/standalone_preflight.txt",
+      "original_local_path": "build/standalone_preflight.log",
+      "sha256": "c94a9f49dcc1acc2df17df71ade4a445d2880591d38bcd8e23b5d10c41f25359",
+      "bytes": 1101
+    },
+    {
+      "archive": "validation/evidence/standalone_result.json",
+      "original_local_path": "build/relocation_result.json",
+      "sha256": "c641a4a2eff0422b439f393c261c17206d735e6849a41909538fad91bee1ad56",
+      "bytes": 1692
+    },
+    {
+      "archive": "validation/evidence/implementation_state.json",
+      "original_repository_path": "build/reports/l2_1m_4bank/full_implementation/state.json",
+      "sha256": "8012805e902f36dc0fb2231df5c3751f46751847d319f21e572996bc9fb9a5bd",
+      "bytes": 1809
+    },
+    {
+      "archive": "validation/evidence/implementation_result.txt",
+      "original_repository_path": "build/reports/l2_1m_4bank/full_implementation/result.txt",
+      "sha256": "e4ceb11dd8603446fee9741b9a9b9b1ddb22a6b995f0f2f1d96e01e9b9f0213d",
+      "bytes": 196
+    },
+    {
+      "archive": "validation/evidence/implementation_timing.txt",
+      "original_repository_path": "build/reports/l2_1m_4bank/full_implementation/timing.rpt",
+      "sha256": "a7851d940fe25a3283e04a38872c91cd7d9e457345b6e41ada2209d4662cb36b",
+      "bytes": 2469606
+    },
+    {
+      "archive": "validation/evidence/implementation_route.txt",
+      "original_repository_path": "build/reports/l2_1m_4bank/full_implementation/route.rpt",
+      "sha256": "00ad3c3ad9ca22c163feeefcb73b7ace3d70b7724549fb9ef7a1b6ed6d70945c",
+      "bytes": 651
+    },
+    {
+      "archive": "validation/evidence/implementation_utilization.txt",
+      "original_repository_path": "build/reports/l2_1m_4bank/full_implementation/utilization.rpt",
+      "sha256": "65f23a7fd5a71ac632f31512210250400b14a13db68ccbc95edb28914e7c2a9b",
+      "bytes": 23425
+    },
+    {
+      "archive": "validation/evidence/implementation_check_timing.txt",
+      "original_repository_path": "build/reports/l2_1m_4bank/full_implementation/check_timing.rpt",
+      "sha256": "828af34b4f69e61903171ff6c612ff37d2c3ed84df4c0b3157fd68c55cb82fa9",
+      "bytes": 9350
+    },
+    {
+      "archive": "validation/hang_reproducer/rocc_probe.c",
+      "original_local_path": "build/hang_debug/rocc_probe.c",
+      "sha256": "8d107eb4e58b82e2b3e80f24cffea1867ea0e261edf0b7a4cf2a3a4ed0809887",
+      "bytes": 906
+    },
+    {
+      "archive": "validation/hang_reproducer/build_trace.py",
+      "original_local_path": "build/hang_debug/build_trace.py",
+      "sha256": "73a96aba34b0c12abb9bfc60139e2dcbf9d843e7c66611a54e4404f54f0ddab1",
+      "bytes": 2811
+    },
+    {
+      "archive": "validation/hang_reproducer/build_trace_dense.py",
+      "original_local_path": "build/hang_debug/build_trace_dense.py",
+      "sha256": "3c3da16bd848193f2623b23c08ffa3ce461458b51aded7ca34eb920a09f6c1c7",
+      "bytes": 2833
+    },
+    {
+      "archive": "validation/hang_reproducer/build_frontend_only.py",
+      "original_local_path": "build/hang_debug/build_frontend_only.py",
+      "sha256": "e34fbcd4bb482a033b16f0710df8d7ce10facfd0917ac245ead9d75c3444e81b",
+      "bytes": 3209
+    },
+    {
+      "archive": "validation/hang_reproducer/run_capture.py",
+      "original_local_path": "build/hang_debug/run_capture.py",
+      "sha256": "fb81876b620b81ba12c1436fb6064376b5f1d9ecd529a7857b798cd250eb673f",
+      "bytes": 1985
+    },
+    {
+      "archive": "validation/hang_reproducer/inspect.py",
+      "original_local_path": "build/hang_debug/inspect.py",
+      "sha256": "da28f1be4a6aefec49828515537028fb3dd5dda5f4317c5e4c0c4062deece7d5",
+      "bytes": 901
+    },
+    {
+      "archive": "validation/hang_reproducer/run_inspect.py",
+      "original_local_path": "build/hang_debug/run_inspect.py",
+      "sha256": "c0906b06bd551ea65494360c678b0b092d2ca24893145479f3dcab7982800111",
+      "bytes": 1460
+    },
+    {
+      "archive": "validation/hang_reproducer/reference_trace.c",
+      "original_local_path": "build/hang_debug/reference_trace.c",
+      "sha256": "153a16fb34a27c6c28140369a0f7a75f920557d1ec7f313873b3792d972efd7f",
+      "bytes": 24225
+    },
+    {
+      "archive": "validation/hang_reproducer/reference_trace_dense.c",
+      "original_local_path": "build/hang_debug/reference_trace_dense.c",
+      "sha256": "e6e12199fa70526f3c276885d5b34b6f50d6492a485bd8e4f2bd8f1dda8e1459",
+      "bytes": 24229
+    },
+    {
+      "archive": "validation/hang_reproducer/reference_frontend_only.c",
+      "original_local_path": "build/hang_debug/reference_frontend_only.c",
+      "sha256": "a447f0770ee832515b6dc11222279f34983c1023abab7611975c32093d7de318",
+      "bytes": 24274
+    },
+    {
+      "archive": "validation/hang_reproducer/build_trace_fenced.py",
+      "original_local_path": "build/hang_debug/build_trace_fenced.py",
+      "sha256": "b6d3b31f3ed9f8cf9367ee035067dc6ed132ec5f2b0670c4af79d573c65439b3",
+      "bytes": 2932
+    },
+    {
+      "archive": "validation/hang_reproducer/reference_trace_fenced.c",
+      "original_local_path": "build/hang_debug/reference_trace_fenced.c",
+      "sha256": "de0eb4e9c5443ea1449726cc8cee0ee2c05637d23b4b7a26edd7a874c5b54a07",
+      "bytes": 24265
+    }
+  ],
+  "preserved_boundaries": [
+    "S1 Head and S1 combinational L2 scheduler",
+    "TensorIngress retained",
+    "DDR slice mode1 retained",
+    "frontend ABI2",
+    "statistics ABI1.2"
+  ],
+  "archives_created": false,
+  "not_executed": [
+    "Dense 1024-command trace ELF built but not run",
+    "Per-LoopConv fenced variant built but not run",
+    "Direct-only minimal route probe1 built but not run",
+    "Full V34 diagnostic ELF not run on board",
+    "No timing repair or new RTL synthesis for the hang diagnosis"
+  ]
+}

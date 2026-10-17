@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "file": "hardware/baseline_s1.bit",
+  "sha256": "0bfaf3edb45f738f6ee1ade4409f20b862896cd01e638e78c622dd032ab07229",
+  "run": "hang_old_s1_control",
+  "programmed_utc": "2026-10-17T03:06:04.707165+00:00",
+  "identity": "Host programming receipt; not a software-readable bitstream fingerprint"
+}

@@ -1,0 +1,13 @@
+[1/4] 使用已有固件。
+[2/4] 启动 OpenOCD（请先确保本工程 bitstream 已下载）...
+[3/4] 下载并启动固件: /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/hang_debug/rocc_probe0.elf
+0x0000000000010038 in ?? ()
+JTAG tap: riscv.cpu tap/device found: 0x04b51093 (mfg: 0x049 (Xilinx), part: 0x4b51, ver: 0x0)
+[riscv.cpu.0] Register fp is dirty!
+[riscv.cpu.0] Discarding values of dirty registers.
+Loading section .text, size 0x3ae lma 0x82000000
+Loading section .rodata, size 0xe5 lma 0x820003b0
+Start address 0x0000000082000000, load size 1171
+Transfer rate: 190 KB/sec, 585 bytes/write.
+[4/4] 固件已启动，OpenOCD 已退出。
+串口: 115200 8N1；日志: /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/l2_1m_4bank/build/hang_debug/rocc_status_probe.openocd.log

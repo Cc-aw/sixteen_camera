@@ -1,0 +1,1 @@
+DIGILENT_IPC_COMPAT=ACTIVE existing_regular_files_only=1

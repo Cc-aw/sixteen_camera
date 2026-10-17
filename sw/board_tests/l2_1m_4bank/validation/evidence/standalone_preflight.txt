@@ -1,0 +1,20 @@
+make: 进入目录“/tmp/l2_1m_4bank_standalone_lb__hnij/l2_1m_4bank”
+python3 -B /tmp/l2_1m_4bank_standalone_lb__hnij/l2_1m_4bank/scripts/package.py check
+L2_BOARD_AUDIT=PASS self_contained=1 board_accessed=0
+python3 -B /tmp/l2_1m_4bank_standalone_lb__hnij/l2_1m_4bank/scripts/program.py preflight
+DOWNLOAD_BITSTREAM_CHECK=PASS
+VIVADO=/mnt/data/Vivado/Vivado/2023.2/bin/vivado
+BITSTREAM=/tmp/l2_1m_4bank_standalone_lb__hnij/l2_1m_4bank/hardware/top_wrapper.bit
+TCL=/tmp/l2_1m_4bank_standalone_lb__hnij/l2_1m_4bank/program/program_bitstream.tcl
+[1/4] 使用已有固件。
+DOWNLOAD_SW_CHECK=PASS
+ELF=/tmp/l2_1m_4bank_standalone_lb__hnij/l2_1m_4bank/build/l2_smoke.elf
+[1/4] 使用已有固件。
+DOWNLOAD_SW_CHECK=PASS
+ELF=/tmp/l2_1m_4bank_standalone_lb__hnij/l2_1m_4bank/build/yolov5_reference.elf
+[1/4] 使用已有固件。
+DOWNLOAD_SW_CHECK=PASS
+ELF=/tmp/l2_1m_4bank_standalone_lb__hnij/l2_1m_4bank/build/yolov5_diagnostic.elf
+L2_BOARD_AUDIT=PASS self_contained=1 board_accessed=0
+L2_BOARD_PREFLIGHT=PASS board_accessed=0
+make: 离开目录“/tmp/l2_1m_4bank_standalone_lb__hnij/l2_1m_4bank”

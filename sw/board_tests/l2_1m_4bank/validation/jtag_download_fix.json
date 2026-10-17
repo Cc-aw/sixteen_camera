@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-17T02:49:35.659189+00:00",
+  "result": "BITSTREAM_PROGRAMMED_APPLICATION_TESTS_NOT_RUN",
+  "build_id": "5b2975ca38ebb1df9e0f7f4ca6daa9f3d67c89090ff55ae5a34390db4b22117c",
+  "source_revision": "d7cbd61836cc2f4336e07c42d7ca2cd3a741a35b",
+  "root_cause": {
+    "usb_vendor_product": "0403:6010",
+    "jtag_serial": "210357A7D00E",
+    "vivado_target": "Digilent/210357A7D00EA",
+    "usb_permissions": "0666; current user read/write verified",
+    "current_uid": 1002,
+    "old_ipc_owner_uid": 1000,
+    "fs_protected_regular": 2,
+    "failed_call": "openat(AT_FDCWD, /tmp/digilent-adept2-shm-dvtbl, O_RDWR|O_CREAT, 0777) = -1 EACCES",
+    "adept_error": "DPCOMM DllInit failed to create shared memory segment DVTBL",
+    "scope": "Multi-user legacy Digilent IPC initialization; bitstream source and hardware timing were not changed"
+  },
+  "fix": {
+    "owned_private_hw_server": true,
+    "automatic_process_cleanup": true,
+    "compatibility": "Only preloaded into the temporary hw_server; EACCES fallback opens the known existing regular IPC files without O_CREAT, with O_NOFOLLOW and inode checks",
+    "host_sysctl_changed": false,
+    "existing_ipc_files_deleted_or_chmodded": false,
+    "other_users_processes_stopped": false,
+    "sudo_required": false
+  },
+  "offline_validation": {
+    "result": "PASS",
+    "tests": 33,
+    "new_programming_tests": 5,
+    "command": "make -j4 test",
+    "preflight": "PASS",
+    "scope": "Host simulation, native preload fault injection, process lifecycle mocks and ELF ABI checks; not board application execution"
+  },
+  "programming_validation": {
+    "result": "PASS",
+    "command": "make program-bitstream RUN=jtag_fixed_01",
+    "bitstream_sha256": "b7290308c35b81961cb847cd9f538c508ebeffadaf9366407baf4436d5a8499a",
+    "host_receipt": {
+      "schema": 1,
+      "file": "hardware/top_wrapper.bit",
+      "sha256": "b7290308c35b81961cb847cd9f538c508ebeffadaf9366407baf4436d5a8499a",
+      "run": "jtag_fixed_01",
+      "programmed_utc": "2026-10-17T02:49:20.108905+00:00",
+      "identity": "Host programming receipt; not a software-readable bitstream fingerprint"
+    },
+    "observed_marker": "BITSTREAM_PROGRAM=PASS",
+    "scope": "FPGA SRAM configuration only; no flash programming"
+  },
+  "elf_artifacts": {
+    "smoke": {
+      "path": "build/l2_smoke.elf",
+      "sha256": "b24fae2778860554cdcc2126e6ae80d0a928b662e21ad7014290f320cff639b1",
+      "bytes": 34168,
+      "disassembly_sha256": "d147faf3f575e06a15fb6546efe6768b762c8d26d00eb6164f6ca1a0974c9657"
+    },
+    "reference": {
+      "path": "build/yolov5_reference.elf",
+      "sha256": "4e64eed91c7cae0aa0fe5820b0abf751e6019cf9787416280839f5722d550330",
+      "bytes": 6804504,
+      "disassembly_sha256": "d1a487b082eda0d011aab9a4ed2175427dd05888ae9a83125bd9027b11a9ced9"
+    },
+    "diagnostic": {
+      "path": "build/yolov5_diagnostic.elf",
+      "sha256": "27e7d3b0936be0cc4b3cd61714c692c7a3b911193daff1918804b686da0af9c7",
+      "bytes": 6962784,
+      "disassembly_sha256": "d92dec81a065f86fe05d18ff72c5f0dd9e1fdedfa9925f0b7ec2df6e7503b0af"
+    }
+  },
+  "host_artifacts": {
+    "digilent_ipc_compat": {
+      "path": "build/program/libdigilent_ipc_compat.so",
+      "sha256": "644d500975d731ba249c6417c6894cd0a34d9080133093d0ef054a4c4ac4ab36"
+    }
+  },
+  "not_executed": {
+    "cpu_l2_smoke": "NOT_RUN",
+    "yolov5_reference": "NOT_RUN",
+    "yolov5_diagnostic": "NOT_RUN",
+    "same_elf_old_new_comparison": "NOT_RUN",
+    "performance": "NOT_MEASURED"
+  },
+  "hardware_timing": {
+    "met": false,
+    "routed_wns_ns": -7.159,
+    "note": "Programming success does not validate timing or application stability"
+  },
+  "archives_created": false,
+  "evidence": {
+    "build/test_jtag_fix.log": {
+      "sha256": "2c81168d78f9bbe03f1c3e0c3b5ec019bc8a6c25bf9494bafc866cce71427ae0",
+      "bytes": 17375
+    },
+    "build/preflight_jtag_fix.log": {
+      "sha256": "88ab3c117e703c4f7e5ee08d281267a12b55ce9ccabffe7bf631f68601652ea8",
+      "bytes": 1263
+    },
+    "build/jtag_diagnosis/probe.log": {
+      "sha256": "0d0d7aefd9e2b419d8125d3eae5439d31c3d270424bd8db3f9356d292509ee81",
+      "bytes": 2340
+    },
+    "build/jtag_diagnosis/adept.log": {
+      "sha256": "2df9e352939af56b8be3b9bbb5806a4a1d578349256ca22de7950a0ec3216843",
+      "bytes": 339
+    },
+    "build/jtag_diagnosis/ipc_failure.strace": {
+      "sha256": "d011b46ba56fff7ce86d4a4d4c19d4b6f8ae31ab150d74dca6fd822c554331ac",
+      "bytes": 105485
+    },
+    "logs/jtag_fixed_01/vivado_program.log": {
+      "sha256": "fc50d5e5a9958929c82c30e95d01427085897b4b661ea988a83d9328a5d344a8",
+      "bytes": 4021
+    },
+    "logs/jtag_fixed_01/hw_server.log": {
+      "sha256": "d9dd80e2000562a61237ef1e7f617db391ea8f2f1eab0a3ea63a85a5a2e1f72f",
+      "bytes": 57
+    },
+    "logs/jtag_fixed_01/bitstream.json": {
+      "sha256": "fdb21b9bc9067cacaff16b73d3eed0cf7ce1694dc77b78eb1d0f9e1ab48bd99d",
+      "bytes": 307
+    },
+    "build/manifest.json": {
+      "sha256": "da13c310cb90b4c28ec56a1b42f5e0dcf66b823450b03bd1229efc4e243098fd",
+      "bytes": 12216
+    }
+  }
+}

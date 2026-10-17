@@ -1,0 +1,5 @@
+BUILD=BITSTREAM_GENERATED
+WNS_NS=-7.159
+WHS_NS=0.000
+TARGET_MET=0
+BITSTREAM=/mnt/data/wzr/13p/ov7670/sixteen_camera/build/projects/l2_1m_4bank_candidate/sixteen_camera.runs/impl_1/top_wrapper.bit
