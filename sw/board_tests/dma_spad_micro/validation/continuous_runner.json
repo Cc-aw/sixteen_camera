@@ -1,0 +1,14 @@
+{
+  "template": "tests/model/dma_load/test_spad.py",
+  "template_sha256": "a0e09ea210dad91b013f59a0a337ea81e82e25b31f81b90c077bd4020da92959",
+  "derived_runner": "/tmp/dma_spad_micro_continuous_rtl.py",
+  "derived_runner_sha256": "d23b63455ca3d951e96e5388739bc97a41c46480723aa767b468d5750b7803f1",
+  "case": {
+    "c": 12,
+    "n": 32,
+    "p": 2,
+    "stride": 12,
+    "scale_bits": 15360,
+    "offset": 0
+  }
+}

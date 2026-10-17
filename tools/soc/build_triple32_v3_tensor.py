@@ -184,7 +184,7 @@ def generate(workspace, export=True, l2_banks=4, dma_load_runtime=False, output=
         "effective_scala": sources, "l2_banks": l2_banks,
         "l2_capacity_kib": l2_banks * 256,
         "dma_load_runtime_enable": dma_load_runtime,
-        "dma_load_supported_modes": ["legacy", "read_coalesced", "read_assembled"] if dma_load_runtime else ["legacy"],
+        "dma_load_supported_modes": ["legacy", "read_coalesced", "read_assembled", "spad_assembled"] if dma_load_runtime else ["legacy"],
         "dma_load_reset_mode": "legacy", "dma_load_control_version": 1 if dma_load_runtime else 0,
         "dma_load_build_id": identity[:16] if dma_load_runtime else None,
         "source_identity_sha256": identity,

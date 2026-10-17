@@ -22,7 +22,7 @@ struct PpuResult {uint32_t count,words[10][4];};
 struct Frame {unsigned device,image,slot,host_next;uint64_t begin,end,graph_end;};
 static struct PpuResult output[3][FRAMES];
 static struct Frame frames[FRAMES];
-static unsigned current_frame=11,current_lane=0;
+static unsigned current_frame=11,current_lane=0,run_frames=FRAMES;
 static uint64_t batch_begin;
 static void text(const char *s){fputs(s,stdout);}
 static void field(const char *s,uint64_t n){printf("%s%llu",s,(unsigned long long)n);}

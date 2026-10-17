@@ -167,6 +167,8 @@ class CommandFrontendCluster(val allowTargetExtensions: Boolean = false,
   val dmaLoadMode = RegInit(VecInit(Seq.fill(3)(0.U(2.W))))
   val modeSwitchRejects = RegInit(VecInit(Seq.fill(3)(0.U(32.W))))
   io.dma_load_mode := dmaLoadMode
+  val dmaModeSupported = VecInit((0 until 3).map(g => io.control_rs1 <= 3.U &&
+    (io.dma_load_capabilities(g)(3, 0) & (1.U(4.W) << io.control_rs1(1, 0))).orR))
   val irqEnable = RegInit(VecInit(Seq.fill(3)(false.B)))
   val engines = Seq.fill(3)(Module(new CommandFrontendEngine(allowTargetExtensions = allowTargetExtensions)))
   val available = Wire(Vec(3, Bool())); val owner = Wire(Vec(3, Bool()))
@@ -213,7 +215,7 @@ class CommandFrontendCluster(val allowTargetExtensions: Boolean = false,
             // read selectors 7/8 expose capability and effective mode.
             is(9.U) {
               responseData := Mux(io.dma_load_capabilities(channel) === 0.U, 3.U,
-                Mux(io.control_rs1 > 2.U || io.control_rs2 =/= 0.U, 2.U,
+                Mux(!dmaModeSupported(channel) || io.control_rs2 =/= 0.U, 2.U,
                   Mux(io.gemmini_fault(channel), 4.U, Mux(available(channel), 0.U, 1.U))))
             }
           }
@@ -248,11 +250,11 @@ class CommandFrontendCluster(val allowTargetExtensions: Boolean = false,
       7.U -> io.dma_load_capabilities(g), 8.U -> dmaLoadMode(g),
       9.U -> modeSwitchRejects(g), 10.U -> dmaLoadBuildId.U(64.W))))
     when(select && op === 9.U && !(available(g) && !io.gemmini_fault(g) &&
-      io.dma_load_capabilities(g) =/= 0.U && io.control_rs1 <= 2.U && io.control_rs2 === 0.U)) {
+      io.dma_load_capabilities(g) =/= 0.U && dmaModeSupported(g) && io.control_rs2 === 0.U)) {
       modeSwitchRejects(g) := modeSwitchRejects(g) + 1.U
     }
     when(select && op === 9.U && available(g) && !io.gemmini_fault(g) &&
-      io.dma_load_capabilities(g) =/= 0.U && io.control_rs1 <= 2.U && io.control_rs2 === 0.U) {
+      io.dma_load_capabilities(g) =/= 0.U && dmaModeSupported(g) && io.control_rs2 === 0.U) {
       dmaLoadMode(g) := io.control_rs1
     }
     val acknowledge = select && op === 5.U && !armed(g) && io.control_rs1 === 0.U && io.control_rs2 === 0.U

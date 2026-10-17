@@ -5,12 +5,14 @@
 #include "dma_load_identity.h"
 #include "board_identity.h"
 
-static const char *const dma_first_modes[3]={"legacy","read_coalesced","read_assembled"};
+#include "dma_load_suite.h"
+static unsigned dma_first_mode_count;
+#define dma_first_modes dma_modes
 static const volatile uint64_t dma_expected_build_id=DMA_LOAD_EXPECTED_BUILD_ID;
 static void dma_first_select(unsigned mode) {
     gf_publish();
     for(unsigned lane=0;lane<LANES;lane++) {
-        if(gf_read(lane,7,0)!=UINT64_C(0x10007)||gf_read(lane,10,0)!=dma_expected_build_id)
+        if(gf_read(lane,7,0)!=(dma_first_mode_count==4?UINT64_C(0x1000f):UINT64_C(0x10007))||gf_read(lane,10,0)!=dma_expected_build_id)
             fail("dma_hardware_identity",lane);
         uint64_t begin=cycle();
         while(gf_status(lane)&(GF_OWNED|GF_GEMMINI_BUSY|GF_FAULT|GF_ARMED)) {
@@ -41,8 +43,15 @@ static uint64_t dma_first_run(unsigned mode,unsigned parallel,unsigned round,uns
 int main(void) {
     volatile uint32_t *uart=(volatile uint32_t *)AT_UART_BASE;
     uart[2]=1;uart[4]=0;uart[6]=867;
-    field("DMALF1,BUILD,schema=1,build_id=",DMA_LOAD_EXPECTED_BUILD_ID);
-    text(",rounds=4,modes=3,executors=2,frames_per_batch=3,clock_hz=100000000,l2_kib=512,l2_banks=2,layout=original,package_build=" DMA_BOARD_BUILD_ID "\n");
+    uint64_t capability=gf_read(0,7,0);
+    if(capability!=UINT64_C(0x10007)&&capability!=UINT64_C(0x1000f))fail("dma_capability",capability);
+    dma_first_mode_count=capability==UINT64_C(0x1000f)?4:3;
+    if(DMA_REQUIRE_SPAD_ONLY&&dma_first_mode_count!=4)fail("dma_spad_only_requires_new_bitstream",capability);
+    field("DMALF1,BUILD,schema=2,build_id=",DMA_LOAD_EXPECTED_BUILD_ID);
+    text(",suite=short_first_ablation,frames=12,warmup_frames=3,modes=");field("",dma_first_mode_count);
+    text(",executors=2,clock_hz=100000000,l2_kib=512,l2_banks=2,layout=original,ablation=");
+    text(dma_first_mode_count==4?"complete":"missing_spad_only");
+    text(",package_build=" DMA_BOARD_BUILD_ID "\n");
     dma_first_select(0);
     for(unsigned lane=0;lane<LANES;lane++) {
         GF_DIRECT(lane,7,UINT64_C(0),UINT64_C(0));gf_publish();lut(lane);
@@ -54,28 +63,29 @@ int main(void) {
         build(0,image,image,gold[image].data);launch(0,image,0);wait_lanes(1);
         guards(gold[image].before,gold[image].after);
     }
-    uint64_t totals[3][2]={{0}};
-    for(unsigned iteration=0;iteration<=ROUNDS;iteration++) {
-        unsigned warmup=iteration==0,round=warmup?0:iteration-1;
-        for(unsigned order=0;order<3;order++) {
-            unsigned mode=iteration&1?2-order:order;
-            dma_first_select(mode);current_round=round;
-            if(!warmup)for(unsigned parallel=0;parallel<2;parallel++)
-                (void)dma_first_run(mode,parallel,round,1);
-            for(unsigned parallel=0;parallel<2;parallel++) {
-                uint64_t elapsed=dma_first_run(mode,parallel,round,warmup);
-                if(!warmup)totals[mode][parallel]+=elapsed;
+    uint64_t totals[DMA_MAX_MODES][2]={{0}};
+    for(unsigned mode=0;mode<dma_first_mode_count;mode++) {
+        dma_first_select(mode);
+        for(unsigned parallel=0;parallel<2;parallel++) {
+            (void)dma_first_run(mode,parallel,0,1);
+            for(unsigned batch=0;batch<DMA_MEASURE_FRAMES/LANES;batch++) {
+                current_round=batch;
+                totals[mode][parallel]+=dma_first_run(mode,parallel,batch,0);
             }
         }
     }
-    for(unsigned mode=0;mode<3;mode++) {
+    for(unsigned mode=0;mode<dma_first_mode_count;mode++) {
         text("DMALF1,SUMMARY,mode=");text(dma_first_modes[mode]);
+        field(",frames=",DMA_MEASURE_FRAMES);
         field(",serial_cycles=",totals[mode][0]);field(",parallel_cycles=",totals[mode][1]);
         field(",scaling_x1000=",totals[mode][0]*1000/totals[mode][1]);
         field(",serial_gain_x1000=",totals[0][0]*1000/totals[mode][0]);
         field(",parallel_gain_x1000=",totals[0][1]*1000/totals[mode][1]);text("\n");
     }
     dma_first_select(0);
-    text("DMALF1,PASS,measured_records=24,warmup_records=30,full_output_bit_exact=1,scope=first_conv\n");
+    field("DMALF1,PASS,measured_records=",dma_first_mode_count*8);
+    field(",warmup_records=",dma_first_mode_count*2);
+    text(",full_output_bit_exact=1,scope=first_conv,ablation=");
+    text(dma_first_mode_count==4?"complete":"missing_spad_only");text("\n");
     for(;;)__asm__ volatile("wfi");
 }

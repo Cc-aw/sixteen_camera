@@ -12,3 +12,8 @@ OpenOCD、GDB 等工具路径通过各目录的 `config.local.mk` 配置。
 `dma_load_512kib_2bank/`：512 KiB／2 bank 的 DMA 短请求合并与 SPAD 行组装
 三模式板测，包含首层、整网及跨批次 PPU 编号修复。使用方法见
 [功能说明](dma_load_512kib_2bank/README.md)。
+
+`dma_spad_micro/`：复用当前 DMA 候选的独立小 ELF，连续／非连续短行各对比三个
+运行时模式，记录完整 mvin 批次周期、TL Get 和 SPAD 写次数；不带模型权重。
+默认 C=12、N=32、P=2、非连续 stride=64，使用方法见
+[微基准说明](dma_spad_micro/README.md)。

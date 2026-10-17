@@ -51,12 +51,13 @@ class DmaLoadGroup[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T
   val normalMemory = first.vaddr >= "h80000000".U && endAddress <= "h100000000".U
   val continuous = first.cmd_stride_bytes === first.cols
   val readMerge = continuous && first.cmd_rows > 1.U
+  val assemble = io.mode === 2.U || io.mode === 3.U
   io.eligible := io.mode =/= 0.U && !first.laddr.is_acc_addr && !first.laddr.accumulate &&
     !first.has_acc_bitwidth && first.repeats === 0.U && first.cols =/= 0.U && first.cols < 32.U &&
     first.cmd_rows =/= 0.U && first.cmd_rows <= 32.U && first.pixel_repeats =/= 0.U &&
     first.pixel_repeats <= dma_load_max_pixel_repeats.U && first.pixel_repeats * first.cols <= 32.U &&
-    sameHalf && Mux(first.all_zeros, io.mode === 2.U,
-      normalMemory && (readMerge || (io.mode === 2.U && first.pixel_repeats > 1.U)))
+    sameHalf && Mux(first.all_zeros, assemble,
+      normalMemory && (readMerge || (assemble && first.pixel_repeats > 1.U)))
   // tail cannot advance until the complete command has been collected.
   io.in.ready := !fault && Mux(collecting, true.B, state(tail) === free)
   io.accepted := io.in.fire && first.cmd_first
@@ -99,7 +100,10 @@ class DmaLoadGroup[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T
   val heldSelection = Reg(UInt(1.W))
   val selected = Mux(held, heldSelection, Mux(wants(preferred), preferred, ~preferred))
   val selectedDescriptor = descriptor(selected)
-  val contiguous = selectedDescriptor.cmd_stride_bytes === selectedDescriptor.cols
+  // Mode 3 keeps the same ordered collection/replay and SPAD assembler,
+  // but forbids a physical request from consuming bytes of adjacent rows.
+  // This isolates cross-row TL merging; it does not bypass group buffering.
+  val contiguous = selectedDescriptor.cmd_stride_bytes === selectedDescriptor.cols && modes(selected) =/= 3.U
   val planner = Module(new DmaLoadReadPlanner(first.vaddr.getWidth))
   planner.io.address := fetchAddress(selected)
   planner.io.remaining := Mux(contiguous, total(selected) - issued(selected), rowLeft(selected))
@@ -181,7 +185,7 @@ class DmaLoadGroup[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T
     saved.scale := current.scale; saved.pixel_repeats := current.pixel_repeats
     saved.len := current.cols; saved.last := true.B; saved.bytes_read := current.cols
     saved.cmd_id := current.cmd_id
-    saved.grouped := true.B; saved.assembled := modes(head) === 2.U
+    saved.grouped := true.B; saved.assembled := modes(head) === 2.U || modes(head) === 3.U
     saved.group_id := head; saved.group_first := rowIndex === 0.U
     saved.group_last := rowIndex === current.cmd_rows - 1.U
     saved.group_zeros := current.all_zeros; saved.group_bytes := total(head)

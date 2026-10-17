@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "description": "Local copies only; no model weights or cross-feature build reads.",
+  "files": [
+    {
+      "source": "sw/board_tests/dma_load_512kib_2bank/include/gemmini_frontend.h",
+      "local": "include/gemmini_frontend.h",
+      "original_sha256": "4ee7dd311a8fe31242541f28aaee4445ac25d4ce84f7e5bdb4501b297e7130b7"
+    },
+    {
+      "source": "sw/board_tests/dma_load_512kib_2bank/src/start.S",
+      "local": "src/start.S",
+      "original_sha256": "1127615a1afb923468500c1d8ce29ff7f2cca8a275cb7518642284062627f73f"
+    },
+    {
+      "source": "sw/board_tests/dma_load_512kib_2bank/src/link.ld",
+      "local": "src/link.ld",
+      "original_sha256": "a2ca9ead40c0fa9175c6fe113f89de4ffa4b7a29896917e7a97f9457be90fe83"
+    },
+    {
+      "source": "sw/board_tests/dma_load_512kib_2bank/program/run_firmware.sh",
+      "local": "program/run_firmware.sh",
+      "original_sha256": "5cd3b050a673e4c89700ad6336b299d548fe63923ec4918ceb14fc4863f0a9b3"
+    },
+    {
+      "source": "sw/board_tests/dma_load_512kib_2bank/program/openocd/openocd-bscan.cfg",
+      "local": "program/openocd/openocd-bscan.cfg",
+      "original_sha256": "cf21c4ba4fcd96df11fa800e280d429273c1a74f71f3d41fe977130a04d729e9"
+    },
+    {
+      "source": "sw/board_tests/dma_load_512kib_2bank/program/openocd/load-hdmi-tx.gdb",
+      "local": "program/openocd/load-hdmi-tx.gdb",
+      "original_sha256": "13279f1f1349bc6a139b17420d502367aeda156e5883db330def9821e2e7cf8e"
+    },
+    {
+      "source": "sw/board_tests/dma_load_512kib_2bank/config.example.mk",
+      "local": "config.example.mk",
+      "original_sha256": "30e8d26f3f58ff40810c1127e8f8ac0614bdccc25cb2092cd2c004ff9731d250"
+    }
+  ],
+  "hardware_target_source": "sw/board_tests/dma_load_512kib_2bank/hardware/target.json",
+  "hardware_target_source_sha256": "0320409e42012e103652bddc4eed4a65c78617513623882005ff286633af439f",
+  "adaptations": [
+    "Use a 512 KiB DDR allocation and 16 KiB stack for the micro ELF.",
+    "Default firmware loader points to the local micro ELF."
+  ]
+}

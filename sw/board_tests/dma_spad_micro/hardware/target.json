@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "hardware_build_id": "2a95a4ca64390235",
+  "clock_hz": 100000000,
+  "dma_control_version": 1,
+  "modes": [
+    "legacy",
+    "read_coalesced",
+    "read_assembled"
+  ],
+  "spad_rows": 16384,
+  "spad_columns_bytes": 32,
+  "original_bitstream_sha256": "e930cc0674b0f8756a5e7ecb63aa9d769d824cdca068911d0f180ef3a2efd25c",
+  "original_generation_context_sha256": "c9e51701b92cb7fe999f061d2ffc769c6bf3e376d1b270efa4ebf62e567a0a0b",
+  "original_setup_timing_met": false
+}

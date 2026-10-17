@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "date": "2026-10-17",
+  "status": "ELF_HOST_AND_EXISTING_CANDIDATE_RTL_PASS",
+  "board_accessed": false,
+  "board_performance": "NOT_MEASURED",
+  "bitstream_generated": false,
+  "hardware_build_id": "2a95a4ca64390235",
+  "software_build_id": "230150b994e0ff8fcad347b972e626991a6f2c1c692d6ee90f110e51f91f530e",
+  "case": {
+    "c": 12,
+    "n": 32,
+    "p": 2,
+    "stride": 64,
+    "offset": 0,
+    "ops": 1,
+    "samples": 12,
+    "warmups": 3,
+    "lane": 0,
+    "scale_requested": 1.0,
+    "scale_effective": 1.0,
+    "scale_bits": 15360
+  },
+  "elf_sha256": "9393f33ca88c12fb441945776648c9c1d3bbeae79d699bdfc7d81f266e0085ff",
+  "elf_bytes": 58640,
+  "payload_bytes": 6544,
+  "payload_sha256": "7190c4050ed9410ce8e518a8ade258e5cac1b5f156fbc98529bb38f37b614c52",
+  "load_segments": [
+    {
+      "address": 2181038080,
+      "memory_bytes": 31104,
+      "file_bytes": 6544
+    }
+  ],
+  "build_dependency_entries": 9,
+  "host_tests": 5,
+  "default_formal_samples": 72,
+  "default_warmup_samples": 18,
+  "checks": {
+    "production_manifest": "PASS",
+    "elf_audit": "PASS",
+    "download_preflight": "PASS",
+    "independent_scalar_and_traffic_reference": "PASS",
+    "real_c_suite_and_fault_injection": "PASS",
+    "synthetic_timing_rejected_as_board_evidence": "PASS"
+  },
+  "relocated_build": {
+    "status": "PASS",
+    "package": "/tmp/dma-spad-micro-relocation-2zvaz90g/package",
+    "build_id": "230150b994e0ff8fcad347b972e626991a6f2c1c692d6ee90f110e51f91f530e",
+    "payload_sha256": "7190c4050ed9410ce8e518a8ade258e5cac1b5f156fbc98529bb38f37b614c52",
+    "payload_identical": true,
+    "board_accessed": false
+  },
+  "alternate_parameters": {
+    "status": "PASS",
+    "parameters": {
+      "ops": 32,
+      "lane": 2,
+      "offset": 63
+    },
+    "wrong_parameters_refused": true,
+    "board_accessed": false
+  },
+  "rtl_results": [
+    {
+      "case": "continuous",
+      "comparisons": 9,
+      "compared_bytes": 10080,
+      "evidence_sha256": "9a8741f42df2e6ffdfa0614b0873a6bbdc234aa2db6711621d94a62e81c7289b",
+      "log_sha256": "2e5db9b4b40c74ad3a0bc2310e0a37357d71c8a120f382e539a499505936d268"
+    },
+    {
+      "case": "strided",
+      "comparisons": 9,
+      "compared_bytes": 10080,
+      "evidence_sha256": "034cc305f474af6147c4fd22f7687425254054efb745e5641ea48d139d0d78b3",
+      "log_sha256": "62b4805ca1164ed60fc07fbe7f63820106accb84bbe91465522ba5e2f2fdb5ff"
+    }
+  ],
+  "default_mvin_only_traffic": [
+    {
+      "case": "continuous",
+      "mode": "legacy",
+      "read_merge": 0,
+      "assembly": 0,
+      "get32": 32,
+      "get64": 4,
+      "return_bytes": 1280,
+      "spad_writes": 72
+    },
+    {
+      "case": "continuous",
+      "mode": "read_coalesced",
+      "read_merge": 1,
+      "assembly": 0,
+      "get32": 0,
+      "get64": 6,
+      "return_bytes": 384,
+      "spad_writes": 64
+    },
+    {
+      "case": "continuous",
+      "mode": "read_assembled",
+      "read_merge": 1,
+      "assembly": 1,
+      "get32": 0,
+      "get64": 6,
+      "return_bytes": 384,
+      "spad_writes": 33
+    },
+    {
+      "case": "strided",
+      "mode": "legacy",
+      "read_merge": 0,
+      "assembly": 0,
+      "get32": 32,
+      "get64": 0,
+      "return_bytes": 1024,
+      "spad_writes": 64
+    },
+    {
+      "case": "strided",
+      "mode": "read_coalesced",
+      "read_merge": 0,
+      "assembly": 0,
+      "get32": 32,
+      "get64": 0,
+      "return_bytes": 1024,
+      "spad_writes": 64
+    },
+    {
+      "case": "strided",
+      "mode": "read_assembled",
+      "read_merge": 0,
+      "assembly": 1,
+      "get32": 32,
+      "get64": 0,
+      "return_bytes": 1024,
+      "spad_writes": 33
+    }
+  ],
+  "timing": "CPU rdcycle before OPS complete mvin commands through lane idle; includes issue/polling; excludes preparation, config, counter reads, mvout/reference/UART.",
+  "interpretation": "Strided read_assembled measures Group collection/buffering/replay plus RowAssembler without cross-row read merging; it is not an isolated assembler hardware benchmark.",
+  "limits": [
+    "Raw RTL counts additionally include poison initialization and zero loads, explained in validation/README.md.",
+    "No board cycle result is claimed; native fake-device timings are synthetic.",
+    "Original candidate setup timing is unmet; this test does not resolve that issue."
+  ],
+  "source_sha256": {
+    ".gitignore": "3a687d31cd017e9c55df0a53e7026bd7f13e2ab2feb8d9f78efae02cf5586673",
+    "Makefile": "f7a845a1844e07bf9219c41a8b7110b63df82b6ec8a32e2d4cb826bf3bd875f4",
+    "README.md": "8f64ba6213d6771d4e7cf1741c2fc4a7d1fef8f411731c009d0b1ef6cb988a6f",
+    "SOURCE_ORIGINS.json": "a01d75630f8b0184c8d85bf1c6f5a8f24252657bc3c5086a4c7caf8d8f655375",
+    "config.example.mk": "30e8d26f3f58ff40810c1127e8f8ac0614bdccc25cb2092cd2c004ff9731d250",
+    "hardware/target.json": "99db6687560538fbe3575a0154a75695c47213e83c66dc35154b17370c7764f1",
+    "include/gemmini_frontend.h": "4ee7dd311a8fe31242541f28aaee4445ac25d4ce84f7e5bdb4501b297e7130b7",
+    "include/micro.h": "5271b3be1da97f413555e05ac91762bff45fed50866fb0b2c8454199b0051566",
+    "program/openocd/load-hdmi-tx.gdb": "13279f1f1349bc6a139b17420d502367aeda156e5883db330def9821e2e7cf8e",
+    "program/openocd/openocd-bscan.cfg": "cf21c4ba4fcd96df11fa800e280d429273c1a74f71f3d41fe977130a04d729e9",
+    "program/run_firmware.sh": "3520cb66d290f4c775be626a70e8e3767b897db775dd72962c92e176db20c10d",
+    "scripts/analyze.py": "9cc252e5701c2da54ad3f75d9cc61dadd118c02185ddc0c3a740865e84562ca8",
+    "scripts/build.py": "a6cfa4d98f0ff67f13818c03010193c5bc54b3834ff8168d8341ad20aea9ce08",
+    "scripts/program.py": "e3c29bc16581debd14b00c8f36c9762dfc7e311c30a744520bb97a8fa001ede6",
+    "scripts/spec.py": "a602ed6fec9193ef1c6a54188da7c2a55e9812e74044bb4851ae2c515a0f433a",
+    "src/hardware.c": "e7402e447f0462cc51aea2e6e12a57ff1e2174c1c650398c221badec2eb0fa91",
+    "src/link.ld": "890dad5ac21eef2b8158513818155c00ab278163052d03f3126f683f80b7ba0a",
+    "src/main.c": "7818ab329c3c7d86ed2de2a1ff7f7013b2cd0fe5c5d76df8ead77f42717ad2ca",
+    "src/reference.c": "7b3499c873b6c3738241a23484e7e654eaf71e2a27a0530a464ae57ccd0722fa",
+    "src/start.S": "1127615a1afb923468500c1d8ce29ff7f2cca8a275cb7518642284062627f73f",
+    "src/trap.S": "db1def1c633d7d96d7145ff53031b418288922feef4f0c23baaea80dd57bacea",
+    "tests/fake_device.c": "955e0a31c4eec6e5cce8fadbbd747db46d0e1b80284c04685ffb6a09252f83d3",
+    "tests/reference_driver.c": "236c710b6131c3175c349fe0aed2a0160ccf85b4b368c94999d35a3dff75e3d8",
+    "tests/test_micro.py": "bd6505f3f80db89982e0817fd28a8749c956436be9be6f49ef4536888ad28f61"
+  },
+  "command_log_sha256": {
+    "/tmp/dma-spad-micro-final.log": "1440bff388d80f65f941f2b97e06dd3317601437dca2f9e76aeb2c08b633258f",
+    "/tmp/dma-spad-micro-ops32.log": "a7c4b75f58e9514d8f6b3e7df87691a9e1998eb6a5cbe896eea58e6ce0961753",
+    "/tmp/dma-spad-micro-relocation.log": "88fa99f2a1c8cd242695fb209811b00793f77d8839e6fee177ab34183a1e3ca2",
+    "/tmp/dma-spad-micro-variant.log": "1eb910390396c78ad0cddb6d930db699ba4e3570b321fa291a2efba961492db0",
+    "/tmp/dma-spad-micro-production-check.log": "b173404fb32a1035d4a6a332fe469a504be98b29801f311bd3b686e8c9a77f38"
+  }
+}

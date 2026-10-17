@@ -3,8 +3,10 @@
 import importlib.util
 import os
 from pathlib import Path
+import signal
 import subprocess
 import tempfile
+import time
 import unittest
 from unittest.mock import MagicMock, patch
 
@@ -123,10 +125,12 @@ class Programming(unittest.TestCase):
         compat.write_bytes(b'fixture')
         for status in [0, 1]:
             server = MagicMock()
+            server.pid = 43569
             server.poll.return_value = None
             with patch.object(runner, 'COMPAT', compat), \
                  patch.object(runner.socket, 'socket') as sock, \
                  patch.object(runner.socket, 'create_connection'), \
+                 patch.object(runner.os, 'killpg') as kill_group, \
                  patch.object(runner.subprocess, 'Popen', return_value=server) as start, \
                  patch.object(runner.subprocess, 'run') as run:
                 sock.return_value.__enter__.return_value.getsockname.return_value = ('127.0.0.1', 43567)
@@ -135,10 +139,14 @@ class Programming(unittest.TestCase):
                                         self.folder / 'test.tcl', self.folder / 'logs/program.log')
                 self.assertEqual(result, status)
                 self.assertTrue(start.call_args.kwargs['env']['LD_PRELOAD'].startswith(str(compat)))
+                self.assertTrue(start.call_args.kwargs['start_new_session'])
                 self.assertEqual(run.call_args.kwargs['env']['HW_SERVER_URL'], '127.0.0.1:43567')
                 self.assertEqual(run.call_args.kwargs['env'].get('LD_PRELOAD'), os.environ.get('LD_PRELOAD'))
-                server.terminate.assert_called_once()
-                server.wait.assert_called_once_with(timeout=5)
+                self.assertEqual(kill_group.call_args_list,
+                                 [unittest.mock.call(server.pid, signal.SIGTERM),
+                                  unittest.mock.call(server.pid, signal.SIGKILL)])
+                server.terminate.assert_not_called()
+                server.wait.assert_any_call(timeout=5)
 
     def test_server_cleanup_on_startup_failure(self):
         tool_dir = self.folder / 'startup_bin'
@@ -148,9 +156,11 @@ class Programming(unittest.TestCase):
             path.write_text('#!/bin/sh\nexit 0\n')
             path.chmod(0o700)
         server = MagicMock()
+        server.pid = 43570
         server.poll.return_value = 2
         with patch.object(runner, 'COMPAT', self.compat), \
              patch.object(runner.socket, 'socket') as sock, \
+             patch.object(runner.os, 'killpg') as kill_group, \
              patch.object(runner.subprocess, 'Popen', return_value=server), \
              patch.object(runner.subprocess, 'run') as run:
             sock.return_value.__enter__.return_value.getsockname.return_value = ('127.0.0.1', 43568)
@@ -159,6 +169,49 @@ class Programming(unittest.TestCase):
                                self.folder / 'test.tcl', self.folder / 'startup/program.log')
             run.assert_not_called()
             server.terminate.assert_not_called()
+            kill_group.assert_any_call(server.pid, signal.SIGTERM)
+
+    def test_real_launcher_descendant_is_stopped_even_if_launcher_exited(self):
+        # No hardware or installed tool is invoked. Reproduce the real Vivado
+        # shell -> loader -> server lifetime with a disposable local process.
+        for exited in [False, True]:
+            with self.subTest(launcher_already_exited=exited):
+                child_file = self.folder / ('child_' + str(exited))
+                script = ('trap "" TERM\n'
+                          'sleep 120 &\n'
+                          'echo $! > "$1"\n' + ('exit 0\n' if exited else 'wait\n'))
+                server = subprocess.Popen(['bash', '-c', script, 'fixture', str(child_file)],
+                                          start_new_session=True)
+                child = None
+                try:
+                    deadline = time.monotonic() + 3
+                    while not child_file.exists() or not child_file.read_text().strip():
+                        if time.monotonic() >= deadline:
+                            self.fail('fixture did not start')
+                        time.sleep(0.01)
+                    child = int(child_file.read_text())
+                    if exited:
+                        server.wait(timeout=3)
+                    # Exercise the escalation path without a five-second test.
+                    real_wait = server.wait
+                    with patch.object(server, 'wait', side_effect=lambda *a, **k:
+                                      real_wait(timeout=0.1) if k else real_wait(*a)):
+                        runner.stop(server)
+                    deadline = time.monotonic() + 3
+                    while True:
+                        stat = Path('/proc') / str(child) / 'stat'
+                        if not stat.exists() or stat.read_text().split(') ')[1].split()[0] == 'Z':
+                            break
+                        if time.monotonic() >= deadline:
+                            self.fail('server descendant survived cleanup')
+                        time.sleep(0.01)
+                    self.assertIsNotNone(server.poll())
+                finally:
+                    try:
+                        os.killpg(server.pid, signal.SIGKILL)
+                    except ProcessLookupError:
+                        pass
+                    server.wait()
 
     def test_shell_check_resolves_relative_bitstream_without_starting_tools(self):
         work = self.folder / 'check_only'

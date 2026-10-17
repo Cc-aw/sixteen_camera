@@ -114,7 +114,7 @@ object DmaLoadTest extends App {
     println(s"DMA_LOAD_ASSEMBLER_PASS,cases=$cases,poison=checked,tails=checked,backpressure=checked")
   }
 
-  RawTester.test(new DmaLoadGroup(cfg), backend) { d =>
+  for (mode <- Seq(2,3)) RawTester.test(new DmaLoadGroup(cfg), backend) { d =>
     case class Command(c: Int, n: Int, p: Int, stride: Int, zeros: Boolean=false)
     val commands = Vector(Command(3,32,6,3), Command(16,31,2,16), Command(12,3,2,29),
       Command(3,1,6,3,true),Command(7,32,4,7),Command(31,2,1,31),Command(16,32,1,16),
@@ -124,7 +124,7 @@ object DmaLoadTest extends App {
     zero(d.io.in.bits); zero(d.io.fragment.bits); zero(d.io.completed.bits)
     d.io.in.valid.poke(false.B); d.io.fragment.valid.poke(false.B)
     d.io.completed.valid.poke(false.B); d.io.request.ready.poke(false.B); d.io.replay.ready.poke(false.B)
-    d.io.mode.poke(2.U); d.io.counter.external_reset.poke(false.B); reset(d)
+    d.io.mode.poke(mode.U); d.io.counter.external_reset.poke(false.B); reset(d)
     // One P=1 row has no neighboring request to merge. Keep it on legacy.
     d.io.in.bits.vaddr.poke("h80000000".U);d.io.in.bits.cols.poke(16.U)
     d.io.in.bits.cmd_rows.poke(1.U);d.io.in.bits.cmd_stride_bytes.poke(16.U)
@@ -133,6 +133,7 @@ object DmaLoadTest extends App {
     var fragments = Vector.empty[(Int,Int,Int,BigInt)]
     var credits = Vector.empty[(Int,Int,Int)]
     var cycles = 0
+    var firstCommandGets = 0
     while((completed < commands.size || d.io.busy.peek().litToBoolean) && cycles < 8000) {
       zero(d.io.in.bits)
       d.io.in.valid.poke((command < commands.size).B)
@@ -164,6 +165,15 @@ object DmaLoadTest extends App {
       if(d.io.request.valid.peek().litToBoolean && d.io.request.ready.peek().litToBoolean) {
         val b=d.io.request.bits
         val address=b.vaddr.peek().litValue
+        if(address < BigInt("80000ffb",16)+8192) firstCommandGets += 1
+        if(mode==3) {
+          val offset=b.group_offset.peek().litValue.toInt
+          // Look up accepted command identity via its unique address region.
+          val ci=((address-BigInt("80000ffb",16))/8192).toInt
+          val c=commands(ci)
+          assert(b.len.peek().litValue <= c.c-offset%c.c,
+            "SPAD-only request crossed a logical row")
+        }
         val owner=b.group_id.peek().litValue.toInt
         var offset=b.group_offset.peek().litValue.toInt
         var left=b.len.peek().litValue.toInt
@@ -179,6 +189,7 @@ object DmaLoadTest extends App {
       }
       if(d.io.replay.valid.peek().litToBoolean && d.io.replay.ready.peek().litToBoolean) {
         val b=d.io.replay.bits; val c=commands(emittedCommand)
+        b.assembled.expect(true.B)
         b.cmd_id.expect((emittedCommand%2).U); b.len.expect(c.c.U)
         b.addr.expect((64+emittedRow).U); b.group_first.expect((emittedRow==0).B)
         b.group_last.expect((emittedRow==c.n-1).B)
@@ -201,12 +212,13 @@ object DmaLoadTest extends App {
       d.io.fault.expect(false.B); d.clock.step(); cycles+=1
     }
     assert(completed==commands.size && emittedCommand==commands.size && fragments.isEmpty)
+    assert(firstCommandGets == (if(mode==2)3 else 33),s"read ablation count $firstCommandGets mode=$mode")
     // Unowned response must fault and hold busy, never complete a recycled ID.
     d.io.completed.valid.poke(false.B)
     zero(d.io.fragment.bits); d.io.fragment.bits.bytes.poke(1.U)
     d.io.fragment.valid.poke(true.B); d.clock.step(); d.io.fragment.valid.poke(false.B)
     d.io.fault.expect(true.B); d.io.busy.expect(true.B)
-    println(s"DMA_LOAD_GROUP_PASS,commands=$completed,contexts=2,id_reuse=checked,reordered_returns=checked,fault=checked")
+    println(s"DMA_LOAD_GROUP_PASS,mode=$mode,first_command_gets=$firstCommandGets,commands=$completed,contexts=2,id_reuse=checked,reordered_returns=checked,fault=checked")
   }
 
   // Independent acceptance-order ledger, including mixed EX/DMA/zero writes,
@@ -294,11 +306,16 @@ object DmaLoadTest extends App {
     d.io.dma_load_capabilities(2).poke(0.U); control(2,9,1,expected=3)
     control(0,3,9,expected=5);control(2,3,9,expected=1)
     for(i <- 0 until 3) d.io.dma_load_mode(i).expect(0.U)
+    // The fourth mode is additive: old bitmap still refuses it.
+    d.io.dma_load_capabilities(0).poke("h1000f".U)
+    control(0,9,3);control(0,3,8,expected=3)
+    d.io.gemmini_busy.poke(1.U);control(0,9,3,expected=1);d.io.gemmini_busy.poke(0.U)
+    control(0,9,4,expected=2);control(0,9,0)
     control(1,0,BigInt("80008000",16),1)
     control(1,1,BigInt("80000000",16),10000)
     control(1,2)
     d.io.stream_owner.expect(2.U)
     control(1,9,2,expected=1); d.io.dma_load_mode(1).expect(0.U)
-    println("DMA_LOAD_CONTROL_PASS,modes=3,default=legacy,busy_fault_unsupported_invalid=reject,ownership=checked,race=checked")
+    println("DMA_LOAD_CONTROL_PASS,modes=4,default=legacy,busy_fault_unsupported_invalid=reject,ownership=checked,race=checked")
   }
 }

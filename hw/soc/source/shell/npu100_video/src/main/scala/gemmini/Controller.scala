@@ -118,7 +118,7 @@ class GemminiModule[T <: Data: Arithmetic, U <: Data, V <: Data]
 
   import outer.config._
   import outer.spad
-  io.dma_load_capabilities := (if (dma_load_runtime_enable) BigInt("00010007", 16) else BigInt(0)).U
+  io.dma_load_capabilities := (if (dma_load_runtime_enable) BigInt("0001000f", 16) else BigInt(0)).U
   spad.module.io.dma_load_mode := (if (dma_load_runtime_enable) io.dma_load_mode else 0.U)
 
   val ext_mem_io = if (use_shared_ext_mem && !use_tl_ext_mem)

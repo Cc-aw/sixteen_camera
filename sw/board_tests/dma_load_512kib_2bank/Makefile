@@ -6,8 +6,9 @@ OUT := $(ROOT)/build
 GEN := $(OUT)/generated
 MODEL := $(ROOT)/model
 export CROSS HOST_CC VIVADO_BIN OPENOCD_BIN GDB_BIN GDB_PYTHONHOME BOARD_JTAG_SERIAL TIO_BIN
+DMA_ABLATION ?= 0
 ARCH := -march=rv64gcv -mabi=lp64d -mcmodel=medany -msmall-data-limit=0
-FLAGS := -O2 -g -std=gnu11 -ffunction-sections -fdata-sections -ffreestanding -fno-builtin -fno-tree-vectorize -Wall -Wextra -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-sign-compare -Werror=implicit-function-declaration
+FLAGS := -DDMA_REQUIRE_SPAD_ONLY=$(DMA_ABLATION) -O2 -g -std=gnu11 -ffunction-sections -fdata-sections -ffreestanding -fno-builtin -fno-tree-vectorize -Wall -Wextra -Wno-unused-variable -Wno-unused-function -Wno-unused-parameter -Wno-sign-compare -Werror=implicit-function-declaration
 INC := -I$(GEN) -I$(ROOT)/include -I$(GEN)/include -I$(MODEL) -I$(MODEL)/include
 export DMA_CFLAGS := $(FLAGS)
 export DMA_ARCH := $(ARCH)

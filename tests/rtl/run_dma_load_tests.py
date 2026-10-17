@@ -19,13 +19,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--workspace', type=Path, required=True)
     parser.add_argument('--rtl', type=Path)
-    parser.add_argument('--mode', choices=('legacy', 'read_coalesced', 'read_assembled', 'all'), default='all')
+    parser.add_argument('--mode', choices=('legacy', 'read_coalesced', 'read_assembled', 'spad_assembled', 'all'), default='all')
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--unit-only', action='store_true', help='Source-level Chisel unit tests, not candidate RTL acceptance')
     parser.add_argument('--reuse-integrations',type=Path,help='Validate existing first/layers/spad/fault result directories instead of rerunning them')
     args = parser.parse_args()
     cy, out = args.workspace.resolve(), args.output.resolve()
-    generator.validate_workspace_sources(cy)
+    if not args.unit_only:
+        generator.validate_workspace_sources(cy)
     context = None
     if not args.unit_only:
         if args.rtl is None:

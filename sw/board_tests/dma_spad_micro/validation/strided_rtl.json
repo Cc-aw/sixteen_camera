@@ -1,0 +1,83 @@
+{
+  "status": "REAL_SPAD_RAW_POISON_PASS",
+  "build_id": "2a95a4ca64390235",
+  "modes": 3,
+  "lanes": 3,
+  "compared_bytes": 10080,
+  "parameter_cases": 1,
+  "traffic": [
+    {
+      "lane": 0,
+      "mode": 0,
+      "sram_writes": 103,
+      "dma_gets": 67,
+      "case": 0,
+      "compared_bytes": 1120
+    },
+    {
+      "lane": 1,
+      "mode": 0,
+      "sram_writes": 103,
+      "dma_gets": 67,
+      "case": 0,
+      "compared_bytes": 1120
+    },
+    {
+      "lane": 2,
+      "mode": 0,
+      "sram_writes": 103,
+      "dma_gets": 67,
+      "case": 0,
+      "compared_bytes": 1120
+    },
+    {
+      "lane": 0,
+      "mode": 1,
+      "sram_writes": 103,
+      "dma_gets": 67,
+      "case": 0,
+      "compared_bytes": 1120
+    },
+    {
+      "lane": 1,
+      "mode": 1,
+      "sram_writes": 103,
+      "dma_gets": 67,
+      "case": 0,
+      "compared_bytes": 1120
+    },
+    {
+      "lane": 2,
+      "mode": 1,
+      "sram_writes": 103,
+      "dma_gets": 67,
+      "case": 0,
+      "compared_bytes": 1120
+    },
+    {
+      "lane": 0,
+      "mode": 2,
+      "sram_writes": 71,
+      "dma_gets": 67,
+      "case": 0,
+      "compared_bytes": 1120
+    },
+    {
+      "lane": 1,
+      "mode": 2,
+      "sram_writes": 71,
+      "dma_gets": 67,
+      "case": 0,
+      "compared_bytes": 1120
+    },
+    {
+      "lane": 2,
+      "mode": 2,
+      "sram_writes": 71,
+      "dma_gets": 67,
+      "case": 0,
+      "compared_bytes": 1120
+    }
+  ],
+  "log_sha256": "62b4805ca1164ed60fc07fbe7f63820106accb84bbe91465522ba5e2f2fdb5ff"
+}

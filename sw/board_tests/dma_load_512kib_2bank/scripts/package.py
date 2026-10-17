@@ -127,6 +127,9 @@ def audit_elf(path, kind, target, build_id, cross):
         record_prefix = b'S2D1' if kind == 'first' and marker == b'RESULT' else prefix
         if record_prefix + b',' + marker not in data:
             raise ValueError('Missing ELF marker: ' + str(marker))
+    suite=b'suite=short_first_ablation' if kind=='first' else b'suite=short_ablation'
+    if suite not in data or b'spad_assembled' not in data:
+        raise ValueError('ELF lacks the short-suite/fourth-mode contract')
     if build_id.encode() not in data or int(target['hardware_build_id'], 16).to_bytes(8, 'little') not in data:
         raise ValueError('ELF software/hardware identity mismatch')
     if kind == 'model' and any(marker not in data for marker in

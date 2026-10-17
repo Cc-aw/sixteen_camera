@@ -25,6 +25,7 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--native', type=Path, default=ROOT/'build/firmware/dma-load-2bank/native')
     args = parser.parse_args()
+    mode_count=len(json.loads((args.rtl.resolve().parent/'GENERATION_CONTEXT.json').read_text())['dma_load_supported_modes'])
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=False)
     snap = args.native.resolve()
@@ -129,6 +130,7 @@ tb=tb[:tb.index('  initial begin')]+r'''+"'''"+'''
 endmodule
 '''+"'''"+'''
 '''
+    replacement=replacement.replace('runtime_mode<3',f'runtime_mode<{mode_count}').replace('modes=3',f'modes={mode_count}')
     anchor='(out/"tb_real_cluster.sv").write_text(tb)'
     assert runner.count(anchor)==1
     runner=runner.replace(anchor,replacement+'\n'+anchor)
@@ -140,7 +142,7 @@ endmodule
     assert log.count('DMA_LAYER_PASS,')==72 and 'REAL_CLUSTER_PASS,DMA_LAYERS=8' in log
     context=json.loads((args.rtl.resolve().parent/'GENERATION_CONTEXT.json').read_text())
     (out/'evidence.json').write_text(json.dumps(dict(status='REPRESENTATIVE_LAYERS_PASS',
-        build_id=context['dma_load_build_id'],stages=[s for s,c in bindings],modes=3,lanes=3,
+        build_id=context['dma_load_build_id'],stages=[s for s,c in bindings],modes=mode_count,lanes=3,
         full_model_executed=False,log_sha256=hashlib.sha256(log.encode()).hexdigest()),indent=2)+'\n')
 
 

@@ -46,6 +46,34 @@ HOST 边界，再停止并保留 FAIL；报告与计数读取均在工作负载�
 不代表 DDR 实测流量。完整原始日志和部分分析保存在该 RUN 内；缺日志、断电、
 已有偶发错误和未满足时序仍阻止完整验收。默认继续保持 legacy。
 
+## 当前默认：每项 12 帧短测
+
+首层和整网都按每种硬件模式、每种 executor **正式测量 12 帧**，串行／三路并行
+使用相同输入和比较范围。并行三 lane 各 4 帧；每项正式计时前另外预热 3 帧。
+整网先用 legacy direct 跑 12 帧建立 PPU 基准，不计入正式周期。
+默认跳过之前的逐阶段扫描，成功时只输出逐帧完成、批次周期和 DMA 计数；失败时
+仍保留全部逐字差异、计数快照和 HOST 边界。首层每窗口完整比较 3,686,400 B。
+
+| 硬件 | 正式测量 | 额外整网基准／预热 | 整网 PPU 提交总数 |
+| --- | ---: | ---: | ---: |
+| 当前三模式比特流 | 3 模式 × 2 executor × 12 = 72 帧 | 12 + 18 = 30 帧 | 102 |
+| 后续四模式比特流 | 4 模式 × 2 executor × 12 = 96 帧 | 12 + 24 = 36 帧 | 132 |
+
+新日志是 `schema=2`，整网为 `firmware_revision=3,suite=short_ablation`。
+固定模式 ID：0=legacy、1=read_coalesced、2=read_assembled、3=spad_assembled。
+前三项沿用原含义；第四项关闭跨逻辑行的 TL 合并，保留命令收集、返回缓冲和 SPAD
+行组装，控制变量为“是否跨行合并请求”。它不代表完全绕过分组缓冲的另一种微架构。
+
+**本目录的硬件副本仍是旧三模式**，能力为 `0x10007`，因此当前软件只跑三模式并输出
+`ablation=missing_spad_only`，不能据此宣称完成了 SPAD-only 对照。新 RTL 支持能力
+`0x1000f`，但本轮只做离线验证，不生成或下载新比特流，也不替换本地硬件身份记录。
+未来新候选完成后，需连同比特流、生成上下文和来源清单一起建立匹配的软件包身份。
+
+`make all DMA_ABLATION=1` 可构建要求四模式的固件；旧硬件会明确失败
+`dma_spad_only_requires_new_bitstream`。默认 `DMA_ABLATION=0` 接受旧三模式，
+可立即用于现有硬件的 12 帧短测。只有 12 帧的一个批次，适合筛查明显收益，不作为
+多轮波动分布或长期稳定性结论。吞吐摊销毫秒／帧仍不能当成单帧延迟。
+
 ## 文件与两个程序
 
 | 路径 | 内容 |
@@ -55,8 +83,8 @@ HOST 边界，再停止并保留 FAIL；报告与计数读取均在工作负载�
 | `hardware/` | 本次比特流副本、生成记录、参数头、L2 几何与目标身份 |
 | `scripts/`、`program/` | 本地构建审计、UART 分析和下载工具 |
 | `tests/` | 完整测试循环的假设备编号回归、溢出及日志破坏检查 |
-| `build/yolov5_dma_load_first.elf` | 首层三模式，各含串行／三路并行和四轮正式测量 |
-| `build/yolov5_dma_load_model.elf` | 整网三模式，四轮测量及 HOST／Head／MPV3 分段诊断 |
+| `build/yolov5_dma_load_first.elf` | 首层按能力选择三／四模式，各 executor 正式 12 帧 |
+| `build/yolov5_dma_load_model.elf` | 整网按能力选择三／四模式，各 executor 正式 12 帧 |
 
 模型、指令计划、布局、Head 地址及数值比较范围保持原诊断契约。首层每窗口比较
 完整 3,686,400 B 输出；整网逐帧比较最终 PPU 的数量和 40 个结果字，不宣称所有
@@ -99,6 +127,12 @@ make program-bitstream RUN=bit_01
 的 `hw_server.log`、`digilent_adept.log` 和 `vivado_program.log`。
 `make preflight` 只检查路径和产物，不启动服务或连接开发板。
 
+2026-10-17 修正服务清理：Vivado 的启动脚本还会产生 loader 和实际服务子进程，
+仅终止启动 PID 会留下持有 JTAG 的孤儿 `hw_server`，导致下一次出现
+`Labtoolstcl 44-494 / may be locked by another hw_server`。现在服务使用独立进程组，
+成功、失败或中断后均清理整个所属进程组；不会清理其他用户的服务。
+已有残留需先确认其用户、命令行和 RUN 日志后单独停止，不要使用全局 `pkill`。
+
 两个终端均进入本目录。先在终端 A 开始串口记录，115200、8N1、无流控：
 
 ```bash
@@ -111,14 +145,16 @@ make uart TEST=model RUN=model_01 PORT=/dev/ttyACM0
 make program-model RUN=model_01
 ```
 
-程序自动运行。BUILD 应有 `firmware_revision=2,ppu_runs=monotonic`。
-`BATCH_BEGIN` 输出模式、轮次、executor 和 `run_before`，RESULT 输出
-`run_first/run_last`；55 个完整批次共分配 660 个编号，三个模式的分段诊断
-再分配 234 个，最后应出现：
+程序自动运行。整网 BUILD 应有 `schema=2,firmware_revision=3,frames=12`。
+`BATCH_BEGIN` 输出模式、executor、当前批次帧数和 `run_before`，RESULT 输出
+`run_first/run_last`。当前三模式应出现：
 
 ```text
-DMAL1,PASS,...,measured_records=24,...,ppu_runs=894
+DMAL1,PASS,...,measured_records=6,warmup_records=7,load_modes=3,...,ablation=missing_spad_only,ppu_runs=102
 ```
+
+未来四模式对应 `measured_records=8,warmup_records=9,load_modes=4`、
+`ablation=complete,ppu_runs=132`，无需再执行逐阶段扫描。
 
 仅看到 RESULT 或 SUMMARY 不算完整结束。录制到最终 PASS 后，在终端 A
 按 Ctrl+T 再 Q 退出，然后解析：
@@ -127,8 +163,9 @@ DMAL1,PASS,...,measured_records=24,...,ppu_runs=894
 make analyze LOG=logs/model_01/model.log
 ```
 
-解析检查硬件和软件身份、模式回读、全部计数器、四轮测量、编号连续性和最终
-894 次提交，拒绝旧编号版本、FAIL、输出差异和截断日志。结果与 JSON／文本报告
+解析检查硬件和软件身份、模式回读、全部计数器、每项 12 帧完整输出、编号连续性和
+最终 102／132 次提交；拒绝 FAIL、输出差异和截断日志。旧 schema=1 的严格解析仍保留，
+不会将旧四轮日志或缺失第四模式的运行冒充为新四模式完整对照。结果与 JSON／文本报告
 留在同一个 `logs/<RUN>/`；`scaling` 是串行／三路并行加速比，`serial_gain` 和
 `parallel_gain` 是相对 legacy 的收益，大于 1 表示变快。计数器是 Gemmini 总线
 口径，不把返回字节直接当成 DDR 流量。
@@ -146,6 +183,6 @@ make program-first RUN=first_01
 make analyze LOG=logs/first_01/first.log
 ```
 
-两份 ELF 都在同一 bitstream 内切换 legacy、read_coalesced、read_assembled，
-不为各模式重新烧写。下载回执只证明主机执行过下载，不能冒充板上可读的
+两份 ELF 都按能力位图在同一 bitstream 内切换模式：旧硬件为 legacy、read_coalesced、
+read_assembled；未来四模式硬件再加入 spad_assembled，不为各模式分别烧写。下载回执只证明主机执行过下载，不能冒充板上可读的
 bitstream SHA256；软件另外核对硬件 build ID。

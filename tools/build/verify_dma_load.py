@@ -14,6 +14,7 @@ from dma_load_candidate import validate, sha, closure
 
 def integration(context_path, directories):
     context,rtl=validate(context_path)
+    mode_count=len(context['dma_load_supported_modes'])
     hashes={}
     def record(path):
         path=Path(path).resolve();hashes[str(path)]=sha(path)
@@ -59,16 +60,16 @@ def integration(context_path, directories):
                 raise ValueError('First layer did not use all modes of this candidate')
             for path,expected in evidence['rtl_sha256'].items():
                 if sha(Path(path))!=expected:raise ValueError('First-layer source changed')
-            if log.count('DMA_LOAD_REAL_MODE_PASS,')!=3 or log.count('S2D_RTL_LANE_PASS,')!=9:
+            if log.count('DMA_LOAD_REAL_MODE_PASS,')!=mode_count or log.count('S2D_RTL_LANE_PASS,')!=3*mode_count:
                 raise ValueError('Missing first-layer modes/lanes')
         elif name=='layers':
             trace=checked_json(directory/'trace_evidence.json')
-            if trace['status']!='ROW_TRACE_GET_CLOSURE_PASS' or len(trace['results'])!=72:
+            if trace['status']!='ROW_TRACE_GET_CLOSURE_PASS' or len(trace['results'])!=24*mode_count:
                 raise ValueError('Incomplete row/Get closure')
             for path,expected in trace['sha256'].items():
                 if sha(record(path))!=expected:raise ValueError('Trace evidence changed')
         elif name=='spad':
-            if evidence['parameter_cases']!=6 or log.count('DMA_SPAD_PASS,')!=54:
+            if evidence['parameter_cases']!=6 or log.count('DMA_SPAD_PASS,')!=18*mode_count:
                 raise ValueError('Incomplete parameterized SRAM/RAW/poison matrix')
         else:
             if log.count('DMA_FAULT_HOLD_PASS,')!=2 or log.count('DMA_FAULT_RECOVERY_PASS,')!=2:

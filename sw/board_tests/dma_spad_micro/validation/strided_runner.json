@@ -1,0 +1,15 @@
+{
+  "template": "tests/model/dma_load/test_spad.py",
+  "template_sha256": "a0e09ea210dad91b013f59a0a337ea81e82e25b31f81b90c077bd4020da92959",
+  "derived_runner": "/tmp/dma_spad_micro_strided_rtl.py",
+  "derived_runner_sha256": "5e7b7be660718970c3f24ae9775a84d897faf1319785c69bc80d34a7229319bc",
+  "case": {
+    "c": 12,
+    "n": 32,
+    "p": 2,
+    "stride": 64,
+    "scale_bits": 15360,
+    "offset": 0
+  },
+  "note": "Private testbench override only; candidate RTL and production export are unchanged."
+}

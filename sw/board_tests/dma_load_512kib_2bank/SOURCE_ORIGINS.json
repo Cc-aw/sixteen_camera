@@ -400,7 +400,7 @@
       "local_path": "src/boundary_diag.inc",
       "original_sha256": "019961089a38b97868306ea7b4609fac06d00dba2ea6676dae1fa703ef98c29b",
       "copied_local_sha256": "019961089a38b97868306ea7b4609fac06d00dba2ea6676dae1fa703ef98c29b",
-      "adapted_for_local_package": false
+      "adapted_for_local_package": true
     },
     {
       "source_path": "sw/benchmarks/frontend/src/support.c",
@@ -567,8 +567,8 @@
       "source_path": "sw/board_tests/l2_1m_4bank/program/vivado_program.py",
       "local_path": "program/vivado_program.py",
       "original_sha256": "ad420dab959ff882c26ecf6ad0d5f5dc42386d7527795ee4b65172cf01a6665e",
-      "copied_local_sha256": "ad420dab959ff882c26ecf6ad0d5f5dc42386d7527795ee4b65172cf01a6665e",
-      "adapted_for_local_package": false
+      "copied_local_sha256": "6b7e346d5800fc82953096255f290c58d719ed367d90b3ce5b7e9ac5a78cee75",
+      "adapted_for_local_package": true
     },
     {
       "source_path": "sw/board_tests/l2_1m_4bank/program/digilent_ipc_compat.c",
@@ -581,7 +581,7 @@
       "source_path": "sw/board_tests/l2_1m_4bank/tests/test_programming.py",
       "local_path": "tests/test_programming.py",
       "original_sha256": "212815e2c7de0f48cc7f419e5e50e77445cb40815d82dc38f172ed8b1e063422",
-      "copied_local_sha256": "3a8808946eb6ea32dcb75b402aa365a2c798e4e98f5893f535683e156e7aae95",
+      "copied_local_sha256": "02707e21bdbb706a69c5f9fdeb605cd19317a50586dd6f76452c0b39b556e0b7",
       "adapted_for_local_package": true
     }
   ],
@@ -590,6 +590,11 @@
     "Monotonic PPU run allocation across all modes, warmups, rounds and phase passes.",
     "Model firmware revision 2 records batch run ranges; stale/output checks retained.",
     "Copy the l2_1m_4bank private hw_server and Digilent IPC compatibility fix; audit the local host library and preserve DMA entry points.",
-    "Retain full per-word PPU differences, first failing frame/lane, captured DMA counters and boundary reports before stopping on output mismatch; workload and comparisons unchanged."
+    "Retain full per-word PPU differences, first failing frame/lane, captured DMA counters and boundary reports before stopping on output mismatch; workload and comparisons unchanged.",
+    "Revision 3 short suites: exactly 12 measured frames per runtime mode and executor, three-frame warmups, no default phase sweep; monotonic PPU sequence retained.",
+    "Capability-driven optional fourth mode spad_assembled; old three-mode hardware is explicitly marked missing_spad_only. DMA_ABLATION=1 requires the fourth mode and rejects old images.",
+    "Keep full output/count comparisons and captured failure diagnostics; avoid printing successful per-HOST boundary reports.",
+    "New fourth-mode hardware is source-unit verified separately; the packaged target/bitstream and hardware provenance still identify the original three-mode image.",
+    "Run temporary hw_server in a dedicated process group and clean up loader/server descendants on success, failure or interruption; reproduce real orphan-server cleanup without opening hardware."
   ]
 }

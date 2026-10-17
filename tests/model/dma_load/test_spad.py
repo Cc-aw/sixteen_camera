@@ -24,12 +24,13 @@ def write_evidence(out,rtl,matrix,isolated_case):
         row['compared_bytes']=(int(fields['rows'])+int(fields['pixels'])+1)*32 if matrix else int(fields['bytes'])
         assert all(fields[k]=='checked' for k in ('poison','RAW','zero'))
         records.append(row)
+    mode_count=len(json.loads((rtl.resolve().parent/'GENERATION_CONTEXT.json').read_text())['dma_load_supported_modes'])
     keys={(r['case'],r['mode'],r['lane']) for r in records}
-    assert len(records)==len(keys)==9*len(expected_cases)
-    assert keys=={(c,m,l)for c in expected_cases for m in range(3)for l in range(3)}
+    assert len(records)==len(keys)==3*mode_count*len(expected_cases)
+    assert keys=={(c,m,l)for c in expected_cases for m in range(mode_count)for l in range(3)}
     context=json.loads((rtl.resolve().parent/'GENERATION_CONTEXT.json').read_text())
     report=dict(status='REAL_SPAD_RAW_POISON_PASS',build_id=context['dma_load_build_id'],
-        modes=3,lanes=3,compared_bytes=sum(r['compared_bytes']for r in records),
+        modes=mode_count,lanes=3,compared_bytes=sum(r['compared_bytes']for r in records),
         parameter_cases=len(expected_cases),traffic=records,
         log_sha256=hashlib.sha256(log.encode()).hexdigest())
     (out/'evidence.json').write_text(json.dumps(report,indent=2)+'\n')
@@ -231,6 +232,8 @@ endmodule
         if args.case is not None:
             body=body.replace('integer parameter_case=0;parameter_case<6;',f'integer parameter_case={args.case};parameter_case<{args.case+1};')
             cases=1
+    mode_count=len(json.loads((args.rtl.resolve().parent/'GENERATION_CONTEXT.json').read_text())['dma_load_supported_modes'])
+    body=body.replace('runtime_mode<3',f'runtime_mode<{mode_count}').replace('modes=3',f'modes={mode_count}')
     anchor='(out/"tb_real_cluster.sv").write_text(tb)'
     assert runner.count(anchor)==1
     runner=runner.replace(anchor,'tb=tb[:tb.index("  initial begin")]+ '+repr(body)+'\n'+anchor)

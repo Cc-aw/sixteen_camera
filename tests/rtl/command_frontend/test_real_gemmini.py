@@ -23,7 +23,7 @@ out = project / "build/sim/command_frontend/real32"
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--rtl', type=Path)
 parser.add_argument('--output', type=Path)
-parser.add_argument('--dma-load-mode', choices=('legacy', 'read_coalesced', 'read_assembled', 'all'))
+parser.add_argument('--dma-load-mode', choices=('legacy', 'read_coalesced', 'read_assembled', 'spad_assembled', 'all'))
 args = parser.parse_args()
 if args.rtl is not None:
     rtl = args.rtl.resolve()
@@ -81,9 +81,10 @@ extra=""
 if args.dma_load_mode is not None and not any(n=='io_dma_load_capabilities' for _,_,n in ps):
     # Whole-SoC constant propagation folds this worker output into the real
     # frontend. Preserve that verified constant at the simulation wrapper.
-    assert "64'h10007" in (rtl/'CommandFrontendCluster.sv').read_text()
+    capability=0x10000 | ((1<<len(context['dma_load_supported_modes']))-1)
+    assert f"64'h{capability:x}" in (rtl/'CommandFrontendCluster.sv').read_text()
     decls.append('output wire [31:0] io_dma_load_capabilities')
-    extra += "assign io_dma_load_capabilities=32'h10007;\n"
+    extra += f"assign io_dma_load_capabilities=32'h{capability:x};\n"
 if not any(n=="io_interrupt" for _,_,n in ps):
     # Physical bare-address Gemmini has no fault-producing DTLB; firtool folded
     # the constant-false output away. Reflect that constant, do not invent IRQ.
@@ -139,7 +140,7 @@ if args.dma_load_mode is not None:
     # One elaboration, one simulation, no reset between runtime modes.
     begin = tb.index('    lanes[0].lane.initialize();')
     end = tb.index('    for(integer i=0;i<3;i=i+1)begin', begin)
-    selected = range(3) if args.dma_load_mode == 'all' else [dict(legacy=0,read_coalesced=1,read_assembled=2)[args.dma_load_mode]]
+    selected = range(len(context['dma_load_supported_modes'])) if args.dma_load_mode == 'all' else [context['dma_load_supported_modes'].index(args.dma_load_mode)]
     tb = tb[:begin] + ('    repeat(20)@(negedge clock);reset=0;repeat(64)@(negedge clock);\n'
         f'    for(runtime_mode={selected[0]};runtime_mode<={selected[-1]};runtime_mode=runtime_mode+1)begin\n'
         '      for(integer lane_id=0;lane_id<3;lane_id=lane_id+1)begin\n'

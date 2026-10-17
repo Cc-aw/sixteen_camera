@@ -26,7 +26,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--rtl', type=Path)
     parser.add_argument('--output', type=Path)
-    parser.add_argument('--dma-load-mode', choices=('legacy', 'read_coalesced', 'read_assembled', 'all'))
+    parser.add_argument('--dma-load-mode', choices=('legacy', 'read_coalesced', 'read_assembled', 'spad_assembled', 'all'))
     args = parser.parse_args()
     if args.output:
         SIM = args.output.resolve()
@@ -118,7 +118,7 @@ endtask
         command += ['--dma-load-mode', args.dma_load_mode]
     subprocess.run(command, check=True)
     log = (SIM / 'result.log').read_text()
-    modes = 3 if args.dma_load_mode == 'all' else 1
+    modes = len(json.loads((args.rtl.resolve().parent/'GENERATION_CONTEXT.json').read_text())['dma_load_supported_modes']) if args.dma_load_mode == 'all' else 1
     assert log.count('S2D_RTL_LANE_PASS') == 3 * modes and 'REAL_CLUSTER_PASS' in log
     hashes = json.loads((SIM / 'rtl_hashes.json').read_text())
     assert all(sha(Path(p).read_bytes()) == digest for p, digest in hashes.items()), 'RTL changed during simulation'

@@ -116,7 +116,7 @@ static void boundary_probe_active(void) {
 }
 static uint64_t boundary_relative(uint64_t t) {return t?t-batch_begin:0;}
 static void boundary_report(unsigned mode) {
-    for(unsigned f=0;f<FRAMES;f++) {
+    for(unsigned f=0;f<run_frames;f++) {
         const struct Frame *t=&frames[f];const struct Plan *p=t->plan;
         const struct BoundaryFrame *d=&boundary_frames[f];unsigned cursor=0;
         for(unsigned i=0;i<BOUNDARIES;i++) {

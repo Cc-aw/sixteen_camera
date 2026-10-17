@@ -293,7 +293,7 @@ static void watchdog(void) {
     at_fail("watchdog_120000000000_cycles",completed);
 }
 static void serial_batch(void) {
-    for(unsigned f=0;f<FRAMES;f++) {
+    for(unsigned f=0;f<run_frames;f++) {
         admit(f,0);struct Plan *p=frames[f].plan;
         boundary_direct_start(f);
         for(unsigned i=0;i<p->count;i++) {
@@ -390,7 +390,7 @@ static const char *executor_name(unsigned mode) {
 }
 static unsigned report(unsigned mode) {
     unsigned bad=0;
-    for(unsigned f=0;f<FRAMES;f++) {
+    for(unsigned f=0;f<run_frames;f++) {
         struct PpuResult *p=&output[mode][f],*ref=&output[0][f];unsigned errors=0;
         if(mode){errors+=p->count!=ref->count;for(unsigned i=0;i<10;i++)for(unsigned j=0;j<4;j++)errors+=p->words[i][j]!=ref->words[i][j];}
         text("ATSOFT1,FRAME_END,executor=");text(executor_name(mode));field(",frame=",f);

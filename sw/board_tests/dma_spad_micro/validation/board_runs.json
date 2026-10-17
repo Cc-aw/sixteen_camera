@@ -1,0 +1,1404 @@
+{
+  "schema": 1,
+  "date": "2026-10-17",
+  "status": "BOTH_BOARD_PASS",
+  "hardware_build_id": "2a95a4ca64390235",
+  "modes_tested": [
+    "legacy",
+    "read_coalesced",
+    "read_assembled"
+  ],
+  "runs": [
+    {
+      "run": "micro_01",
+      "report": {
+        "status": "BOARD_PASS",
+        "board_evidence": true,
+        "prior_sessions_ignored": 0,
+        "software_build_id": "230150b994e0ff8fcad347b972e626991a6f2c1c692d6ee90f110e51f91f530e",
+        "hardware_build_id": "2a95a4ca64390235",
+        "case": {
+          "c": 12,
+          "n": 32,
+          "p": 2,
+          "stride": 64,
+          "offset": 0,
+          "ops": 1,
+          "samples": 12,
+          "warmups": 3,
+          "lane": 0,
+          "scale_requested": 1.0,
+          "scale_effective": 1.0,
+          "scale_bits": 15360
+        },
+        "aggregate": [
+          {
+            "case": "continuous",
+            "mode": "legacy",
+            "read_merge": 0,
+            "assembly": 0,
+            "samples": 12,
+            "ops_per_sample": 1,
+            "total_cycles": 2666,
+            "mean_cycles_per_op": 222.16666666666666,
+            "median_cycles_per_op": 223.0,
+            "min_cycles_per_op": 218.0,
+            "max_cycles_per_op": 223.0,
+            "gain": 1.0,
+            "get_per_op": 36.0,
+            "tl_return_bytes_per_op": 1280.0,
+            "spad_writes_per_op": 72.0
+          },
+          {
+            "case": "continuous",
+            "mode": "read_coalesced",
+            "read_merge": 1,
+            "assembly": 0,
+            "samples": 12,
+            "ops_per_sample": 1,
+            "total_cycles": 3145,
+            "mean_cycles_per_op": 262.0833333333333,
+            "median_cycles_per_op": 262.5,
+            "min_cycles_per_op": 256.0,
+            "max_cycles_per_op": 264.0,
+            "gain": 0.8476947535771066,
+            "get_per_op": 6.0,
+            "tl_return_bytes_per_op": 384.0,
+            "spad_writes_per_op": 64.0
+          },
+          {
+            "case": "continuous",
+            "mode": "read_assembled",
+            "read_merge": 1,
+            "assembly": 1,
+            "samples": 12,
+            "ops_per_sample": 1,
+            "total_cycles": 2750,
+            "mean_cycles_per_op": 229.16666666666666,
+            "median_cycles_per_op": 230.0,
+            "min_cycles_per_op": 225.0,
+            "max_cycles_per_op": 233.0,
+            "gain": 0.9694545454545455,
+            "get_per_op": 6.0,
+            "tl_return_bytes_per_op": 384.0,
+            "spad_writes_per_op": 33.0
+          },
+          {
+            "case": "strided",
+            "mode": "legacy",
+            "read_merge": 0,
+            "assembly": 0,
+            "samples": 12,
+            "ops_per_sample": 1,
+            "total_cycles": 2533,
+            "mean_cycles_per_op": 211.08333333333334,
+            "median_cycles_per_op": 213.0,
+            "min_cycles_per_op": 206.0,
+            "max_cycles_per_op": 214.0,
+            "gain": 1.0,
+            "get_per_op": 32.0,
+            "tl_return_bytes_per_op": 1024.0,
+            "spad_writes_per_op": 64.0
+          },
+          {
+            "case": "strided",
+            "mode": "read_coalesced",
+            "read_merge": 0,
+            "assembly": 0,
+            "samples": 12,
+            "ops_per_sample": 1,
+            "total_cycles": 2543,
+            "mean_cycles_per_op": 211.91666666666666,
+            "median_cycles_per_op": 211.0,
+            "min_cycles_per_op": 207.0,
+            "max_cycles_per_op": 217.0,
+            "gain": 0.9960676366496264,
+            "get_per_op": 32.0,
+            "tl_return_bytes_per_op": 1024.0,
+            "spad_writes_per_op": 64.0
+          },
+          {
+            "case": "strided",
+            "mode": "read_assembled",
+            "read_merge": 0,
+            "assembly": 1,
+            "samples": 12,
+            "ops_per_sample": 1,
+            "total_cycles": 3315,
+            "mean_cycles_per_op": 276.25,
+            "median_cycles_per_op": 277.0,
+            "min_cycles_per_op": 271.0,
+            "max_cycles_per_op": 279.0,
+            "gain": 0.764102564102564,
+            "get_per_op": 32.0,
+            "tl_return_bytes_per_op": 1024.0,
+            "spad_writes_per_op": 33.0
+          }
+        ],
+        "timing": "CPU mvin issue through full lane idle, including dispatch/poll overhead; no initialization/mvout/UART.",
+        "interpretation": "Strided read_assembled includes Group buffering/replay and RowAssembler; not independent assembler hardware.",
+        "ddr_traffic_measured": false
+      },
+      "load_receipt": {
+        "build_id": "230150b994e0ff8fcad347b972e626991a6f2c1c692d6ee90f110e51f91f530e",
+        "elf_sha256": "9393f33ca88c12fb441945776648c9c1d3bbeae79d699bdfc7d81f266e0085ff",
+        "hardware_build_id": "2a95a4ca64390235",
+        "loaded_utc": "2026-10-17T11:23:44.509507+00:00"
+      },
+      "source_log_sha256": "560e0fc715762ac7fef3faefd6048263836658575a2b426939720dcbb4cb915f",
+      "evidence": "validation/evidence/ops1_board.txt",
+      "evidence_sha256": "0c604b5b512eacd4c0abbf655765d633938b2c39e374195625e97f2209231747",
+      "source_config": {
+        "case": {
+          "c": 12,
+          "n": 32,
+          "p": 2,
+          "stride": 64,
+          "offset": 0,
+          "ops": 1,
+          "samples": 12,
+          "warmups": 3,
+          "lane": 0,
+          "scale_requested": 1.0,
+          "scale_effective": 1.0,
+          "scale_bits": 15360
+        },
+        "target": {
+          "schema": 1,
+          "hardware_build_id": "2a95a4ca64390235",
+          "clock_hz": 100000000,
+          "dma_control_version": 1,
+          "modes": [
+            "legacy",
+            "read_coalesced",
+            "read_assembled"
+          ],
+          "spad_rows": 16384,
+          "spad_columns_bytes": 32,
+          "original_bitstream_sha256": "e930cc0674b0f8756a5e7ecb63aa9d769d824cdca068911d0f180ef3a2efd25c",
+          "original_generation_context_sha256": "c9e51701b92cb7fe999f061d2ffc769c6bf3e376d1b270efa4ebf62e567a0a0b",
+          "original_setup_timing_met": false
+        },
+        "sources": {
+          ".gitignore": "3a687d31cd017e9c55df0a53e7026bd7f13e2ab2feb8d9f78efae02cf5586673",
+          "Makefile": "f7a845a1844e07bf9219c41a8b7110b63df82b6ec8a32e2d4cb826bf3bd875f4",
+          "README.md": "8f64ba6213d6771d4e7cf1741c2fc4a7d1fef8f411731c009d0b1ef6cb988a6f",
+          "SOURCE_ORIGINS.json": "a01d75630f8b0184c8d85bf1c6f5a8f24252657bc3c5086a4c7caf8d8f655375",
+          "config.example.mk": "30e8d26f3f58ff40810c1127e8f8ac0614bdccc25cb2092cd2c004ff9731d250",
+          "hardware/target.json": "99db6687560538fbe3575a0154a75695c47213e83c66dc35154b17370c7764f1",
+          "include/gemmini_frontend.h": "4ee7dd311a8fe31242541f28aaee4445ac25d4ce84f7e5bdb4501b297e7130b7",
+          "include/micro.h": "5271b3be1da97f413555e05ac91762bff45fed50866fb0b2c8454199b0051566",
+          "program/openocd/load-hdmi-tx.gdb": "13279f1f1349bc6a139b17420d502367aeda156e5883db330def9821e2e7cf8e",
+          "program/openocd/openocd-bscan.cfg": "cf21c4ba4fcd96df11fa800e280d429273c1a74f71f3d41fe977130a04d729e9",
+          "program/run_firmware.sh": "3520cb66d290f4c775be626a70e8e3767b897db775dd72962c92e176db20c10d",
+          "scripts/analyze.py": "9cc252e5701c2da54ad3f75d9cc61dadd118c02185ddc0c3a740865e84562ca8",
+          "scripts/build.py": "a6cfa4d98f0ff67f13818c03010193c5bc54b3834ff8168d8341ad20aea9ce08",
+          "scripts/program.py": "e3c29bc16581debd14b00c8f36c9762dfc7e311c30a744520bb97a8fa001ede6",
+          "scripts/spec.py": "a602ed6fec9193ef1c6a54188da7c2a55e9812e74044bb4851ae2c515a0f433a",
+          "src/hardware.c": "e7402e447f0462cc51aea2e6e12a57ff1e2174c1c650398c221badec2eb0fa91",
+          "src/link.ld": "890dad5ac21eef2b8158513818155c00ab278163052d03f3126f683f80b7ba0a",
+          "src/main.c": "7818ab329c3c7d86ed2de2a1ff7f7013b2cd0fe5c5d76df8ead77f42717ad2ca",
+          "src/reference.c": "7b3499c873b6c3738241a23484e7e654eaf71e2a27a0530a464ae57ccd0722fa",
+          "src/start.S": "1127615a1afb923468500c1d8ce29ff7f2cca8a275cb7518642284062627f73f",
+          "src/trap.S": "db1def1c633d7d96d7145ff53031b418288922feef4f0c23baaea80dd57bacea",
+          "tests/fake_device.c": "955e0a31c4eec6e5cce8fadbbd747db46d0e1b80284c04685ffb6a09252f83d3",
+          "tests/reference_driver.c": "236c710b6131c3175c349fe0aed2a0160ccf85b4b368c94999d35a3dff75e3d8",
+          "tests/test_micro.py": "bd6505f3f80db89982e0817fd28a8749c956436be9be6f49ef4536888ad28f61"
+        },
+        "compiler": "riscv64-unknown-elf-gcc (gc891d8dc23e) 13.2.0",
+        "arch": "-march=rv64gc -mabi=lp64d -mcmodel=medany -msmall-data-limit=0",
+        "flags": "-O2 -g -std=gnu11 -ffreestanding -fno-builtin -fno-tree-vectorize -ffunction-sections -fdata-sections -Wall -Wextra -Werror"
+      },
+      "elf_sha256": "9393f33ca88c12fb441945776648c9c1d3bbeae79d699bdfc7d81f266e0085ff"
+    },
+    {
+      "run": "micro_ops32_01",
+      "report": {
+        "status": "BOARD_PASS",
+        "board_evidence": true,
+        "prior_sessions_ignored": 0,
+        "software_build_id": "fd2aa9f0676eb7c95849bb57b072ba02b468bb911d2fbbe1defcf3e5e1d45f68",
+        "hardware_build_id": "2a95a4ca64390235",
+        "case": {
+          "c": 12,
+          "n": 32,
+          "p": 2,
+          "stride": 64,
+          "offset": 0,
+          "ops": 32,
+          "samples": 12,
+          "warmups": 3,
+          "lane": 0,
+          "scale_requested": 1.0,
+          "scale_effective": 1.0,
+          "scale_bits": 15360
+        },
+        "aggregate": [
+          {
+            "case": "continuous",
+            "mode": "legacy",
+            "read_merge": 0,
+            "assembly": 0,
+            "samples": 12,
+            "ops_per_sample": 32,
+            "total_cycles": 30923,
+            "mean_cycles_per_op": 80.52864583333333,
+            "median_cycles_per_op": 80.46875,
+            "min_cycles_per_op": 80.4375,
+            "max_cycles_per_op": 80.71875,
+            "gain": 1.0,
+            "get_per_op": 36.0,
+            "tl_return_bytes_per_op": 1280.0,
+            "spad_writes_per_op": 72.0
+          },
+          {
+            "case": "continuous",
+            "mode": "read_coalesced",
+            "read_merge": 1,
+            "assembly": 0,
+            "samples": 12,
+            "ops_per_sample": 32,
+            "total_cycles": 29508,
+            "mean_cycles_per_op": 76.84375,
+            "median_cycles_per_op": 76.8125,
+            "min_cycles_per_op": 76.65625,
+            "max_cycles_per_op": 76.96875,
+            "gain": 1.0479530974650941,
+            "get_per_op": 6.0,
+            "tl_return_bytes_per_op": 384.0,
+            "spad_writes_per_op": 64.0
+          },
+          {
+            "case": "continuous",
+            "mode": "read_assembled",
+            "read_merge": 1,
+            "assembly": 1,
+            "samples": 12,
+            "ops_per_sample": 32,
+            "total_cycles": 23164,
+            "mean_cycles_per_op": 60.322916666666664,
+            "median_cycles_per_op": 60.34375,
+            "min_cycles_per_op": 60.1875,
+            "max_cycles_per_op": 60.375,
+            "gain": 1.3349594197893282,
+            "get_per_op": 6.0,
+            "tl_return_bytes_per_op": 384.0,
+            "spad_writes_per_op": 33.0
+          },
+          {
+            "case": "strided",
+            "mode": "legacy",
+            "read_merge": 0,
+            "assembly": 0,
+            "samples": 12,
+            "ops_per_sample": 32,
+            "total_cycles": 26253,
+            "mean_cycles_per_op": 68.3671875,
+            "median_cycles_per_op": 68.3125,
+            "min_cycles_per_op": 68.3125,
+            "max_cycles_per_op": 68.5,
+            "gain": 1.0,
+            "get_per_op": 32.0,
+            "tl_return_bytes_per_op": 1024.0,
+            "spad_writes_per_op": 64.0
+          },
+          {
+            "case": "strided",
+            "mode": "read_coalesced",
+            "read_merge": 0,
+            "assembly": 0,
+            "samples": 12,
+            "ops_per_sample": 32,
+            "total_cycles": 26268,
+            "mean_cycles_per_op": 68.40625,
+            "median_cycles_per_op": 68.40625,
+            "min_cycles_per_op": 68.40625,
+            "max_cycles_per_op": 68.40625,
+            "gain": 0.9994289629968022,
+            "get_per_op": 32.0,
+            "tl_return_bytes_per_op": 1024.0,
+            "spad_writes_per_op": 64.0
+          },
+          {
+            "case": "strided",
+            "mode": "read_assembled",
+            "read_merge": 0,
+            "assembly": 1,
+            "samples": 12,
+            "ops_per_sample": 32,
+            "total_cycles": 34218,
+            "mean_cycles_per_op": 89.109375,
+            "median_cycles_per_op": 89.109375,
+            "min_cycles_per_op": 89.09375,
+            "max_cycles_per_op": 89.125,
+            "gain": 0.7672277748553393,
+            "get_per_op": 32.0,
+            "tl_return_bytes_per_op": 1024.0,
+            "spad_writes_per_op": 33.0
+          }
+        ],
+        "timing": "CPU mvin issue through full lane idle, including dispatch/poll overhead; no initialization/mvout/UART.",
+        "interpretation": "Strided read_assembled includes Group buffering/replay and RowAssembler; not independent assembler hardware.",
+        "ddr_traffic_measured": false
+      },
+      "load_receipt": {
+        "build_id": "fd2aa9f0676eb7c95849bb57b072ba02b468bb911d2fbbe1defcf3e5e1d45f68",
+        "elf_sha256": "beaf93d9863308b22e6e4cd4f6927c8fdc08177eb094b3ba3060dd059cccab4a",
+        "hardware_build_id": "2a95a4ca64390235",
+        "loaded_utc": "2026-10-17T11:30:06.103383+00:00"
+      },
+      "source_log_sha256": "dd442b720df4703f8a819df1aa8a03c8d50d797996884160e5427cf365c00c99",
+      "evidence": "validation/evidence/ops32_board.txt",
+      "evidence_sha256": "9bb7dbc71ca488a65bfe4cbc38fb6cb39a607ee051c0a0b920f691a7dd632622",
+      "source_config": {
+        "case": {
+          "c": 12,
+          "n": 32,
+          "p": 2,
+          "stride": 64,
+          "offset": 0,
+          "ops": 32,
+          "samples": 12,
+          "warmups": 3,
+          "lane": 0,
+          "scale_requested": 1.0,
+          "scale_effective": 1.0,
+          "scale_bits": 15360
+        },
+        "target": {
+          "schema": 1,
+          "hardware_build_id": "2a95a4ca64390235",
+          "clock_hz": 100000000,
+          "dma_control_version": 1,
+          "modes": [
+            "legacy",
+            "read_coalesced",
+            "read_assembled"
+          ],
+          "spad_rows": 16384,
+          "spad_columns_bytes": 32,
+          "original_bitstream_sha256": "e930cc0674b0f8756a5e7ecb63aa9d769d824cdca068911d0f180ef3a2efd25c",
+          "original_generation_context_sha256": "c9e51701b92cb7fe999f061d2ffc769c6bf3e376d1b270efa4ebf62e567a0a0b",
+          "original_setup_timing_met": false
+        },
+        "sources": {
+          ".gitignore": "3a687d31cd017e9c55df0a53e7026bd7f13e2ab2feb8d9f78efae02cf5586673",
+          "Makefile": "412ca4137ce14d0a970e09fa95c3a97867a50d753fab79f81ca3e2aaf139fe6a",
+          "README.md": "fe9bf716bdc4bb1eb44572916503415f4f0b8f9a9a1ff5c8b785b98c5686ca6d",
+          "SOURCE_ORIGINS.json": "a01d75630f8b0184c8d85bf1c6f5a8f24252657bc3c5086a4c7caf8d8f655375",
+          "config.example.mk": "30e8d26f3f58ff40810c1127e8f8ac0614bdccc25cb2092cd2c004ff9731d250",
+          "hardware/target.json": "99db6687560538fbe3575a0154a75695c47213e83c66dc35154b17370c7764f1",
+          "include/gemmini_frontend.h": "4ee7dd311a8fe31242541f28aaee4445ac25d4ce84f7e5bdb4501b297e7130b7",
+          "include/micro.h": "5271b3be1da97f413555e05ac91762bff45fed50866fb0b2c8454199b0051566",
+          "program/openocd/load-hdmi-tx.gdb": "13279f1f1349bc6a139b17420d502367aeda156e5883db330def9821e2e7cf8e",
+          "program/openocd/openocd-bscan.cfg": "cf21c4ba4fcd96df11fa800e280d429273c1a74f71f3d41fe977130a04d729e9",
+          "program/run_firmware.sh": "3520cb66d290f4c775be626a70e8e3767b897db775dd72962c92e176db20c10d",
+          "scripts/analyze.py": "9cc252e5701c2da54ad3f75d9cc61dadd118c02185ddc0c3a740865e84562ca8",
+          "scripts/build.py": "993d3c7dac0564273616d544cc24e1a26b962f3f5f9e5ac853e133dfb96ac5ec",
+          "scripts/program.py": "e3c29bc16581debd14b00c8f36c9762dfc7e311c30a744520bb97a8fa001ede6",
+          "scripts/spec.py": "a602ed6fec9193ef1c6a54188da7c2a55e9812e74044bb4851ae2c515a0f433a",
+          "src/hardware.c": "e7402e447f0462cc51aea2e6e12a57ff1e2174c1c650398c221badec2eb0fa91",
+          "src/link.ld": "890dad5ac21eef2b8158513818155c00ab278163052d03f3126f683f80b7ba0a",
+          "src/main.c": "7818ab329c3c7d86ed2de2a1ff7f7013b2cd0fe5c5d76df8ead77f42717ad2ca",
+          "src/reference.c": "7b3499c873b6c3738241a23484e7e654eaf71e2a27a0530a464ae57ccd0722fa",
+          "src/start.S": "1127615a1afb923468500c1d8ce29ff7f2cca8a275cb7518642284062627f73f",
+          "src/trap.S": "db1def1c633d7d96d7145ff53031b418288922feef4f0c23baaea80dd57bacea",
+          "tests/fake_device.c": "955e0a31c4eec6e5cce8fadbbd747db46d0e1b80284c04685ffb6a09252f83d3",
+          "tests/reference_driver.c": "236c710b6131c3175c349fe0aed2a0160ccf85b4b368c94999d35a3dff75e3d8",
+          "tests/test_micro.py": "bd6505f3f80db89982e0817fd28a8749c956436be9be6f49ef4536888ad28f61"
+        },
+        "compiler": "riscv64-unknown-elf-gcc (gc891d8dc23e) 13.2.0",
+        "arch": "-march=rv64gc -mabi=lp64d -mcmodel=medany -msmall-data-limit=0",
+        "flags": "-O2 -g -std=gnu11 -ffreestanding -fno-builtin -fno-tree-vectorize -ffunction-sections -fdata-sections -Wall -Wextra -Werror"
+      },
+      "elf_sha256": "beaf93d9863308b22e6e4cd4f6927c8fdc08177eb094b3ba3060dd059cccab4a"
+    }
+  ],
+  "comparison": {
+    "status": "BOTH_BOARD_PASS",
+    "hardware_build_id": "2a95a4ca64390235",
+    "same_hardware": true,
+    "old_log_sha256": "560e0fc715762ac7fef3faefd6048263836658575a2b426939720dcbb4cb915f",
+    "new_log_sha256": "dd442b720df4703f8a819df1aa8a03c8d50d797996884160e5427cf365c00c99",
+    "old_software_build_id": "230150b994e0ff8fcad347b972e626991a6f2c1c692d6ee90f110e51f91f530e",
+    "new_software_build_id": "fd2aa9f0676eb7c95849bb57b072ba02b468bb911d2fbbe1defcf3e5e1d45f68",
+    "fixed_case": {
+      "c": 12,
+      "n": 32,
+      "p": 2,
+      "stride": 64,
+      "offset": 0,
+      "samples": 12,
+      "warmups": 3,
+      "lane": 0,
+      "scale_requested": 1.0,
+      "scale_effective": 1.0,
+      "scale_bits": 15360
+    },
+    "rows": [
+      {
+        "case": "continuous",
+        "mode": "legacy",
+        "read_merge": 0,
+        "assembly": 0,
+        "samples": 12,
+        "ops_per_sample": 32,
+        "total_cycles": 30923,
+        "mean_cycles_per_op": 80.52864583333333,
+        "median_cycles_per_op": 80.46875,
+        "min_cycles_per_op": 80.4375,
+        "max_cycles_per_op": 80.71875,
+        "gain": 1.0,
+        "get_per_op": 36.0,
+        "tl_return_bytes_per_op": 1280.0,
+        "spad_writes_per_op": 72.0,
+        "ops1_cycles_per_op": 222.16666666666666,
+        "time_change_vs_legacy_pct": 0.0,
+        "mean_batch_cycles": 2576.9166666666665,
+        "counter_means_per_batch": {
+          "8": 1024,
+          "9": 12288,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "17": 0,
+          "18": 1024,
+          "19": 128,
+          "20": 2048,
+          "21": 0,
+          "22": 2304,
+          "23": 0,
+          "24": 0,
+          "25": 0,
+          "26": 0,
+          "27": 0,
+          "28": 0,
+          "29": 0,
+          "30": 0,
+          "31": 0,
+          "32": 0,
+          "33": 40960,
+          "34": 32
+        },
+        "counter_ranges_per_batch": {
+          "8": [
+            1024,
+            1024
+          ],
+          "9": [
+            12288,
+            12288
+          ],
+          "10": [
+            0,
+            0
+          ],
+          "11": [
+            0,
+            0
+          ],
+          "12": [
+            0,
+            0
+          ],
+          "13": [
+            0,
+            0
+          ],
+          "14": [
+            0,
+            0
+          ],
+          "15": [
+            0,
+            0
+          ],
+          "16": [
+            0,
+            0
+          ],
+          "17": [
+            0,
+            0
+          ],
+          "18": [
+            1024,
+            1024
+          ],
+          "19": [
+            128,
+            128
+          ],
+          "20": [
+            2048,
+            2048
+          ],
+          "21": [
+            0,
+            0
+          ],
+          "22": [
+            2304,
+            2304
+          ],
+          "23": [
+            0,
+            0
+          ],
+          "24": [
+            0,
+            0
+          ],
+          "25": [
+            0,
+            0
+          ],
+          "26": [
+            0,
+            0
+          ],
+          "27": [
+            0,
+            0
+          ],
+          "28": [
+            0,
+            0
+          ],
+          "29": [
+            0,
+            0
+          ],
+          "30": [
+            0,
+            0
+          ],
+          "31": [
+            0,
+            0
+          ],
+          "32": [
+            0,
+            0
+          ],
+          "33": [
+            40960,
+            40960
+          ],
+          "34": [
+            32,
+            32
+          ]
+        }
+      },
+      {
+        "case": "continuous",
+        "mode": "read_coalesced",
+        "read_merge": 1,
+        "assembly": 0,
+        "samples": 12,
+        "ops_per_sample": 32,
+        "total_cycles": 29508,
+        "mean_cycles_per_op": 76.84375,
+        "median_cycles_per_op": 76.8125,
+        "min_cycles_per_op": 76.65625,
+        "max_cycles_per_op": 76.96875,
+        "gain": 1.0479530974650941,
+        "get_per_op": 6.0,
+        "tl_return_bytes_per_op": 384.0,
+        "spad_writes_per_op": 64.0,
+        "ops1_cycles_per_op": 262.0833333333333,
+        "time_change_vs_legacy_pct": -4.575882029557277,
+        "mean_batch_cycles": 2459.0,
+        "counter_means_per_batch": {
+          "8": 1024,
+          "9": 12288,
+          "10": 0,
+          "11": 32,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "17": 0,
+          "18": 0,
+          "19": 192,
+          "20": 2048,
+          "21": 0,
+          "22": 2048,
+          "23": 0,
+          "24": 992,
+          "25": 1241,
+          "26": 0,
+          "27": 0,
+          "28": 2,
+          "29": 1,
+          "30": 0,
+          "31": 0,
+          "32": 0,
+          "33": 12288,
+          "34": 0
+        },
+        "counter_ranges_per_batch": {
+          "8": [
+            1024,
+            1024
+          ],
+          "9": [
+            12288,
+            12288
+          ],
+          "10": [
+            0,
+            0
+          ],
+          "11": [
+            32,
+            32
+          ],
+          "12": [
+            0,
+            0
+          ],
+          "13": [
+            0,
+            0
+          ],
+          "14": [
+            0,
+            0
+          ],
+          "15": [
+            0,
+            0
+          ],
+          "16": [
+            0,
+            0
+          ],
+          "17": [
+            0,
+            0
+          ],
+          "18": [
+            0,
+            0
+          ],
+          "19": [
+            192,
+            192
+          ],
+          "20": [
+            2048,
+            2048
+          ],
+          "21": [
+            0,
+            0
+          ],
+          "22": [
+            2048,
+            2048
+          ],
+          "23": [
+            0,
+            0
+          ],
+          "24": [
+            992,
+            992
+          ],
+          "25": [
+            1241,
+            1241
+          ],
+          "26": [
+            0,
+            0
+          ],
+          "27": [
+            0,
+            0
+          ],
+          "28": [
+            2,
+            2
+          ],
+          "29": [
+            1,
+            1
+          ],
+          "30": [
+            0,
+            0
+          ],
+          "31": [
+            0,
+            0
+          ],
+          "32": [
+            0,
+            0
+          ],
+          "33": [
+            12288,
+            12288
+          ],
+          "34": [
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "case": "continuous",
+        "mode": "read_assembled",
+        "read_merge": 1,
+        "assembly": 1,
+        "samples": 12,
+        "ops_per_sample": 32,
+        "total_cycles": 23164,
+        "mean_cycles_per_op": 60.322916666666664,
+        "median_cycles_per_op": 60.34375,
+        "min_cycles_per_op": 60.1875,
+        "max_cycles_per_op": 60.375,
+        "gain": 1.3349594197893282,
+        "get_per_op": 6.0,
+        "tl_return_bytes_per_op": 384.0,
+        "spad_writes_per_op": 33.0,
+        "ops1_cycles_per_op": 229.16666666666666,
+        "time_change_vs_legacy_pct": -25.091355948646633,
+        "mean_batch_cycles": 1930.3333333333333,
+        "counter_means_per_batch": {
+          "8": 1024,
+          "9": 12288,
+          "10": 0,
+          "11": 32,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "17": 0,
+          "18": 0,
+          "19": 192,
+          "20": 2048,
+          "21": 1056,
+          "22": 1056,
+          "23": 0,
+          "24": 992,
+          "25": 1241,
+          "26": 0,
+          "27": 0,
+          "28": 2,
+          "29": 1,
+          "30": 0,
+          "31": 0,
+          "32": 32,
+          "33": 12288,
+          "34": 0
+        },
+        "counter_ranges_per_batch": {
+          "8": [
+            1024,
+            1024
+          ],
+          "9": [
+            12288,
+            12288
+          ],
+          "10": [
+            0,
+            0
+          ],
+          "11": [
+            32,
+            32
+          ],
+          "12": [
+            0,
+            0
+          ],
+          "13": [
+            0,
+            0
+          ],
+          "14": [
+            0,
+            0
+          ],
+          "15": [
+            0,
+            0
+          ],
+          "16": [
+            0,
+            0
+          ],
+          "17": [
+            0,
+            0
+          ],
+          "18": [
+            0,
+            0
+          ],
+          "19": [
+            192,
+            192
+          ],
+          "20": [
+            2048,
+            2048
+          ],
+          "21": [
+            1056,
+            1056
+          ],
+          "22": [
+            1056,
+            1056
+          ],
+          "23": [
+            0,
+            0
+          ],
+          "24": [
+            992,
+            992
+          ],
+          "25": [
+            1241,
+            1241
+          ],
+          "26": [
+            0,
+            0
+          ],
+          "27": [
+            0,
+            0
+          ],
+          "28": [
+            2,
+            2
+          ],
+          "29": [
+            1,
+            1
+          ],
+          "30": [
+            0,
+            0
+          ],
+          "31": [
+            0,
+            0
+          ],
+          "32": [
+            32,
+            32
+          ],
+          "33": [
+            12288,
+            12288
+          ],
+          "34": [
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "case": "strided",
+        "mode": "legacy",
+        "read_merge": 0,
+        "assembly": 0,
+        "samples": 12,
+        "ops_per_sample": 32,
+        "total_cycles": 26253,
+        "mean_cycles_per_op": 68.3671875,
+        "median_cycles_per_op": 68.3125,
+        "min_cycles_per_op": 68.3125,
+        "max_cycles_per_op": 68.5,
+        "gain": 1.0,
+        "get_per_op": 32.0,
+        "tl_return_bytes_per_op": 1024.0,
+        "spad_writes_per_op": 64.0,
+        "ops1_cycles_per_op": 211.08333333333334,
+        "time_change_vs_legacy_pct": 0.0,
+        "mean_batch_cycles": 2187.75,
+        "counter_means_per_batch": {
+          "8": 1024,
+          "9": 12288,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "17": 0,
+          "18": 1024,
+          "19": 0,
+          "20": 2048,
+          "21": 0,
+          "22": 2048,
+          "23": 0,
+          "24": 0,
+          "25": 0,
+          "26": 0,
+          "27": 0,
+          "28": 0,
+          "29": 0,
+          "30": 0,
+          "31": 0,
+          "32": 0,
+          "33": 32768,
+          "34": 32
+        },
+        "counter_ranges_per_batch": {
+          "8": [
+            1024,
+            1024
+          ],
+          "9": [
+            12288,
+            12288
+          ],
+          "10": [
+            0,
+            0
+          ],
+          "11": [
+            0,
+            0
+          ],
+          "12": [
+            0,
+            0
+          ],
+          "13": [
+            0,
+            0
+          ],
+          "14": [
+            0,
+            0
+          ],
+          "15": [
+            0,
+            0
+          ],
+          "16": [
+            0,
+            0
+          ],
+          "17": [
+            0,
+            0
+          ],
+          "18": [
+            1024,
+            1024
+          ],
+          "19": [
+            0,
+            0
+          ],
+          "20": [
+            2048,
+            2048
+          ],
+          "21": [
+            0,
+            0
+          ],
+          "22": [
+            2048,
+            2048
+          ],
+          "23": [
+            0,
+            0
+          ],
+          "24": [
+            0,
+            0
+          ],
+          "25": [
+            0,
+            0
+          ],
+          "26": [
+            0,
+            0
+          ],
+          "27": [
+            0,
+            0
+          ],
+          "28": [
+            0,
+            0
+          ],
+          "29": [
+            0,
+            0
+          ],
+          "30": [
+            0,
+            0
+          ],
+          "31": [
+            0,
+            0
+          ],
+          "32": [
+            0,
+            0
+          ],
+          "33": [
+            32768,
+            32768
+          ],
+          "34": [
+            32,
+            32
+          ]
+        }
+      },
+      {
+        "case": "strided",
+        "mode": "read_coalesced",
+        "read_merge": 0,
+        "assembly": 0,
+        "samples": 12,
+        "ops_per_sample": 32,
+        "total_cycles": 26268,
+        "mean_cycles_per_op": 68.40625,
+        "median_cycles_per_op": 68.40625,
+        "min_cycles_per_op": 68.40625,
+        "max_cycles_per_op": 68.40625,
+        "gain": 0.9994289629968022,
+        "get_per_op": 32.0,
+        "tl_return_bytes_per_op": 1024.0,
+        "spad_writes_per_op": 64.0,
+        "ops1_cycles_per_op": 211.91666666666666,
+        "time_change_vs_legacy_pct": 0.057136327276885446,
+        "mean_batch_cycles": 2189.0,
+        "counter_means_per_batch": {
+          "8": 1024,
+          "9": 12288,
+          "10": 0,
+          "11": 0,
+          "12": 0,
+          "13": 32,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "17": 0,
+          "18": 1024,
+          "19": 0,
+          "20": 2048,
+          "21": 0,
+          "22": 2048,
+          "23": 0,
+          "24": 0,
+          "25": 0,
+          "26": 0,
+          "27": 0,
+          "28": 0,
+          "29": 0,
+          "30": 0,
+          "31": 0,
+          "32": 0,
+          "33": 32768,
+          "34": 0
+        },
+        "counter_ranges_per_batch": {
+          "8": [
+            1024,
+            1024
+          ],
+          "9": [
+            12288,
+            12288
+          ],
+          "10": [
+            0,
+            0
+          ],
+          "11": [
+            0,
+            0
+          ],
+          "12": [
+            0,
+            0
+          ],
+          "13": [
+            32,
+            32
+          ],
+          "14": [
+            0,
+            0
+          ],
+          "15": [
+            0,
+            0
+          ],
+          "16": [
+            0,
+            0
+          ],
+          "17": [
+            0,
+            0
+          ],
+          "18": [
+            1024,
+            1024
+          ],
+          "19": [
+            0,
+            0
+          ],
+          "20": [
+            2048,
+            2048
+          ],
+          "21": [
+            0,
+            0
+          ],
+          "22": [
+            2048,
+            2048
+          ],
+          "23": [
+            0,
+            0
+          ],
+          "24": [
+            0,
+            0
+          ],
+          "25": [
+            0,
+            0
+          ],
+          "26": [
+            0,
+            0
+          ],
+          "27": [
+            0,
+            0
+          ],
+          "28": [
+            0,
+            0
+          ],
+          "29": [
+            0,
+            0
+          ],
+          "30": [
+            0,
+            0
+          ],
+          "31": [
+            0,
+            0
+          ],
+          "32": [
+            0,
+            0
+          ],
+          "33": [
+            32768,
+            32768
+          ],
+          "34": [
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "case": "strided",
+        "mode": "read_assembled",
+        "read_merge": 0,
+        "assembly": 1,
+        "samples": 12,
+        "ops_per_sample": 32,
+        "total_cycles": 34218,
+        "mean_cycles_per_op": 89.109375,
+        "median_cycles_per_op": 89.109375,
+        "min_cycles_per_op": 89.09375,
+        "max_cycles_per_op": 89.125,
+        "gain": 0.7672277748553393,
+        "get_per_op": 32.0,
+        "tl_return_bytes_per_op": 1024.0,
+        "spad_writes_per_op": 33.0,
+        "ops1_cycles_per_op": 276.25,
+        "time_change_vs_legacy_pct": 30.339389784024682,
+        "mean_batch_cycles": 2851.5,
+        "counter_means_per_batch": {
+          "8": 1024,
+          "9": 12288,
+          "10": 0,
+          "11": 32,
+          "12": 0,
+          "13": 0,
+          "14": 0,
+          "15": 0,
+          "16": 0,
+          "17": 0,
+          "18": 1024,
+          "19": 0,
+          "20": 2048,
+          "21": 1056,
+          "22": 1056,
+          "23": 0,
+          "24": 992,
+          "25": 2384,
+          "26": 0,
+          "27": 0,
+          "28": 2,
+          "29": 1,
+          "30": 0,
+          "31": 0,
+          "32": 32,
+          "33": 32768,
+          "34": 0
+        },
+        "counter_ranges_per_batch": {
+          "8": [
+            1024,
+            1024
+          ],
+          "9": [
+            12288,
+            12288
+          ],
+          "10": [
+            0,
+            0
+          ],
+          "11": [
+            32,
+            32
+          ],
+          "12": [
+            0,
+            0
+          ],
+          "13": [
+            0,
+            0
+          ],
+          "14": [
+            0,
+            0
+          ],
+          "15": [
+            0,
+            0
+          ],
+          "16": [
+            0,
+            0
+          ],
+          "17": [
+            0,
+            0
+          ],
+          "18": [
+            1024,
+            1024
+          ],
+          "19": [
+            0,
+            0
+          ],
+          "20": [
+            2048,
+            2048
+          ],
+          "21": [
+            1056,
+            1056
+          ],
+          "22": [
+            1056,
+            1056
+          ],
+          "23": [
+            0,
+            0
+          ],
+          "24": [
+            992,
+            992
+          ],
+          "25": [
+            2384,
+            2384
+          ],
+          "26": [
+            0,
+            0
+          ],
+          "27": [
+            0,
+            0
+          ],
+          "28": [
+            2,
+            2
+          ],
+          "29": [
+            1,
+            1
+          ],
+          "30": [
+            0,
+            0
+          ],
+          "31": [
+            0,
+            0
+          ],
+          "32": [
+            32,
+            32
+          ],
+          "33": [
+            32768,
+            32768
+          ],
+          "34": [
+            0,
+            0
+          ]
+        }
+      }
+    ],
+    "interpretation": "OPS=32 cycles/op is amortized batch cost, not single-command latency. Strided assembly includes Group costs. No full-network or DDR traffic conclusion."
+  },
+  "evidence_normalization": "Only CRLF line endings normalized to LF; original captures retain separate SHA256 hashes.",
+  "limits": [
+    "OPS32 is amortized complete-batch cost, not single-command latency.",
+    "Output is checked after each batch; individual intermediate writes are not separately observed.",
+    "Strided assembled includes Group collection, buffering and replay.",
+    "Three-mode old candidate results do not validate source-only fourth-mode hardware.",
+    "No full-network speedup or measured DDR traffic is inferred."
+  ]
+}

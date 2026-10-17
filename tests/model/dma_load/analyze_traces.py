@@ -13,8 +13,10 @@ def analyze(directory):
     directory = Path(directory).resolve()
     cases = json.loads((directory/'cases.json').read_text())
     log = (directory/'result.log').read_text()
-    if 'REAL_CLUSTER_PASS,DMA_LAYERS=8,modes=3,lanes=3' not in log or re.search(r'Fatal:|Error:|Assertion failed:',log):
+    completion=re.search(r'REAL_CLUSTER_PASS,DMA_LAYERS=8,modes=([34]),lanes=3',log)
+    if not completion or re.search(r'Fatal:|Error:|Assertion failed:',log):
         raise ValueError('Incomplete or failed layer simulation')
+    mode_count=int(completion.group(1))
     observed = {}
     for lane,case,mode,reads,writes,acks in re.findall(
             r'DMA_LAYER_PASS,lane=(\d+),case=(\d+),mode=(\d+),reads=(\d+),writes=(\d+),acks=(\d+)',log):
@@ -22,7 +24,7 @@ def analyze(directory):
         if key in observed or writes != acks:
             raise ValueError('Duplicate result or missing store ACK')
         observed[key] = int(reads)
-    if len(observed) != 72:
+    if len(observed) != 24*mode_count:
         raise ValueError('Expected all eight layers, three lanes and three modes')
     results=[]
     baseline={}
@@ -34,7 +36,7 @@ def analyze(directory):
                 row=dict(zip(fields,map(int,values),strict=True))
                 traces.setdefault((row['case'],row['mode']),[]).append(row)
         for case in range(8):
-            for mode in range(3):
+            for mode in range(mode_count):
                 rows=traces[case,mode]
                 normalized=[tuple(r[k] for k in fields if k not in ('mode','cmd_id')) for r in rows]
                 if mode==0:baseline[lane,case]=normalized
@@ -58,8 +60,8 @@ def analyze(directory):
                     logical+=logical_bytes;item['logical_bytes']+=logical_bytes
                     if r['zeros']:zero_rows+=n;continue
                     eligible=(role!='bias' and 0<c<32 and r['pixels']*c<=32 and
-                              (r['stride']==c and n>1 or mode==2 and r['pixels']>1))
-                    merged=mode!=0 and eligible and r['stride']==c
+                              (r['stride']==c and n>1 or mode in (2,3) and r['pixels']>1))
+                    merged=mode in (1,2) and eligible and r['stride']==c
                     if mode!=0 and eligible:groups+=1
                     load=Load(r['address'],0,c*(4 if role=='bias' else 1),n,r['pixels'],r['stride'])
                     fragments=list(physical_reads(load,merged))

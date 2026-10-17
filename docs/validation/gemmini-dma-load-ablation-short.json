@@ -1,0 +1,125 @@
+{
+  "schema": 1,
+  "date": "2026-10-17",
+  "status": "SOURCE_UNITS_AND_SHORT_FIRMWARE_PASS",
+  "bitstream_generated": false,
+  "board_accessed": false,
+  "new_full_soc_rtl_generated": false,
+  "new_ooc_executed": false,
+  "new_full_gemmini_integrations_executed": false,
+  "measured_frames_per_mode_executor": 12,
+  "warmup_frames_per_mode_executor": 3,
+  "phase_diagnostics": false,
+  "parallel_lane_frames": [
+    4,
+    4,
+    4
+  ],
+  "modes": [
+    {
+      "id": 0,
+      "name": "legacy",
+      "read_merge": false,
+      "spad_assembly": false
+    },
+    {
+      "id": 1,
+      "name": "read_coalesced",
+      "read_merge": true,
+      "spad_assembly": false
+    },
+    {
+      "id": 2,
+      "name": "read_assembled",
+      "read_merge": true,
+      "spad_assembly": true
+    },
+    {
+      "id": 3,
+      "name": "spad_assembled",
+      "read_merge": false,
+      "spad_assembly": true
+    }
+  ],
+  "ablation_scope": "Cross-row physical read merging disabled; ordered collection/return buffering and assembler retained.",
+  "original_hardware_build_id": "2a95a4ca64390235",
+  "original_bitstream_sha256": "e930cc0674b0f8756a5e7ecb63aa9d769d824cdca068911d0f180ef3a2efd25c",
+  "original_hardware_modes": [
+    "legacy",
+    "read_coalesced",
+    "read_assembled"
+  ],
+  "software_build_id": "045b15ccafb0207acced73ba15c4ac7ef32b0912cde48b1dff83f9b9f2ee282f",
+  "elf_artifacts": {
+    "first": {
+      "path": "build/yolov5_dma_load_first.elf",
+      "sha256": "0525dfbe4f862857437beb40c15ab46881ff40d834ec3db5d37105cb6045b184",
+      "bytes": 2861872,
+      "disassembly_sha256": "a3d1bf1c26e8c229e7e7f9e3d87a26d2e92b4db3c4f8d521ac4c5aae3e8ddcc6"
+    },
+    "model": {
+      "path": "build/yolov5_dma_load_model.elf",
+      "sha256": "10676a798aa0ce9e351596984739bc2e2f66569665736bcd938d33a58979e85f",
+      "bytes": 6977704,
+      "disassembly_sha256": "e3096011968d6dd82da9736950e987a457ef79dd7f6c7ecd6a2ddea70e24684c"
+    }
+  },
+  "short_runs": {
+    "three_modes": {
+      "formal_frames": 72,
+      "total_ppu_runs": 102,
+      "ablation": "missing_spad_only"
+    },
+    "four_modes": {
+      "formal_frames": 96,
+      "total_ppu_runs": 132,
+      "ablation": "complete"
+    }
+  },
+  "offline_checks": {
+    "production_manifest": "PASS",
+    "board_host_tests": 20,
+    "reference_log_tests": 7,
+    "native_adapted_plan_equivalence": "PASS",
+    "elf_audit": "PASS",
+    "download_preflight": "PASS",
+    "rtl_source_units": "PASS",
+    "planner_cases": 3520,
+    "assembler_cases": 650,
+    "mixed_commands_per_assembled_mode": 10,
+    "ordered_bank_queue_cycles": 1600,
+    "reader_group_requests": 16,
+    "reader_gets": 25
+  },
+  "directed_read_ablation": {
+    "cols": 3,
+    "rows": 32,
+    "address_low_six_bits": 59,
+    "combined_gets": 3,
+    "spad_only_gets": 33,
+    "request_row_bounds": "PASS",
+    "replay_bytes_masks_addresses_assembly_tags": "PASS"
+  },
+  "unit_source_sha256": {
+    "hw/soc/source/shell/npu100_video/src/main/scala/gemmini/CounterFile.scala": "ebf80663a885f5ccb1db2638aa42ee610e335b6cf1565471ed3c937ca0ce0b25",
+    "hw/soc/source/shell/npu100_video/src/main/scala/gemmini/DmaLoadReadPlanner.scala": "cca37391038a3fbbce9ff83fac1725581cc150963e39e8cdfe6bcdd1357b2b91",
+    "hw/soc/source/shell/npu100_video/src/main/scala/gemmini/DmaLoadRowAssembler.scala": "4f66fbfb68a808fd9f06abdaa8346c5a7fb0a5baa9afffec61d016bc9ef07eef",
+    "hw/soc/source/shell/npu100_video/src/main/scala/gemmini/DmaLoadGroup.scala": "5763634e183f21e2f1af01cae461f1f06f8f02793a0aafdb532a78f511abcb6f",
+    "tests/rtl/scala/DmaLoadTest.scala": "9dc451e168a30890928025f49ba55c0c35c7d45725ed3bec451bef83630fd28c",
+    "hw/soc/source/command_frontend/scala/CommandFrontend.scala": "ece3c7a070311f133039628bfd9002cfb2674e994ef34bf0362a6b8b62089876",
+    "tests/rtl/scala/DmaLoadReaderTest.scala": "5c50932baacf0c38f9fc6921b193c9f9f70332e80a459c0be9fde7a933746d72"
+  },
+  "evidence_sha256": {
+    "build/experiments/dma_load/ablation_units_20261017_final/unit_evidence.json": "c7ca69cf1323b2422d2a53b8b60d83ab647faf2008351ea68b4eec454ba37667",
+    "build/experiments/dma_load/ablation_units_20261017_final/unit.log": "6288823519ab430c46942837cff3d4aa7f169e3fe0731be335b65d97dafca33f",
+    "build/experiments/dma_load/ablation_units_20261017_final/reader.log": "e43226d2080bc3ba0cb2a03d60b707d6de266d1eccc7fe56c2f7a32b1791e080",
+    "/tmp/dma-short-final.log": "1d50d5de933ee016688308f3047b76ac6ab23fbef469028e65dacb0b96fcf13d",
+    "/tmp/dma-short-reference.log": "354de7570f516bdda12860a1269a022f464a034a487154a644d46000b5cd6c09",
+    "/tmp/dma-short-production-check.log": "b173404fb32a1035d4a6a332fe469a504be98b29801f311bd3b686e8c9a77f38"
+  },
+  "limitations": [
+    "No new full-SoC candidate, bitstream, OOC timing or board result is claimed.",
+    "Original setup timing failure and intermittent full-model numerical differences remain unresolved.",
+    "Current package remains bound to the original three-mode hardware; fourth-mode board comparison needs a future matching candidate and package provenance."
+  ]
+}

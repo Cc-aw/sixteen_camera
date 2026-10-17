@@ -4,6 +4,7 @@ import argparse
 import os
 from pathlib import Path
 import shutil
+import signal
 import socket
 import subprocess
 import sys
@@ -14,13 +15,25 @@ COMPAT = ROOT / 'build/program/libdigilent_ipc_compat.so'
 
 
 def stop(server):
-    if server.poll() is None:
-        server.terminate()
+    # Vivado's hw_server entry point launches a loader and a real server child.
+    # Killing only Popen's PID leaves that child holding the cable. The child
+    # may also survive an already-exited loader, so do not gate this on poll().
+    try:
+        os.killpg(server.pid, signal.SIGTERM)
+    except ProcessLookupError:
+        pass
+    try:
+        server.wait(timeout=5)
+    except subprocess.TimeoutExpired:
+        pass
+    finally:
+        # Finish any descendants that did not exit with the launcher. This
+        # group belongs solely to the session created below, never the caller.
         try:
-            server.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            server.kill()
-            server.wait()
+            os.killpg(server.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+    server.wait()
 
 
 def program(vivado, bitstream, tcl, log):
@@ -50,7 +63,8 @@ def program(vivado, bitstream, tcl, log):
     print('JTAG_SERVER_LOG=' + str(server_log), flush=True)
     with server_log.open('w') as output:
         server = subprocess.Popen([str(hw_server), f'-stcp:127.0.0.1:{port}', '-p0', '-I180'],
-                                  env=server_env, stdout=output, stderr=subprocess.STDOUT)
+                                  env=server_env, stdout=output, stderr=subprocess.STDOUT,
+                                  start_new_session=True)
         try:
             deadline = time.monotonic() + 30
             while True:
@@ -79,6 +93,10 @@ def main():
     parser.add_argument('--tcl', required=True, type=Path)
     parser.add_argument('--log', required=True, type=Path)
     args = parser.parse_args()
+    # Preserve the same cleanup path when the caller terminates the download.
+    def terminated(signum, _frame):
+        raise SystemExit(128 + signum)
+    signal.signal(signal.SIGTERM, terminated)
     try:
         return program(args.vivado, args.bitstream, args.tcl, args.log)
     except (OSError, ValueError) as error:
