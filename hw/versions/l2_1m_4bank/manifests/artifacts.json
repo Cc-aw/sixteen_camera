@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "hardware_variant": "l2_1m_4bank",
+  "hardware_source_commit": "d7cbd61836cc2f4336e07c42d7ca2cd3a741a35b",
+  "software_archive_commit": "5cf7382bd5cee8e90ed017acf63615082f5a5983",
+  "sources": {
+    "shell": "soc_shell",
+    "command_frontend": "command_frontend",
+    "tensor_ingress": "tensor_ingress",
+    "generator": "scripts/build_soc.py",
+    "scope": "Frozen SoC source copies; common board project and external Chipyard/toolchain remain shared"
+  },
+  "geometry": {
+    "banks": 4,
+    "capacity_bytes": 1048576,
+    "ways": 8,
+    "sets_per_bank": 512,
+    "line_bytes": 64,
+    "bank_mask": 12288,
+    "statistics_abi": "1.2",
+    "fallback_banks": 2
+  },
+  "generated_soc": {
+    "directory": "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig",
+    "context": "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/GENERATION_CONTEXT.json",
+    "context_sha256": "bb2875c498d3302955ce314298116971b563164f3a574da574f12b64256e31de",
+    "scope": "Existing sole shared generated export; validate identity before use"
+  },
+  "candidate_project": "build/projects/l2_1m_4bank_candidate/sixteen_camera.xpr",
+  "candidate_bitstream": {
+    "path": "sw/board_tests/l2_1m_4bank/hardware/top_wrapper.bit",
+    "sha256": "b7290308c35b81961cb847cd9f538c508ebeffadaf9366407baf4436d5a8499a",
+    "bytes": 113318492,
+    "git_status": "LOCAL_IGNORED"
+  },
+  "software": {
+    "directory": "sw/board_tests/l2_1m_4bank",
+    "reference_elf_sha256": "4e64eed91c7cae0aa0fe5820b0abf751e6019cf9787416280839f5722d550330"
+  },
+  "historical_validation": {
+    "record": "sw/board_tests/l2_1m_4bank/validation/board_status_20261017.json",
+    "bitstream": "GENERATED",
+    "timing": "UNMET",
+    "routed_wns_ns": -7.159,
+    "cpu_l2_smoke": "PASS",
+    "candidate_full_model": "HANG_UNRESOLVED",
+    "specified_old_s1_identical_elf": "PASS_36_FRAMES",
+    "performance_benefit": "NOT_MEASURED"
+  },
+  "new_generation": {
+    "output_scope": "PRIVATE_WORKSPACE_ONLY",
+    "default_workspace": "build/soc_workspaces/l2_1m_4bank",
+    "fallback_workspace": "build/soc_workspaces/l2_1m_4bank_fallback",
+    "production_export_replaced": false
+  }
+}

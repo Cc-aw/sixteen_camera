@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "recorded_utc": "2026-10-17T03:26:28.504659+00:00",
+  "operation": "Organize frozen hardware shell as a separate feature directory; no hardware design changes",
+  "source_commit": "d7cbd61836cc2f4336e07c42d7ca2cd3a741a35b",
+  "files": {
+    "recorded": 585,
+    "exact_copies": 583,
+    "adapted_generating_and_checking_scripts": 2
+  },
+  "checks": [
+    {
+      "name": "frozen_source_hashes",
+      "result": "PASS",
+      "files": 585,
+      "command": "make check"
+    },
+    {
+      "name": "existing_generated_rtl_hashes_and_structure",
+      "result": "PASS",
+      "files": 786,
+      "command": "make check",
+      "scope": "Existing shared RTL only; not newly regenerated"
+    },
+    {
+      "name": "existing_local_candidate_bitstream_hash",
+      "result": "PASS",
+      "command": "make check-bitstream",
+      "sha256": "b7290308c35b81961cb847cd9f538c508ebeffadaf9366407baf4436d5a8499a",
+      "board_accessed": false
+    },
+    {
+      "name": "historical_generation_workspace_effective_overlays",
+      "result": "PASS",
+      "workspace": "/tmp/sixteen-camera-head-l2-urgent-chipyard",
+      "command": "make check-workspace WORKSPACE=/tmp/sixteen-camera-head-l2-urgent-chipyard",
+      "scope": "Read-only comparison to the candidate generation workspace"
+    },
+    {
+      "name": "new_prepare_only_and_overlay_precedence",
+      "result": "PASS",
+      "record": "validation/prepare_fixture.json",
+      "scope": "Actual private copy/overlay operation with a minimal reference, not an empty-directory reconstruction of a full Chipyard system"
+    },
+    {
+      "name": "generator_help",
+      "result": "PASS"
+    },
+    {
+      "name": "preserve_preexisting_tracked_worktree_changes",
+      "result": "PASS",
+      "files": 28
+    },
+    {
+      "name": "git_diff_check",
+      "result": "PASS",
+      "scope": "Tracked diffs; frozen imported whitespace is preserved by .gitattributes"
+    },
+    {
+      "name": "new_directory_symlinks_and_ignored_files",
+      "result": "PASS",
+      "symlinks": 0,
+      "unexpected_ignored_files": 0
+    },
+    {
+      "name": "new_readme_targets",
+      "result": "PASS"
+    }
+  ],
+  "not_run": [
+    "New Scala compilation",
+    "New SoC RTL generation",
+    "New synthesis",
+    "New implementation",
+    "New bitstream generation",
+    "New board programming or tests"
+  ],
+  "historical_result": "Candidate bitstream exists; routed WNS -7.159 ns; CPU/L2 smoke passed; full model hangs unresolved; no performance benefit measured",
+  "shared_dependencies": [
+    "Complete repository board RTL/constraints/IP reconstruction/Vivado flow",
+    "Reference Chipyard source tree",
+    "Installed Java/SBT/CIRCT/RISC-V toolchain, Python and rsync",
+    "Existing sole generated SoC export is referenced and identified by hashes"
+  ],
+  "directory": "hw/versions/l2_1m_4bank",
+  "historical_command_paths": "prepare_fixture.json preserves the actual commands executed before the user-requested directory rename; current entry points are under hw/versions/l2_1m_4bank."
+}

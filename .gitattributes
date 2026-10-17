@@ -10,3 +10,8 @@ sw/board_tests/l2_1m_4bank/model/** -text whitespace=-blank-at-eol,-blank-at-eof
 sw/board_tests/l2_1m_4bank/include/** -text whitespace=-blank-at-eol,-blank-at-eof
 sw/board_tests/l2_1m_4bank/hardware/** -text
 sw/board_tests/l2_1m_4bank/validation/evidence/** -text whitespace=-blank-at-eol,-blank-at-eof
+# Preserve frozen hardware source hashes, including imported whitespace.
+hw/versions/l2_1m_4bank/soc_shell/** -text whitespace=-blank-at-eol,-blank-at-eof
+hw/versions/l2_1m_4bank/command_frontend/** -text whitespace=-blank-at-eol,-blank-at-eof
+hw/versions/l2_1m_4bank/tensor_ingress/** -text whitespace=-blank-at-eol,-blank-at-eof
+hw/versions/l2_1m_4bank/board_rtl/** -text whitespace=-blank-at-eol,-blank-at-eof

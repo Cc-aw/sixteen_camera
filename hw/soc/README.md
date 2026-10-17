@@ -1,5 +1,10 @@
 # 三 Gemmini32 SoC
 
+已生成并板测的 **L2 1 MiB / 4 bank** 版本另存于
+[hw/versions/l2_1m_4bank](../versions/l2_1m_4bank/README.md)，包括独立 shell、配置、命令前端、
+TensorIngress 和私有生成入口。该目录从硬件提交 `d7cbd61` 提取，便于与对应软件测试目录一起复盘；
+下述 `source/` 是公共工作目录，可能包含后续功能修改。
+
 - `source/shell/`：当前 Scala/Chisel shell、MemoryParallelV3 覆盖、冻结 Rocket/Chipyard/L2 依赖和来源记录。
 - `source/tensor_ingress/TensorIngress.scala`：当前 TensorIngress 生成源码。
 - `source/command_frontend/`：三路自主命令前端 Scala、RoCC 接入覆盖和供体来源记录。

@@ -1,0 +1,38 @@
+{
+  "result": "PASS",
+  "fixture": "/tmp/l2-hw-source-prepare-g19bhfpz",
+  "scope": "Actual prepare-only copy and frozen overlays, followed by full effective-source validation; minimal reference has no compiler/toolchain",
+  "source_precedence": "frontend integration Configs.scala wins",
+  "scala_compile": "NOT_RUN",
+  "rtl_generation": "NOT_RUN",
+  "steps": [
+    {
+      "command": [
+        "python3",
+        "-B",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/variants/l2_1m_4bank/scripts/build_soc.py",
+        "--reference",
+        "/tmp/l2-hw-source-prepare-g19bhfpz/reference",
+        "--workspace",
+        "/tmp/l2-hw-source-prepare-g19bhfpz/workspace",
+        "--prepare-only"
+      ],
+      "returncode": 0,
+      "stdout": "NPU100_VIDEO_WORKSPACE=/tmp/l2-hw-source-prepare-g19bhfpz/workspace\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/variants/l2_1m_4bank/scripts/build_soc.py",
+        "--workspace",
+        "/tmp/l2-hw-source-prepare-g19bhfpz/workspace",
+        "--validate-workspace-only"
+      ],
+      "returncode": 0,
+      "stdout": "L2_VARIANT_WORKSPACE=PASS workspace=/tmp/l2-hw-source-prepare-g19bhfpz/workspace\n",
+      "stderr": ""
+    }
+  ]
+}
