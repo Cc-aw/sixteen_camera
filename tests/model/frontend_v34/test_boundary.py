@@ -97,6 +97,11 @@ harness=harness.replace('static void ppu_service(void){\n  clock_cycle();',
     'static void ppu_service(void){\n  uint64_t begin=ticks;unsigned pending=ppu_due[0]||ppu_due[1]||ppu_due[2];\n  clock_cycle();')
 harness=harness.replace('slot_live[d][frames[f].slot]=0;\n  }\n}',
     'slot_live[d][frames[f].slot]=0;\n  }\n  if(pending)ppu_service_cycles+=ticks-begin;\n}')
+harness=harness.replace('ppu_result[d].count=f%3+1;', '''ppu_result[d].count=f%3+1;
+    if(short_window_pass==4&&f==1){
+      if(arg_case==12)ppu_result[d].words[9][3]=1;
+      if(arg_case==13)ppu_result[d].count++;
+    }''')
 io=r'''
 static uint32_t mmio_read32(uintptr_t address){
  unsigned off=address-0x02020000;clock_cycle();
@@ -170,7 +175,7 @@ int main(int argc,char **argv){
  seed=argc>2?atoi(argv[2]):0;
  if(setjmp(failed)){
   fprintf(stderr,"expected-or-fatal:%s\n",reason);
-  const char *expected=arg_case==5?"memory_selector":arg_case==6?"memory_snapshot":arg_case==7?"counter_on_owned_lane":arg_case==8?"memory_external_reset_or_invalid_command":arg_case==10?"memory_snapshot_changed":"unexpected";
+  const char *expected=arg_case==5?"memory_selector":arg_case==6?"memory_snapshot":arg_case==7?"counter_on_owned_lane":arg_case==8?"memory_external_reset_or_invalid_command":arg_case==10?"memory_snapshot_changed":arg_case==12||arg_case==13?"memory_pair_ppu_mismatch":"unexpected";
   return strcmp(reason,expected)!=0;
  }
  if(arg_case==7){hw_state[0]=1;memory_counter_begin(0,0);return 1;}
@@ -236,6 +241,30 @@ class Boundary(unittest.TestCase):
         text=self.logs[0];at=text.index('ATSOFT1,PASS,')
         self.assertTrue(parse(text[:text.index('\n',at)+1])[0])
         self.assertTrue(parse(text[:text.rfind('ATSOFT1,DIAG_COMPLETE,')])[0])
+
+    def test_failed_pair_preserves_snapshot_and_exact_result_difference(self):
+        for case,word in ((12,39),(13,40)):
+            completed=subprocess.run([str(exe),str(case)],check=True,capture_output=True,text=True,
+                env=dict(os.environ,ASAN_OPTIONS='detect_leaks=0'))
+            self.assertIn('memory_pair_ppu_mismatch',completed.stderr)
+            lines=completed.stdout.splitlines()
+            diff=[line for line in lines if line.startswith('ATSOFT1,PPU_DIFF,')]
+            self.assertEqual(len(diff),1)
+            self.assertIn('pass=4,target_tag=2,frame=1,device=1,image=1,',diff[0])
+            self.assertIn(f',word={word},',diff[0])
+            self.assertEqual(sum(line.startswith('ATSOFT1,MEM_END,') for line in lines),10)
+            self.assertIn('ATSOFT1,MEM_END,id=10,valid=1',completed.stdout)
+            self.assertNotIn('ATSOFT1,DIAG_COMPLETE,',completed.stdout)
+            errors,_=parse(completed.stdout)
+            self.assertTrue(any('firmware failure: ATSOFT1,PPU_DIFF,' in e for e in errors))
+
+    def test_firmware_reason_is_not_lost_to_numeric_field_validation(self):
+        failure='ATSOFT1,FAIL,reason=memory_pair_ppu_mismatch,value=10,frame=1,lane=1,phase=164'
+        lines=self.logs[0].splitlines()
+        at=next(i for i,line in enumerate(lines) if line.startswith('ATSOFT1,DIAG_COMPLETE,'))
+        errors,_=parse('\n'.join(lines[:at]+[failure]))
+        self.assertTrue(any('firmware failure: '+failure in e for e in errors))
+        self.assertFalse(any('invalid integer reason=' in e for e in errors))
 
     def test_four_bank_abi_and_extension_decoding(self):
         errors,sessions=parse(self.logs[11]);self.assertEqual(errors,[])

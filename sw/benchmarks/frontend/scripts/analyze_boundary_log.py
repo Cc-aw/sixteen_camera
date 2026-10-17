@@ -234,6 +234,11 @@ def parse_one(lines):
     try:
         for lineno,line in enumerate(lines,1):
             if not line.strip().startswith(('YOLO32_FRONTEND,','ATSOFT1,')):continue
+            # Failure records contain textual reasons, not the numeric schema
+            # used by measurements. Keep the real firmware reason in errors.
+            event=line.strip().split(',')[1]
+            if event in ('FAIL','TRAP','DIAG','PPU_DIFF'):
+                raise ValueError('firmware failure: '+line.strip())
             family,kind,r=decode(line)
             require(complete is None,'record after diagnostic completion')
             if kind in ('FAIL','TRAP','DIAG'):raise ValueError('firmware failure '+kind)

@@ -223,14 +223,30 @@ static void memory_short_passes(void) {
         prepare_batch();batch_begin=clock_cycle();parallel_batch(mode==1?1:3);
         uint64_t cycles=clock_cycle()-batch_begin;
         if(completed!=3||host_calls!=36||launches!=3)at_fail("memory_pair_incomplete",short_window_pass);
-        unsigned mismatch=0;
+        /* Preserve the failing window's frozen counters before checking PPU
+         * results. Both reporting and comparison are outside batch timing. */
+        memory_finish(mode,short_window_pass,cycles);memory_counter_report(mode,short_window_pass,3);
+        unsigned mismatch=0,first_bad=run_frames;
         for(unsigned f=0;f<3;f++) {
             if(use[frames[f].device]!=(mode==1?3:1))at_fail("memory_pair_quota",f);
-            mismatch+=output[mode][f].count!=output[0][f].count;
-            for(unsigned i=0;i<10;i++)for(unsigned j=0;j<4;j++)mismatch+=output[mode][f].words[i][j]!=output[0][f].words[i][j];
+            const struct PpuResult *actual=&output[mode][f],*expected=&output[0][f];
+            for(unsigned word=0;word<=40;word++) {
+                uint32_t a=word==40?actual->count:actual->words[word/4][word%4];
+                uint32_t e=word==40?expected->count:expected->words[word/4][word%4];
+                if(a==e)continue;
+                mismatch++;if(first_bad==run_frames)first_bad=f;
+                text("ATSOFT1,PPU_DIFF,executor=");text(executor_name(mode));
+                field(",pass=",short_window_pass);field(",target_tag=",tag);field(",frame=",f);
+                field(",device=",frames[f].device);field(",image=",frames[f].image);field(",slot=",frames[f].slot);
+                /* Words 0..39 are the full result; word40 is the count. */
+                field(",word=",word);field(",expected=",e);field(",actual=",a);
+                field(",expected_count=",expected->count);field(",actual_count=",actual->count);text("\n");
+            }
         }
-        if(mismatch)at_fail("memory_pair_ppu_mismatch",mismatch);
-        memory_finish(mode,short_window_pass,cycles);memory_counter_report(mode,short_window_pass,3);
+        if(mismatch) {
+            current_frame=first_bad;current_lane=frames[first_bad].device;
+            at_fail("memory_pair_ppu_mismatch",mismatch);
+        }
         text("ATSOFT1,MEM_PAIR,executor=");text(executor_name(mode));field(",pass=",short_window_pass);
         field(",target_tag=",tag);field(",target_frame=",0);field(",target_lane=",0);field(",image=",0);
         field(",frames=",3);field(",cycles=",cycles);text(",ppu_results=bit_exact\n");

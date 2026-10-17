@@ -60,6 +60,7 @@ def run_snapshot(snapshot: str, cwd: Path) -> str:
     assert process.stdin is not None
     assert process.stdout is not None
     output_lines: list[str] = []
+    live_log = (cwd / (snapshot + '_live.log')).open('w')
 
     def read_until(marker: str) -> None:
         while True:
@@ -69,6 +70,13 @@ def run_snapshot(snapshot: str, cwd: Path) -> str:
                     f"simulation kernel exited before reporting {marker}: {kernel}"
                 )
             output_lines.append(line)
+            live_log.write(line)
+            live_log.flush()
+            if 'Fatal:' in line or 'Error:' in line:
+                process.terminate()
+                process.wait(timeout=10)
+                live_log.close()
+                raise RuntimeError('Simulation failed: ' + ''.join(output_lines))
             if marker in line:
                 return
 
@@ -85,6 +93,7 @@ def run_snapshot(snapshot: str, cwd: Path) -> str:
     output_lines.append(process.stdout.read())
     returncode = process.wait()
     output = "".join(output_lines)
+    live_log.close()
     if returncode:
         print(output, end="")
         raise SystemExit(
