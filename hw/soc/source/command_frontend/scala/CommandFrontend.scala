@@ -9,6 +9,7 @@ import org.chipsalliance.cde.config.{Field, Parameters}
 import freechips.rocketchip.tile._
 
 case object CommandFrontendKey extends Field[Boolean](false)
+case object DmaLoadBuildIdKey extends Field[BigInt](BigInt(0))
 
 /** ABI v2: M-mode, 32-bit physical descriptors in [0x80000000, 0xffffffff].
   * Each record is 32 bytes; kind=0 RAW, 1 DRAIN, 2 HOST. End is count-based.
@@ -140,6 +141,8 @@ class CommandFrontendEngine(val fifoDepth: Int = 8, val quietCycles: Int = 4,
 
 /** Flat ports deliberately retain the proven cluster ABI for differential tests. */
 class CommandFrontendClusterIO extends Bundle {
+  val dma_load_capabilities = Input(Vec(3, UInt(32.W)))
+  val dma_load_mode = Output(Vec(3, UInt(2.W)))
   val control_valid = Input(Bool()); val control_ready = Output(Bool())
   val control_funct = Input(UInt(7.W)); val control_rs1 = Input(UInt(64.W)); val control_rs2 = Input(UInt(64.W))
   val control_rd = Input(UInt(5.W)); val control_xd = Input(Bool()); val control_prv = Input(UInt(2.W))
@@ -156,10 +159,14 @@ class CommandFrontendClusterIO extends Bundle {
   val mem_resp_data = Input(UInt(768.W)); val mem_resp_error = Input(UInt(3.W))
 }
 
-class CommandFrontendCluster(val allowTargetExtensions: Boolean = false) extends Module {
+class CommandFrontendCluster(val allowTargetExtensions: Boolean = false,
+                             val dmaLoadBuildId: BigInt = 0) extends Module {
   val io = IO(new CommandFrontendClusterIO)
   val cycle = RegInit(0.U(64.W)); cycle := cycle + 1.U
   val armed = RegInit(VecInit(Seq.fill(3)(false.B)))
+  val dmaLoadMode = RegInit(VecInit(Seq.fill(3)(0.U(2.W))))
+  val modeSwitchRejects = RegInit(VecInit(Seq.fill(3)(0.U(32.W))))
+  io.dma_load_mode := dmaLoadMode
   val irqEnable = RegInit(VecInit(Seq.fill(3)(false.B)))
   val engines = Seq.fill(3)(Module(new CommandFrontendEngine(allowTargetExtensions = allowTargetExtensions)))
   val available = Wire(Vec(3, Bool())); val owner = Wire(Vec(3, Bool()))
@@ -202,6 +209,13 @@ class CommandFrontendCluster(val allowTargetExtensions: Boolean = false) extends
             is(6.U) { when(available(channel) && io.control_rs2 === 0.U) { responseData := 0.U } }
             is(7.U) { when(armPulse(channel)) { responseData := 0.U } }
             is(8.U) { when(cancel(channel)) { responseData := 0.U } }
+            // ABI2 additive diagnostic extension: op9 sets a drained lane;
+            // read selectors 7/8 expose capability and effective mode.
+            is(9.U) {
+              responseData := Mux(io.dma_load_capabilities(channel) === 0.U, 3.U,
+                Mux(io.control_rs1 > 2.U || io.control_rs2 =/= 0.U, 2.U,
+                  Mux(io.gemmini_fault(channel), 4.U, Mux(available(channel), 0.U, 1.U))))
+            }
           }
         }
     }
@@ -230,7 +244,17 @@ class CommandFrontendCluster(val allowTargetExtensions: Boolean = false) extends
       armed(g), e.fence_busy, io.gemmini_busy(g), available(g), e.fault, e.host_wait, e.done, owner(g))
     readValue(g) := Mux(op === 4.U, e.host_tag, MuxLookup(io.control_rs1, "hfffffffffffffffe".U(64.W))(Seq(
       0.U -> status, 1.U -> Cat(e.fetched,e.issued), 2.U -> Cat(e.completed_cursor,e.cursor),
-      3.U -> e.host_tag, 4.U -> Cat(0.U(60.W),e.state_out), 5.U -> release, 6.U -> lastStart)))
+      3.U -> e.host_tag, 4.U -> Cat(0.U(60.W),e.state_out), 5.U -> release, 6.U -> lastStart,
+      7.U -> io.dma_load_capabilities(g), 8.U -> dmaLoadMode(g),
+      9.U -> modeSwitchRejects(g), 10.U -> dmaLoadBuildId.U(64.W))))
+    when(select && op === 9.U && !(available(g) && !io.gemmini_fault(g) &&
+      io.dma_load_capabilities(g) =/= 0.U && io.control_rs1 <= 2.U && io.control_rs2 === 0.U)) {
+      modeSwitchRejects(g) := modeSwitchRejects(g) + 1.U
+    }
+    when(select && op === 9.U && available(g) && !io.gemmini_fault(g) &&
+      io.dma_load_capabilities(g) =/= 0.U && io.control_rs1 <= 2.U && io.control_rs2 === 0.U) {
+      dmaLoadMode(g) := io.control_rs1
+    }
     val acknowledge = select && op === 5.U && !armed(g) && io.control_rs1 === 0.U && io.control_rs2 === 0.U
     when(select && available(g)) {
       when(!io.control_rs1(63,32).orR && !io.control_rs2(63,32).orR) {

@@ -112,6 +112,11 @@ class LoadController[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig
   io.dma.req.bits.all_zeros := all_zeros
   io.dma.req.bits.status := mstatus
   io.dma.req.bits.pixel_repeats := pixel_repeat
+  io.dma.req.bits.cmd_first := row_counter === 0.U
+  io.dma.req.bits.cmd_last := row_counter === actual_rows_read - 1.U
+  io.dma.req.bits.cmd_rows := actual_rows_read
+  io.dma.req.bits.row_index := row_counter
+  io.dma.req.bits.cmd_stride_bytes := stride
 
   // Command tracker IO
   cmd_tracker.io.alloc.valid := control_state === waiting_for_command && cmd.valid && DoLoad

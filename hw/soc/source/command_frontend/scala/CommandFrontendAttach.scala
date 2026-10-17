@@ -32,6 +32,8 @@ object CommandFrontendAttach {
     f.mem_resp_error := VecInit(memory.map(_.module.fetch.resp_error)).asUInt
     for (i <- 0 until 3) {
       val g = roccs(i).module.io
+      g.dma_load_mode := f.dma_load_mode(i)
+      f.dma_load_capabilities(i) := g.dma_load_capabilities
       val automatic = Wire(new RoCCCommand)
       automatic := 0.U.asTypeOf(automatic)
       automatic.inst.opcode := Seq(0x0b,0x2b,0x5b)(i).U

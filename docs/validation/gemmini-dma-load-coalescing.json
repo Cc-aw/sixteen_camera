@@ -1,0 +1,103 @@
+{
+  "status": "FUNCTIONAL_RTL_PASS_BITSTREAM_GENERATED_TIMING_UNMET_BOARD_PARTIAL",
+  "build_id": "2a95a4ca64390235",
+  "l2_kib": 512,
+  "l2_banks": 2,
+  "default_mode": "legacy",
+  "runtime_modes": [
+    "legacy",
+    "read_coalesced",
+    "read_assembled"
+  ],
+  "checked_candidate_rtl_files": 823,
+  "runtime_module_instances": [
+    [
+      "assembler",
+      "DmaLoadRowAssembler_6673"
+    ],
+    [
+      "group",
+      "DmaLoadGroup_6707"
+    ],
+    [
+      "assembler",
+      "DmaLoadRowAssembler_4097"
+    ],
+    [
+      "group",
+      "DmaLoadGroup_4131"
+    ],
+    [
+      "assembler",
+      "DmaLoadRowAssembler"
+    ],
+    [
+      "group",
+      "DmaLoadGroup"
+    ]
+  ],
+  "synthesis_completed_utc": "2026-10-16T15:43:32.901594+00:00",
+  "checkpoint_sha256": "a46fb2bbe6658e5254f5b16ee48ae7ce9c8557f9d25f2f38524a068000af1774",
+  "input_integrity": "UNCHANGED_THROUGH_SYNTHESIS",
+  "implementation_state_at_handoff": "WAITING_IMPLEMENTATION_LOCK",
+  "implementation_lock_at_handoff": "WAITING_OTHER_BUILD",
+  "full_chip_timing_proven": false,
+  "board_run": "FIRST_LAYER_PASS_FULL_MODEL_PARTIAL_NOT_SUITE_PASS",
+  "bitstream": "GENERATED",
+  "live_state": "build/experiments/dma_load/512kib_2bank_runtime_20261016/bitstream/state.json",
+  "sha256": {
+    "build/experiments/dma_load/512kib_2bank_runtime_20261016/candidate/GENERATION_CONTEXT.json": "c9e51701b92cb7fe999f061d2ffc769c6bf3e376d1b270efa4ebf62e567a0a0b",
+    "build/experiments/dma_load/512kib_2bank_runtime_20261016/verification.json": "265420c10808e64b15995d101eba05ca92f67b1db3b936f38a9ecd096087f238",
+    "build/experiments/dma_load/512kib_2bank_runtime_20261016/bitstream/synthesis_result.txt": "d4ce4c02ec2374f17046029e06c79e6e1a9122a074dbb48339ebe9bf21289420",
+    "build/experiments/dma_load/512kib_2bank_runtime_20261016/bitstream/synthesis_utilization.rpt": "3312a585dce41e60fa8ecea1b5e1334460b3773f481d559d9ca81d9c4e46a49b",
+    "build/experiments/dma_load/512kib_2bank_runtime_20261016/bitstream/synthesis_timing_estimate.rpt": "4ce07ac52b31ae2f4a454881f38f0ec18f365a45cc6fb16cbd68623ea3cc0001",
+    "build/experiments/dma_load/512kib_2bank_runtime_20261016/project_identity_audit.json": "c62ba5b5eea74b30dd3f6c92369fb33257d02f308ad7daa1521767dac0322bd1",
+    "build/experiments/dma_load/512kib_2bank_runtime_20261016/final_acceptance/integration_evidence.json": "cde2e4b32425e7f1635e1b9bb4c47a5455f564dd09dd3e186f7dee9c810307bc",
+    "build/experiments/dma_load/512kib_2bank_runtime_20261016/bitstream/state.json": "94cbb43dfc9e8f569811687d3e67798555307932a7ae40983298b40ea23869c7",
+    "build/experiments/dma_load/512kib_2bank_runtime_20261016/bitstream/result.txt": "2a1239d31286f998aa217e208f3d5e1d1fa12288c827ca40595e972e900d5f5f",
+    "build/experiments/dma_load/512kib_2bank_runtime_20261016/bitstream/routed_timing.rpt": "e87bf92f1e78589394e256a92b7fec9006f4931ae95488bc4209b98a4483b36a",
+    "docs/validation/gemmini-dma-load-coalescing-board.json": "a58ae2b1d5ec74c18395e1a6fead8c52bea53746a4f3c12cbfffe015c0ef8e6b"
+  },
+  "synthesis_utilization": {
+    "luts": 935672,
+    "ffs": 897100,
+    "ramb36": 995,
+    "ramb18": 949,
+    "uram": 372,
+    "dsps": 3029
+  },
+  "synthesis_timing_estimate": {
+    "scope": "UNPLACED_SYNTHESIS_ESTIMATE",
+    "wns_ns": -1.142,
+    "whs_ns": -4.615,
+    "wpws_ns": -0.139,
+    "timing_met": false
+  },
+  "synthesis_errors": 0,
+  "synthesis_critical_warnings": 0,
+  "recorded_date": "2026-10-17",
+  "bitstream_sha256": "e930cc0674b0f8756a5e7ecb63aa9d769d824cdca068911d0f180ef3a2efd25c",
+  "bitstream_bytes": 113318492,
+  "implementation_state": "COMPLETE",
+  "implementation_completed_utc": "2026-10-17T01:43:49.179777+00:00",
+  "build_state": "BITSTREAM_TIMING_UNMET",
+  "routed_timing": {
+    "wns_ns": -1.467,
+    "whs_ns": 0.001,
+    "wpws_ns": 0.039,
+    "setup_failing_endpoints": 59075,
+    "hold_failing_endpoints": 0,
+    "pulse_failing_endpoints": 0
+  },
+  "board_evidence": "gemmini-dma-load-coalescing-board.json",
+  "commit_preparation_checks": {
+    "production_manifest": "PASS",
+    "private_board_tests": 17,
+    "native_adapted_plan_equivalence": "PASS",
+    "elf_audit": "PASS",
+    "download_preflight": "PASS",
+    "reference_and_log_tests": 7,
+    "board_accessed": false,
+    "long_rtl_and_ooc": "PRIOR_RUNS_RECORDED_ABOVE_NOT_RERUN_FOR_COMMIT"
+  }
+}

@@ -37,6 +37,7 @@ GF_CONTROL(gf_ack,5)
 GF_CONTROL(gf_set_release,6)
 GF_CONTROL(gf_arm,7)
 GF_CONTROL(gf_cancel,8)
+GF_CONTROL(gf_set_dma_load_mode,9)
 #undef GF_CONTROL
 static inline uint64_t gf_global_read(unsigned query) {
     uint64_t out;GF_INSN(99,(uint64_t)query,0,out);return out;

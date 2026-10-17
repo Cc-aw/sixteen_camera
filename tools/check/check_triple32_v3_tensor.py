@@ -14,6 +14,7 @@ from l2_geometry import L2Geometry
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("rtl", type=Path)
 parser.add_argument("--l2-banks", type=int, choices=(2, 4))
+parser.add_argument("--dma-load-runtime", action="store_true")
 args = parser.parse_args()
 rtl = args.rtl.resolve()
 product = json.loads((ROOT / "hw/manifests/current.json").read_text())
@@ -56,7 +57,17 @@ assert len(re.findall(r"^  CommandFrontendEngine\s+\w+\s*\(",
 busy = re.search(r"\.io_rocc_busy\s+\(([^\n]+)", tile)[1]
 assert all(f"~(_commandFrontend_io_stream_owner[{lane}])" in busy for lane in range(3))
 assert "_commandFrontend_io_transport_busy" in busy and "_respArb_io_out_valid" in busy
-assert re.search(r"\.io_rocc_interrupt\s+\(_commandFrontend_io_interrupt\)", tile)
+if args.dma_load_runtime:
+    interrupt = re.search(r"\.io_rocc_interrupt\s+\(([^\n]+)\)", tile)[1]
+    assert all(name in interrupt for name in ("_commandFrontend_io_interrupt",
+        "_applyOrElse_io_interrupt", "_applyOrElse_1_io_interrupt", "_applyOrElse_2_io_interrupt"))
+    for lane in range(3):
+        assert re.search(rf"\.io_dma_load_mode\s+\(_commandFrontend_io_dma_load_mode_{lane}\)", tile)
+    scratchpad = (rtl / "Scratchpad.sv").read_text()
+    assert re.search(r"DmaLoadGroup\s+group\s*\(", scratchpad)
+    assert re.search(r"DmaLoadRowAssembler\s+assembler\s*\(", scratchpad)
+else:
+    assert re.search(r"\.io_rocc_interrupt\s+\(_commandFrontend_io_interrupt\)", tile)
 assert len(re.findall(r"\.io_loopconv_request_accept\s+\([^\n]+== 7'hF\)", tile)) == 3
 divider = (rtl / "IterativeIntegerDivider.sv").read_text()
 assert "requestCapturePending" in divider and "requestIn1" in divider

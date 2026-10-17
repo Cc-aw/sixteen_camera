@@ -32,6 +32,9 @@ static uint32_t memory_counter_access(unsigned lane,uint32_t config) {
     return (uint32_t)out;
 }
 static void memory_counter_begin(unsigned f,unsigned lane) {
+#ifdef DMA_LOAD_BENCHMARK
+    if(dma_load_whole_window)return;
+#endif
     /* Only issue legacy counter commands before ownership and after ACK.
      * HOST_WAIT still owns the lane and cannot accept direct counter reads. */
     if(gf_status(lane)&GF_OWNED)at_fail("counter_on_owned_lane",lane);
@@ -42,6 +45,9 @@ static void memory_counter_begin(unsigned f,unsigned lane) {
     m->config_end=clock_cycle();
 }
 static void memory_counter_end(unsigned f,unsigned lane) {
+#ifdef DMA_LOAD_BENCHMARK
+    if(dma_load_whole_window)return;
+#endif
     if(gf_status(lane)&GF_OWNED)at_fail("counter_on_owned_lane",lane);
     struct MemoryFrame *m=&memory_frames[f];m->capture_begin=clock_cycle();
     (void)memory_counter_access(lane,4);

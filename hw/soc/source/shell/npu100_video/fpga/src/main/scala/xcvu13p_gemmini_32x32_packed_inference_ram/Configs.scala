@@ -176,6 +176,7 @@ class RocketSaturnGemmini32x32PackedInferenceRamMultiXCVU13PConfig extends Confi
           implicit val q: Parameters = p
           LazyModule(new gemmini.Gemmini(
             XCVU13PGemmini32x32PackedInferenceRamMultiConfigs.base.copy(
+              dma_load_runtime_enable = p(gemmini.DmaLoadRuntimeKey),
               opcodes = OpcodeSet.custom1,
               fpgaScratchpadSlr = Some(0),
               // IPOAT（王志瑞）：每个 worker 独占一组 CSR；custom1 使用预留扩展段。
@@ -190,6 +191,7 @@ class RocketSaturnGemmini32x32PackedInferenceRamMultiXCVU13PConfig extends Confi
           implicit val q: Parameters = p
           LazyModule(new gemmini.Gemmini(
             XCVU13PGemmini32x32PackedInferenceRamMultiConfigs.base.copy(
+              dma_load_runtime_enable = p(gemmini.DmaLoadRuntimeKey),
               opcodes = OpcodeSet.custom2,
               // Keep the established worker1 SLR placement. The MaxPool
               // timing-v2 floorplan instead moves the two L2 banks out of
@@ -207,6 +209,7 @@ class RocketSaturnGemmini32x32PackedInferenceRamMultiXCVU13PConfig extends Confi
           implicit val q: Parameters = p
           LazyModule(new gemmini.Gemmini(
             XCVU13PGemmini32x32PackedInferenceRamMultiConfigs.base.copy(
+              dma_load_runtime_enable = p(gemmini.DmaLoadRuntimeKey),
               opcodes = OpcodeSet.custom3,
               fpgaScratchpadSlr = Some(3),
               // IPOAT（王志瑞）：custom3 保持双 worker 板测使用的 CSR ABI。

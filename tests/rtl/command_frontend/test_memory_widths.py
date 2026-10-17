@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Production-width mux: all DMA IDs, high address bit, and lease/backpressure."""
 from pathlib import Path
+import argparse
+import hashlib
 import re
 import subprocess
 
@@ -9,8 +11,19 @@ project = feature.parents[2]
 import json
 product = json.loads((project / "hw/manifests/current.json").read_text())
 rtl = project / product["collateral_directory"]
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--rtl',type=Path)
+parser.add_argument('--output',type=Path)
+args=parser.parse_args()
+context=None
+if args.rtl:
+    if not args.output:parser.error('--output is required with private --rtl')
+    rtl=args.rtl.resolve()
+    context=json.loads((rtl.parent/'GENERATION_CONTEXT.json').read_text())
+    for name,expected in context['final_rtl_sha256'].items():
+        assert hashlib.sha256((rtl/name).read_bytes()).hexdigest()==expected,name
 rtl = rtl / "CommandFrontendMemoryMux.sv"
-out = project / "build/sim/command_frontend/memory_widths"
+out = args.output.resolve() if args.output else project / "build/sim/command_frontend/memory_widths"
 out.mkdir(parents=True,exist_ok=True)
 header=re.sub(r"//[^\n]*","",rtl.read_text().split(");",1)[0])
 ports=re.findall(r"^\s*(input|output)\s+(\[[^]]+\]\s*)?(\w+)\s*[,\n]",header,re.M)
@@ -51,4 +64,11 @@ tb=tb.replace("MEMORY_MUX_PASS,", "MEMORY_MUX_PASS,addr_bits=33,source_ids=64,si
 (out/"tb.sv").write_text(tb)
 verilator="verilator"
 subprocess.run([str(verilator),"--binary","--timing","--assert","-Wno-fatal","-j","4","--top-module","tb_memory_mux","--Mdir",str(out/"obj"),str(rtl),str(out/"wrapper.sv"),str(out/"tb.sv")],check=True)
-subprocess.run([str(out/"obj/Vtb_memory_mux")],check=True)
+result=subprocess.check_output([str(out/"obj/Vtb_memory_mux")],text=True)
+(out/'result.log').write_text(result)
+print(result)
+assert 'MEMORY_MUX_PASS,addr_bits=33,source_ids=64,sink_bits=7,' in result
+if context is not None:
+    (out/'evidence.json').write_text(json.dumps(dict(status='MEMORY_MUX_WIDTH_LEASE_PASS',
+        build_id=context['dma_load_build_id'],rtl=str(rtl),rtl_sha256=hashlib.sha256(rtl.read_bytes()).hexdigest(),
+        log_sha256=hashlib.sha256(result.encode()).hexdigest()),indent=2)+'\n')

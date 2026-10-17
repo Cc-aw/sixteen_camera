@@ -11,6 +11,8 @@ import subprocess
 import json
 import sys
 import shutil
+import argparse
+import hashlib
 
 feature = Path(__file__).resolve().parent
 project = feature.parents[2]
@@ -18,6 +20,23 @@ import json
 product = json.loads((project / "hw/manifests/current.json").read_text())
 rtl = project / product["collateral_directory"]
 out = project / "build/sim/command_frontend/real32"
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--rtl', type=Path)
+parser.add_argument('--output', type=Path)
+parser.add_argument('--dma-load-mode', choices=('legacy', 'read_coalesced', 'read_assembled', 'all'))
+args = parser.parse_args()
+if args.rtl is not None:
+    rtl = args.rtl.resolve()
+    if args.output is None:
+        parser.error('--output is required for private candidate RTL')
+    out = args.output.resolve()
+    context = json.loads((rtl.parent / 'GENERATION_CONTEXT.json').read_text())
+    for name, expected in context['final_rtl_sha256'].items():
+        assert hashlib.sha256((rtl / name).read_bytes()).hexdigest() == expected, name
+    if args.dma_load_mode is not None:
+        assert context.get('dma_load_runtime_enable') and context['l2_banks'] == 2
+elif args.dma_load_mode is not None:
+    parser.error('--dma-load-mode requires explicit candidate --rtl')
 out.mkdir(parents=True,exist_ok=True)
 
 def ports(file):
@@ -48,7 +67,7 @@ ps = ports(rtl/"Gemmini.sv")
 decls=[]; bindings=[]
 for direction,width,name in ps:
     if name in ("clock","reset","io_cmd_ready","io_cmd_valid","io_cmd_bits_inst_funct",
-                "io_cmd_bits_rs1","io_cmd_bits_rs2","io_busy","io_interrupt") or name.startswith("auto_spad_id_out_"):
+                "io_cmd_bits_rs1","io_cmd_bits_rs2","io_busy","io_interrupt") or name.startswith("auto_spad_id_out_") or (args.dma_load_mode is not None and name in ('io_dma_load_mode','io_dma_load_capabilities')):
         decls.append(f"{direction} wire {width} {name}"); value=name
     elif direction=="output": value=""
     else:
@@ -59,11 +78,17 @@ for direction,width,name in ps:
         if name=="io_loopconv_request_accept": value="io_cmd_valid && io_cmd_ready && io_cmd_bits_inst_funct==15"
     bindings.append(f".{name}({value})")
 extra=""
+if args.dma_load_mode is not None and not any(n=='io_dma_load_capabilities' for _,_,n in ps):
+    # Whole-SoC constant propagation folds this worker output into the real
+    # frontend. Preserve that verified constant at the simulation wrapper.
+    assert "64'h10007" in (rtl/'CommandFrontendCluster.sv').read_text()
+    decls.append('output wire [31:0] io_dma_load_capabilities')
+    extra += "assign io_dma_load_capabilities=32'h10007;\n"
 if not any(n=="io_interrupt" for _,_,n in ps):
     # Physical bare-address Gemmini has no fault-producing DTLB; firtool folded
     # the constant-false output away. Reflect that constant, do not invent IRQ.
     decls.append("output wire io_interrupt")
-    extra="assign io_interrupt=1'b0;\n"
+    extra+="assign io_interrupt=1'b0;\n"
 (out/"TestGemmini.sv").write_text("module TestGemmini(\n"+",\n".join(decls)+");\nGemmini dut("+",".join(bindings)+");\n"+extra+"endmodule\n")
 
 lane=(feature/"reference/MemoryLane.sv").read_text()
@@ -95,6 +120,37 @@ tb=tb.replace("reset=0;", "reset=0; repeat(64)@(negedge clock);")
 tb=tb.replace("if(triple_cycles==0)","lanes[0].lane.check_conv();lanes[1].lane.check_conv();lanes[2].lane.check_conv();\n    if(triple_cycles==0)")
 tb=tb.replace("REAL_CLUSTER_PASS,gemmini=3","REAL_CLUSTER_PASS,dim=32,scale=fp16,conv_chunks=6,silu_lut=checked,gemmini=3")
 tb=tb.replace("module tb_real_cluster;", "module tb_real_cluster;\n  glbl glbl();")
+if args.dma_load_mode is not None:
+    lane = lane.replace('input wire clock,reset,',
+        'input wire clock,reset,input wire [1:0] dma_load_mode,output wire [31:0] dma_load_capabilities,')
+    lane = lane.replace('.clock(clock),.reset(reset),.io_cmd_ready',
+        '.io_dma_load_mode(dma_load_mode),.io_dma_load_capabilities(dma_load_capabilities),.clock(clock),.reset(reset),.io_cmd_ready')
+    lane = lane.replace('task initialize;', 'task initialize;\n command_count=0;reads=0;writes=0;acks=0;fetches=0;')
+    (out/'MemoryLane.sv').write_text(lane)
+    tb = tb.replace('integer triple_cycles=0,',
+        'wire [1:0] dma_load_mode_0,dma_load_mode_1,dma_load_mode_2;\n'
+        'wire [31:0] dma_load_capabilities_0,dma_load_capabilities_1,dma_load_capabilities_2;\n'
+        'wire [1:0] load_modes[0:2];wire [31:0] load_caps[0:2];\n'
+        'assign load_modes[0]=dma_load_mode_0;assign load_modes[1]=dma_load_mode_1;assign load_modes[2]=dma_load_mode_2;\n'
+        'assign dma_load_capabilities_0=load_caps[0];assign dma_load_capabilities_1=load_caps[1];assign dma_load_capabilities_2=load_caps[2];\n'
+        'integer runtime_mode;integer triple_cycles=0,')
+    tb = tb.replace('.clock(clock),.reset(reset),.cmd_valid',
+        '.dma_load_mode(load_modes[g]),.dma_load_capabilities(load_caps[g]),.clock(clock),.reset(reset),.cmd_valid')
+    # One elaboration, one simulation, no reset between runtime modes.
+    begin = tb.index('    lanes[0].lane.initialize();')
+    end = tb.index('    for(integer i=0;i<3;i=i+1)begin', begin)
+    selected = range(3) if args.dma_load_mode == 'all' else [dict(legacy=0,read_coalesced=1,read_assembled=2)[args.dma_load_mode]]
+    tb = tb[:begin] + ('    repeat(20)@(negedge clock);reset=0;repeat(64)@(negedge clock);\n'
+        f'    for(runtime_mode={selected[0]};runtime_mode<={selected[-1]};runtime_mode=runtime_mode+1)begin\n'
+        '      for(integer lane_id=0;lane_id<3;lane_id=lane_id+1)begin\n'
+        '        ctl(lane_id,9,64\'(runtime_mode),0);read(lane_id,8,v);\n'
+        '        if(v!==64\'(runtime_mode))$fatal(1,"runtime mode readback");\n'
+        '      end\n'
+        '      lanes[0].lane.initialize();lanes[1].lane.initialize();lanes[2].lane.initialize();\n') + tb[end:]
+    tb = tb.replace('    $finish;',
+        '    $display("DMA_LOAD_REAL_MODE_PASS,mode=%0d",runtime_mode);\n'
+        '    end\n    $display("DMA_LOAD_REAL_RUNTIME_PASS");\n    $finish;')
+    tb = tb.replace('#20000000;', '#100000000;')
 (out/"tb_real_cluster.sv").write_text(tb)
 
 # Transitive module closure includes generated memories and resource blackboxes.
@@ -122,7 +178,15 @@ sources += [vivado/"data/verilog/src/glbl.v"]
 assert all(f.is_file() for f in sources), "Vivado simulation sources unavailable"
 prj=out/"simulation.prj"
 prj.write_text("\n".join(f'sv work "{f}"' for f in sources)+"\n")
-for command in ([str(vivado/"bin/xvlog"),"--incr","--relax","-prj",str(prj)],
+# Chisel RRArbiter deliberately leaves lastGrant unreset. Give such registers
+# concrete power-up values using firtool's own initialization blocks; leaving
+# them X in a four-state simulator stalls the first non-identity scale. This
+# define is simulation-only and does not change the candidate RTL/bitstream.
+defines=["-d","RANDOMIZE_REG_INIT"] if args.dma_load_mode is not None else []
+(out/'simulation_options.json').write_text(json.dumps(dict(register_initialization=defines,
+    rationale='Generated RRArbiter has an intentionally unreset lastGrant',
+    runtime_modes=args.dma_load_mode),indent=2)+'\n')
+for command in ([str(vivado/"bin/xvlog"),"--incr","--relax",*defines,"-prj",str(prj)],
                 [str(vivado/"bin/xelab"),"tb_real_cluster","-L","unisims_ver","--relax","--mt","4","-s","real32"]):
     subprocess.run(command,check=True,cwd=out)
 os.environ["VIVADO_ROOT"]=str(vivado)

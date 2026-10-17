@@ -100,6 +100,8 @@ class RoCCIO(val nPTWPorts: Int, nRoCCCSRs: Int)(implicit p: Parameters) extends
     * T（Time 时间）：2026-09-18
     */
   val loopconv_ingress_debug = Input(UInt(64.W))
+  val dma_load_mode = Input(UInt(2.W))
+  val dma_load_capabilities = Output(UInt(32.W))
 }
 
 /** Base classes for Diplomatic TL2 RoCC units **/
@@ -119,6 +121,7 @@ abstract class LazyRoCC(
 class LazyRoCCModuleImp(outer: LazyRoCC) extends LazyModuleImp(outer) {
   val io = IO(new RoCCIO(outer.nPTWPorts, outer.roccCSRs.size))
   io := DontCare
+  io.dma_load_capabilities := 0.U
 }
 
 /** Mixins for including RoCC **/
@@ -160,7 +163,8 @@ trait HasLazyRoCC extends CanHavePTW { this: BaseTile =>
 trait HasLazyRoCCModule extends CanHavePTWModule
     with HasCoreParameters { this: RocketTileModuleImp =>
 
-  val commandFrontend = if (p(CommandFrontendKey)) Some(Module(new CommandFrontendCluster(allowTargetExtensions = true))) else None
+  val commandFrontend = if (p(CommandFrontendKey)) Some(Module(new CommandFrontendCluster(
+    allowTargetExtensions = true, dmaLoadBuildId = p(DmaLoadBuildIdKey)))) else None
   val (respArb, cmdRouter) = if(outer.roccs.nonEmpty) {
     val count = outer.roccs.size + (if (p(CommandFrontendKey)) 1 else 0)
     val respArb = Module(new RRArbiter(new RoCCResponse()(outer.p), count))
@@ -175,6 +179,7 @@ trait HasLazyRoCCModule extends CanHavePTWModule
       rocc.module.io.loopconv_request_queue_count := cmdRouter.io.loopconv_request_queue_count(i)
       rocc.module.io.loopconv_assembler_partial := cmdRouter.io.loopconv_assembler_partial(i)
       rocc.module.io.loopconv_ingress_debug := cmdRouter.io.loopconv_ingress_debug(i)
+      rocc.module.io.dma_load_mode := 0.U
       val dcIF = Module(new SimpleHellaCacheIF()(outer.p))
       dcIF.io.requestor <> rocc.module.io.mem
       dcachePorts += dcIF.io.cache

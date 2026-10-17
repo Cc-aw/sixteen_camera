@@ -133,22 +133,35 @@ def environment(workspace):
     return env
 
 
-def generate(workspace, export=True, l2_banks=4):
+def generate(workspace, export=True, l2_banks=4, dma_load_runtime=False, output=None):
     if not (workspace / ".triple32-v3-tensor.json").is_file():
         raise SystemExit("Workspace was not prepared by this entry point")
     validate_workspace_sources(workspace)
     if export and l2_banks != 4:
         raise SystemExit("The two-bank fallback is a private --no-export candidate")
     config = CONFIG if l2_banks == 4 else CONFIG.replace("TensorIngressConfig", "TensorIngress2BankConfig")
+    if dma_load_runtime:
+        if export or l2_banks != 2:
+            raise SystemExit("Runtime DMA candidate requires --l2-banks 2 --no-export")
+        config = config.replace("2BankConfig", "2BankDmaLoadConfig")
     name = "tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness." + config
+    generated = Path(output).resolve() if output else workspace / "fpga/generated-src" / name
+    if output and (export or generated.exists()):
+        raise SystemExit("Explicit candidate output requires --no-export and a new directory")
     env = environment(workspace)
+    before_sources = {str(p.relative_to(workspace)): digest(p) for p in workspace.rglob("*.scala")
+                      if p.is_file() and "target" not in p.parts}
+    identity = hashlib.sha256(json.dumps(dict(config=name, sources=before_sources,
+        build_sbt_sha256=digest(workspace / "build.sbt")), sort_keys=True).encode()).hexdigest()
+    if dma_load_runtime:
+        env['DMA_LOAD_BUILD_ID'] = identity[:16]
     subprocess.run(["make", "-C", str(workspace / "fpga"), "-W", str(workspace / "build.sbt"),
                     "verilog", "SUB_PROJECT=taihang_soc", "SBT_PROJECT=chipyard_fpga",
                     "MODEL=TaihangSoCFPGATestHarness", "VLOG_MODEL=TaihangSoCFPGATestHarness",
                     "MODEL_PACKAGE=tsmcchip.fpga.taihangsoc", "CONFIG_PACKAGE=tsmcchip.fpga.taihangsoc",
-                    f"CONFIG={config}", "GENERATOR_PACKAGE=chipyard", "TOP=ChipTop", "TB=none"],
+                    f"CONFIG={config}", "GENERATOR_PACKAGE=chipyard", "TOP=ChipTop", "TB=none"] +
+                   ([f"build_dir={generated}"] if output else []),
                    env=env, check=True)
-    generated = workspace / "fpga/generated-src" / name
     rtl = generated / "gen-collateral"
     raw_hashes = {str(p.relative_to(rtl)): digest(p) for p in rtl.rglob("*") if p.is_file()}
     for script in ["apply_xcvu13p_gemmini_32x32_acc256_wide_uram.sh", "apply_xcvu13p_soc_cache_bram.sh", "apply_result_bram.sh"]:
@@ -161,12 +174,20 @@ def generate(workspace, export=True, l2_banks=4):
     for header in generated_headers:
         shutil.copy2(header, rtl / "include" / header.name)
     subprocess.run(["python3", str(ROOT / "tools/check/check_triple32_v3_tensor.py"), str(rtl),
-                    "--l2-banks", str(l2_banks)], check=True)
+                    "--l2-banks", str(l2_banks)] + (["--dma-load-runtime"] if dma_load_runtime else []), check=True)
     sources = {str(p.relative_to(workspace)): digest(p) for p in workspace.rglob("*.scala") if p.is_file() and "target" not in p.parts}
+    if sources != before_sources:
+        raise SystemExit("Generation sources changed during elaboration")
     context = {
         "config": name, "generated_at_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "source_workspace": str(workspace), "build_sbt_sha256": digest(workspace / "build.sbt"),
         "effective_scala": sources, "l2_banks": l2_banks,
+        "l2_capacity_kib": l2_banks * 256,
+        "dma_load_runtime_enable": dma_load_runtime,
+        "dma_load_supported_modes": ["legacy", "read_coalesced", "read_assembled"] if dma_load_runtime else ["legacy"],
+        "dma_load_reset_mode": "legacy", "dma_load_control_version": 1 if dma_load_runtime else 0,
+        "dma_load_build_id": identity[:16] if dma_load_runtime else None,
+        "source_identity_sha256": identity,
         "scala_snapshot_scope": "Prepared-workspace Scala files excluding target; build.sbt source filters govern compilation",
         "raw_rtl_sha256": raw_hashes,
         "final_rtl_sha256": {str(p.relative_to(rtl)): digest(p) for p in rtl.rglob("*") if p.is_file()},
@@ -217,6 +238,9 @@ def main():
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--no-export", action="store_true",
                         help="Generate and check private candidate RTL without replacing the production export")
+    parser.add_argument("--dma-load-runtime", action="store_true",
+                        help="Private 512KiB/two-bank candidate with all three runtime load modes")
+    parser.add_argument("--output", type=Path, help="New private candidate directory; requires --no-export")
     parser.add_argument("--l2-banks", type=int, choices=(2, 4), default=4,
                         help="4: production 1 MiB; 2: saved 512 KiB fallback, requires --no-export")
     parser.add_argument("--emit-core-only", action="store_true", help="Emit a protocol-test core from this workspace's rebuilt assembly")
@@ -232,7 +256,8 @@ def main():
             raise SystemExit("Set --reference or SOC_REFERENCE to the reference Chipyard")
         prepare(args.reference.resolve(), workspace)
     if not args.prepare_only:
-        generate(workspace, export=not args.no_export, l2_banks=args.l2_banks)
+        generate(workspace, export=not args.no_export, l2_banks=args.l2_banks,
+                 dma_load_runtime=args.dma_load_runtime, output=args.output)
 
 
 if __name__ == "__main__":

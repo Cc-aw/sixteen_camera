@@ -17,6 +17,7 @@ class LocalAddr(sp_banks: Int, sp_bank_entries: Int, acc_banks: Int, acc_bank_en
   val accBankRowBits = log2Up(acc_bank_entries)
 
   val spRows = sp_banks * sp_bank_entries
+  val accRows = acc_banks * acc_bank_entries
 
   val is_acc_addr = Bool()
   val accumulate = Bool()

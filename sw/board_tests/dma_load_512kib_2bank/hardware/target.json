@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "hardware_build_id": "2a95a4ca64390235",
+  "bitstream": "hardware/top_wrapper.bit",
+  "bitstream_sha256": "e930cc0674b0f8756a5e7ecb63aa9d769d824cdca068911d0f180ef3a2efd25c",
+  "generation_context_sha256": "c9e51701b92cb7fe999f061d2ffc769c6bf3e376d1b270efa4ebf62e567a0a0b",
+  "l2_bytes": 524288,
+  "l2_banks": 2,
+  "clock_hz": 100000000,
+  "ddr_clock_hz": 300000000,
+  "mpv3_abi": "0x4d50563300010001",
+  "statistics_blocks": 14,
+  "frontend_abi": 2,
+  "dma_control_version": 1,
+  "modes": [
+    "legacy",
+    "read_coalesced",
+    "read_assembled"
+  ],
+  "routed_wns_ns": -1.467,
+  "routed_whs_ns": 0.001,
+  "timing_met": false,
+  "board_validation": "NOT_RUN_FOR_THIS_SOFTWARE"
+}

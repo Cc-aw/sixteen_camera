@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import argparse
 
 PROJECT = Path(__file__).resolve().parents[3]
 ROOT = PROJECT / 'sw/benchmarks/frontend'
@@ -21,6 +22,14 @@ from parallel_cache_plan import regenerate, sha
 
 
 def main():
+    global SIM
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--rtl', type=Path)
+    parser.add_argument('--output', type=Path)
+    parser.add_argument('--dma-load-mode', choices=('legacy', 'read_coalesced', 'read_assembled', 'all'))
+    args = parser.parse_args()
+    if args.output:
+        SIM = args.output.resolve()
     SIM.mkdir(parents=True, exist_ok=True)
     feature = SIM / 'feature'
     (feature / 'reference').mkdir(parents=True, exist_ok=True)
@@ -79,6 +88,15 @@ task check_conv;
   $display("S2D_RTL_LANE_PASS,lane=%0d,output_bytes=1024,bit_exact=1",ID);
 endtask
 '''
+    if args.dma_load_mode is not None:
+        code = 'reg [7:0] dma_baseline[0:1023];reg baseline_valid=0;\n' + code
+        code = code.replace('    if(changed==0)', '    if(changed==0)')
+        code = code.replace('  if(changed==0)', '''  for(integer i=0;i<1024;i=i+1)begin
+    if(dma_load_mode==0)dma_baseline[i]=memory['h5400+i];
+    else if(baseline_valid && dma_baseline[i]!==memory['h5400+i])$fatal(1,"runtime mode output differs from legacy");
+  end
+  if(dma_load_mode==0)baseline_valid=1;
+  if(changed==0)''')
     # A valid output can equal a poison byte. Use different poisons in each
     # output region so a matching unwritten pair cannot pass the comparison.
     code = code.replace("task prepare_conv;", "task prepare_conv;\n  for(integer i=0;i<1024;i=i+1)begin memory['h5400+i]=8'ha5;memory['h5800+i]=8'h5a;end")
@@ -93,16 +111,25 @@ endtask
     runner = runner.replace('for command in (', '(out/"rtl_hashes.json").write_text(json.dumps({str(p):__import__("hashlib").sha256(p.read_bytes()).hexdigest() for p in sources},indent=2))\nfor command in (', 1)
     script = SIM / 'run.py'
     script.write_text(runner)
-    subprocess.run([sys.executable, '-B', str(script)], check=True)
+    command = [sys.executable, '-B', str(script)]
+    if args.rtl:
+        command += ['--rtl', str(args.rtl.resolve()), '--output', str(SIM)]
+    if args.dma_load_mode:
+        command += ['--dma-load-mode', args.dma_load_mode]
+    subprocess.run(command, check=True)
     log = (SIM / 'result.log').read_text()
-    assert log.count('S2D_RTL_LANE_PASS') == 3 and 'REAL_CLUSTER_PASS' in log
+    modes = 3 if args.dma_load_mode == 'all' else 1
+    assert log.count('S2D_RTL_LANE_PASS') == 3 * modes and 'REAL_CLUSTER_PASS' in log
     hashes = json.loads((SIM / 'rtl_hashes.json').read_text())
     assert all(sha(Path(p).read_bytes()) == digest for p, digest in hashes.items()), 'RTL changed during simulation'
     evidence = dict(status='COMPACT_REAL_DIM32_RTL_PASS', board_validation='PENDING',
         scope='16x16 RGB -> 8x8x16; original/folded; three lanes; real first-layer weights/FP16/SiLU; all 3072 bytes',
         source_sha256=sha(Path(__file__).read_bytes()), log_sha256=sha(log.encode()), rtl_sha256=hashes)
-    (OUT / 'rtl_evidence.json').write_text(json.dumps(evidence, indent=2) + '\n')
-    print('S2D_RTL_PASS lanes=3 compared_bytes=3072 board_executed=0')
+    if args.rtl:
+        evidence.update(candidate_rtl=str(args.rtl.resolve()), runtime_modes=args.dma_load_mode)
+    destination = SIM if args.rtl else OUT
+    (destination / 'rtl_evidence.json').write_text(json.dumps(evidence, indent=2) + '\n')
+    print(f'S2D_RTL_PASS lanes=3 compared_bytes={3072*modes} board_executed=0')
 
 
 if __name__ == '__main__':

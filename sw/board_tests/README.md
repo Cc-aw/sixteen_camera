@@ -8,3 +8,7 @@
 OpenOCD、GDB 等工具路径通过各目录的 `config.local.mk` 配置。
 
 当前功能：`l2_1m_4bank/`，对应 S1 L2 1 MiB／4 bank 的独立板测包。
+
+`dma_load_512kib_2bank/`：512 KiB／2 bank 的 DMA 短请求合并与 SPAD 行组装
+三模式板测，包含首层、整网及跨批次 PPU 编号修复。使用方法见
+[功能说明](dma_load_512kib_2bank/README.md)。

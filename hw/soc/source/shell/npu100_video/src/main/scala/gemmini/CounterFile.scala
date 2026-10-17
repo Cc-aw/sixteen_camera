@@ -86,7 +86,35 @@ object CounterExternal {
   val RDMA_TOTAL_LATENCY = 6
   val WDMA_TOTAL_LATENCY = 7
 
-  val n = 8
+  val LOAD_LOGICAL_ROWS = 8
+  val LOAD_LOGICAL_BYTES = 9
+  val LOAD_ZERO_ROWS = 10
+  val LOAD_OPTIMIZED_GROUPS = 11
+  val LOAD_BYPASS_FULL = 12
+  val LOAD_BYPASS_NONCONTIGUOUS = 13
+  val LOAD_BYPASS_ACC = 14
+  val LOAD_BYPASS_BROADCAST = 15
+  val LOAD_BYPASS_ADDRESS = 16
+  val LOAD_BYPASS_OTHER = 17
+  val LOAD_TL_GET_32 = 18
+  val LOAD_TL_GET_64 = 19
+  val LOAD_REFERENCE_UPDATES = 20
+  val LOAD_ASSEMBLED_TOKENS = 21
+  val LOAD_SPAD_WRITE_FIRES = 22
+  val LOAD_ZERO_WRITE_FIRES = 23
+  val LOAD_COLLECT_CYCLES = 24
+  val LOAD_FETCH_WAIT_CYCLES = 25
+  val LOAD_OUTPUT_STALL_CYCLES = 26
+  val LOAD_PATH_SWITCH_CYCLES = 27
+  val LOAD_GROUP_OCCUPANCY_PEAK = 28
+  val LOAD_RETURN_OCCUPANCY_PEAK = 29
+  val LOAD_COMPLETION_WAIT_CYCLES = 30
+  val LOAD_FAULTS = 31
+  val LOAD_TAIL_STEPS = 32
+  val LOAD_TL_READ_BYTES = 33
+
+  val LOAD_BYPASS_DISABLED = 34
+  val n = 35
 
   val EXTERNAL_WIDTH = 32
 }
@@ -104,7 +132,7 @@ class CounterEventIO extends Bundle {
   }
 
   // Connect Event Signal
-  private var connected_external = Array.fill(CounterEvent.n)(false)
+  private var connected_external = Array.fill(CounterExternal.n)(false)
   def connectExternalCounter(addr: Int, ext_value: UInt) = {
     external_values(addr) := ext_value
     connected_external(addr) = true
@@ -131,6 +159,18 @@ class CounterEventIO extends Bundle {
           external_values(i) := io.external_values(i)
         }
       }
+  }
+}
+
+/** Multi-bank sums and byte counts are UInt increments, never an OR of fires. */
+object DmaLoadCount {
+  def apply(io: CounterEventIO, id: Int, increment: UInt, peak: Boolean = false): Unit = {
+    val value = RegInit(0.U(CounterExternal.EXTERNAL_WIDTH.W))
+    when(io.external_reset) { value := 0.U }.otherwise {
+      if (peak) { when(increment > value) { value := increment } }
+      else { value := value + increment }
+    }
+    io.connectExternalCounter(id, value)
   }
 }
 

@@ -22,6 +22,9 @@ class XactTrackerEntry[U <: Data](maxShift: Int, spadWidth: Int, accWidth: Int,
   val lg_len_req = UInt(log2Up(log2Up(maxReqBytes+1)+1).W)
   val bytes_to_read = UInt(log2Up(maxReqBytes+1).W)
   val cmd_id = UInt(log2Up(nCmds).W)
+  val group = Bool()
+  val group_id = UInt(1.W)
+  val group_offset = UInt(11.W)
 
 }
 
@@ -32,7 +35,6 @@ class XactTrackerAllocIO[U <: Data](nXacts: Int, maxShift: Int, spadWidth: Int, 
 
   val xactid = Input(UInt(log2Up(nXacts).W))
   val entry = Output(new XactTrackerEntry(maxShift, spadWidth, accWidth, spadRows, accRows, maxReqBytes, mvin_scale_t_bits, nCmds))
-
   def fire(dummy: Int = 0) = valid && ready
 
 }
@@ -42,6 +44,7 @@ class XactTrackerPeekIO[U <: Data](val nXacts: Int, val maxShift: Int, val spadW
   extends Bundle {
   val xactid = Input(UInt(log2Up(nXacts).W))
   val pop = Input(Bool())
+  val valid = Output(Bool())
   val entry = Output(new XactTrackerEntry(maxShift, spadWidth, accWidth, spadRows, accRows, maxReqBytes, mvin_scale_t_bits, nCmds))
 }
 
@@ -71,6 +74,7 @@ class XactTracker[U <: Data](nXacts: Int, maxShift: Int, spadWidth: Int, accWidt
   io.alloc.xactid := free_entry
 
   io.peek.entry := entries(io.peek.xactid).bits
+  io.peek.valid := entries(io.peek.xactid).valid
 
   io.busy := entries.map(_.valid).reduce(_ || _)
 

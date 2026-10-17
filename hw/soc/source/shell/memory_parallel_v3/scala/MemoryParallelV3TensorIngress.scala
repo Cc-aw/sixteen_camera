@@ -12,3 +12,12 @@ class TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig exte
 class TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankConfig extends Config(
   new WithMemoryParallelV3(2) ++
   new TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig)
+
+/** Private single-bitstream DMA experiment on the original 512KiB geometry. */
+class TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig extends Config(
+  new Config((site, here, up) => {
+    case gemmini.DmaLoadRuntimeKey => true
+    case freechips.rocketchip.tile.commandfrontend.DmaLoadBuildIdKey =>
+      BigInt(sys.env.getOrElse("DMA_LOAD_BUILD_ID", throw new IllegalArgumentException("Missing DMA_LOAD_BUILD_ID provenance")), 16)
+  }) ++
+  new TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankConfig)

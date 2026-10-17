@@ -235,6 +235,7 @@ class BankWriteToken(addrBits: Int, dataBits: Int) extends Bundle {
   val mask = Vec(dataBits / 8, Bool())
   val acc = Bool()
   val ex = Bool()
+  val zero = Bool()
 }
 
 /** Preserves acceptance order across EX/DMA/zero. Pending addresses remain
@@ -247,6 +248,7 @@ class OrderedBankWrites(addrBits: Int, dataBits: Int, entries: Int = 2) extends 
     val readAddr = Input(UInt(addrBits.W))
     val readHazard = Output(Bool())
     val exPending = Output(Bool())
+    val nonEmpty = Output(Bool())
   })
   val q = Module(new BankedShallowQueue(new BankWriteToken(addrBits, dataBits), entries,
     pipe = false, flow = false))
@@ -264,5 +266,6 @@ class OrderedBankWrites(addrBits: Int, dataBits: Int, entries: Int = 2) extends 
   io.readHazard := (0 until entries).map(i => valid(i) && addr(i) === io.readAddr).reduce(_ || _) ||
     (io.enq.fire && io.enq.bits.addr === io.readAddr)
   io.exPending := (0 until entries).map(i => valid(i) && ex(i)).reduce(_ || _)
+  io.nonEmpty := q.io.count =/= 0.U
   assert(PopCount(valid) === q.io.count)
 }

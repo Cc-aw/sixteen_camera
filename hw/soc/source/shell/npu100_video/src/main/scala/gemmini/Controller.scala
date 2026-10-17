@@ -118,6 +118,8 @@ class GemminiModule[T <: Data: Arithmetic, U <: Data, V <: Data]
 
   import outer.config._
   import outer.spad
+  io.dma_load_capabilities := (if (dma_load_runtime_enable) BigInt("00010007", 16) else BigInt(0)).U
+  spad.module.io.dma_load_mode := (if (dma_load_runtime_enable) io.dma_load_mode else 0.U)
 
   val ext_mem_io = if (use_shared_ext_mem && !use_tl_ext_mem)
     Some(IO(new ExtSpadMemIO(sp_banks, acc_banks, acc_sub_banks))) else None
@@ -731,7 +733,7 @@ class GemminiModule[T <: Data: Arithmetic, U <: Data, V <: Data]
     debugDataCsr.sdata := Mux(selected < 80.U, Mux(frozen, snapshot(selected), live(selected)), 0.U)
   }
 
-  io.interrupt := tlb.map(_.io.exp.map(_.interrupt).reduce(_ || _)).getOrElse(false.B)
+  io.interrupt := tlb.map(_.io.exp.map(_.interrupt).reduce(_ || _)).getOrElse(false.B) || spad.module.io.dma_load_fault
 
   // assert(!io.interrupt, "Interrupt handlers have not been written yet")
 

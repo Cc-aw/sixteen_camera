@@ -1,0 +1,378 @@
+{
+  "schema": 1,
+  "recorded_date": "2026-10-17",
+  "status": "FIRST_LAYER_PASS_FULL_MODEL_PARTIAL",
+  "hardware_build_id": "2a95a4ca64390235",
+  "default_mode": "legacy",
+  "first_layer": {
+    "status": "BOARD_PASS",
+    "source": "tests/log/dma_load_first.log",
+    "sha256": "12740833c83de7411da07875b0349da178fca5ccdbcddd204b98c6f9c987cb0e",
+    "clock_hz": 100000000,
+    "measured_windows": 24,
+    "frames_per_executor": 12,
+    "compared_bytes_per_window": 3686400,
+    "summaries": [
+      {
+        "mode": "legacy",
+        "serial_cycles": 28633286,
+        "parallel_cycles": 10091916,
+        "frames_per_executor": 12,
+        "serial_ms_per_frame": 23.861071666666664,
+        "parallel_ms_per_frame": 8.409930000000001,
+        "scaling": 2.837249735332716,
+        "serial_gain": 1.0,
+        "parallel_gain": 1.0
+      },
+      {
+        "mode": "read_coalesced",
+        "serial_cycles": 31955357,
+        "parallel_cycles": 10713153,
+        "frames_per_executor": 12,
+        "serial_ms_per_frame": 26.629464166666665,
+        "parallel_ms_per_frame": 8.9276275,
+        "scaling": 2.982815329903344,
+        "serial_gain": 0.896040247649244,
+        "parallel_gain": 0.9420117494821553
+      },
+      {
+        "mode": "read_assembled",
+        "serial_cycles": 12381065,
+        "parallel_cycles": 4317150,
+        "frames_per_executor": 12,
+        "serial_ms_per_frame": 10.317554166666666,
+        "parallel_ms_per_frame": 3.5976250000000003,
+        "scaling": 2.867879272205043,
+        "serial_gain": 2.3126674482364806,
+        "parallel_gain": 2.3376338556686704
+      }
+    ],
+    "terminal_record": "DMALF1,PASS,measured_records=24,warmup_records=30,full_output_bit_exact=1,scope=first_conv"
+  },
+  "full_model": {
+    "status": "PARTIAL_NOT_SUITE_PASS",
+    "reason": "Board powered off during phase diagnostics; two earlier formal windows absent from UART log.",
+    "source": "sw/board_tests/dma_load_512kib_2bank/logs/model_fix_02/model.log",
+    "sha256": "6ba5f26da9e6fcb713ce082093b51dc69e502f41eeb74b72300ac0ed4239b27e",
+    "software_build_id": "948445d3346117461547e176546768ad5fe06b6fab07727324eb85ff9fab2f7c",
+    "hardware_build_id": "2a95a4ca64390235",
+    "bitstream_sha256": "e930cc0674b0f8756a5e7ecb63aa9d769d824cdca068911d0f180ef3a2efd25c",
+    "identities_match": true,
+    "clock_hz": 100000000,
+    "terminal_pass_found": false,
+    "error_records": [],
+    "logged_results": 53,
+    "complete_logged_formal_windows": 22,
+    "expected_formal_windows": 24,
+    "missing_formal_windows": [
+      {
+        "mode": "read_coalesced",
+        "round": 2,
+        "executor": "1"
+      },
+      {
+        "mode": "read_coalesced",
+        "round": 2,
+        "executor": "2"
+      }
+    ],
+    "other_log_gap_effects": [
+      {
+        "begin_line": 6404,
+        "result_line": 6696,
+        "issues": [
+          "BATCH_BEGIN does not match RESULT across log gap",
+          "frame-report count=24"
+        ]
+      }
+    ],
+    "firmware_reported_main_runs": 660,
+    "phase_pairs_completed": {
+      "legacy": 26,
+      "read_coalesced": 20
+    },
+    "phase_end_records": [
+      {
+        "mode": "legacy",
+        "run_last": "738"
+      }
+    ],
+    "scope": "Final PPU results versus internal legacy direct baseline; no independent intermediate-activation proof.",
+    "aggregate_from_firmware_summary": [
+      {
+        "mode": "legacy",
+        "serial_cycles": 444170772,
+        "parallel_cycles": 174425365,
+        "frames_per_executor": 48,
+        "serial_ms_per_frame": 92.5355775,
+        "parallel_ms_per_frame": 36.33861770833333,
+        "scaling": 2.546480392917624,
+        "parallel_efficiency": 0.848826797639208,
+        "serial_gain": 1.0,
+        "parallel_gain": 1.0,
+        "serial_time_change_pct": 0.0,
+        "parallel_time_change_pct": 0.0,
+        "aggregate_fps": 27.518933384487973,
+        "serial_detailed_rounds": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "serial_round_spread_pct": 0.012824797035496969,
+        "parallel_detailed_rounds": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "parallel_round_spread_pct": 0.38909249236772414
+      },
+      {
+        "mode": "read_coalesced",
+        "serial_cycles": 463906439,
+        "parallel_cycles": 177448390,
+        "frames_per_executor": 48,
+        "serial_ms_per_frame": 96.64717479166667,
+        "parallel_ms_per_frame": 36.968414583333335,
+        "scaling": 2.6143175432586343,
+        "parallel_efficiency": 0.8714391810862114,
+        "serial_gain": 0.957457656672017,
+        "parallel_gain": 0.9829639198191654,
+        "serial_time_change_pct": 4.443261070766713,
+        "parallel_time_change_pct": 1.7331338248883776,
+        "aggregate_fps": 27.05011862885879,
+        "serial_detailed_rounds": [
+          0,
+          1,
+          3
+        ],
+        "serial_round_spread_pct": 0.018576857352050183,
+        "parallel_detailed_rounds": [
+          0,
+          1,
+          3
+        ],
+        "parallel_round_spread_pct": 0.10801754142652498
+      },
+      {
+        "mode": "read_assembled",
+        "serial_cycles": 380458596,
+        "parallel_cycles": 150014982,
+        "frames_per_executor": 48,
+        "serial_ms_per_frame": 79.2622075,
+        "parallel_ms_per_frame": 31.25312125,
+        "scaling": 2.5361373306034194,
+        "parallel_efficiency": 0.8453791102011398,
+        "serial_gain": 1.1674615231981773,
+        "parallel_gain": 1.1627196342295998,
+        "serial_time_change_pct": -14.344072148898624,
+        "parallel_time_change_pct": -13.994743826392453,
+        "aggregate_fps": 31.99680415920058,
+        "serial_detailed_rounds": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "serial_round_spread_pct": 0.0157410032601813,
+        "parallel_detailed_rounds": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "parallel_round_spread_pct": 0.41223615918575385
+      }
+    ],
+    "measured_traffic_from_available_parallel_formal_windows": [
+      {
+        "mode": "legacy",
+        "rounds": 4,
+        "frames": 48,
+        "get32_per_frame": 851857.0,
+        "get64_per_frame": 235821.0,
+        "get_total_per_frame": 1087678.0,
+        "tl_return_bytes_per_frame": 42351968.0,
+        "spad_dma_writes_per_frame": 3135706.0,
+        "logical_rows_per_frame": 1038876.0,
+        "logical_bytes_including_zero_per_frame": 27377872.0
+      },
+      {
+        "mode": "read_coalesced",
+        "rounds": 3,
+        "frames": 36,
+        "get32_per_frame": 364348.0,
+        "get64_per_frame": 279650.0,
+        "get_total_per_frame": 643998.0,
+        "tl_return_bytes_per_frame": 29556736.0,
+        "spad_dma_writes_per_frame": 3073906.0,
+        "logical_rows_per_frame": 1038876.0,
+        "logical_bytes_including_zero_per_frame": 27377872.0,
+        "get_total_per_frame_reduction_pct": 40.79148424441793,
+        "tl_return_bytes_per_frame_reduction_pct": 30.211658641223003,
+        "spad_dma_writes_per_frame_reduction_pct": 1.970848032309147
+      },
+      {
+        "mode": "read_assembled",
+        "rounds": 4,
+        "frames": 48,
+        "get32_per_frame": 364348.0,
+        "get64_per_frame": 279650.0,
+        "get_total_per_frame": 643998.0,
+        "tl_return_bytes_per_frame": 29556736.0,
+        "spad_dma_writes_per_frame": 1266034.0,
+        "logical_rows_per_frame": 1038876.0,
+        "logical_bytes_including_zero_per_frame": 27377872.0,
+        "get_total_per_frame_reduction_pct": 40.79148424441793,
+        "tl_return_bytes_per_frame_reduction_pct": 30.211658641223003,
+        "spad_dma_writes_per_frame_reduction_pct": 59.62523272271061
+      }
+    ],
+    "hardware_timing_met": false
+  },
+  "full_model_download_receipt": {
+    "source": "sw/board_tests/dma_load_512kib_2bank/logs/model_fix_02/model.load.json",
+    "sha256": "ed3bd8c1f7c41c999b4a587ed4d82cec37d21c55ef0eeb3ffdaea3930a6b6e16",
+    "receipt": {
+      "schema": 1,
+      "test": "model",
+      "build_id": "948445d3346117461547e176546768ad5fe06b6fab07727324eb85ff9fab2f7c",
+      "elf_sha256": "9a350bdb288e2d59bc48f49aa10ff693944d3a73fd0ee61e41e17be8236d9c5a",
+      "bitstream": {
+        "schema": 1,
+        "file": "hardware/top_wrapper.bit",
+        "sha256": "e930cc0674b0f8756a5e7ecb63aa9d769d824cdca068911d0f180ef3a2efd25c",
+        "run": "bit_fix_01",
+        "programmed_utc": "2026-10-17T03:13:31.270466+00:00",
+        "identity": "Host programming receipt; not a software-readable bitstream fingerprint"
+      },
+      "hardware_build_id": "2a95a4ca64390235",
+      "loaded_utc": "2026-10-17T03:26:38.484683+00:00"
+    }
+  },
+  "previous_numerical_failure": {
+    "status": "FAIL",
+    "log_sha256": "8a6fe5a203657f496c9ac5be005851b022745b2302c46b2193cccd827ad60c5e",
+    "software_build_id": "bc0dade7af7b4edd2243a6ebc69da7a7074407d9fb3864df075ba70bcdc3d61a",
+    "hardware_build_id": "2a95a4ca64390235",
+    "elf_sha256": "87692ec9c482da6f61de313d4a1b62ae1cb3d83a17a50641d55fc66e17e6474a",
+    "bitstream_sha256": "e930cc0674b0f8756a5e7ecb63aa9d769d824cdca068911d0f180ef3a2efd25c",
+    "passed_batches": [
+      {
+        "line": 172,
+        "fields": {
+          "mode": "legacy",
+          "round": "0",
+          "warmup": "1",
+          "executor": "0",
+          "cycles": "113877743",
+          "frames": "12",
+          "ppu_results_bit_exact": "1",
+          "comparison": "legacy_direct",
+          "scope": "full_graph",
+          "run_first": "1",
+          "run_last": "12"
+        }
+      },
+      {
+        "line": 345,
+        "fields": {
+          "mode": "legacy",
+          "round": "0",
+          "warmup": "1",
+          "executor": "1",
+          "cycles": "111050491",
+          "frames": "12",
+          "ppu_results_bit_exact": "1",
+          "comparison": "legacy_direct",
+          "scope": "full_graph",
+          "run_first": "13",
+          "run_last": "24"
+        }
+      },
+      {
+        "line": 518,
+        "fields": {
+          "mode": "legacy",
+          "round": "0",
+          "warmup": "1",
+          "executor": "2",
+          "cycles": "43668204",
+          "frames": "12",
+          "ppu_results_bit_exact": "1",
+          "comparison": "legacy_direct",
+          "scope": "full_graph",
+          "run_first": "25",
+          "run_last": "36"
+        }
+      },
+      {
+        "line": 691,
+        "fields": {
+          "mode": "read_coalesced",
+          "round": "0",
+          "warmup": "1",
+          "executor": "1",
+          "cycles": "116000520",
+          "frames": "12",
+          "ppu_results_bit_exact": "1",
+          "comparison": "legacy_direct",
+          "scope": "full_graph",
+          "run_first": "37",
+          "run_last": "48"
+        }
+      }
+    ],
+    "mismatches": [
+      {
+        "line": 698,
+        "fields": {
+          "executor": "frontend_parallel",
+          "frame": "2",
+          "device": "2",
+          "image": "2",
+          "slot": "0",
+          "begin_cycles": "4767",
+          "end_cycles": "11143070",
+          "frame_cycles": "11138303",
+          "host_calls": "12",
+          "graph_done_cycles": "11088906",
+          "word_errors": "10",
+          "marker": "MISMATCH"
+        },
+        "batch": {
+          "mode": "read_coalesced",
+          "round": "0",
+          "warmup": "1",
+          "executor": "2",
+          "run_before": "48",
+          "frames": "12"
+        }
+      }
+    ],
+    "failures": [
+      {
+        "line": 708,
+        "record": "ATSOFT1,FAIL,reason=dma_output_mismatch,value=1,frame=11,lane=0,phase=164"
+      }
+    ],
+    "numbering_regression_observed": false,
+    "stale_status_2_observed": false,
+    "formal_measurements_completed": 0,
+    "assembled_mode_reached": false,
+    "root_cause": "UNRESOLVED_NUMERICAL_MISMATCH",
+    "limitations": [
+      "Failed batch counters were captured in RAM but not printed before at_fail.",
+      "Current report lacks per-word expected/actual values."
+    ]
+  },
+  "limits": [
+    "Latest full-model log has no terminal PASS and is incomplete; do not count it as suite acceptance.",
+    "PPU output comparison is against an internal legacy direct baseline, not independent intermediate activation verification.",
+    "Per-frame parallel time is batch time divided by total frames, not individual frame latency.",
+    "Gemmini TL return-byte counts are not DDR traffic measurements.",
+    "Routed setup timing is unmet and prior intermittent numerical mismatches remain unresolved.",
+    "Raw UART, bitstreams and generated ELFs stay in ignored local output directories."
+  ]
+}

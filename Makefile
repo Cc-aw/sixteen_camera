@@ -35,6 +35,8 @@ help:
 	  'make benchmark-sw-p3 / test-sw-p3 / audit-sw-p3  Build, test and audit reference (SW_P3_MODE=compare for candidates)' \
 	  'make benchmark-v34 / test-v34 / program-v34  V34 HOST/Gemmini/MPV3 diagnostics' \
 	  'make benchmark-first-layer-s2d / test-first-layer-s2d / program-first-layer-s2d  RVV first-layer serial/parallel A/B' \
+	  'make benchmark-dma-load / audit-dma-load DMA_CONTEXT=<candidate context>  Private 512KiB/2-bank diagnostics' \
+	  'make test-dma-load SOC_WORKSPACE=<private workspace> DMA_RTL=<candidate RTL> DMA_OUTPUT=<new directory>' \
 	  'make test-v33 / check-v33-firmware  Check V33 plans, scheduler, PPU, logs and ELFs' \
 	  'make firmware             Realtime Runtime adaptation required' \
 	  'make test-software         Run host and model regressions' \
@@ -291,3 +293,13 @@ audit-first-layer-s2d:
 	$(MAKE) -f sw/benchmarks/frontend/first-layer-s2d.mk audit
 program-first-layer-s2d:
 	bash sw/benchmarks/frontend/download-first-layer-s2d.sh $(PROGRAM_ARGS)
+
+.PHONY: benchmark-dma-load audit-dma-load test-dma-load program-dma-load
+benchmark-dma-load:
+	$(MAKE) -f sw/benchmarks/frontend/dma-load.mk all DMA_CONTEXT="$(DMA_CONTEXT)"
+audit-dma-load:
+	$(MAKE) -f sw/benchmarks/frontend/dma-load.mk audit DMA_CONTEXT="$(DMA_CONTEXT)"
+test-dma-load:
+	python3 tests/rtl/run_dma_load_tests.py --workspace "$(SOC_WORKSPACE)" --rtl "$(DMA_RTL)" --output "$(DMA_OUTPUT)" --mode all
+program-dma-load:
+	DMA_CONTEXT="$(DMA_CONTEXT)" bash sw/benchmarks/frontend/download-dma-load.sh $(PROGRAM_ARGS)

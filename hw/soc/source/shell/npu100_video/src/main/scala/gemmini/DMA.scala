@@ -29,6 +29,9 @@ class StreamReadRequest[U <: Data](spad_rows: Int, acc_rows: Int, mvin_scale_t_b
   val pixel_repeats = UInt(8.W) // TODO magic number
   val block_stride = UInt(16.W) // TODO magic number
   val cmd_id = UInt(8.W) // TODO magic number
+  val group = Bool()
+  val group_id = UInt(1.W)
+  val group_offset = UInt(11.W)
 
 }
 
@@ -47,7 +50,22 @@ class StreamReadResponse[U <: Data](spadWidth: Int, accWidth: Int, spad_rows: In
   val last = Bool()
   val bytes_read = UInt(8.W) // TODO magic number
   val cmd_id = UInt(8.W) // TODO magic number
+  val grouped = Bool()
+  val assembled = Bool()
+  val group_id = UInt(1.W)
+  val group_first = Bool()
+  val group_last = Bool()
+  val group_zeros = Bool()
+  val group_bytes = UInt(16.W)
 
+}
+
+class DmaLoadFragment extends Bundle {
+  val data = UInt(256.W)
+  val group_id = UInt(1.W)
+  val offset = UInt(11.W)
+  val bytes = UInt(6.W)
+  val error = Bool()
 }
 
 class StreamReader[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T, U, V], nXacts: Int, beatBits: Int, maxBytes: Int, spadWidth: Int, accWidth: Int, aligned_to: Int,
@@ -62,6 +80,8 @@ class StreamReader[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T
     val io = IO(new Bundle {
       val req = Flipped(Decoupled(new StreamReadRequest(spad_rows, acc_rows, config.mvin_scale_t_bits)))
       val resp = Decoupled(new StreamReadResponse(spadWidth, accWidth, spad_rows, acc_rows, aligned_to, config.mvin_scale_t_bits))
+      val group_resp = Decoupled(new DmaLoadFragment)
+      val fault = Output(Bool())
       val tlb = new FrontendTLBIO
       val busy = Output(Bool())
       val flush = Input(Bool())
@@ -103,6 +123,55 @@ class StreamReader[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T
     beatPacker.io.in.valid := core.module.io.beatData.valid
     beatPacker.io.in.bits := core.module.io.beatData.bits.data
 
+    io.group_resp.valid := false.B
+    io.group_resp.bits := 0.U.asTypeOf(io.group_resp.bits)
+    io.fault := false.B
+    val groupReturnOccupancy = WireDefault(0.U(2.W))
+    if (config.dma_load_runtime_enable) {
+      // Group fragments own physical transactions, never ordinary row
+      // metadata. Capture their owner before accepting the first D beat.
+      val beat = core.module.io.beatData
+      val entry = xactTracker.io.peek.entry
+      xactTracker.io.peek.xactid := beat.bits.xactid
+      val active = RegInit(false.B)
+      val metadata = Reg(chiselTypeOf(entry))
+      val source = Reg(chiselTypeOf(beat.bits.xactid))
+      val beatOffset = RegInit(0.U(7.W))
+      val fault = RegInit(false.B)
+      val returns = Module(new BankedShallowQueue(new DmaLoadFragment, 2,
+        pipe = false, flow = false))
+      io.group_resp <> returns.io.deq
+      val isGroup = active || (xactTracker.io.peek.valid && entry.group)
+      val unknown = !active && !xactTracker.io.peek.valid
+      returns.io.enq.valid := active && beat.valid
+      val skip = Mux(metadata.shift > beatOffset, metadata.shift - beatOffset, 0.U)
+      val done = Mux(beatOffset > metadata.shift, beatOffset - metadata.shift, 0.U)
+      val left = metadata.bytes_to_read - done
+      val room = 32.U - skip
+      val useful = Mux(skip >= 32.U || done >= metadata.bytes_to_read, 0.U,
+        Mux(left < room, left, room))
+      returns.io.enq.bits.data := beat.bits.data >> (skip << 3)
+      returns.io.enq.bits.group_id := metadata.group_id
+      returns.io.enq.bits.offset := metadata.group_offset + done
+      returns.io.enq.bits.bytes := useful
+      returns.io.enq.bits.error := beat.bits.denied || beat.bits.corrupt || beat.bits.xactid =/= source
+      beatPacker.io.req.valid := beat.valid && !isGroup && !unknown
+      beatPacker.io.in.valid := beat.valid && !isGroup && !unknown
+      beat.ready := Mux(unknown, true.B, Mux(isGroup, active && returns.io.enq.ready, beatPacker.io.in.ready))
+      xactTracker.io.peek.pop := beat.fire && beat.bits.last && xactTracker.io.peek.valid
+      when(beat.valid && !active && xactTracker.io.peek.valid && entry.group) {
+        metadata := entry; source := beat.bits.xactid; beatOffset := 0.U; active := true.B
+      }
+      when(active && beat.fire) {
+        beatOffset := beatOffset + 32.U
+        when(beat.bits.last) { active := false.B }
+      }
+      when(beat.fire && (unknown || beat.bits.denied || beat.bits.corrupt ||
+        (active && beat.bits.xactid =/= source))) { fault := true.B }
+      io.fault := fault
+      groupReturnOccupancy := returns.io.count
+    }
+
     // V2 connected the 2048-bit merger directly to the scratchpad writer.
     // Its ready/valid feedback crossed the XactTracker and returned to the
     // merger buffer D input (24-29 levels, about 14.4 ns after the failed
@@ -113,6 +182,7 @@ class StreamReader[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T
       new StreamReadResponse(spadWidth, accWidth, spad_rows, acc_rows, aligned_to, config.mvin_scale_t_bits),
       config.scratchpad_dma_buffer_entries, pipe = false, flow = false))
     responseQueue.io.enq.valid := beatPacker.io.out.valid
+    responseQueue.io.enq.bits := 0.U.asTypeOf(responseQueue.io.enq.bits)
     beatPacker.io.out.ready := responseQueue.io.enq.ready
     responseQueue.io.enq.bits.data := beatPacker.io.out.bits.data
     responseQueue.io.enq.bits.addr := beatPacker.io.out.bits.addr
@@ -129,7 +199,7 @@ class StreamReader[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T
     responseQueue.io.enq.bits.last := beatPacker.io.out.bits.last
     io.resp <> responseQueue.io.deq
     io.busy := xactTracker.io.busy || core.module.io.busy || coalescerBusy ||
-      beatPacker.io.out.valid || responseQueue.io.deq.valid
+      beatPacker.io.out.valid || responseQueue.io.deq.valid || io.group_resp.valid || io.fault
     /** IPOAT：Reader tracker/进展快照
       * I（Input 输入）：tracker 分配、末拍返回、行响应及 cmd_id。
       * P（Process 处理）：维护观察用在途 mask、最近返回 cmd_id 和距上次进展周期数。
@@ -163,6 +233,9 @@ class StreamReader[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T
     io.counter := DontCare
     io.counter.collect(core.module.io.counter)
     io.counter.collect(xactTracker.io.counter)
+    if (config.dma_load_runtime_enable) {
+      DmaLoadCount(io.counter, CounterExternal.LOAD_RETURN_OCCUPANCY_PEAK, groupReturnOccupancy, peak = true)
+    }
   }
 }
 
@@ -171,6 +244,8 @@ class StreamReadBeat (val nXacts: Int, val beatBits: Int, val maxReqBytes: Int) 
   val data = UInt(beatBits.W)
   val lg_len_req = UInt(log2Up(log2Up(maxReqBytes+1)+1).W)
   val last = Bool()
+  val denied = Bool()
+  val corrupt = Bool()
 }
 
 // TODO StreamReaderCore and StreamWriter are actually very alike. Is there some parent class they could both inherit from?
@@ -344,6 +419,9 @@ class StreamReaderCore[T <: Data, U <: Data, V <: Data](config: GemminiArrayConf
     io.reserve.entry.lg_len_req := DontCare // TODO just remove this from the IO completely
     io.reserve.entry.bytes_to_read := read_bytes_read
     io.reserve.entry.cmd_id := req.cmd_id
+    io.reserve.entry.group := req.group
+    io.reserve.entry.group_id := req.group_id
+    io.reserve.entry.group_offset := req.group_offset + bytesRequested
 
     io.reserve.entry.addr := req.spaddr + req.block_stride *
       Mux(req.has_acc_bitwidth,
@@ -391,6 +469,8 @@ class StreamReaderCore[T <: Data, U <: Data, V <: Data](config: GemminiArrayConf
     io.beatData.bits.data := tl.d.bits.data
     io.beatData.bits.lg_len_req := tl.d.bits.size
     io.beatData.bits.last := edge.last(tl.d)
+    io.beatData.bits.denied := tl.d.bits.denied
+    io.beatData.bits.corrupt := tl.d.bits.corrupt
     // TODO the size data is already returned from TileLink, so there's no need for us to store it in the XactTracker ourselves
 
     // Accepting requests to kick-start the state machine
@@ -417,6 +497,13 @@ class StreamReaderCore[T <: Data, U <: Data, V <: Data](config: GemminiArrayConf
     }
 
     io.counter.connectExternalCounter(CounterExternal.RDMA_BYTES_REC, total_bytes_read)
+    if (config.dma_load_runtime_enable) {
+      DmaLoadCount(io.counter, CounterExternal.LOAD_TL_GET_32, (tl.a.fire && tl.a.bits.size === 5.U).asUInt)
+      DmaLoadCount(io.counter, CounterExternal.LOAD_TL_GET_64, (tl.a.fire && tl.a.bits.size === 6.U).asUInt)
+      // Count actual returned beats. The historical ID4 counter counts the
+      // transaction size on each beat and is retained for ABI compatibility.
+      DmaLoadCount(io.counter, CounterExternal.LOAD_TL_READ_BYTES, Mux(tl.d.fire, beatBytes.U, 0.U))
+    }
 
     if (use_firesim_simulation_counters) {
       PerfCounter(state =/= s_idle, "rdma_active_cycles", "cycles during which the read dma is active")

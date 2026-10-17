@@ -1,6 +1,18 @@
 # The production tree has one identity. The JSON manifest owns its path mapping.
 set sc_product_repo [file dirname [file dirname [file dirname [file normalize [info script]]]]]
-array set sc_product [exec python3 [file join $sc_product_repo tools check check_current_product.py] --tcl]
+if {[info exists ::env(DMA_LOAD_CANDIDATE_CONTEXT)] && $::env(DMA_LOAD_CANDIDATE_CONTEXT) ne ""} {
+    # An experiment must own its project and must never select the production
+    # XPR while substituting private collateral.
+    set sc_candidate_root [file normalize [file join $sc_product_repo build experiments dma_load]]
+    if {![info exists ::env(VIVADO_PROJECT)] || \
+        [string first "${sc_candidate_root}/" [file normalize $::env(VIVADO_PROJECT)]] != 0} {
+        error "DMA load candidate requires a private project below $sc_candidate_root"
+    }
+    array set sc_product [exec python3 [file join $sc_product_repo tools soc dma_load_candidate.py] \
+        --context $::env(DMA_LOAD_CANDIDATE_CONTEXT) --tcl]
+} else {
+    array set sc_product [exec python3 [file join $sc_product_repo tools check check_current_product.py] --tcl]
+}
 set SOC_VARIANT $sc_product(hardware_alias)
 set SOC_CONFIG $sc_product(soc_config)
 foreach selector {SOC_VARIANT SOC_CONFIG} {

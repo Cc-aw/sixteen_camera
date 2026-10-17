@@ -1,0 +1,595 @@
+{
+  "schema": 1,
+  "source_revision": "48b5a2ec0b31952159d796d28711d28761c9657d",
+  "description": "Local snapshots copied once; paths identify provenance only and are never read during build.",
+  "files": [
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/capacity_manifest.json",
+      "local_path": "model/capacity_manifest.json",
+      "original_sha256": "df416c919ef2428366fdf6b6239ffbbf44e72ec23856fa6c84cf279838a8144c",
+      "copied_local_sha256": "df416c919ef2428366fdf6b6239ffbbf44e72ec23856fa6c84cf279838a8144c",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/fixed_conv_packets.inc",
+      "local_path": "model/fixed_conv_packets.inc",
+      "original_sha256": "748605c83ffac3468b11b0fb0d8926a62ef9ab4902757bec3a883f2817b43f7b",
+      "copied_local_sha256": "748605c83ffac3468b11b0fb0d8926a62ef9ab4902757bec3a883f2817b43f7b",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/fixed_plans.json",
+      "local_path": "model/fixed_plans.json",
+      "original_sha256": "f5e859051dd9e095dfa0dcce770b1eec2f738c9d9be99b3cc72cf25d39a1381d",
+      "copied_local_sha256": "f5e859051dd9e095dfa0dcce770b1eec2f738c9d9be99b3cc72cf25d39a1381d",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/fixed_plans_guard.inc",
+      "local_path": "model/fixed_plans_guard.inc",
+      "original_sha256": "51aa9a55926e8ec497ad4e72a9dee999a957ef256847d4dd416e465c4dcdfaff",
+      "copied_local_sha256": "51aa9a55926e8ec497ad4e72a9dee999a957ef256847d4dd416e465c4dcdfaff",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/inputs.c",
+      "local_path": "model/inputs.c",
+      "original_sha256": "9e7157758f307d06ee5f005fd4d95b3ae7393f2b0a573836a8f2902408f8f70e",
+      "copied_local_sha256": "9e7157758f307d06ee5f005fd4d95b3ae7393f2b0a573836a8f2902408f8f70e",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/inputs.h",
+      "local_path": "model/inputs.h",
+      "original_sha256": "f156642dfd23d1f4d097cb9aeb5126dce451280c183855913b5d9aec8326bb23",
+      "copied_local_sha256": "f156642dfd23d1f4d097cb9aeb5126dce451280c183855913b5d9aec8326bb23",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/inputs_manifest.json",
+      "local_path": "model/inputs_manifest.json",
+      "original_sha256": "3629422447f62b118c630c6fa64d2a3e73a455e0d4153079b38a341438c141a4",
+      "copied_local_sha256": "3629422447f62b118c630c6fa64d2a3e73a455e0d4153079b38a341438c141a4",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/memory_kernels.h",
+      "local_path": "model/memory_kernels.h",
+      "original_sha256": "7acdbf04df0a227d8cb12396792ba0a0a6b482b511edcfef4e3fa00fed2197b0",
+      "copied_local_sha256": "7acdbf04df0a227d8cb12396792ba0a0a6b482b511edcfef4e3fa00fed2197b0",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/memory_kernels.json",
+      "local_path": "model/memory_kernels.json",
+      "original_sha256": "2ada47fc1c3b605dcad78f2812930d26cbdc83fa1af093cb5e5af09dd7af06fc",
+      "copied_local_sha256": "2ada47fc1c3b605dcad78f2812930d26cbdc83fa1af093cb5e5af09dd7af06fc",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/memory_kernels_runtime.inc",
+      "local_path": "model/memory_kernels_runtime.inc",
+      "original_sha256": "d5578150378c57665ed9ca34b67b7c40153e4ae2086f1bd13d599c3a92d211a9",
+      "copied_local_sha256": "d5578150378c57665ed9ca34b67b7c40153e4ae2086f1bd13d599c3a92d211a9",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/memory_schedule_manifest.json",
+      "local_path": "model/memory_schedule_manifest.json",
+      "original_sha256": "014465b99cca8e73d4576e2539e8c1106bca706ffd60352b339b841eb9ac250c",
+      "copied_local_sha256": "014465b99cca8e73d4576e2539e8c1106bca706ffd60352b339b841eb9ac250c",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/memory_schedule_plan.h",
+      "local_path": "model/memory_schedule_plan.h",
+      "original_sha256": "3ccfc3d6e72475d02439ecd9fae023d7755908a421eda573d46b232e55661cd6",
+      "copied_local_sha256": "3ccfc3d6e72475d02439ecd9fae023d7755908a421eda573d46b232e55661cd6",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/packet_dispatch_runtime.inc",
+      "local_path": "model/packet_dispatch_runtime.inc",
+      "original_sha256": "7d77577d4336eab967d7e4074552cb22b0c0b1263b6842c0d02630f4c1e1fca7",
+      "copied_local_sha256": "7d77577d4336eab967d7e4074552cb22b0c0b1263b6842c0d02630f4c1e1fca7",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/parallel_model.inc",
+      "local_path": "model/parallel_model.inc",
+      "original_sha256": "f0845dfee780b66b21a198806ddf797b8ec51d69afe61832a641569abb98a6cf",
+      "copied_local_sha256": "f0845dfee780b66b21a198806ddf797b8ec51d69afe61832a641569abb98a6cf",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/prepared_packets.inc",
+      "local_path": "model/prepared_packets.inc",
+      "original_sha256": "2b09a611022a12979207fc8543e1e2b40a9a0c47858bbed5ea6fba201203534c",
+      "copied_local_sha256": "2b09a611022a12979207fc8543e1e2b40a9a0c47858bbed5ea6fba201203534c",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/software_batch_packets.inc",
+      "local_path": "model/software_batch_packets.inc",
+      "original_sha256": "8e3c9e1287f970aed586f5d2abb93bf02e1325ee7f7108bc4e442e0c4bfc1d38",
+      "copied_local_sha256": "8e3c9e1287f970aed586f5d2abb93bf02e1325ee7f7108bc4e442e0c4bfc1d38",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/sources.lock.json",
+      "local_path": "model/sources.lock.json",
+      "original_sha256": "eb48e84bb041691292d4a8bdc919ea4d49f1619be1913d968f565b06b12db108",
+      "copied_local_sha256": "eb48e84bb041691292d4a8bdc919ea4d49f1619be1913d968f565b06b12db108",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h",
+      "local_path": "model/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h",
+      "original_sha256": "19d6ad52c6ccf0c392076f98de7d859d7d47c47d82589feac27f7e5b9a534b7f",
+      "copied_local_sha256": "19d6ad52c6ccf0c392076f98de7d859d7d47c47d82589feac27f7e5b9a534b7f",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/yolov5nu_dim16_dual.h",
+      "local_path": "model/yolov5nu_dim16_dual.h",
+      "original_sha256": "42f96b49c2bd7f343eb9d8929e0405be3045feb8cb86d264dd165b6095188499",
+      "copied_local_sha256": "42f96b49c2bd7f343eb9d8929e0405be3045feb8cb86d264dd165b6095188499",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/yolov5nu_head_layout.h",
+      "local_path": "model/yolov5nu_head_layout.h",
+      "original_sha256": "81637629d95308360bbffc1c70926b39667b8464b51fbc9bd58c1551cf72974d",
+      "copied_local_sha256": "81637629d95308360bbffc1c70926b39667b8464b51fbc9bd58c1551cf72974d",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/include/accumulator.h",
+      "local_path": "model/include/accumulator.h",
+      "original_sha256": "3a0dfd584a097225470be0a6f3661dc85630cc365f3a5efad1d81275dbed9447",
+      "copied_local_sha256": "3a0dfd584a097225470be0a6f3661dc85630cc365f3a5efad1d81275dbed9447",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/include/character.h",
+      "local_path": "model/include/character.h",
+      "original_sha256": "b92a6787b85e38d0887df6d7a8b93f0b119551890cb47ae048ad9bc0bc1f96b8",
+      "copied_local_sha256": "b92a6787b85e38d0887df6d7a8b93f0b119551890cb47ae048ad9bc0bc1f96b8",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/include/gemmini.h",
+      "local_path": "model/include/gemmini.h",
+      "original_sha256": "d514389e0ea365dddea315f83636afb2a2506794f881986e4095e399ccfa895e",
+      "copied_local_sha256": "d514389e0ea365dddea315f83636afb2a2506794f881986e4095e399ccfa895e",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/include/gemmini_counter.h",
+      "local_path": "model/include/gemmini_counter.h",
+      "original_sha256": "5826242287784b9a383d45fdcb6791f8a1651d9d320a1a5f011585a9885b5669",
+      "copied_local_sha256": "5826242287784b9a383d45fdcb6791f8a1651d9d320a1a5f011585a9885b5669",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/include/gemmini_float16.h",
+      "local_path": "model/include/gemmini_float16.h",
+      "original_sha256": "758c0644c78d8c92a5334b680bfde458823c71e9a1df127474664cc25e2cfaaa",
+      "copied_local_sha256": "758c0644c78d8c92a5334b680bfde458823c71e9a1df127474664cc25e2cfaaa",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/include/gemmini_merged_pool.h",
+      "local_path": "model/include/gemmini_merged_pool.h",
+      "original_sha256": "d27e9c59ae1de68acdd1fb6c00c238920e6697ce4be4c7450f330f1714cd740d",
+      "copied_local_sha256": "d27e9c59ae1de68acdd1fb6c00c238920e6697ce4be4c7450f330f1714cd740d",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/include/gemmini_nn.h",
+      "local_path": "model/include/gemmini_nn.h",
+      "original_sha256": "881078997fd9abbd6bec8cac2451830ffadd458c504cf417ebac0785e394a30f",
+      "copied_local_sha256": "881078997fd9abbd6bec8cac2451830ffadd458c504cf417ebac0785e394a30f",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/include/gemmini_params.h",
+      "local_path": "model/include/gemmini_params.h",
+      "original_sha256": "5c95c13aec125b0671a5165cf0daa05dfaea2308710e19195005ca9e69e80077",
+      "copied_local_sha256": "5c95c13aec125b0671a5165cf0daa05dfaea2308710e19195005ca9e69e80077",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/include/gemmini_testutils.h",
+      "local_path": "model/include/gemmini_testutils.h",
+      "original_sha256": "ec58aa5ef24a6fc066fa7410d35b77516c2af0c137f6f037e028140e8912ea62",
+      "copied_local_sha256": "ec58aa5ef24a6fc066fa7410d35b77516c2af0c137f6f037e028140e8912ea62",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/include/translator.h",
+      "local_path": "model/include/translator.h",
+      "original_sha256": "42383d22d34be62e03772710740ecc385a706746ee11a1898e77e26776237857",
+      "copied_local_sha256": "42383d22d34be62e03772710740ecc385a706746ee11a1898e77e26776237857",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/include/yolov5nu_silu_lut_rvv.h",
+      "local_path": "model/include/yolov5nu_silu_lut_rvv.h",
+      "original_sha256": "a7538206eafb6aa089b9271c02d54a2c92468418a3c38f607950af93de91b7ec",
+      "copied_local_sha256": "a7538206eafb6aa089b9271c02d54a2c92468418a3c38f607950af93de91b7ec",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/include/yolov5nu_silu_opencv_rvv.h",
+      "local_path": "model/include/yolov5nu_silu_opencv_rvv.h",
+      "original_sha256": "074ed3d7b0d77051d6254ec0eb8fba67cb4ce9d6f495a3098d48b9799eb5b252",
+      "copied_local_sha256": "074ed3d7b0d77051d6254ec0eb8fba67cb4ce9d6f495a3098d48b9799eb5b252",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/include/yolov5nu_stage3_rvv.h",
+      "local_path": "model/include/yolov5nu_stage3_rvv.h",
+      "original_sha256": "574eafe8a0531d6027ac6a56b0489713e3b5183505bdab944e225e87822d1369",
+      "copied_local_sha256": "574eafe8a0531d6027ac6a56b0489713e3b5183505bdab944e225e87822d1369",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/include/yolov5nu_stage4_rvv.h",
+      "local_path": "model/include/yolov5nu_stage4_rvv.h",
+      "original_sha256": "c35588dff4d69c8f59391627aa4c23d81129ea315b060314ce1a707b9dcb0bbe",
+      "copied_local_sha256": "c35588dff4d69c8f59391627aa4c23d81129ea315b060314ce1a707b9dcb0bbe",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/platform/platform.h",
+      "local_path": "model/platform/platform.h",
+      "original_sha256": "38bc1284da57a482a6a6250d3f567b8826e91b8489026bbcf97cd89bd9358708",
+      "copied_local_sha256": "38bc1284da57a482a6a6250d3f567b8826e91b8489026bbcf97cd89bd9358708",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/rocc-software/src/riscv_test_rocc.h",
+      "local_path": "model/rocc-software/src/riscv_test_rocc.h",
+      "original_sha256": "c7f53ca7c6c8b2db79b9a79b8cf56234381c45f96f441b21f4ce53689a322f29",
+      "copied_local_sha256": "c7f53ca7c6c8b2db79b9a79b8cf56234381c45f96f441b21f4ce53689a322f29",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/rocc-software/src/xcustom.h",
+      "local_path": "model/rocc-software/src/xcustom.h",
+      "original_sha256": "9582eb00cee774e4680fde6408a0d607bba85196a0a4fd803f7b7ddd801aad69",
+      "copied_local_sha256": "9582eb00cee774e4680fde6408a0d607bba85196a0a4fd803f7b7ddd801aad69",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/ai/backend/ai_model_abi.h",
+      "local_path": "model/ai/backend/ai_model_abi.h",
+      "original_sha256": "9e454e60353734a5e22cbdb98456195739df1aaa3fdfb0cc8f83333b346c6aca",
+      "copied_local_sha256": "9e454e60353734a5e22cbdb98456195739df1aaa3fdfb0cc8f83333b346c6aca",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/ai/postprocess/ai_ppu_publication.c",
+      "local_path": "model/ai/postprocess/ai_ppu_publication.c",
+      "original_sha256": "604d358da90d12c8e7b3ada16f89f6e12d2874c8a4e0d6fae1a048fcb918db66",
+      "copied_local_sha256": "604d358da90d12c8e7b3ada16f89f6e12d2874c8a4e0d6fae1a048fcb918db66",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/ai/postprocess/ai_ppu_publication.h",
+      "local_path": "model/ai/postprocess/ai_ppu_publication.h",
+      "original_sha256": "ca33461843a782d2d76a24003462c0bbf77d79042d79b56ab753f60eb3ee7dca",
+      "copied_local_sha256": "ca33461843a782d2d76a24003462c0bbf77d79042d79b56ab753f60eb3ee7dca",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/ai/postprocess/ai_ppu_queue.c",
+      "local_path": "model/ai/postprocess/ai_ppu_queue.c",
+      "original_sha256": "183d0abcab9306a17e469e2adf6d6fec358f9b70f630a1847e6f8d354c35449e",
+      "copied_local_sha256": "183d0abcab9306a17e469e2adf6d6fec358f9b70f630a1847e6f8d354c35449e",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/ai/postprocess/ai_ppu_queue.h",
+      "local_path": "model/ai/postprocess/ai_ppu_queue.h",
+      "original_sha256": "44890ae6fea460681fb59b979e0df5e87a1c74fd7cd0448f3e3359ea22324c18",
+      "copied_local_sha256": "44890ae6fea460681fb59b979e0df5e87a1c74fd7cd0448f3e3359ea22324c18",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/ai/runtime/ai_head_slot_queue.c",
+      "local_path": "model/ai/runtime/ai_head_slot_queue.c",
+      "original_sha256": "6a709b1d07315a8c1d881560f0050c043e6597f5d682ab87853cd9a6f61751db",
+      "copied_local_sha256": "6a709b1d07315a8c1d881560f0050c043e6597f5d682ab87853cd9a6f61751db",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/model/ai/runtime/ai_head_slot_queue.h",
+      "local_path": "model/ai/runtime/ai_head_slot_queue.h",
+      "original_sha256": "1e4fba6c1d95dff67895c543f06b855f8f36e4e304802d9fff9867886d82ccac",
+      "copied_local_sha256": "1e4fba6c1d95dff67895c543f06b855f8f36e4e304802d9fff9867886d82ccac",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/scripts/prepare.py",
+      "local_path": "scripts/prepare.py",
+      "original_sha256": "0afd960867630bd42ca064d127b0497cc0927148c7c46a8248afe630b2dbf1ab",
+      "copied_local_sha256": "0afd960867630bd42ca064d127b0497cc0927148c7c46a8248afe630b2dbf1ab",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/scripts/program.py",
+      "local_path": "scripts/program.py",
+      "original_sha256": "2670bf1d5e0de073969c3afb3b99a03f7d7ff27d57f93fe257dc8cb683b68c02",
+      "copied_local_sha256": "acbafe215e05be49ce3068253c022868353726a7e78beba3859223e157ffc842",
+      "adapted_for_local_package": true
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/program/download_bitstream.sh",
+      "local_path": "program/download_bitstream.sh",
+      "original_sha256": "0b180cf8e4a183d2936ca3051f7441e9515a9a2b0813524ff297df7232c59692",
+      "copied_local_sha256": "80bd2e211267bed0380a34cd3f8923ecdf4d5f5e4effe42269e3f91abb84d7b2",
+      "adapted_for_local_package": true
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/program/program_bitstream.tcl",
+      "local_path": "program/program_bitstream.tcl",
+      "original_sha256": "69b2589b9166baecbe32d83739daf62c3a8c6c9df5c39fc8e5fc80aca539f0ff",
+      "copied_local_sha256": "69b2589b9166baecbe32d83739daf62c3a8c6c9df5c39fc8e5fc80aca539f0ff",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/program/run_firmware.sh",
+      "local_path": "program/run_firmware.sh",
+      "original_sha256": "f4386ef59aa078055f874bd337ff480f3df1aa84e260846751a864d2b8979fd9",
+      "copied_local_sha256": "5cd3b050a673e4c89700ad6336b299d548fe63923ec4918ceb14fc4863f0a9b3",
+      "adapted_for_local_package": true
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/program/openocd/load-hdmi-tx.gdb",
+      "local_path": "program/openocd/load-hdmi-tx.gdb",
+      "original_sha256": "13279f1f1349bc6a139b17420d502367aeda156e5883db330def9821e2e7cf8e",
+      "copied_local_sha256": "13279f1f1349bc6a139b17420d502367aeda156e5883db330def9821e2e7cf8e",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/program/openocd/openocd-bscan.cfg",
+      "local_path": "program/openocd/openocd-bscan.cfg",
+      "original_sha256": "cf21c4ba4fcd96df11fa800e280d429273c1a74f71f3d41fe977130a04d729e9",
+      "copied_local_sha256": "cf21c4ba4fcd96df11fa800e280d429273c1a74f71f3d41fe977130a04d729e9",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/.gitignore",
+      "local_path": ".gitignore",
+      "original_sha256": "35eb3ddf9a80f833143192b8ea1bb2a3c923ca5da1273faf3e23d99ad177772a",
+      "copied_local_sha256": "35eb3ddf9a80f833143192b8ea1bb2a3c923ca5da1273faf3e23d99ad177772a",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/config.example.mk",
+      "local_path": "config.example.mk",
+      "original_sha256": "d6bd21a6dbb3a3411344af31bbf803137affd5d43360be1fbb2cc0708cf95201",
+      "copied_local_sha256": "30e8d26f3f58ff40810c1127e8f8ac0614bdccc25cb2092cd2c004ff9731d250",
+      "adapted_for_local_package": true
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/src/boundary_main.c",
+      "local_path": "src/boundary_main.c",
+      "original_sha256": "865785a8716441a31d66665e86cc8d917faf8a6b6e6b38fe314fdfb2cc9f49c3",
+      "copied_local_sha256": "4e4be50c4f5406a07476239a3b0d69617a3ca7d9dee39de8ab0218ad4bc522f0",
+      "adapted_for_local_package": true
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/src/ppu.inc",
+      "local_path": "src/ppu.inc",
+      "original_sha256": "7d9264f9c93bc9ae1ded462871ec64ce55d817cd123b415ef8a1acddda58bd5e",
+      "copied_local_sha256": "1f615165da3f0f71621b79dc9056c339c5326578b81c0456818d69bfdcc47306",
+      "adapted_for_local_package": true
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/src/memory_diag.inc",
+      "local_path": "src/memory_diag.inc",
+      "original_sha256": "620122991c4be6945cf9ec516d6ad5611731f5d3a7bef1f3a3cecfbf4d45203c",
+      "copied_local_sha256": "620122991c4be6945cf9ec516d6ad5611731f5d3a7bef1f3a3cecfbf4d45203c",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/src/boundary_diag.inc",
+      "local_path": "src/boundary_diag.inc",
+      "original_sha256": "019961089a38b97868306ea7b4609fac06d00dba2ea6676dae1fa703ef98c29b",
+      "copied_local_sha256": "019961089a38b97868306ea7b4609fac06d00dba2ea6676dae1fa703ef98c29b",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/src/support.c",
+      "local_path": "src/support.c",
+      "original_sha256": "56343f3cf17d39466a454207252be5d7c94fb2953ac18c903ae63f773ad22390",
+      "copied_local_sha256": "56343f3cf17d39466a454207252be5d7c94fb2953ac18c903ae63f773ad22390",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/src/start.S",
+      "local_path": "src/start.S",
+      "original_sha256": "1127615a1afb923468500c1d8ce29ff7f2cca8a275cb7518642284062627f73f",
+      "copied_local_sha256": "1127615a1afb923468500c1d8ce29ff7f2cca8a275cb7518642284062627f73f",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/src/link.ld",
+      "local_path": "src/link.ld",
+      "original_sha256": "a2ca9ead40c0fa9175c6fe113f89de4ffa4b7a29896917e7a97f9457be90fe83",
+      "copied_local_sha256": "a2ca9ead40c0fa9175c6fe113f89de4ffa4b7a29896917e7a97f9457be90fe83",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/src/irq.c",
+      "local_path": "src/irq.c",
+      "original_sha256": "1955369244cb8ba6a96b14cbbf7a69d637b859fadc1c55a7cfd39a592dad17a7",
+      "copied_local_sha256": "1955369244cb8ba6a96b14cbbf7a69d637b859fadc1c55a7cfd39a592dad17a7",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/src/boundary_irq.c",
+      "local_path": "src/boundary_irq.c",
+      "original_sha256": "aad4fd9d3cf60aa0bac0ed65c4c405b5d60e3dee64799f2ed4546ec25797cf66",
+      "copied_local_sha256": "aad4fd9d3cf60aa0bac0ed65c4c405b5d60e3dee64799f2ed4546ec25797cf66",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/src/dma_load_model_main.c",
+      "local_path": "src/dma_load_model_main.c",
+      "original_sha256": "c9b540bd39afa87e57e5e3f0cc152690aeddfc6778c8dec79e88b06236882cbf",
+      "copied_local_sha256": "5ab292b09b98f2eac559861fa4ac7c9a8e923c510f1a17972e0a70f3c995a0ef",
+      "adapted_for_local_package": true
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/src/dma_load_first_main.c",
+      "local_path": "src/dma_load_first_main.c",
+      "original_sha256": "bfd93b570245e9f660124aab04c96a39affe1baeeab73996e28a9c822c20affc",
+      "copied_local_sha256": "afb4f07167f663fedaf5cb477a9323b4dfd786221d28fb70f66cd31987205053",
+      "adapted_for_local_package": true
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/src/first_layer_s2d_main.c",
+      "local_path": "src/first_layer_s2d_main.c",
+      "original_sha256": "f53628ff2de91cab2c26018e9e0ec298f2a05ed5b50f90d32ff10030416cd6db",
+      "copied_local_sha256": "f53628ff2de91cab2c26018e9e0ec298f2a05ed5b50f90d32ff10030416cd6db",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/include/config.h",
+      "local_path": "include/config.h",
+      "original_sha256": "7b6bc9d1f7553fa3353a7feedf492a955d87ad0b117e53e2f1e7c9748fccab10",
+      "copied_local_sha256": "7b6bc9d1f7553fa3353a7feedf492a955d87ad0b117e53e2f1e7c9748fccab10",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/include/platform.h",
+      "local_path": "include/platform.h",
+      "original_sha256": "85e7f2762ebd636ece9c92f4eadec1d758e051f14a5afd3b2ca016433685683f",
+      "copied_local_sha256": "85e7f2762ebd636ece9c92f4eadec1d758e051f14a5afd3b2ca016433685683f",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/include/gemmini_frontend.h",
+      "local_path": "include/gemmini_frontend.h",
+      "original_sha256": "4ee7dd311a8fe31242541f28aaee4445ac25d4ce84f7e5bdb4501b297e7130b7",
+      "copied_local_sha256": "4ee7dd311a8fe31242541f28aaee4445ac25d4ce84f7e5bdb4501b297e7130b7",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/include/first_layer_s2d.h",
+      "local_path": "include/first_layer_s2d.h",
+      "original_sha256": "bf84ba7578f440c239d36f859f7631b188c042cab160fbb139a5a7d3c4bd05d2",
+      "copied_local_sha256": "bf84ba7578f440c239d36f859f7631b188c042cab160fbb139a5a7d3c4bd05d2",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/include/mmio.h",
+      "local_path": "include/mmio.h",
+      "original_sha256": "e11d2e6535152f351e519cdcc04a83f48313610e7ff1b84fcbe10e07e96ead61",
+      "copied_local_sha256": "e11d2e6535152f351e519cdcc04a83f48313610e7ff1b84fcbe10e07e96ead61",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/benchmarks/frontend/scripts/analyze_dma_load.py",
+      "local_path": "scripts/analyze_dma_load.py",
+      "original_sha256": "fab8977c0a05af62ce06c9954b57c90cb7383a152e5e3cc74602dda1188ec1d0",
+      "copied_local_sha256": "86236448248ad2c9214afdcf054ff1ea228383135476cb67e155a84f9231ec9b",
+      "adapted_for_local_package": true
+    },
+    {
+      "source_path": "tests/model/dma_load/test_logs.py",
+      "local_path": "tests/test_logs.py",
+      "original_sha256": "11427ec64c2d69b9b1bc76e1787765d57c5d577098792abdc5f42dc39bc88dcc",
+      "copied_local_sha256": "efdb942c218284bc5e675540662ed393c90db7b26974f266bf001674f72b214e",
+      "adapted_for_local_package": true
+    },
+    {
+      "source_path": "build/firmware/dma-load-2bank/generated/first_layer_s2d_data.inc",
+      "local_path": "model/first_layer_s2d_data.inc",
+      "original_sha256": "cb35b9fbd0446bce2b34ba33eb5d8385375fe472fc79c7a98c891c10297e59bb",
+      "copied_local_sha256": "cb35b9fbd0446bce2b34ba33eb5d8385375fe472fc79c7a98c891c10297e59bb",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "build/firmware/dma-load-2bank/generated/first_layer_s2d.json",
+      "local_path": "model/first_layer_s2d.json",
+      "original_sha256": "c17586d67243c073d7495ff049a8435cfdba0c6bc20d35430321fcf3430a5c51",
+      "copied_local_sha256": "c17586d67243c073d7495ff049a8435cfdba0c6bc20d35430321fcf3430a5c51",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "build/experiments/dma_load/512kib_2bank_runtime_20261016/candidate/GENERATION_CONTEXT.json",
+      "local_path": "hardware/GENERATION_CONTEXT.json",
+      "original_sha256": "c9e51701b92cb7fe999f061d2ffc769c6bf3e376d1b270efa4ebf62e567a0a0b",
+      "copied_local_sha256": "c9e51701b92cb7fe999f061d2ffc769c6bf3e376d1b270efa4ebf62e567a0a0b",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "build/experiments/dma_load/512kib_2bank_runtime_20261016/candidate/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom0_xcvu13p.h",
+      "local_path": "hardware/gemmini_params_custom0.h",
+      "original_sha256": "93f0e0ca32bd441af82e523137af4357fd9c5f7093dc4adadd0df21686ed4314",
+      "copied_local_sha256": "93f0e0ca32bd441af82e523137af4357fd9c5f7093dc4adadd0df21686ed4314",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "build/experiments/dma_load/512kib_2bank_runtime_20261016/candidate/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom1_xcvu13p.h",
+      "local_path": "hardware/gemmini_params_custom1.h",
+      "original_sha256": "7d3d102f2cf84df1b3ba3e69add6c6ccef201e1ca53d8563a75a27298598cbee",
+      "copied_local_sha256": "7d3d102f2cf84df1b3ba3e69add6c6ccef201e1ca53d8563a75a27298598cbee",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "build/experiments/dma_load/512kib_2bank_runtime_20261016/candidate/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom2_xcvu13p.h",
+      "local_path": "hardware/gemmini_params_custom2.h",
+      "original_sha256": "75fc7c2ef446b59bd3e1ee64b6787c38684dfff09a8ed22752f03e52c242b469",
+      "copied_local_sha256": "75fc7c2ef446b59bd3e1ee64b6787c38684dfff09a8ed22752f03e52c242b469",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "build/experiments/dma_load/512kib_2bank_runtime_20261016/candidate/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig.l2.json",
+      "local_path": "hardware/l2.json",
+      "original_sha256": "a48bb8514c771ea2b1daebbc0eb0b27bd7a3dd9abaff2881a234c4e28ab8911e",
+      "copied_local_sha256": "a48bb8514c771ea2b1daebbc0eb0b27bd7a3dd9abaff2881a234c4e28ab8911e",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "build/experiments/dma_load/512kib_2bank_runtime_20261016/bitstream/dma_load_512kib_2bank.bit",
+      "local_path": "hardware/top_wrapper.bit",
+      "original_sha256": "e930cc0674b0f8756a5e7ecb63aa9d769d824cdca068911d0f180ef3a2efd25c",
+      "copied_local_sha256": "e930cc0674b0f8756a5e7ecb63aa9d769d824cdca068911d0f180ef3a2efd25c",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/program/vivado_program.py",
+      "local_path": "program/vivado_program.py",
+      "original_sha256": "ad420dab959ff882c26ecf6ad0d5f5dc42386d7527795ee4b65172cf01a6665e",
+      "copied_local_sha256": "ad420dab959ff882c26ecf6ad0d5f5dc42386d7527795ee4b65172cf01a6665e",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/program/digilent_ipc_compat.c",
+      "local_path": "program/digilent_ipc_compat.c",
+      "original_sha256": "ee3eb200cfa370ff4d8ad623614843c6fddc2f15229d3f1c5fd0af72af1b6882",
+      "copied_local_sha256": "ee3eb200cfa370ff4d8ad623614843c6fddc2f15229d3f1c5fd0af72af1b6882",
+      "adapted_for_local_package": false
+    },
+    {
+      "source_path": "sw/board_tests/l2_1m_4bank/tests/test_programming.py",
+      "local_path": "tests/test_programming.py",
+      "original_sha256": "212815e2c7de0f48cc7f419e5e50e77445cb40815d82dc38f172ed8b1e063422",
+      "copied_local_sha256": "3a8808946eb6ea32dcb75b402aa365a2c798e4e98f5893f535683e156e7aae95",
+      "adapted_for_local_package": true
+    }
+  ],
+  "changes": [
+    "Local-only build, download, configuration and log analysis.",
+    "Monotonic PPU run allocation across all modes, warmups, rounds and phase passes.",
+    "Model firmware revision 2 records batch run ranges; stale/output checks retained.",
+    "Copy the l2_1m_4bank private hw_server and Digilent IPC compatibility fix; audit the local host library and preserve DMA entry points.",
+    "Retain full per-word PPU differences, first failing frame/lane, captured DMA counters and boundary reports before stopping on output mismatch; workload and comparisons unchanged."
+  ]
+}

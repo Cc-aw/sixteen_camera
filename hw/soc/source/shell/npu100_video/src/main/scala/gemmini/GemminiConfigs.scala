@@ -5,6 +5,9 @@ import scala.math.{max, pow, sqrt}
 import chisel3._
 import chisel3.util._
 import freechips.rocketchip.tile._
+import org.chipsalliance.cde.config.Field
+
+case object DmaLoadRuntimeKey extends Field[Boolean](false)
 
 sealed abstract trait GemminiMemCapacity
 case class CapacityInKilobytes(kilobytes: Int) extends GemminiMemCapacity
@@ -49,6 +52,10 @@ case class GemminiArrayConfig[T <: Data : Arithmetic, U <: Data, V <: Data](
                                                                              // 2 keeps baseline buffers; 0 keeps baseline arbitration.
                                                                              dma_row_prefetch_entries: Int = 0,
                                                                              dma_read_coalescing: Boolean = false,
+                                                                             dma_load_runtime_enable: Boolean = false,
+                                                                             dma_load_group_entries: Int = 2,
+                                                                             dma_load_group_rows: Int = 32,
+                                                                             dma_load_max_pixel_repeats: Int = 32,
                                                                              scratchpad_dma_buffer_entries: Int = 2,
                                                                              scratchpad_ex_burst: Int = 0,
                                                                              result_buffer_rows: Int = 512,
@@ -265,6 +272,12 @@ case class GemminiArrayConfig[T <: Data : Arithmetic, U <: Data, V <: Data](
   //==========================================================================
   val BLOCK_ROWS = tileRows * meshRows
   val BLOCK_COLS = tileColumns * meshColumns
+  require(!dma_load_runtime_enable || (!dma_read_coalescing && !use_tlb &&
+    inputType.getWidth == 8 && accType.getWidth == 32 && aligned_to == 1 &&
+    BLOCK_ROWS == 32 && BLOCK_COLS == 32 && dma_buswidth == 256 &&
+    dma_maxbytes == 64 && dma_load_group_entries == 2 && dma_load_group_rows == BLOCK_ROWS &&
+    dma_load_max_pixel_repeats >= 1 && dma_load_max_pixel_repeats <= BLOCK_COLS),
+    "Runtime DMA load requires physical DIM32 INT8, shared 256-bit/64B reader and two contexts")
   require(BLOCK_ROWS == BLOCK_COLS, "BLOCK_ROWS != BLOCK_COLS!")
 
   val DIM             = BLOCK_ROWS
