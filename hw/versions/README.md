@@ -5,5 +5,6 @@
 | 目录 | 对应软件 | 说明 |
 | --- | --- | --- |
 | [l2_1m_4bank/](l2_1m_4bank/README.md) | [l2_1m_4bank](../../sw/board_tests/l2_1m_4bank/README.md) | 已生成候选对应的 1 MiB / 4 bank S1 L2 源码快照与私有 SoC 生成入口 |
+| [dma_load_512kib_2bank/](dma_load_512kib_2bank/README.md) | [dma_load_512kib_2bank](../../sw/board_tests/dma_load_512kib_2bank/README.md)、[dma_spad_micro](../../sw/board_tests/dma_spad_micro/README.md) | 512 KiB / 2 bank、四种运行时 DMA/SPAD 模式的源码快照与私有生成入口；旧三模式产物单独追溯 |
 
 `hw/soc/` 仍保留仓库唯一的正式生成 SoC 导出；功能目录中的生成操作输出到私有工作区。

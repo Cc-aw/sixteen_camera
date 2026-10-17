@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "recorded_date": "2026-10-17",
+  "directory": "hw/versions/dma_load_512kib_2bank",
+  "operation": "Organize current four-mode DMA/SPAD hardware sources and feature-local private generation/check/test entry points; no datapath changes",
+  "source_commit": "bafd8ac56f4b4cef62c565a6ec75ae377139b884",
+  "source_identity": "Actual working-tree file bytes; exact copies independently checked against current source paths",
+  "files": {
+    "recorded": 596,
+    "new_file": 5,
+    "exact_copy": 588,
+    "adapted_copy": 3
+  },
+  "checks": [
+    {
+      "name": "feature_local_source_hashes",
+      "result": "PASS",
+      "command": "make -C hw/versions/dma_load_512kib_2bank check",
+      "files": 596
+    },
+    {
+      "name": "private_prepare_and_effective_overlays",
+      "result": "PASS",
+      "command": "make -C hw/versions/dma_load_512kib_2bank test",
+      "coverage": [
+        "Actual private source copy with a minimal reference",
+        "Frontend integration Configs.scala takes precedence",
+        "Stale source rejection",
+        "Changed build.sbt filter rejection",
+        "Wrong variant marker rejection",
+        "Existing workspace overwrite rejection",
+        "Protected hw/soc and hw/versions path rejection",
+        "Reference files remain unchanged"
+      ],
+      "scala_compile": false,
+      "rtl_generation": false
+    },
+    {
+      "name": "historical_three_mode_bitstream_hash",
+      "result": "PASS",
+      "command": "make -C hw/versions/dma_load_512kib_2bank check-bitstream",
+      "sha256": "e930cc0674b0f8756a5e7ecb63aa9d769d824cdca068911d0f180ef3a2efd25c",
+      "scope": "Existing local three-mode hardware only; not four-mode acceptance",
+      "board_accessed": false
+    },
+    {
+      "name": "production_manifests",
+      "result": "PASS",
+      "command": "make check"
+    },
+    {
+      "name": "generator_help",
+      "result": "PASS"
+    },
+    {
+      "name": "preexisting_tracked_file_contents",
+      "result": "PASS",
+      "preserved_files": -1,
+      "intentional_append": "docs/architecture/gemmini-dma-load-coalescing.md"
+    },
+    {
+      "name": "exact_copies_match_source_paths",
+      "result": "PASS"
+    },
+    {
+      "name": "python_syntax_readme_links_and_new_script_whitespace",
+      "result": "PASS"
+    },
+    {
+      "name": "symlinks_and_ignored_inputs",
+      "result": "PASS",
+      "symlinks": 0,
+      "ignored_files": 0
+    },
+    {
+      "name": "git_diff_check",
+      "result": "PASS"
+    }
+  ],
+  "not_run": [
+    "New Scala compilation",
+    "New complete SoC RTL generation",
+    "Four-mode generated-RTL integration acceptance",
+    "New OOC synthesis",
+    "New synthesis/implementation/bitstream",
+    "Board connection or programming"
+  ],
+  "production_export_replaced": false,
+  "historical_limits": [
+    "Old bitstream supports three modes only",
+    "Full-chip setup WNS -1.467 ns, timing unmet",
+    "Occasional numerical differences unresolved"
+  ],
+  "shared_dependencies": [
+    "Complete repository integration tests and evidence validators",
+    "Board RTL, constraints, IP reconstruction and Vivado flows",
+    "Reference Chipyard and installed toolchain"
+  ]
+}

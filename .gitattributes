@@ -15,3 +15,8 @@ hw/versions/l2_1m_4bank/soc_shell/** -text whitespace=-blank-at-eol,-blank-at-eo
 hw/versions/l2_1m_4bank/command_frontend/** -text whitespace=-blank-at-eol,-blank-at-eof
 hw/versions/l2_1m_4bank/tensor_ingress/** -text whitespace=-blank-at-eol,-blank-at-eof
 hw/versions/l2_1m_4bank/board_rtl/** -text whitespace=-blank-at-eol,-blank-at-eof
+# DMA/SPAD version snapshots retain the exact imported source bytes.
+hw/versions/dma_load_512kib_2bank/soc_shell/** -text whitespace=-blank-at-eol,-blank-at-eof
+hw/versions/dma_load_512kib_2bank/command_frontend/** -text whitespace=-blank-at-eol,-blank-at-eof
+hw/versions/dma_load_512kib_2bank/tensor_ingress/** -text whitespace=-blank-at-eol,-blank-at-eof
+hw/versions/dma_load_512kib_2bank/board_rtl/** -text whitespace=-blank-at-eol,-blank-at-eof

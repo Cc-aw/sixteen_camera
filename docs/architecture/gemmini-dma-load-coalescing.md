@@ -611,3 +611,15 @@ legacy 的 1.335 倍。非连续场景为 68.367、68.406、89.109，组装模�
 
 当前微基准默认 OPS=32；第四模式仍只有源码离线验证。完整两轮 UART、身份与
 结果归档见[微基准验证记录](../../sw/board_tests/dma_spad_micro/validation/README.md)。
+
+## 18 独立硬件版本目录（2026-10-17）
+
+本次四模式源码及后续硬件开发入口已整理到
+[`hw/versions/dma_load_512kib_2bank/`](../../hw/versions/dma_load_512kib_2bank/README.md)，
+按硬件功能保存实际 shell、前端、TensorIngress、来源哈希及私有生成／验证入口。
+第 9 节的公共路径保留作原实现位置；本版本后续修改使用独立目录中的对应副本。
+生成始终使用 512 KiB / 2 bank 四模式配置，输出到私有工作区，不覆盖正式 SoC 导出。
+
+目录中的 `HISTORICAL_GENERATION_CONTEXT.json` 只追溯旧三模式硬件；新四模式候选
+必须生成新的上下文和验证证据。本次目录整理不生成 RTL 或 bitstream、不访问开发板，
+也未实现流式重放或跨命令写合并。具体命令及离线核验范围见该目录 README。
