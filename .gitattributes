@@ -20,3 +20,12 @@ hw/versions/dma_load_512kib_2bank/soc_shell/** -text whitespace=-blank-at-eol,-b
 hw/versions/dma_load_512kib_2bank/command_frontend/** -text whitespace=-blank-at-eol,-blank-at-eof
 hw/versions/dma_load_512kib_2bank/tensor_ingress/** -text whitespace=-blank-at-eol,-blank-at-eof
 hw/versions/dma_load_512kib_2bank/board_rtl/** -text whitespace=-blank-at-eol,-blank-at-eof
+# Streaming DMA version preserves imported parent source bytes.
+hw/versions/dma_load_streaming_512kib_2bank/soc_shell/** -text whitespace=-blank-at-eol,-blank-at-eof
+hw/versions/dma_load_streaming_512kib_2bank/command_frontend/** -text whitespace=-blank-at-eol,-blank-at-eof
+hw/versions/dma_load_streaming_512kib_2bank/tensor_ingress/** -text whitespace=-blank-at-eol,-blank-at-eof
+hw/versions/dma_load_streaming_512kib_2bank/board_rtl/** -text whitespace=-blank-at-eol,-blank-at-eof
+# Frozen model and diagnostic inputs for the streaming candidate.
+hw/versions/dma_load_streaming_512kib_2bank/software/model/** -text whitespace=-blank-at-eol,-blank-at-eof
+hw/versions/dma_load_streaming_512kib_2bank/software/include/** -text whitespace=-blank-at-eol,-blank-at-eof
+hw/versions/dma_load_streaming_512kib_2bank/software/src/** -text whitespace=-blank-at-eol,-blank-at-eof
