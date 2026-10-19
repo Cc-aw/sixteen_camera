@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "status": "OBSERVATIONAL_BOARD_COMPARISON_NOT_ISOLATED_A1_AB",
+  "analyzed_utc": "2026-10-19T07:04:08.483718+00:00",
+  "mode": "read_assembled",
+  "old_hardware_build_id": "2a95a4ca64390235",
+  "new_hardware_build_id": "180342787f3e6dac",
+  "clock_hz": 100000000,
+  "model_and_input_files_identical": 46,
+  "gemmini_parameter_headers_identical": 3,
+  "definitions": {
+    "throughput_gain_pct": "(old_ms_per_frame / new_ms_per_frame - 1) * 100",
+    "time_reduction_pct": "(1 - new_ms_per_frame / old_ms_per_frame) * 100"
+  },
+  "rows": [
+    {
+      "scope": "first_layer",
+      "executor": "serial",
+      "old_ms_per_frame": 10.317554166666666,
+      "new_ms_per_frame": 9.320349166666666,
+      "saved_ms_per_frame": 0.9972049999999992,
+      "throughput_gain_pct": 10.69922362529514,
+      "time_reduction_pct": 9.665129776800296,
+      "old_frames_per_executor": 12,
+      "new_frames_per_executor": 12
+    },
+    {
+      "scope": "first_layer",
+      "executor": "parallel",
+      "old_ms_per_frame": 3.5976250000000003,
+      "new_ms_per_frame": 3.3071466666666667,
+      "saved_ms_per_frame": 0.2904783333333336,
+      "throughput_gain_pct": 8.783352013417423,
+      "time_reduction_pct": 8.074169301506783,
+      "old_frames_per_executor": 12,
+      "new_frames_per_executor": 12
+    },
+    {
+      "scope": "full_graph",
+      "executor": "serial",
+      "old_ms_per_frame": 79.2622075,
+      "new_ms_per_frame": 77.98515166666667,
+      "saved_ms_per_frame": 1.2770558333333355,
+      "throughput_gain_pct": 1.6375628001492837,
+      "time_reduction_pct": 1.6111787365161834,
+      "old_frames_per_executor": 48,
+      "new_frames_per_executor": 12
+    },
+    {
+      "scope": "full_graph",
+      "executor": "parallel",
+      "old_ms_per_frame": 31.25312125,
+      "new_ms_per_frame": 30.962715833333334,
+      "saved_ms_per_frame": 0.2904054166666654,
+      "throughput_gain_pct": 0.9379197168293052,
+      "time_reduction_pct": 0.9292045243854297,
+      "old_frames_per_executor": 48,
+      "new_frames_per_executor": 12
+    }
+  ],
+  "limits": [
+    "Old full-model suite has no terminal PASS, but read_assembled formal results for all four rounds and both executors are present; raw cycle sums match summaries.",
+    "Old full-model result averages four twelve-frame batches per executor; new result has one twelve-frame batch per executor.",
+    "First-layer schedules, warmups, software packaging, and hardware implementations differ across versions.",
+    "Same model/inputs/parameter headers and nominal clock do not establish an isolated A1 comparison or a statistically stable gain.",
+    "Both routed hardware versions have unmet setup timing; per-frame parallel time is throughput amortization, not single-frame latency."
+  ],
+  "sha256": {
+    "docs/validation/gemmini-dma-load-coalescing-board.json": "a58ae2b1d5ec74c18395e1a6fead8c52bea53746a4f3c12cbfffe015c0ef8e6b",
+    "hw/versions/dma_load_streaming_512kib_2bank/validation/board_first_layer.json": "6cc711d6716e78ac193a6ca5b9e8036205cbfbf78b0ee685ad608ee4e6594cac",
+    "hw/versions/dma_load_streaming_512kib_2bank/validation/board_full_graph.json": "19dd996b57f86294be61c83541448cd049425d60e85dfa42ac82be2085cc76bd",
+    "tests/log/dma_load_first.log": "12740833c83de7411da07875b0349da178fca5ccdbcddd204b98c6f9c987cb0e",
+    "sw/board_tests/dma_load_512kib_2bank/logs/model_fix_02/model.log": "6ba5f26da9e6fcb713ce082093b51dc69e502f41eeb74b72300ac0ed4239b27e"
+  }
+}

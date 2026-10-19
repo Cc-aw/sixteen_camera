@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "status": "BITSTREAM_GENERATED_TIMING_UNMET_BOARD_PENDING",
+  "build_id": "180342787f3e6dac",
+  "completed_utc": "2026-10-19T01:16:39.937623+00:00",
+  "completed_beijing": "2026-10-19T09:16:39.937623+08:00",
+  "change": "Reuse the complete routed checkpoint and skip both post-route phys_opt passes; no RTL or ABI changes",
+  "original_failure_preserved": "validation/implementation_failure.json",
+  "source_checkpoint": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_load/streaming_20261017/bitstream/project/sixteen_camera.runs/impl_1/top_wrapper_routed.dcp",
+  "source_checkpoint_sha256": "b389c8c8fbd34541479c95e7bce1ddef5fbf8125a41da4cb788e98e1785eacae",
+  "bitstream": "build/experiments/dma_load/streaming_20261017/bitstream_recovery_routed_20261019/dma_load_streaming.bit",
+  "bitstream_sha256": "858d20164a05feb9fdf64b4e8234d3daaaecceb63ffbb185ca73271258cdb7e0",
+  "bitstream_bytes": 113318492,
+  "routable_nets": 1826222,
+  "fully_routed_nets": 1826222,
+  "routing_errors": 0,
+  "default_drc": {
+    "errors": 0,
+    "critical_warnings": 0,
+    "warnings": 5267
+  },
+  "bitgen_drc": {
+    "errors": 0,
+    "warnings": 5177
+  },
+  "timing_met": false,
+  "routed_timing_summary": {
+    "wns_ns": -5.403,
+    "whs_ns": 0.0,
+    "wpws_ns": 0.039,
+    "setup_failing_endpoints": 136886,
+    "hold_failing_endpoints": 0,
+    "pulse_failing_endpoints": 0
+  },
+  "input_integrity": "UNCHANGED",
+  "changed_inputs": [],
+  "verification_input_count": 745,
+  "board_run": "NOT_RUN",
+  "timing_optimization": "OTHER_WORKSTREAM_AFTER_USER_BOARD_VALIDATION",
+  "matching_firmware_sha256": {
+    "build/experiments/dma_load/streaming_20261017/firmware/yolov5_dma_load_first.elf": "fb8b6683ddf1cd86a621ed83172782d28c37101f9040355eb6d2338ae90d2aa6",
+    "build/experiments/dma_load/streaming_20261017/firmware/yolov5_dma_load_model.elf": "581c16fdd644a7f56ac58897d77f8b64c5c9d78cf9ac2d8db2462b4ceb477473"
+  },
+  "evidence_sha256": {
+    "build/experiments/dma_load/streaming_20261017/bitstream_recovery_routed_20261019/state.json": "e520a93b58dc8d8514b954aac8f4b0dbfdb2ff90eee38798c835a899f42f2e2c",
+    "build/experiments/dma_load/streaming_20261017/bitstream_recovery_routed_20261019/input_sha256.json": "a6acbee7866d505987e4b7696ccaf580bd6926d5ec6767a23f31096266a6f45e",
+    "build/experiments/dma_load/streaming_20261017/bitstream_recovery_routed_20261019/route.rpt": "d58f0fff5964ce3117aa6ff6a2878f86bfd37926e08a10cc13e6ea4d6889d14a",
+    "build/experiments/dma_load/streaming_20261017/bitstream_recovery_routed_20261019/drc.rpt": "42a37ee64175b160b1a76fbb802a5da9b7dd4acf8e153659c8cf506c07c272c5",
+    "build/experiments/dma_load/streaming_20261017/bitstream_recovery_routed_20261019/routed_timing.rpt": "29f1e441e7efa674933afed0239782c9e518ca63e0421a146995ef631b30b67f",
+    "build/experiments/dma_load/streaming_20261017/bitstream_recovery_routed_20261019/check_timing.rpt": "a725a92a849df8679370dfd37311238abd93900a7a6f3e035ddcc88f24c27a34",
+    "build/experiments/dma_load/streaming_20261017/bitstream_recovery_routed_20261019/console.log": "836cfc0994bf38fc31632091fe5fcc25297dbf817fd126c2e1e480f8cf227f3d",
+    "build/experiments/dma_load/streaming_20261017/bitstream_recovery_routed_20261019/result.txt": "fc4c2ead7a07b57c624e1852b70119b256b85698ffb782f75259661b02cc7c7f",
+    "tools/build/recover_dma_load_bitstream.py": "8318873e325f8f493d2b47299be503502030e071e0d811be813229120ca8ddde",
+    "tools/build/recover_dma_load_bitstream.tcl": "ec783f56fbddfda4ecfdfa7078e8d2af074493c8b8558cf87f8a9e7614728566",
+    "build/experiments/dma_load/streaming_20261017/routing_analysis_20261019/findings.json": "3592397016ea8728f54e270461f7d184cfa18d15072117472060944f6fbeff9e"
+  }
+}

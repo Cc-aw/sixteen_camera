@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "status": "FIRST_LAYER_BOARD_PASS_FULL_GRAPH_PENDING_TIMING_UNMET",
+  "analyzed_utc": "2026-10-19T06:49:26.616647+00:00",
+  "run": "streaming_02",
+  "report": {
+    "status": "PASS",
+    "scope": "first_conv",
+    "schema": 2,
+    "suite": "short_first_ablation",
+    "ablation": "complete",
+    "build_id": "180342787f3e6dac",
+    "frames_per_executor": 12,
+    "measured_records": 32,
+    "warmup_records": 8,
+    "prior_sessions_ignored": 0,
+    "aggregate": [
+      {
+        "mode": "legacy",
+        "frames_per_executor": 12,
+        "serial_cycles": 28638508,
+        "parallel_cycles": 10096775,
+        "serial_ms_per_frame": 23.865423333333332,
+        "parallel_ms_per_frame": 8.413979166666667,
+        "scaling": 2.8364015242490797,
+        "efficiency": 0.9454671747496932,
+        "serial_gain": 1.0,
+        "parallel_gain": 1.0
+      },
+      {
+        "mode": "read_coalesced",
+        "frames_per_executor": 12,
+        "serial_cycles": 30161856,
+        "parallel_cycles": 10190253,
+        "serial_ms_per_frame": 25.13488,
+        "parallel_ms_per_frame": 8.4918775,
+        "scaling": 2.959873125819349,
+        "efficiency": 0.9866243752731164,
+        "serial_gain": 0.9494942221062258,
+        "parallel_gain": 0.9908267243217612
+      },
+      {
+        "mode": "read_assembled",
+        "frames_per_executor": 12,
+        "serial_cycles": 11184419,
+        "parallel_cycles": 3968576,
+        "serial_ms_per_frame": 9.320349166666666,
+        "parallel_ms_per_frame": 3.3071466666666667,
+        "scaling": 2.818244881791353,
+        "efficiency": 0.9394149605971176,
+        "serial_gain": 2.5605718097649954,
+        "parallel_gain": 2.5441808346369075
+      },
+      {
+        "mode": "spad_assembled",
+        "frames_per_executor": 12,
+        "serial_cycles": 15432543,
+        "parallel_cycles": 5819209,
+        "serial_ms_per_frame": 12.8604525,
+        "parallel_ms_per_frame": 4.849340833333334,
+        "scaling": 2.652000125790292,
+        "efficiency": 0.8840000419300974,
+        "serial_gain": 1.8557218988471311,
+        "parallel_gain": 1.7350768807238235
+      }
+    ],
+    "source": "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_512kib_2bank/validation/board/logs/streaming_02/first.log",
+    "sha256": "be777f6c0b09ef8a0b9bb544bb3eb666335c2ad448a6b985790279535cee6914",
+    "software_build_id": "930e1ca70bc2c3c8a7ab2395e4f54dfb951fa62f3a23ee539a34ced839fcbb22",
+    "bitstream_sha256": "858d20164a05feb9fdf64b4e8234d3daaaecceb63ffbb185ca73271258cdb7e0",
+    "timing_met": false
+  },
+  "measured_frames": 96,
+  "warmup_frames": 24,
+  "counter_records": 120,
+  "dma_fault_records": 0,
+  "mode_switch_rejects": 0,
+  "full_graph_board_test": "NOT_RUN",
+  "scope_limit": "One first-layer board run; no buffered-hardware board control, no claim of isolated A1 streaming speedup or full-chip timing closure",
+  "bitstream_program_log": "hw/versions/dma_load_streaming_512kib_2bank/validation/board/logs/streaming_01/vivado_program.log",
+  "sha256": {
+    "hw/versions/dma_load_streaming_512kib_2bank/validation/board/logs/streaming_02/first.log": "be777f6c0b09ef8a0b9bb544bb3eb666335c2ad448a6b985790279535cee6914",
+    "hw/versions/dma_load_streaming_512kib_2bank/validation/board/logs/streaming_02/first.json": "193ccaaee1d0a83ce113585e10254b964d06339f58d759a6981b43ddd8e12594",
+    "hw/versions/dma_load_streaming_512kib_2bank/validation/board/logs/streaming_02/first.txt": "b6e4ca028ee207ff2b712e6a45c43cd03fb8e0570ee999706ef76b0ff23c1473",
+    "hw/versions/dma_load_streaming_512kib_2bank/validation/board/logs/streaming_01/vivado_program.log": "1ce19ab780be8dea3b7f61014c4a7c9818883ec5a26259b2a89c12bd49a10071"
+  }
+}

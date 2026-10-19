@@ -1,0 +1,28 @@
+{
+  "files": [
+    {
+      "local_path": "analyze_dma_load.py",
+      "source_path": "sw/board_tests/dma_load_512kib_2bank/scripts/analyze_dma_load.py",
+      "sha256": "a91e3b309bfcd925dc2c5dc3adead3895c63f7d28a76d0036dcbb629a4bfd3f7",
+      "modification": "byte-identical copy; schema 2 supports four modes"
+    },
+    {
+      "local_path": "program/vivado_program.py",
+      "source_path": "sw/board_tests/dma_load_512kib_2bank/program/vivado_program.py",
+      "sha256": "6b7e346d5800fc82953096255f290c58d719ed367d90b3ce5b7e9ac5a78cee75",
+      "modification": "byte-identical copy of validated private hw_server and Adept IPC compatibility"
+    },
+    {
+      "local_path": "program/program_bitstream.tcl",
+      "source_path": "sw/board_tests/dma_load_512kib_2bank/program/program_bitstream.tcl",
+      "sha256": "69b2589b9166baecbe32d83739daf62c3a8c6c9df5c39fc8e5fc80aca539f0ff",
+      "modification": "byte-identical copy of validated private hw_server and Adept IPC compatibility"
+    },
+    {
+      "local_path": "program/digilent_ipc_compat.c",
+      "source_path": "sw/board_tests/dma_load_512kib_2bank/program/digilent_ipc_compat.c",
+      "sha256": "ee3eb200cfa370ff4d8ad623614843c6fddc2f15229d3f1c5fd0af72af1b6882",
+      "modification": "byte-identical copy of validated private hw_server and Adept IPC compatibility"
+    }
+  ]
+}

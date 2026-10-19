@@ -1,0 +1,26 @@
+{
+  "status": "READ_ONLY_JTAG_DISCOVERY_PASS",
+  "checked_utc": "2026-10-19T01:47:54.718374+00:00",
+  "issue": "New board Make entry used generic loader without existing Adept IPC compatibility",
+  "reproduction": {
+    "protected_regular": 2,
+    "ipc_owner_uid": 1000,
+    "caller_uid": 1002,
+    "open_existing_with_O_CREAT": "EACCES",
+    "open_existing_without_O_CREAT": "SUCCESS_NO_DATA_WRITTEN"
+  },
+  "fix": "Use a private short-lived hw_server with the validated, scoped Adept IPC compatibility library",
+  "target_serial": "210357A7D00EA",
+  "device": "xcvu13p_0",
+  "part": "xcvu13p",
+  "programming_performed": false,
+  "firmware_started": false,
+  "board_functional_validation": "NOT_RUN",
+  "offline_regressions": "PASS_6_IPC_AND_SERVER_CLEANUP_CASES",
+  "sha256": {
+    "build/experiments/dma_load/streaming_20261017/jtag_recovery_20261019/original_failure.log": "0c8f05d47309d47c7919e82ff1b37b455bde2e600356c6f70c6a72697fb3eb4f",
+    "build/experiments/dma_load/streaming_20261017/jtag_recovery_20261019/discover.tcl": "d0dcce93609616c28553f50aa961b12a8ae91096e948e4f906b1d68e9ed37748",
+    "build/experiments/dma_load/streaming_20261017/jtag_recovery_20261019/discovery.log": "6509cb6a839c61c1731fdb83f2db986649e115fa6fb0772572857fdb02c5790e",
+    "build/experiments/dma_load/streaming_20261017/jtag_recovery_20261019/hw_server.log": "d9dd80e2000562a61237ef1e7f617db391ea8f2f1eab0a3ea63a85a5a2e1f72f"
+  }
+}
