@@ -1,0 +1,20 @@
+{
+  "final_candidate": "candidate_02",
+  "final_buffered": "candidate_buffered_02",
+  "superseded": [
+    {
+      "candidate": "candidate_01",
+      "reason": "Unbounded dynamic shifts inherited from parents; superseded by mathematically equivalent saturated window shifts"
+    },
+    {
+      "candidate": "candidate_buffered_01",
+      "reason": "Control for superseded candidate_01"
+    }
+  ],
+  "interrupted_simulations": [
+    "joint_01 driver setup error",
+    "joint_02/03, first_01/local_01/02, layers_01/02, buffered_spad_01: diagnostic or superseded runs; excluded from acceptance"
+  ],
+  "final_backend": "XSim with unmodified Xilinx functional primitives; source/TL units use Icarus",
+  "notes": "A Verilator compatibility trial was rejected by unsupported vendor primitives; no trial model substitutions or generated RTL edits are delivered."
+}

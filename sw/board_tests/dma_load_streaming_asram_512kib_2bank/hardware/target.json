@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "hardware_build_id": "abd1c8c87558c7b0",
+  "bitstream": null,
+  "bitstream_sha256": null,
+  "generation_context_sha256": "36a2fa41670cf4357af69cb62c0167b37724dcaf754d6c1053f9093752993994",
+  "clock_hz": 100000000,
+  "dma_modes": [
+    "legacy",
+    "read_coalesced",
+    "read_assembled",
+    "spad_assembled"
+  ],
+  "asram_bases": [
+    536870912,
+    541065216,
+    545259520
+  ],
+  "physical_bytes_per_bank": 2359296,
+  "logical_arena_bytes": 2217600,
+  "control_base": 549453824,
+  "routed_wns_ns": null,
+  "routed_whs_ns": null,
+  "board_validation": "NOT_RUN",
+  "generation_context": "build/experiments/dma_stream_asram/candidate_02/GENERATION_CONTEXT.json",
+  "artifact_state": "RTL_SIMULATION_ONLY",
+  "dma_load_streaming_enable": true,
+  "dma_load_pipeline_version": "row_ready_v1"
+}

@@ -231,7 +231,7 @@ if {$sc_project eq ""} {
 set sc_repo_root $::sixteen_camera_setup::repo_root
 source [file join $sc_repo_root hw manifests soc_manifest.tcl]
 if {$SOC_ASRAM_PRIVATE && [string first \
-    "[file normalize [file join $sc_repo_root build experiments activation_sram]]/" \
+    "[file normalize [file join $sc_repo_root build experiments $SOC_ASRAM_EXPERIMENT]]/" \
     "[file normalize [get_property DIRECTORY $sc_project]]/"] != 0} {
     error "ASRAM setup requires the current project in its private experiment tree"
 }
@@ -275,7 +275,7 @@ set sc_rtl_files {}
 foreach relative_path $RTL_SOURCES {
     if {$SOC_ASRAM_PRIVATE && [file tail $relative_path] in \
         {axi4_head_uram_router_v3.sv postprocess_memory_bridge_v3.sv}} {
-        set relative_path [file join hw versions activation_sram_512kib_2bank board_rtl [file tail $relative_path]]
+        set relative_path [file join hw versions $SOC_VARIANT board_rtl [file tail $relative_path]]
     }
     lappend sc_rtl_files [file normalize [file join $sc_repo_root $relative_path]]
 }
@@ -292,7 +292,9 @@ set sc_rtl_roots [list \
     [file normalize [file join $sc_repo_root hw rtl si5338]] \
     [file normalize [file join $sc_repo_root hw rtl video]] \
     [file normalize [file join $sc_repo_root hw rtl ai]]]
-lappend sc_rtl_roots [file normalize [file join $sc_repo_root hw versions activation_sram_512kib_2bank board_rtl]]
+foreach sc_asram_variant {activation_sram_512kib_2bank dma_load_streaming_asram_512kib_2bank} {
+    lappend sc_rtl_roots [file normalize [file join $sc_repo_root hw versions $sc_asram_variant board_rtl]]
+}
 set sc_imported_rtl_marker "/hw/vivado/sixteen_camera.srcs/sources_1/imports/hw/rtl/"
 foreach sc_file [get_files -quiet -of_objects [get_filesets sources_1]] {
     if {[catch {set sc_name [file normalize [get_property NAME $sc_file]]}]} {
@@ -470,7 +472,7 @@ source [file join $sc_repo_root tools build default_video_run_settings.tcl]
 apply_default_video_run_settings
 if {$SOC_BITSTREAM_FLOW eq "triple32_v3"} {
     if {$SOC_ASRAM_PRIVATE} {
-        source [file join $sc_repo_root hw versions activation_sram_512kib_2bank constraints run_settings.tcl]
+        source [file join $sc_repo_root hw versions $SOC_VARIANT constraints run_settings.tcl]
         apply_asram_run_settings
     } else {
         source [file join $sc_repo_root tools build triple32_v3 run_settings.tcl]

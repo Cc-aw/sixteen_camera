@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "status": "MERGED_FUNCTIONAL_SIMULATION_PASS",
+  "checked_utc": "2026-10-19T08:27:56.290370+00:00",
+  "hardware_build_id": "abd1c8c87558c7b0",
+  "buffered_build_id": "a07ef7954280e07b",
+  "candidate": "build/experiments/dma_stream_asram/candidate_02",
+  "buffered_candidate": "build/experiments/dma_stream_asram/candidate_buffered_02",
+  "functional_evidence": "simulation.json",
+  "coverage": {
+    "assembler_cases": 2975,
+    "streaming_buffered_ddr_local_fault_cases": 72,
+    "address_planner_cases": 4766,
+    "asram_tl_cases": 1767,
+    "asram_storage_vendor_and_behavioral": "PASS",
+    "four_route_mode_parameter_lane_records": 288,
+    "first_layer_storage_mode_lane_records": 24,
+    "representative_layer_mode_lane_records": 96,
+    "row_trace_get_closure": 96,
+    "late_fault_kinds": [
+      "denied",
+      "corrupt"
+    ],
+    "counter_and_source31_backpressure": "PASS"
+  },
+  "software": {
+    "unittest_methods": 20,
+    "complete_native_ddr_local_plan_equivalence": "PASS",
+    "elf_audits": 3,
+    "preflight": "PASS_NO_HARDWARE_ACCESS",
+    "local_model_fixture_identity": "PASS"
+  },
+  "software_build_id": "5e0866bcdb8160d9e011390833a98eda893efcaa981eb4d6ec4b36e2441184ac",
+  "layout_scope": "ASRAM parent floorplan retained and four provenance tests passed; no new synthesis/place/route executed",
+  "bounded_shifts": "Group and RowAssembler mask/shift ranges saturated at the 32-byte observable window; actual SV literal maxima 768/758 bits",
+  "scope": "Actual generated three-DIM32 Gemmini/Reader/ASRAM TL with vendor primitives, compact first/representative layers, source units and host complete-model planning.",
+  "board_accessed": false,
+  "bitstream": "NOT_GENERATED",
+  "synthesis": "NOT_RUN",
+  "timing": "NOT_MEASURED",
+  "cpu_rvv_rtl_execution": "NOT_RUN",
+  "full_network_rtl_execution": "NOT_RUN",
+  "remaining": [
+    "Synthesis and routed timing/resource assessment",
+    "Bitstream generation and board diagnostics/raw Head/PAD/full-network comparison",
+    "Actual CPU/RVV execution on this candidate and repeated board stability runs"
+  ]
+}

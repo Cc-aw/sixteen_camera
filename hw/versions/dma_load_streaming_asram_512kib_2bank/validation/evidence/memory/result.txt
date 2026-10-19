@@ -1,0 +1,5 @@
+MEMORY_MUX_PASS,addr_bits=33,source_ids=64,sink_bits=7,source31_collision=covered,multibeat=covered,backpressure=covered,zero_latency=covered
+- /mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/memory_02/tb.sv:72: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.044 2026-01-01
+- Verilator: $finish at 1us; walltime 0.000 s; speed 14.030 ms/s
+- Verilator: cpu 0.000 s on 1 threads; alloced 6 MB

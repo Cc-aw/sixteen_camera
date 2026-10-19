@@ -24,3 +24,5 @@ OpenOCD、GDB 等工具路径通过各目录的 `config.local.mk` 配置。
 [ASRAM 下板说明](activation_sram_512kib_2bank/README.md)。
 同目录还提供完整 YOLOv5nu 的 DDR／ASRAM 对照和原始 Head／PAD 字节诊断，见
 [推理移植说明](activation_sram_512kib_2bank/YOLO.md)。
+
+`dma_load_streaming_asram_512kib_2bank/`：DMA Stream A1 + ASRAM 合并候选的独立 SRAM 诊断、YOLO DDR/local 对照和原始字节诊断软件；[使用说明](dma_load_streaming_asram_512kib_2bank/README.md)。当前只做 RTL 仿真与离线软件验证。

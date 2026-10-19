@@ -1,0 +1,3541 @@
+{
+  "status": "ROW_TRACE_GET_CLOSURE_PASS",
+  "scope": "compact real layers; returned bytes predicted from observed logical addresses",
+  "results": [
+    {
+      "lane": 0,
+      "stage": 0,
+      "mode": 0,
+      "logical_rows": 557,
+      "logical_bytes": 3563,
+      "zero_rows": 185,
+      "commands": 107,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 380,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 12672,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 108,
+          "logical_bytes": 1728,
+          "gets": 108,
+          "returned_bytes": 3456
+        },
+        "zero": {
+          "rows": 185,
+          "logical_bytes": 555,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 256,
+          "logical_bytes": 768,
+          "gets": 264,
+          "returned_bytes": 8704
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 0,
+      "mode": 1,
+      "logical_rows": 557,
+      "logical_bytes": 3563,
+      "zero_rows": 185,
+      "commands": 107,
+      "optimized_read_groups": 52,
+      "actual_dma_gets": 86,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 3840,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 108,
+          "logical_bytes": 1728,
+          "gets": 54,
+          "returned_bytes": 2304
+        },
+        "zero": {
+          "rows": 185,
+          "logical_bytes": 555,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 256,
+          "logical_bytes": 768,
+          "gets": 24,
+          "returned_bytes": 1024
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 0,
+      "mode": 2,
+      "logical_rows": 557,
+      "logical_bytes": 3563,
+      "zero_rows": 185,
+      "commands": 107,
+      "optimized_read_groups": 52,
+      "actual_dma_gets": 86,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 3840,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 108,
+          "logical_bytes": 1728,
+          "gets": 54,
+          "returned_bytes": 2304
+        },
+        "zero": {
+          "rows": 185,
+          "logical_bytes": 555,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 256,
+          "logical_bytes": 768,
+          "gets": 24,
+          "returned_bytes": 1024
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 0,
+      "mode": 3,
+      "logical_rows": 557,
+      "logical_bytes": 3563,
+      "zero_rows": 185,
+      "commands": 107,
+      "optimized_read_groups": 52,
+      "actual_dma_gets": 380,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 12672,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 108,
+          "logical_bytes": 1728,
+          "gets": 108,
+          "returned_bytes": 3456
+        },
+        "zero": {
+          "rows": 185,
+          "logical_bytes": 555,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 256,
+          "logical_bytes": 768,
+          "gets": 264,
+          "returned_bytes": 8704
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 2,
+      "mode": 0,
+      "logical_rows": 182,
+      "logical_bytes": 5440,
+      "zero_rows": 20,
+      "commands": 29,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 164,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5376,
+      "roles": {
+        "bias": {
+          "rows": 2,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 4608,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 2,
+      "mode": 1,
+      "logical_rows": 182,
+      "logical_bytes": 5440,
+      "zero_rows": 20,
+      "commands": 29,
+      "optimized_read_groups": 4,
+      "actual_dma_gets": 152,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5120,
+      "roles": {
+        "bias": {
+          "rows": 2,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 4608,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 2,
+      "mode": 2,
+      "logical_rows": 182,
+      "logical_bytes": 5440,
+      "zero_rows": 20,
+      "commands": 29,
+      "optimized_read_groups": 4,
+      "actual_dma_gets": 152,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5120,
+      "roles": {
+        "bias": {
+          "rows": 2,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 4608,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 2,
+      "mode": 3,
+      "logical_rows": 182,
+      "logical_bytes": 5440,
+      "zero_rows": 20,
+      "commands": 29,
+      "optimized_read_groups": 4,
+      "actual_dma_gets": 164,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5376,
+      "roles": {
+        "bias": {
+          "rows": 2,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 4608,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 4,
+      "mode": 0,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 52,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1792,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 32,
+          "returned_bytes": 1024
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 4,
+      "mode": 1,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 28,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 4,
+      "mode": 2,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 28,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 4,
+      "mode": 3,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 52,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1792,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 32,
+          "returned_bytes": 1024
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 5,
+      "mode": 0,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 52,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1792,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 32,
+          "returned_bytes": 1024
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 5,
+      "mode": 1,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 28,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 5,
+      "mode": 2,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 28,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 5,
+      "mode": 3,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 52,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1792,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 32,
+          "returned_bytes": 1024
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 8,
+      "mode": 0,
+      "logical_rows": 36,
+      "logical_bytes": 768,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 36,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 8,
+      "mode": 1,
+      "logical_rows": 36,
+      "logical_bytes": 768,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 5,
+      "actual_dma_gets": 12,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 768,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 8,
+      "mode": 2,
+      "logical_rows": 36,
+      "logical_bytes": 768,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 5,
+      "actual_dma_gets": 12,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 768,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 8,
+      "mode": 3,
+      "logical_rows": 36,
+      "logical_bytes": 768,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 5,
+      "actual_dma_gets": 36,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 10,
+      "mode": 0,
+      "logical_rows": 184,
+      "logical_bytes": 3136,
+      "zero_rows": 20,
+      "commands": 31,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 164,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5376,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 2304,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 10,
+      "mode": 1,
+      "logical_rows": 184,
+      "logical_bytes": 3136,
+      "zero_rows": 20,
+      "commands": 31,
+      "optimized_read_groups": 13,
+      "actual_dma_gets": 44,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 2816,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 2304,
+          "gets": 36,
+          "returned_bytes": 2304
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 10,
+      "mode": 2,
+      "logical_rows": 184,
+      "logical_bytes": 3136,
+      "zero_rows": 20,
+      "commands": 31,
+      "optimized_read_groups": 13,
+      "actual_dma_gets": 44,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 2816,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 2304,
+          "gets": 36,
+          "returned_bytes": 2304
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 10,
+      "mode": 3,
+      "logical_rows": 184,
+      "logical_bytes": 3136,
+      "zero_rows": 20,
+      "commands": 31,
+      "optimized_read_groups": 13,
+      "actual_dma_gets": 164,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5376,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 2304,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 59,
+      "mode": 0,
+      "logical_rows": 5816,
+      "logical_bytes": 297984,
+      "zero_rows": 36,
+      "commands": 269,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 6940,
+      "frontend_table_gets": 77,
+      "predicted_returned_bytes": 296576,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 1024,
+          "gets": 16,
+          "returned_bytes": 1024
+        },
+        "weight": {
+          "rows": 5760,
+          "logical_bytes": 294912,
+          "gets": 6912,
+          "returned_bytes": 294912
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 59,
+      "mode": 1,
+      "logical_rows": 5816,
+      "logical_bytes": 297984,
+      "zero_rows": 36,
+      "commands": 269,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 6940,
+      "frontend_table_gets": 77,
+      "predicted_returned_bytes": 296576,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 1024,
+          "gets": 16,
+          "returned_bytes": 1024
+        },
+        "weight": {
+          "rows": 5760,
+          "logical_bytes": 294912,
+          "gets": 6912,
+          "returned_bytes": 294912
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 59,
+      "mode": 2,
+      "logical_rows": 5816,
+      "logical_bytes": 297984,
+      "zero_rows": 36,
+      "commands": 269,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 6940,
+      "frontend_table_gets": 77,
+      "predicted_returned_bytes": 296576,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 1024,
+          "gets": 16,
+          "returned_bytes": 1024
+        },
+        "weight": {
+          "rows": 5760,
+          "logical_bytes": 294912,
+          "gets": 6912,
+          "returned_bytes": 294912
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 59,
+      "mode": 3,
+      "logical_rows": 5816,
+      "logical_bytes": 297984,
+      "zero_rows": 36,
+      "commands": 269,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 6940,
+      "frontend_table_gets": 77,
+      "predicted_returned_bytes": 296576,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 1024,
+          "gets": 16,
+          "returned_bytes": 1024
+        },
+        "weight": {
+          "rows": 5760,
+          "logical_bytes": 294912,
+          "gets": 6912,
+          "returned_bytes": 294912
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 132,
+      "mode": 0,
+      "logical_rows": 3508,
+      "logical_bytes": 150016,
+      "zero_rows": 36,
+      "commands": 175,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 3476,
+      "frontend_table_gets": 63,
+      "predicted_returned_bytes": 148608,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 3456,
+          "logical_bytes": 147456,
+          "gets": 3456,
+          "returned_bytes": 147456
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 132,
+      "mode": 1,
+      "logical_rows": 3508,
+      "logical_bytes": 150016,
+      "zero_rows": 36,
+      "commands": 175,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 3476,
+      "frontend_table_gets": 63,
+      "predicted_returned_bytes": 148608,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 3456,
+          "logical_bytes": 147456,
+          "gets": 3456,
+          "returned_bytes": 147456
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 132,
+      "mode": 2,
+      "logical_rows": 3508,
+      "logical_bytes": 150016,
+      "zero_rows": 36,
+      "commands": 175,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 3476,
+      "frontend_table_gets": 63,
+      "predicted_returned_bytes": 148608,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 3456,
+          "logical_bytes": 147456,
+          "gets": 3456,
+          "returned_bytes": 147456
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 0,
+      "stage": 132,
+      "mode": 3,
+      "logical_rows": 3508,
+      "logical_bytes": 150016,
+      "zero_rows": 36,
+      "commands": 175,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 3476,
+      "frontend_table_gets": 63,
+      "predicted_returned_bytes": 148608,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 3456,
+          "logical_bytes": 147456,
+          "gets": 3456,
+          "returned_bytes": 147456
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 0,
+      "mode": 0,
+      "logical_rows": 557,
+      "logical_bytes": 3563,
+      "zero_rows": 185,
+      "commands": 107,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 380,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 12672,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 108,
+          "logical_bytes": 1728,
+          "gets": 108,
+          "returned_bytes": 3456
+        },
+        "zero": {
+          "rows": 185,
+          "logical_bytes": 555,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 256,
+          "logical_bytes": 768,
+          "gets": 264,
+          "returned_bytes": 8704
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 0,
+      "mode": 1,
+      "logical_rows": 557,
+      "logical_bytes": 3563,
+      "zero_rows": 185,
+      "commands": 107,
+      "optimized_read_groups": 52,
+      "actual_dma_gets": 86,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 3840,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 108,
+          "logical_bytes": 1728,
+          "gets": 54,
+          "returned_bytes": 2304
+        },
+        "zero": {
+          "rows": 185,
+          "logical_bytes": 555,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 256,
+          "logical_bytes": 768,
+          "gets": 24,
+          "returned_bytes": 1024
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 0,
+      "mode": 2,
+      "logical_rows": 557,
+      "logical_bytes": 3563,
+      "zero_rows": 185,
+      "commands": 107,
+      "optimized_read_groups": 52,
+      "actual_dma_gets": 86,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 3840,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 108,
+          "logical_bytes": 1728,
+          "gets": 54,
+          "returned_bytes": 2304
+        },
+        "zero": {
+          "rows": 185,
+          "logical_bytes": 555,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 256,
+          "logical_bytes": 768,
+          "gets": 24,
+          "returned_bytes": 1024
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 0,
+      "mode": 3,
+      "logical_rows": 557,
+      "logical_bytes": 3563,
+      "zero_rows": 185,
+      "commands": 107,
+      "optimized_read_groups": 52,
+      "actual_dma_gets": 380,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 12672,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 108,
+          "logical_bytes": 1728,
+          "gets": 108,
+          "returned_bytes": 3456
+        },
+        "zero": {
+          "rows": 185,
+          "logical_bytes": 555,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 256,
+          "logical_bytes": 768,
+          "gets": 264,
+          "returned_bytes": 8704
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 2,
+      "mode": 0,
+      "logical_rows": 182,
+      "logical_bytes": 5440,
+      "zero_rows": 20,
+      "commands": 29,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 164,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5376,
+      "roles": {
+        "bias": {
+          "rows": 2,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 4608,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 2,
+      "mode": 1,
+      "logical_rows": 182,
+      "logical_bytes": 5440,
+      "zero_rows": 20,
+      "commands": 29,
+      "optimized_read_groups": 4,
+      "actual_dma_gets": 152,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5120,
+      "roles": {
+        "bias": {
+          "rows": 2,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 4608,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 2,
+      "mode": 2,
+      "logical_rows": 182,
+      "logical_bytes": 5440,
+      "zero_rows": 20,
+      "commands": 29,
+      "optimized_read_groups": 4,
+      "actual_dma_gets": 152,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5120,
+      "roles": {
+        "bias": {
+          "rows": 2,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 4608,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 2,
+      "mode": 3,
+      "logical_rows": 182,
+      "logical_bytes": 5440,
+      "zero_rows": 20,
+      "commands": 29,
+      "optimized_read_groups": 4,
+      "actual_dma_gets": 164,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5376,
+      "roles": {
+        "bias": {
+          "rows": 2,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 4608,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 4,
+      "mode": 0,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 52,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1792,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 32,
+          "returned_bytes": 1024
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 4,
+      "mode": 1,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 28,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 4,
+      "mode": 2,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 28,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 4,
+      "mode": 3,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 52,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1792,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 32,
+          "returned_bytes": 1024
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 5,
+      "mode": 0,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 52,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1792,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 32,
+          "returned_bytes": 1024
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 5,
+      "mode": 1,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 28,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 5,
+      "mode": 2,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 28,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 5,
+      "mode": 3,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 52,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1792,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 32,
+          "returned_bytes": 1024
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 8,
+      "mode": 0,
+      "logical_rows": 36,
+      "logical_bytes": 768,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 36,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 8,
+      "mode": 1,
+      "logical_rows": 36,
+      "logical_bytes": 768,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 5,
+      "actual_dma_gets": 12,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 768,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 8,
+      "mode": 2,
+      "logical_rows": 36,
+      "logical_bytes": 768,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 5,
+      "actual_dma_gets": 12,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 768,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 8,
+      "mode": 3,
+      "logical_rows": 36,
+      "logical_bytes": 768,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 5,
+      "actual_dma_gets": 36,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 10,
+      "mode": 0,
+      "logical_rows": 184,
+      "logical_bytes": 3136,
+      "zero_rows": 20,
+      "commands": 31,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 164,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5376,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 2304,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 10,
+      "mode": 1,
+      "logical_rows": 184,
+      "logical_bytes": 3136,
+      "zero_rows": 20,
+      "commands": 31,
+      "optimized_read_groups": 13,
+      "actual_dma_gets": 44,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 2816,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 2304,
+          "gets": 36,
+          "returned_bytes": 2304
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 10,
+      "mode": 2,
+      "logical_rows": 184,
+      "logical_bytes": 3136,
+      "zero_rows": 20,
+      "commands": 31,
+      "optimized_read_groups": 13,
+      "actual_dma_gets": 44,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 2816,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 2304,
+          "gets": 36,
+          "returned_bytes": 2304
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 10,
+      "mode": 3,
+      "logical_rows": 184,
+      "logical_bytes": 3136,
+      "zero_rows": 20,
+      "commands": 31,
+      "optimized_read_groups": 13,
+      "actual_dma_gets": 164,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5376,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 2304,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 59,
+      "mode": 0,
+      "logical_rows": 5816,
+      "logical_bytes": 297984,
+      "zero_rows": 36,
+      "commands": 269,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 6940,
+      "frontend_table_gets": 77,
+      "predicted_returned_bytes": 296576,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 1024,
+          "gets": 16,
+          "returned_bytes": 1024
+        },
+        "weight": {
+          "rows": 5760,
+          "logical_bytes": 294912,
+          "gets": 6912,
+          "returned_bytes": 294912
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 59,
+      "mode": 1,
+      "logical_rows": 5816,
+      "logical_bytes": 297984,
+      "zero_rows": 36,
+      "commands": 269,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 6940,
+      "frontend_table_gets": 77,
+      "predicted_returned_bytes": 296576,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 1024,
+          "gets": 16,
+          "returned_bytes": 1024
+        },
+        "weight": {
+          "rows": 5760,
+          "logical_bytes": 294912,
+          "gets": 6912,
+          "returned_bytes": 294912
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 59,
+      "mode": 2,
+      "logical_rows": 5816,
+      "logical_bytes": 297984,
+      "zero_rows": 36,
+      "commands": 269,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 6940,
+      "frontend_table_gets": 77,
+      "predicted_returned_bytes": 296576,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 1024,
+          "gets": 16,
+          "returned_bytes": 1024
+        },
+        "weight": {
+          "rows": 5760,
+          "logical_bytes": 294912,
+          "gets": 6912,
+          "returned_bytes": 294912
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 59,
+      "mode": 3,
+      "logical_rows": 5816,
+      "logical_bytes": 297984,
+      "zero_rows": 36,
+      "commands": 269,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 6940,
+      "frontend_table_gets": 77,
+      "predicted_returned_bytes": 296576,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 1024,
+          "gets": 16,
+          "returned_bytes": 1024
+        },
+        "weight": {
+          "rows": 5760,
+          "logical_bytes": 294912,
+          "gets": 6912,
+          "returned_bytes": 294912
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 132,
+      "mode": 0,
+      "logical_rows": 3508,
+      "logical_bytes": 150016,
+      "zero_rows": 36,
+      "commands": 175,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 3476,
+      "frontend_table_gets": 63,
+      "predicted_returned_bytes": 148608,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 3456,
+          "logical_bytes": 147456,
+          "gets": 3456,
+          "returned_bytes": 147456
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 132,
+      "mode": 1,
+      "logical_rows": 3508,
+      "logical_bytes": 150016,
+      "zero_rows": 36,
+      "commands": 175,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 3476,
+      "frontend_table_gets": 63,
+      "predicted_returned_bytes": 148608,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 3456,
+          "logical_bytes": 147456,
+          "gets": 3456,
+          "returned_bytes": 147456
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 132,
+      "mode": 2,
+      "logical_rows": 3508,
+      "logical_bytes": 150016,
+      "zero_rows": 36,
+      "commands": 175,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 3476,
+      "frontend_table_gets": 63,
+      "predicted_returned_bytes": 148608,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 3456,
+          "logical_bytes": 147456,
+          "gets": 3456,
+          "returned_bytes": 147456
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 1,
+      "stage": 132,
+      "mode": 3,
+      "logical_rows": 3508,
+      "logical_bytes": 150016,
+      "zero_rows": 36,
+      "commands": 175,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 3476,
+      "frontend_table_gets": 63,
+      "predicted_returned_bytes": 148608,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 3456,
+          "logical_bytes": 147456,
+          "gets": 3456,
+          "returned_bytes": 147456
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 0,
+      "mode": 0,
+      "logical_rows": 557,
+      "logical_bytes": 3563,
+      "zero_rows": 185,
+      "commands": 107,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 380,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 12672,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 108,
+          "logical_bytes": 1728,
+          "gets": 108,
+          "returned_bytes": 3456
+        },
+        "zero": {
+          "rows": 185,
+          "logical_bytes": 555,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 256,
+          "logical_bytes": 768,
+          "gets": 264,
+          "returned_bytes": 8704
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 0,
+      "mode": 1,
+      "logical_rows": 557,
+      "logical_bytes": 3563,
+      "zero_rows": 185,
+      "commands": 107,
+      "optimized_read_groups": 52,
+      "actual_dma_gets": 86,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 3840,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 108,
+          "logical_bytes": 1728,
+          "gets": 54,
+          "returned_bytes": 2304
+        },
+        "zero": {
+          "rows": 185,
+          "logical_bytes": 555,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 256,
+          "logical_bytes": 768,
+          "gets": 24,
+          "returned_bytes": 1024
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 0,
+      "mode": 2,
+      "logical_rows": 557,
+      "logical_bytes": 3563,
+      "zero_rows": 185,
+      "commands": 107,
+      "optimized_read_groups": 52,
+      "actual_dma_gets": 86,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 3840,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 108,
+          "logical_bytes": 1728,
+          "gets": 54,
+          "returned_bytes": 2304
+        },
+        "zero": {
+          "rows": 185,
+          "logical_bytes": 555,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 256,
+          "logical_bytes": 768,
+          "gets": 24,
+          "returned_bytes": 1024
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 0,
+      "mode": 3,
+      "logical_rows": 557,
+      "logical_bytes": 3563,
+      "zero_rows": 185,
+      "commands": 107,
+      "optimized_read_groups": 52,
+      "actual_dma_gets": 380,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 12672,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 108,
+          "logical_bytes": 1728,
+          "gets": 108,
+          "returned_bytes": 3456
+        },
+        "zero": {
+          "rows": 185,
+          "logical_bytes": 555,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 256,
+          "logical_bytes": 768,
+          "gets": 264,
+          "returned_bytes": 8704
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 2,
+      "mode": 0,
+      "logical_rows": 182,
+      "logical_bytes": 5440,
+      "zero_rows": 20,
+      "commands": 29,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 164,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5376,
+      "roles": {
+        "bias": {
+          "rows": 2,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 4608,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 2,
+      "mode": 1,
+      "logical_rows": 182,
+      "logical_bytes": 5440,
+      "zero_rows": 20,
+      "commands": 29,
+      "optimized_read_groups": 4,
+      "actual_dma_gets": 152,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5120,
+      "roles": {
+        "bias": {
+          "rows": 2,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 4608,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 2,
+      "mode": 2,
+      "logical_rows": 182,
+      "logical_bytes": 5440,
+      "zero_rows": 20,
+      "commands": 29,
+      "optimized_read_groups": 4,
+      "actual_dma_gets": 152,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5120,
+      "roles": {
+        "bias": {
+          "rows": 2,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 4608,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 2,
+      "mode": 3,
+      "logical_rows": 182,
+      "logical_bytes": 5440,
+      "zero_rows": 20,
+      "commands": 29,
+      "optimized_read_groups": 4,
+      "actual_dma_gets": 164,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5376,
+      "roles": {
+        "bias": {
+          "rows": 2,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 4608,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 4,
+      "mode": 0,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 52,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1792,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 32,
+          "returned_bytes": 1024
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 4,
+      "mode": 1,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 28,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 4,
+      "mode": 2,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 28,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 4,
+      "mode": 3,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 52,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1792,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 32,
+          "returned_bytes": 1024
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 5,
+      "mode": 0,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 52,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1792,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 32,
+          "returned_bytes": 1024
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 5,
+      "mode": 1,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 28,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 5,
+      "mode": 2,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 28,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 5,
+      "mode": 3,
+      "logical_rows": 52,
+      "logical_bytes": 1280,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 1,
+      "actual_dma_gets": 52,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1792,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 32,
+          "logical_bytes": 512,
+          "gets": 32,
+          "returned_bytes": 1024
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 512,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 8,
+      "mode": 0,
+      "logical_rows": 36,
+      "logical_bytes": 768,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 36,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 8,
+      "mode": 1,
+      "logical_rows": 36,
+      "logical_bytes": 768,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 5,
+      "actual_dma_gets": 12,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 768,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 8,
+      "mode": 2,
+      "logical_rows": 36,
+      "logical_bytes": 768,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 5,
+      "actual_dma_gets": 12,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 768,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 8,
+      "mode": 3,
+      "logical_rows": 36,
+      "logical_bytes": 768,
+      "zero_rows": 0,
+      "commands": 9,
+      "optimized_read_groups": 5,
+      "actual_dma_gets": 36,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 1280,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 10,
+      "mode": 0,
+      "logical_rows": 184,
+      "logical_bytes": 3136,
+      "zero_rows": 20,
+      "commands": 31,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 164,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5376,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 2304,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 10,
+      "mode": 1,
+      "logical_rows": 184,
+      "logical_bytes": 3136,
+      "zero_rows": 20,
+      "commands": 31,
+      "optimized_read_groups": 13,
+      "actual_dma_gets": 44,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 2816,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 2304,
+          "gets": 36,
+          "returned_bytes": 2304
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 10,
+      "mode": 2,
+      "logical_rows": 184,
+      "logical_bytes": 3136,
+      "zero_rows": 20,
+      "commands": 31,
+      "optimized_read_groups": 13,
+      "actual_dma_gets": 44,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 2816,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 2304,
+          "gets": 36,
+          "returned_bytes": 2304
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 10,
+      "mode": 3,
+      "logical_rows": 184,
+      "logical_bytes": 3136,
+      "zero_rows": 20,
+      "commands": 31,
+      "optimized_read_groups": 13,
+      "actual_dma_gets": 164,
+      "frontend_table_gets": 42,
+      "predicted_returned_bytes": 5376,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 256,
+          "gets": 4,
+          "returned_bytes": 256
+        },
+        "weight": {
+          "rows": 144,
+          "logical_bytes": 2304,
+          "gets": 144,
+          "returned_bytes": 4608
+        },
+        "zero": {
+          "rows": 20,
+          "logical_bytes": 320,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 16,
+          "logical_bytes": 256,
+          "gets": 16,
+          "returned_bytes": 512
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 59,
+      "mode": 0,
+      "logical_rows": 5816,
+      "logical_bytes": 297984,
+      "zero_rows": 36,
+      "commands": 269,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 6940,
+      "frontend_table_gets": 77,
+      "predicted_returned_bytes": 296576,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 1024,
+          "gets": 16,
+          "returned_bytes": 1024
+        },
+        "weight": {
+          "rows": 5760,
+          "logical_bytes": 294912,
+          "gets": 6912,
+          "returned_bytes": 294912
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 59,
+      "mode": 1,
+      "logical_rows": 5816,
+      "logical_bytes": 297984,
+      "zero_rows": 36,
+      "commands": 269,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 6940,
+      "frontend_table_gets": 77,
+      "predicted_returned_bytes": 296576,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 1024,
+          "gets": 16,
+          "returned_bytes": 1024
+        },
+        "weight": {
+          "rows": 5760,
+          "logical_bytes": 294912,
+          "gets": 6912,
+          "returned_bytes": 294912
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 59,
+      "mode": 2,
+      "logical_rows": 5816,
+      "logical_bytes": 297984,
+      "zero_rows": 36,
+      "commands": 269,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 6940,
+      "frontend_table_gets": 77,
+      "predicted_returned_bytes": 296576,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 1024,
+          "gets": 16,
+          "returned_bytes": 1024
+        },
+        "weight": {
+          "rows": 5760,
+          "logical_bytes": 294912,
+          "gets": 6912,
+          "returned_bytes": 294912
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 59,
+      "mode": 3,
+      "logical_rows": 5816,
+      "logical_bytes": 297984,
+      "zero_rows": 36,
+      "commands": 269,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 6940,
+      "frontend_table_gets": 77,
+      "predicted_returned_bytes": 296576,
+      "roles": {
+        "bias": {
+          "rows": 8,
+          "logical_bytes": 1024,
+          "gets": 16,
+          "returned_bytes": 1024
+        },
+        "weight": {
+          "rows": 5760,
+          "logical_bytes": 294912,
+          "gets": 6912,
+          "returned_bytes": 294912
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 132,
+      "mode": 0,
+      "logical_rows": 3508,
+      "logical_bytes": 150016,
+      "zero_rows": 36,
+      "commands": 175,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 3476,
+      "frontend_table_gets": 63,
+      "predicted_returned_bytes": 148608,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 3456,
+          "logical_bytes": 147456,
+          "gets": 3456,
+          "returned_bytes": 147456
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 132,
+      "mode": 1,
+      "logical_rows": 3508,
+      "logical_bytes": 150016,
+      "zero_rows": 36,
+      "commands": 175,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 3476,
+      "frontend_table_gets": 63,
+      "predicted_returned_bytes": 148608,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 3456,
+          "logical_bytes": 147456,
+          "gets": 3456,
+          "returned_bytes": 147456
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 132,
+      "mode": 2,
+      "logical_rows": 3508,
+      "logical_bytes": 150016,
+      "zero_rows": 36,
+      "commands": 175,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 3476,
+      "frontend_table_gets": 63,
+      "predicted_returned_bytes": 148608,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 3456,
+          "logical_bytes": 147456,
+          "gets": 3456,
+          "returned_bytes": 147456
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    },
+    {
+      "lane": 2,
+      "stage": 132,
+      "mode": 3,
+      "logical_rows": 3508,
+      "logical_bytes": 150016,
+      "zero_rows": 36,
+      "commands": 175,
+      "optimized_read_groups": 0,
+      "actual_dma_gets": 3476,
+      "frontend_table_gets": 63,
+      "predicted_returned_bytes": 148608,
+      "roles": {
+        "bias": {
+          "rows": 4,
+          "logical_bytes": 512,
+          "gets": 8,
+          "returned_bytes": 512
+        },
+        "weight": {
+          "rows": 3456,
+          "logical_bytes": 147456,
+          "gets": 3456,
+          "returned_bytes": 147456
+        },
+        "zero": {
+          "rows": 36,
+          "logical_bytes": 1536,
+          "gets": 0,
+          "returned_bytes": 0
+        },
+        "input": {
+          "rows": 12,
+          "logical_bytes": 512,
+          "gets": 12,
+          "returned_bytes": 640
+        }
+      }
+    }
+  ],
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/layers_03/cases.json": "321e02731686dedd459cd5a6330aa9a24c2eea26e882b2eaa06b456d139b291a",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/layers_03/result.log": "0f58fff261ef67c31f5396c7a897659b6fa1591c16aaa972625d3789f1146520",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/layers_03/rows_lane0.csv": "8236fa8c6aebf3dcc82e5e9452b106c6899819330d40e34a60958620302d42a2",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/layers_03/rows_lane1.csv": "937b23564be2104c0509bfb27348d2caeb5b98ef5c6a40625cf15c5a30699185",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/layers_03/rows_lane2.csv": "0f80505c70e9477886693cc2304e8b2e2c5b909fb64c0b1e4bb30ff5c4757d73"
+  }
+}

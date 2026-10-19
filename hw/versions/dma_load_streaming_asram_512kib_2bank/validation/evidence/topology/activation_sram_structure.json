@@ -1,0 +1,18 @@
+{
+  "status": "GENERATED_STRUCTURE_AND_PMA_NEGOTIATION_PASS",
+  "banks": 3,
+  "physical_bytes_per_bank": 2359296,
+  "expected_uram": 216,
+  "physical_resources_synthesized": false,
+  "cpu_rvv_executed": false,
+  "gemmini_numerical_integration": false,
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/candidate_02/gen-collateral/RocketTile.sv": "639f9f4f595699af48fc5269b1a01a205d4d5322e4a4f9e11aacef856c4b307a",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/candidate_02/gen-collateral/activation_sram_store.sv": "57dbb15898120ce3568edf324fd1c46b41d90dfacdab00500a842f5cd56aac22",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/candidate_02/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig.activation_sram_topology.json": "3895123a707ffcfda99bbb40ac224e20cad9a99f4c76bcca026bcfa37155f5b8",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/candidate_02/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig.activation_sram_pma.json": "5ae4013cef174db859ad25faf158fff799d43d849472842d7633e7a03b09ce8f",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/candidate_02/gen-collateral/ActivationSramTL.sv": "a7e4a5b1ba8ba286b8c2bc12278bf7ecd65bed05db20b4cbe0e5852d260f9f69",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/candidate_02/gen-collateral/ActivationSramTL_1.sv": "d3f41a9b5f46a058a5484dc6637e7ddb9bbe9f0568dc3f36ea5cb611ace63701",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/candidate_02/gen-collateral/ActivationSramTL_2.sv": "6d9f407f59e25fd0afa940edd8dc20048a343b14111c5abec6099062913c4ca7"
+  }
+}

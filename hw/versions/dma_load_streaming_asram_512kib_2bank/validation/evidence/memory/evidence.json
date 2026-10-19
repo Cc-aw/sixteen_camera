@@ -1,0 +1,7 @@
+{
+  "status": "MEMORY_MUX_WIDTH_LEASE_PASS",
+  "build_id": "abd1c8c87558c7b0",
+  "rtl": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/candidate_02/gen-collateral/CommandFrontendMemoryMux.sv",
+  "rtl_sha256": "94e9d780805f235571038a684d9350f8c49c7d8a516dc64c379440867d580c60",
+  "log_sha256": "5d9e08cec67df9ac6fba889416489bbfe4922b56824b73d2aef2378fa31a69b3"
+}

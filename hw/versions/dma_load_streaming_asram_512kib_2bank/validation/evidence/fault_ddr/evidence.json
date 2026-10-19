@@ -1,0 +1,10 @@
+{
+  "status": "REAL_FAULT_RECOVERY_PASS",
+  "build_id": "abd1c8c87558c7b0",
+  "kinds": [
+    "denied",
+    "corrupt"
+  ],
+  "lanes": 3,
+  "log_sha256": "087f405ca13fa9e7d131d874eed59b634f020cc10297b4daadc0e7a981068973"
+}

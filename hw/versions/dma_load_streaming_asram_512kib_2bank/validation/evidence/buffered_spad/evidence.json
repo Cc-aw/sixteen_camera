@@ -1,0 +1,107 @@
+{
+  "status": "REAL_SPAD_RAW_POISON_PASS",
+  "build_id": "a07ef7954280e07b",
+  "modes": 4,
+  "lanes": 3,
+  "compared_bytes": 14976,
+  "parameter_cases": 1,
+  "traffic": [
+    {
+      "lane": 0,
+      "mode": 0,
+      "sram_writes": 255,
+      "dma_gets": 73,
+      "case": 0,
+      "compared_bytes": 1248
+    },
+    {
+      "lane": 1,
+      "mode": 0,
+      "sram_writes": 255,
+      "dma_gets": 73,
+      "case": 0,
+      "compared_bytes": 1248
+    },
+    {
+      "lane": 2,
+      "mode": 0,
+      "sram_writes": 255,
+      "dma_gets": 73,
+      "case": 0,
+      "compared_bytes": 1248
+    },
+    {
+      "lane": 0,
+      "mode": 1,
+      "sram_writes": 243,
+      "dma_gets": 42,
+      "case": 0,
+      "compared_bytes": 1248
+    },
+    {
+      "lane": 1,
+      "mode": 1,
+      "sram_writes": 243,
+      "dma_gets": 42,
+      "case": 0,
+      "compared_bytes": 1248
+    },
+    {
+      "lane": 2,
+      "mode": 1,
+      "sram_writes": 243,
+      "dma_gets": 42,
+      "case": 0,
+      "compared_bytes": 1248
+    },
+    {
+      "lane": 0,
+      "mode": 2,
+      "sram_writes": 83,
+      "dma_gets": 42,
+      "case": 0,
+      "compared_bytes": 1248
+    },
+    {
+      "lane": 1,
+      "mode": 2,
+      "sram_writes": 83,
+      "dma_gets": 42,
+      "case": 0,
+      "compared_bytes": 1248
+    },
+    {
+      "lane": 2,
+      "mode": 2,
+      "sram_writes": 83,
+      "dma_gets": 42,
+      "case": 0,
+      "compared_bytes": 1248
+    },
+    {
+      "lane": 0,
+      "mode": 3,
+      "sram_writes": 83,
+      "dma_gets": 73,
+      "case": 0,
+      "compared_bytes": 1248
+    },
+    {
+      "lane": 1,
+      "mode": 3,
+      "sram_writes": 83,
+      "dma_gets": 73,
+      "case": 0,
+      "compared_bytes": 1248
+    },
+    {
+      "lane": 2,
+      "mode": 3,
+      "sram_writes": 83,
+      "dma_gets": 73,
+      "case": 0,
+      "compared_bytes": 1248
+    }
+  ],
+  "log_sha256": "b59fb5a0a229c4500aa20d4c0274de25165881da0b83ee857154fd7977586bb6"
+}

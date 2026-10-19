@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "models": {
+    "behavioral": {
+      "status": "PASS",
+      "compile_command": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_activation_sram_store",
+        "-o",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/store_01/behavioral.vvp",
+        "-DASRAM_BEHAVIORAL",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_512kib_2bank/activation_sram/resources/activation_sram_store.sv",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_512kib_2bank/tests/tb_activation_sram_store.sv"
+      ],
+      "exit_code": 0,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/store_01/behavioral.log"
+    },
+    "vendor": {
+      "status": "PASS",
+      "compile_command": [
+        "iverilog",
+        "-g2012",
+        "-s",
+        "tb_activation_sram_store",
+        "-o",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/store_01/vendor.vvp",
+        "-s",
+        "glbl",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_512kib_2bank/activation_sram/resources/activation_sram_store.sv",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_512kib_2bank/tests/tb_activation_sram_store.sv",
+        "/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/unisims/URAM288_BASE.v",
+        "/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/glbl.v"
+      ],
+      "exit_code": 0,
+      "log": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/store_01/vendor.log"
+    }
+  },
+  "physical_bytes": 2359296,
+  "ports": 2,
+  "source_sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_512kib_2bank/activation_sram/resources/activation_sram_store.sv": "313ccebd20594f7c1a416535639642ba5c48ce81e52e351c14bac22e861f0e85",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_512kib_2bank/tests/tb_activation_sram_store.sv": "8bc01672259cb0f5b8684023aa097a0e01a1a44ccd5a12866933209c435065c7",
+    "/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/unisims/URAM288_BASE.v": "4f1c582200bae30bb6d39b2c8bc7fbf1644364bd8e8129d7c8bfb4ee70425247",
+    "/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/glbl.v": "6270251cf35e1fce3119fc79f8fb968912f7983027e43cf030409ba68f048936"
+  }
+}

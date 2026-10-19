@@ -1,0 +1,640 @@
+{
+  "schema": 2,
+  "parent": "sw/board_tests/activation_sram_512kib_2bank",
+  "parent_commit": "4aa50e9",
+  "scope": "Frozen software/model copied from ASRAM board package; no cross-directory build dependencies",
+  "copied_files": {
+    ".gitignore": {
+      "local_sha256": "3a687d31cd017e9c55df0a53e7026bd7f13e2ab2feb8d9f78efae02cf5586673",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/.gitignore",
+      "source_sha256": "3a687d31cd017e9c55df0a53e7026bd7f13e2ab2feb8d9f78efae02cf5586673"
+    },
+    "Makefile": {
+      "local_sha256": "54a60ab5b5f250fcf6221cd08c5a57d30d758fc0a07d899ccb7ff62d8c9f342b",
+      "kind": "adapted",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/Makefile",
+      "source_sha256": "768bd4d134c958cdb68a712d2e9f24f3bcfe208ff284287c7dc2361ed06cf61b"
+    },
+    "README.md": {
+      "local_sha256": "7bd90f229a135b38ffb162140e535f8dc1611b3b1143e3274987cddd27a15f4c",
+      "kind": "adapted",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/README.md",
+      "source_sha256": "c5da68b290ca5c01ab1114b7919d2d9bff0198e8c36258c7ca08901b756bcf95"
+    },
+    "YOLO.md": {
+      "local_sha256": "a7917ee02821174d3b377277570560d27d40573c7ae628387a4917343b164a96",
+      "kind": "adapted",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/YOLO.md",
+      "source_sha256": "ce8b015d16c7694b2c7d6b4e6918a3def8b00762dc7268d20a9a6564d6f08745"
+    },
+    "config.example.mk": {
+      "local_sha256": "30e8d26f3f58ff40810c1127e8f8ac0614bdccc25cb2092cd2c004ff9731d250",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/config.example.mk",
+      "source_sha256": "30e8d26f3f58ff40810c1127e8f8ac0614bdccc25cb2092cd2c004ff9731d250"
+    },
+    "hardware/gemmini_params_custom0.h": {
+      "local_sha256": "93f0e0ca32bd441af82e523137af4357fd9c5f7093dc4adadd0df21686ed4314",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/hardware/gemmini_params_custom0.h",
+      "source_sha256": "93f0e0ca32bd441af82e523137af4357fd9c5f7093dc4adadd0df21686ed4314"
+    },
+    "hardware/target.json": {
+      "local_sha256": "4b070aee34978d53ab57b783796c3e812b12a534ae8022335eb983d12e12d9fb",
+      "kind": "adapted",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/hardware/target.json",
+      "source_sha256": "74b16bceab3e87bc56b952d67159fbba3d180b948544d2808a319ab80d8e9b3c"
+    },
+    "include/activation_memory.h": {
+      "local_sha256": "8d7166023536ae6c10d703a8db24c5bd3b70073ac6c83098e43732cf95296777",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/include/activation_memory.h",
+      "source_sha256": "8d7166023536ae6c10d703a8db24c5bd3b70073ac6c83098e43732cf95296777"
+    },
+    "include/activation_sram_map.h": {
+      "local_sha256": "94fe233d63619e44d7551193c434e3e4603c09b83d31fc5bd0e0ab6c2b4ae8f2",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/include/activation_sram_map.h",
+      "source_sha256": "94fe233d63619e44d7551193c434e3e4603c09b83d31fc5bd0e0ab6c2b4ae8f2"
+    },
+    "include/config.h": {
+      "local_sha256": "7b6bc9d1f7553fa3353a7feedf492a955d87ad0b117e53e2f1e7c9748fccab10",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/include/config.h",
+      "source_sha256": "7b6bc9d1f7553fa3353a7feedf492a955d87ad0b117e53e2f1e7c9748fccab10"
+    },
+    "include/dma_load_suite.h": {
+      "local_sha256": "c77a2f7b110c6544e2334158413acd1532d27f4c395c0699b11cdb0f44924e98",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/include/dma_load_suite.h",
+      "source_sha256": "c77a2f7b110c6544e2334158413acd1532d27f4c395c0699b11cdb0f44924e98"
+    },
+    "include/gemmini_frontend.h": {
+      "local_sha256": "4ee7dd311a8fe31242541f28aaee4445ac25d4ce84f7e5bdb4501b297e7130b7",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/include/gemmini_frontend.h",
+      "source_sha256": "4ee7dd311a8fe31242541f28aaee4445ac25d4ce84f7e5bdb4501b297e7130b7"
+    },
+    "include/mmio.h": {
+      "local_sha256": "e11d2e6535152f351e519cdcc04a83f48313610e7ff1b84fcbe10e07e96ead61",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/include/mmio.h",
+      "source_sha256": "e11d2e6535152f351e519cdcc04a83f48313610e7ff1b84fcbe10e07e96ead61"
+    },
+    "include/platform.h": {
+      "local_sha256": "85e7f2762ebd636ece9c92f4eadec1d758e051f14a5afd3b2ca016433685683f",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/include/platform.h",
+      "source_sha256": "85e7f2762ebd636ece9c92f4eadec1d758e051f14a5afd3b2ca016433685683f"
+    },
+    "include/ppu_run_sequence.h": {
+      "local_sha256": "9416010df77277444b2497b7fadffe76fbb193aa35c941df9c91c2812a995aac",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/include/ppu_run_sequence.h",
+      "source_sha256": "9416010df77277444b2497b7fadffe76fbb193aa35c941df9c91c2812a995aac"
+    },
+    "include/suite.h": {
+      "local_sha256": "3bd65b4f12322a40fc0ebe9f45bb34db67d3fd374f1268ce3ebc9c6afcaaa200",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/include/suite.h",
+      "source_sha256": "3bd65b4f12322a40fc0ebe9f45bb34db67d3fd374f1268ce3ebc9c6afcaaa200"
+    },
+    "include/yolo_arena.h": {
+      "local_sha256": "e3bc82804baea2360e2ef3c39754122d65b7630775265bd93605e7f4447c9da0",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/include/yolo_arena.h",
+      "source_sha256": "e3bc82804baea2360e2ef3c39754122d65b7630775265bd93605e7f4447c9da0"
+    },
+    "model/ai/backend/ai_model_abi.h": {
+      "local_sha256": "9e454e60353734a5e22cbdb98456195739df1aaa3fdfb0cc8f83333b346c6aca",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/ai/backend/ai_model_abi.h",
+      "source_sha256": "9e454e60353734a5e22cbdb98456195739df1aaa3fdfb0cc8f83333b346c6aca"
+    },
+    "model/ai/postprocess/ai_ppu_publication.c": {
+      "local_sha256": "604d358da90d12c8e7b3ada16f89f6e12d2874c8a4e0d6fae1a048fcb918db66",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/ai/postprocess/ai_ppu_publication.c",
+      "source_sha256": "604d358da90d12c8e7b3ada16f89f6e12d2874c8a4e0d6fae1a048fcb918db66"
+    },
+    "model/ai/postprocess/ai_ppu_publication.h": {
+      "local_sha256": "ca33461843a782d2d76a24003462c0bbf77d79042d79b56ab753f60eb3ee7dca",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/ai/postprocess/ai_ppu_publication.h",
+      "source_sha256": "ca33461843a782d2d76a24003462c0bbf77d79042d79b56ab753f60eb3ee7dca"
+    },
+    "model/ai/postprocess/ai_ppu_queue.c": {
+      "local_sha256": "183d0abcab9306a17e469e2adf6d6fec358f9b70f630a1847e6f8d354c35449e",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/ai/postprocess/ai_ppu_queue.c",
+      "source_sha256": "183d0abcab9306a17e469e2adf6d6fec358f9b70f630a1847e6f8d354c35449e"
+    },
+    "model/ai/postprocess/ai_ppu_queue.h": {
+      "local_sha256": "44890ae6fea460681fb59b979e0df5e87a1c74fd7cd0448f3e3359ea22324c18",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/ai/postprocess/ai_ppu_queue.h",
+      "source_sha256": "44890ae6fea460681fb59b979e0df5e87a1c74fd7cd0448f3e3359ea22324c18"
+    },
+    "model/ai/runtime/ai_head_slot_queue.c": {
+      "local_sha256": "6a709b1d07315a8c1d881560f0050c043e6597f5d682ab87853cd9a6f61751db",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/ai/runtime/ai_head_slot_queue.c",
+      "source_sha256": "6a709b1d07315a8c1d881560f0050c043e6597f5d682ab87853cd9a6f61751db"
+    },
+    "model/ai/runtime/ai_head_slot_queue.h": {
+      "local_sha256": "1e4fba6c1d95dff67895c543f06b855f8f36e4e304802d9fff9867886d82ccac",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/ai/runtime/ai_head_slot_queue.h",
+      "source_sha256": "1e4fba6c1d95dff67895c543f06b855f8f36e4e304802d9fff9867886d82ccac"
+    },
+    "model/capacity_manifest.json": {
+      "local_sha256": "df416c919ef2428366fdf6b6239ffbbf44e72ec23856fa6c84cf279838a8144c",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/capacity_manifest.json",
+      "source_sha256": "df416c919ef2428366fdf6b6239ffbbf44e72ec23856fa6c84cf279838a8144c"
+    },
+    "model/first_layer_s2d.json": {
+      "local_sha256": "c17586d67243c073d7495ff049a8435cfdba0c6bc20d35430321fcf3430a5c51",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/first_layer_s2d.json",
+      "source_sha256": "c17586d67243c073d7495ff049a8435cfdba0c6bc20d35430321fcf3430a5c51"
+    },
+    "model/first_layer_s2d_data.inc": {
+      "local_sha256": "cb35b9fbd0446bce2b34ba33eb5d8385375fe472fc79c7a98c891c10297e59bb",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/first_layer_s2d_data.inc",
+      "source_sha256": "cb35b9fbd0446bce2b34ba33eb5d8385375fe472fc79c7a98c891c10297e59bb"
+    },
+    "model/fixed_conv_packets.inc": {
+      "local_sha256": "748605c83ffac3468b11b0fb0d8926a62ef9ab4902757bec3a883f2817b43f7b",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/fixed_conv_packets.inc",
+      "source_sha256": "748605c83ffac3468b11b0fb0d8926a62ef9ab4902757bec3a883f2817b43f7b"
+    },
+    "model/fixed_plans.json": {
+      "local_sha256": "f5e859051dd9e095dfa0dcce770b1eec2f738c9d9be99b3cc72cf25d39a1381d",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/fixed_plans.json",
+      "source_sha256": "f5e859051dd9e095dfa0dcce770b1eec2f738c9d9be99b3cc72cf25d39a1381d"
+    },
+    "model/fixed_plans_guard.inc": {
+      "local_sha256": "51aa9a55926e8ec497ad4e72a9dee999a957ef256847d4dd416e465c4dcdfaff",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/fixed_plans_guard.inc",
+      "source_sha256": "51aa9a55926e8ec497ad4e72a9dee999a957ef256847d4dd416e465c4dcdfaff"
+    },
+    "model/include/accumulator.h": {
+      "local_sha256": "3a0dfd584a097225470be0a6f3661dc85630cc365f3a5efad1d81275dbed9447",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/include/accumulator.h",
+      "source_sha256": "3a0dfd584a097225470be0a6f3661dc85630cc365f3a5efad1d81275dbed9447"
+    },
+    "model/include/character.h": {
+      "local_sha256": "b92a6787b85e38d0887df6d7a8b93f0b119551890cb47ae048ad9bc0bc1f96b8",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/include/character.h",
+      "source_sha256": "b92a6787b85e38d0887df6d7a8b93f0b119551890cb47ae048ad9bc0bc1f96b8"
+    },
+    "model/include/gemmini.h": {
+      "local_sha256": "d514389e0ea365dddea315f83636afb2a2506794f881986e4095e399ccfa895e",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/include/gemmini.h",
+      "source_sha256": "d514389e0ea365dddea315f83636afb2a2506794f881986e4095e399ccfa895e"
+    },
+    "model/include/gemmini_counter.h": {
+      "local_sha256": "5826242287784b9a383d45fdcb6791f8a1651d9d320a1a5f011585a9885b5669",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/include/gemmini_counter.h",
+      "source_sha256": "5826242287784b9a383d45fdcb6791f8a1651d9d320a1a5f011585a9885b5669"
+    },
+    "model/include/gemmini_float16.h": {
+      "local_sha256": "758c0644c78d8c92a5334b680bfde458823c71e9a1df127474664cc25e2cfaaa",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/include/gemmini_float16.h",
+      "source_sha256": "758c0644c78d8c92a5334b680bfde458823c71e9a1df127474664cc25e2cfaaa"
+    },
+    "model/include/gemmini_merged_pool.h": {
+      "local_sha256": "d27e9c59ae1de68acdd1fb6c00c238920e6697ce4be4c7450f330f1714cd740d",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/include/gemmini_merged_pool.h",
+      "source_sha256": "d27e9c59ae1de68acdd1fb6c00c238920e6697ce4be4c7450f330f1714cd740d"
+    },
+    "model/include/gemmini_nn.h": {
+      "local_sha256": "881078997fd9abbd6bec8cac2451830ffadd458c504cf417ebac0785e394a30f",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/include/gemmini_nn.h",
+      "source_sha256": "881078997fd9abbd6bec8cac2451830ffadd458c504cf417ebac0785e394a30f"
+    },
+    "model/include/gemmini_params.h": {
+      "local_sha256": "5c95c13aec125b0671a5165cf0daa05dfaea2308710e19195005ca9e69e80077",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/include/gemmini_params.h",
+      "source_sha256": "5c95c13aec125b0671a5165cf0daa05dfaea2308710e19195005ca9e69e80077"
+    },
+    "model/include/gemmini_testutils.h": {
+      "local_sha256": "ec58aa5ef24a6fc066fa7410d35b77516c2af0c137f6f037e028140e8912ea62",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/include/gemmini_testutils.h",
+      "source_sha256": "ec58aa5ef24a6fc066fa7410d35b77516c2af0c137f6f037e028140e8912ea62"
+    },
+    "model/include/translator.h": {
+      "local_sha256": "42383d22d34be62e03772710740ecc385a706746ee11a1898e77e26776237857",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/include/translator.h",
+      "source_sha256": "42383d22d34be62e03772710740ecc385a706746ee11a1898e77e26776237857"
+    },
+    "model/include/yolov5nu_silu_lut_rvv.h": {
+      "local_sha256": "a7538206eafb6aa089b9271c02d54a2c92468418a3c38f607950af93de91b7ec",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/include/yolov5nu_silu_lut_rvv.h",
+      "source_sha256": "a7538206eafb6aa089b9271c02d54a2c92468418a3c38f607950af93de91b7ec"
+    },
+    "model/include/yolov5nu_silu_opencv_rvv.h": {
+      "local_sha256": "074ed3d7b0d77051d6254ec0eb8fba67cb4ce9d6f495a3098d48b9799eb5b252",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/include/yolov5nu_silu_opencv_rvv.h",
+      "source_sha256": "074ed3d7b0d77051d6254ec0eb8fba67cb4ce9d6f495a3098d48b9799eb5b252"
+    },
+    "model/include/yolov5nu_stage3_rvv.h": {
+      "local_sha256": "574eafe8a0531d6027ac6a56b0489713e3b5183505bdab944e225e87822d1369",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/include/yolov5nu_stage3_rvv.h",
+      "source_sha256": "574eafe8a0531d6027ac6a56b0489713e3b5183505bdab944e225e87822d1369"
+    },
+    "model/include/yolov5nu_stage4_rvv.h": {
+      "local_sha256": "c35588dff4d69c8f59391627aa4c23d81129ea315b060314ce1a707b9dcb0bbe",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/include/yolov5nu_stage4_rvv.h",
+      "source_sha256": "c35588dff4d69c8f59391627aa4c23d81129ea315b060314ce1a707b9dcb0bbe"
+    },
+    "model/inputs.c": {
+      "local_sha256": "9e7157758f307d06ee5f005fd4d95b3ae7393f2b0a573836a8f2902408f8f70e",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/inputs.c",
+      "source_sha256": "9e7157758f307d06ee5f005fd4d95b3ae7393f2b0a573836a8f2902408f8f70e"
+    },
+    "model/inputs.h": {
+      "local_sha256": "f156642dfd23d1f4d097cb9aeb5126dce451280c183855913b5d9aec8326bb23",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/inputs.h",
+      "source_sha256": "f156642dfd23d1f4d097cb9aeb5126dce451280c183855913b5d9aec8326bb23"
+    },
+    "model/inputs_manifest.json": {
+      "local_sha256": "3629422447f62b118c630c6fa64d2a3e73a455e0d4153079b38a341438c141a4",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/inputs_manifest.json",
+      "source_sha256": "3629422447f62b118c630c6fa64d2a3e73a455e0d4153079b38a341438c141a4"
+    },
+    "model/memory_kernels.h": {
+      "local_sha256": "7acdbf04df0a227d8cb12396792ba0a0a6b482b511edcfef4e3fa00fed2197b0",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/memory_kernels.h",
+      "source_sha256": "7acdbf04df0a227d8cb12396792ba0a0a6b482b511edcfef4e3fa00fed2197b0"
+    },
+    "model/memory_kernels.json": {
+      "local_sha256": "2ada47fc1c3b605dcad78f2812930d26cbdc83fa1af093cb5e5af09dd7af06fc",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/memory_kernels.json",
+      "source_sha256": "2ada47fc1c3b605dcad78f2812930d26cbdc83fa1af093cb5e5af09dd7af06fc"
+    },
+    "model/memory_kernels_runtime.inc": {
+      "local_sha256": "d5578150378c57665ed9ca34b67b7c40153e4ae2086f1bd13d599c3a92d211a9",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/memory_kernels_runtime.inc",
+      "source_sha256": "d5578150378c57665ed9ca34b67b7c40153e4ae2086f1bd13d599c3a92d211a9"
+    },
+    "model/memory_schedule_manifest.json": {
+      "local_sha256": "014465b99cca8e73d4576e2539e8c1106bca706ffd60352b339b841eb9ac250c",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/memory_schedule_manifest.json",
+      "source_sha256": "014465b99cca8e73d4576e2539e8c1106bca706ffd60352b339b841eb9ac250c"
+    },
+    "model/memory_schedule_plan.h": {
+      "local_sha256": "3ccfc3d6e72475d02439ecd9fae023d7755908a421eda573d46b232e55661cd6",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/memory_schedule_plan.h",
+      "source_sha256": "3ccfc3d6e72475d02439ecd9fae023d7755908a421eda573d46b232e55661cd6"
+    },
+    "model/packet_dispatch_runtime.inc": {
+      "local_sha256": "7d77577d4336eab967d7e4074552cb22b0c0b1263b6842c0d02630f4c1e1fca7",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/packet_dispatch_runtime.inc",
+      "source_sha256": "7d77577d4336eab967d7e4074552cb22b0c0b1263b6842c0d02630f4c1e1fca7"
+    },
+    "model/parallel_model.inc": {
+      "local_sha256": "f0845dfee780b66b21a198806ddf797b8ec51d69afe61832a641569abb98a6cf",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/parallel_model.inc",
+      "source_sha256": "f0845dfee780b66b21a198806ddf797b8ec51d69afe61832a641569abb98a6cf"
+    },
+    "model/platform/platform.h": {
+      "local_sha256": "38bc1284da57a482a6a6250d3f567b8826e91b8489026bbcf97cd89bd9358708",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/platform/platform.h",
+      "source_sha256": "38bc1284da57a482a6a6250d3f567b8826e91b8489026bbcf97cd89bd9358708"
+    },
+    "model/prepared_packets.inc": {
+      "local_sha256": "2b09a611022a12979207fc8543e1e2b40a9a0c47858bbed5ea6fba201203534c",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/prepared_packets.inc",
+      "source_sha256": "2b09a611022a12979207fc8543e1e2b40a9a0c47858bbed5ea6fba201203534c"
+    },
+    "model/rocc-software/src/riscv_test_rocc.h": {
+      "local_sha256": "c7f53ca7c6c8b2db79b9a79b8cf56234381c45f96f441b21f4ce53689a322f29",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/rocc-software/src/riscv_test_rocc.h",
+      "source_sha256": "c7f53ca7c6c8b2db79b9a79b8cf56234381c45f96f441b21f4ce53689a322f29"
+    },
+    "model/rocc-software/src/xcustom.h": {
+      "local_sha256": "9582eb00cee774e4680fde6408a0d607bba85196a0a4fd803f7b7ddd801aad69",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/rocc-software/src/xcustom.h",
+      "source_sha256": "9582eb00cee774e4680fde6408a0d607bba85196a0a4fd803f7b7ddd801aad69"
+    },
+    "model/software_batch_packets.inc": {
+      "local_sha256": "8e3c9e1287f970aed586f5d2abb93bf02e1325ee7f7108bc4e442e0c4bfc1d38",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/software_batch_packets.inc",
+      "source_sha256": "8e3c9e1287f970aed586f5d2abb93bf02e1325ee7f7108bc4e442e0c4bfc1d38"
+    },
+    "model/sources.lock.json": {
+      "local_sha256": "eb48e84bb041691292d4a8bdc919ea4d49f1619be1913d968f565b06b12db108",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/sources.lock.json",
+      "source_sha256": "eb48e84bb041691292d4a8bdc919ea4d49f1619be1913d968f565b06b12db108"
+    },
+    "model/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h": {
+      "local_sha256": "19d6ad52c6ccf0c392076f98de7d859d7d47c47d82589feac27f7e5b9a534b7f",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h",
+      "source_sha256": "19d6ad52c6ccf0c392076f98de7d859d7d47c47d82589feac27f7e5b9a534b7f"
+    },
+    "model/yolov5nu_dim16_dual.h": {
+      "local_sha256": "42f96b49c2bd7f343eb9d8929e0405be3045feb8cb86d264dd165b6095188499",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/yolov5nu_dim16_dual.h",
+      "source_sha256": "42f96b49c2bd7f343eb9d8929e0405be3045feb8cb86d264dd165b6095188499"
+    },
+    "model/yolov5nu_head_layout.h": {
+      "local_sha256": "81637629d95308360bbffc1c70926b39667b8464b51fbc9bd58c1551cf72974d",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/model/yolov5nu_head_layout.h",
+      "source_sha256": "81637629d95308360bbffc1c70926b39667b8464b51fbc9bd58c1551cf72974d"
+    },
+    "program/digilent_ipc_compat.c": {
+      "local_sha256": "ee3eb200cfa370ff4d8ad623614843c6fddc2f15229d3f1c5fd0af72af1b6882",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/program/digilent_ipc_compat.c",
+      "source_sha256": "ee3eb200cfa370ff4d8ad623614843c6fddc2f15229d3f1c5fd0af72af1b6882"
+    },
+    "program/download_bitstream.sh": {
+      "local_sha256": "963bcd56e1bd74ac8ec26edca5d889e0975aea01f91222d483f45bf0513c2ca7",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/program/download_bitstream.sh",
+      "source_sha256": "963bcd56e1bd74ac8ec26edca5d889e0975aea01f91222d483f45bf0513c2ca7"
+    },
+    "program/openocd/load-hdmi-tx.gdb": {
+      "local_sha256": "13279f1f1349bc6a139b17420d502367aeda156e5883db330def9821e2e7cf8e",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/program/openocd/load-hdmi-tx.gdb",
+      "source_sha256": "13279f1f1349bc6a139b17420d502367aeda156e5883db330def9821e2e7cf8e"
+    },
+    "program/openocd/openocd-bscan.cfg": {
+      "local_sha256": "cf21c4ba4fcd96df11fa800e280d429273c1a74f71f3d41fe977130a04d729e9",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/program/openocd/openocd-bscan.cfg",
+      "source_sha256": "cf21c4ba4fcd96df11fa800e280d429273c1a74f71f3d41fe977130a04d729e9"
+    },
+    "program/program_bitstream.tcl": {
+      "local_sha256": "69b2589b9166baecbe32d83739daf62c3a8c6c9df5c39fc8e5fc80aca539f0ff",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/program/program_bitstream.tcl",
+      "source_sha256": "69b2589b9166baecbe32d83739daf62c3a8c6c9df5c39fc8e5fc80aca539f0ff"
+    },
+    "program/run_firmware.sh": {
+      "local_sha256": "3bb7d28a502f713a2aa05d8a36be33d4b137ea385ab3c57baf1ed7e3ad806bbc",
+      "kind": "adapted",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/program/run_firmware.sh",
+      "source_sha256": "f2fbeb1213b2e12b9d328295d77c2dfe94140741cff0cda1fd59469f3f71780e"
+    },
+    "program/vivado_program.py": {
+      "local_sha256": "6b7e346d5800fc82953096255f290c58d719ed367d90b3ce5b7e9ac5a78cee75",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/program/vivado_program.py",
+      "source_sha256": "6b7e346d5800fc82953096255f290c58d719ed367d90b3ce5b7e9ac5a78cee75"
+    },
+    "scripts/analyze.py": {
+      "local_sha256": "0365c145a5ea434689a930cfff64a24b208758b47bf88d95d9887b4823f4d9f5",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/scripts/analyze.py",
+      "source_sha256": "0365c145a5ea434689a930cfff64a24b208758b47bf88d95d9887b4823f4d9f5"
+    },
+    "scripts/analyze_yolo.py": {
+      "local_sha256": "597de252662eab855e41ec19c8fb2c0ecc5227e17abd717d664a1502f2d415c3",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/scripts/analyze_yolo.py",
+      "source_sha256": "597de252662eab855e41ec19c8fb2c0ecc5227e17abd717d664a1502f2d415c3"
+    },
+    "scripts/bind_candidate.py": {
+      "local_sha256": "67e33db6fcbaa8d8ea0c446e90af619d92ef1ca5091e8652a1b1a187b45ab04e",
+      "kind": "new_file"
+    },
+    "scripts/build.py": {
+      "local_sha256": "ef4ecea74f06db71846ccb8aed7cb11d13dae7b96dbbb86859af70664a531794",
+      "kind": "adapted",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/scripts/build.py",
+      "source_sha256": "274de5d987f22fef7f1592bf5e4a505e2659688190b0b9efc499ff7bfee342b4"
+    },
+    "scripts/build_yolo.py": {
+      "local_sha256": "6367b418bde2c174eee18723260f3d0d8809b5cd48556fdb9c3d2acbb27ea697",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/scripts/build_yolo.py",
+      "source_sha256": "6367b418bde2c174eee18723260f3d0d8809b5cd48556fdb9c3d2acbb27ea697"
+    },
+    "scripts/check_hole_rtl.py": {
+      "local_sha256": "264645ecf870f318a1f8b9570443b938cf79343f5049173b9d91d119d91085b7",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/scripts/check_hole_rtl.py",
+      "source_sha256": "264645ecf870f318a1f8b9570443b938cf79343f5049173b9d91d119d91085b7"
+    },
+    "scripts/prepare_sim_inputs.py": {
+      "local_sha256": "e51a27a70f47d1ae526ca534a74509c0946405a884cba0a1ac1e911a80602d47",
+      "kind": "new_file"
+    },
+    "scripts/prepare_yolo.py": {
+      "local_sha256": "7b42c3593407523be4fd3ad3b00764e8b157dd351aaf86d1ebf2f0afe6898d2e",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/scripts/prepare_yolo.py",
+      "source_sha256": "7b42c3593407523be4fd3ad3b00764e8b157dd351aaf86d1ebf2f0afe6898d2e"
+    },
+    "scripts/program.py": {
+      "local_sha256": "a725a4d592043c16593f4b5e56489d4f8105bc6f3ddf3e35ef75c7ae35ca5bfd",
+      "kind": "adapted",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/scripts/program.py",
+      "source_sha256": "2e6d1ce9961461365113e2f12552a255ca2d16f717a7c7d73d49efb341f72eb3"
+    },
+    "scripts/yolo_inventory.py": {
+      "local_sha256": "54fc23609d373d30f6706fba893e4c7079a506e766ebec1e7d1248c07314e402",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/scripts/yolo_inventory.py",
+      "source_sha256": "54fc23609d373d30f6706fba893e4c7079a506e766ebec1e7d1248c07314e402"
+    },
+    "src/activation_memory.c": {
+      "local_sha256": "7fb2dd422dcdd1146c3053a3e1382b4da60738b30c7d29a7b48d16d927c00216",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/activation_memory.c",
+      "source_sha256": "7fb2dd422dcdd1146c3053a3e1382b4da60738b30c7d29a7b48d16d927c00216"
+    },
+    "src/boundary_diag.inc": {
+      "local_sha256": "043fa80ec91281b144579760791980b1fc3f945d0fb400525244fd6f5ccaf60a",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/boundary_diag.inc",
+      "source_sha256": "043fa80ec91281b144579760791980b1fc3f945d0fb400525244fd6f5ccaf60a"
+    },
+    "src/device.c": {
+      "local_sha256": "c5d841dd9a2675142e89c5ce52f9d9cca55db60389de2613cb1e43e1632a929a",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/device.c",
+      "source_sha256": "c5d841dd9a2675142e89c5ce52f9d9cca55db60389de2613cb1e43e1632a929a"
+    },
+    "src/link.ld": {
+      "local_sha256": "890dad5ac21eef2b8158513818155c00ab278163052d03f3126f683f80b7ba0a",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/link.ld",
+      "source_sha256": "890dad5ac21eef2b8158513818155c00ab278163052d03f3126f683f80b7ba0a"
+    },
+    "src/main.c": {
+      "local_sha256": "b7b63a3c52dc34b4a49b9ef624b54471e725f31134a83abbe3997a32f30181aa",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/main.c",
+      "source_sha256": "b7b63a3c52dc34b4a49b9ef624b54471e725f31134a83abbe3997a32f30181aa"
+    },
+    "src/memory_diag.inc": {
+      "local_sha256": "620122991c4be6945cf9ec516d6ad5611731f5d3a7bef1f3a3cecfbf4d45203c",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/memory_diag.inc",
+      "source_sha256": "620122991c4be6945cf9ec516d6ad5611731f5d3a7bef1f3a3cecfbf4d45203c"
+    },
+    "src/ppu.inc": {
+      "local_sha256": "1f615165da3f0f71621b79dc9056c339c5326578b81c0456818d69bfdcc47306",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/ppu.inc",
+      "source_sha256": "1f615165da3f0f71621b79dc9056c339c5326578b81c0456818d69bfdcc47306"
+    },
+    "src/probe.S": {
+      "local_sha256": "cb4b89f08801ec713f3970abb70c2c8b821ba597dcaca780c98e0a83708c2dae",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/probe.S",
+      "source_sha256": "cb4b89f08801ec713f3970abb70c2c8b821ba597dcaca780c98e0a83708c2dae"
+    },
+    "src/reference.c": {
+      "local_sha256": "7beba7f145b6b449b0ef81117ad7812bfc07b989707b7b4aadcfee3f7ba1ad23",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/reference.c",
+      "source_sha256": "7beba7f145b6b449b0ef81117ad7812bfc07b989707b7b4aadcfee3f7ba1ad23"
+    },
+    "src/rvv.S": {
+      "local_sha256": "412984eda41f81f4ca8abb59d9d45506b1442ef8194d49ad52a7f3f0df7da086",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/rvv.S",
+      "source_sha256": "412984eda41f81f4ca8abb59d9d45506b1442ef8194d49ad52a7f3f0df7da086"
+    },
+    "src/start.S": {
+      "local_sha256": "0dde7e9220389d81d891ca11137337139abcfa6ef3fb6a78b53bf1edf7e43ef3",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/start.S",
+      "source_sha256": "0dde7e9220389d81d891ca11137337139abcfa6ef3fb6a78b53bf1edf7e43ef3"
+    },
+    "src/trap.S": {
+      "local_sha256": "eecfa5b0d51088786ed9e663f5d34bb01645904907362ef4cf1992688cc50a7c",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/trap.S",
+      "source_sha256": "eecfa5b0d51088786ed9e663f5d34bb01645904907362ef4cf1992688cc50a7c"
+    },
+    "src/yolo_arena.inc": {
+      "local_sha256": "b0e68c05c48d34b144a799c496d78bd6dca0f3e5692bf62b97d48bd3ee6e3c7f",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/yolo_arena.inc",
+      "source_sha256": "b0e68c05c48d34b144a799c496d78bd6dca0f3e5692bf62b97d48bd3ee6e3c7f"
+    },
+    "src/yolo_boundary.c": {
+      "local_sha256": "7e0e3b41d27fe9fff5b8e9bdab47c7039914802ef06a89e73de8e6cea1ff7e5a",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/yolo_boundary.c",
+      "source_sha256": "7e0e3b41d27fe9fff5b8e9bdab47c7039914802ef06a89e73de8e6cea1ff7e5a"
+    },
+    "src/yolo_irq.c": {
+      "local_sha256": "aad4fd9d3cf60aa0bac0ed65c4c405b5d60e3dee64799f2ed4546ec25797cf66",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/yolo_irq.c",
+      "source_sha256": "aad4fd9d3cf60aa0bac0ed65c4c405b5d60e3dee64799f2ed4546ec25797cf66"
+    },
+    "src/yolo_link.ld": {
+      "local_sha256": "a2ca9ead40c0fa9175c6fe113f89de4ffa4b7a29896917e7a97f9457be90fe83",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/yolo_link.ld",
+      "source_sha256": "a2ca9ead40c0fa9175c6fe113f89de4ffa4b7a29896917e7a97f9457be90fe83"
+    },
+    "src/yolo_start.S": {
+      "local_sha256": "0dde7e9220389d81d891ca11137337139abcfa6ef3fb6a78b53bf1edf7e43ef3",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/yolo_start.S",
+      "source_sha256": "0dde7e9220389d81d891ca11137337139abcfa6ef3fb6a78b53bf1edf7e43ef3"
+    },
+    "src/yolo_support.c": {
+      "local_sha256": "56343f3cf17d39466a454207252be5d7c94fb2953ac18c903ae63f773ad22390",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/yolo_support.c",
+      "source_sha256": "56343f3cf17d39466a454207252be5d7c94fb2953ac18c903ae63f773ad22390"
+    },
+    "src/yolov5_asram_main.c": {
+      "local_sha256": "6d627cc151b31f1a9f4963eb1ae8bed6024815acb5921591661a57b9f8e2ec59",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/src/yolov5_asram_main.c",
+      "source_sha256": "6d627cc151b31f1a9f4963eb1ae8bed6024815acb5921591661a57b9f8e2ec59"
+    },
+    "tests/fake_device.c": {
+      "local_sha256": "ce7013e8bb4266d790331dfe831e94869842fdd67ba23286536d1c739e4007fa",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/tests/fake_device.c",
+      "source_sha256": "ce7013e8bb4266d790331dfe831e94869842fdd67ba23286536d1c739e4007fa"
+    },
+    "tests/tb_hole_port.sv": {
+      "local_sha256": "21947dcd28b03dc4e8bc809f4b922aa5c431b8b9b915944e833a5ed6cebd738d",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/tests/tb_hole_port.sv",
+      "source_sha256": "21947dcd28b03dc4e8bc809f4b922aa5c431b8b9b915944e833a5ed6cebd738d"
+    },
+    "tests/test_programming.py": {
+      "local_sha256": "981bc8df86b7bd4a18caf92cf644cea170a191774c33bd8a02df57a06147e790",
+      "kind": "adapted",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/tests/test_programming.py",
+      "source_sha256": "9fbfa7449135f18a39012ea0dd47887eb89143820987ed48675b51a31786f463"
+    },
+    "tests/test_suite.py": {
+      "local_sha256": "d47999e10b8b7746a86db7249f3cf1d3c22e2b21dcbe3520368e1136e3b4f9f0",
+      "kind": "adapted",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/tests/test_suite.py",
+      "source_sha256": "8532669ee80aaceec110881075848b2dcd480a1c12bc7c8b1782f3f065c837a5"
+    },
+    "tests/test_yolo_arena.py": {
+      "local_sha256": "24f23061229f1c935e77a45a86eba29798c666304a8b091c46e0cd81744544a9",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/tests/test_yolo_arena.py",
+      "source_sha256": "24f23061229f1c935e77a45a86eba29798c666304a8b091c46e0cd81744544a9"
+    },
+    "tests/test_yolo_raw.py": {
+      "local_sha256": "441d010a95522c250244bec9940f82d044d8d56356e176e72f8d8cfc592f2596",
+      "kind": "exact_copy",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/tests/test_yolo_raw.py",
+      "source_sha256": "441d010a95522c250244bec9940f82d044d8d56356e176e72f8d8cfc592f2596"
+    },
+    "tests/test_yolo_sequence.py": {
+      "local_sha256": "afa99b37b02aa126ec99b0e9386626d0abb91ac2add5b754462c4f56f2ac3e0e",
+      "kind": "adapted",
+      "source": "sw/board_tests/activation_sram_512kib_2bank/tests/test_yolo_sequence.py",
+      "source_sha256": "385a4ab2b5d020322c790dbf3f28a6ee568ca456084168bf365d26ceec6e5053"
+    }
+  }
+}

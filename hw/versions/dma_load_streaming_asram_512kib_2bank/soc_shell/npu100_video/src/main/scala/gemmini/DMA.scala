@@ -1,0 +1,898 @@
+
+package gemmini
+
+import chisel3._
+import chisel3.util._
+
+import org.chipsalliance.cde.config.Parameters
+import freechips.rocketchip.diplomacy.{IdRange, LazyModule, LazyModuleImp}
+import freechips.rocketchip.tile.{CoreBundle, HasCoreParameters}
+import freechips.rocketchip.tilelink._
+import freechips.rocketchip.rocket.MStatus
+import freechips.rocketchip.rocket.constants.MemoryOpConstants
+
+import Util._
+
+import midas.targetutils.PerfCounter
+import midas.targetutils.SynthesizePrintf
+
+class StreamReadRequest[U <: Data](spad_rows: Int, acc_rows: Int, mvin_scale_t_bits: Int)(implicit p: Parameters) extends CoreBundle {
+  val vaddr = UInt(coreMaxAddrBits.W)
+  val spaddr = UInt(log2Up(spad_rows max acc_rows).W) // TODO use LocalAddr in DMA
+  val is_acc = Bool()
+  val accumulate = Bool()
+  val has_acc_bitwidth = Bool()
+  val scale = UInt(mvin_scale_t_bits.W)
+  val status = new MStatus
+  val len = UInt(16.W) // TODO magic number
+  val repeats = UInt(16.W) // TODO magic number
+  val pixel_repeats = UInt(8.W) // TODO magic number
+  val block_stride = UInt(16.W) // TODO magic number
+  val cmd_id = UInt(8.W) // TODO magic number
+  val group = Bool()
+  val group_id = UInt(1.W)
+  val group_offset = UInt(11.W)
+
+}
+
+class StreamReadResponse[U <: Data](spadWidth: Int, accWidth: Int, spad_rows: Int, acc_rows: Int, aligned_to: Int, mvin_scale_t_bits: Int)
+                        (implicit p: Parameters) extends CoreBundle {
+  val data = UInt((spadWidth max accWidth).W)
+  val addr = UInt(log2Up(spad_rows max acc_rows).W)
+  val mask = Vec((spadWidth max accWidth) / (aligned_to * 8) max 1, Bool())
+  val is_acc = Bool()
+  val accumulate = Bool()
+  val has_acc_bitwidth = Bool()
+  val scale = UInt(mvin_scale_t_bits.W)
+  val repeats = UInt(16.W) // TODO magic number
+  val pixel_repeats = UInt(16.W) // TODO magic number
+  val len = UInt(16.W) // TODO magic number
+  val last = Bool()
+  val bytes_read = UInt(8.W) // TODO magic number
+  val cmd_id = UInt(8.W) // TODO magic number
+  val grouped = Bool()
+  val assembled = Bool()
+  val group_id = UInt(1.W)
+  val group_first = Bool()
+  val group_last = Bool()
+  val group_zeros = Bool()
+  val group_bytes = UInt(16.W)
+
+}
+
+class DmaLoadFragment extends Bundle {
+  val data = UInt(256.W)
+  val group_id = UInt(1.W)
+  val offset = UInt(11.W)
+  val bytes = UInt(6.W)
+  val error = Bool()
+  val transaction_last = Bool()
+}
+
+class StreamReader[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T, U, V], nXacts: Int, beatBits: Int, maxBytes: Int, spadWidth: Int, accWidth: Int, aligned_to: Int,
+                   spad_rows: Int, acc_rows: Int, meshRows: Int, use_tlb_register_filter: Boolean, use_firesim_simulation_counters: Boolean)
+                  (implicit p: Parameters) extends LazyModule {
+  val core = LazyModule(new StreamReaderCore(config, nXacts, beatBits, maxBytes, spadWidth, accWidth, aligned_to, spad_rows, acc_rows, meshRows, use_tlb_register_filter, use_firesim_simulation_counters, config.use_tlb))
+  val node = core.node
+
+  lazy val module = new Impl
+  class Impl extends LazyModuleImp(this) {
+
+    val io = IO(new Bundle {
+      val req = Flipped(Decoupled(new StreamReadRequest(spad_rows, acc_rows, config.mvin_scale_t_bits)))
+      val resp = Decoupled(new StreamReadResponse(spadWidth, accWidth, spad_rows, acc_rows, aligned_to, config.mvin_scale_t_bits))
+      val group_resp = Decoupled(new DmaLoadFragment)
+      val fault = Output(Bool())
+      val tlb = new FrontendTLBIO
+      val busy = Output(Bool())
+      val flush = Input(Bool())
+      /** IPOAT：Reader 死锁观测端口
+        * I：tracker、响应和总线握手；P：只读打包；O：四个 64-bit 页；
+        * A：王志瑞；T：2026-09-17。
+        */
+      val deadlock_debug = Output(Vec(4, UInt(64.W)))
+
+      val counter = new CounterEventIO()
+    })
+
+    val nCmds = (nXacts / meshRows) + 1
+
+    val xactTracker = Module(new XactTracker(nXacts, maxBytes, spadWidth, accWidth, spad_rows, acc_rows, maxBytes, config.mvin_scale_t_bits, nCmds, use_firesim_simulation_counters))
+
+    val beatPacker = Module(new BeatMerger(beatBits, maxBytes, spadWidth, accWidth, spad_rows, acc_rows, maxBytes, aligned_to, meshRows, config.mvin_scale_t_bits, nCmds))
+
+    val coalescerBusy = WireDefault(false.B)
+    if (config.dma_read_coalescing) {
+      require(maxBytes == 64 && spadWidth / 8 == 32 && config.inputType.getWidth == 8)
+      val coalescer = Module(new DmaReadCoalescer(spad_rows, acc_rows,
+        config.mvin_scale_t_bits, spadWidth / config.inputType.getWidth, spadWidth / 8, maxBytes))
+      coalescer.io.in <> io.req
+      core.module.io.req <> coalescer.io.out
+      coalescerBusy := coalescer.io.busy
+    } else { core.module.io.req <> io.req }
+    io.tlb <> core.module.io.tlb
+    core.module.io.flush := io.flush
+
+    xactTracker.io.alloc <> core.module.io.reserve
+    xactTracker.io.peek.xactid := RegEnableThru(core.module.io.beatData.bits.xactid, beatPacker.io.req.fire)
+    xactTracker.io.peek.pop := beatPacker.io.in.fire && core.module.io.beatData.bits.last
+
+    core.module.io.beatData.ready := beatPacker.io.in.ready
+    beatPacker.io.req.valid := core.module.io.beatData.valid
+    beatPacker.io.req.bits := xactTracker.io.peek.entry
+    beatPacker.io.req.bits.lg_len_req := core.module.io.beatData.bits.lg_len_req
+    beatPacker.io.in.valid := core.module.io.beatData.valid
+    beatPacker.io.in.bits := core.module.io.beatData.bits.data
+
+    io.group_resp.valid := false.B
+    io.group_resp.bits := 0.U.asTypeOf(io.group_resp.bits)
+    io.fault := false.B
+    val groupReturnOccupancy = WireDefault(0.U(2.W))
+    if (config.dma_load_runtime_enable) {
+      // Group fragments own physical transactions, never ordinary row
+      // metadata. Capture their owner before accepting the first D beat.
+      val beat = core.module.io.beatData
+      val entry = xactTracker.io.peek.entry
+      xactTracker.io.peek.xactid := beat.bits.xactid
+      val active = RegInit(false.B)
+      val metadata = Reg(chiselTypeOf(entry))
+      val source = Reg(chiselTypeOf(beat.bits.xactid))
+      val beatOffset = RegInit(0.U(7.W))
+      val fault = RegInit(false.B)
+      val returns = Module(new BankedShallowQueue(new DmaLoadFragment, 2,
+        pipe = false, flow = false))
+      io.group_resp <> returns.io.deq
+      val isGroup = active || (xactTracker.io.peek.valid && entry.group)
+      val unknown = !active && !xactTracker.io.peek.valid
+      returns.io.enq.valid := active && beat.valid
+      val skip = Mux(metadata.shift > beatOffset, metadata.shift - beatOffset, 0.U)
+      val done = Mux(beatOffset > metadata.shift, beatOffset - metadata.shift, 0.U)
+      val left = metadata.bytes_to_read - done
+      val room = 32.U - skip
+      val useful = Mux(skip >= 32.U || done >= metadata.bytes_to_read, 0.U,
+        Mux(left < room, left, room))
+      returns.io.enq.bits.data := beat.bits.data >> (skip << 3)
+      returns.io.enq.bits.group_id := metadata.group_id
+      returns.io.enq.bits.offset := metadata.group_offset + done
+      returns.io.enq.bits.transaction_last := beat.bits.last
+      returns.io.enq.bits.bytes := useful
+      returns.io.enq.bits.error := beat.bits.denied || beat.bits.corrupt || beat.bits.xactid =/= source
+      beatPacker.io.req.valid := beat.valid && !isGroup && !unknown
+      beatPacker.io.in.valid := beat.valid && !isGroup && !unknown
+      beat.ready := Mux(unknown, true.B, Mux(isGroup, active && returns.io.enq.ready, beatPacker.io.in.ready))
+      xactTracker.io.peek.pop := beat.fire && beat.bits.last && xactTracker.io.peek.valid
+      when(beat.valid && !active && xactTracker.io.peek.valid && entry.group) {
+        metadata := entry; source := beat.bits.xactid; beatOffset := 0.U; active := true.B
+      }
+      when(active && beat.fire) {
+        beatOffset := beatOffset + 32.U
+        when(beat.bits.last) { active := false.B }
+      }
+      when(beat.fire && (unknown || beat.bits.denied || beat.bits.corrupt ||
+        (active && beat.bits.xactid =/= source))) { fault := true.B }
+      io.fault := fault || (beat.fire && (unknown || beat.bits.denied || beat.bits.corrupt ||
+        (active && beat.bits.xactid =/= source)))
+      groupReturnOccupancy := returns.io.count
+    }
+
+    // V2 connected the 2048-bit merger directly to the scratchpad writer.
+    // Its ready/valid feedback crossed the XactTracker and returned to the
+    // merger buffer D input (24-29 levels, about 14.4 ns after the failed
+    // route). This non-flow queue is the protocol-safe register boundary.
+    // Queue the complete response, including transaction metadata, so a new
+    // request may start while the preceding final response is backpressured.
+    val responseQueue = Module(new BankedShallowQueue(
+      new StreamReadResponse(spadWidth, accWidth, spad_rows, acc_rows, aligned_to, config.mvin_scale_t_bits),
+      config.scratchpad_dma_buffer_entries, pipe = false, flow = false))
+    responseQueue.io.enq.valid := beatPacker.io.out.valid
+    responseQueue.io.enq.bits := 0.U.asTypeOf(responseQueue.io.enq.bits)
+    beatPacker.io.out.ready := responseQueue.io.enq.ready
+    responseQueue.io.enq.bits.data := beatPacker.io.out.bits.data
+    responseQueue.io.enq.bits.addr := beatPacker.io.out.bits.addr
+    responseQueue.io.enq.bits.mask := beatPacker.io.out.bits.mask
+    responseQueue.io.enq.bits.is_acc := beatPacker.io.out.bits.is_acc
+    responseQueue.io.enq.bits.accumulate := beatPacker.io.out.bits.accumulate
+    responseQueue.io.enq.bits.has_acc_bitwidth := beatPacker.io.out.bits.has_acc_bitwidth
+    responseQueue.io.enq.bits.scale := RegEnable(xactTracker.io.peek.entry.scale, beatPacker.io.req.fire)
+    responseQueue.io.enq.bits.repeats := RegEnable(xactTracker.io.peek.entry.repeats, beatPacker.io.req.fire)
+    responseQueue.io.enq.bits.pixel_repeats := RegEnable(xactTracker.io.peek.entry.pixel_repeats, beatPacker.io.req.fire)
+    responseQueue.io.enq.bits.len := RegEnable(xactTracker.io.peek.entry.len, beatPacker.io.req.fire)
+    responseQueue.io.enq.bits.cmd_id := RegEnable(xactTracker.io.peek.entry.cmd_id, beatPacker.io.req.fire)
+    responseQueue.io.enq.bits.bytes_read := RegEnable(xactTracker.io.peek.entry.bytes_to_read, beatPacker.io.req.fire)
+    responseQueue.io.enq.bits.last := beatPacker.io.out.bits.last
+    io.resp <> responseQueue.io.deq
+    io.busy := xactTracker.io.busy || core.module.io.busy || coalescerBusy ||
+      beatPacker.io.out.valid || responseQueue.io.deq.valid || io.group_resp.valid || io.fault
+    /** IPOAT：Reader tracker/进展快照
+      * I（Input 输入）：tracker 分配、末拍返回、行响应及 cmd_id。
+      * P（Process 处理）：维护观察用在途 mask、最近返回 cmd_id 和距上次进展周期数。
+      * O（Output 输出）：Reader 页0/1，并透传 core 的总线页2/3。
+      * A（Author 作者）：王志瑞
+      * T（Time 时间）：2026-09-17
+      */
+    val xactMask = RegInit(0.U(nXacts.W))
+    val xactAdd = Mux(core.module.io.reserve.fire(),
+      (1.U(nXacts.W) << core.module.io.reserve.xactid).asUInt, 0.U(nXacts.W))
+    val xactRemove = Mux(core.module.io.beatData.fire && core.module.io.beatData.bits.last,
+      (1.U(nXacts.W) << core.module.io.beatData.bits.xactid).asUInt, 0.U(nXacts.W))
+    xactMask := (xactMask & ~xactRemove) | xactAdd
+    val lastReturnedCmdId = RegInit(0.U(8.W))
+    when (io.resp.fire && io.resp.bits.last) { lastReturnedCmdId := io.resp.bits.cmd_id }
+    val debugCyclesSinceProgress = RegInit(0.U(32.W))
+    when (core.module.io.reserve.fire() || core.module.io.beatData.fire || io.resp.fire) {
+      debugCyclesSinceProgress := 0.U
+    }.elsewhen (io.busy && debugCyclesSinceProgress =/= "hffffffff".U) {
+      debugCyclesSinceProgress := debugCyclesSinceProgress + 1.U
+    }
+    io.deadlock_debug(0) := Cat(debugCyclesSinceProgress, 0.U(7.W), io.busy,
+      lastReturnedCmdId, PopCount(xactMask).pad(8)(7, 0), xactMask.pad(8)(7, 0))
+    io.deadlock_debug(1) := Cat(0.U(58.W), io.resp.fire, io.resp.ready, io.resp.valid,
+      io.req.fire, io.req.ready, io.req.valid)
+    io.deadlock_debug(2) := core.module.io.deadlock_debug(0)
+    io.deadlock_debug(3) := core.module.io.deadlock_debug(1)
+
+
+
+    io.counter := DontCare
+    io.counter.collect(core.module.io.counter)
+    io.counter.collect(xactTracker.io.counter)
+    if (config.dma_load_runtime_enable) {
+      DmaLoadCount(io.counter, CounterExternal.LOAD_RETURN_OCCUPANCY_PEAK, groupReturnOccupancy, peak = true)
+    }
+  }
+}
+
+class StreamReadBeat (val nXacts: Int, val beatBits: Int, val maxReqBytes: Int) extends Bundle {
+  val xactid = UInt(log2Up(nXacts).W)
+  val data = UInt(beatBits.W)
+  val lg_len_req = UInt(log2Up(log2Up(maxReqBytes+1)+1).W)
+  val last = Bool()
+  val denied = Bool()
+  val corrupt = Bool()
+}
+
+// TODO StreamReaderCore and StreamWriter are actually very alike. Is there some parent class they could both inherit from?
+class StreamReaderCore[T <: Data, U <: Data, V <: Data](config: GemminiArrayConfig[T, U, V], nXacts: Int, beatBits: Int,
+                                                        maxBytes: Int, spadWidth: Int, accWidth: Int, aligned_to: Int,
+                                                        spad_rows: Int, acc_rows: Int, meshRows: Int,
+                                                        use_tlb_register_filter: Boolean,
+                                                        use_firesim_simulation_counters: Boolean,
+                                                        use_tlb: Boolean)
+                                 (implicit p: Parameters) extends LazyModule {
+  val node = TLClientNode(Seq(TLMasterPortParameters.v1(Seq(TLClientParameters(
+    name = "stream-reader", sourceId = IdRange(0, nXacts))))))
+
+  require(isPow2(aligned_to))
+
+  // TODO when we request data from multiple rows which are actually contiguous in main memory, we should merge them into fewer requests
+
+  lazy val module = new Impl
+  class Impl extends LazyModuleImp(this) with HasCoreParameters with MemoryOpConstants {
+    val (tl, edge) = node.out(0)
+
+    val spadWidthBytes = spadWidth / 8
+    val accWidthBytes = accWidth / 8
+    val beatBytes = beatBits / 8
+
+    val nCmds = (nXacts / meshRows) + 1
+
+    val io = IO(new Bundle {
+      val req = Flipped(Decoupled(new StreamReadRequest(spad_rows, acc_rows, config.mvin_scale_t_bits)))
+      val reserve = new XactTrackerAllocIO(nXacts, maxBytes, spadWidth, accWidth, spad_rows, acc_rows, maxBytes, config.mvin_scale_t_bits, nCmds)
+      val busy = Output(Bool())
+      val beatData = Decoupled(new StreamReadBeat(nXacts, beatBits, maxBytes))
+      val tlb = new FrontendTLBIO
+      val flush = Input(Bool())
+      val counter = new CounterEventIO()
+      /** IPOAT：ReaderCore 总线观测端口
+        * I：请求状态、剩余字节及 TileLink A/D；P：只读打包；O：两个 64-bit 页；
+        * A：王志瑞；T：2026-09-17。
+        */
+      val deadlock_debug = Output(Vec(2, UInt(64.W)))
+    })
+
+    val s_idle :: s_req_new_block :: Nil = Enum(2)
+    val state = RegInit(s_idle)
+
+    val req = Reg(new StreamReadRequest(spad_rows, acc_rows, config.mvin_scale_t_bits))
+    val vaddr = req.vaddr
+
+    val bytesRequested = Reg(UInt(log2Ceil(spadWidthBytes max accWidthBytes max maxBytes).W)) // TODO this only needs to count up to (dataBytes/aligned_to), right?
+    val bytesLeft = Mux(req.has_acc_bitwidth, req.len * (config.accType.getWidth / 8).U, req.len * (config.inputType.getWidth / 8).U) - bytesRequested
+
+    // Upstream ready sees only queue occupancy, never packet completion.
+    // A prefetched row replaces the active row at the local issue boundary.
+    val nextReq = Wire(Decoupled(chiselTypeOf(io.req.bits)))
+    val prefetched = WireDefault(false.B)
+    if (config.dma_row_prefetch_entries > 0) {
+      val q = Module(new BankedShallowQueue(chiselTypeOf(io.req.bits),
+        config.dma_row_prefetch_entries, pipe = false, flow = false, registerPayload = true))
+      q.io.enq <> io.req
+      nextReq <> q.io.deq
+      prefetched := q.io.deq.valid
+    } else { nextReq <> io.req }
+    nextReq.ready := state === s_idle
+    io.busy := prefetched || state =/= s_idle
+
+    // Select the size and mask of the TileLink request
+    class Packet extends Bundle {
+      val size = UInt(log2Up(maxBytes+1).W)
+      val lg_size = UInt(log2Ceil(log2Ceil(maxBytes+1)).W)
+      val bytes_read = UInt(log2Up(maxBytes+1).W)
+      val shift = UInt(log2Up(maxBytes).W)
+      //val paddr = UInt(paddrBits.W)
+      val vaddr = UInt(vaddrBits.W)
+    }
+
+    // TODO Can we filter out the larger read_sizes here if the systolic array is small, in the same way that we do so
+    // for the write_sizes down below?
+    val read_sizes = ((aligned_to max beatBytes) to maxBytes by aligned_to).
+      filter(s => isPow2(s)).
+      filter(s => s % beatBytes == 0)
+    val read_packets = read_sizes.map { s =>
+      val lg_s = log2Ceil(s)
+      val vaddr_aligned_to_size = if (s == 1) vaddr else Cat(vaddr(vaddrBits-1, lg_s), 0.U(lg_s.W))
+      val vaddr_offset = if (s > 1) vaddr(lg_s-1, 0) else 0.U
+
+      val packet = Wire(new Packet())
+      packet.size := s.U
+      packet.lg_size := lg_s.U
+      packet.bytes_read := minOf(s.U - vaddr_offset, bytesLeft)
+      packet.shift := vaddr_offset
+      packet.vaddr := vaddr_aligned_to_size
+
+      packet
+    }
+    val read_packet = read_packets.reduce { (acc, p) =>
+      Mux(p.bytes_read > acc.bytes_read, p, acc)
+    }
+    val read_vaddr = read_packet.vaddr
+    val read_lg_size = read_packet.lg_size
+    val read_bytes_read = read_packet.bytes_read
+    val read_shift = read_packet.shift
+
+    // Firing off TileLink read requests and allocating space inside the reservation buffer for them
+    val get = edge.Get(
+      fromSource = io.reserve.xactid,
+      toAddress = 0.U, //read_paddr,
+      lgSize = read_lg_size
+    )._2
+
+    class TLBundleAWithInfo extends Bundle {
+      val tl_a = tl.a.bits.cloneType
+      val vaddr = Output(UInt(vaddrBits.W))
+      val status = Output(new MStatus)
+    }
+
+    val untranslated_a = Wire(Decoupled(new TLBundleAWithInfo))
+    untranslated_a.valid := state === s_req_new_block && io.reserve.ready
+    untranslated_a.bits.tl_a := get
+    untranslated_a.bits.vaddr := read_vaddr
+    untranslated_a.bits.status := req.status
+
+    // 0 goes to retries, 1 goes to state machine
+    val retry_a = Wire(Decoupled(new TLBundleAWithInfo))
+    val tlb_arb = Module(new Arbiter(new TLBundleAWithInfo, 2))
+    tlb_arb.io.in(0) <> retry_a
+    tlb_arb.io.in(1) <> untranslated_a
+
+    val tlb_q = Module(new Queue(new TLBundleAWithInfo, 1, pipe=true))
+    tlb_q.io.enq <> tlb_arb.io.out
+
+    val translate_q = Module(new Queue(new TLBundleAWithInfo, 1, pipe=true))
+    if (use_tlb) {
+      io.tlb.req.valid := tlb_q.io.deq.valid
+      io.tlb.req.bits := DontCare
+      io.tlb.req.bits.tlb_req.vaddr := tlb_q.io.deq.bits.vaddr
+      io.tlb.req.bits.tlb_req.passthrough := false.B
+      io.tlb.req.bits.tlb_req.size := 0.U // send_size
+      io.tlb.req.bits.tlb_req.cmd := M_XRD
+      io.tlb.req.bits.status := tlb_q.io.deq.bits.status
+
+      translate_q.io.enq <> tlb_q.io.deq
+      translate_q.io.deq.ready := true.B
+      retry_a.valid := translate_q.io.deq.valid && (io.tlb.resp.miss || !tl.a.ready)
+      retry_a.bits := translate_q.io.deq.bits
+      assert(retry_a.ready)
+      tl.a.valid := translate_q.io.deq.valid && !io.tlb.resp.miss
+      tl.a.bits := translate_q.io.deq.bits.tl_a
+      tl.a.bits.address := io.tlb.resp.paddr
+    } else {
+      io.tlb.req.valid := false.B
+      io.tlb.req.bits := DontCare
+      translate_q.io.enq <> tlb_q.io.deq
+      translate_q.io.deq.ready := tl.a.ready
+      retry_a.valid := false.B
+      retry_a.bits := DontCare
+      tl.a.valid := translate_q.io.deq.valid
+      tl.a.bits := translate_q.io.deq.bits.tl_a
+      tl.a.bits.address := translate_q.io.deq.bits.vaddr
+    }
+
+    io.reserve.valid := state === s_req_new_block && untranslated_a.ready // TODO decouple "reserve.valid" from "tl.a.ready"
+    io.reserve.entry.shift := read_shift
+    io.reserve.entry.is_acc := req.is_acc
+    io.reserve.entry.accumulate := req.accumulate
+    io.reserve.entry.has_acc_bitwidth := req.has_acc_bitwidth
+    io.reserve.entry.scale := req.scale
+    io.reserve.entry.repeats := req.repeats
+    io.reserve.entry.pixel_repeats := req.pixel_repeats
+    io.reserve.entry.len := req.len
+    io.reserve.entry.block_stride := req.block_stride
+    io.reserve.entry.lg_len_req := DontCare // TODO just remove this from the IO completely
+    io.reserve.entry.bytes_to_read := read_bytes_read
+    io.reserve.entry.cmd_id := req.cmd_id
+    io.reserve.entry.group := req.group
+    io.reserve.entry.group_id := req.group_id
+    io.reserve.entry.group_offset := req.group_offset + bytesRequested
+
+    io.reserve.entry.addr := req.spaddr + req.block_stride *
+      Mux(req.has_acc_bitwidth,
+        // We only add "if" statements here to satisfy the Verilator linter. The code would be cleaner without the
+        // "if" condition and the "else" clause. Similarly, the width expansions are also there to satisfy the Verilator
+        // linter, despite making the code uglier.
+        if (bytesRequested.getWidth >= log2Up(accWidthBytes+1)) bytesRequested / accWidthBytes.U(bytesRequested.getWidth.W) else 0.U,
+        if (bytesRequested.getWidth >= log2Up(spadWidthBytes+1)) bytesRequested / spadWidthBytes.U(bytesRequested.getWidth.W) else 0.U)
+    io.reserve.entry.spad_row_offset := Mux(req.has_acc_bitwidth, bytesRequested % accWidthBytes.U, bytesRequested % spadWidthBytes.U)
+
+    /** IPOAT：ReaderCore 请求/总线快照
+      * I（Input 输入）：当前请求 cmd_id、字节进度、reserve 与 TileLink A/D 握手及 source。
+      * P（Process 处理）：按固定字段布局组合，不驱动 DMA 状态机。
+      * O（Output 输出）：请求页与总线事务身份页。
+      * A（Author 作者）：王志瑞
+      * T（Time 时间）：2026-09-17
+      */
+    io.deadlock_debug(0) := Cat(0.U(12.W), req.cmd_id, bytesLeft.pad(16)(15, 0),
+      bytesRequested.pad(16)(15, 0), 0.U(8.W), state,
+      io.reserve.fire(), io.reserve.ready, io.reserve.valid)
+    io.deadlock_debug(1) := Cat(0.U(42.W),
+      tl.d.bits.source.pad(8)(7, 0), tl.a.bits.source.pad(8)(7, 0),
+      tl.d.fire, tl.d.ready, tl.d.valid,
+      tl.a.fire, tl.a.ready, tl.a.valid)
+
+    when (untranslated_a.fire) {
+      val next_vaddr = req.vaddr + read_bytes_read // send_size
+      val new_page = next_vaddr(pgIdxBits-1, 0) === 0.U
+      req.vaddr := next_vaddr
+
+      bytesRequested := bytesRequested + read_bytes_read // send_size
+
+      // when (send_size >= bytesLeft) {
+      when (read_bytes_read >= bytesLeft) {
+        // We're done with this request at this point
+        state := s_idle
+        if (config.dma_row_prefetch_entries > 0) { nextReq.ready := true.B }
+      }
+    }
+
+    // Forward TileLink read responses to the reservation buffer
+    tl.d.ready := io.beatData.ready
+    io.beatData.valid := tl.d.valid
+    io.beatData.bits.xactid := tl.d.bits.source
+    io.beatData.bits.data := tl.d.bits.data
+    io.beatData.bits.lg_len_req := tl.d.bits.size
+    io.beatData.bits.last := edge.last(tl.d)
+    io.beatData.bits.denied := tl.d.bits.denied
+    io.beatData.bits.corrupt := tl.d.bits.corrupt
+    // TODO the size data is already returned from TileLink, so there's no need for us to store it in the XactTracker ourselves
+
+    // Accepting requests to kick-start the state machine
+    when (nextReq.fire) {
+      req := nextReq.bits
+      bytesRequested := 0.U
+
+      state := s_req_new_block
+    }
+
+    // Performance counter
+    io.counter := DontCare
+    CounterEventIO.init(io.counter)
+    io.counter.connectEventSignal(CounterEvent.RDMA_ACTIVE_CYCLE, state =/= s_idle)
+    io.counter.connectEventSignal(CounterEvent.RDMA_TLB_WAIT_CYCLES, if (use_tlb) io.tlb.resp.miss else false.B)
+    io.counter.connectEventSignal(CounterEvent.RDMA_TL_WAIT_CYCLES, tl.a.valid && !tl.a.ready)
+
+    // External counters
+    val total_bytes_read = RegInit(0.U(CounterExternal.EXTERNAL_WIDTH.W))
+    when (io.counter.external_reset) {
+      total_bytes_read := 0.U
+    }.elsewhen (tl.d.fire) {
+      total_bytes_read := total_bytes_read + (1.U << tl.d.bits.size)
+    }
+
+    io.counter.connectExternalCounter(CounterExternal.RDMA_BYTES_REC, total_bytes_read)
+    if (config.dma_load_runtime_enable) {
+      DmaLoadCount(io.counter, CounterExternal.LOAD_TL_GET_32, (tl.a.fire && tl.a.bits.size === 5.U).asUInt)
+      DmaLoadCount(io.counter, CounterExternal.LOAD_TL_GET_64, (tl.a.fire && tl.a.bits.size === 6.U).asUInt)
+      // Count actual returned beats. The historical ID4 counter counts the
+      // transaction size on each beat and is retained for ABI compatibility.
+      DmaLoadCount(io.counter, CounterExternal.LOAD_TL_READ_BYTES, Mux(tl.d.fire, beatBytes.U, 0.U))
+    }
+
+    if (use_firesim_simulation_counters) {
+      PerfCounter(state =/= s_idle, "rdma_active_cycles", "cycles during which the read dma is active")
+      if (use_tlb) {
+        PerfCounter(tl.a.ready && translate_q.io.deq.valid && io.tlb.resp.miss, "rdma_tlb_wait_cycles", "cycles during which the read dma is stalling as it waits for a TLB response")
+      }
+      PerfCounter(tl.a.valid && !tl.a.ready, "rdma_tl_wait_cycles", "cycles during which the read dma is stalling as it waits for the TileLink port to be available")
+
+      val cntr = Counter(500000)
+      when (cntr.inc()) {
+        printf(SynthesizePrintf("RDMA bytes rec: %d\n", total_bytes_read))
+      }
+    }
+  }
+}
+
+class StreamWriteRequest(val dataWidth: Int, val maxBytes: Int)(implicit p: Parameters) extends CoreBundle {
+  val vaddr = UInt(coreMaxAddrBits.W)
+  val physical = Bool()
+  val data = UInt(dataWidth.W)
+  val len = UInt(log2Up((dataWidth/8 max maxBytes)+1).W) // The number of bytes to write
+  val block = UInt(8.W) // TODO magic number
+  val status = new MStatus
+
+  // Pooling variables
+  val pool_en = Bool()
+  val store_en = Bool()
+}
+
+class StreamWriter[T <: Data: Arithmetic](nXacts: Int, beatBits: Int, maxBytes: Int, dataWidth: Int, aligned_to: Int,
+                                           inputType: T, block_cols: Int, use_tlb_register_filter: Boolean,
+                                           use_firesim_simulation_counters: Boolean,
+                                           use_tlb: Boolean, prefetchEntries: Int = 0)
+                  (implicit p: Parameters) extends LazyModule {
+  val node = TLClientNode(Seq(TLMasterPortParameters.v1(Seq(TLClientParameters(
+    name = "stream-writer", sourceId = IdRange(0, nXacts))))))
+//  val spad_node = TLClientNode(Seq(TLMasterPortParameters.v1(Seq(TLClientParameters(
+//    name = "spad-writer", sourceId = IdRange(0, nXacts))))))
+
+  require(isPow2(aligned_to))
+
+  lazy val module = new Impl
+  class Impl extends LazyModuleImp(this) with HasCoreParameters with MemoryOpConstants {
+    val (tl, edge) = node.out(0)
+//    val (tl_spad, edge_spad) = spad_node.out(0)
+    val dataBytes = dataWidth / 8
+    val beatBytes = beatBits / 8
+    val lgBeatBytes = log2Ceil(beatBytes)
+    val maxBeatsPerReq = maxBytes / beatBytes
+    val inputTypeRowBytes = block_cols * inputType.getWidth / 8
+    // A DMA transaction may be narrower than one complete Gemmini row (for
+    // example DIM=128 with a 64-byte TileLink limit). The block-mvout path
+    // still uses block 0 for that case, so keep a legal one-entry storage
+    // vector instead of elaborating Vec(0).
+    val maxBlocks = (maxBytes / inputTypeRowBytes) max 1
+
+    require(beatBytes > 0)
+
+    val io = IO(new Bundle {
+      val req = Flipped(Decoupled(new StreamWriteRequest(dataWidth, maxBytes)))
+      val tlb = new FrontendTLBIO
+      val busy = Output(Bool())
+      val flush = Input(Bool())
+      val counter = new CounterEventIO()
+      /** IPOAT：Writer 死锁观测端口
+        * I：writer 状态、在途 mask、剩余工作及 TileLink A/D；P：只读打包；
+        * O：四个 64-bit 页；A：王志瑞；T：2026-09-17。
+        */
+      val deadlock_debug = Output(Vec(4, UInt(64.W)))
+    })
+
+    val (s_idle :: s_writing_new_block :: s_writing_beats :: Nil) = Enum(3)
+    val state = RegInit(s_idle)
+
+    val req = Reg(new StreamWriteRequest(dataWidth, maxBytes))
+
+    // TODO use the same register to hold data_blocks and data_single_block, so that this Mux here is not necessary
+    val data_blocks = Reg(Vec(maxBlocks, UInt((inputTypeRowBytes * 8).W)))
+    val data_single_block = Reg(UInt(dataWidth.W)) // For data that's just one-block-wide
+    val data = Mux(req.block === 0.U, data_single_block, data_blocks.asUInt)
+
+    val bytesSent = Reg(UInt((log2Ceil((dataBytes max maxBytes)+1) + 1).W))  // TODO this only needs to count up to (dataBytes/aligned_to), right?
+    val bytesLeft = req.len - bytesSent
+
+    val xactBusy = RegInit(0.U(nXacts.W))
+    val xactOnehot = PriorityEncoderOH(~xactBusy)
+    val xactId = OHToUInt(xactOnehot)
+
+    val xactBusy_fire = WireInit(false.B)
+    val xactBusy_add = Mux(xactBusy_fire, (1.U << xactId).asUInt, 0.U)
+    val xactBusy_remove = ~Mux(tl.d.fire, (1.U << tl.d.bits.source).asUInt, 0.U)
+    xactBusy := (xactBusy | xactBusy_add) & xactBusy_remove.asUInt
+
+    val nextReq = Wire(Decoupled(chiselTypeOf(io.req.bits)))
+    val prefetched = WireDefault(false.B)
+    if (prefetchEntries > 0) {
+      val q = Module(new BankedShallowQueue(chiselTypeOf(io.req.bits),
+        prefetchEntries, pipe = false, flow = false, registerPayload = true))
+      q.io.enq <> io.req
+      nextReq <> q.io.deq
+      prefetched := q.io.deq.valid
+    } else { nextReq <> io.req }
+    nextReq.ready := state === s_idle
+    io.busy := xactBusy.orR || (state =/= s_idle) || prefetched
+
+    val vaddr = req.vaddr
+
+    // Select the size and mask of the TileLink request
+    class Packet extends Bundle {
+      val size = UInt(log2Ceil(maxBytes+1).W)
+      val lg_size = UInt(log2Ceil(log2Ceil(maxBytes+1)+1).W)
+      val mask = Vec(maxBeatsPerReq, Vec(beatBytes, Bool()))
+      val vaddr = UInt(vaddrBits.W)
+      val is_full = Bool()
+
+      val bytes_written = UInt(log2Up(maxBytes+1).W)
+      val bytes_written_per_beat = Vec(maxBeatsPerReq, UInt(log2Up(beatBytes+1).W))
+
+      def total_beats(dummy: Int = 0) = Mux(size < beatBytes.U, 1.U, size / beatBytes.U(size.getWidth.W)) // The width expansion is added here solely to satsify Verilator's linter
+    }
+
+    val smallest_write_size = aligned_to max beatBytes
+    val write_sizes = (smallest_write_size to maxBytes by aligned_to).
+      filter(s => isPow2(s)).
+      filter(s => s % beatBytes == 0) /*.
+      filter(s => s <= dataBytes*2 || s == smallest_write_size)*/
+    val write_packets = write_sizes.map { s =>
+      val lg_s = log2Ceil(s)
+      val vaddr_aligned_to_size = if (s == 1) vaddr else Cat(vaddr(vaddrBits-1, lg_s), 0.U(lg_s.W))
+      val vaddr_offset = if (s > 1) vaddr(lg_s - 1, 0) else 0.U
+
+      val mask = (0 until maxBytes).map { i => i.U >= vaddr_offset && i.U < vaddr_offset +& bytesLeft && (i < s).B }
+
+      val bytes_written = {
+        Mux(vaddr_offset +& bytesLeft > s.U, s.U - vaddr_offset, bytesLeft)
+      }
+
+      val packet = Wire(new Packet())
+      packet.size := s.U
+      packet.lg_size := lg_s.U
+      packet.mask := VecInit(mask.grouped(beatBytes).map(v => VecInit(v)).toSeq)
+      packet.vaddr := vaddr_aligned_to_size
+      packet.is_full := mask.take(s).reduce(_ && _)
+
+      packet.bytes_written := bytes_written
+      packet.bytes_written_per_beat.zipWithIndex.foreach { case (b, i) =>
+        val start_of_beat = i * beatBytes
+        val end_of_beat = (i+1) * beatBytes
+
+        val left_shift = Mux(vaddr_offset >= start_of_beat.U && vaddr_offset < end_of_beat.U,
+          vaddr_offset - start_of_beat.U,
+          0.U)
+
+        val right_shift = Mux(vaddr_offset +& bytesLeft >= start_of_beat.U && vaddr_offset +& bytesLeft < end_of_beat.U,
+          end_of_beat.U - (vaddr_offset +& bytesLeft),
+          0.U)
+
+        val too_early = vaddr_offset >= end_of_beat.U
+        val too_late = vaddr_offset +& bytesLeft <= start_of_beat.U
+
+        b := Mux(too_early || too_late, 0.U, beatBytes.U - (left_shift +& right_shift))
+      }
+
+      packet
+    }
+    val best_write_packet = write_packets.reduce { (acc, p) =>
+      Mux(p.bytes_written > acc.bytes_written, p, acc)
+    }
+    val write_packet = RegEnableThru(best_write_packet, state === s_writing_new_block)
+
+    val write_size = write_packet.size
+    val lg_write_size = write_packet.lg_size
+    val write_beats = write_packet.total_beats()
+    val write_vaddr = write_packet.vaddr
+    val write_full = write_packet.is_full
+
+    val beatsLeft = Reg(UInt(log2Up(maxBytes/aligned_to).W))
+    val beatsSent = Mux(state === s_writing_new_block, 0.U, write_beats - beatsLeft)
+
+    val write_mask = write_packet.mask(beatsSent)
+
+    val bytes_written_this_beat = write_packet.bytes_written_per_beat(beatsSent)
+
+    val write_data_align = Module(new DmaWriteDataAlign(dataWidth, beatBytes, bytesSent.getWidth))
+    write_data_align.io.data := data
+    write_data_align.io.offset := bytesSent
+    write_data_align.io.mask := write_mask.asUInt
+
+    // Firing off TileLink write requests
+    val putFull = edge.Put(
+      fromSource = RegEnableThru(xactId, state === s_writing_new_block),
+      toAddress = 0.U,
+      lgSize = lg_write_size,
+      data = write_data_align.io.beat
+    )._2
+
+    val putPartial = edge.Put(
+      fromSource = RegEnableThru(xactId, state === s_writing_new_block),
+      toAddress = 0.U,
+      lgSize = lg_write_size,
+      data = write_data_align.io.beat,
+      mask = write_mask.asUInt
+    )._2
+
+    class TLBundleAWithInfo extends Bundle {
+      val tl_a = tl.a.bits.cloneType
+      val vaddr = Output(UInt(vaddrBits.W))
+      val status = Output(new MStatus)
+      val passthrough = Output(Bool())
+    }
+
+    val untranslated_a = Wire(Decoupled(new TLBundleAWithInfo))
+    xactBusy_fire := untranslated_a.fire && state === s_writing_new_block
+    untranslated_a.valid := (state === s_writing_new_block || state === s_writing_beats) && !xactBusy.andR
+    untranslated_a.bits.tl_a := Mux(write_full, putFull, putPartial)
+    untranslated_a.bits.vaddr := write_vaddr
+    untranslated_a.bits.status := req.status
+    untranslated_a.bits.passthrough := req.physical
+
+    // 0 goes to retries, 1 goes to state machine
+    val retry_a = Wire(Decoupled(new TLBundleAWithInfo))
+    val shadow_retry_a = Module(new Queue(new TLBundleAWithInfo, 1))
+    shadow_retry_a.io.enq.valid := false.B
+    shadow_retry_a.io.enq.bits := DontCare
+    val tlb_arb = Module(new Arbiter(new TLBundleAWithInfo, 3))
+    tlb_arb.io.in(0) <> retry_a
+    tlb_arb.io.in(1) <> shadow_retry_a.io.deq
+    tlb_arb.io.in(2) <> untranslated_a
+
+    val tlb_q = Module(new Queue(new TLBundleAWithInfo, 1, pipe=true))
+    tlb_q.io.enq <> tlb_arb.io.out
+
+    val translate_q = Module(new Queue(new TLBundleAWithInfo, 1, pipe=true))
+    if (use_tlb) {
+      io.tlb.req.valid := tlb_q.io.deq.fire
+      io.tlb.req.bits := DontCare
+      io.tlb.req.bits.tlb_req.vaddr := tlb_q.io.deq.bits.vaddr
+      io.tlb.req.bits.tlb_req.passthrough := tlb_q.io.deq.bits.passthrough
+      io.tlb.req.bits.tlb_req.size := 0.U // send_size
+      io.tlb.req.bits.tlb_req.cmd := M_XWR
+      io.tlb.req.bits.status := tlb_q.io.deq.bits.status
+
+      translate_q.io.enq <> tlb_q.io.deq
+      when (retry_a.valid) {
+        translate_q.io.enq.valid := false.B
+        shadow_retry_a.io.enq.valid := tlb_q.io.deq.valid
+        shadow_retry_a.io.enq.bits  := tlb_q.io.deq.bits
+      }
+      translate_q.io.deq.ready := tl.a.ready || io.tlb.resp.miss
+      retry_a.valid := translate_q.io.deq.valid && io.tlb.resp.miss
+      retry_a.bits := translate_q.io.deq.bits
+      assert(!(retry_a.valid && !retry_a.ready))
+      tl.a.valid := translate_q.io.deq.valid && !io.tlb.resp.miss
+      tl.a.bits := translate_q.io.deq.bits.tl_a
+      tl.a.bits.address := RegEnableThru(io.tlb.resp.paddr, RegNext(io.tlb.req.fire))
+    } else {
+      io.tlb.req.valid := false.B
+      io.tlb.req.bits := DontCare
+      translate_q.io.enq <> tlb_q.io.deq
+      translate_q.io.deq.ready := tl.a.ready
+      retry_a.valid := false.B
+      retry_a.bits := DontCare
+      tl.a.valid := translate_q.io.deq.valid
+      tl.a.bits := translate_q.io.deq.bits.tl_a
+      tl.a.bits.address := translate_q.io.deq.bits.vaddr
+    }
+
+    tl.d.ready := xactBusy.orR
+
+    /** IPOAT：Writer tracker/总线快照
+      * I（Input 输入）：请求接受、A/D 握手、xactBusy、字节/beat 余量及 source。
+      * P（Process 处理）：维护只读进展年龄并组合固定页，不干预发送或回收。
+      * O（Output 输出）：Writer 状态、请求、总线身份和工作余量四页。
+      * A（Author 作者）：王志瑞
+      * T（Time 时间）：2026-09-17
+      */
+    val debugCyclesSinceProgress = RegInit(0.U(32.W))
+    when (io.req.fire || untranslated_a.fire || tl.a.fire || tl.d.fire) {
+      debugCyclesSinceProgress := 0.U
+    }.elsewhen (io.busy && debugCyclesSinceProgress =/= "hffffffff".U) {
+      debugCyclesSinceProgress := debugCyclesSinceProgress + 1.U
+    }
+    io.deadlock_debug(0) := Cat(debugCyclesSinceProgress, 0.U(7.W), io.busy,
+      PopCount(xactBusy).pad(8)(7, 0), xactBusy.pad(8)(7, 0), bytesLeft.pad(8)(7, 0))
+    io.deadlock_debug(1) := Cat(0.U(48.W), state, beatsLeft.pad(8)(7, 0),
+      io.req.fire, io.req.ready, io.req.valid,
+      untranslated_a.fire, untranslated_a.ready, untranslated_a.valid)
+    io.deadlock_debug(2) := Cat(0.U(42.W), tl.a.bits.source.pad(8)(7, 0), tl.d.bits.source.pad(8)(7, 0),
+      tl.a.fire, tl.a.ready, tl.a.valid, tl.d.fire, tl.d.ready, tl.d.valid)
+    io.deadlock_debug(3) := Cat(0.U(32.W), bytesSent.pad(16)(15, 0), bytesLeft.pad(16)(15, 0))
+
+    when (untranslated_a.fire) {
+      when (state === s_writing_new_block) {
+        beatsLeft := write_beats - 1.U
+
+        val next_vaddr = req.vaddr + write_packet.bytes_written
+        req.vaddr := next_vaddr
+
+        bytesSent := bytesSent + bytes_written_this_beat
+
+        when (write_beats === 1.U) {
+          when (bytes_written_this_beat >= bytesLeft) {
+            // We're done with this request at this point
+            state := s_idle
+            if (prefetchEntries > 0) { nextReq.ready := true.B }
+          }
+        }.otherwise {
+          state := s_writing_beats
+        }
+      }.elsewhen(state === s_writing_beats) {
+        beatsLeft := beatsLeft - 1.U
+        bytesSent := bytesSent + bytes_written_this_beat
+
+        assert(beatsLeft > 0.U)
+
+        when (beatsLeft === 1.U) {
+          when (bytes_written_this_beat >= bytesLeft) {
+            // We're done with this request at this point
+            state := s_idle
+            if (prefetchEntries > 0) { nextReq.ready := true.B }
+          }.otherwise {
+            state := s_writing_new_block
+          }
+        }
+      }
+    }
+
+    // Accepting requests to kick-start the state machine
+    when (nextReq.fire) {
+      val pooled = {
+        val cols = dataWidth / inputType.getWidth
+        val v1 = nextReq.bits.data.asTypeOf(Vec(cols, inputType))
+        val v2 = data_single_block.asTypeOf(Vec(cols, inputType))
+        val m = v1.zip(v2)
+        VecInit(m.zipWithIndex.map{case ((x, y), i) => if (i < block_cols) maxOf(x, y) else y}).asUInt
+      }
+
+      req := nextReq.bits
+      req.len := nextReq.bits.block * inputTypeRowBytes.U + nextReq.bits.len
+
+      data_single_block := Mux(nextReq.bits.pool_en, pooled, nextReq.bits.data)
+      data_blocks(nextReq.bits.block) := nextReq.bits.data
+
+      bytesSent := 0.U
+
+      state := Mux(nextReq.bits.store_en, s_writing_new_block, s_idle)
+
+      assert(nextReq.bits.len <= (block_cols * inputType.getWidth / 8).U || nextReq.bits.block === 0.U, "DMA can't write multiple blocks to main memory when writing full accumulator output")
+      assert(!nextReq.bits.pool_en || nextReq.bits.block === 0.U, "Can't pool with block-mvout")
+    }
+
+    // Performance counter
+    CounterEventIO.init(io.counter)
+    io.counter.connectEventSignal(CounterEvent.WDMA_ACTIVE_CYCLE, state =/= s_idle)
+    io.counter.connectEventSignal(CounterEvent.WDMA_TLB_WAIT_CYCLES, if (use_tlb) io.tlb.resp.miss else false.B)
+    io.counter.connectEventSignal(CounterEvent.WDMA_TL_WAIT_CYCLES, tl.a.valid && !tl.a.ready)
+
+    // External counters
+    val total_bytes_sent = RegInit(0.U(CounterExternal.EXTERNAL_WIDTH.W))
+    when (tl.d.fire) {
+      total_bytes_sent := total_bytes_sent + (1.U << tl.d.bits.size)
+    }
+
+    val total_latency = RegInit(0.U(CounterExternal.EXTERNAL_WIDTH.W))
+    total_latency := total_latency + PopCount(xactBusy)
+
+    when (io.counter.external_reset) {
+      total_bytes_sent := 0.U
+      total_latency := 0.U
+    }
+
+    io.counter.connectExternalCounter(CounterExternal.WDMA_BYTES_SENT, total_bytes_sent)
+    io.counter.connectExternalCounter(CounterExternal.WDMA_TOTAL_LATENCY, total_latency)
+
+    if (use_firesim_simulation_counters) {
+      PerfCounter(state =/= s_idle, "wdma_active_cycles", "cycles during which write read dma is active")
+      if (use_tlb) {
+        PerfCounter(tl.a.ready && translate_q.io.deq.valid && io.tlb.resp.miss, "wdma_tlb_wait_cycles", "cycles during which the write dma is stalling as it waits for a TLB response")
+      }
+      PerfCounter(tl.a.valid && !tl.a.ready, "wdma_tl_wait_cycles", "cycles during which the write dma is stalling as it waits for the TileLink port to be available")
+
+      val cntr = Counter(500000)
+      when(cntr.inc()) {
+        printf(SynthesizePrintf("WDMA bytes sent: %d\n", total_bytes_sent))
+        printf(SynthesizePrintf("WDMA total latency: %d\n", total_latency))
+      }
+    }
+  }
+}

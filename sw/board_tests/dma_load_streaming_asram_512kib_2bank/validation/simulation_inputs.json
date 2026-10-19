@@ -1,0 +1,15 @@
+{
+  "status": "LOCAL_MODEL_FIXTURE_IDENTITY_PASS",
+  "native_files": [
+    "include/gemmini.h",
+    "include/gemmini_params.h",
+    "fixed_plans.json",
+    "prepared_packets.inc",
+    "yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h"
+  ],
+  "first_layer_files": [
+    "first_layer_s2d.json",
+    "first_layer_s2d_data.inc"
+  ],
+  "scope": "Actual RTL workload inputs equal self-contained model snapshot byte-for-byte"
+}

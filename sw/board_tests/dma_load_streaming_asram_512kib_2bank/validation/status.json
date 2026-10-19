@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "status": "OFFLINE_SOFTWARE_PASS",
+  "checked_utc": "2026-10-19T08:27:56.290370+00:00",
+  "hardware_build_id": "abd1c8c87558c7b0",
+  "software_build_id": "5e0866bcdb8160d9e011390833a98eda893efcaa981eb4d6ec4b36e2441184ac",
+  "sram_elf_sha256": "2b7a7b399949618c51327758922e8e30b66949d3a680befa069832db45ba0c46",
+  "yolo_artifacts": {
+    "model": {
+      "path": "build/yolov5_asram_model.elf",
+      "sha256": "dc77c2189dd21839ab509cbd9c8ad423409b8d5236769143a59cce89296e22ac",
+      "bytes": 6993080,
+      "load_segments": [
+        {
+          "address": 2181038080,
+          "memory_bytes": 31941824,
+          "file_bytes": 6511236
+        }
+      ],
+      "disassembly_sha256": "be3e9a7b0246c3af0789f7fc0376d1b96faafe1801ded9fcff4f913e36728a4d"
+    },
+    "diagnostic": {
+      "path": "build/yolov5_asram_diagnostic.elf",
+      "sha256": "a2c2761b49ec75875977905dba5842557729dadb6c61864ade943b0a7d4d8342",
+      "bytes": 6998776,
+      "load_segments": [
+        {
+          "address": 2181038080,
+          "memory_bytes": 35356224,
+          "file_bytes": 6512516
+        }
+      ],
+      "disassembly_sha256": "6d4f2545771bc7bf9ee0e08e631e1357df3d5438a18096ddccaa6ff2e9cbe113"
+    }
+  },
+  "tests": {
+    "unittest_methods": 20,
+    "complete_native_ddr_local_plan_equivalence": "PASS",
+    "elf_audits": 3,
+    "preflight": "PASS_NO_HARDWARE_ACCESS",
+    "local_model_fixture_identity": "PASS"
+  },
+  "board_accessed": false,
+  "board_validation": "NOT_RUN",
+  "cpu_rvv_execution": "NOT_RUN",
+  "full_model_rtl_execution": "NOT_RUN",
+  "performance": "NOT_MEASURED",
+  "bitstream": "NOT_GENERATED",
+  "limitations": "Host/fake-device tests exercise flow and checks; numerical candidate RTL evidence is in the paired hardware version."
+}

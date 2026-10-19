@@ -1,0 +1,77 @@
+{
+  "status": "MERGED_FUNCTIONAL_SIMULATION_PASS",
+  "hardware_build_id": "abd1c8c87558c7b0",
+  "generation_context": "build/experiments/dma_stream_asram/candidate_02/GENERATION_CONTEXT.json",
+  "generation_context_sha256": "36a2fa41670cf4357af69cb62c0167b37724dcaf754d6c1053f9093752993994",
+  "buffered_context": "build/experiments/dma_stream_asram/candidate_buffered_02/GENERATION_CONTEXT.json",
+  "buffered_context_sha256": "8669f4800271d6e42d4db8b7ebc346ce33dd46110f5724477ed1673f23100eac",
+  "evidence": {
+    "units": {
+      "path": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/units_04/unit_evidence.json",
+      "sha256": "fabb0a21d680c9d6e86c6331490a4e5650571841bbfe0fa63f072eb1966473cd",
+      "status": "SOURCE_UNIT_PASS"
+    },
+    "store": {
+      "path": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/store_01/evidence.json",
+      "sha256": "64d293c329c34f5e77d1a9ca2433f0bf9d0e1dafad436b7bdfa646371ae5fa56",
+      "status": "PASS"
+    },
+    "tl": {
+      "path": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/tl_03/evidence.json",
+      "sha256": "ed6154d81976960df8efccb250484cea59a7ee2cefc7a7aa808603672b349ca4",
+      "status": "REAL_TL_BEHAVIORAL_STORE_PASS"
+    },
+    "first_ddr": {
+      "path": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/first_02/rtl_evidence.json",
+      "sha256": "3f714896e7eddf7e28c66891404efde5deb8e75ce35f2cfdd573f7399ecef056",
+      "status": "COMPACT_REAL_DIM32_RTL_PASS"
+    },
+    "first_local": {
+      "path": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/first_local_03/rtl_evidence.json",
+      "sha256": "695758b82c0cf78f2de7db652dc128eb511c988834a351e83ae35733680d599c",
+      "status": "COMPACT_REAL_DIM32_RTL_PASS"
+    },
+    "layers": {
+      "path": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/layers_03/evidence.json",
+      "sha256": "50e8ba532e5e137e002a3675e49647d9f33fa3194faf8ec2a4f95e6447393d21",
+      "status": "REPRESENTATIVE_LAYERS_PASS",
+      "trace": {
+        "path": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/layers_03/trace_evidence.json",
+        "sha256": "57c33b2ced181c0ef3076f10a23ec6d4cc97ace5a51973c4ad077fe61bf4f998"
+      }
+    },
+    "joint": {
+      "path": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/joint_04/evidence.json",
+      "sha256": "835f39f5b38f033ddbb6a51da4d45b2da54e6ec3705dd2caec79c71a70e49fb8",
+      "status": "REAL_GEMMINI_ASRAM_FOUR_ROUTES_PASS"
+    },
+    "fault_ddr": {
+      "path": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/fault_ddr_02/evidence.json",
+      "sha256": "054412b6273e4ed8a10b344cf62088bcf6932c596c070af33ad4bf9348dbc39e",
+      "status": "REAL_FAULT_RECOVERY_PASS"
+    },
+    "fault_local": {
+      "path": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/fault_local_02/evidence.json",
+      "sha256": "c65805a42f5099ed162667a6628f2ea75d211452ee71067d9412ce59ce592e95",
+      "status": "REAL_GEMMINI_ASRAM_LATE_FAULT_RECOVERY_PASS"
+    },
+    "memory": {
+      "path": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/memory_02/evidence.json",
+      "sha256": "1ce5bf51596fe96a042bf9e504a7a7a58dfb8cd1c9634d2779777a613e80149d",
+      "status": "MEMORY_MUX_WIDTH_LEASE_PASS"
+    },
+    "buffered_spad": {
+      "path": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/buffered_spad_02/evidence.json",
+      "sha256": "3da8421abf806dd8f4604fd1e70e28b77dcb38d806aae7a4e68f733e2fe15a2e",
+      "status": "REAL_SPAD_RAW_POISON_PASS"
+    }
+  },
+  "board_accessed": false,
+  "bitstream": "NOT_GENERATED",
+  "synthesis": "NOT_RUN",
+  "timing": "NOT_MEASURED",
+  "scope": "Complete defined feature regression matrix; real three-DIM32 candidate RTL and Xilinx functional primitives. Compact layers, not full-network RTL or Rocket/Saturn instruction execution.",
+  "full_model_rtl_executed": false,
+  "cpu_rvv_rtl_executed": false,
+  "buffered_streaming_work_equal": "C3/N32/P6, four modes, three lanes: TL Gets and physical SPAD writes identical; no performance claim"
+}

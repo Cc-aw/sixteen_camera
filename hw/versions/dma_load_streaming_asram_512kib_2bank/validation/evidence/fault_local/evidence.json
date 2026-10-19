@@ -1,0 +1,11 @@
+{
+  "status": "REAL_GEMMINI_ASRAM_LATE_FAULT_RECOVERY_PASS",
+  "build_id": "abd1c8c87558c7b0",
+  "lanes": 3,
+  "records": 6,
+  "vendor_primitive_simulated": true,
+  "full_model_executed": false,
+  "cpu_rvv_executed": false,
+  "scope": "Actual generated Gemmini/Reader/ASRAM TL, two-port storage and URAM primitives; simulation decoder/arbiter, not whole-SoC CPU execution.",
+  "log_sha256": "cf22a81c9683515ab47354e0c49355a2d617f4533390637466a6c23645e1ba0a"
+}

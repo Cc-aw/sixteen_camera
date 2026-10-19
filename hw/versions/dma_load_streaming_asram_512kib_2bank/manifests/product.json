@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "hardware_alias": "dma_load_streaming_asram_512kib_2bank",
+  "scala_config": "TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig",
+  "soc_config": "tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig",
+  "source_root": "hw/versions/dma_load_streaming_asram_512kib_2bank",
+  "generation_policy": "private_workspace_only; hw/soc production export is never replaced",
+  "soc_generator": "hw/versions/dma_load_streaming_asram_512kib_2bank/scripts/build_soc.py",
+  "address_manifest": "hw/versions/dma_load_streaming_asram_512kib_2bank/manifests/activation_sram.json",
+  "worker_count": 3,
+  "gemmini_dim": 32,
+  "clock_hz": 100000000,
+  "model": "yolov5nu",
+  "l2_secondary_entries": 34,
+  "head_read_decouple": false,
+  "l2_implementation": "s1_combinational",
+  "l2": {
+    "banks": 2,
+    "capacity_bytes": 524288,
+    "ways": 8,
+    "sets_per_bank": 512,
+    "line_bytes": 64,
+    "bank_mask": 4096,
+    "statistics_abi": "1.1",
+    "fallback_banks": 2
+  },
+  "activation_sram": {
+    "schema": 1,
+    "enabled": true,
+    "banks": 3,
+    "bytes_per_bank": 2359296,
+    "data_width_bits": 256
+  },
+  "dma_load_modes": [
+    "legacy",
+    "read_coalesced",
+    "read_assembled",
+    "spad_assembled"
+  ],
+  "dma_load_reset_mode": "legacy",
+  "software_status": "independent_sram_diagnostic_and_full_yolo_comparison_elfs; board_NOT_RUN",
+  "source_parents": [
+    "hw/versions/activation_sram_512kib_2bank",
+    "hw/versions/dma_load_streaming_512kib_2bank"
+  ],
+  "dma_load_streaming_enable": true,
+  "dma_load_pipeline_version": "row_ready_v1"
+}

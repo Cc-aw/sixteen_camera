@@ -1,0 +1,26 @@
+
+(isim-gdb)
+=elaboration-done,precision="-12",dp_address="129619674624016",dp_size="131500636"
+(isim-gdb)
+^running
+(isim-gdb)
+-1*stopped,reason="run-complete",now="0",dp_address="129619674624016",dp_size="131500636"
+(isim-gdb)
+^running
+(isim-gdb)
+@"DMA_FAULT_HOLD_PASS,kind=1,lanes=3,no_done=checked,mode_reject=checked,partial_sram_delta=checked\n"
+(isim-gdb)
+@"DMA_FAULT_RECOVERY_PASS,kind=1,lanes=3,bytes=288\n"
+(isim-gdb)
+@"DMA_FAULT_HOLD_PASS,kind=2,lanes=3,no_done=checked,mode_reject=checked,partial_sram_delta=checked\n"
+(isim-gdb)
+@"DMA_FAULT_RECOVERY_PASS,kind=2,lanes=3,bytes=288\n"
+(isim-gdb)
+@"REAL_CLUSTER_PASS,DMA_FAULT=1,kinds=2,lanes=3\n"
+(isim-gdb)
+-1*stopped,reason="finish",frame={linefile="8589934684"},now="56430000",scope="12"
+(isim-gdb)
+&"INFO: xsimkernel Simulation Memory Usage: 450184 KB (Peak: 515720 KB), Simulation CPU Usage: 66150 ms\n"
+(isim-gdb)
+-1^exit
+(isim-gdb)

@@ -1,0 +1,24 @@
+{
+  "status": "REPRESENTATIVE_LAYERS_PASS",
+  "build_id": "abd1c8c87558c7b0",
+  "stages": [
+    0,
+    2,
+    4,
+    5,
+    8,
+    10,
+    59,
+    132
+  ],
+  "modes": 4,
+  "runtime_mode_ids": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "lanes": 3,
+  "full_model_executed": false,
+  "log_sha256": "0f58fff261ef67c31f5396c7a897659b6fa1591c16aaa972625d3789f1146520"
+}

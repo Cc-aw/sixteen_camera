@@ -5,7 +5,19 @@ if {[info exists ::env(ASRAM_CANDIDATE_CONTEXT)] && $::env(ASRAM_CANDIDATE_CONTE
     if {[info exists ::env(DMA_LOAD_CANDIDATE_CONTEXT)] && $::env(DMA_LOAD_CANDIDATE_CONTEXT) ne ""} {
         error "Select exactly one private candidate context"
     }
-    set sc_candidate_root [file normalize [file join $sc_product_repo build experiments activation_sram]]
+    set SOC_ASRAM_VARIANT activation_sram_512kib_2bank
+    set SOC_ASRAM_EXPERIMENT activation_sram
+    if {[info exists ::env(ASRAM_FEATURE_VARIANT)] && $::env(ASRAM_FEATURE_VARIANT) ne ""} {
+        if {$::env(ASRAM_FEATURE_VARIANT) ne "dma_load_streaming_asram_512kib_2bank" &&
+            $::env(ASRAM_FEATURE_VARIANT) ne "activation_sram_512kib_2bank"} {
+            error "Unsupported private ASRAM feature variant"
+        }
+        set SOC_ASRAM_VARIANT $::env(ASRAM_FEATURE_VARIANT)
+        if {$SOC_ASRAM_VARIANT eq "dma_load_streaming_asram_512kib_2bank"} {
+            set SOC_ASRAM_EXPERIMENT dma_stream_asram
+        }
+    }
+    set sc_candidate_root [file normalize [file join $sc_product_repo build experiments $SOC_ASRAM_EXPERIMENT]]
     if {![info exists ::env(VIVADO_PROJECT)] || \
         [string first "${sc_candidate_root}/" [file normalize $::env(VIVADO_PROJECT)]] != 0} {
         error "ASRAM candidate requires a private project below $sc_candidate_root"
@@ -17,7 +29,7 @@ if {[info exists ::env(ASRAM_CANDIDATE_CONTEXT)] && $::env(ASRAM_CANDIDATE_CONTE
     # Vivado exports PYTHONHOME/PYTHONPATH for its bundled interpreter. Do not
     # let those redirect the explicitly selected source-audit Python runtime.
     array set sc_product [exec env -u PYTHONHOME -u PYTHONPATH $sc_asram_python -B [file join $sc_product_repo hw versions \
-        activation_sram_512kib_2bank scripts physical_candidate.py] \
+        $SOC_ASRAM_VARIANT scripts physical_candidate.py] \
         --context $::env(ASRAM_CANDIDATE_CONTEXT) --tcl]
     set SOC_ASRAM_PRIVATE 1
 } elseif {[info exists ::env(DMA_LOAD_CANDIDATE_CONTEXT)] && $::env(DMA_LOAD_CANDIDATE_CONTEXT) ne ""} {

@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "positive_fixture": "joint_04 actual candidate log",
+  "negative_fixtures": [
+    "missing terminal marker",
+    "duplicate mode retaining record count",
+    "duplicate case retaining record count",
+    "truncated log"
+  ],
+  "scope": "Reanalysis rejects incomplete/duplicate-key sessions before generating acceptance evidence"
+}

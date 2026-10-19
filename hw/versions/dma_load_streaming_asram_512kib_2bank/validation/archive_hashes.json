@@ -1,0 +1,180 @@
+{
+  "status": "COMPLETE",
+  "files": [
+    {
+      "source": "build/experiments/dma_stream_asram/units_04/unit_evidence.json",
+      "archive": "validation/evidence/units/evidence.json",
+      "sha256": "fabb0a21d680c9d6e86c6331490a4e5650571841bbfe0fa63f072eb1966473cd"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/units_04/compile.log",
+      "archive": "validation/evidence/units/compile.txt",
+      "sha256": "593a0d816fe6f49f034798d99231178fca4a19312be49a76147770d1414f527d"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/units_04/unit.log",
+      "archive": "validation/evidence/units/unit.txt",
+      "sha256": "1592bb046672b5d0672aa6e0509a7a7ebbab4dcaea1360a9c154664515958d8e"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/units_04/reader.log",
+      "archive": "validation/evidence/units/reader.txt",
+      "sha256": "cf10ade88244332f8cca9cee84927fe1c2d1d3bbcb9d6a4f47e1ea948091bea2"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/units_04/streaming.log",
+      "archive": "validation/evidence/units/streaming.txt",
+      "sha256": "edd6c8c9251774af93da6702d5fe91f31fe25a2194984a603fc560a5e39f7726"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/units_04/address.log",
+      "archive": "validation/evidence/units/address.txt",
+      "sha256": "81cd6236b0506843f5c23a7ceaa9a46310c273de16126228f40ed20cf4498482"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/store_01/evidence.json",
+      "archive": "validation/evidence/store/evidence.json",
+      "sha256": "64d293c329c34f5e77d1a9ca2433f0bf9d0e1dafad436b7bdfa646371ae5fa56"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/store_01/behavioral.log",
+      "archive": "validation/evidence/store/behavioral.txt",
+      "sha256": "3c7d5a3429707a98d5453955c056f9c0b02d40b15ea97119c12d5eb2aa74e4a4"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/store_01/vendor.log",
+      "archive": "validation/evidence/store/vendor.txt",
+      "sha256": "3c7d5a3429707a98d5453955c056f9c0b02d40b15ea97119c12d5eb2aa74e4a4"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/tl_03/evidence.json",
+      "archive": "validation/evidence/tl/evidence.json",
+      "sha256": "ed6154d81976960df8efccb250484cea59a7ee2cefc7a7aa808603672b349ca4"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/tl_03/simulation.log",
+      "archive": "validation/evidence/tl/simulation.txt",
+      "sha256": "9ea273c4f329276c5a888cc70c0d15fe3883a9406d7526fc6547eaf0075433d6"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/first_02/rtl_evidence.json",
+      "archive": "validation/evidence/first_ddr/evidence.json",
+      "sha256": "3f714896e7eddf7e28c66891404efde5deb8e75ce35f2cfdd573f7399ecef056"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/first_02/result.log",
+      "archive": "validation/evidence/first_ddr/result.txt",
+      "sha256": "2584f1547ddbfb7e66b2abe693ff8cc45a3eafbb1df7095a8fe8b1f9145f0674"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/first_local_03/rtl_evidence.json",
+      "archive": "validation/evidence/first_local/evidence.json",
+      "sha256": "695758b82c0cf78f2de7db652dc128eb511c988834a351e83ae35733680d599c"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/first_local_03/result.log",
+      "archive": "validation/evidence/first_local/result.txt",
+      "sha256": "1bdd3ef72ab1b8202aeda87ece7956fa0f1e7d78e53b4b05d04afbf368811525"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/joint_04/evidence.json",
+      "archive": "validation/evidence/joint/evidence.json",
+      "sha256": "835f39f5b38f033ddbb6a51da4d45b2da54e6ec3705dd2caec79c71a70e49fb8"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/joint_04/simulation/result.log",
+      "archive": "validation/evidence/joint/result.txt",
+      "sha256": "d6d73e1c53fc5dbea7a4d84685e590738062dcb9d79b7630b63c429f47decf86"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/fault_ddr_02/evidence.json",
+      "archive": "validation/evidence/fault_ddr/evidence.json",
+      "sha256": "054412b6273e4ed8a10b344cf62088bcf6932c596c070af33ad4bf9348dbc39e"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/fault_ddr_02/result.log",
+      "archive": "validation/evidence/fault_ddr/result.txt",
+      "sha256": "087f405ca13fa9e7d131d874eed59b634f020cc10297b4daadc0e7a981068973"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/fault_local_02/evidence.json",
+      "archive": "validation/evidence/fault_local/evidence.json",
+      "sha256": "c65805a42f5099ed162667a6628f2ea75d211452ee71067d9412ce59ce592e95"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/fault_local_02/simulation/result.log",
+      "archive": "validation/evidence/fault_local/result.txt",
+      "sha256": "cf22a81c9683515ab47354e0c49355a2d617f4533390637466a6c23645e1ba0a"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/memory_02/evidence.json",
+      "archive": "validation/evidence/memory/evidence.json",
+      "sha256": "1ce5bf51596fe96a042bf9e504a7a7a58dfb8cd1c9634d2779777a613e80149d"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/memory_02/result.log",
+      "archive": "validation/evidence/memory/result.txt",
+      "sha256": "5d9e08cec67df9ac6fba889416489bbfe4922b56824b73d2aef2378fa31a69b3"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/buffered_spad_02/evidence.json",
+      "archive": "validation/evidence/buffered_spad/evidence.json",
+      "sha256": "3da8421abf806dd8f4604fd1e70e28b77dcb38d806aae7a4e68f733e2fe15a2e"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/buffered_spad_02/result.log",
+      "archive": "validation/evidence/buffered_spad/result.txt",
+      "sha256": "b59fb5a0a229c4500aa20d4c0274de25165881da0b83ee857154fd7977586bb6"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/candidate_02/GENERATION_CONTEXT.json",
+      "archive": "validation/evidence/streaming_context.json",
+      "sha256": "36a2fa41670cf4357af69cb62c0167b37724dcaf754d6c1053f9093752993994"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/candidate_buffered_02/GENERATION_CONTEXT.json",
+      "archive": "validation/evidence/buffered_context.json",
+      "sha256": "8669f4800271d6e42d4db8b7ebc346ce33dd46110f5724477ed1673f23100eac"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/layers_03/evidence.json",
+      "archive": "validation/evidence/layers/evidence.json",
+      "sha256": "50e8ba532e5e137e002a3675e49647d9f33fa3194faf8ec2a4f95e6447393d21"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/layers_03/result.log",
+      "archive": "validation/evidence/layers/result.txt",
+      "sha256": "0f58fff261ef67c31f5396c7a897659b6fa1591c16aaa972625d3789f1146520"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/layers_03/trace_evidence.json",
+      "archive": "validation/evidence/layers/trace_evidence.json",
+      "sha256": "57c33b2ced181c0ef3076f10a23ec6d4cc97ace5a51973c4ad077fe61bf4f998"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/layers_03/cases.json",
+      "archive": "validation/evidence/layers/cases.json",
+      "sha256": "321e02731686dedd459cd5a6330aa9a24c2eea26e882b2eaa06b456d139b291a"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/candidate_02/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig.activation_sram_pma.json",
+      "archive": "validation/evidence/topology/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig.activation_sram_pma.json",
+      "sha256": "5ae4013cef174db859ad25faf158fff799d43d849472842d7633e7a03b09ce8f"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/candidate_02/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig.activation_sram_topology.json",
+      "archive": "validation/evidence/topology/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig.activation_sram_topology.json",
+      "sha256": "3895123a707ffcfda99bbb40ac224e20cad9a99f4c76bcca026bcfa37155f5b8"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/candidate_02/activation_sram_structure.json",
+      "archive": "validation/evidence/topology/activation_sram_structure.json",
+      "sha256": "9d86c17ecadfeb94f607c354365d265ef90e252eb4ecd72d23e5f9013b08c1c1"
+    },
+    {
+      "source": "build/experiments/dma_stream_asram/candidate_02/activation_sram_manifest.json",
+      "archive": "validation/evidence/topology/activation_sram_manifest.json",
+      "sha256": "9eb3966ce1a3ae551b9af5a17b05923d25a1ea07dabd49605d19df9998d18d56"
+    }
+  ]
+}

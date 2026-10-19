@@ -1,0 +1,713 @@
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=false,mode=1,c=3,fault=0,early_rows=0,requests=3,credits=96
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=false,mode=1,c=12,fault=0,early_rows=0,requests=7,credits=384
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=false,mode=2,c=3,fault=0,early_rows=0,requests=3,credits=96
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=false,mode=2,c=12,fault=0,early_rows=0,requests=7,credits=384
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=false,mode=3,c=3,fault=0,early_rows=0,requests=34,credits=96
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=false,mode=3,c=12,fault=0,early_rows=0,requests=38,credits=384
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=1,c=3,fault=0,early_rows=21,requests=3,credits=96
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=1,c=3,fault=1,early_rows=21,requests=3,credits=63
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=1,c=3,fault=2,early_rows=21,requests=3,credits=63
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=1,c=3,fault=3,early_rows=21,requests=3,credits=63
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=1,c=3,fault=4,early_rows=21,requests=3,credits=93
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=1,c=12,fault=0,early_rows=26,requests=7,credits=384
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=1,c=12,fault=1,early_rows=26,requests=7,credits=312
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=1,c=12,fault=2,early_rows=26,requests=7,credits=312
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=1,c=12,fault=3,early_rows=26,requests=7,credits=312
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=1,c=12,fault=4,early_rows=26,requests=7,credits=372
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=2,c=3,fault=0,early_rows=21,requests=3,credits=96
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=2,c=3,fault=1,early_rows=21,requests=3,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=2,c=3,fault=2,early_rows=21,requests=3,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=2,c=3,fault=3,early_rows=21,requests=3,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=2,c=3,fault=4,early_rows=21,requests=3,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=2,c=12,fault=0,early_rows=26,requests=7,credits=384
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=2,c=12,fault=1,early_rows=26,requests=7,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=2,c=12,fault=2,early_rows=26,requests=7,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=2,c=12,fault=3,early_rows=26,requests=7,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=2,c=12,fault=4,early_rows=26,requests=7,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=3,c=3,fault=0,early_rows=31,requests=34,credits=96
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=3,c=3,fault=1,early_rows=31,requests=34,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=3,c=3,fault=2,early_rows=31,requests=34,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=3,c=3,fault=3,early_rows=31,requests=34,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=3,c=3,fault=4,early_rows=31,requests=34,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=3,c=12,fault=0,early_rows=31,requests=38,credits=384
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=3,c=12,fault=1,early_rows=31,requests=38,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=3,c=12,fault=2,early_rows=31,requests=38,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=3,c=12,fault=3,early_rows=31,requests=38,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=false,streaming=true,mode=3,c=12,fault=4,early_rows=31,requests=38,credits=0
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=false,mode=1,c=3,fault=0,early_rows=0,requests=3,credits=96
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=false,mode=1,c=12,fault=0,early_rows=0,requests=7,credits=384
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=false,mode=2,c=3,fault=0,early_rows=0,requests=3,credits=96
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=false,mode=2,c=12,fault=0,early_rows=0,requests=7,credits=384
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=false,mode=3,c=3,fault=0,early_rows=0,requests=34,credits=96
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=false,mode=3,c=12,fault=0,early_rows=0,requests=38,credits=384
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+[WARNING] Unsupported annotation: AttributeAnnotation
+ Please report this issue at https://github.com/ucb-bar/chiseltest/issues
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=1,c=3,fault=0,early_rows=21,requests=3,credits=96
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=1,c=3,fault=1,early_rows=21,requests=3,credits=63
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=1,c=3,fault=2,early_rows=21,requests=3,credits=63
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=1,c=3,fault=3,early_rows=21,requests=3,credits=63
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=1,c=3,fault=4,early_rows=21,requests=3,credits=93
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=1,c=12,fault=0,early_rows=26,requests=7,credits=384
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=1,c=12,fault=1,early_rows=26,requests=7,credits=312
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=1,c=12,fault=2,early_rows=26,requests=7,credits=312
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=1,c=12,fault=3,early_rows=26,requests=7,credits=312
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=1,c=12,fault=4,early_rows=26,requests=7,credits=372
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=2,c=3,fault=0,early_rows=21,requests=3,credits=96
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=2,c=3,fault=1,early_rows=21,requests=3,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=2,c=3,fault=2,early_rows=21,requests=3,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=2,c=3,fault=3,early_rows=21,requests=3,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=2,c=3,fault=4,early_rows=21,requests=3,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=2,c=12,fault=0,early_rows=26,requests=7,credits=384
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=2,c=12,fault=1,early_rows=26,requests=7,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=2,c=12,fault=2,early_rows=26,requests=7,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=2,c=12,fault=3,early_rows=26,requests=7,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=2,c=12,fault=4,early_rows=26,requests=7,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=3,c=3,fault=0,early_rows=31,requests=34,credits=96
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=3,c=3,fault=1,early_rows=31,requests=34,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=3,c=3,fault=2,early_rows=31,requests=34,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=3,c=3,fault=3,early_rows=31,requests=34,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=3,c=3,fault=4,early_rows=31,requests=34,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=3,c=12,fault=0,early_rows=31,requests=38,credits=384
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=3,c=12,fault=1,early_rows=31,requests=38,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=3,c=12,fault=2,early_rows=31,requests=38,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=3,c=12,fault=3,early_rows=31,requests=38,credits=0
+DMA_LOAD_STREAMING_CASE_PASS,local=true,streaming=true,mode=3,c=12,fault=4,early_rows=31,requests=38,credits=0
+DMA_LOAD_STREAMING_PASS,early_replay=checked,missing_prefix=checked,backpressure=checked,late_fault=checked,buffered_control=checked

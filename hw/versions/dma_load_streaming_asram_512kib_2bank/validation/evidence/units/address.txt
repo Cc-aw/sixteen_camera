@@ -1,0 +1,1 @@
+DMA_STREAM_ASRAM_ADDRESS_PASS,cases=4766,three_windows=checked,holes=reject,control=reject,disabled=reject,DDR=preserved
