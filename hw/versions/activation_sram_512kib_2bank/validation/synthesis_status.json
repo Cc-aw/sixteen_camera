@@ -1,0 +1,178 @@
+{
+  "schema": 1,
+  "status": "SYNTHESIZED_IMPLEMENTATION_RUNNING",
+  "historical_dma_build_id": "2a95a4ca64390235",
+  "asram_candidate_rtl_generated": true,
+  "board_accessed": false,
+  "checks": {
+    "A01": {
+      "status": "PARTIAL",
+      "evidence": "build/experiments/activation_sram/512kib_2bank/candidate_03/activation_sram_structure.json",
+      "remaining": "Three distinct-lane behavioral patterns, source31 and mixed-target simulations; complete model/DMA footprint inventory"
+    },
+    "A02": {
+      "status": "PASS",
+      "scope": "Full-size storage wrapper; behavioral and Vivado 2023.2 URAM288_BASE models; 36 boundaries, 1152 masks, two ports",
+      "evidence": "build/experiments/activation_sram/512kib_2bank/store_01/evidence.json"
+    },
+    "A03": {
+      "status": "PARTIAL",
+      "evidence": "build/experiments/activation_sram/512kib_2bank/tl_04/evidence.json",
+      "scope": "One real TL bank, behavioral store, 589 directed/random-address cases; integration scope not covered"
+    },
+    "A04": {
+      "status": "PARTIAL",
+      "evidence": "build/experiments/activation_sram/512kib_2bank/tl_04/evidence.json",
+      "scope": "One real TL bank, behavioral store, 589 directed/random-address cases; integration scope not covered"
+    },
+    "A05": {
+      "status": "NOT_RUN"
+    },
+    "A06": {
+      "status": "NOT_RUN"
+    },
+    "A07": {
+      "status": "PARTIAL",
+      "evidence": "build/experiments/activation_sram/512kib_2bank/tl_04/evidence.json",
+      "scope": "One real TL bank, behavioral store, 589 directed/random-address cases; integration scope not covered"
+    },
+    "A08": {
+      "status": "PARTIAL",
+      "evidence": "build/experiments/activation_sram/512kib_2bank/candidate_03/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig.activation_sram_pma.json",
+      "scope": "Actual Rocket/Saturn topology negotiates uncached RW/partial/non-executable; CPU/RVV instructions NOT_RUN"
+    },
+    "A09": {
+      "status": "NOT_RUN"
+    },
+    "A10": {
+      "status": "PARTIAL",
+      "evidence": "build/experiments/activation_sram/512kib_2bank/tl_04/evidence.json",
+      "scope": "12 same-word WAW collisions with deterministic alternating priority; complete read/write collision matrix remains"
+    },
+    "A11": {
+      "status": "PARTIAL",
+      "evidence": "build/experiments/activation_sram/512kib_2bank/tl_04/evidence.json",
+      "scope": "One real TL bank, behavioral store, 589 directed/random-address cases; integration scope not covered"
+    },
+    "A12": {
+      "status": "PARTIAL",
+      "scope": "Host view/capability/full logical-span/guard tests PASS; native model command equivalence and complete DMA footprint NOT_RUN",
+      "log": "build/experiments/activation_sram/512kib_2bank/software/host_test.log"
+    },
+    "A13": {
+      "status": "NOT_RUN"
+    },
+    "A14": {
+      "status": "PARTIAL",
+      "scope": "make check and existing feature-local DMA source unit regressions PASS; subsystem ASRAM numerical/CPU/RVV integration regressions NOT_RUN",
+      "log": "build/experiments/activation_sram/512kib_2bank/production_check.log"
+    },
+    "A15": {
+      "status": "PARTIAL",
+      "evidence": "build/experiments/activation_sram/512kib_2bank/resource_report.json",
+      "scope": "Private RTL/hash/PMA/elaboration and single-bank OOC PASS; full-chip synthesis PASS with 588 URAM, each ASRAM bank 72. Whole-chip implementation running; routed timing and board validation pending.",
+      "tl_bank_resource_report": "build/experiments/activation_sram/512kib_2bank/resource_report.json",
+      "synthesis_evidence": "build/experiments/activation_sram/512kib_2bank/bitstream_e684b3d0484a9424_physical_04/synthesis_result.txt",
+      "synthesis_utilization": "build/experiments/activation_sram/512kib_2bank/bitstream_e684b3d0484a9424_physical_04/synthesis_utilization.rpt"
+    }
+  },
+  "diagnostic_elaboration": "build/experiments/activation_sram/512kib_2bank/elaboration_04/evidence.json",
+  "software_scope": "Explicit view library only; comparison benchmark/ELFs and scalar+RVV completion callback are not integrated",
+  "source31_integration": "NOT_RUN",
+  "timing_scope": "Single TL bank OOC met 100MHz; full-chip unplaced synthesis timing is an estimate only. Full-chip routed timing pending.",
+  "generation_attempt_01": "DISCARDED_FROM_DELIVERY: scripts were still changing during bring-up; structurally checked diagnostic only",
+  "candidate": {
+    "directory": "build/experiments/activation_sram/512kib_2bank/candidate_03",
+    "context_sha256": "eaee79d1c7934fe5720f514f604a5863ea05eac7bbc7c9a22d1e98d12182afa7",
+    "hardware_build_id": "e684b3d0484a9424",
+    "rtl_collateral_files": 849,
+    "source_workspace": "/tmp/sixteen-camera-asram-512kib-2bank-chipyard",
+    "audit_log": "build/experiments/activation_sram/512kib_2bank/candidate_audit.log",
+    "bitstream": "NOT_GENERATED"
+  },
+  "disabled_feature_elaboration": "build/experiments/activation_sram/512kib_2bank/elaboration_disabled_01/evidence.json",
+  "generation_attempt_02": "REJECTED_BY_GENERATOR_PROVENANCE_GUARD: source/provenance changed; no accepted context",
+  "remaining_work": [
+    "Full arena strided DMA footprint and HOST access inventory",
+    "Mixed local/external and source31 lifecycle simulations",
+    "Actual Rocket/Saturn scalar/RVV execution and proven commit callback",
+    "Native DDR/local full-model normalized plan equivalence and benchmark/diagnostic ELFs",
+    "Three real Gemmini numerical chain, intermediate bytes and full subsystem regressions",
+    "Feature floorplan integration and whole-chip synthesis/route/timing",
+    "Comparison kit identity/hash/log parser; board execution only on a separate user instruction"
+  ],
+  "dma_source_units": {
+    "status": "PASS",
+    "evidence": "build/experiments/activation_sram/512kib_2bank/dma_unit_01/unit_evidence.json",
+    "scope": "Actual feature-local DMA planner/group/assembler/reader and four-mode control source units; not three-Gemmini ASRAM numerical integration"
+  },
+  "validation_commands": [
+    {
+      "command": "make -C hw/versions/activation_sram_512kib_2bank test-prepare",
+      "exit_code": 0,
+      "log": "build/experiments/activation_sram/512kib_2bank/prepare_fixture_final.log"
+    },
+    {
+      "command": "python3 -B hw/versions/activation_sram_512kib_2bank/scripts/test_store.py --output build/experiments/activation_sram/512kib_2bank/store_01",
+      "exit_code": 0,
+      "evidence": "build/experiments/activation_sram/512kib_2bank/store_01/evidence.json"
+    },
+    {
+      "command": "python3 -B hw/versions/activation_sram_512kib_2bank/scripts/test_tl.py --workspace /tmp/sixteen-camera-dma-load-2bank-chipyard --output build/experiments/activation_sram/512kib_2bank/tl_04",
+      "exit_code": 0,
+      "evidence": "build/experiments/activation_sram/512kib_2bank/tl_04/evidence.json"
+    },
+    {
+      "command": "python3 -B hw/versions/activation_sram_512kib_2bank/scripts/run_dma_load_tests.py --workspace /tmp/sixteen-camera-asram-512kib-2bank-chipyard --unit-only --output build/experiments/activation_sram/512kib_2bank/dma_unit_01",
+      "exit_code": 0,
+      "evidence": "build/experiments/activation_sram/512kib_2bank/dma_unit_01/unit_evidence.json"
+    },
+    {
+      "command": "make -C hw/versions/activation_sram_512kib_2bank test-software",
+      "exit_code": 0,
+      "log": "build/experiments/activation_sram/512kib_2bank/software/host_test.log"
+    },
+    {
+      "command": "make check",
+      "exit_code": 0,
+      "log": "build/experiments/activation_sram/512kib_2bank/production_check.log"
+    },
+    {
+      "command": "vivado -mode batch -source build/experiments/activation_sram/512kib_2bank/ooc_tl_bank_01/run.tcl",
+      "exit_code": 0,
+      "log": "build/experiments/activation_sram/512kib_2bank/ooc_tl_bank_01/console.log"
+    }
+  ],
+  "physical_plan": {
+    "status": "SYNTHESIS_PASS_IMPLEMENTATION_RUNNING",
+    "baseline_build_id": "2a95a4ca64390235",
+    "source": "hw/versions/activation_sram_512kib_2bank/constraints/README.md",
+    "baseline_routed_replay": "build/experiments/activation_sram/512kib_2bank/physical_plan/baseline_replay/baseline_replay.txt",
+    "activation_primitive_replay": "build/experiments/activation_sram/512kib_2bank/physical_plan/activation_replay_04/activation_replay.txt",
+    "uram_target_by_slr": [
+      132,
+      132,
+      192,
+      132
+    ],
+    "timing_gate": false,
+    "bitstream_build": "build/experiments/activation_sram/512kib_2bank/bitstream_e684b3d0484a9424_physical_04/state.json",
+    "full_chip_routed_timing": "PENDING",
+    "board_accessed": false,
+    "initial_setup_attempt": "physical_01/02 stopped before synthesis for Python environment; physical_03 cancelled before synthesis to finalize hard primitive assertions; physical_04 is the active build",
+    "baseline_hard_replay": "build/experiments/activation_sram/512kib_2bank/physical_plan/baseline_work_02/baseline_hard_replay.txt",
+    "baseline_hard_replay_status": "PASS mesh=2304 DSP, Head=192 URAM, all IS_SOFT=0 after all memberships",
+    "shared_slr_membership_probe": "PASS: one independent DSP remains isolated from 216 actual ASRAM URAM primitives; physical_plan/overlap_probe/console.log",
+    "synth_design_result": {
+      "errors": 0,
+      "critical_warnings": 0,
+      "elapsed": "00:39:55",
+      "uram288": 372,
+      "uram288_base": 216,
+      "uram_total": 588
+    },
+    "synthesis_checkpoint_sha256": "e6349a03fa20e3303ccecfffb9f9b02e96b74aeb0586c4f704ab488807babde3",
+    "input_integrity": "UNCHANGED_THROUGH_SYNTHESIS",
+    "monitoring_stopped_after": "synthesis; implementation continues unattended as requested"
+  }
+}

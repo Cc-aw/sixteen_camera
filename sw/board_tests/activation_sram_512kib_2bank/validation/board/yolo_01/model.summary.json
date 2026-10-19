@@ -1,0 +1,124 @@
+{
+  "status": "BOARD_PASS",
+  "build": {
+    "schema": "1",
+    "hardware": "1",
+    "hardware_id": "e684b3d0484a9424",
+    "package": "83a191f5a6cd5b2a6dbad2a6a2fc0a1b5559ecc7a3327fa8f93c6e6355696cb5",
+    "rounds": "1",
+    "diagnostic": "0",
+    "frames": "12",
+    "warmup_frames": "3",
+    "modes": "4",
+    "profiles": "2",
+    "executors": "3",
+    "clock_hz": "100000000",
+    "layout": "original",
+    "ppu_runs": "monotonic"
+  },
+  "ppu_runs": 372,
+  "measured_records": 24,
+  "warmup_records": 25,
+  "comparison": "DDR legacy direct PPU count and all 40 result words",
+  "raw_head_bytes": 0,
+  "performance": "MEASURED_SAME_BITSTREAM",
+  "independent_accuracy": "NOT_PROVEN",
+  "summaries": [
+    {
+      "round": "0",
+      "mode": "0",
+      "executor": "0",
+      "ddr_cycles": "113983462",
+      "local_cycles": "111562831",
+      "gain_x1000": "1021"
+    },
+    {
+      "round": "0",
+      "mode": "0",
+      "executor": "1",
+      "ddr_cycles": "111029242",
+      "local_cycles": "108615847",
+      "gain_x1000": "1022"
+    },
+    {
+      "round": "0",
+      "mode": "0",
+      "executor": "2",
+      "ddr_cycles": "43553301",
+      "local_cycles": "37059278",
+      "gain_x1000": "1175"
+    },
+    {
+      "round": "0",
+      "mode": "1",
+      "executor": "0",
+      "ddr_cycles": "118955102",
+      "local_cycles": "116291668",
+      "gain_x1000": "1022"
+    },
+    {
+      "round": "0",
+      "mode": "1",
+      "executor": "1",
+      "ddr_cycles": "116011523",
+      "local_cycles": "113332330",
+      "gain_x1000": "1023"
+    },
+    {
+      "round": "0",
+      "mode": "1",
+      "executor": "2",
+      "ddr_cycles": "44361230",
+      "local_cycles": "38275307",
+      "gain_x1000": "1159"
+    },
+    {
+      "round": "0",
+      "mode": "2",
+      "executor": "0",
+      "ddr_cycles": "98057116",
+      "local_cycles": "95349100",
+      "gain_x1000": "1028"
+    },
+    {
+      "round": "0",
+      "mode": "2",
+      "executor": "1",
+      "ddr_cycles": "95127707",
+      "local_cycles": "92383475",
+      "gain_x1000": "1029"
+    },
+    {
+      "round": "0",
+      "mode": "2",
+      "executor": "2",
+      "ddr_cycles": "37635513",
+      "local_cycles": "31346566",
+      "gain_x1000": "1200"
+    },
+    {
+      "round": "0",
+      "mode": "3",
+      "executor": "0",
+      "ddr_cycles": "104424362",
+      "local_cycles": "101746921",
+      "gain_x1000": "1026"
+    },
+    {
+      "round": "0",
+      "mode": "3",
+      "executor": "1",
+      "ddr_cycles": "101491660",
+      "local_cycles": "98785016",
+      "gain_x1000": "1027"
+    },
+    {
+      "round": "0",
+      "mode": "3",
+      "executor": "2",
+      "ddr_cycles": "40117537",
+      "local_cycles": "33569579",
+      "gain_x1000": "1195"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "hardware_build_id": "e684b3d0484a9424",
+  "bitstream": "build/experiments/activation_sram/512kib_2bank/bitstream_e684b3d0484a9424_physical_04/activation_sram_512kib_2bank.bit",
+  "bitstream_sha256": "539bce5ed42429ca07a4a5c125e533e5aad2cf06599dc9ef934bfdcc63d894b0",
+  "generation_context_sha256": "eaee79d1c7934fe5720f514f604a5863ea05eac7bbc7c9a22d1e98d12182afa7",
+  "clock_hz": 100000000,
+  "dma_modes": [
+    "legacy",
+    "read_coalesced",
+    "read_assembled",
+    "spad_assembled"
+  ],
+  "asram_bases": [
+    536870912,
+    541065216,
+    545259520
+  ],
+  "physical_bytes_per_bank": 2359296,
+  "logical_arena_bytes": 2217600,
+  "control_base": 549453824,
+  "routed_wns_ns": -3.1,
+  "routed_whs_ns": 0.0,
+  "board_validation": "NOT_RUN"
+}

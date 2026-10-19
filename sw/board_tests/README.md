@@ -17,3 +17,10 @@ OpenOCD、GDB 等工具路径通过各目录的 `config.local.mk` 配置。
 运行时模式，记录完整 mvin 批次周期、TL Get 和 SPAD 写次数；不带模型权重。
 默认 C=12、N=32、P=2、非连续 stride=64，使用方法见
 [微基准说明](dma_spad_micro/README.md)。
+
+`activation_sram_512kib_2bank/`：对应硬件 ID `e684b3d0484a9424` 的 ASRAM1
+独立诊断小 ELF，包含三块 SRAM 全容量标量／RVV／部分写、CPU 空洞拒绝、四种 DMA
+模式的 432 项搬运及三路提交测试。使用方法见
+[ASRAM 下板说明](activation_sram_512kib_2bank/README.md)。
+同目录还提供完整 YOLOv5nu 的 DDR／ASRAM 对照和原始 Head／PAD 字节诊断，见
+[推理移植说明](activation_sram_512kib_2bank/YOLO.md)。

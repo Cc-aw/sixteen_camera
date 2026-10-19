@@ -229,6 +229,12 @@ if {$sc_project eq ""} {
 }
 
 set sc_repo_root $::sixteen_camera_setup::repo_root
+source [file join $sc_repo_root hw manifests soc_manifest.tcl]
+if {$SOC_ASRAM_PRIVATE && [string first \
+    "[file normalize [file join $sc_repo_root build experiments activation_sram]]/" \
+    "[file normalize [get_property DIRECTORY $sc_project]]/"] != 0} {
+    error "ASRAM setup requires the current project in its private experiment tree"
+}
 set sc_project_name [get_property NAME $sc_project]
 set sc_project_part [get_property PART $sc_project]
 set sc_expected_part xcvu13p-fhga2104-2-i
@@ -267,6 +273,10 @@ if {![info exists RTL_SOURCES] || [llength $RTL_SOURCES] == 0} {
 }
 set sc_rtl_files {}
 foreach relative_path $RTL_SOURCES {
+    if {$SOC_ASRAM_PRIVATE && [file tail $relative_path] in \
+        {axi4_head_uram_router_v3.sv postprocess_memory_bridge_v3.sv}} {
+        set relative_path [file join hw versions activation_sram_512kib_2bank board_rtl [file tail $relative_path]]
+    }
     lappend sc_rtl_files [file normalize [file join $sc_repo_root $relative_path]]
 }
 
@@ -282,6 +292,7 @@ set sc_rtl_roots [list \
     [file normalize [file join $sc_repo_root hw rtl si5338]] \
     [file normalize [file join $sc_repo_root hw rtl video]] \
     [file normalize [file join $sc_repo_root hw rtl ai]]]
+lappend sc_rtl_roots [file normalize [file join $sc_repo_root hw versions activation_sram_512kib_2bank board_rtl]]
 set sc_imported_rtl_marker "/hw/vivado/sixteen_camera.srcs/sources_1/imports/hw/rtl/"
 foreach sc_file [get_files -quiet -of_objects [get_filesets sources_1]] {
     if {[catch {set sc_name [file normalize [get_property NAME $sc_file]]}]} {
@@ -307,7 +318,6 @@ foreach path [lsort -unique $sc_rtl_files] {
 }
 
 # The selected Rocket configuration is generated as one collateral unit.
-source [file join $sc_repo_root hw manifests soc_manifest.tcl]
 set sc_soc_config $SOC_CONFIG
 set sc_soc_dir [file normalize [file join $sc_repo_root $SOC_COLLATERAL_DIR]]
 set sc_defines [get_property verilog_define [get_filesets sources_1]]
@@ -459,6 +469,11 @@ if {$sc_total_failed == 0 &&
 source [file join $sc_repo_root tools build default_video_run_settings.tcl]
 apply_default_video_run_settings
 if {$SOC_BITSTREAM_FLOW eq "triple32_v3"} {
-    source [file join $sc_repo_root tools build triple32_v3 run_settings.tcl]
-    apply_triple32_v3_run_settings
+    if {$SOC_ASRAM_PRIVATE} {
+        source [file join $sc_repo_root hw versions activation_sram_512kib_2bank constraints run_settings.tcl]
+        apply_asram_run_settings
+    } else {
+        source [file join $sc_repo_root tools build triple32_v3 run_settings.tcl]
+        apply_triple32_v3_run_settings
+    }
 }

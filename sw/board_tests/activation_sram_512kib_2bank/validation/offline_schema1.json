@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "checked_utc": "2026-10-19T00:55:49.462150+00:00",
+  "software_build_id": "35d0888c851198765aaf0b6b2db6f3d2b44f82a7bd813863eb40b2bff673c974",
+  "hardware_build_id": "e684b3d0484a9424",
+  "bitstream_sha256": "539bce5ed42429ca07a4a5c125e533e5aad2cf06599dc9ef934bfdcc63d894b0",
+  "bitstream_hash_verified": true,
+  "elf_sha256": "faf6b4a3a1f310c756f8c03363a0d125872d72c57bec11445c373ace2accf327",
+  "elf_bytes": 77744,
+  "payload_bytes": 8408,
+  "load_segments": [
+    {
+      "address": 2181038080,
+      "memory_bytes": 47744,
+      "file_bytes": 8408
+    }
+  ],
+  "commands": {
+    "make test": "PASS (13 unittest methods; 8 independent device fault injections; target bitstream hash binding, receipt, JTAG compatibility, server cleanup)",
+    "make preflight": "PASS (bitstream SHA-256, Vivado/OpenOCD/GDB paths; board_accessed=0)",
+    "bash -n program/run_firmware.sh": "PASS",
+    "make check": "PASS (production manifest/current product; full Runtime firmware frontend port remains pending)",
+    "git diff --check": "PASS",
+    "bash -n program/download_bitstream.sh program/run_firmware.sh": "PASS",
+    "make -n program-bitstream RUN=bit_01": "PASS (dry run only)"
+  },
+  "host_matrix": {
+    "memory_cases": 15,
+    "dma_cases": 432,
+    "parallel_cases": 4,
+    "emulated_traps": 12
+  },
+  "fault_injections": [
+    "ID",
+    "bank alias",
+    "RVV copy",
+    "missing hole trap",
+    "data",
+    "guard",
+    "counter",
+    "timeout"
+  ],
+  "board_accessed": false,
+  "board_validation": "NOT_RUN",
+  "rtl_simulation": "NOT_RUN",
+  "limitations": "Host fake backend verifies test flow and parser; does not execute RISC-V RVV, real traps, or RTL. No FPGA programming, ELF download, JTAG, or UART access performed."
+}

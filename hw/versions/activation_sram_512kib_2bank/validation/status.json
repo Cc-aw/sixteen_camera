@@ -1,0 +1,53 @@
+{
+  "schema": 2,
+  "status": "BITSTREAM_GENERATED_BOARD_COMPARISON_PASS_TIMING_UNMET",
+  "hardware_build_id": "e684b3d0484a9424",
+  "bitstream": {
+    "path": "build/experiments/activation_sram/512kib_2bank/bitstream_e684b3d0484a9424_physical_04/activation_sram_512kib_2bank.bit",
+    "sha256": "539bce5ed42429ca07a4a5c125e533e5aad2cf06599dc9ef934bfdcc63d894b0",
+    "generation_context_sha256": "eaee79d1c7934fe5720f514f604a5863ea05eac7bbc7c9a22d1e98d12182afa7"
+  },
+  "physical": {
+    "status": "BITSTREAM_TIMING_UNMET",
+    "wns_ns": -3.1,
+    "whs_ns": 0.0,
+    "uram_total": 588,
+    "asram_uram": 216,
+    "asram_uram_per_lane": 72,
+    "timing_gate": false,
+    "evidence": "physical_04/build_state.json"
+  },
+  "board_accessed": true,
+  "board_evidence": "../../../../sw/board_tests/activation_sram_512kib_2bank/validation/board",
+  "bringup": {
+    "run": "asram_02",
+    "status": "BOARD_PASS",
+    "memory_cases": 15,
+    "dma_cases": 432,
+    "parallel_cases": 4,
+    "denied_hole_probes": 12
+  },
+  "yolo": {
+    "run": "yolo_01",
+    "status": "BOARD_PASS",
+    "software_build_id": "83a191f5a6cd5b2a6dbad2a6a2fc0a1b5559ecc7a3327fa8f93c6e6355696cb5",
+    "rounds": 1,
+    "diagnostic": 0,
+    "ppu_runs": 372,
+    "measured_windows": 24,
+    "measured_frames": 288,
+    "comparison": "DDR legacy direct PPU count and all 40 result words",
+    "best_mode": "read_assembled",
+    "best_executor": "frontend_parallel",
+    "best_asram_fps": 38.28170524324738,
+    "asram_three_lane_scaling": 2.9471641327474276
+  },
+  "previous_stage_record": "synthesis_status.json",
+  "remaining_work": [
+    "Raw Head/PAD byte diagnostic board run.",
+    "Multiple rounds and longer board stability validation; independent detection accuracy is not established.",
+    "Exact DMA footprint expansion for remaining LoopConv/LoopWS aggregate accesses.",
+    "Mixed-target/source31 and complete collision-matrix integration simulations remain outside the current board comparison scope.",
+    "Timing closure: routed setup WNS is -3.100 ns; functional board pass does not establish timing closure."
+  ]
+}

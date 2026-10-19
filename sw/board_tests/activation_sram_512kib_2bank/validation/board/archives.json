@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "artifacts": [
+    {
+      "source": "sw/board_tests/activation_sram_512kib_2bank/logs/asram_02/asram.log",
+      "archive": "validation/board/asram_02/asram.txt",
+      "sha256": "e4bef65166494f3457964851fc3f6284030dc81c9927ea9fdc06bf64e7952534",
+      "bytes": 47143
+    },
+    {
+      "source": "sw/board_tests/activation_sram_512kib_2bank/logs/asram_02/asram.summary.json",
+      "archive": "validation/board/asram_02/asram.summary.json",
+      "sha256": "99d5e2e84dd5fda4eecfac2feb1b1464546304b5bb38638eb0de4d224e95b4e9",
+      "bytes": 91626
+    },
+    {
+      "source": "sw/board_tests/activation_sram_512kib_2bank/logs/asram_02/manifest.json",
+      "archive": "validation/board/asram_02/manifest.json",
+      "sha256": "464542263c06f8ba9159d9aa678babc69de2c61fa041dd2f0b2926e495da8418",
+      "bytes": 4829
+    },
+    {
+      "source": "sw/board_tests/activation_sram_512kib_2bank/logs/asram_02/asram.load.json",
+      "archive": "validation/board/asram_02/asram.load.json",
+      "sha256": "74ca48e661b37dca0cb0b3102d35db1545f598cc881ced186d44df5f85a9bf51",
+      "bytes": 873
+    },
+    {
+      "source": "sw/board_tests/activation_sram_512kib_2bank/logs/yolo_01/model.log",
+      "archive": "validation/board/yolo_01/model.txt",
+      "sha256": "ebe52a44f9c877c091bcc138c8d60c65e01ea914b90641531b3a45d1f0fc0bf5",
+      "bytes": 202134
+    },
+    {
+      "source": "sw/board_tests/activation_sram_512kib_2bank/logs/yolo_01/model.summary.json",
+      "archive": "validation/board/yolo_01/model.summary.json",
+      "sha256": "325915c6506ba9c3c31b8788cf7bb7eda5d412d9ffc89748719c47e1a4e2c84f",
+      "bytes": 2736
+    },
+    {
+      "source": "sw/board_tests/activation_sram_512kib_2bank/logs/yolo_01/model.analysis.json",
+      "archive": "validation/board/yolo_01/model.analysis.json",
+      "sha256": "4fce89380e97e0ad3291ac3da199a04f68ffe0a8b8e0016b7a5ba426a9c27a6c",
+      "bytes": 18584
+    },
+    {
+      "source": "sw/board_tests/activation_sram_512kib_2bank/logs/yolo_01/model.manifest.json",
+      "archive": "validation/board/yolo_01/model.manifest.json",
+      "sha256": "bc13762b590ebd39824872fe9d4068124b9fd00a6eadba6f162cc6ff97068ffa",
+      "bytes": 14781
+    },
+    {
+      "source": "sw/board_tests/activation_sram_512kib_2bank/logs/yolo_01/model.load.json",
+      "archive": "validation/board/yolo_01/model.load.json",
+      "sha256": "0298aa74889ca7ac0a0cab36a8d17194529380cfa97a6901b4d2919683ef2cc5",
+      "bytes": 892
+    }
+  ],
+  "scope": "Text board evidence and manifests only; ELFs, bitstreams and generated projects remain local build outputs."
+}

@@ -1,0 +1,297 @@
+{
+  "donor": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_v3_2026-10-13",
+  "baseline_commit": "88a3b358ef5a698ae71ee173b4641db2480c72dd",
+  "destination_config": "triple32_v3_tensor",
+  "policy": "Latest three-worker MaxPool/MemoryParallelV3 plus local TensorIngress; no dated parallel exports",
+  "files": [
+    {
+      "source": "soc_shell/npu100_video/fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala",
+      "destination": "hw/soc/source/shell/npu100_video/fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala",
+      "source_sha256": "9eeb7b626b5d552c14b9994e8a6fe4e232b4e8c126458e65e01d3bc5ac955125",
+      "imported_sha256": "9eeb7b626b5d552c14b9994e8a6fe4e232b4e8c126458e65e01d3bc5ac955125"
+    },
+    {
+      "source": "soc_shell/npu100_video/tests/check_config_0918.py",
+      "destination": "hw/soc/source/shell/npu100_video/tests/check_config_0918.py",
+      "source_sha256": "e44a0150f8e0c639f5c71426714abdd71c839ae71458300a95af21f25b6e6e26",
+      "imported_sha256": "e44a0150f8e0c639f5c71426714abdd71c839ae71458300a95af21f25b6e6e26"
+    },
+    {
+      "source": "soc_shell/npu100_video/tests/scala/VideoSoCConfigTest.scala",
+      "destination": "hw/soc/source/shell/npu100_video/tests/scala/VideoSoCConfigTest.scala",
+      "source_sha256": "3d63a1e96b47036b8cf9e9e877c2b9fdbe49b0edebed328570ffc5a87c04904b",
+      "imported_sha256": "3d63a1e96b47036b8cf9e9e877c2b9fdbe49b0edebed328570ffc5a87c04904b"
+    },
+    {
+      "source": "soc_shell/memory_parallel_v3/scala/MemoryParallelV3.scala",
+      "destination": "hw/soc/source/shell/memory_parallel_v3/scala/MemoryParallelV3.scala",
+      "source_sha256": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98",
+      "imported_sha256": "7af3eec4e801034570486a3babb96b2fd42797702bb51cdbdbd25de2c288014e",
+      "local_candidate": "S1 L2 1 MiB four banks; ABI1.2; explicit two-bank fallback",
+      "performance_previous_imported_sha256": "21a346f7d6201a2b43fa14c5288e005e6f7aa7f4c38388f5536a6a0ef1a01544",
+      "before_s1_restore_imported_sha256": "62e9ac55aca01f94119412ffa57eaf6fdb27c5ae55f71b1352792becc978af02",
+      "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/memory_parallel_v3/scala/MemoryParallelV3.scala",
+      "s1_restore_sha256": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98",
+      "before_l2_1m_4bank_imported_sha256": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98"
+    },
+    {
+      "source": "soc_shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
+      "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
+      "source_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7",
+      "imported_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7",
+      "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/chipyard_build/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
+      "s1_restore_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7"
+    },
+    {
+      "source": "soc_shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
+      "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
+      "source_sha256": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359",
+      "imported_sha256": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359",
+      "performance_previous_imported_sha256": "743f78ea5bc848f58a0f916e0e30b42e10f7e60da006eb39a1a1e5fe6bd7120b",
+      "local_candidate": "S1 Head/L2 restore; TensorIngress and DDR retained",
+      "before_s1_restore_imported_sha256": "dd88fd316bad914c9f633e057e238dc5b202a05dab57e4ee6b5168984ac5988a",
+      "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/chipyard_build/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
+      "s1_restore_sha256": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359"
+    },
+    {
+      "source": "soc_shell/memory_parallel_v3/tests/MemoryV3Test.scala",
+      "destination": "hw/soc/source/shell/memory_parallel_v3/tests/MemoryV3Test.scala",
+      "source_sha256": "87d11ca8f9f1eb3172c8d8fad866e3b0364a13ccd78174a44a4ee04ef8d13d14",
+      "imported_sha256": "87d11ca8f9f1eb3172c8d8fad866e3b0364a13ccd78174a44a4ee04ef8d13d14"
+    },
+    {
+      "source": "rtl/bus/axi4_ui_read_cdc.sv",
+      "destination": "hw/rtl/bus/axi4_ui_read_cdc.sv",
+      "source_sha256": "ec1696295e3c40e0939fc3954c3c3e2e129c4c8c0a03cb3e95f9f27e60765389",
+      "imported_sha256": "ec1696295e3c40e0939fc3954c3c3e2e129c4c8c0a03cb3e95f9f27e60765389"
+    },
+    {
+      "source": "rtl/video/camera/dvp_event_bridge.sv",
+      "destination": "hw/rtl/video/camera/dvp_event_bridge.sv",
+      "source_sha256": "1e4a2327fe33410033ffc4ac9a8858c2b650b73518c6977ac51d57a8646946ed",
+      "imported_sha256": "1e4a2327fe33410033ffc4ac9a8858c2b650b73518c6977ac51d57a8646946ed"
+    },
+    {
+      "source": "rtl/video/camera/ov7670_frontend.sv",
+      "destination": "hw/rtl/video/camera/ov7670_frontend.sv",
+      "source_sha256": "096031723cb5481d3dd667102e7f697bff6239bb2156091c57efc250e10008d0",
+      "imported_sha256": "096031723cb5481d3dd667102e7f697bff6239bb2156091c57efc250e10008d0"
+    },
+    {
+      "source": "rtl/video/display/mosaic_rgb565_reader.sv",
+      "destination": "hw/rtl/video/display/mosaic_rgb565_reader.sv",
+      "source_sha256": "27d153033891c1c9af68917cb7d0e1b04d9acfdfa353d89e46902cf8e78e87b9",
+      "imported_sha256": "27d153033891c1c9af68917cb7d0e1b04d9acfdfa353d89e46902cf8e78e87b9"
+    },
+    {
+      "source": "rtl/ai/preprocess/yolov5nu_multi_channel_tensor_dma.sv",
+      "destination": "hw/rtl/ai/preprocess/yolov5nu_multi_channel_tensor_dma.sv",
+      "source_sha256": "60624c0b9d735dd4880682aaaf2273aee034c9546a7384d8cfa48abe0e9cbea9",
+      "imported_sha256": "eb635408be0ac8be23f9570ea0af036afaf82094f91bc3123e5479624d2a189e"
+    },
+    {
+      "source": "rtl/memory/memory_perf_external.sv",
+      "destination": "hw/rtl/memory/memory_perf_external.sv",
+      "source_sha256": "db60835f3cfb697b546677a47f8a6f8486cfee5e29964491fcf3dfd2b83538ad",
+      "imported_sha256": "db60835f3cfb697b546677a47f8a6f8486cfee5e29964491fcf3dfd2b83538ad"
+    },
+    {
+      "source": "scripts/npu3x32_100mhz/placement_3x32.tcl",
+      "destination": "tools/build/triple32_v3/placement_3x32.tcl",
+      "source_sha256": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781",
+      "imported_sha256": "b922a5a63e31147fedc25f3db48f954e13f11f25b6556b2a8af67433b4aaa01c",
+      "before_l2_1m_4bank_imported_sha256": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781",
+      "local_candidate": "S1 two/four-bank soft placement guides"
+    },
+    {
+      "source": "xdc/memory_parallel_v3_cdc.tcl",
+      "destination": "hw/constraints/memory_parallel_v3_cdc.tcl",
+      "source_sha256": "1d1d6c934d3d033a43741f620796097fa78bf53ab8b6fd776ae3d92f48ec451f",
+      "imported_sha256": "b445bde068b032d0590e60d69cfebaf87723feb982afef932516d3d53b714a5c"
+    },
+    {
+      "source": "xdc/timing_v3_sync_constraints.tcl",
+      "destination": "hw/constraints/timing_sync_constraints.tcl",
+      "source_sha256": "45060d084683cfc28863dab90c235230385f0f404e7ab2e3f9b9b67192ce63e7",
+      "imported_sha256": "45060d084683cfc28863dab90c235230385f0f404e7ab2e3f9b9b67192ce63e7"
+    },
+    {
+      "source": "tests/timing_v3/tb_event_pipeline.sv",
+      "destination": "tests/rtl/benches/timing/tb_event_pipeline.sv",
+      "source_sha256": "9e68c5aac144db455d5ec32755ce9e1f9361b3902892cb4256dc84a067907edb",
+      "imported_sha256": "9e68c5aac144db455d5ec32755ce9e1f9361b3902892cb4256dc84a067907edb"
+    },
+    {
+      "source": "tests/timing_v3/tb_mosaic_pipeline.sv",
+      "destination": "tests/rtl/benches/timing/tb_mosaic_pipeline.sv",
+      "source_sha256": "fb62ddf7cda3114ca075e07a4232a4afd2c24071ba23a707811eddc2c63c454c",
+      "imported_sha256": "fb62ddf7cda3114ca075e07a4232a4afd2c24071ba23a707811eddc2c63c454c"
+    },
+    {
+      "source": "tests/timing_v3/tb_ui_return_stress.sv",
+      "destination": "tests/rtl/benches/timing/tb_ui_return_stress.sv",
+      "source_sha256": "e9e7d3a03335e2ac4f43b5594d6f3c9456e45b6de088d20985dba1367b7ecf64",
+      "imported_sha256": "e9e7d3a03335e2ac4f43b5594d6f3c9456e45b6de088d20985dba1367b7ecf64"
+    },
+    {
+      "source": "tests/timing_v3/ui_return_synthesis_top.sv",
+      "destination": "tests/rtl/benches/timing/ui_return_synthesis_top.sv",
+      "source_sha256": "c518233ac91591d93593e7bc78e64b4180893d832a1bbd34e33c428b743a180f",
+      "imported_sha256": "c518233ac91591d93593e7bc78e64b4180893d832a1bbd34e33c428b743a180f"
+    },
+    {
+      "source": "hw/soc/source/shell/reference/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala",
+      "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala",
+      "source_sha256": "1e2d15d8b79a740835a773a2309f44cd7940f3edf06d7bf639e3e246321f097d",
+      "imported_sha256": "1e2d15d8b79a740835a773a2309f44cd7940f3edf06d7bf639e3e246321f097d",
+      "local_candidate": "S1 Head/L2 restore; TensorIngress and DDR retained",
+      "before_s1_restore_imported_sha256": "fd4eed4b659a08d14438469491952d1f00165687fe0a408d877203ba5c6f5ea9",
+      "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/chipyard_build/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Parameters.scala",
+      "s1_restore_sha256": "1e2d15d8b79a740835a773a2309f44cd7940f3edf06d7bf639e3e246321f097d"
+    },
+    {
+      "source": "hw/soc/source/shell/reference/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkD.scala",
+      "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkD.scala",
+      "source_sha256": "375abb38cc395101f54d4332ddc3c4a200a71e331a5409269d7c913410b56f6c",
+      "imported_sha256": "375abb38cc395101f54d4332ddc3c4a200a71e331a5409269d7c913410b56f6c",
+      "local_candidate": "S1 Head/L2 restore; TensorIngress and DDR retained",
+      "before_s1_restore_imported_sha256": "5b65d7aeb6273f85a48f47d3f798fb57af63a604a2186d3db177bb3f19db109d",
+      "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/chipyard_build/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SinkD.scala",
+      "s1_restore_sha256": "375abb38cc395101f54d4332ddc3c4a200a71e331a5409269d7c913410b56f6c"
+    },
+    {
+      "source": "local S1 ListBuffer scoreboard",
+      "destination": "tests/rtl/scala/S1ListBufferTest.scala",
+      "source_sha256": "3fc05a7e44bd7a1278b14e229784d9409dd81787a3f60f5db06420330d44741a",
+      "imported_sha256": "3fc05a7e44bd7a1278b14e229784d9409dd81787a3f60f5db06420330d44741a"
+    }
+  ],
+  "preserved": [
+    "TensorIngress Scala and ingress stat block13 / ABI1.1",
+    "Independent Tensor AXI/source/CDC and Head memory integration",
+    "ctx_active bad-frame teardown guard and ctx_bad clear",
+    "asynchronous FBus RELATED_CLOCKS=0 write bridge configuration",
+    "v26 software and Runtime R5 resource ownership"
+  ],
+  "generation_entry": "tools/soc/build_triple32_v3_tensor.py",
+  "generator_sha256": "3326af56fd2f2811d027ada3581a044ad280c6923bda93ccc990d6613ae9150b",
+  "implementation": {
+    "synthesis": "Flow_PerfOptimized_high / PerformanceOptimized / retiming / resource_sharing off / SHREG_MIN_SIZE5",
+    "placement": "SSI_SpreadLogic_high",
+    "routing": "AlternateCLBRouting -tns_cleanup",
+    "physical_optimization": "AggressiveExplore before and after route; second pass if WNS<0",
+    "mesh_slrs": [
+      0,
+      1,
+      3
+    ],
+    "l2_soft_slrs": [
+      0,
+      2
+    ],
+    "reset_constraints": "Precise first-stage D / asynchronous assertion pins only; functional and second-stage data paths stay timed",
+    "files": {
+      "tools/build/triple32_v3/run_settings.tcl": "78c8adabe4a87982efe734bc8412020a2858bc63e57b1fdce84ce4e690981342",
+      "tools/build/triple32_v3/pre_opt.tcl": "d67c30f924d0ea3f896efa2a5cb35cb5e97eb09b4232e2529ff9f531787cb102",
+      "tools/build/triple32_v3/postroute_timing_close.tcl": "77502ba91a9a839e0f7cf3c8fc06c4f7ac94d48bd7e48b515e7d9f5559aa9d7e",
+      "tools/build/triple32_v3/placement_timing_repair.tcl": "ab84740e8cb9f335333b0e19ec43a54ee05bfaad6b58589db965a00d04597c74",
+      "tools/build/triple32_v3/placement_3x32.tcl": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781",
+      "hw/vivado/create_design_1_v3.tcl": "e4e76366bc38bd3011e5388fb346b6bf5f0adf11d569686d58f9ada9457d705e",
+      "hw/vivado/setup_vivado.tcl": "a2bbb352392af6107ec1c5ac835759fe4564a0c3689d2db17b63e726cdcf4e49"
+    },
+    "ddr_slice_mode": 1,
+    "ddr_soft_slr": 0
+  },
+  "retired_paths": [
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV1Gemmini4x4PackedFullOps256BitConfig",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV1Gemmini4x4PackedFullOps256BitLinuxConfig",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV1Gemmini4x4PackedFullOps256BitTensorIngressConfig",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitConfig",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV2Gemmini16x16PackedFullOps256BitTensorIngressConfig",
+    "tools/build/build_single4_video_yolov5nu.py",
+    "tools/build/build_dual16_video_yolov5nu.py",
+    "tools/soc/build_tensor_ingress.py",
+    "hw/soc/source/tensor_ingress/TensorIngressConfigs.scala"
+  ],
+  "timing_repair": {
+    "donor": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_timing_v3_2026-10-07",
+    "baseline_commit": "def049ad2851bb38d511b276a3604b92c3f0acb3",
+    "files": [
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
+        "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
+        "source_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7",
+        "imported_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7",
+        "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/chipyard_build/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala",
+        "s1_restore_sha256": "4bd571074bb4bf87b3b6c234e6006acc08c0baa37be752bd3e7b6a0d8ee3d6c7"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
+        "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
+        "source_sha256": "743f78ea5bc848f58a0f916e0e30b42e10f7e60da006eb39a1a1e5fe6bd7120b",
+        "imported_sha256": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359",
+        "performance_previous_imported_sha256": "743f78ea5bc848f58a0f916e0e30b42e10f7e60da006eb39a1a1e5fe6bd7120b",
+        "local_candidate": "S1 Head/L2 restore; TensorIngress and DDR retained",
+        "before_s1_restore_imported_sha256": "dd88fd316bad914c9f633e057e238dc5b202a05dab57e4ee6b5168984ac5988a",
+        "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/chipyard_build/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala",
+        "s1_restore_sha256": "3bc2f843893ab13f2d92a708a0eda1f61cd60a66da717f1dc7a574a5e9e0a359"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala",
+        "destination": "hw/soc/source/shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala",
+        "source_sha256": "fd19ab3ff63f67b36216d2805490fc60669b2908dae54d87701af7196543736c",
+        "imported_sha256": "b4baadd3b6515917337f2c21f6d7dda7a176f934508eb95c77c32748800c576b",
+        "performance_previous_imported_sha256": "fd19ab3ff63f67b36216d2805490fc60669b2908dae54d87701af7196543736c",
+        "local_candidate": "S1 Head/L2 restore; TensorIngress and DDR retained",
+        "before_s1_restore_imported_sha256": "b0a1d92af34cb1be3bbaafca1f00b3a3376531869a5f414e86c730cb12933287",
+        "s1_restore_source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s1_2026-10-14/soc_shell/chipyard_build/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala",
+        "s1_restore_sha256": "b4baadd3b6515917337f2c21f6d7dda7a176f934508eb95c77c32748800c576b"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/tests/TimingCacheTest.scala",
+        "destination": "tests/rtl/scala/TimingCacheTest.scala",
+        "source_sha256": "5b845ac86a6f4ab1d5ae13214dd30b1cbbb55febf421c4c5b38f0d323e3dd978",
+        "imported_sha256": "7063fc3668aecdd87ae60c9bab54ccec1aed7dbd6dd924b280076638fcfd1c46",
+        "local_candidate": "S1 two/four-bank full resource, CPU ownership and Tensor coherence tests",
+        "performance_previous_imported_sha256": "5d9eaa3ea8c259cf10ae7e1b6d7780eab7edce796660a8182caebb9d9027b5a7",
+        "before_s1_restore_imported_sha256": "2a4b2ee5755535c0e92da2951ba89e54d5eaa7e00b6de8290d7c0e7fbcfb4591",
+        "before_l2_1m_4bank_imported_sha256": "d74c723abbda92fbeb72ab0d8548fa5f75efdbc5cbdf17ccc2a6aa3e2f11aaef"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/tests/tb_ddr_register_slice.sv",
+        "destination": "tests/rtl/benches/timing/tb_ddr_register_slice.sv",
+        "source_sha256": "38c46ed85a6df5376c3972e6ab783468ccb47cebc28bb203884764dba648dee6",
+        "imported_sha256": "38c46ed85a6df5376c3972e6ab783468ccb47cebc28bb203884764dba648dee6"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/overlay/scripts/npu3x32_100mhz/placement_timing_repair.tcl",
+        "destination": "tools/build/triple32_v3/placement_timing_repair.tcl",
+        "source_sha256": "ab84740e8cb9f335333b0e19ec43a54ee05bfaad6b58589db965a00d04597c74",
+        "imported_sha256": "ab84740e8cb9f335333b0e19ec43a54ee05bfaad6b58589db965a00d04597c74"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/overlay/prj/create_design_1.tcl",
+        "destination": "hw/vivado/create_design_1_v3.tcl",
+        "source_sha256": "27bb4eb576542b94041ec00c663d3835a088990f6e5fa8758b494f42acda6b04",
+        "imported_sha256": "e4e76366bc38bd3011e5388fb346b6bf5f0adf11d569686d58f9ada9457d705e"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/overlay/scripts/npu3x32_100mhz/placement_3x32.tcl",
+        "destination": "tools/build/triple32_v3/placement_3x32.tcl",
+        "source_sha256": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781",
+        "imported_sha256": "b922a5a63e31147fedc25f3db48f954e13f11f25b6556b2a8af67433b4aaa01c",
+        "before_l2_1m_4bank_imported_sha256": "fa65094dd55d480b898563a3c4068171315e6203a1017e07dd25b83d94bf5781",
+        "local_candidate": "S1 two/four-bank soft placement guides"
+      },
+      {
+        "source": "soc_shell/memory_parallel_v3_timing_repair/overlay/rtl/memory/memory_perf_mig_tap.v",
+        "destination": "hw/rtl/memory/memory_perf_mig_tap.v",
+        "source_sha256": "9159aba7c5210add03ab8888c731820b3a74cad85547ff9df3e1a951d1ad0e09",
+        "imported_sha256": "9159aba7c5210add03ab8888c731820b3a74cad85547ff9df3e1a951d1ad0e09"
+      }
+    ],
+    "scope": "Shared V3 cache/DDR timing repair; current MaxPool, TensorIngress/ABI1.1 and v26/R5 retained; autonomous frontend excluded",
+    "package": "soc_shell/memory_parallel_v3_timing_repair"
+  },
+  "pre_refactor_generator_sha256": "438a072901bef1ec3b4d1c9e6974ae9a5e475bf3c00c73e6280dc35fb8f3c695"
+}

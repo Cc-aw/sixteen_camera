@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "checked_utc": "2026-10-19T01:46:47.050860+00:00",
+  "software_build_id": "83a191f5a6cd5b2a6dbad2a6a2fc0a1b5559ecc7a3327fa8f93c6e6355696cb5",
+  "hardware_build_id": "e684b3d0484a9424",
+  "artifacts": {
+    "model": {
+      "path": "build/yolov5_asram_model.elf",
+      "sha256": "93a8895f32f052abf7868d598c5769196c4bb1c1ea53334216b54defeb805696",
+      "bytes": 6992896,
+      "load_segments": [
+        {
+          "address": 2181038080,
+          "memory_bytes": 31941824,
+          "file_bytes": 6511236
+        }
+      ],
+      "disassembly_sha256": "3ee950a5185efe802dc8f4609d9a1f1dfafc86650568787907ac1027cf58fe82"
+    },
+    "diagnostic": {
+      "path": "build/yolov5_asram_diagnostic.elf",
+      "sha256": "4f185f37f23db2351bfe8e7c57b1b5e1839e4e457631afc5c578c61a64b9f081",
+      "bytes": 6998600,
+      "load_segments": [
+        {
+          "address": 2181038080,
+          "memory_bytes": 35356224,
+          "file_bytes": 6512516
+        }
+      ],
+      "disassembly_sha256": "bd0326af1e2f0a5e25db53d3d8e5783aa88e41e041ffe5c3265a6f468dad5ebf"
+    }
+  },
+  "rounds": 1,
+  "offline_commands": {
+    "make test": "PASS (20 unittest methods)",
+    "make preflight": "PASS (all 3 ELFs; board_accessed=0)",
+    "make check": "PASS (production manifest/current product)",
+    "git diff --check -- sw/board_tests": "PASS",
+    "program-model": "DRY_RUN_ONLY"
+  },
+  "plan_equivalence": {
+    "status": "EXACT_MATCH",
+    "tables": 18,
+    "entries_per_frame": 10870,
+    "raw_per_frame": 10478,
+    "conv_per_frame": 462,
+    "ws_per_frame": 224,
+    "drains_per_frame": 380,
+    "hosts_per_frame": 12,
+    "comparisons": [
+      "DDR adapter",
+      "local adapter",
+      "DDR native worker",
+      "local native worker"
+    ],
+    "normalized_plan_sha256": "5aaa25b33ac92ce694672b390c234e13c2adcd287b32de542b01d16aa45a9a7d",
+    "phase_mapping": "EXACT_MATCH"
+  },
+  "suite": {
+    "profiles": 2,
+    "dma_modes": 4,
+    "executors": 3,
+    "measured_frames_per_window": 12,
+    "warmup_frames_per_window": 3,
+    "measured_windows": 24,
+    "warmup_and_golden_windows": 25,
+    "ppu_runs": 372,
+    "multi_round_host_fixture": "1 and 2 rounds; profile order alternates"
+  },
+  "diagnostics": {
+    "raw_head_bytes_per_frame": 907200,
+    "pad_source_bytes_per_frame": 230400,
+    "golden": "same-bitstream DDR legacy direct; frozen after initial 12 frames",
+    "tail_guard_bytes_per_local_bank": 141696,
+    "independent_accuracy": "NOT_PROVEN",
+    "performance_elf_excludes_raw_checks": true
+  },
+  "inventory": {
+    "path": "build/activation_access_inventory.json",
+    "records": 4662,
+    "unknown_loop_footprints": 2082,
+    "scope": "one native lane/slot/image; all 18 normalized tables equal"
+  },
+  "completion_evidence": "validation/yolo_completion.json",
+  "prior_asram_board_run": {
+    "run": "asram_02",
+    "status": "BOARD_PASS",
+    "software_build_id": "52ec2f0ae01ed649dfef115f01fd48c49c6ccffaacbc31e92aa0e68a1634342c",
+    "scope": "15 memory + 432 DMA + 4 parallel + 12 denied; not full YOLO"
+  },
+  "yolo_board_validation": "NOT_RUN",
+  "performance": "NOT_MEASURED",
+  "board_accessed_by_this_task": false
+}

@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "build_id": "52ec2f0ae01ed649dfef115f01fd48c49c6ccffaacbc31e92aa0e68a1634342c",
+  "config": {
+    "target": {
+      "schema": 1,
+      "hardware_build_id": "e684b3d0484a9424",
+      "bitstream": "build/experiments/activation_sram/512kib_2bank/bitstream_e684b3d0484a9424_physical_04/activation_sram_512kib_2bank.bit",
+      "bitstream_sha256": "539bce5ed42429ca07a4a5c125e533e5aad2cf06599dc9ef934bfdcc63d894b0",
+      "generation_context_sha256": "eaee79d1c7934fe5720f514f604a5863ea05eac7bbc7c9a22d1e98d12182afa7",
+      "clock_hz": 100000000,
+      "dma_modes": [
+        "legacy",
+        "read_coalesced",
+        "read_assembled",
+        "spad_assembled"
+      ],
+      "asram_bases": [
+        536870912,
+        541065216,
+        545259520
+      ],
+      "physical_bytes_per_bank": 2359296,
+      "logical_arena_bytes": 2217600,
+      "control_base": 549453824,
+      "routed_wns_ns": -3.1,
+      "routed_whs_ns": 0.0,
+      "board_validation": "NOT_RUN"
+    },
+    "sources": {
+      ".gitignore": "3a687d31cd017e9c55df0a53e7026bd7f13e2ab2feb8d9f78efae02cf5586673",
+      "Makefile": "cdbb1f415f26fb8b7992f41b6573b43e4fdc731d792aed0dcaa5b86b59681d40",
+      "README.md": "03eab6b4338f02aac4e01c599c29b952107ab4b1b681ae9f3978dd66da578e80",
+      "SOURCE_ORIGINS.json": "daa89abc0112a587285e5fa3571b7bd7f391b0d3584774b149ae208fb419c542",
+      "config.example.mk": "30e8d26f3f58ff40810c1127e8f8ac0614bdccc25cb2092cd2c004ff9731d250",
+      "hardware/target.json": "74b16bceab3e87bc56b952d67159fbba3d180b948544d2808a319ab80d8e9b3c",
+      "include/activation_sram_map.h": "94fe233d63619e44d7551193c434e3e4603c09b83d31fc5bd0e0ab6c2b4ae8f2",
+      "include/gemmini_frontend.h": "4ee7dd311a8fe31242541f28aaee4445ac25d4ce84f7e5bdb4501b297e7130b7",
+      "include/suite.h": "3bd65b4f12322a40fc0ebe9f45bb34db67d3fd374f1268ce3ebc9c6afcaaa200",
+      "program/digilent_ipc_compat.c": "ee3eb200cfa370ff4d8ad623614843c6fddc2f15229d3f1c5fd0af72af1b6882",
+      "program/download_bitstream.sh": "963bcd56e1bd74ac8ec26edca5d889e0975aea01f91222d483f45bf0513c2ca7",
+      "program/openocd/load-hdmi-tx.gdb": "13279f1f1349bc6a139b17420d502367aeda156e5883db330def9821e2e7cf8e",
+      "program/openocd/openocd-bscan.cfg": "cf21c4ba4fcd96df11fa800e280d429273c1a74f71f3d41fe977130a04d729e9",
+      "program/program_bitstream.tcl": "69b2589b9166baecbe32d83739daf62c3a8c6c9df5c39fc8e5fc80aca539f0ff",
+      "program/run_firmware.sh": "f2fbeb1213b2e12b9d328295d77c2dfe94140741cff0cda1fd59469f3f71780e",
+      "program/vivado_program.py": "6b7e346d5800fc82953096255f290c58d719ed367d90b3ce5b7e9ac5a78cee75",
+      "scripts/analyze.py": "3aa2909d7d826f8548b2f8dbdc3990009065338874dcb2b1509d1825c2954aaa",
+      "scripts/build.py": "76b70054c9840e8f3e963adf7e7175a72b5b892212cde8dabddcc9715e4e4a49",
+      "scripts/check_hole_rtl.py": "264645ecf870f318a1f8b9570443b938cf79343f5049173b9d91d119d91085b7",
+      "scripts/program.py": "de5fa16a65edcb87f7ee822e257acf1f875d31267b37f91e16b4d37e8bfbb25b",
+      "src/device.c": "c5d841dd9a2675142e89c5ce52f9d9cca55db60389de2613cb1e43e1632a929a",
+      "src/link.ld": "890dad5ac21eef2b8158513818155c00ab278163052d03f3126f683f80b7ba0a",
+      "src/main.c": "b7b63a3c52dc34b4a49b9ef624b54471e725f31134a83abbe3997a32f30181aa",
+      "src/probe.S": "cb4b89f08801ec713f3970abb70c2c8b821ba597dcaca780c98e0a83708c2dae",
+      "src/reference.c": "7beba7f145b6b449b0ef81117ad7812bfc07b989707b7b4aadcfee3f7ba1ad23",
+      "src/rvv.S": "412984eda41f81f4ca8abb59d9d45506b1442ef8194d49ad52a7f3f0df7da086",
+      "src/start.S": "0dde7e9220389d81d891ca11137337139abcfa6ef3fb6a78b53bf1edf7e43ef3",
+      "src/trap.S": "eecfa5b0d51088786ed9e663f5d34bb01645904907362ef4cf1992688cc50a7c",
+      "tests/fake_device.c": "ce7013e8bb4266d790331dfe831e94869842fdd67ba23286536d1c739e4007fa",
+      "tests/tb_hole_port.sv": "21947dcd28b03dc4e8bc809f4b922aa5c431b8b9b915944e833a5ed6cebd738d",
+      "tests/test_programming.py": "9fbfa7449135f18a39012ea0dd47887eb89143820987ed48675b51a31786f463",
+      "tests/test_suite.py": "8532669ee80aaceec110881075848b2dcd480a1c12bc7c8b1782f3f065c837a5"
+    },
+    "compiler": "riscv64-unknown-elf-gcc (gc891d8dc23e) 13.2.0",
+    "arch": "-march=rv64gcv -mabi=lp64d -mcmodel=medany -msmall-data-limit=0",
+    "flags": "-O2 -g -std=gnu11 -ffreestanding -fno-builtin -fno-tree-vectorize -ffunction-sections -fdata-sections -Wall -Wextra -Werror"
+  },
+  "load_segments": [
+    {
+      "address": 2181038080,
+      "memory_bytes": 48704,
+      "file_bytes": 9392
+    }
+  ],
+  "dependency_entries": 17,
+  "elf_bytes": 84376,
+  "payload_bytes": 9392,
+  "elf_sha256": "3d3a46c027d8ef249a3101f11729be0d383fb076197a6c2083254a64095ae4cf",
+  "generated_sha256": "2038129598543fdc14459472dc6f987a5c7ee5ac52e1196a6d78d83a40bef63e",
+  "board_accessed": false,
+  "board_validation": "NOT_RUN"
+}

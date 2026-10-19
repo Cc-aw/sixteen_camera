@@ -1,0 +1,701 @@
+{
+  "status": "BOARD_PASS",
+  "log": "model.log",
+  "log_sha256": "ebe52a44f9c877c091bcc138c8d60c65e01ea914b90641531b3a45d1f0fc0bf5",
+  "hardware_id": "e684b3d0484a9424",
+  "software_id": "83a191f5a6cd5b2a6dbad2a6a2fc0a1b5559ecc7a3327fa8f93c6e6355696cb5",
+  "elf_sha256": "93a8895f32f052abf7868d598c5769196c4bb1c1ea53334216b54defeb805696",
+  "bitstream_sha256": "539bce5ed42429ca07a4a5c125e533e5aad2cf06599dc9ef934bfdcc63d894b0",
+  "clock_hz": 100000000,
+  "rounds": 1,
+  "measured_windows": 24,
+  "measured_frames": 288,
+  "warmup_and_gold_frames": 84,
+  "ppu_runs": 372,
+  "correctness": "All repeated frames match the initial DDR legacy direct PPU detection count and all 40 result words; all guards pass.",
+  "timing_definition": "Batch cycles / 100 MHz / 12. Parallel ms per frame is aggregate throughput amortization, not individual frame latency. Includes HOST, PPU, startup and tail; excludes preparation, comparison, UART, counter reads and guard checks.",
+  "metrics": [
+    {
+      "round": 0,
+      "mode": "legacy",
+      "executor": "direct_serial",
+      "frames": 12,
+      "ddr_batch_cycles": 113983462,
+      "asram_batch_cycles": 111562831,
+      "ddr_ms_per_frame": 94.98621833333333,
+      "asram_ms_per_frame": 92.96902583333333,
+      "ddr_fps": 10.527843065514189,
+      "asram_fps": 10.756270607725973,
+      "asram_speedup": 1.0216974683978752,
+      "elapsed_reduction_percent": 2.1236686072932276
+    },
+    {
+      "round": 0,
+      "mode": "legacy",
+      "executor": "frontend_serial",
+      "frames": 12,
+      "ddr_batch_cycles": 111029242,
+      "asram_batch_cycles": 108615847,
+      "ddr_ms_per_frame": 92.52436833333333,
+      "asram_ms_per_frame": 90.51320583333333,
+      "ddr_fps": 10.807963545315387,
+      "asram_fps": 11.048111607507881,
+      "asram_speedup": 1.0222195477608345,
+      "elapsed_reduction_percent": 2.1736570983705406
+    },
+    {
+      "round": 0,
+      "mode": "legacy",
+      "executor": "frontend_parallel",
+      "frames": 12,
+      "ddr_batch_cycles": 43553301,
+      "asram_batch_cycles": 37059278,
+      "ddr_ms_per_frame": 36.2944175,
+      "asram_ms_per_frame": 30.88273166666667,
+      "ddr_fps": 27.552446598709015,
+      "asram_fps": 32.38055528226967,
+      "asram_speedup": 1.1752333922965257,
+      "elapsed_reduction_percent": 14.910518493190672
+    },
+    {
+      "round": 0,
+      "mode": "read_coalesced",
+      "executor": "direct_serial",
+      "frames": 12,
+      "ddr_batch_cycles": 118955102,
+      "asram_batch_cycles": 116291668,
+      "ddr_ms_per_frame": 99.12925166666666,
+      "asram_ms_per_frame": 96.90972333333333,
+      "ddr_fps": 10.087839696022455,
+      "asram_fps": 10.318882002793183,
+      "asram_speedup": 1.0229030509735229,
+      "elapsed_reduction_percent": 2.2390246027446548
+    },
+    {
+      "round": 0,
+      "mode": "read_coalesced",
+      "executor": "frontend_serial",
+      "frames": 12,
+      "ddr_batch_cycles": 116011523,
+      "asram_batch_cycles": 113332330,
+      "ddr_ms_per_frame": 96.67626916666667,
+      "asram_ms_per_frame": 94.44360833333333,
+      "ddr_fps": 10.343800072342814,
+      "asram_fps": 10.588329031971725,
+      "asram_speedup": 1.0236401475201296,
+      "elapsed_reduction_percent": 2.309419728935025
+    },
+    {
+      "round": 0,
+      "mode": "read_coalesced",
+      "executor": "frontend_parallel",
+      "frames": 12,
+      "ddr_batch_cycles": 44361230,
+      "asram_batch_cycles": 38275307,
+      "ddr_ms_per_frame": 36.96769166666667,
+      "asram_ms_per_frame": 31.896089166666666,
+      "ddr_fps": 27.05064760377474,
+      "asram_fps": 31.351806009028223,
+      "asram_speedup": 1.1590038977349026,
+      "elapsed_reduction_percent": 13.719013201392293
+    },
+    {
+      "round": 0,
+      "mode": "read_assembled",
+      "executor": "direct_serial",
+      "frames": 12,
+      "ddr_batch_cycles": 98057116,
+      "asram_batch_cycles": 95349100,
+      "ddr_ms_per_frame": 81.71426333333334,
+      "asram_ms_per_frame": 79.45758333333333,
+      "ddr_fps": 12.237765589597801,
+      "asram_fps": 12.585331167258003,
+      "asram_speedup": 1.0284010651385278,
+      "elapsed_reduction_percent": 2.7616720850733523
+    },
+    {
+      "round": 0,
+      "mode": "read_assembled",
+      "executor": "frontend_serial",
+      "frames": 12,
+      "ddr_batch_cycles": 95127707,
+      "asram_batch_cycles": 92383475,
+      "ddr_ms_per_frame": 79.27308916666667,
+      "asram_ms_per_frame": 76.98622916666666,
+      "ddr_fps": 12.614621311118116,
+      "asram_fps": 12.989336025734039,
+      "asram_speedup": 1.0297047929838101,
+      "elapsed_reduction_percent": 2.884787289154356
+    },
+    {
+      "round": 0,
+      "mode": "read_assembled",
+      "executor": "frontend_parallel",
+      "frames": 12,
+      "ddr_batch_cycles": 37635513,
+      "asram_batch_cycles": 31346566,
+      "ddr_ms_per_frame": 31.3629275,
+      "asram_ms_per_frame": 26.122138333333332,
+      "ddr_fps": 31.884778613220977,
+      "asram_fps": 38.28170524324738,
+      "asram_speedup": 1.2006263461203375,
+      "elapsed_reduction_percent": 16.710140233773352
+    },
+    {
+      "round": 0,
+      "mode": "spad_assembled",
+      "executor": "direct_serial",
+      "frames": 12,
+      "ddr_batch_cycles": 104424362,
+      "asram_batch_cycles": 101746921,
+      "ddr_ms_per_frame": 87.02030166666667,
+      "asram_ms_per_frame": 84.78910083333334,
+      "ddr_fps": 11.491571286784591,
+      "asram_fps": 11.793968684320188,
+      "asram_speedup": 1.0263147127567624,
+      "elapsed_reduction_percent": 2.5640003431383174
+    },
+    {
+      "round": 0,
+      "mode": "spad_assembled",
+      "executor": "frontend_serial",
+      "frames": 12,
+      "ddr_batch_cycles": 101491660,
+      "asram_batch_cycles": 98785016,
+      "ddr_ms_per_frame": 84.57638333333334,
+      "asram_ms_per_frame": 82.32084666666667,
+      "ddr_fps": 11.823631616627415,
+      "asram_fps": 12.147591290565767,
+      "asram_speedup": 1.0273993375675516,
+      "elapsed_reduction_percent": 2.6668634644462452
+    },
+    {
+      "round": 0,
+      "mode": "spad_assembled",
+      "executor": "frontend_parallel",
+      "frames": 12,
+      "ddr_batch_cycles": 40117537,
+      "asram_batch_cycles": 33569579,
+      "ddr_ms_per_frame": 33.43128083333333,
+      "asram_ms_per_frame": 27.974649166666666,
+      "ddr_fps": 29.912105521333476,
+      "asram_fps": 35.74665026332323,
+      "asram_speedup": 1.195056303804108,
+      "elapsed_reduction_percent": 16.321934220438305
+    }
+  ],
+  "comparisons": {
+    "asram_three_lane_scaling": 2.9471641327474276,
+    "ddr_three_lane_scaling": 2.5276048980652925,
+    "asram_three_lane_efficiency": 0.9823880442491425,
+    "best_vs_ddr_legacy_parallel": 1.3894121927103593,
+    "best_vs_asram_legacy_parallel": 1.1822436307696351,
+    "best_vs_asram_spad_only_parallel": 1.0709172736815893,
+    "tl_read_bytes_reduction_legacy_to_read_assembled": 0.30211658641223005,
+    "spad_write_fires_reduction_legacy_to_read_assembled": 0.5962523272271061,
+    "read_assembled_fetch_wait_reduction_ddr_to_asram": 0.2747817363359516
+  },
+  "parallel_dma_counters": [
+    {
+      "storage": "ddr_arena",
+      "mode": "legacy",
+      "executor": "frontend_parallel",
+      "summed_counters": {
+        "c8": 12466512,
+        "c9": 328534464,
+        "c10": 230796,
+        "c11": 0,
+        "c12": 0,
+        "c13": 0,
+        "c14": 0,
+        "c15": 0,
+        "c16": 0,
+        "c17": 0,
+        "c18": 10222284,
+        "c19": 2829852,
+        "c20": 43126176,
+        "c21": 0,
+        "c22": 37628472,
+        "c23": 684876,
+        "c24": 0,
+        "c25": 0,
+        "c26": 0,
+        "c27": 0,
+        "c30": 0,
+        "c31": 0,
+        "c32": 0,
+        "c33": 508223616,
+        "c34": 843492
+      },
+      "lane_peaks": [
+        {
+          "lane": 0,
+          "group_occupancy_peak": 0,
+          "return_occupancy_peak": 0
+        },
+        {
+          "lane": 1,
+          "group_occupancy_peak": 0,
+          "return_occupancy_peak": 0
+        },
+        {
+          "lane": 2,
+          "group_occupancy_peak": 0,
+          "return_occupancy_peak": 0
+        }
+      ]
+    },
+    {
+      "storage": "ddr_arena",
+      "mode": "read_coalesced",
+      "executor": "frontend_parallel",
+      "summed_counters": {
+        "c8": 12466512,
+        "c9": 328534464,
+        "c10": 230796,
+        "c11": 258048,
+        "c12": 265008,
+        "c13": 23256,
+        "c14": 256044,
+        "c15": 0,
+        "c16": 0,
+        "c17": 41136,
+        "c18": 4372176,
+        "c19": 3355800,
+        "c20": 43126176,
+        "c21": 0,
+        "c22": 36886872,
+        "c23": 684876,
+        "c24": 5883780,
+        "c25": 14656137,
+        "c26": 0,
+        "c27": 2123955,
+        "c30": 0,
+        "c31": 0,
+        "c32": 0,
+        "c33": 354680832,
+        "c34": 0
+      },
+      "lane_peaks": [
+        {
+          "lane": 0,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        },
+        {
+          "lane": 1,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        },
+        {
+          "lane": 2,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        }
+      ]
+    },
+    {
+      "storage": "ddr_arena",
+      "mode": "read_assembled",
+      "executor": "frontend_parallel",
+      "summed_counters": {
+        "c8": 12466512,
+        "c9": 328534464,
+        "c10": 230796,
+        "c11": 299184,
+        "c12": 265008,
+        "c13": 23256,
+        "c14": 256044,
+        "c15": 0,
+        "c16": 0,
+        "c17": 0,
+        "c18": 4372176,
+        "c19": 3355800,
+        "c20": 43126176,
+        "c21": 7323504,
+        "c22": 15192408,
+        "c23": 384972,
+        "c24": 5962464,
+        "c25": 15302822,
+        "c26": 0,
+        "c27": 559465,
+        "c30": 0,
+        "c31": 0,
+        "c32": 1067424,
+        "c33": 354680832,
+        "c34": 0
+      },
+      "lane_peaks": [
+        {
+          "lane": 0,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        },
+        {
+          "lane": 1,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        },
+        {
+          "lane": 2,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        }
+      ]
+    },
+    {
+      "storage": "ddr_arena",
+      "mode": "spad_assembled",
+      "executor": "frontend_parallel",
+      "summed_counters": {
+        "c8": 12466512,
+        "c9": 328534464,
+        "c10": 230796,
+        "c11": 299184,
+        "c12": 265008,
+        "c13": 23256,
+        "c14": 256044,
+        "c15": 0,
+        "c16": 0,
+        "c17": 0,
+        "c18": 10222284,
+        "c19": 2829852,
+        "c20": 43126176,
+        "c21": 7323504,
+        "c22": 15192408,
+        "c23": 384972,
+        "c24": 5962464,
+        "c25": 24366298,
+        "c26": 0,
+        "c27": 573912,
+        "c30": 0,
+        "c31": 0,
+        "c32": 1067424,
+        "c33": 508223616,
+        "c34": 0
+      },
+      "lane_peaks": [
+        {
+          "lane": 0,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        },
+        {
+          "lane": 1,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        },
+        {
+          "lane": 2,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        }
+      ]
+    },
+    {
+      "storage": "local_arena",
+      "mode": "legacy",
+      "executor": "frontend_parallel",
+      "summed_counters": {
+        "c8": 12466512,
+        "c9": 328534464,
+        "c10": 230796,
+        "c11": 0,
+        "c12": 0,
+        "c13": 0,
+        "c14": 0,
+        "c15": 0,
+        "c16": 0,
+        "c17": 0,
+        "c18": 10222284,
+        "c19": 2829852,
+        "c20": 43126176,
+        "c21": 0,
+        "c22": 37628472,
+        "c23": 684876,
+        "c24": 0,
+        "c25": 0,
+        "c26": 0,
+        "c27": 0,
+        "c30": 0,
+        "c31": 0,
+        "c32": 0,
+        "c33": 508223616,
+        "c34": 843492
+      },
+      "lane_peaks": [
+        {
+          "lane": 0,
+          "group_occupancy_peak": 0,
+          "return_occupancy_peak": 0
+        },
+        {
+          "lane": 1,
+          "group_occupancy_peak": 0,
+          "return_occupancy_peak": 0
+        },
+        {
+          "lane": 2,
+          "group_occupancy_peak": 0,
+          "return_occupancy_peak": 0
+        }
+      ]
+    },
+    {
+      "storage": "local_arena",
+      "mode": "read_coalesced",
+      "executor": "frontend_parallel",
+      "summed_counters": {
+        "c8": 12466512,
+        "c9": 328534464,
+        "c10": 230796,
+        "c11": 258048,
+        "c12": 265008,
+        "c13": 23256,
+        "c14": 256044,
+        "c15": 0,
+        "c16": 0,
+        "c17": 41136,
+        "c18": 4372176,
+        "c19": 3355800,
+        "c20": 43126176,
+        "c21": 0,
+        "c22": 36886872,
+        "c23": 684876,
+        "c24": 5883780,
+        "c25": 11159518,
+        "c26": 0,
+        "c27": 1680586,
+        "c30": 0,
+        "c31": 0,
+        "c32": 0,
+        "c33": 354680832,
+        "c34": 0
+      },
+      "lane_peaks": [
+        {
+          "lane": 0,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        },
+        {
+          "lane": 1,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        },
+        {
+          "lane": 2,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        }
+      ]
+    },
+    {
+      "storage": "local_arena",
+      "mode": "read_assembled",
+      "executor": "frontend_parallel",
+      "summed_counters": {
+        "c8": 12466512,
+        "c9": 328534464,
+        "c10": 230796,
+        "c11": 299184,
+        "c12": 265008,
+        "c13": 23256,
+        "c14": 256044,
+        "c15": 0,
+        "c16": 0,
+        "c17": 0,
+        "c18": 4372176,
+        "c19": 3355800,
+        "c20": 43126176,
+        "c21": 7323504,
+        "c22": 15192408,
+        "c23": 384972,
+        "c24": 5962464,
+        "c25": 11097886,
+        "c26": 0,
+        "c27": 565344,
+        "c30": 0,
+        "c31": 0,
+        "c32": 1067424,
+        "c33": 354680832,
+        "c34": 0
+      },
+      "lane_peaks": [
+        {
+          "lane": 0,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        },
+        {
+          "lane": 1,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        },
+        {
+          "lane": 2,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        }
+      ]
+    },
+    {
+      "storage": "local_arena",
+      "mode": "spad_assembled",
+      "executor": "frontend_parallel",
+      "summed_counters": {
+        "c8": 12466512,
+        "c9": 328534464,
+        "c10": 230796,
+        "c11": 299184,
+        "c12": 265008,
+        "c13": 23256,
+        "c14": 256044,
+        "c15": 0,
+        "c16": 0,
+        "c17": 0,
+        "c18": 10222284,
+        "c19": 2829852,
+        "c20": 43126176,
+        "c21": 7323504,
+        "c22": 15192408,
+        "c23": 384972,
+        "c24": 5962464,
+        "c25": 19654338,
+        "c26": 0,
+        "c27": 570530,
+        "c30": 0,
+        "c31": 0,
+        "c32": 1067424,
+        "c33": 508223616,
+        "c34": 0
+      },
+      "lane_peaks": [
+        {
+          "lane": 0,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        },
+        {
+          "lane": 1,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        },
+        {
+          "lane": 2,
+          "group_occupancy_peak": 2,
+          "return_occupancy_peak": 1
+        }
+      ]
+    }
+  ],
+  "best_parallel_asram_counters": [
+    {
+      "port": 0,
+      "meaning": "DMA",
+      "summed_counters": {
+        "c0": 10900536,
+        "c1": 10900536,
+        "c2": 5525736,
+        "c3": 2923200,
+        "c4": 2451600,
+        "c5": 249768192,
+        "c6": 145728000,
+        "c7": 7805256,
+        "c8": 5374800,
+        "c9": 152618,
+        "c10": 5383933,
+        "c11": 4681675,
+        "c12": 7805256,
+        "c13": 5817600,
+        "c14": 0,
+        "c15": 0,
+        "c16": 0,
+        "c17": 198336641
+      },
+      "lane_peaks": [
+        {
+          "lane": 0,
+          "outstanding_peak": 32,
+          "response_credit_peak": 8,
+          "pending": 0
+        },
+        {
+          "lane": 1,
+          "outstanding_peak": 32,
+          "response_credit_peak": 8,
+          "pending": 0
+        },
+        {
+          "lane": 2,
+          "outstanding_peak": 32,
+          "response_credit_peak": 8,
+          "pending": 0
+        }
+      ]
+    },
+    {
+      "port": 1,
+      "meaning": "CPU_RVV_service",
+      "summed_counters": {
+        "c0": 96709,
+        "c1": 96709,
+        "c2": 96709,
+        "c3": 0,
+        "c4": 0,
+        "c5": 1547344,
+        "c6": 0,
+        "c7": 96709,
+        "c8": 0,
+        "c9": 0,
+        "c10": 1602,
+        "c11": 0,
+        "c12": 96709,
+        "c13": 0,
+        "c14": 0,
+        "c15": 0,
+        "c16": 0,
+        "c17": 388804
+      },
+      "lane_peaks": [
+        {
+          "lane": 0,
+          "outstanding_peak": 4,
+          "response_credit_peak": 3,
+          "pending": 0
+        },
+        {
+          "lane": 1,
+          "outstanding_peak": 4,
+          "response_credit_peak": 4,
+          "pending": 0
+        },
+        {
+          "lane": 2,
+          "outstanding_peak": 4,
+          "response_credit_peak": 3,
+          "pending": 0
+        }
+      ]
+    }
+  ],
+  "counter_meanings": {
+    "c8": "logical rows",
+    "c9": "logical bytes",
+    "c18": "TL Get 32 B count",
+    "c19": "TL Get 64 B count",
+    "c21": "assembled tokens",
+    "c22": "scratchpad write fires",
+    "c25": "fetch wait cycles",
+    "c31": "DMA faults",
+    "c33": "DMA TL read bytes, including weights and activation; not external DDR traffic"
+  },
+  "counter_mapping": "hw/versions/activation_sram_512kib_2bank/soc_shell/npu100_video/src/main/scala/gemmini/CounterFile.scala: CounterExternal",
+  "limitations": [
+    "One round, 12 measured frames per window, three distinct input images repeated; no statistical error bars or long-run stability claim.",
+    "Formal timing ELF diagnostic=0: raw Head/PAD byte comparison was not run.",
+    "Correctness relative to original DDR implementation; independent detection accuracy is not proven.",
+    "Counter traffic is measured at DMA/ASRAM interfaces and does not establish exact external DDR bandwidth savings.",
+    "Same bitstream comparison at 100 MHz; board pass does not establish timing closure for routed WNS -3.1 ns."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "checked_utc": "2026-10-19T01:24:26.368341+00:00",
+  "software_build_id": "52ec2f0ae01ed649dfef115f01fd48c49c6ccffaacbc31e92aa0e68a1634342c",
+  "hardware_build_id": "e684b3d0484a9424",
+  "bitstream_sha256": "539bce5ed42429ca07a4a5c125e533e5aad2cf06599dc9ef934bfdcc63d894b0",
+  "bitstream_hash_verified": true,
+  "elf_sha256": "3d3a46c027d8ef249a3101f11729be0d383fb076197a6c2083254a64095ae4cf",
+  "elf_bytes": 84376,
+  "payload_bytes": 9392,
+  "load_segments": [
+    {
+      "address": 2181038080,
+      "memory_bytes": 48704,
+      "file_bytes": 9392
+    }
+  ],
+  "commands": {
+    "make test": "PASS (14 unittest methods; 12 independent device fault injections; strict hole counter evidence)",
+    "make preflight": "PASS (bitstream SHA-256, Vivado/OpenOCD/GDB paths; board_accessed=0)",
+    "bash -n program/run_firmware.sh": "PASS",
+    "make check": "PASS (production manifest/current product; full Runtime firmware frontend port remains pending)",
+    "git diff --check": "PASS",
+    "bash -n program/download_bitstream.sh program/run_firmware.sh": "PASS",
+    "make -n program-bitstream RUN=bit_01": "PASS (dry run only)",
+    "check_hole_rtl.py": "PASS (18 boundary cases; 12 denied hole probes; frozen RTL hashes match bitstream input)"
+  },
+  "host_matrix": {
+    "memory_cases": 15,
+    "dma_cases": 432,
+    "parallel_cases": 4,
+    "denied_hole_probes": 12,
+    "emulated_traps": 0
+  },
+  "fault_injections": [
+    "ID",
+    "bank alias",
+    "RVV copy",
+    "hole not denied",
+    "data",
+    "guard",
+    "counter",
+    "timeout",
+    "hole physical operation",
+    "hole nonzero data",
+    "hole wrong route",
+    "hole incomplete response"
+  ],
+  "board_accessed": false,
+  "board_validation": "NOT_RUN",
+  "rtl_simulation": "FROZEN_PORT_HOLE_RTL_PASS",
+  "limitations": "Host model checks test flow; frozen port RTL simulation executes real generated endpoint and queues, not CPU or physical URAM. Revised ELF not downloaded. Previous asram_01 failed its schema-1 synchronous-fault assertion; it does not establish hardware hole rejection on board.",
+  "log_schema": 2,
+  "rtl_evidence": {
+    "status": "FROZEN_PORT_HOLE_RTL_PASS",
+    "cases": 18,
+    "denied_hole_probes": 12,
+    "cpu_executed": false,
+    "board_accessed": false,
+    "vendor_primitive_simulated": false,
+    "rtl_sha256": {
+      "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/activation_sram/512kib_2bank/candidate_03/gen-collateral/DCache.sv": "0a4fe760b97353b0340a2031bd40ba42097c3d76292bb92f5372466ad194e9f1",
+      "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/activation_sram/512kib_2bank/candidate_03/gen-collateral/ActivationSramPort.sv": "770a5c7caccbb400a1d088c4da66ee9669914a31b9951a97fcc6c8d7fad9eacb",
+      "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/activation_sram/512kib_2bank/candidate_03/gen-collateral/Queue64_TLBundleA_a30d256s6k1z3u.sv": "c0d18f81dc38ac5b8d2c3074cd61a858578934daf04a1d3237211bddcae67a3a",
+      "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/activation_sram/512kib_2bank/candidate_03/gen-collateral/ram_64x334.sv": "e6e81994f121237355bdba958fcc01ba66eebb8abddc0d96e47a98dd227929e8",
+      "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/activation_sram/512kib_2bank/candidate_03/gen-collateral/Queue8_TLBundleD_a30d256s6k1z3u.sv": "e5c7e589e0c9dec5836ec3b4b90706c4db2bb73b5b48093a8acb7e9a8f087646",
+      "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/activation_sram/512kib_2bank/candidate_03/gen-collateral/ram_8x273.sv": "e52bbcb0672fa9affaa07eaad2e90886c30705474471b8e61c897b56b4a3e4d3",
+      "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/activation_sram/512kib_2bank/candidate_03/gen-collateral/ActivationSramPort_2.sv": "466399564a14c98a17d04f74b302f56cd6a395ca779d730baa543eec9c486603",
+      "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/activation_sram/512kib_2bank/candidate_03/gen-collateral/ActivationSramPort_4.sv": "1b9646f7d317f15f11f6656176d254ddfee18bbf587545bc63ade843c6e4c431"
+    },
+    "build_input_sha256": "e7a91ba18b25854d66f62f70d58382db172bb05365869d2ee89a1669e30e9c84"
+  },
+  "previous_board_run": {
+    "run": "asram_01",
+    "status": "FAILED_SCHEMA1_TRAP_ASSERTION",
+    "completed_memory_cases": 8,
+    "dma_cases": 0,
+    "log_sha256": "85acc5ebce8533e2f6562b528935e85581dad70e816101abfaec66e62f656e4e",
+    "diagnosis": "validation/asram_01_diagnosis.md"
+  }
+}

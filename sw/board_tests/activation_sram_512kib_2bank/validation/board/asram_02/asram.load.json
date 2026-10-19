@@ -1,0 +1,16 @@
+{
+  "build_id": "52ec2f0ae01ed649dfef115f01fd48c49c6ccffaacbc31e92aa0e68a1634342c",
+  "elf_sha256": "3d3a46c027d8ef249a3101f11729be0d383fb076197a6c2083254a64095ae4cf",
+  "hardware_build_id": "e684b3d0484a9424",
+  "bitstream_receipt": {
+    "schema": 1,
+    "file": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/activation_sram/512kib_2bank/bitstream_e684b3d0484a9424_physical_04/activation_sram_512kib_2bank.bit",
+    "sha256": "539bce5ed42429ca07a4a5c125e533e5aad2cf06599dc9ef934bfdcc63d894b0",
+    "hardware_build_id": "e684b3d0484a9424",
+    "software_build_id": "35d0888c851198765aaf0b6b2db6f3d2b44f82a7bd813863eb40b2bff673c974",
+    "run": "bit_01",
+    "programmed_utc": "2026-10-19T01:17:48.414219+00:00",
+    "identity": "Host programming receipt; firmware checks hardware build ID on startup"
+  },
+  "loaded_utc": "2026-10-19T01:24:50.592699+00:00"
+}

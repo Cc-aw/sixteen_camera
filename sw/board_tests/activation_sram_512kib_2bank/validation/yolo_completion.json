@@ -1,0 +1,25 @@
+{
+  "hardware_id": "e684b3d0484a9424",
+  "generation_context_sha256": "eaee79d1c7934fe5720f514f604a5863ea05eac7bbc7c9a22d1e98d12182afa7",
+  "source_sha256": {
+    "generators/rocket-chip/src/main/scala/rocket/RocketCore.scala": "cac0c3d111acc52fe34a73f06502a5a1632d4990f2c8f32cf1feb1fe291aa0b5",
+    "generators/rocket-chip/src/main/scala/rocket/DCache.scala": "05c07b22f5a0795d9c54dc6b035b4bdcbba63af8518943a26490a1f3dbd5dc78",
+    "generators/saturn/src/main/scala/rocket/Integration.scala": "8a6c699bafc9077bad7a37a50991ff9d33cf2f21d047c9aca1e254d8ae84a7f6",
+    "generators/saturn/src/main/scala/rocket/HellaInterface.scala": "9f0564fda29c6d6878ba44b3c70e319e62d686d713dd3f323bae91e6626a4cf1",
+    "generators/saturn/src/main/scala/mem/TLInterface.scala": "5347f5ffc0f3bf0f03149ae9aa6e7f91dfd1c667f5baff45e30eceb24da5b0b7",
+    "generators/saturn/src/main/scala/mem/Mem.scala": "15d38418bb1b0d2958f47c46acbfcbfc3f631e2a967540740d4dab69eafe7528"
+  },
+  "rtl_sha256": {
+    "Rocket.sv": "25af2f8e5d8c0cff1e32d8605e40cc8afe1d04a15c52e2a2516a7a81a48e3505",
+    "DCache.sv": "0a4fe760b97353b0340a2031bd40ba42097c3d76292bb92f5372466ad194e9f1",
+    "SaturnRocketUnit.sv": "6eba0f15425cdaa040df5b1faa4c46f18be4419918c390eee18faf7c016c5365",
+    "HellaCacheInterface.sv": "18877f1c5ac594ba9cec7edc567aeed230bd178e814432467732f0a8ae9c8f30",
+    "TLSplitInterface.sv": "42ba09ccae677442c7fc7abe1bbf4c1b6dca5db400c984aa206b91c6d3797b79",
+    "TLInterface.sv": "9f7870ccdbf0d75065d47218c405138e8d096a95a5a3eb7b9ecba71d6530a1ab",
+    "VectorMemUnit.sv": "c993a7444d6f8087ad090c2cab465657da6930de379ccbb5ddcd898f224ad966",
+    "ActivationSramPort.sv": "770a5c7caccbb400a1d088c4da66ee9669914a31b9951a97fcc6c8d7fad9eacb",
+    "ActivationSramPort_2.sv": "466399564a14c98a17d04f74b302f56cd6a395ca779d730baa543eec9c486603",
+    "ActivationSramPort_4.sv": "1b9646f7d317f15f11f6656176d254ddfee18bbf587545bc63ade843c6e4c431"
+  },
+  "scope": "FENCE completion source/RTL chain; no CPU simulation or new board execution"
+}

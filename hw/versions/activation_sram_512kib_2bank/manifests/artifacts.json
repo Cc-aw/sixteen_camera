@@ -1,0 +1,52 @@
+{
+  "schema": 1,
+  "hardware_variant": "activation_sram_512kib_2bank",
+  "status": "RTL_GENERATED",
+  "new_generation": {
+    "supported_modes": [
+      "legacy",
+      "read_coalesced",
+      "read_assembled",
+      "spad_assembled"
+    ],
+    "activation_sram_enabled": true,
+    "capacity_bytes_per_bank": 2359296,
+    "path": "build/experiments/activation_sram/512kib_2bank/candidate_03",
+    "generation_context_sha256": "eaee79d1c7934fe5720f514f604a5863ea05eac7bbc7c9a22d1e98d12182afa7",
+    "build_id": "e684b3d0484a9424",
+    "files": 849,
+    "bitstream": "NOT_GENERATED",
+    "software_elf": "NOT_GENERATED"
+  },
+  "historical_three_mode_candidate": {
+    "build_id": "2a95a4ca64390235",
+    "supported_modes": [
+      "legacy",
+      "read_coalesced",
+      "read_assembled"
+    ],
+    "context": "manifests/HISTORICAL_GENERATION_CONTEXT.json",
+    "context_sha256": "c9e51701b92cb7fe999f061d2ffc769c6bf3e376d1b270efa4ebf62e567a0a0b",
+    "bitstream": {
+      "path": "sw/board_tests/dma_load_512kib_2bank/hardware/top_wrapper.bit",
+      "sha256": "e930cc0674b0f8756a5e7ecb63aa9d769d824cdca068911d0f180ef3a2efd25c",
+      "git_status": "LOCAL_IGNORED"
+    },
+    "timing_met": false,
+    "routed_wns_ns": -1.467,
+    "numerical_differences": "UNRESOLVED",
+    "validation_record": "docs/validation/gemmini-dma-load-coalescing.md",
+    "accepts_new_four_mode_sources": false
+  },
+  "physical_build": {
+    "status_at_synthesis_handoff": "SYNTHESIS_PASS_IMPLEMENTATION_RUNNING",
+    "build_id": "e684b3d0484a9424",
+    "state": "build/experiments/activation_sram/512kib_2bank/bitstream_e684b3d0484a9424_physical_04/state.json",
+    "generation_context_sha256": "eaee79d1c7934fe5720f514f604a5863ea05eac7bbc7c9a22d1e98d12182afa7",
+    "synthesis_checkpoint_sha256": "e6349a03fa20e3303ccecfffb9f9b02e96b74aeb0586c4f704ab488807babde3",
+    "input_integrity": "UNCHANGED_THROUGH_SYNTHESIS",
+    "bitstream_timing_gate": false,
+    "bitstream_not_yet_generated_at_handoff": true,
+    "board_accessed": false
+  }
+}

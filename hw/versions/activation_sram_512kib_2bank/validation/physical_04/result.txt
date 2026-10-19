@@ -1,0 +1,4 @@
+BITSTREAM=/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/activation_sram/512kib_2bank/bitstream_e684b3d0484a9424_physical_04/activation_sram_512kib_2bank.bit
+WNS_NS=-3.100
+WHS_NS=0.000
+TARGET_MET=0
