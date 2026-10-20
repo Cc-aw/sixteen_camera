@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "returncode": 0,
+  "compile_command": [
+    "iverilog",
+    "-g2012",
+    "-s",
+    "tb_csc_generator",
+    "-o",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/generator_02/generator.vvp",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/generator_02/tb_csc_generator.sv",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/candidate_07/gen-collateral/LoopConvLdInput.sv",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/candidate_07/gen-collateral/Pipeline_5.sv",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/candidate_07/gen-collateral/Pipeline_6.sv"
+  ],
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/candidate_07/CANDIDATE_CONTEXT.json": "13dcc354a4416a43acd7f788b82022477c75edf2432d4bbf1dffcce7449ec217",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/test_candidate_generator.py": "7891a3ccf7a4a556e757957fc24efdc65daa4fe89b65bec7c95c98c9bfc28516",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/generator_02/tb_csc_generator.sv": "03164edd95fba63c432a69215499ed79cc1e917a556888fd2df096a6b1291113",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/candidate_07/gen-collateral/LoopConvLdInput.sv": "4e6871c534764a9035256b2b2fb32d915dba32c7eb42390cf6643829c32c346d",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/candidate_07/gen-collateral/Pipeline_5.sv": "7335ad00bfb643e6150d23f87f9a97d12e6c908516ed08ce4dcc7c3511886a03",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/candidate_07/gen-collateral/Pipeline_6.sv": "60a7b8054058f25641e7090196964bb6917ce52285da2b730558c5602726d2e8"
+  }
+}

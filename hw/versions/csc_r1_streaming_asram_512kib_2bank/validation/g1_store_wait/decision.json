@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "base_candidate_build_id": "abd1c8c87558c7b0",
+  "g1": {
+    "status": "PASS",
+    "scope": "Complete real Gemmini functional RTL; deterministic private memory only"
+  },
+  "g2": {
+    "status": "INSUFFICIENT_EVIDENCE",
+    "reason": "Shared DDR/ASRAM arbitration, system service times and G2 seed/sensitivity matrix not measured"
+  },
+  "bitstream_authorized": false,
+  "board_authorized": false
+}

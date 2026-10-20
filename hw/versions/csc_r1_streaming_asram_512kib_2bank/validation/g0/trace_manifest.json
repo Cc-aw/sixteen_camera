@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "build_id": "abd1c8c87558c7b0",
+  "adaptations": [
+    "Three-lane SPAD + physical TL probes, read_assembled trace; four-mode output comparison"
+  ],
+  "sources": {
+    "build/experiments/dma_stream_asram/candidate_02/GENERATION_CONTEXT.json": "36a2fa41670cf4357af69cb62c0167b37724dcaf754d6c1053f9093752993994",
+    "hw/versions/dma_load_streaming_asram_512kib_2bank/tests/test_layers.py": "9e8ed190e24bb3989aa832b519089a740b3e6673d2877d1f048d2a60bdca395d",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/run_baseline.py": "74e71fd72a1658d9b57bd5e3c3c4b55e30719edf61bfa8d5987556eada5f4c47",
+    "hw/versions/dma_load_streaming_asram_512kib_2bank/scripts/spad_trace.py": "92163d32d34594f41db57778e770c4e908ec2eb6b7e5f1e232d6533b13613f14",
+    "hw/versions/dma_load_streaming_asram_512kib_2bank/tests/test_real_gemmini.py": "6669b087016e5cecdc45a19e07bff4ab2b7383a798262e5e6b77b0beb362324d",
+    "hw/versions/dma_load_streaming_asram_512kib_2bank/tests/asram_sim.py": "e1247787f9ecfb9d9f89879309e7c77b3bae0dbc702ec3b82ccbef930b8c2336"
+  },
+  "adapted_driver_sha256": "854bbc7180b440a36054744120a0c201cad4e7eb732e1a9108ee8b60f6c06c20",
+  "csc_r1_enabled": false,
+  "full_model_executed": false,
+  "physical_implementation": false,
+  "scope": "Compact eight stages, all four modes, trace mode 2, three lanes; DDR fixture",
+  "traces": {
+    "spad_events_lane0.csv": "85a275aef48684e3a45ff755fa4dea9102f70ca6f16c7bdc5b0d18b89d4f71b2",
+    "spad_events_lane1.csv": "58ec22826a526a5ad5560f0e62d78e38f24cc7c7d1ce337ce344a7583986b5c5",
+    "spad_events_lane2.csv": "13c51542fc7c6c2a380d2ff9e6c2fb9d956f90b7c67c2c32ea86b5de07e931a1",
+    "lifecycle_lane0.csv": "32864ba798ffb086d1e19c9a879cc692fc028ebc6fd709ec71ddc517563039d5",
+    "lifecycle_lane1.csv": "d9102ebf62a9786a2ecb185be0fe112f1ed081ddd7da91e8a24f1bce3887e0a1",
+    "lifecycle_lane2.csv": "37eef45a90719f4df4a92ed070c8c89677f24124cc43a04022ebaf3c9cb95797"
+  },
+  "probe_sha256": "5a16ae021f26826bcb295ca88de16558b36384b1923438d6bc56852226374a9b"
+}

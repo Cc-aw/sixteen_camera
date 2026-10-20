@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "feature": "CSC-R1",
+  "phase": "G0_BASELINE_SIMULATION_CHECKPOINT",
+  "base_repository_commit": "8d3aa31d8935cb000a3427638f55c5163d36bc0b",
+  "base_candidate_build_id": "abd1c8c87558c7b0",
+  "csc_r1_enabled": false,
+  "baseline_simulation": {
+    "layers": {
+      "status": "PASS",
+      "evidence": {
+        "status": "TRACE_WORKLOAD_PASS",
+        "build_id": "abd1c8c87558c7b0",
+        "stages": [
+          0,
+          2,
+          4,
+          5,
+          8,
+          10,
+          59,
+          132
+        ],
+        "modes": 4,
+        "runtime_mode_ids": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "lanes": 3,
+        "full_model_executed": false,
+        "log_sha256": "6c1a2057e480f518c725128c12e1d65a21b79443b1f829989e18f0d5d8e55f33"
+      }
+    },
+    "asram": {
+      "status": "PASS",
+      "evidence": {
+        "status": "REAL_GEMMINI_ASRAM_FOUR_ROUTES_PASS",
+        "build_id": "abd1c8c87558c7b0",
+        "lanes": 3,
+        "records": 288,
+        "vendor_primitive_simulated": true,
+        "full_model_executed": false,
+        "cpu_rvv_executed": false,
+        "scope": "Actual generated Gemmini/Reader/ASRAM TL, two-port storage and URAM primitives; simulation decoder/arbiter, not whole-SoC CPU execution.",
+        "log_sha256": "768ab308f9679d50ac43815b0b35dccf3144d39c0745004da7f18f349dfca6d3"
+      }
+    },
+    "fault": {
+      "status": "PASS",
+      "evidence": {
+        "status": "REAL_GEMMINI_ASRAM_LATE_FAULT_RECOVERY_PASS",
+        "build_id": "abd1c8c87558c7b0",
+        "lanes": 3,
+        "records": 6,
+        "vendor_primitive_simulated": true,
+        "full_model_executed": false,
+        "cpu_rvv_executed": false,
+        "scope": "Actual generated Gemmini/Reader/ASRAM TL, two-port storage and URAM primitives; simulation decoder/arbiter, not whole-SoC CPU execution.",
+        "log_sha256": "bafd7d4aaf2ddd4fd6e29bea854beccc183f7748c776dfef5bc07c356481940d"
+      }
+    }
+  },
+  "g0": {
+    "status": "INSUFFICIENT_EVIDENCE",
+    "eligible_exact_bytes_pct": null,
+    "inventory_status": "NATIVE_ORDINARY_PACKET_ROUNDTRIP_PASS",
+    "lifecycle_status": "COMPACT_TRACE_LIFECYCLE_PASS",
+    "compact_value_only_commands": 84
+  },
+  "g1": {
+    "status": "NOT_RUN",
+    "bit_exact": null,
+    "deadlocks": null
+  },
+  "g2": {
+    "status": "NOT_RUN",
+    "same_workload": null,
+    "whole_network_rtl_cycle_accurate": false,
+    "measured_stage_cycle_coverage": null,
+    "serial_cycles_baseline": null,
+    "serial_cycles_candidate": null,
+    "parallel_cycles_baseline": null,
+    "parallel_cycles_candidate": null,
+    "absolute_throughput_gain_pct": null,
+    "parallel_scaling_baseline": null,
+    "parallel_scaling_candidate": null
+  },
+  "missing_evidence": [
+    "Full-size full-network emitted Mvin/SPAD/EX trace and physical source-generation lifetimes",
+    "Single-lane lifecycle trace and native prepared-WS/HOST/Head/PPU boundaries",
+    "Legal whole-command exact-resident opportunities and full-network actual DMA denominator",
+    "Candidate RTL correctness and same-workload cycle A/B (conditional on G0 PASS)"
+  ],
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "bitstream_generated": false,
+  "board_tested": false
+}

@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "scope": "All physical SPAD read responses, final SPAD bytes, and every masked TL Put byte",
+  "accumulator_internal_trace": false,
+  "full_system_performance_model": false,
+  "frames": null,
+  "baseline": {
+    "reads": 579,
+    "stores": 195,
+    "commits": 579,
+    "tiles": 12,
+    "skipped": 0,
+    "completions": 0,
+    "get_bytes": 15456
+  },
+  "candidate": {
+    "reads": 579,
+    "stores": 195,
+    "commits": 531,
+    "tiles": 12,
+    "skipped": 3,
+    "completions": 3,
+    "get_bytes": 13920
+  },
+  "comparisons": {
+    "stores.bin": {
+      "equal": true,
+      "bytes_compared": 9360
+    },
+    "final_spad.bin": {
+      "equal": true,
+      "bytes_compared": 524288
+    },
+    "reads_bank0.bin": {
+      "equal": true,
+      "bytes_compared": 7410
+    },
+    "reads_bank1.bin": {
+      "equal": true,
+      "bytes_compared": 0
+    },
+    "reads_bank2.bin": {
+      "equal": true,
+      "bytes_compared": 0
+    },
+    "reads_bank3.bin": {
+      "equal": true,
+      "bytes_compared": 0
+    },
+    "reads_bank4.bin": {
+      "equal": true,
+      "bytes_compared": 0
+    },
+    "reads_bank5.bin": {
+      "equal": true,
+      "bytes_compared": 0
+    },
+    "reads_bank6.bin": {
+      "equal": true,
+      "bytes_compared": 0
+    },
+    "reads_bank7.bin": {
+      "equal": true,
+      "bytes_compared": 14592
+    }
+  },
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/config_hazard_off/lane1/full_lane1.csv.gz": "384d668f41e6f2ebe6afd08959ee2e32a8f250502b0406bae261f5360a023339",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/config_hazard_on/lane1/full_lane1.csv.gz": "12792d987ccae9472ded0e89a5a49f24d1b3b597a543a0c18d3a0e3353eed6a0",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/compare_candidate.py": "5bc547a3bd7f263046dcb2cb5030f74fbf21c07aa07d6e28bae4281a917b6cf7"
+  }
+}

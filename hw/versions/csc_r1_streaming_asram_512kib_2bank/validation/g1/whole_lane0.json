@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "lane": 0,
+  "frames": 1,
+  "complete_native_stages": 166,
+  "baseline": {
+    "reads": 3813916,
+    "stores": 526200,
+    "commits": 1266034,
+    "tiles": 0,
+    "skipped": 0,
+    "completions": 0,
+    "get_bytes": 29556736
+  },
+  "candidate": {
+    "reads": 3813916,
+    "stores": 526200,
+    "commits": 1225494,
+    "tiles": 462,
+    "skipped": 16,
+    "completions": 16,
+    "get_bytes": 28325248
+  },
+  "comparisons": {
+    "final_spad.bin": {
+      "equal": true,
+      "bytes_compared": 524288
+    },
+    "reads_bank0.bin": {
+      "equal": true,
+      "bytes_compared": 63538052
+    },
+    "reads_bank1.bin": {
+      "equal": true,
+      "bytes_compared": 17782442
+    },
+    "reads_bank2.bin": {
+      "equal": true,
+      "bytes_compared": 2787566
+    },
+    "reads_bank3.bin": {
+      "equal": true,
+      "bytes_compared": 4580672
+    },
+    "reads_bank4.bin": {
+      "equal": true,
+      "bytes_compared": 43722230
+    },
+    "reads_bank5.bin": {
+      "equal": true,
+      "bytes_compared": 8975790
+    },
+    "reads_bank6.bin": {
+      "equal": true,
+      "bytes_compared": 525236
+    },
+    "reads_bank7.bin": {
+      "equal": true,
+      "bytes_compared": 3016820
+    },
+    "stores.bin": {
+      "equal": true,
+      "bytes_compared": 25257600
+    }
+  },
+  "accumulator_internal_trace": false,
+  "full_system_performance_model": false,
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/reference_lane0/reference.json": "2bb5f33ed103dc9e55de4657d5fcf683a0c5e12940161ea49e7bf67f2d0ae605",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/full_network_final_on/lane0/full_lane0.csv.gz": "cbb3d6b0e5542769b062043c32106c15806760fd2dbe5f9bd43a06c7cf101df1",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/g1_reference.py": "55f3b7d2cb3ea5b0ee08267267ba506acd0fd26d673dde4df52fab711ddff59f",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/compare_candidate.py": "5bc547a3bd7f263046dcb2cb5030f74fbf21c07aa07d6e28bae4281a917b6cf7"
+  }
+}

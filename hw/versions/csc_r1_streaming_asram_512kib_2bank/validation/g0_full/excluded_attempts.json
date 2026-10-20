@@ -1,0 +1,22 @@
+[
+  {
+    "directory": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/full_network_single",
+    "reason": "Native default watchdog 10000 rejects legal stage-75 pool5; excluded",
+    "log_sha256": "c0196dabffa0387e703191474ba8224a6a400a68d5a8c01bbe0acddbbc216b0d"
+  },
+  {
+    "directory": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/full_network_parallel",
+    "reason": "Interrupted after diagnosing the default-watchdog issue; excluded",
+    "log_sha256": "1e4d13071b8a739f20685ca6fac712bab171f69401cf55928e67668ef17538a3"
+  },
+  {
+    "directory": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/full_independent_lanes",
+    "reason": "Interrupted default-watchdog diagnostic lanes; excluded",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "directory": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/pool75_default",
+    "reason": "Expected default-watchdog reproduction; excluded",
+    "log_sha256": "a444d49595fad6a98de7eccdfa98f5e80720241d77380e119d2e72d3f4064bd7"
+  }
+]

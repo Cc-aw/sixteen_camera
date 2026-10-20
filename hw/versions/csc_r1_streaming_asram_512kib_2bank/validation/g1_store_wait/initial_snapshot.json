@@ -1,0 +1,12 @@
+{
+  "pre_edit_feature": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_opt_20261020_01/pre_edit_feature",
+  "pre_edit_sha256": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_opt_20261020_01/pre_edit_feature_sha256.json",
+  "previous_attempt": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_opt_20261020_01",
+  "note": "Attempt 01 preserves original G1 sources; its Git-wide freeze is slow. Attempt 01 lost directed hits on an overconservative derive-pending guard and is excluded.",
+  "capture_note": {
+    "status": "PRE_EDIT_G1_SOURCES_VERIFIED",
+    "canonical_feature_snapshot": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_opt_20261020_01/pre_edit_feature",
+    "canonical_hashes": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_opt_20261020_01/pre_edit_feature_sha256.json",
+    "note": "The repository-wide freeze overlapped editing because Git index scans were slow. Its initial_files feature copy is a later observation; pre_edit_feature was copied and hashed before the first edit and matches the accepted G1 overlay sources. git_status and HEAD were captured before editing; dirty.patch concerns only untouched tracked user software because the feature was untracked."
+  }
+}

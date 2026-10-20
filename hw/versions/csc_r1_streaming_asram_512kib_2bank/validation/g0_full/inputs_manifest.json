@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "run_directory": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01",
+  "base_commit": "8d3aa31d8935cb000a3427638f55c5163d36bc0b",
+  "initial_state": {
+    "repo_head.txt": "fc29f481d259b49384730967855629393809d755e5517fd4c794b2aabc9a0259",
+    "git_status.txt": "b02fb60694363d83b8e84fd7d97c8e969a2c3d06dbbeeea12b8e4df0f8a812a7",
+    "dirty.patch": "2027c6beb1556e65a2286a5da5430220b4ac2f7c8e7e6fcc98b050abde739498",
+    "initial_worktree_sha256.json": "578db8dc54b97ee4b35588143530c9dbee8251192241860c4c2498c729fd8fc7"
+  },
+  "source_blob_manifest": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/workload_05/workload.json",
+  "source_blob_manifest_sha256": "ecc8235e35bc4465e0cf7a7df7382891f39f443481498ad2d5e68185b23d55f0",
+  "functional_memory_blob_sha256": "0b3fa85cec644327b86e0b7b66d01d0c06baafb80582f66cab04cc25638d708f",
+  "source_snapshots": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/initial_files"
+}

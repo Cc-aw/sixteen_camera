@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "scope": "Frozen legal native tiling and directed fixtures only",
+  "malformed_native_packets_supported": false,
+  "cases": [
+    {
+      "commands": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/workload_05/native_commands.txt",
+      "native_conv_packets": 2772,
+      "tile_channels_le_outer": true
+    },
+    {
+      "commands": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/fullsize_fixtures/commands.txt",
+      "native_conv_packets": 58,
+      "tile_channels_le_outer": true
+    },
+    {
+      "commands": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/directed_fixture_03/commands.txt",
+      "native_conv_packets": 36,
+      "tile_channels_le_outer": true
+    },
+    {
+      "commands": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/config_hazard_fixture/commands.txt",
+      "native_conv_packets": 36,
+      "tile_channels_le_outer": true
+    },
+    {
+      "commands": "/tmp/csc_r1_g1_opt_20261020_02/run/store_hazard_fixture/commands.txt",
+      "native_conv_packets": 36,
+      "tile_channels_le_outer": true
+    }
+  ],
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/store_bound_contract.py": "73a267b44b85b1ab31c45b66f842fe3495924e7ed8750c8a81336fcb1e5b7592",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_opt_20261020_01/candidate_02/gen-collateral/LoopConvDerivedParamsPipe.sv": "666e46af9ae22ccb5c24091a5b4370d693a0185f0f671c61cc7370a0169d3e9e",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_opt_20261020_01/candidate_02/gen-collateral/LoopConv.sv": "b8f337952591795f8eeadb0136737c69144a5fddbae0d515146714030623b572",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/workload_05/native_commands.txt": "252efe8f9bbfb9b96c55cf93a7096eeaeca269542c0bcea27dd7a14e14f74674",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/fullsize_fixtures/commands.txt": "e54a8e21a54fda680a4204ec0faf0b2e05fe748bd0463a358651544128dddfb3",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/directed_fixture_03/commands.txt": "bf3eaecdb3aa4ad39de31e1bba536616ea1670d7c2f5b8ded659c1682d23d4c6",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/config_hazard_fixture/commands.txt": "9f8e5fd5f32029e43df2fafb05f4ba073f7fa189b8e67efa7432287efce47f5c",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/store_hazard_fixture/commands.txt": "8e07e1034717c4317e6d189cd1450c9518cd0507a5a9ce38dc993bcd9d5b424e"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "run": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01",
+  "g0_run": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01",
+  "candidate_context": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/candidate_07/CANDIDATE_CONTEXT.json",
+  "rtl_build": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/full_rtl_06",
+  "production_export": false,
+  "excluded_attempts": [
+    "candidate_01 field-count adapter failure",
+    "candidate_02/03 and full_rtl_01/02 incomplete/obsolete prototypes",
+    "candidate_04/full_rtl_03 and early fullsize/compact runs before in-flight matching/config preservation",
+    "candidate_05/full_rtl_04 interrupted before config-only-path correction",
+    "candidate_06/full_rtl_05 and early directed/fault/fullsize diagnostics before generator-drain guards",
+    "acc_directed_on/off initial C++ iterator adapter compile failure"
+  ],
+  "final_candidate": "candidate_07",
+  "final_rtl_build": "full_rtl_06"
+}

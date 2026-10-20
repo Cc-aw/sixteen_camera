@@ -1,0 +1,16 @@
+make: 进入目录“/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank”
+mkdir -p "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/unit"
+iverilog -g2012 -s tb_csc_r1_input_residency -o "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/unit/residency.vvp" "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/rtl/CscR1InputResidency.sv" "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/tests/tb_csc_r1_input_residency.sv"
+vvp "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/unit/residency.vvp"
+CSC_R1_UNIT_PASS checks=302 skips=4 completions=4
+python3 -B -Werror::ResourceWarning "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/tests/test_candidate_comparison.py"
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.321s
+
+OK
+CSC_C1A_NUMERICAL_FAIL {"baseline": {"reads": 1, "stores": 0, "commits": 1, "tiles": 0, "skipped": 0, "completions": 0, "get_bytes": 0}, "candidate": {"reads": 1, "stores": 0, "commits": 1, "tiles": 0, "skipped": 0, "completions": 0, "get_bytes": 0}}
+CSC_C1A_NUMERICAL_FAIL {"baseline": {"reads": 1, "stores": 1, "commits": 1, "tiles": 0, "skipped": 0, "completions": 0, "get_bytes": 0}, "candidate": {"reads": 1, "stores": 1, "commits": 1, "tiles": 0, "skipped": 0, "completions": 0, "get_bytes": 0}}
+CSC_C1A_NUMERICAL_PASS {"baseline": {"reads": 1, "stores": 1, "commits": 1, "tiles": 0, "skipped": 0, "completions": 0, "get_bytes": 0}, "candidate": {"reads": 1, "stores": 1, "commits": 1, "tiles": 0, "skipped": 0, "completions": 0, "get_bytes": 0}}
+CSC_C1A_NUMERICAL_PASS {"baseline": {"reads": 1, "stores": 1, "commits": 1, "tiles": 0, "skipped": 0, "completions": 0, "get_bytes": 0}, "candidate": {"reads": 1, "stores": 1, "commits": 1, "tiles": 0, "skipped": 0, "completions": 0, "get_bytes": 0}}
+make: 离开目录“/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank”

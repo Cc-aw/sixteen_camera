@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "csc_enabled": true,
+  "dma_load_mode": 2,
+  "mode": "Independent functional lanes, deterministic private physical-memory services",
+  "full_system_performance_model": false,
+  "lanes": [
+    0,
+    1,
+    2
+  ],
+  "frames": 1,
+  "last_stage": 165,
+  "all_rtl_assertions_enabled": true,
+  "native_pipeline_watchdog_timeout": 60000,
+  "compile_command": [
+    "/home/wzr/miniconda3/bin/x86_64-conda-linux-gnu-c++",
+    "-O2",
+    "-std=c++17",
+    "-fcoroutines",
+    "-I/tmp/csc_r1_g1_opt_20261020_02/full_rtl/obj",
+    "-I/home/wzr/miniconda3/share/verilator/include",
+    "-I/home/wzr/miniconda3/share/verilator/include/vltstd",
+    "-I/home/wzr/miniconda3/include",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/network_on/selected_lane_driver.cpp",
+    "/tmp/csc_r1_g1_opt_20261020_02/full_rtl/obj/VFullGemmini__ALL.a",
+    "/tmp/csc_r1_g1_opt_20261020_02/full_rtl/obj/verilated.o",
+    "/tmp/csc_r1_g1_opt_20261020_02/full_rtl/obj/verilated_timing.o",
+    "/tmp/csc_r1_g1_opt_20261020_02/full_rtl/obj/verilated_threads.o",
+    "-L/home/wzr/miniconda3/lib",
+    "-Wl,-rpath,/home/wzr/miniconda3/lib",
+    "-lz",
+    "-pthread",
+    "-latomic",
+    "-o",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/network_on/VFullGemminiSelectedLane"
+  ],
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/run_candidate.py": "024ae4f2716935b01beb1c59a20f82cf61afac5c4dccf2d2fae36eb2d3187359",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/network_on/selected_lane_driver.cpp": "c8f466f4c10e566e7589837c8c0d96a9f072df47bc12ac2d5ef74d23b6869cab",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/network_on/VFullGemminiSelectedLane": "81c459030f449d22c319fcfa2a40a5939cdaf08ef02dfd162602782a7d1e0ab2",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/workload_05/native_commands.txt": "252efe8f9bbfb9b96c55cf93a7096eeaeca269542c0bcea27dd7a14e14f74674",
+    "/tmp/csc_r1_g1_opt_20261020_02/full_rtl/build_manifest.json": "e8ffe8344a789f05668365a757cc14bc0330c69f408382ed67bee68d974c3e1a",
+    "/tmp/csc_r1_g1_opt_20261020_02/full_rtl/obj/VFullGemmini__ALL.a": "1e05622bce81fa4ddbc34471ff663dd76a64ab559822e41c1d37e5f4a607cd44",
+    "/tmp/csc_r1_g1_opt_20261020_02/full_rtl/obj/verilated.o": "ee0382d503eb2236368def26e6e69ea19d0d5f04d09eee646897b8981b478b26",
+    "/tmp/csc_r1_g1_opt_20261020_02/full_rtl/obj/verilated_timing.o": "b623d1812c63511b56c6b3f4fd3209d56d1fe9ee497e633621c8a0fc30b6be67",
+    "/tmp/csc_r1_g1_opt_20261020_02/full_rtl/obj/verilated_threads.o": "bcfc013f3695266799de0cfccc25e929686d75673fef64d1101bfd18a4cbaf61",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/functional_memory.bin": "0b3fa85cec644327b86e0b7b66d01d0c06baafb80582f66cab04cc25638d708f"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "status": "NATIVE_FUTURE_SOURCE_WRITER_FIXTURE",
+  "production_workload": false,
+  "performance_evidence": false,
+  "lanes": 3,
+  "frames": 3,
+  "expected_requests_per_lane": 12,
+  "expected_skips_per_lane": 0,
+  "hazard": "Every output overwrites the next repeated Input source",
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/directed_fixture_03/fixture.json": "6ae46add340477c593f1d1a10b6b29755043c406d35c0705b9f15a95d7e22eed",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/store_hazard_fixture.py": "a9b2de3dee1f5965ce52696c3b59f4c1c7184037a57b788974f60ea350b3add1",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/store_hazard_fixture/commands.txt": "8e07e1034717c4317e6d189cd1450c9518cd0507a5a9ce38dc993bcd9d5b424e",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/store_hazard_fixture/memory/lane0_stage2.bin": "3c9d03a054d2557513059c5486e425d7ac61bdd785b76a6c6b81230a38cff15b",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/store_hazard_fixture/memory/lane0_stage3.bin": "e4d7410a4e4d877de5cc5af176f0beee76b517bef5efb12ebc24cd15bb985022",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/store_hazard_fixture/memory/lane0_stage4.bin": "399a57e685fcf0d7e5c2a4190db9be82fac5aacfc6a829972d8790aca3260ae4",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/store_hazard_fixture/memory/lane1_stage2.bin": "0e02202fd540f7bffc17b5101ba393376842b8afba8311c0326169c2bd1fc913",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/store_hazard_fixture/memory/lane1_stage3.bin": "f693995e2ab20aaa30c568cfd1a7e472233bce8cb5dc2f007b55b44f5ac07126",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/store_hazard_fixture/memory/lane1_stage4.bin": "99f3490e80e941ce1b6e9a45fce874bf1a5846e5a6df24112ea28dc54222527c",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/store_hazard_fixture/memory/lane2_stage2.bin": "c218979e92d1b17d957988c3f68d7b07fde78c166bc69137f628a2ace28ebaf3",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/store_hazard_fixture/memory/lane2_stage3.bin": "f9a6ff7932de8b7238040a97128eeb1da58dfc53533cfba03afe3fc74f89f658",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/store_hazard_fixture/memory/lane2_stage4.bin": "1dcecb1905f985bef83ff9d19b4ccfa44b9c937abe6ff95e419ffb72f91b1b22"
+  }
+}

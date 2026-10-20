@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "status": "FULL_RTL_COMPACT_WRITE_CALIBRATION_PASS",
+  "scope": "All eight compact stages, lane 0; physical bank/row/mask/processed bytes/writer type multiset",
+  "expected_commits": 15362,
+  "observed_commits": 15362,
+  "missing_examples": [],
+  "extra_examples": [],
+  "executable_sha256": "01738c7a47522d8e33fb7e4629baa38efaa2f12a264889586ef72965995397a5",
+  "reference_manifest_sha256": "0badea4a90ed596d1339b9711ca31bbe4f91f713bbf8cfb1d988ce8f9e6bc149"
+}

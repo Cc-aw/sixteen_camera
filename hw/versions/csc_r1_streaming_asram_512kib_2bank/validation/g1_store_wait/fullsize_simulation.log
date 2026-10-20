@@ -1,0 +1,8 @@
+FULL_RTL_STAGE lane=0 frame=0 stage=38 cycle=16
+FULL_RTL_STAGE lane=0 frame=0 stage=62 cycle=25668
+FULL_RTL_STAGE lane=0 frame=0 stage=109 cycle=46037
+FULL_RTL_STAGE lane=0 frame=0 stage=111 cycle=124948
+FULL_RTL_STAGE lane=0 frame=0 stage=117 cycle=452618
+FULL_RTL_STAGE lane=0 frame=0 stage=134 cycle=944576
+FULL_RTL_STAGE lane=0 frame=0 stage=156 cycle=1150631
+FULL_GEMMINI_RTL_PASS lane=0 native_words=665 dma_rows=91717 real_gets=104505 real_get_bytes=4491712 physical_commits=133790 accepted_spad_reads=953892 functional_cycles=1268498 input_tiles=58 skipped_tiles=16 skip_completions=16

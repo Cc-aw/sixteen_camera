@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "status": "DECLARED_NATIVE_PHYSICAL_SOURCES_PASS",
+  "lane": 0,
+  "dma_rows": 2116218,
+  "counts": {
+    "bias_rows": 34650,
+    "weight_rows": 212728,
+    "zero_rows": 38466,
+    "input_rows": 705550,
+    "private_asram_rows": 1115848,
+    "pool_pad_rows": 8976
+  },
+  "metric": "Logical row source ranges, not TL traffic or numerical oracle",
+  "trace_sha256": "71db308f39a35d5e77ba813eec5a31c18246ecc0ad5daf1a0a6117d705de0628",
+  "workload_sha256": "ecc8235e35bc4465e0cf7a7df7382891f39f443481498ad2d5e68185b23d55f0"
+}

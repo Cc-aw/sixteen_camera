@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "sha256": {
+    "README.md": "5de5ed846f6f67f85a4c6e9e70bdb3a77671d7c5d37745fe325e2f5da17f973c",
+    "attempts.json": "6f0743cb20e67c744108cb724faeb83e0e5e007982b673d808c3a2db5f892fe0",
+    "baseline_asram_evidence.json": "ed195f0af82322397206a0380208b327e018c51d4e746841f15f146a24690aac",
+    "baseline_audit.log": "dbb0fbe5b9698ed3fc9bf2df8caf7ce3bf7118a3aec825aca1a0313b7d5b6740",
+    "baseline_fault_evidence.json": "ce80af5d99461310dc8109a0353f9b11883c696638c5beb6dcb6df96a26474da",
+    "baseline_layers_evidence.json": "3199111d3ab7ee71bfe1300a5c557da723b5e7a0edd46df1894a9f8b92dd66ef",
+    "candidate_examples.csv": "291c0ee4cc8b03fc812cbd5e7927a11bda3c8f98516ef1ce703a054122c9ebd4",
+    "decision.json": "65c8b91f586bcb463349ccd9229e2342825aaa692aa43e9982a28c632ecb1894",
+    "decision.md": "74ba6448242feef9a21f568fca66e6a545cceb411a51da9e8b3a51c63d3f4e86",
+    "decision_policy.json": "dbc92570e6f6ed2197f9c11e73de5b478074a115bc75dfa8b5dc4fa92b454cbe",
+    "evidence_manifest.json": "23a09a5755bf9914cb2e7958d1b067fa0eababda50ed2fd4b45a6c51e94232c8",
+    "inputs_manifest.json": "06f998f2ff18baa6dc717b1c5376f16056213169b1def59daae0b9a2f762d0f0",
+    "inventory.json": "055b1d0057ec30fb156e459613ae84cb36488a228a5325652abfc4b860931511",
+    "lifetime_invalidation.csv": "cc055abe92977bc46adf6a39296daa73d6ddcbeed4f1fda49e2daf99fbc7666f",
+    "opportunity_summary.json": "2855da730984c6e4d4a4df2e491543ce691101a82e211669e26dba65bc4c6164",
+    "per_stage_opportunity.csv": "9bb553bb461dba76af096a483295a822a4659d4e4d24ab9b32bdec9dd2ea21d2",
+    "provenance.json": "c7dfcb99d39b40ec3703b5e2a97f68dc0b0a5b0ba7cc131c69ce0d3b7861d1d2",
+    "reference_tests.log": "0e73b611c6bb988fe31effbdf59fb2eadfa0640760f05c5f80ada8a05e6489b6",
+    "row_get_closure.json": "5fb80478fca29be6586aef31a1817f20973be6347a5fc27c7094898ee4dcadc9",
+    "simulator_environment.json": "454df4188c075b5d6cdc13d19eab9cc4e392db9c8ed6c79fe5879afd8ec7e4bf",
+    "source_rtl_sha256.json": "cfb28507859f195c5821fcd7cb6b11433d13f47b9b9fc072e930df3db8fe03d8",
+    "spad_reconstruction.json": "fce1674c6c8cbd013907621f0a831d33d80e16a1ad68a6c6e62e501580e6a453",
+    "trace_manifest.json": "0badea4a90ed596d1339b9711ca31bbe4f91f713bbf8cfb1d988ce8f9e6bc149"
+  }
+}

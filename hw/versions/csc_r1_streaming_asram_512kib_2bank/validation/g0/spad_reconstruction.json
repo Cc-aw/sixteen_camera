@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "status": "THREE_LANE_SPAD_RECONSTRUCTION_PASS",
+  "full_network": false,
+  "results": [
+    {
+      "lane": 0,
+      "event_counts": {
+        "BEGIN": 1,
+        "SNAPSHOT": 16384,
+        "LOAD_ACCEPT": 638,
+        "LOAD_CREDIT": 10839,
+        "CMD_COMPLETE": 638,
+        "DMA_CANDIDATE": 14764,
+        "BANK_ACCEPT": 15362,
+        "BANK_COMMIT": 15362,
+        "READ_INTENT": 15392,
+        "READ_ACCEPT": 15392,
+        "READ_DATA": 15392,
+        "BOUNDARY": 8,
+        "END": 1
+      },
+      "logical_loads": 638,
+      "value_resident_at_issue_diagnostics": 28,
+      "sha256": "85a275aef48684e3a45ff755fa4dea9102f70ca6f16c7bdc5b0d18b89d4f71b2"
+    },
+    {
+      "lane": 1,
+      "event_counts": {
+        "BEGIN": 1,
+        "SNAPSHOT": 16384,
+        "LOAD_ACCEPT": 638,
+        "LOAD_CREDIT": 10839,
+        "CMD_COMPLETE": 638,
+        "DMA_CANDIDATE": 14764,
+        "BANK_ACCEPT": 15362,
+        "BANK_COMMIT": 15362,
+        "READ_INTENT": 15392,
+        "READ_ACCEPT": 15392,
+        "READ_DATA": 15392,
+        "BOUNDARY": 8,
+        "END": 1
+      },
+      "logical_loads": 638,
+      "value_resident_at_issue_diagnostics": 28,
+      "sha256": "58ec22826a526a5ad5560f0e62d78e38f24cc7c7d1ce337ce344a7583986b5c5"
+    },
+    {
+      "lane": 2,
+      "event_counts": {
+        "BEGIN": 1,
+        "SNAPSHOT": 16384,
+        "LOAD_ACCEPT": 638,
+        "LOAD_CREDIT": 10839,
+        "CMD_COMPLETE": 638,
+        "DMA_CANDIDATE": 14764,
+        "BANK_ACCEPT": 15362,
+        "BANK_COMMIT": 15362,
+        "READ_INTENT": 15392,
+        "READ_ACCEPT": 15392,
+        "READ_DATA": 15392,
+        "BOUNDARY": 8,
+        "END": 1
+      },
+      "logical_loads": 638,
+      "value_resident_at_issue_diagnostics": 28,
+      "sha256": "13c51542fc7c6c2a380d2ff9e6c2fb9d956f90b7c67c2c32ea86b5de07e931a1"
+    }
+  ]
+}

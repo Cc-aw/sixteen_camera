@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "feature": "CSC-R1",
+  "phase": "G0_BASELINE_SIMULATION",
+  "CSC_R1_ENABLED": 0,
+  "candidate_generated": false,
+  "baseline_build_id": "abd1c8c87558c7b0",
+  "baseline_dma_load_streaming_enable": true,
+  "runtime_modes": [
+    "legacy",
+    "read_coalesced",
+    "read_assembled",
+    "spad_assembled"
+  ],
+  "preferred_runtime_mode": "read_assembled",
+  "new_storage_bytes": 0,
+  "physical_implementation_authorized": false
+}

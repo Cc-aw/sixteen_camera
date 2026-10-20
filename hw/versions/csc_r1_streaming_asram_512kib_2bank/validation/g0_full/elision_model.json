@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "status": "FIXED_TIMELINE_WHOLE_LOAD_ELISION_MODEL_PASS",
+  "lanes": [
+    {
+      "lane": 0,
+      "retained_original_credit_bytes": 54755744,
+      "retained_original_completion_tokens": 140582,
+      "unchanged_spad_read_responses": 7627832,
+      "elided_spad_commits": 152292,
+      "elided_gets": 90448,
+      "qualified_whole_loads": 6536,
+      "elided_actual_get_bytes": 4463360,
+      "elided_actual_spad_write_bytes": 4432354
+    },
+    {
+      "lane": 1,
+      "retained_original_credit_bytes": 54755744,
+      "retained_original_completion_tokens": 140582,
+      "unchanged_spad_read_responses": 7627832,
+      "elided_spad_commits": 152292,
+      "elided_gets": 90448,
+      "qualified_whole_loads": 6536,
+      "elided_actual_get_bytes": 4463360,
+      "elided_actual_spad_write_bytes": 4432354
+    },
+    {
+      "lane": 2,
+      "retained_original_credit_bytes": 54755744,
+      "retained_original_completion_tokens": 140582,
+      "unchanged_spad_read_responses": 7627832,
+      "elided_spad_commits": 152292,
+      "elided_gets": 90448,
+      "qualified_whole_loads": 6536,
+      "elided_actual_get_bytes": 4463360,
+      "elided_actual_spad_write_bytes": 4432354
+    }
+  ],
+  "summary_sha256": "45ead29248d5596eedb83a0c776aa718da02ffec2f9fbee5d7e6dc2faba6e6d3",
+  "qualified_loads_sha256": "37010c78db3ab079eb45304e9c892d8fbc7d73f93a14e4b7952c7b8bcb84f342",
+  "complete_native_command_workload": true,
+  "validator_source": "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/validate_elision.py",
+  "validator_sha256": "7b60a9ba6c2b27af107b28c7bce35de5f5c1844c60f47729d20d1f0ec88a20d9",
+  "actual_candidate_rtl": false,
+  "performance_result": false,
+  "model": "Delete complete qualified Load Gets and SPAD writes; retain recorded local completion/credit and consumer times"
+}

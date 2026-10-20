@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "feature": "CSC-R1",
+  "g0": {
+    "exact_dma_read_fraction_min": 0.05,
+    "hotspot_network_time_fraction_min": 0.1,
+    "hotspot_input_stall_reduction_upper_bound_min": 0.1,
+    "complete_network_weighting_required": true
+  },
+  "g1": {
+    "bit_exact_required": true,
+    "protocol_warnings_allowed": 0,
+    "deadlocks_allowed": 0
+  },
+  "g2": {
+    "throughput_gain_min_pct": 5,
+    "proxy_measured_baseline_cycle_coverage_recommended_min": 0.8,
+    "fixed_seeds_min": 3,
+    "important_layer_regression_review_threshold_pct": 1
+  },
+  "physical_implementation_authorized": false
+}

@@ -1,0 +1,91 @@
+{
+  "python": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+  "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.35",
+  "simulators": [
+    {
+      "project": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/run_20261019_180858/baseline_layers_latency1/simulation/simulation.prj",
+      "options": {
+        "register_initialization": [
+          "-d",
+          "RANDOMIZE_REG_INIT"
+        ],
+        "rationale": "Generated RRArbiter has an intentionally unreset lastGrant",
+        "runtime_modes": "all"
+      },
+      "simulator_version": "Vivado Simulator v2023.2",
+      "xelab_warning_codes": {
+        "XSIM 43-4099": 100
+      },
+      "functional_test_only": true,
+      "response_delay_expressions": [
+        "1",
+        "30+ID*11",
+        "response_delay-1"
+      ]
+    },
+    {
+      "project": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/run_20261019_180858/baseline_layers/simulation/simulation.prj",
+      "options": {
+        "register_initialization": [
+          "-d",
+          "RANDOMIZE_REG_INIT"
+        ],
+        "rationale": "Generated RRArbiter has an intentionally unreset lastGrant",
+        "runtime_modes": "all"
+      },
+      "simulator_version": "Vivado Simulator v2023.2",
+      "xelab_warning_codes": {
+        "XSIM 43-4099": 100
+      },
+      "functional_test_only": true,
+      "response_delay_expressions": [
+        "7+ID*3",
+        "30+ID*11",
+        "response_delay-1"
+      ]
+    },
+    {
+      "project": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/run_20261019_180858/baseline_fault/simulation/simulation/simulation.prj",
+      "options": {
+        "register_initialization": [
+          "-d",
+          "RANDOMIZE_REG_INIT"
+        ],
+        "rationale": "Generated RRArbiter has an intentionally unreset lastGrant",
+        "runtime_modes": "all"
+      },
+      "simulator_version": "Vivado Simulator v2023.2",
+      "xelab_warning_codes": {
+        "XSIM 43-4099": 100
+      },
+      "functional_test_only": true,
+      "response_delay_expressions": [
+        "0",
+        "(a_source!=31 && a_address>=BASE+'h1080 && a_address<BASE+'h10c0)?200:7+ID*3",
+        "30+ID*11",
+        "response_delay-1"
+      ]
+    },
+    {
+      "project": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/run_20261019_180858/baseline_asram_retry/simulation/simulation/simulation.prj",
+      "options": {
+        "register_initialization": [
+          "-d",
+          "RANDOMIZE_REG_INIT"
+        ],
+        "rationale": "Generated RRArbiter has an intentionally unreset lastGrant",
+        "runtime_modes": "all"
+      },
+      "simulator_version": "Vivado Simulator v2023.2",
+      "xelab_warning_codes": {
+        "XSIM 43-4099": 100
+      },
+      "functional_test_only": true,
+      "response_delay_expressions": [
+        "(a_source!=31 && ((a_address-BASE)=='h1080 || (a_address-BASE)=='h1180))?200:7+ID*3",
+        "30+ID*11",
+        "response_delay-1"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3046 @@
+{
+  "schema": 1,
+  "status": "NATIVE_ORDINARY_PACKET_ROUNDTRIP_PASS",
+  "full_network_dynamic_trace": false,
+  "full_network_cycle_weights_available": false,
+  "metric": "Native logical payload only; excludes physical Get alignment, zero writes and timing",
+  "ordinary_stage_count": 58,
+  "ordinary_packets_per_worker": 462,
+  "prepared_stage_count": 20,
+  "prepared_packets_per_worker": 224,
+  "model_stage_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
+    107,
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118,
+    119,
+    120,
+    121,
+    122,
+    123,
+    124,
+    125,
+    126,
+    127,
+    128,
+    129,
+    130,
+    131,
+    132,
+    133,
+    134,
+    135,
+    136,
+    137,
+    138,
+    139,
+    140,
+    141,
+    142,
+    143,
+    144,
+    145,
+    146,
+    147,
+    148,
+    149,
+    150,
+    151,
+    152,
+    153,
+    154,
+    155,
+    156,
+    157,
+    158,
+    159,
+    160,
+    161,
+    162,
+    163,
+    164,
+    165
+  ],
+  "ordinary": [
+    {
+      "stage_id": 0,
+      "shape": {
+        "batch": 1,
+        "ih": 480,
+        "iw": 640,
+        "ic": 3,
+        "oc": 16,
+        "oh": 240,
+        "ow": 320,
+        "stride": 2,
+        "pad": 2,
+        "kernel": 6,
+        "dilation": 1,
+        "istride": 3,
+        "wstride": 16,
+        "ostride": 16,
+        "act": 6,
+        "scale_bits": 6173,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        32,
+        16,
+        6,
+        6,
+        3
+      ],
+      "packets": 80,
+      "capacity": {
+        "spad_rows": 4593,
+        "acc_rows": 960
+      },
+      "native_logical_payload_bytes": {
+        "input": 1058325,
+        "weight": 1728,
+        "bias": 5120,
+        "output": 1228800
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 79
+    },
+    {
+      "stage_id": 2,
+      "shape": {
+        "batch": 1,
+        "ih": 240,
+        "iw": 320,
+        "ic": 16,
+        "oc": 32,
+        "oh": 120,
+        "ow": 160,
+        "stride": 2,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 16,
+        "wstride": 32,
+        "ostride": 32,
+        "act": 6,
+        "scale_bits": 7794,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        32,
+        3,
+        3,
+        16
+      ],
+      "packets": 20,
+      "capacity": {
+        "spad_rows": 4500,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 1291008,
+        "weight": 4608,
+        "bias": 2560,
+        "output": 614400
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 19
+    },
+    {
+      "stage_id": 4,
+      "shape": {
+        "batch": 1,
+        "ih": 120,
+        "iw": 160,
+        "ic": 32,
+        "oc": 16,
+        "oh": 120,
+        "ow": 160,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 32,
+        "wstride": 16,
+        "ostride": 16,
+        "act": 6,
+        "scale_bits": 8323,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        16,
+        1,
+        1,
+        32
+      ],
+      "packets": 20,
+      "capacity": {
+        "spad_rows": 1056,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 614400,
+        "weight": 512,
+        "bias": 1280,
+        "output": 307200
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 19
+    },
+    {
+      "stage_id": 5,
+      "shape": {
+        "batch": 1,
+        "ih": 120,
+        "iw": 160,
+        "ic": 32,
+        "oc": 16,
+        "oh": 120,
+        "ow": 160,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 32,
+        "wstride": 16,
+        "ostride": 16,
+        "act": 6,
+        "scale_bits": 8988,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        16,
+        1,
+        1,
+        32
+      ],
+      "packets": 20,
+      "capacity": {
+        "spad_rows": 1056,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 614400,
+        "weight": 512,
+        "bias": 1280,
+        "output": 307200
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 19
+    },
+    {
+      "stage_id": 8,
+      "shape": {
+        "batch": 1,
+        "ih": 120,
+        "iw": 160,
+        "ic": 16,
+        "oc": 16,
+        "oh": 120,
+        "ow": 160,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 16,
+        "wstride": 16,
+        "ostride": 16,
+        "act": 6,
+        "scale_bits": 9965,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        16,
+        1,
+        1,
+        16
+      ],
+      "packets": 20,
+      "capacity": {
+        "spad_rows": 1040,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 307200,
+        "weight": 256,
+        "bias": 1280,
+        "output": 307200
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 19
+    },
+    {
+      "stage_id": 10,
+      "shape": {
+        "batch": 1,
+        "ih": 120,
+        "iw": 160,
+        "ic": 16,
+        "oc": 16,
+        "oh": 120,
+        "ow": 160,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 16,
+        "wstride": 16,
+        "ostride": 16,
+        "act": 6,
+        "scale_bits": 7521,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        16,
+        3,
+        3,
+        16
+      ],
+      "packets": 20,
+      "capacity": {
+        "spad_rows": 1300,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 338688,
+        "weight": 2304,
+        "bias": 1280,
+        "output": 307200
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 19
+    },
+    {
+      "stage_id": 16,
+      "shape": {
+        "batch": 1,
+        "ih": 120,
+        "iw": 160,
+        "ic": 32,
+        "oc": 64,
+        "oh": 60,
+        "ow": 80,
+        "stride": 2,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 32,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 7488,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        32,
+        3,
+        3,
+        32
+      ],
+      "packets": 12,
+      "capacity": {
+        "spad_rows": 4644,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 1280512,
+        "weight": 18432,
+        "bias": 1536,
+        "output": 307200
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 10
+    },
+    {
+      "stage_id": 18,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 64,
+        "oc": 32,
+        "oh": 60,
+        "ow": 80,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 32,
+        "ostride": 32,
+        "act": 6,
+        "scale_bits": 7285,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        32,
+        1,
+        1,
+        64
+      ],
+      "packets": 6,
+      "capacity": {
+        "spad_rows": 2112,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 307200,
+        "weight": 2048,
+        "bias": 768,
+        "output": 153600
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 5
+    },
+    {
+      "stage_id": 19,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 64,
+        "oc": 32,
+        "oh": 60,
+        "ow": 80,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 32,
+        "ostride": 32,
+        "act": 6,
+        "scale_bits": 8293,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        32,
+        1,
+        1,
+        64
+      ],
+      "packets": 6,
+      "capacity": {
+        "spad_rows": 2112,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 307200,
+        "weight": 2048,
+        "bias": 768,
+        "output": 153600
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 5
+    },
+    {
+      "stage_id": 22,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 32,
+        "oc": 32,
+        "oh": 60,
+        "ow": 80,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 32,
+        "wstride": 32,
+        "ostride": 32,
+        "act": 6,
+        "scale_bits": 9041,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        32,
+        1,
+        1,
+        32
+      ],
+      "packets": 6,
+      "capacity": {
+        "spad_rows": 1056,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 153600,
+        "weight": 1024,
+        "bias": 768,
+        "output": 153600
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 5
+    },
+    {
+      "stage_id": 24,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 32,
+        "oc": 32,
+        "oh": 60,
+        "ow": 80,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 32,
+        "wstride": 32,
+        "ostride": 32,
+        "act": 6,
+        "scale_bits": 7441,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        32,
+        3,
+        3,
+        32
+      ],
+      "packets": 6,
+      "capacity": {
+        "spad_rows": 1444,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 166656,
+        "weight": 9216,
+        "bias": 768,
+        "output": 153600
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 5
+    },
+    {
+      "stage_id": 27,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 32,
+        "oc": 32,
+        "oh": 60,
+        "ow": 80,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 32,
+        "wstride": 32,
+        "ostride": 32,
+        "act": 6,
+        "scale_bits": 9160,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        32,
+        1,
+        1,
+        32
+      ],
+      "packets": 6,
+      "capacity": {
+        "spad_rows": 1056,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 153600,
+        "weight": 1024,
+        "bias": 768,
+        "output": 153600
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 5
+    },
+    {
+      "stage_id": 29,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 32,
+        "oc": 32,
+        "oh": 60,
+        "ow": 80,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 32,
+        "wstride": 32,
+        "ostride": 32,
+        "act": 6,
+        "scale_bits": 7226,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        32,
+        3,
+        3,
+        32
+      ],
+      "packets": 6,
+      "capacity": {
+        "spad_rows": 1444,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 166656,
+        "weight": 9216,
+        "bias": 768,
+        "output": 153600
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 5
+    },
+    {
+      "stage_id": 35,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 64,
+        "oc": 128,
+        "oh": 30,
+        "ow": 40,
+        "stride": 2,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 128,
+        "ostride": 128,
+        "act": 6,
+        "scale_bits": 7993,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        8,
+        32,
+        128,
+        3,
+        3,
+        32
+      ],
+      "packets": 16,
+      "capacity": {
+        "spad_rows": 2340,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 346368,
+        "weight": 73728,
+        "bias": 4096,
+        "output": 153600
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 14
+    },
+    {
+      "stage_id": 37,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 128,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 128,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 7508,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        1,
+        1,
+        128
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 4208,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 153600,
+        "weight": 8192,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 38,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 128,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 128,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 8709,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        1,
+        1,
+        128
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 4208,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 153600,
+        "weight": 8192,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 41,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 64,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 10050,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        1,
+        1,
+        64
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 2104,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 76800,
+        "weight": 4096,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 43,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 64,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 7459,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        3,
+        3,
+        64
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 2880,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 80640,
+        "weight": 36864,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 46,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 64,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 8386,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        1,
+        1,
+        64
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 2104,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 76800,
+        "weight": 4096,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 48,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 64,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 8712,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        3,
+        3,
+        64
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 2880,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 80640,
+        "weight": 36864,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 51,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 64,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 8450,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        1,
+        1,
+        64
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 2104,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 76800,
+        "weight": 4096,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 53,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 64,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 8014,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        3,
+        3,
+        64
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 2880,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 80640,
+        "weight": 36864,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 59,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 128,
+        "oc": 256,
+        "oh": 15,
+        "ow": 20,
+        "stride": 2,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 128,
+        "wstride": 256,
+        "ostride": 256,
+        "act": 6,
+        "scale_bits": 7085,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        96,
+        3,
+        3,
+        104
+      ],
+      "packets": 6,
+      "capacity": {
+        "spad_rows": 8184,
+        "acc_rows": 900
+      },
+      "native_logical_payload_bytes": {
+        "input": 153600,
+        "weight": 294912,
+        "bias": 1024,
+        "output": 76800
+      },
+      "retained_input_packets": 4,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 61,
+      "shape": {
+        "batch": 1,
+        "ih": 15,
+        "iw": 20,
+        "ic": 256,
+        "oc": 128,
+        "oh": 15,
+        "ow": 20,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 256,
+        "wstride": 128,
+        "ostride": 128,
+        "act": 6,
+        "scale_bits": 7282,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        96,
+        1,
+        1,
+        256
+      ],
+      "packets": 2,
+      "capacity": {
+        "spad_rows": 3168,
+        "acc_rows": 900
+      },
+      "native_logical_payload_bytes": {
+        "input": 76800,
+        "weight": 32768,
+        "bias": 512,
+        "output": 38400
+      },
+      "retained_input_packets": 1,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 62,
+      "shape": {
+        "batch": 1,
+        "ih": 15,
+        "iw": 20,
+        "ic": 256,
+        "oc": 128,
+        "oh": 15,
+        "ow": 20,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 256,
+        "wstride": 128,
+        "ostride": 128,
+        "act": 6,
+        "scale_bits": 8329,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        96,
+        1,
+        1,
+        256
+      ],
+      "packets": 2,
+      "capacity": {
+        "spad_rows": 3168,
+        "acc_rows": 900
+      },
+      "native_logical_payload_bytes": {
+        "input": 76800,
+        "weight": 32768,
+        "bias": 512,
+        "output": 38400
+      },
+      "retained_input_packets": 1,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 65,
+      "shape": {
+        "batch": 1,
+        "ih": 15,
+        "iw": 20,
+        "ic": 128,
+        "oc": 128,
+        "oh": 15,
+        "ow": 20,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 128,
+        "wstride": 128,
+        "ostride": 128,
+        "act": 6,
+        "scale_bits": 10320,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        96,
+        1,
+        1,
+        128
+      ],
+      "packets": 2,
+      "capacity": {
+        "spad_rows": 1584,
+        "acc_rows": 900
+      },
+      "native_logical_payload_bytes": {
+        "input": 38400,
+        "weight": 16384,
+        "bias": 512,
+        "output": 38400
+      },
+      "retained_input_packets": 1,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 67,
+      "shape": {
+        "batch": 1,
+        "ih": 15,
+        "iw": 20,
+        "ic": 128,
+        "oc": 128,
+        "oh": 15,
+        "ow": 20,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 128,
+        "wstride": 128,
+        "ostride": 128,
+        "act": 6,
+        "scale_bits": 6733,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        96,
+        3,
+        3,
+        128
+      ],
+      "packets": 2,
+      "capacity": {
+        "spad_rows": 4952,
+        "acc_rows": 900
+      },
+      "native_logical_payload_bytes": {
+        "input": 38400,
+        "weight": 147456,
+        "bias": 512,
+        "output": 38400
+      },
+      "retained_input_packets": 1,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 73,
+      "shape": {
+        "batch": 1,
+        "ih": 15,
+        "iw": 20,
+        "ic": 256,
+        "oc": 128,
+        "oh": 15,
+        "ow": 20,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 256,
+        "wstride": 128,
+        "ostride": 128,
+        "act": 6,
+        "scale_bits": 8191,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        96,
+        1,
+        1,
+        256
+      ],
+      "packets": 2,
+      "capacity": {
+        "spad_rows": 3168,
+        "acc_rows": 900
+      },
+      "native_logical_payload_bytes": {
+        "input": 76800,
+        "weight": 32768,
+        "bias": 512,
+        "output": 38400
+      },
+      "retained_input_packets": 1,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 81,
+      "shape": {
+        "batch": 1,
+        "ih": 15,
+        "iw": 20,
+        "ic": 256,
+        "oc": 128,
+        "oh": 15,
+        "ow": 20,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 256,
+        "wstride": 128,
+        "ostride": 128,
+        "act": 6,
+        "scale_bits": 7670,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        96,
+        1,
+        1,
+        256
+      ],
+      "packets": 2,
+      "capacity": {
+        "spad_rows": 3168,
+        "acc_rows": 900
+      },
+      "native_logical_payload_bytes": {
+        "input": 76800,
+        "weight": 32768,
+        "bias": 512,
+        "output": 38400
+      },
+      "retained_input_packets": 1,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 88,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 64,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 8203,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        1,
+        1,
+        64
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 2104,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 76800,
+        "weight": 4096,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 90,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 64,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 7194,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        3,
+        3,
+        64
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 2880,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 80640,
+        "weight": 36864,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 95,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 128,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 128,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 7330,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        1,
+        1,
+        128
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 4208,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 153600,
+        "weight": 8192,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 102,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 32,
+        "oc": 32,
+        "oh": 60,
+        "ow": 80,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 32,
+        "wstride": 32,
+        "ostride": 32,
+        "act": 6,
+        "scale_bits": 8605,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        32,
+        1,
+        1,
+        32
+      ],
+      "packets": 6,
+      "capacity": {
+        "spad_rows": 1056,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 153600,
+        "weight": 1024,
+        "bias": 768,
+        "output": 153600
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 5
+    },
+    {
+      "stage_id": 104,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 32,
+        "oc": 32,
+        "oh": 60,
+        "ow": 80,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 32,
+        "wstride": 32,
+        "ostride": 32,
+        "act": 6,
+        "scale_bits": 8216,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        32,
+        3,
+        3,
+        32
+      ],
+      "packets": 6,
+      "capacity": {
+        "spad_rows": 1444,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 166656,
+        "weight": 9216,
+        "bias": 768,
+        "output": 153600
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 5
+    },
+    {
+      "stage_id": 109,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 64,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 2,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 6896,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        3,
+        3,
+        32
+      ],
+      "packets": 8,
+      "capacity": {
+        "spad_rows": 4628,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 629760,
+        "weight": 73728,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 110,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 64,
+        "oc": 64,
+        "oh": 60,
+        "ow": 80,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 7518,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        32,
+        3,
+        3,
+        64
+      ],
+      "packets": 12,
+      "capacity": {
+        "spad_rows": 2888,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 666624,
+        "weight": 36864,
+        "bias": 1536,
+        "output": 307200
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 10
+    },
+    {
+      "stage_id": 111,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 64,
+        "oc": 80,
+        "oh": 60,
+        "ow": 80,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 80,
+        "ostride": 80,
+        "act": 6,
+        "scale_bits": 7548,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        32,
+        3,
+        3,
+        64
+      ],
+      "packets": 18,
+      "capacity": {
+        "spad_rows": 2888,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 999936,
+        "weight": 276480,
+        "bias": 1920,
+        "output": 384000
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 116,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 64,
+        "oc": 64,
+        "oh": 60,
+        "ow": 80,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 8071,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        32,
+        3,
+        3,
+        64
+      ],
+      "packets": 12,
+      "capacity": {
+        "spad_rows": 2888,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 666624,
+        "weight": 36864,
+        "bias": 1536,
+        "output": 307200
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 10
+    },
+    {
+      "stage_id": 117,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 80,
+        "oc": 80,
+        "oh": 60,
+        "ow": 80,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 80,
+        "wstride": 80,
+        "ostride": 80,
+        "act": 6,
+        "scale_bits": 7353,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        32,
+        32,
+        32,
+        3,
+        3,
+        80
+      ],
+      "packets": 18,
+      "capacity": {
+        "spad_rows": 4188,
+        "acc_rows": 1024
+      },
+      "native_logical_payload_bytes": {
+        "input": 1249920,
+        "weight": 345600,
+        "bias": 1920,
+        "output": 384000
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 123,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 64,
+        "oc": 64,
+        "oh": 60,
+        "ow": 80,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 0,
+        "scale_bits": 7449,
+        "flags": 0,
+        "mode": 1
+      },
+      "tile": [
+        1,
+        6,
+        80,
+        64,
+        1,
+        1,
+        64
+      ],
+      "packets": 10,
+      "capacity": {
+        "spad_rows": 1088,
+        "acc_rows": 960
+      },
+      "native_logical_payload_bytes": {
+        "input": 307200,
+        "weight": 4096,
+        "bias": 2560,
+        "output": 307200
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 9
+    },
+    {
+      "stage_id": 124,
+      "shape": {
+        "batch": 1,
+        "ih": 60,
+        "iw": 80,
+        "ic": 80,
+        "oc": 80,
+        "oh": 60,
+        "ow": 80,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 80,
+        "wstride": 80,
+        "ostride": 80,
+        "act": 0,
+        "scale_bits": 7118,
+        "flags": 0,
+        "mode": 1
+      },
+      "tile": [
+        1,
+        4,
+        80,
+        80,
+        1,
+        1,
+        80
+      ],
+      "packets": 15,
+      "capacity": {
+        "spad_rows": 1200,
+        "acc_rows": 960
+      },
+      "native_logical_payload_bytes": {
+        "input": 384000,
+        "weight": 6400,
+        "bias": 4800,
+        "output": 384000
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 14
+    },
+    {
+      "stage_id": 125,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 64,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 7977,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        1,
+        1,
+        64
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 2104,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 76800,
+        "weight": 4096,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 127,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 64,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 7624,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        3,
+        3,
+        64
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 2880,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 80640,
+        "weight": 36864,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 132,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 128,
+        "oc": 128,
+        "oh": 15,
+        "ow": 20,
+        "stride": 2,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 128,
+        "wstride": 128,
+        "ostride": 128,
+        "act": 6,
+        "scale_bits": 7021,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        96,
+        3,
+        3,
+        104
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 8184,
+        "acc_rows": 900
+      },
+      "native_logical_payload_bytes": {
+        "input": 153600,
+        "weight": 147456,
+        "bias": 512,
+        "output": 38400
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 133,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 128,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 128,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 7570,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        3,
+        3,
+        128
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 5760,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 161280,
+        "weight": 73728,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 134,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 128,
+        "oc": 80,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 128,
+        "wstride": 80,
+        "ostride": 80,
+        "act": 6,
+        "scale_bits": 6630,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        3,
+        3,
+        128
+      ],
+      "packets": 6,
+      "capacity": {
+        "spad_rows": 5760,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 161280,
+        "weight": 184320,
+        "bias": 640,
+        "output": 96000
+      },
+      "retained_input_packets": 4,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 139,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 64,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 8339,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        3,
+        3,
+        64
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 2880,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 80640,
+        "weight": 36864,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 140,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 80,
+        "oc": 80,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 80,
+        "wstride": 80,
+        "ostride": 80,
+        "act": 6,
+        "scale_bits": 8386,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        30,
+        34,
+        32,
+        3,
+        3,
+        80
+      ],
+      "packets": 6,
+      "capacity": {
+        "spad_rows": 4176,
+        "acc_rows": 1020
+      },
+      "native_logical_payload_bytes": {
+        "input": 100800,
+        "weight": 115200,
+        "bias": 640,
+        "output": 96000
+      },
+      "retained_input_packets": 4,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 146,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 64,
+        "oc": 64,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 0,
+        "scale_bits": 7738,
+        "flags": 0,
+        "mode": 1
+      },
+      "tile": [
+        1,
+        15,
+        40,
+        32,
+        1,
+        1,
+        64
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 1264,
+        "acc_rows": 600
+      },
+      "native_logical_payload_bytes": {
+        "input": 76800,
+        "weight": 4096,
+        "bias": 512,
+        "output": 76800
+      },
+      "retained_input_packets": 2,
+      "retained_weight_packets": 2
+    },
+    {
+      "stage_id": 147,
+      "shape": {
+        "batch": 1,
+        "ih": 30,
+        "iw": 40,
+        "ic": 80,
+        "oc": 80,
+        "oh": 30,
+        "ow": 40,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 80,
+        "wstride": 80,
+        "ostride": 80,
+        "act": 0,
+        "scale_bits": 7408,
+        "flags": 0,
+        "mode": 1
+      },
+      "tile": [
+        1,
+        8,
+        40,
+        80,
+        1,
+        1,
+        80
+      ],
+      "packets": 4,
+      "capacity": {
+        "spad_rows": 1200,
+        "acc_rows": 960
+      },
+      "native_logical_payload_bytes": {
+        "input": 96000,
+        "weight": 6400,
+        "bias": 1280,
+        "output": 96000
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 3
+    },
+    {
+      "stage_id": 148,
+      "shape": {
+        "batch": 1,
+        "ih": 15,
+        "iw": 20,
+        "ic": 128,
+        "oc": 128,
+        "oh": 15,
+        "ow": 20,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 128,
+        "wstride": 128,
+        "ostride": 128,
+        "act": 6,
+        "scale_bits": 8325,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        96,
+        1,
+        1,
+        128
+      ],
+      "packets": 2,
+      "capacity": {
+        "spad_rows": 1584,
+        "acc_rows": 900
+      },
+      "native_logical_payload_bytes": {
+        "input": 38400,
+        "weight": 16384,
+        "bias": 512,
+        "output": 38400
+      },
+      "retained_input_packets": 1,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 150,
+      "shape": {
+        "batch": 1,
+        "ih": 15,
+        "iw": 20,
+        "ic": 128,
+        "oc": 128,
+        "oh": 15,
+        "ow": 20,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 128,
+        "wstride": 128,
+        "ostride": 128,
+        "act": 6,
+        "scale_bits": 6859,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        96,
+        3,
+        3,
+        128
+      ],
+      "packets": 2,
+      "capacity": {
+        "spad_rows": 4952,
+        "acc_rows": 900
+      },
+      "native_logical_payload_bytes": {
+        "input": 38400,
+        "weight": 147456,
+        "bias": 512,
+        "output": 38400
+      },
+      "retained_input_packets": 1,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 155,
+      "shape": {
+        "batch": 1,
+        "ih": 15,
+        "iw": 20,
+        "ic": 256,
+        "oc": 64,
+        "oh": 15,
+        "ow": 20,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 256,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 7108,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        64,
+        3,
+        3,
+        256
+      ],
+      "packets": 1,
+      "capacity": {
+        "spad_rows": 7600,
+        "acc_rows": 600
+      },
+      "native_logical_payload_bytes": {
+        "input": 76800,
+        "weight": 147456,
+        "bias": 256,
+        "output": 19200
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 156,
+      "shape": {
+        "batch": 1,
+        "ih": 15,
+        "iw": 20,
+        "ic": 256,
+        "oc": 80,
+        "oh": 15,
+        "ow": 20,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 256,
+        "wstride": 80,
+        "ostride": 80,
+        "act": 6,
+        "scale_bits": 7057,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        80,
+        3,
+        3,
+        206
+      ],
+      "packets": 2,
+      "capacity": {
+        "spad_rows": 8180,
+        "acc_rows": 900
+      },
+      "native_logical_payload_bytes": {
+        "input": 76800,
+        "weight": 184320,
+        "bias": 320,
+        "output": 24000
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 159,
+      "shape": {
+        "batch": 1,
+        "ih": 15,
+        "iw": 20,
+        "ic": 64,
+        "oc": 64,
+        "oh": 15,
+        "ow": 20,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 6,
+        "scale_bits": 7613,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        64,
+        3,
+        3,
+        64
+      ],
+      "packets": 1,
+      "capacity": {
+        "spad_rows": 1900,
+        "acc_rows": 600
+      },
+      "native_logical_payload_bytes": {
+        "input": 19200,
+        "weight": 36864,
+        "bias": 256,
+        "output": 19200
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 160,
+      "shape": {
+        "batch": 1,
+        "ih": 15,
+        "iw": 20,
+        "ic": 80,
+        "oc": 80,
+        "oh": 15,
+        "ow": 20,
+        "stride": 1,
+        "pad": 1,
+        "kernel": 3,
+        "dilation": 1,
+        "istride": 80,
+        "wstride": 80,
+        "ostride": 80,
+        "act": 6,
+        "scale_bits": 8069,
+        "flags": 0,
+        "mode": 49
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        80,
+        3,
+        3,
+        80
+      ],
+      "packets": 1,
+      "capacity": {
+        "spad_rows": 3282,
+        "acc_rows": 900
+      },
+      "native_logical_payload_bytes": {
+        "input": 24000,
+        "weight": 57600,
+        "bias": 320,
+        "output": 24000
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 163,
+      "shape": {
+        "batch": 1,
+        "ih": 15,
+        "iw": 20,
+        "ic": 64,
+        "oc": 64,
+        "oh": 15,
+        "ow": 20,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 64,
+        "wstride": 64,
+        "ostride": 64,
+        "act": 0,
+        "scale_bits": 8215,
+        "flags": 0,
+        "mode": 1
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        64,
+        1,
+        1,
+        64
+      ],
+      "packets": 1,
+      "capacity": {
+        "spad_rows": 728,
+        "acc_rows": 600
+      },
+      "native_logical_payload_bytes": {
+        "input": 19200,
+        "weight": 4096,
+        "bias": 256,
+        "output": 19200
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 0
+    },
+    {
+      "stage_id": 164,
+      "shape": {
+        "batch": 1,
+        "ih": 15,
+        "iw": 20,
+        "ic": 80,
+        "oc": 80,
+        "oh": 15,
+        "ow": 20,
+        "stride": 1,
+        "pad": 0,
+        "kernel": 1,
+        "dilation": 1,
+        "istride": 80,
+        "wstride": 80,
+        "ostride": 80,
+        "act": 0,
+        "scale_bits": 7278,
+        "flags": 0,
+        "mode": 1
+      },
+      "tile": [
+        1,
+        15,
+        20,
+        80,
+        1,
+        1,
+        80
+      ],
+      "packets": 1,
+      "capacity": {
+        "spad_rows": 1140,
+        "acc_rows": 900
+      },
+      "native_logical_payload_bytes": {
+        "input": 24000,
+        "weight": 6400,
+        "bias": 320,
+        "output": 24000
+      },
+      "retained_input_packets": 0,
+      "retained_weight_packets": 0
+    }
+  ],
+  "prepared": [
+    {
+      "stage_id": 12,
+      "helper": "add_gemmini_shared_resadd_i8",
+      "packets": 19,
+      "step_kind_counts": {
+        "0": 4,
+        "1": 19,
+        "3": 1
+      }
+    },
+    {
+      "stage_id": 14,
+      "helper": "gemmini_splitk_1x1_two_slice_i8",
+      "packets": 38,
+      "step_kind_counts": {
+        "0": 42,
+        "1": 38,
+        "3": 38
+      }
+    },
+    {
+      "stage_id": 26,
+      "helper": "add_gemmini_shared_resadd_i8",
+      "packets": 5,
+      "step_kind_counts": {
+        "0": 4,
+        "1": 5,
+        "3": 1
+      }
+    },
+    {
+      "stage_id": 31,
+      "helper": "add_gemmini_shared_resadd_i8",
+      "packets": 5,
+      "step_kind_counts": {
+        "0": 4,
+        "1": 5,
+        "3": 1
+      }
+    },
+    {
+      "stage_id": 33,
+      "helper": "gemmini_splitk_1x1_two_slice_i8",
+      "packets": 20,
+      "step_kind_counts": {
+        "0": 24,
+        "1": 20,
+        "3": 20
+      }
+    },
+    {
+      "stage_id": 45,
+      "helper": "add_gemmini_shared_resadd_i8",
+      "packets": 3,
+      "step_kind_counts": {
+        "0": 4,
+        "1": 3,
+        "3": 1
+      }
+    },
+    {
+      "stage_id": 50,
+      "helper": "add_gemmini_shared_resadd_i8",
+      "packets": 3,
+      "step_kind_counts": {
+        "0": 4,
+        "1": 3,
+        "3": 1
+      }
+    },
+    {
+      "stage_id": 55,
+      "helper": "add_gemmini_shared_resadd_i8",
+      "packets": 3,
+      "step_kind_counts": {
+        "0": 4,
+        "1": 3,
+        "3": 1
+      }
+    },
+    {
+      "stage_id": 57,
+      "helper": "gemmini_splitk_1x1_two_slice_i8",
+      "packets": 10,
+      "step_kind_counts": {
+        "0": 14,
+        "1": 10,
+        "3": 10
+      }
+    },
+    {
+      "stage_id": 69,
+      "helper": "add_gemmini_shared_resadd_i8",
+      "packets": 2,
+      "step_kind_counts": {
+        "0": 4,
+        "1": 2,
+        "3": 1
+      }
+    },
+    {
+      "stage_id": 71,
+      "helper": "gemmini_splitk_1x1_two_slice_i8",
+      "packets": 6,
+      "step_kind_counts": {
+        "0": 10,
+        "1": 6,
+        "3": 6
+      }
+    },
+    {
+      "stage_id": 79,
+      "helper": "gemmini_splitk_1x1_multi_slice_i8",
+      "packets": 12,
+      "step_kind_counts": {
+        "0": 16,
+        "1": 12,
+        "3": 12
+      }
+    },
+    {
+      "stage_id": 85,
+      "helper": "gemmini_splitk_1x1_two_slice_two_consumer_spad_reuse_i8",
+      "packets": 12,
+      "step_kind_counts": {
+        "0": 21,
+        "1": 12,
+        "2": 6,
+        "3": 18
+      }
+    },
+    {
+      "stage_id": 93,
+      "helper": "gemmini_splitk_1x1_two_slice_i8",
+      "packets": 10,
+      "step_kind_counts": {
+        "0": 14,
+        "1": 10,
+        "3": 10
+      }
+    },
+    {
+      "stage_id": 99,
+      "helper": "gemmini_splitk_1x1_two_slice_two_consumer_spad_reuse_i8",
+      "packets": 20,
+      "step_kind_counts": {
+        "0": 33,
+        "1": 20,
+        "2": 10,
+        "3": 30
+      }
+    },
+    {
+      "stage_id": 107,
+      "helper": "gemmini_splitk_1x1_two_slice_i8",
+      "packets": 20,
+      "step_kind_counts": {
+        "0": 24,
+        "1": 20,
+        "3": 20
+      }
+    },
+    {
+      "stage_id": 118,
+      "helper": "gemmini_splitk_1x1_two_slice_two_consumer_spad_reuse_i8",
+      "packets": 12,
+      "step_kind_counts": {
+        "0": 21,
+        "1": 12,
+        "2": 6,
+        "3": 18
+      }
+    },
+    {
+      "stage_id": 130,
+      "helper": "gemmini_splitk_1x1_two_slice_i8",
+      "packets": 10,
+      "step_kind_counts": {
+        "0": 14,
+        "1": 10,
+        "3": 10
+      }
+    },
+    {
+      "stage_id": 141,
+      "helper": "gemmini_splitk_1x1_two_slice_two_consumer_spad_reuse_i8",
+      "packets": 8,
+      "step_kind_counts": {
+        "0": 15,
+        "1": 8,
+        "2": 4,
+        "3": 12
+      }
+    },
+    {
+      "stage_id": 153,
+      "helper": "gemmini_splitk_1x1_two_slice_i8",
+      "packets": 6,
+      "step_kind_counts": {
+        "0": 10,
+        "1": 6,
+        "3": 6
+      }
+    }
+  ],
+  "untraced_boundaries": "Prepared WS, HOST/PAD, frame epochs, Head/PPU and full-size execution",
+  "sources_sha256": {
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/ai/backend/ai_model_abi.h": "9e454e60353734a5e22cbdb98456195739df1aaa3fdfb0cc8f83333b346c6aca",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/ai/postprocess/ai_ppu_publication.c": "604d358da90d12c8e7b3ada16f89f6e12d2874c8a4e0d6fae1a048fcb918db66",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/ai/postprocess/ai_ppu_publication.h": "ca33461843a782d2d76a24003462c0bbf77d79042d79b56ab753f60eb3ee7dca",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/ai/postprocess/ai_ppu_queue.c": "183d0abcab9306a17e469e2adf6d6fec358f9b70f630a1847e6f8d354c35449e",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/ai/postprocess/ai_ppu_queue.h": "44890ae6fea460681fb59b979e0df5e87a1c74fd7cd0448f3e3359ea22324c18",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/ai/runtime/ai_head_slot_queue.c": "6a709b1d07315a8c1d881560f0050c043e6597f5d682ab87853cd9a6f61751db",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/ai/runtime/ai_head_slot_queue.h": "1e4fba6c1d95dff67895c543f06b855f8f36e4e304802d9fff9867886d82ccac",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/capacity_manifest.json": "df416c919ef2428366fdf6b6239ffbbf44e72ec23856fa6c84cf279838a8144c",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/first_layer_s2d.json": "c17586d67243c073d7495ff049a8435cfdba0c6bc20d35430321fcf3430a5c51",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/first_layer_s2d_data.inc": "cb35b9fbd0446bce2b34ba33eb5d8385375fe472fc79c7a98c891c10297e59bb",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/fixed_conv_packets.inc": "748605c83ffac3468b11b0fb0d8926a62ef9ab4902757bec3a883f2817b43f7b",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/fixed_plans.json": "f5e859051dd9e095dfa0dcce770b1eec2f738c9d9be99b3cc72cf25d39a1381d",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/fixed_plans_guard.inc": "51aa9a55926e8ec497ad4e72a9dee999a957ef256847d4dd416e465c4dcdfaff",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/accumulator.h": "3a0dfd584a097225470be0a6f3661dc85630cc365f3a5efad1d81275dbed9447",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/character.h": "b92a6787b85e38d0887df6d7a8b93f0b119551890cb47ae048ad9bc0bc1f96b8",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/gemmini.h": "d514389e0ea365dddea315f83636afb2a2506794f881986e4095e399ccfa895e",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/gemmini_counter.h": "5826242287784b9a383d45fdcb6791f8a1651d9d320a1a5f011585a9885b5669",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/gemmini_float16.h": "758c0644c78d8c92a5334b680bfde458823c71e9a1df127474664cc25e2cfaaa",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/gemmini_merged_pool.h": "d27e9c59ae1de68acdd1fb6c00c238920e6697ce4be4c7450f330f1714cd740d",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/gemmini_nn.h": "881078997fd9abbd6bec8cac2451830ffadd458c504cf417ebac0785e394a30f",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/gemmini_params.h": "5c95c13aec125b0671a5165cf0daa05dfaea2308710e19195005ca9e69e80077",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/gemmini_testutils.h": "ec58aa5ef24a6fc066fa7410d35b77516c2af0c137f6f037e028140e8912ea62",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/translator.h": "42383d22d34be62e03772710740ecc385a706746ee11a1898e77e26776237857",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/yolov5nu_silu_lut_rvv.h": "a7538206eafb6aa089b9271c02d54a2c92468418a3c38f607950af93de91b7ec",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/yolov5nu_silu_opencv_rvv.h": "074ed3d7b0d77051d6254ec0eb8fba67cb4ce9d6f495a3098d48b9799eb5b252",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/yolov5nu_stage3_rvv.h": "574eafe8a0531d6027ac6a56b0489713e3b5183505bdab944e225e87822d1369",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/yolov5nu_stage4_rvv.h": "c35588dff4d69c8f59391627aa4c23d81129ea315b060314ce1a707b9dcb0bbe",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/inputs.c": "9e7157758f307d06ee5f005fd4d95b3ae7393f2b0a573836a8f2902408f8f70e",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/inputs.h": "f156642dfd23d1f4d097cb9aeb5126dce451280c183855913b5d9aec8326bb23",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/inputs_manifest.json": "3629422447f62b118c630c6fa64d2a3e73a455e0d4153079b38a341438c141a4",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/memory_kernels.h": "7acdbf04df0a227d8cb12396792ba0a0a6b482b511edcfef4e3fa00fed2197b0",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/memory_kernels.json": "2ada47fc1c3b605dcad78f2812930d26cbdc83fa1af093cb5e5af09dd7af06fc",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/memory_kernels_runtime.inc": "d5578150378c57665ed9ca34b67b7c40153e4ae2086f1bd13d599c3a92d211a9",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/memory_schedule_manifest.json": "014465b99cca8e73d4576e2539e8c1106bca706ffd60352b339b841eb9ac250c",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/memory_schedule_plan.h": "3ccfc3d6e72475d02439ecd9fae023d7755908a421eda573d46b232e55661cd6",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/packet_dispatch_runtime.inc": "7d77577d4336eab967d7e4074552cb22b0c0b1263b6842c0d02630f4c1e1fca7",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/parallel_model.inc": "f0845dfee780b66b21a198806ddf797b8ec51d69afe61832a641569abb98a6cf",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/platform/platform.h": "38bc1284da57a482a6a6250d3f567b8826e91b8489026bbcf97cd89bd9358708",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/prepared_packets.inc": "2b09a611022a12979207fc8543e1e2b40a9a0c47858bbed5ea6fba201203534c",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/rocc-software/src/riscv_test_rocc.h": "c7f53ca7c6c8b2db79b9a79b8cf56234381c45f96f441b21f4ce53689a322f29",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/rocc-software/src/xcustom.h": "9582eb00cee774e4680fde6408a0d607bba85196a0a4fd803f7b7ddd801aad69",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/software_batch_packets.inc": "8e3c9e1287f970aed586f5d2abb93bf02e1325ee7f7108bc4e442e0c4bfc1d38",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/sources.lock.json": "eb48e84bb041691292d4a8bdc919ea4d49f1619be1913d968f565b06b12db108",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h": "19d6ad52c6ccf0c392076f98de7d859d7d47c47d82589feac27f7e5b9a534b7f",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/yolov5nu_dim16_dual.h": "42f96b49c2bd7f343eb9d8929e0405be3045feb8cb86d264dd165b6095188499",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/yolov5nu_head_layout.h": "81637629d95308360bbffc1c70926b39667b8464b51fbc9bd58c1551cf72974d"
+  }
+}

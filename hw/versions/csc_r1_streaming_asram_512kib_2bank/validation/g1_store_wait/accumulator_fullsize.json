@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "scope": "All physical Accumulator bytes at every completed native fence",
+  "accumulator_banks": 4,
+  "rows_per_bank": 512,
+  "bits_per_row": 1024,
+  "lanes": [
+    {
+      "equal": true,
+      "bytes_compared": 3670184,
+      "lane": 0,
+      "snapshots": 14,
+      "accumulator_payload_bytes": 3670016
+    }
+  ],
+  "bytes_compared": 3670016,
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/compare_accumulator.py": "477ee6a0bc7d2fd643fae4a59500c4f1126f98290b0ffc8aae42f0de7ea8d1cc",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/compare_candidate.py": "5bc547a3bd7f263046dcb2cb5030f74fbf21c07aa07d6e28bae4281a917b6cf7",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/acc_fullsize_off/execution_manifest.json": "91cdbf9479d155bc3fc7c892199eb793ac8305caaefae05e180fdc8efbaa1e19",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/fullsize_on/execution_manifest.json": "f3a8bf9ffd5d2cf2dc1f4cefd714d7e18c113fbc91c6dce453e2914def7ea9b2",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/acc_fullsize_off/lane0/accumulator.bin": "10087c3bad90ec424ff2a00e829cb593b868b9da58ad9794ed3cebf16fdf80be",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/fullsize_on/lane0/accumulator.bin": "10087c3bad90ec424ff2a00e829cb593b868b9da58ad9794ed3cebf16fdf80be"
+  }
+}

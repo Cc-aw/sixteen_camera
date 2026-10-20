@@ -1,0 +1,7 @@
+FULL_RTL_STAGE lane=0 frame=0 stage=2 cycle=16
+CSC_REAL_LATE_FAULT_DETECTED kind=1 cycle=825 prior_skips=2
+FULL_RTL_STAGE lane=0 frame=0 stage=2 cycle=841
+FULL_RTL_STAGE lane=0 frame=1 stage=3 cycle=2042
+FULL_RTL_STAGE lane=0 frame=2 stage=4 cycle=3230
+CSC_REAL_RESET_RECOVERY_PASS kind=1
+FULL_GEMMINI_RTL_PASS lane=0 native_words=192 dma_rows=480 real_gets=192 real_get_bytes=10752 physical_commits=432 accepted_spad_reads=576 functional_cycles=4417 input_tiles=12 skipped_tiles=9 skip_completions=9

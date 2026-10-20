@@ -1,0 +1,13 @@
+make: 进入目录“/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_512kib_2bank”
+python3 -B "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_512kib_2bank/scripts/audit.py"
+ASRAM_MAP_CONSTANTS=PASS baseline_checked=False
+DMA_LOAD_VARIANT_SOURCES=PASS files=660 base_commit=e578a0ce21af87aa11f2d209d68f9c033225aa39 source_state=working_tree_snapshot
+python3 -B "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_512kib_2bank/scripts/audit.py" --context "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/candidate_02/GENERATION_CONTEXT.json"
+ASRAM_MAP_CONSTANTS=PASS baseline_checked=False
+DMA_LOAD_VARIANT_SOURCES=PASS files=660 base_commit=e578a0ce21af87aa11f2d209d68f9c033225aa39 source_state=working_tree_snapshot
+MERGED_RTL_STRUCTURE=PASS workers=3 mesh=32x32 DMA=256 MMIO=64 shared_scale=64 OUT=INT24 ACC=256KiB
+TRIPLE32_V3_TENSOR_STRUCTURE=PASS frontend=3 control=custom3 direct=custom0/1/2 memory=512/2 tensor=256/5 banks=2 l2_bytes=524288 workers=3 MaxPool=3 full_inner_buffers=5 secondary_pool=34x102 l2=S1_COMBINATIONAL stats_ABI=1.1
+ASRAM_GENERATED_STRUCTURE=PASS banks=3 backing_copies_per_bank=1 pma=NEGOTIATED execution=NOT_RUN
+DMA_LOAD_VARIANT_RTL=PASS files=849
+ASRAM_GENERATION_SOURCES=PASS manifest=/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_512kib_2bank/manifests/rtl_snapshots/abd1c8c87558c7b0.sources.json
+make: 离开目录“/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_512kib_2bank”

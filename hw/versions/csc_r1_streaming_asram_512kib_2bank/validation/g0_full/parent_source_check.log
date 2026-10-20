@@ -1,0 +1,5 @@
+make: 进入目录“/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_512kib_2bank”
+python3 -B "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_512kib_2bank/scripts/audit.py"
+ASRAM_MAP_CONSTANTS=PASS baseline_checked=False
+DMA_LOAD_VARIANT_SOURCES=PASS files=660 base_commit=e578a0ce21af87aa11f2d209d68f9c033225aa39 source_state=working_tree_snapshot
+make: 离开目录“/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_512kib_2bank”

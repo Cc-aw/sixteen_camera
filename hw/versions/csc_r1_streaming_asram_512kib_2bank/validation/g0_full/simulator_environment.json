@@ -1,0 +1,9 @@
+{
+  "python": "3.13.13 | packaged by Anaconda, Inc. | (main, Apr 14 2026, 06:19:41) [GCC 14.3.0]",
+  "platform": "Linux-6.8.0-110-generic-x86_64-with-glibc2.35",
+  "verilator": "Verilator 5.044 2026-01-01 rev conda-forge build 0",
+  "rtl_threads": 1,
+  "runtime_mode": "read_assembled",
+  "pipeline_watchdog": 60000,
+  "physical_memory_service": "Independent deterministic private services; no shared-system timing"
+}

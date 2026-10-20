@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "feature": "CSC-R1",
+  "phase": "G0_BASELINE_ONLY",
+  "files": {
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/Makefile": "fbc938055318de4dbacdd57fc1020e1d8ff851bc718afd1c773ec0ad9c0278c6",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/PLAN.md": "7e5fd35beafba21e7210a647b62628e4bbdf9a1dcf8a7ef01d70523d166dd943",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/README.md": "703e529fe9c46c438ec56c2069941b3dcd491889aaf96d7602ea2e6b7be1df3a",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/__pycache__/trace_lifecycle.cpython-313.pyc": "7fac16921b4eec30d39c70e4b0442ca673bcec4f6b43504ef60ecd0259ab3e41",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/analyze_residency.py": "2ef069e53712b32ef64bef28229fa034986f5a84ea85a0bb288b1fe20b51f5b6",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/source_audit.md": "65bcb1aadaadc2d14304e2f423a3968f8766736eeeb1874af844a5a0638de056",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/trace_lifecycle.py": "944b6d6a94344a12fc5c4616d565e4c090fbdd70ab84b382b3201335b8e9a694",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/trace_schema.md": "cebcbf8015a8fa78b3a849c6ad76506ad3eb1b85a638085ec0f1650d8d5ec402",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/workload_inventory.py": "35cdc32ca0bb8a5c3479da5e4c07881ebdd259e240180de3cceca64c458d1a6e",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/manifests/BASE_SOURCE_ORIGINS.json": "800ac8dbad9b7799795254799e03418512e0bef04e787d0c5364519b7a526d7d",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/manifests/csc_r1_config.json": "fddb49c5a37b53b39741a429618932b70e42c563d61ba4105afc1b32f35b367d",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/manifests/decision_policy.json": "dbc92570e6f6ed2197f9c11e73de5b478074a115bc75dfa8b5dc4fa92b454cbe",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/decide.py": "6b36589b49076181c33de536fc1d3865869f5ee756942e14c81c142fa2a28404",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/freeze.py": "f1c948ae9e5295866d6d174d3adb692bbffa3a520b923db7c3dce9a33719b13b",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/run_baseline.py": "74e71fd72a1658d9b57bd5e3c3c4b55e30719edf61bfa8d5987556eada5f4c47",
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/tests/test_residency_reference.py": "adcbf3a31df7c23c6e1e09fdb5600df1828054dbb26d7f7655f8d75a00cc39de"
+  }
+}

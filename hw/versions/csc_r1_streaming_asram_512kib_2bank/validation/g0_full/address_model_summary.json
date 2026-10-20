@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "status": "SYNTHETIC_ORDER_SOURCE_IDENTITY_DIAGNOSTIC_ONLY",
+  "actual_sram_or_source_epoch_proof": false,
+  "performance_result": false,
+  "r1_gate_input": false,
+  "conditional_issue_order": "Real C0 unrollers with synthetic one-cycle backend credits; may differ from full C0 scheduling",
+  "totals": {
+    "mvin_commands": 421746,
+    "modeled_get_bytes": 177340416,
+    "optimistic_exact_get_bytes": 13701888,
+    "same_source_diff_destination_upper_commands": 53328,
+    "partial_source_overlap_upper_bytes": 8349210
+  },
+  "sliding_window_overlap": {
+    "status": "PARTIAL_SOURCE_ADDRESS_OVERLAP_DIAGNOSTIC",
+    "source_overlap_bytes": 8349210,
+    "geometric_stencil_remapping_proven": false,
+    "r1_eligible": false
+  },
+  "input_sha256": {
+    "build/experiments/csc_r1/g0_full_20261019_01/optimistic_bound_lane0.csv": "f934f6f2ea58dfe944c02339824c0349d7ce2114affdabc7812ac40be8e65f9e",
+    "build/experiments/csc_r1/g0_full_20261019_01/optimistic_bound_lane1.csv": "1155d6415f88808636284ce881b4b242eadf19b98eb58254727ff9baf0bdcb09",
+    "build/experiments/csc_r1/g0_full_20261019_01/optimistic_bound_lane2.csv": "c4e67c38d54ddc5bf431d6884dd43871b1122bbf143a0b47d142c965027f4ccc"
+  }
+}

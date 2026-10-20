@@ -1,0 +1,198 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "candidate": "C1a",
+  "functional_gate_scope": "Complete real Gemmini datapath with deterministic private physical-memory services",
+  "full_network": {
+    "lanes": 3,
+    "frames_per_lane": 1,
+    "stages_per_lane": 166,
+    "accepted_spad_reads_compared": 11441748,
+    "tl_store_beats_compared": 1578600,
+    "input_tiles_skipped": 48,
+    "baseline_get_bytes": 88670208,
+    "candidate_get_bytes": 84975744,
+    "saved_get_bytes": 3694464,
+    "saved_get_pct": 4.166522311529934
+  },
+  "four_mode_three_lane_three_frame_matrix": [
+    {
+      "case": "whole_tile_reuse_and_frame_epoch",
+      "mode": 0,
+      "lane": 0,
+      "frames": 3,
+      "skipped_tiles": 9,
+      "status": "PASS"
+    },
+    {
+      "case": "whole_tile_reuse_and_frame_epoch",
+      "mode": 0,
+      "lane": 1,
+      "frames": 3,
+      "skipped_tiles": 9,
+      "status": "PASS"
+    },
+    {
+      "case": "whole_tile_reuse_and_frame_epoch",
+      "mode": 0,
+      "lane": 2,
+      "frames": 3,
+      "skipped_tiles": 9,
+      "status": "PASS"
+    },
+    {
+      "case": "whole_tile_reuse_and_frame_epoch",
+      "mode": 1,
+      "lane": 0,
+      "frames": 3,
+      "skipped_tiles": 9,
+      "status": "PASS"
+    },
+    {
+      "case": "whole_tile_reuse_and_frame_epoch",
+      "mode": 1,
+      "lane": 1,
+      "frames": 3,
+      "skipped_tiles": 9,
+      "status": "PASS"
+    },
+    {
+      "case": "whole_tile_reuse_and_frame_epoch",
+      "mode": 1,
+      "lane": 2,
+      "frames": 3,
+      "skipped_tiles": 9,
+      "status": "PASS"
+    },
+    {
+      "case": "whole_tile_reuse_and_frame_epoch",
+      "mode": 2,
+      "lane": 0,
+      "frames": 3,
+      "skipped_tiles": 9,
+      "status": "PASS"
+    },
+    {
+      "case": "whole_tile_reuse_and_frame_epoch",
+      "mode": 2,
+      "lane": 1,
+      "frames": 3,
+      "skipped_tiles": 9,
+      "status": "PASS"
+    },
+    {
+      "case": "whole_tile_reuse_and_frame_epoch",
+      "mode": 2,
+      "lane": 2,
+      "frames": 3,
+      "skipped_tiles": 9,
+      "status": "PASS"
+    },
+    {
+      "case": "whole_tile_reuse_and_frame_epoch",
+      "mode": 3,
+      "lane": 0,
+      "frames": 3,
+      "skipped_tiles": 9,
+      "status": "PASS"
+    },
+    {
+      "case": "whole_tile_reuse_and_frame_epoch",
+      "mode": 3,
+      "lane": 1,
+      "frames": 3,
+      "skipped_tiles": 9,
+      "status": "PASS"
+    },
+    {
+      "case": "whole_tile_reuse_and_frame_epoch",
+      "mode": 3,
+      "lane": 2,
+      "frames": 3,
+      "skipped_tiles": 9,
+      "status": "PASS"
+    },
+    {
+      "case": "raw_config_restore_and_spad_writer",
+      "lane": 0,
+      "status": "PASS"
+    },
+    {
+      "case": "raw_config_restore_and_spad_writer",
+      "lane": 1,
+      "status": "PASS"
+    },
+    {
+      "case": "raw_config_restore_and_spad_writer",
+      "lane": 2,
+      "status": "PASS"
+    },
+    {
+      "case": "isolated_mode_change_invalidation",
+      "start_mode": 0,
+      "lanes": 3,
+      "status": "PASS"
+    },
+    {
+      "case": "isolated_mode_change_invalidation",
+      "start_mode": 2,
+      "lanes": 3,
+      "status": "PASS"
+    }
+  ],
+  "accumulator_bytes_compared": 6029312,
+  "late_fault_reset": [
+    {
+      "kind": "denied",
+      "late_second_beat": true,
+      "after_real_hits": true,
+      "reset_recovery_byte_exact": true,
+      "status": "PASS"
+    },
+    {
+      "kind": "corrupt",
+      "late_second_beat": true,
+      "after_real_hits": true,
+      "reset_recovery_byte_exact": true,
+      "status": "PASS"
+    }
+  ],
+  "disabled_event_cycle_identity": 411621,
+  "protocol_errors": 0,
+  "deadlocks": 0,
+  "assumptions": [
+    "Bare-metal identity address mapping",
+    "Explicit drained HOST/DRAIN/frame invalidation interface",
+    "No shared DDR/ASRAM arbitration, CPU/RVV or PPU timing in this functional model"
+  ],
+  "production_frontend_integrated": false,
+  "physical_timing_measured": false,
+  "throughput_gain_measured": false,
+  "functional_timing_diagnostic": {
+    "scope": "Private low-latency functional memory only; not G2 or system throughput",
+    "lanes": [
+      {
+        "lane": 0,
+        "baseline_functional_cycles": 7214307,
+        "candidate_functional_cycles": 7277810,
+        "added_cycles": 63503,
+        "cycle_change_pct": 0.880237006825465
+      },
+      {
+        "lane": 1,
+        "baseline_functional_cycles": 7214308,
+        "candidate_functional_cycles": 7277811,
+        "added_cycles": 63503,
+        "cycle_change_pct": 0.8802368848127915
+      },
+      {
+        "lane": 2,
+        "baseline_functional_cycles": 7214309,
+        "candidate_functional_cycles": 7277812,
+        "added_cycles": 63503,
+        "cycle_change_pct": 0.8802367628001517
+      }
+    ],
+    "interpretation": "Global load/store/generator drains can erase the traffic benefit"
+  }
+}

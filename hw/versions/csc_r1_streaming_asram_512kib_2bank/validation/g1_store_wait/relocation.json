@@ -1,0 +1,7 @@
+{
+  "scratch_run": "/tmp/csc_r1_g1_opt_20261020_02/run",
+  "persistent_run": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_opt_20261020_02/simulation",
+  "scratch_build": "/tmp/csc_r1_g1_opt_20261020_02/full_rtl",
+  "persistent_build": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_opt_20261020_02/full_rtl",
+  "method": "After all simulations and hash verification, copy scratch directories to the persistent destinations and retain origin-path symlinks. No trace or manifest content is rewritten."
+}

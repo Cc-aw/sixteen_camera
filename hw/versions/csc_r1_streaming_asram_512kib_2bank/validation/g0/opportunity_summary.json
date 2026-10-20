@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "status": "COMPACT_TRACE_LIFECYCLE_PASS",
+  "g0_status": "INSUFFICIENT_EVIDENCE",
+  "coverage_by_stage": [
+    0,
+    2,
+    4,
+    5,
+    8,
+    10,
+    59,
+    132
+  ],
+  "lanes": 3,
+  "runtime_mode": "read_assembled",
+  "full_network_workload": false,
+  "all_mvin_commands": 1914,
+  "all_tl_get_requests": 32298,
+  "all_tl_get_bytes": 1380864,
+  "converted_spad_write_bytes": 1403487,
+  "same_value_bytes_at_commit": 64485,
+  "loads_value_resident_at_issue_without_intervening_writer": 84,
+  "eligible_exact_mvin_commands": null,
+  "eligible_exact_get_bytes": null,
+  "eligible_exact_spad_bytes": null,
+  "exact_resident": null,
+  "same_source_diff_destination": null,
+  "sliding_window_overlap": null,
+  "input_vs_weight": {
+    "input": {
+      "tl_gets": 276,
+      "tl_get_bytes": 12288,
+      "mvin_commands": 144,
+      "eligible_exact_get_bytes": null
+    },
+    "weight": {
+      "tl_gets": 31866,
+      "tl_get_bytes": 1358592,
+      "mvin_commands": 1251,
+      "eligible_exact_get_bytes": null
+    },
+    "bias": {
+      "tl_gets": 156,
+      "tl_get_bytes": 9984,
+      "mvin_commands": 114,
+      "eligible_exact_get_bytes": null
+    },
+    "zero": {
+      "tl_gets": 0,
+      "tl_get_bytes": 0,
+      "mvin_commands": 405,
+      "eligible_exact_get_bytes": null
+    }
+  },
+  "existing_reuse_accounted": "Native packet roundtrip and four-mode row/Get closure; no CSC-R1 credit for A1/B reuse",
+  "limitations": [
+    "Same-value bytes at COMMIT are diagnostics, not safe whole-command skips at ISSUE",
+    "Value residency at ISSUE also remains diagnostic without source epochs, conversion and dependency proofs",
+    "Compact DDR fixtures are not full-size network traffic or timing weights",
+    "Stages use synthetic deterministic inputs, not outputs produced by preceding native network stages",
+    "Byte-value coincidence does not establish source epoch/format/dependency equivalence",
+    "HOST/PAD, full-model frames, single-lane trace and Head/PPU remain uncovered"
+  ],
+  "no_go_reason": null
+}

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "events_compared": 411621,
+  "exact_cycles": true,
+  "mismatch": null,
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/calibration_serial_complete/trace/full_lane0.csv.gz": "ab89a7582f47815d18a11951277a99a0512479415b6c00d16286a568fb1a3037",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/compact_final_off/lane0/full_lane0.csv.gz": "cea3782f90a4a91df4f387ff2631fadb143a81562f617c98ed9f337d038071e5",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/compare_disabled.py": "67af009a591486f80bb844dd4c99f005a4fb8629ae840d37b7fa423fa52c2e93"
+  }
+}

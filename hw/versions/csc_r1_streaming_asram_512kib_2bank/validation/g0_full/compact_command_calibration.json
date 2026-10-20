@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "status": "COMPACT_COMMAND_CALIBRATION_PASS",
+  "scope": "Eight compact stages, three lanes, mode 2; addresses/layout/scale, not whole-network lifetimes",
+  "checks": [
+    {
+      "lane": 0,
+      "row_multiset_equal": true,
+      "full_load_descriptor_multiset_equal": true,
+      "reference_rows": 10387,
+      "observed_rows": 10387,
+      "reference_loads": 638,
+      "observed_loads": 638
+    },
+    {
+      "lane": 1,
+      "row_multiset_equal": true,
+      "full_load_descriptor_multiset_equal": true,
+      "reference_rows": 10387,
+      "observed_rows": 10387,
+      "reference_loads": 638,
+      "observed_loads": 638
+    },
+    {
+      "lane": 2,
+      "row_multiset_equal": true,
+      "full_load_descriptor_multiset_equal": true,
+      "reference_rows": 10387,
+      "observed_rows": 10387,
+      "reference_loads": 638,
+      "observed_loads": 638
+    }
+  ],
+  "executable_sha256": "c3abccf36fed2325d26793cbdf74e92b5c42c751a78080d71e4f3a17aefede51",
+  "compact_manifest_sha256": "0badea4a90ed596d1339b9711ca31bbe4f91f713bbf8cfb1d988ce8f9e6bc149"
+}

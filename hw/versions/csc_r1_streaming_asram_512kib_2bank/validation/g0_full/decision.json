@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "feature": "CSC-R1",
+  "base_repository_commit": "8d3aa31d8935cb000a3427638f55c5163d36bc0b",
+  "base_candidate_build_id": "abd1c8c87558c7b0",
+  "csc_r1_enabled": false,
+  "g0": {
+    "status": "PASS",
+    "reason": "QUALIFIED_WHOLE_LOAD_BYTE_GATE_MET",
+    "missing_evidence": [],
+    "eligible_exact_bytes_pct": 7.550495426829268,
+    "input_exact_bytes_pct": 5.686581901330377,
+    "weight_exact_bytes_pct": 1.8639135254988912,
+    "byte_threshold_pct": 5.0,
+    "hotspot_gate": "NOT_REQUIRED_BYTE_GATE_MET",
+    "native_workload": "166 stages, 462 Conv + 224 WS packets and 5 memory kernels per lane/frame",
+    "proof_scope": "Whole-Load exact signatures in the functional C0 baseline; actual SPAD bytes, source versions, pending writers and retirement"
+  },
+  "g1": {
+    "status": "NOT_RUN",
+    "bit_exact": null,
+    "deadlocks": null
+  },
+  "g2": {
+    "status": "NOT_RUN",
+    "whole_network_rtl_cycle_accurate": false,
+    "measured_stage_cycle_coverage": null,
+    "absolute_throughput_gain_pct": null
+  },
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "reason": "G0_PASS_CANDIDATE_G1_G2_NOT_RUN",
+  "missing_evidence": [
+    "G1: implemented candidate, numerical outputs and completion/fault/reset proof",
+    "G2: matched candidate cycle A/B, shared-system timing and throughput evidence"
+  ],
+  "single_control_reuses_lane0": true,
+  "next_action": "Implement and validate C1a Input exact reuse first; evaluate C1b separately only if justified",
+  "bitstream_generated": false,
+  "board_tested": false
+}

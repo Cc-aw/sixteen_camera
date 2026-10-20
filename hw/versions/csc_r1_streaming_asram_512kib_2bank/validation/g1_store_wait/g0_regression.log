@@ -1,0 +1,56 @@
+python3 -B "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/tests/test_residency_reference.py"
+....................
+----------------------------------------------------------------------
+Ran 20 tests in 0.321s
+
+OK
+python3 -B "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/tests/test_full_lifecycle.py"
+test_actual_new_processed_bytes_must_also_match (__main__.FullLifecycleTests.test_actual_new_processed_bytes_must_also_match) ... ok
+test_channel_block_stride_and_tail (__main__.FullLifecycleTests.test_channel_block_stride_and_tail) ... ok
+test_commit_outside_whole_load_footprint_fails (__main__.FullLifecycleTests.test_commit_outside_whole_load_footprint_fails) ... ok
+test_complete_zero_load_qualifies_without_get_savings (__main__.FullLifecycleTests.test_complete_zero_load_qualifies_without_get_savings) ... ok
+test_completed_whole_load_same_location_matches (__main__.FullLifecycleTests.test_completed_whole_load_same_location_matches) ... ok
+test_credit_and_rob_do_not_prove_sram_commit (__main__.FullLifecycleTests.test_credit_and_rob_do_not_prove_sram_commit) ... ok
+test_early_retirement_fails (__main__.FullLifecycleTests.test_early_retirement_fails) ... ok
+test_equal_ex_zero_write_invalidates_zero_descriptor (__main__.FullLifecycleTests.test_equal_ex_zero_write_invalidates_zero_descriptor) ... ok
+test_frame_switch_invalidates_residency (__main__.FullLifecycleTests.test_frame_switch_invalidates_residency) ... ok
+test_get_must_intersect_its_real_load_source (__main__.FullLifecycleTests.test_get_must_intersect_its_real_load_source) ... ok
+test_intervening_other_dma_invalidates (__main__.FullLifecycleTests.test_intervening_other_dma_invalidates) ... ok
+test_intervening_write_after_candidate_accept_invalidates (__main__.FullLifecycleTests.test_intervening_write_after_candidate_accept_invalidates) ... ok
+test_neighbor_byte_source_update_does_not_invalidate (__main__.FullLifecycleTests.test_neighbor_byte_source_update_does_not_invalidate) ... ok
+test_overlapping_mask_changes_only_actual_source_bytes (__main__.FullLifecycleTests.test_overlapping_mask_changes_only_actual_source_bytes) ... ok
+test_oversized_credit_fails (__main__.FullLifecycleTests.test_oversized_credit_fails) ... ok
+test_pixel_repeats_clip_at_half_boundary (__main__.FullLifecycleTests.test_pixel_repeats_clip_at_half_boundary) ... ok
+test_read_response_checks_committed_value (__main__.FullLifecycleTests.test_read_response_checks_committed_value) ... ok
+test_same_source_changed_producer_generation (__main__.FullLifecycleTests.test_same_source_changed_producer_generation) ... ok
+test_same_source_other_destination_cannot_match (__main__.FullLifecycleTests.test_same_source_other_destination_cannot_match) ... ok
+test_same_value_ex_write_still_invalidates (__main__.FullLifecycleTests.test_same_value_ex_write_still_invalidates) ... ok
+test_same_values_other_source_cannot_match (__main__.FullLifecycleTests.test_same_values_other_source_cannot_match) ... ok
+test_scale_is_part_of_complete_descriptor (__main__.FullLifecycleTests.test_scale_is_part_of_complete_descriptor) ... ok
+test_second_put_beat_updates_its_actual_source_bytes (__main__.FullLifecycleTests.test_second_put_beat_updates_its_actual_source_bytes) ... ok
+test_sequence_gap_fails (__main__.FullLifecycleTests.test_sequence_gap_fails) ... ok
+test_stage_counter_cannot_exceed_elapsed_cycles (__main__.FullLifecycleTests.test_stage_counter_cannot_exceed_elapsed_cycles) ... ok
+test_tag_can_recycle_while_old_physical_write_is_pending (__main__.FullLifecycleTests.test_tag_can_recycle_while_old_physical_write_is_pending) ... ok
+test_unfinished_dataset_fails (__main__.FullLifecycleTests.test_unfinished_dataset_fails) ... ok
+test_unfinished_prior_load_cannot_match (__main__.FullLifecycleTests.test_unfinished_prior_load_cannot_match) ... ok
+test_unknown_get_owner_fails (__main__.FullLifecycleTests.test_unknown_get_owner_fails) ... ok
+test_unrelated_source_write_does_not_invalidate (__main__.FullLifecycleTests.test_unrelated_source_write_does_not_invalidate) ... ok
+test_wrong_physical_commit_fails (__main__.FullLifecycleTests.test_wrong_physical_commit_fails) ... ok
+test_wrong_read_response_fails (__main__.FullLifecycleTests.test_wrong_read_response_fails) ... ok
+test_zero_stride_source_repeats (__main__.FullLifecycleTests.test_zero_stride_source_repeats) ... ok
+test_zero_write_owner_must_match_zero_command (__main__.FullLifecycleTests.test_zero_write_owner_must_match_zero_command) ... ok
+
+----------------------------------------------------------------------
+Ran 34 tests in 1.910s
+
+OK
+python3 -B "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/tests/test_elision.py"
+test_relocatable_load_cannot_be_deleted (__main__.ElisionTests.test_relocatable_load_cannot_be_deleted) ... ok
+test_whole_duplicate_elision_preserves_real_read (__main__.ElisionTests.test_whole_duplicate_elision_preserves_real_read) ... ok
+test_wrong_same_source_claim_changes_real_read (__main__.ElisionTests.test_wrong_same_source_claim_changes_real_read) ... ok
+test_wrong_traffic_claim_is_rejected (__main__.ElisionTests.test_wrong_traffic_claim_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.119s
+
+OK

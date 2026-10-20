@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "initial_head": "8d3aa31d8935cb000a3427638f55c5163d36bc0b",
+  "final_head": "8d3aa31d8935cb000a3427638f55c5163d36bc0b",
+  "protected_hardware_tracked_diff": [],
+  "initial_snapshots_verified": true,
+  "pre_existing_files_with_different_current_hash": [
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/validation/sppf_optimization.json"
+  ],
+  "frozen_model_changes": [],
+  "writes_by_this_workflow": [
+    "hw/versions/csc_r1_streaming_asram_512kib_2bank/",
+    "build/experiments/csc_r1/run_20261019_180858/"
+  ],
+  "note": "The pre-existing SPPF optimization metadata changed outside this workflow. Its current version is preserved; initial bytes remain in initial_files. It is not a simulation input.",
+  "source_origins_sha256": "d8110c2f1f318acd84993fbf0764fc3745f433d3ec2f97b130b6036155ec48da",
+  "physical_implementation_run": false,
+  "fpga_accessed": false
+}

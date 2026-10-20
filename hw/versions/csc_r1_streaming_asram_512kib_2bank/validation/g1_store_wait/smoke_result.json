@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "suite": "smoke",
+  "full_system_performance_model": false,
+  "steps": [
+    {
+      "name": "fullsize_on",
+      "command": [
+        "/home/wzr/miniconda3/bin/python3",
+        "-B",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/run_accumulator.py",
+        "--build",
+        "/tmp/csc_r1_g1_opt_20261020_02/full_rtl",
+        "--commands",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/fullsize_fixtures/commands.txt",
+        "--memory",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/fullsize_fixtures/memory",
+        "--output",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/fullsize_on",
+        "--lanes",
+        "0",
+        "--enabled",
+        "1",
+        "--mode",
+        "2",
+        "--frames",
+        "1"
+      ],
+      "returncode": 0,
+      "log": "/tmp/csc_r1_g1_opt_20261020_02/run/fullsize_on.log",
+      "log_sha256": "4eb409a223e1947d5608bb7f23a7f6a86f9f99fe19f2ff87b3404f2b6b9d2b94"
+    },
+    {
+      "name": "fullsize_comparison",
+      "command": [
+        "/home/wzr/miniconda3/bin/python3",
+        "-B",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/compare_candidate.py",
+        "--baseline",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/acc_fullsize_off/lane0/full_lane0.csv.gz",
+        "--candidate",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/fullsize_on/lane0/full_lane0.csv.gz",
+        "--output",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/fullsize_comparison"
+      ],
+      "returncode": 0,
+      "log": "/tmp/csc_r1_g1_opt_20261020_02/run/fullsize_comparison.log",
+      "log_sha256": "4575427e6e7ce9a56559b08954b3d515d5d50cbf3e8abae4e9c1f361476645de"
+    },
+    {
+      "name": "fullsize_acc_comparison",
+      "command": [
+        "/home/wzr/miniconda3/bin/python3",
+        "-B",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/compare_accumulator.py",
+        "--baseline",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/acc_fullsize_off",
+        "--candidate",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/fullsize_on",
+        "--output",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/fullsize_acc_comparison.json"
+      ],
+      "returncode": 0,
+      "log": "/tmp/csc_r1_g1_opt_20261020_02/run/fullsize_acc_comparison.log",
+      "log_sha256": "c47085be67f658541bbe6d0a46fb788810e7f764298dd69cbb487150373a3c1a"
+    }
+  ],
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/test_optimized_regression.py": "10d2d5fc8954e114e89e23b7f9472bf7066ba51effc7c7df6f52006cb7a44f0f",
+    "/tmp/csc_r1_g1_opt_20261020_02/full_rtl/build_manifest.json": "e8ffe8344a789f05668365a757cc14bc0330c69f408382ed67bee68d974c3e1a"
+  }
+}

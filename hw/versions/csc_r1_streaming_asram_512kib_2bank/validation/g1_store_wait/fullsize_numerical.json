@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "scope": "All physical SPAD read responses, final SPAD bytes, and every masked TL Put byte",
+  "accumulator_internal_trace": false,
+  "full_system_performance_model": false,
+  "frames": null,
+  "baseline": {
+    "reads": 953892,
+    "stores": 50400,
+    "commits": 174330,
+    "tiles": 58,
+    "skipped": 0,
+    "completions": 0,
+    "get_bytes": 5723200
+  },
+  "candidate": {
+    "reads": 953892,
+    "stores": 50400,
+    "commits": 133790,
+    "tiles": 58,
+    "skipped": 16,
+    "completions": 16,
+    "get_bytes": 4491712
+  },
+  "comparisons": {
+    "stores.bin": {
+      "equal": true,
+      "bytes_compared": 2419200
+    },
+    "final_spad.bin": {
+      "equal": true,
+      "bytes_compared": 524288
+    },
+    "reads_bank0.bin": {
+      "equal": true,
+      "bytes_compared": 14443610
+    },
+    "reads_bank1.bin": {
+      "equal": true,
+      "bytes_compared": 5331552
+    },
+    "reads_bank2.bin": {
+      "equal": true,
+      "bytes_compared": 561450
+    },
+    "reads_bank3.bin": {
+      "equal": true,
+      "bytes_compared": 735072
+    },
+    "reads_bank4.bin": {
+      "equal": true,
+      "bytes_compared": 11711942
+    },
+    "reads_bank5.bin": {
+      "equal": true,
+      "bytes_compared": 2752226
+    },
+    "reads_bank6.bin": {
+      "equal": true,
+      "bytes_compared": 22952
+    },
+    "reads_bank7.bin": {
+      "equal": true,
+      "bytes_compared": 689092
+    }
+  },
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/acc_fullsize_off/lane0/full_lane0.csv.gz": "7df1541226d11e85beb605dc7e0f83ee83d4ccb1c13f1ba9dd7f007ab3ef9b5a",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/fullsize_on/lane0/full_lane0.csv.gz": "1e23ed943f3363590ffd97d0472b03b0d0f77cda42509d25c6cd66878be130b4",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/compare_candidate.py": "5bc547a3bd7f263046dcb2cb5030f74fbf21c07aa07d6e28bae4281a917b6cf7"
+  }
+}

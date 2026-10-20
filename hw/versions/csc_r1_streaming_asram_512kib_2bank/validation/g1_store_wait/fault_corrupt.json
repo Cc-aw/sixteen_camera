@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "returncode": 0,
+  "late_fault_detected": true,
+  "reset_recovery": true,
+  "numerical_comparison_required": true
+}

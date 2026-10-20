@@ -1,0 +1,2 @@
+FULL_RTL_STAGE lane=0 frame=0 stage=75 cycle=16
+FULL_GEMMINI_RTL_PASS lane=0 native_words=71 dma_rows=1496 real_gets=1496 real_get_bytes=95744 physical_commits=0 accepted_spad_reads=0 functional_cycles=90657

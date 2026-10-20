@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "feature": "CSC-R1",
+  "scope": "G0 baseline-only observation; no candidate source/RTL snapshot generated",
+  "base_repository_commit": "8d3aa31d8935cb000a3427638f55c5163d36bc0b",
+  "base_feature": "hw/versions/dma_load_streaming_asram_512kib_2bank",
+  "base_build_id": "abd1c8c87558c7b0",
+  "generation_context": "build/experiments/dma_stream_asram/candidate_02/GENERATION_CONTEXT.json",
+  "generation_context_sha256": "36a2fa41670cf4357af69cb62c0167b37724dcaf754d6c1053f9093752993994",
+  "dependencies_sha256": {
+    "hw/versions/dma_load_streaming_asram_512kib_2bank/manifests/SOURCE_ORIGINS.json": "9aff69e467bb761c419cde0bb17c12ecfaffcfbbd99b028aef6f42943ea2f240",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/sources.lock.json": "eb48e84bb041691292d4a8bdc919ea4d49f1619be1913d968f565b06b12db108",
+    "sw/benchmarks/frontend/scripts/parallel_cache_plan.py": "6b473720ba2106c81ddc3790f907d9f565a1078031fee89beb67fd4e754f5052",
+    "sw/benchmarks/frontend/scripts/first_layer_s2d_prepare.py": "d2ec08c5ddb4452a1a2295c249b3296b7b9a160308d1af60e3d52fb93d1cb7e5",
+    "sw/models/yolov5nu/codegen/fixed_packets.py": "1381fe09c6c5ff0a37deb7b3f2ba29226b6c3d501dcf0168dcbb1656d198984b",
+    "sw/models/yolov5nu/codegen/fixed_plans.py": "b09df5c71a839eb51125433741e36a97c522d5f41d95c7bd2bb6073ac5eb795e",
+    "sw/third_party/gemmini/include/gemmini_float16.h": "758c0644c78d8c92a5334b680bfde458823c71e9a1df127474664cc25e2cfaaa",
+    "tests/rtl/run_ddr_axi_crossbar_throughput_test.py": "8dad9faec4fbfe3ad0f0f304f91ae3a84900213b2b463352ba2b3e6765b7e622"
+  }
+}

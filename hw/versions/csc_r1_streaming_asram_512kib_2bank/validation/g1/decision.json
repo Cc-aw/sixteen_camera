@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "feature": "CSC-R1",
+  "candidate": "C1a",
+  "base_repository_commit": "8d3aa31d8935cb000a3427638f55c5163d36bc0b",
+  "base_candidate_build_id": "abd1c8c87558c7b0",
+  "candidate_context_sha256": "13dcc354a4416a43acd7f788b82022477c75edf2432d4bbf1dffcce7449ec217",
+  "csc_r1_enabled": true,
+  "weight_reuse_enabled": false,
+  "g0": {
+    "status": "PASS",
+    "reason": "QUALIFIED_WHOLE_LOAD_BYTE_GATE_MET",
+    "missing_evidence": [],
+    "eligible_exact_bytes_pct": 7.550495426829268,
+    "input_exact_bytes_pct": 5.686581901330377,
+    "weight_exact_bytes_pct": 1.8639135254988912,
+    "byte_threshold_pct": 5.0,
+    "hotspot_gate": "NOT_REQUIRED_BYTE_GATE_MET",
+    "native_workload": "166 stages, 462 Conv + 224 WS packets and 5 memory kernels per lane/frame",
+    "proof_scope": "Whole-Load exact signatures in the functional C0 baseline; actual SPAD bytes, source versions, pending writers and retirement"
+  },
+  "g1": {
+    "status": "PASS",
+    "bit_exact": true,
+    "protocol_errors": 0,
+    "deadlocks": 0,
+    "scope": "Complete real Gemmini datapath with deterministic private physical-memory services",
+    "production_frontend_integrated": false
+  },
+  "g2": {
+    "status": "INSUFFICIENT_EVIDENCE",
+    "whole_network_rtl_cycle_accurate": false,
+    "absolute_throughput_gain_pct": null,
+    "shared_memory_contention_measured": false,
+    "fixed_seed_matrix_complete": false
+  },
+  "decision": "INSUFFICIENT_EVIDENCE",
+  "reason": "G1_FUNCTIONAL_PROTOTYPE_PASS_G2_SYSTEM_TIMING_NOT_ESTABLISHED",
+  "bitstream_generated": false,
+  "board_tested": false,
+  "missing_evidence": [
+    "Production frontend boundary wiring and translated-address policy",
+    "Matched single/three-lane realistic latency/backpressure/shared-memory G2, at least three fixed seeds",
+    "Credible full-network throughput or calibrated conservative >=5% lower bound",
+    "Physical resource/critical-path evaluation only in a separately authorized physical task"
+  ]
+}

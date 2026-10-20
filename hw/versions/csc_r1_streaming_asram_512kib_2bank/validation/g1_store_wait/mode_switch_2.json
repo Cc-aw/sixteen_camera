@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "lanes": [
+    "PASS",
+    "PASS",
+    "PASS"
+  ],
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/test_mode_switch.py": "fa61b4f77b06745cb79433409ab43e495eab7d666ccfa1143a7f0b4fc64adc8c",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/mode_switch_2/commands.txt": "3763773e0406b84340cb497cafa203ef8d98548719b613cea7be802f94d22fcd",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/mode_switch_2/test_policy.json": "730d3922604462f62b43767a10f4027394bef8e11c5a013b397f6abfef16793f",
+    "/tmp/csc_r1_g1_opt_20261020_02/run/mode_switch_2/model_view/build_manifest.json": "de9b0982112e73a39daecd2cc1090f3b2a085ce1eb18a1c02c93f6311ea9cabd",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/directed_fixture_03/fixture.json": "6ae46add340477c593f1d1a10b6b29755043c406d35c0705b9f15a95d7e22eed"
+  }
+}

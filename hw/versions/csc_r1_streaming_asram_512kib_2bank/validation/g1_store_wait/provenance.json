@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "run": "/tmp/csc_r1_g1_opt_20261020_02/run",
+  "prior_g1": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01",
+  "candidate_context": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_opt_20261020_01/candidate_02/CANDIDATE_CONTEXT.json",
+  "accepted_build": "/tmp/csc_r1_g1_opt_20261020_02/full_rtl",
+  "reused_baselines": "Accepted G0 numerical references and G1 directed OFF/Accumulator references",
+  "pre_edit_snapshot": "/tmp/csc_r1_g1_opt_20261020_02/run/pre_edit_feature_sha256.json",
+  "relocation": {
+    "scratch_run": "/tmp/csc_r1_g1_opt_20261020_02/run",
+    "persistent_run": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_opt_20261020_02/simulation",
+    "scratch_build": "/tmp/csc_r1_g1_opt_20261020_02/full_rtl",
+    "persistent_build": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_opt_20261020_02/full_rtl",
+    "method": "After all simulations and hash verification, copy scratch directories to the persistent destinations and retain origin-path symlinks. No trace or manifest content is rewritten."
+  },
+  "excluded_attempts": [
+    "g1_opt_20261020_01/candidate_01: byte-exact but lost directed hits due to derive-pending fallback"
+  ],
+  "production_export": false,
+  "full_system_performance_model": false
+}

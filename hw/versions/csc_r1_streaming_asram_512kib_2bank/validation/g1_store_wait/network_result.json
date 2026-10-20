@@ -1,0 +1,150 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "suite": "network",
+  "full_system_performance_model": false,
+  "steps": [
+    {
+      "name": "network_on",
+      "command": [
+        "/home/wzr/miniconda3/bin/python3",
+        "-B",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/run_candidate.py",
+        "--build",
+        "/tmp/csc_r1_g1_opt_20261020_02/full_rtl",
+        "--commands",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/workload_05/native_commands.txt",
+        "--memory",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/functional_memory.bin",
+        "--output",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/network_on",
+        "--lanes",
+        "0,1,2",
+        "--enabled",
+        "1",
+        "--mode",
+        "2",
+        "--frames",
+        "1"
+      ],
+      "returncode": 0,
+      "log": "/tmp/csc_r1_g1_opt_20261020_02/run/network_on.log",
+      "log_sha256": "457c576c6ec2655afbaa98a28742ef8cf963983b9ba9f20600f5c8e30ea4437d"
+    },
+    {
+      "name": "network_comparison_lane0",
+      "command": [
+        "/home/wzr/miniconda3/bin/python3",
+        "-B",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/g1_reference.py",
+        "compare",
+        "--reference",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/reference_lane0",
+        "--candidate",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/network_on/lane0/full_lane0.csv.gz",
+        "--output",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/network_comparison_lane0"
+      ],
+      "returncode": 0,
+      "log": "/tmp/csc_r1_g1_opt_20261020_02/run/network_comparison_lane0.log",
+      "log_sha256": "629bcdf552d7e5eb9f0d319bff482fdbc050456aa3b0141546380dfc9b17b970"
+    },
+    {
+      "name": "transactions_lane0",
+      "command": [
+        "/home/wzr/miniconda3/bin/python3",
+        "-B",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/g1_transactions.py",
+        "--trace",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/network_on/lane0/full_lane0.csv.gz",
+        "--workload",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/workload_05/workload.json",
+        "--output",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/transactions_lane0",
+        "--lane",
+        "0"
+      ],
+      "returncode": 0,
+      "log": "/tmp/csc_r1_g1_opt_20261020_02/run/transactions_lane0.log",
+      "log_sha256": "8b818aaed1bd6b5df909f56bb27725f820c50d7810ec2bfe1cc44ecffca03e0e"
+    },
+    {
+      "name": "network_comparison_lane1",
+      "command": [
+        "/home/wzr/miniconda3/bin/python3",
+        "-B",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/g1_reference.py",
+        "compare",
+        "--reference",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/reference_lane1",
+        "--candidate",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/network_on/lane1/full_lane1.csv.gz",
+        "--output",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/network_comparison_lane1"
+      ],
+      "returncode": 0,
+      "log": "/tmp/csc_r1_g1_opt_20261020_02/run/network_comparison_lane1.log",
+      "log_sha256": "864eed8ddfafc123b5e070394b96c8d7189a43c74ebbb04eba7e5df7ad6590bb"
+    },
+    {
+      "name": "transactions_lane1",
+      "command": [
+        "/home/wzr/miniconda3/bin/python3",
+        "-B",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/g1_transactions.py",
+        "--trace",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/network_on/lane1/full_lane1.csv.gz",
+        "--workload",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/workload_05/workload.json",
+        "--output",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/transactions_lane1",
+        "--lane",
+        "1"
+      ],
+      "returncode": 0,
+      "log": "/tmp/csc_r1_g1_opt_20261020_02/run/transactions_lane1.log",
+      "log_sha256": "f2cbf19a616519262d3f39d798c0b1181ee1c6424014e8f005ef53e5b95aeb85"
+    },
+    {
+      "name": "network_comparison_lane2",
+      "command": [
+        "/home/wzr/miniconda3/bin/python3",
+        "-B",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/g1_reference.py",
+        "compare",
+        "--reference",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/reference_lane2",
+        "--candidate",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/network_on/lane2/full_lane2.csv.gz",
+        "--output",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/network_comparison_lane2"
+      ],
+      "returncode": 0,
+      "log": "/tmp/csc_r1_g1_opt_20261020_02/run/network_comparison_lane2.log",
+      "log_sha256": "58293d9dd21c90b55b68aa99a4ca4d61c5d67ab4035d9524ca016468d35aad8f"
+    },
+    {
+      "name": "transactions_lane2",
+      "command": [
+        "/home/wzr/miniconda3/bin/python3",
+        "-B",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/g1_transactions.py",
+        "--trace",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/network_on/lane2/full_lane2.csv.gz",
+        "--workload",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/workload_05/workload.json",
+        "--output",
+        "/tmp/csc_r1_g1_opt_20261020_02/run/transactions_lane2",
+        "--lane",
+        "2"
+      ],
+      "returncode": 0,
+      "log": "/tmp/csc_r1_g1_opt_20261020_02/run/transactions_lane2.log",
+      "log_sha256": "e2fa84724db8484179daaefde0be06359b7e3567cc45f60059de049e0ea01c92"
+    }
+  ],
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/test_optimized_regression.py": "10d2d5fc8954e114e89e23b7f9472bf7066ba51effc7c7df6f52006cb7a44f0f",
+    "/tmp/csc_r1_g1_opt_20261020_02/full_rtl/build_manifest.json": "e8ffe8344a789f05668365a757cc14bc0330c69f408382ed67bee68d974c3e1a"
+  }
+}

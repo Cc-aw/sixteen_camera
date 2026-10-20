@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "scope": "All physical SPAD read responses, final SPAD bytes, and every masked TL Put byte",
+  "accumulator_internal_trace": false,
+  "full_system_performance_model": false,
+  "frames": null,
+  "baseline": {
+    "reads": 576,
+    "stores": 192,
+    "commits": 576,
+    "tiles": 12,
+    "skipped": 0,
+    "completions": 0,
+    "get_bytes": 21504
+  },
+  "candidate": {
+    "reads": 576,
+    "stores": 192,
+    "commits": 432,
+    "tiles": 12,
+    "skipped": 9,
+    "completions": 9,
+    "get_bytes": 16896
+  },
+  "comparisons": {
+    "stores.bin": {
+      "equal": true,
+      "bytes_compared": 9216
+    },
+    "final_spad.bin": {
+      "equal": true,
+      "bytes_compared": 524288
+    },
+    "reads_bank0.bin": {
+      "equal": true,
+      "bytes_compared": 7296
+    },
+    "reads_bank1.bin": {
+      "equal": true,
+      "bytes_compared": 0
+    },
+    "reads_bank2.bin": {
+      "equal": true,
+      "bytes_compared": 0
+    },
+    "reads_bank3.bin": {
+      "equal": true,
+      "bytes_compared": 0
+    },
+    "reads_bank4.bin": {
+      "equal": true,
+      "bytes_compared": 0
+    },
+    "reads_bank5.bin": {
+      "equal": true,
+      "bytes_compared": 0
+    },
+    "reads_bank6.bin": {
+      "equal": true,
+      "bytes_compared": 0
+    },
+    "reads_bank7.bin": {
+      "equal": true,
+      "bytes_compared": 14592
+    }
+  },
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/directed_mode3_off/lane2/full_lane2.csv.gz": "69903a56a76d7fc865b5e5acb54cb6fade505735efd3b22832867c6c4a1eb934",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/directed_mode3_on/lane2/full_lane2.csv.gz": "3993357354575b5f8e8f45a2c2cfe10f072bcbec8202695b3e0a857900732c98",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/compare_candidate.py": "5bc547a3bd7f263046dcb2cb5030f74fbf21c07aa07d6e28bae4281a917b6cf7"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "status": "PASS",
+  "lanes": [
+    {
+      "lane": 0,
+      "returncode": 0,
+      "command": [
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/full_network_final_on/VFullGemminiSelectedLane",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/workload_05/native_commands.txt",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/functional_memory.bin",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/full_network_final_on/lane0",
+        "1",
+        "1",
+        "165",
+        "1",
+        "2",
+        "0",
+        "+gemmini_timeout=60000"
+      ]
+    },
+    {
+      "lane": 1,
+      "returncode": 0,
+      "command": [
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/full_network_final_on/VFullGemminiSelectedLane",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/workload_05/native_commands.txt",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/functional_memory.bin",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/full_network_final_on/lane1",
+        "1",
+        "1",
+        "165",
+        "1",
+        "2",
+        "1",
+        "+gemmini_timeout=60000"
+      ]
+    },
+    {
+      "lane": 2,
+      "returncode": 0,
+      "command": [
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/full_network_final_on/VFullGemminiSelectedLane",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/workload_05/native_commands.txt",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/functional_memory.bin",
+        "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/full_network_final_on/lane2",
+        "1",
+        "1",
+        "165",
+        "1",
+        "2",
+        "2",
+        "+gemmini_timeout=60000"
+      ]
+    }
+  ]
+}

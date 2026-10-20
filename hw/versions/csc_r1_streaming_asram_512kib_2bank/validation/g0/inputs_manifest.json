@@ -1,0 +1,29 @@
+{
+  "context": "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/dma_stream_asram/candidate_02/GENERATION_CONTEXT.json",
+  "context_sha256": "36a2fa41670cf4357af69cb62c0167b37724dcaf754d6c1053f9093752993994",
+  "initial_worktree_sha256": {
+    "docs/architecture/CSC-R1.md": "11c48aba0613fdead53705b9acad1f460223d644f69b0a3d3d7dc5475943f4fe",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/hardware/parent_asram_ab.json": "ff540c89a08fcfeeeee46d7f7a785a21fd16773b2f922c6b213f3ba8f10a3e09",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/scripts/compare_sppf.py": "55a66777efbe77890ff28b97b5a9d173c6cbf9c69129ab6fd6121c44fd24b904",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/scripts/run_board.py": "22d8c0ba72cc748db320ae75998a47eb78f59a53103be1903f6d8727fa6c79da",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/validation/sppf_baseline_manifest.json": "d69afe3297529e022d87026b7a27840b911a4a83235f6c13321e0e927842c197",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/validation/sppf_baseline_offline.txt": "dfd6149bc544ef328e303d034525acf904e72a541fd71a0ef20a013f856a0f55",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/validation/sppf_optimization.json": "bdb10517cb2c28dd7b1438a059b48c4a8de25fc18b8aa1d33380f9f30f898678",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/validation/sppf_optimized_manifest.json": "c259039e7a050c9bd43fe693ea24fef4296451b6d85573180ed913f70f9f99fc",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/validation/sppf_optimized_offline.txt": "c3de157a1ded0bb95a832cd4e7b38c16399aa387f3a3446f3cab8691bab83a11",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/Makefile": "366452a45778f8b90e0e87e6195985e7d03fe593fbe6c6a550b8f7e230c07ab8",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/README.md": "2cf57576854fcaaa6042ba0ff559a8da68a3237b538a7b53c5ff93e3c4046978",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/SOURCE_ORIGINS.json": "2db4ff3be8e50ba3f469e7bbe48a6c30028525df2ec1c60a9a2097aea09304a4",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/YOLO.md": "a9551c781e5f310138da6b5d2eff746c85faa02ee2654032486044f3cd2c1c6c",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/include/yolo_arena.h": "3fea2f4b4fb9047e063bd427f046db52bcb7d97bb8ff039363e7e9c87b64acf7",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/scripts/analyze_yolo.py": "d4a558355c6d5c4e55ce0ce4218187150ebf447badfc72b66cc3b648aba9c9ea",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/scripts/build.py": "b2804c67492dddde3f4357ecc0e698a7a84b12524a12e2455516b0247cf98cb1",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/scripts/prepare_yolo.py": "f3b6c21d7b75f52d41830a2f8416d6372dcd0921ce0ab635d7d8cb9b67b8f9d2",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/yolo_arena.inc": "976e7f12c753230bb69c0da461b572db4181a4676b9f971142457643b70135ca",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/yolo_boundary.c": "5b345dbe1659482367039d11222aa391a0b3480333b737736c596633baf8eab1",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/yolov5_asram_main.c": "778a9b95d1a24f39b4bd910e4eae888f95eedd04c8e0c0b49be348cbf4df45f7",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/tests/test_yolo_arena.py": "47c40a6b7661d25deffbf9237cf8517b7aa581cc10dfe27d5db484aa315942be",
+    "sw/board_tests/dma_load_streaming_asram_512kib_2bank/tests/test_yolo_sequence.py": "8aa9800f5c3980dc519228ef55356aefe4da3f3c163f8378c33dffe4f3ac9e66"
+  },
+  "policy_sha256": "dbc92570e6f6ed2197f9c11e73de5b478074a115bc75dfa8b5dc4fa92b454cbe"
+}

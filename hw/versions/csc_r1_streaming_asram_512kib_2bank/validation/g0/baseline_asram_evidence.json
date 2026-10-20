@@ -1,0 +1,11 @@
+{
+  "status": "REAL_GEMMINI_ASRAM_FOUR_ROUTES_PASS",
+  "build_id": "abd1c8c87558c7b0",
+  "lanes": 3,
+  "records": 288,
+  "vendor_primitive_simulated": true,
+  "full_model_executed": false,
+  "cpu_rvv_executed": false,
+  "scope": "Actual generated Gemmini/Reader/ASRAM TL, two-port storage and URAM primitives; simulation decoder/arbiter, not whole-SoC CPU execution.",
+  "log_sha256": "768ab308f9679d50ac43815b0b35dccf3144d39c0745004da7f18f349dfca6d3"
+}

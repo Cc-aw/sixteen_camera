@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "files": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/decision_policy.json": "dbc92570e6f6ed2197f9c11e73de5b478074a115bc75dfa8b5dc4fa92b454cbe",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/workload_coverage.json": "33aa30989e3fd832dee3f7b179e802ae00c384179ee6476dde2d4504aac87688",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/workload_05/workload.json": "ecc8235e35bc4465e0cf7a7df7382891f39f443481498ad2d5e68185b23d55f0",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/workload_05/native_commands.txt": "252efe8f9bbfb9b96c55cf93a7096eeaeca269542c0bcea27dd7a14e14f74674",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/full_rtl_complete_serial/build_manifest.json": "c7648327874b08774d7962d58f05f7ef04709b5a6c994efb521c5d7995067a0b",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/calibration_serial_complete/calibration.json": "f0a032c05d596800390fb094c4a7a6f36fb7c2281b944d605e992d2d2b815dc1",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/single_residency/candidate_examples.csv": "4e8e15bdb345b342cd448be1277cdc6c9245ad6535852ce33756c4a69f2cd9c4",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/single_residency/invalidation_reasons.csv": "de7faec151f8f605d85c87ed98e8e8ad5d9865f1223880c3526f6c66cd24d842",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/single_residency/opportunity_summary.json": "fdc55cec9d58c6518de0670e68bf3950ebf2f1a986884ae5c7cf5f3a587c239a",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/single_residency/per_stage_opportunity.csv": "daf05ad895704132863c1732064ce917e43bfa93c5ac21440a0f8c84c45e06a5",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/single_residency/qualified_loads.csv": "ee481cce9d88c0c2171aaf7098cf954b87e2a5c2fc3960c9e2c5ad06e5763c7a",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/parallel_residency/candidate_examples.csv": "aa1220534ce3200c9c0ef3de2bb32981282eacb63faab371650c8e972401c744",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/parallel_residency/elision_model.json": "48ec761f13eb4eb2a2bf8502fd3459ccfd35f9b8bc56fbba47e47e8468b9cb22",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/parallel_residency/invalidation_reasons.csv": "25917ed01bb24481a2f278ebabe9ba6611220231342d5c575ff379c0c9e7e16e",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/parallel_residency/opportunity_summary.json": "45ead29248d5596eedb83a0c776aa718da02ffec2f9fbee5d7e6dc2faba6e6d3",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/parallel_residency/per_stage_opportunity.csv": "5d5f887a0eb864eaa9994b383507733837c66bfb6959e13215a6b029edbba39d",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/parallel_residency/qualified_loads.csv": "37010c78db3ab079eb45304e9c892d8fbc7d73f93a14e4b7952c7b8bcb84f342",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/full_trace_schema.md": "071d3e19d41ea421ec51005638aaec0024b40e6571128342ac0d6b5a8ba98746",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/full_lifecycle.py": "4882981bbceba37caadfab566a37885e6cf9312efd1d9bedc6169fcf279cc1a6",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/analyze_full.py": "c61176cedbb118ea2b40add0ce15996f08d87ca5762a6441595faa3ebf4436b9",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/validate_workload.py": "57f2ffbb7ccc3621a8dddf154214741b51f9e37caca34ee840717ce3d3c53260",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/scripts/decide_full.py": "0db9dff720cd969a7863f33e65b524840753c5e5cd6f1769c160d71681355ee0",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/decision.json": "4719806936aa5f16682197369552dab762125ce0e4c1677ddaac47b9517b28cc",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/decision.md": "158cfffb97cf35b09290dd1be6d7fa38d5909f155da119b4dacc44627d006edc"
+  },
+  "raw_trace_digests": "Bound in each audited opportunity_summary lane record and the functional aggregation manifest"
+}

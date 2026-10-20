@@ -1,0 +1,5 @@
+{
+  "MAKEFLAGS": "OPT_FAST=-O3",
+  "effect": "Host simulator C++ optimization only; RTL, event timing, assertions and functional memory service unchanged; OFF/ON use the same binary",
+  "effective_fast_optimization": "-O2: the generated command appends existing -O2 CFLAGS after OPT_FAST; no fast-math flags"
+}

@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "status": "ACTUAL_C0_FULLSIZE_FIXTURES",
+  "stages": [
+    38,
+    62,
+    109,
+    111,
+    117,
+    134,
+    156
+  ],
+  "source": "Frozen whole-network C0 parameters, actual TL stores and native HOST padding",
+  "shapes_scaled": false,
+  "intermediate_activations_zero_filled": false,
+  "sha256": {
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/full_complete_lanes/lane0/full_lane0.csv.gz": "d73df8f753f997011cf55b08366a01931f0dbcf8629b13aca15173e41fdcb6e4",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/functional_memory.bin": "0b3fa85cec644327b86e0b7b66d01d0c06baafb80582f66cab04cc25638d708f",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g0_full_20261019_01/workload_05/native_commands.txt": "252efe8f9bbfb9b96c55cf93a7096eeaeca269542c0bcea27dd7a14e14f74674",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/fullsize_fixtures/commands.txt": "e54a8e21a54fda680a4204ec0faf0b2e05fe748bd0463a358651544128dddfb3",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/csc_r1_streaming_asram_512kib_2bank/analysis/fullsize_fixtures.py": "8b07e620a37b06975e71eb59078ecee0363eb5bfbe33c2d9daee5aeefe635b7c",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/fullsize_fixtures/memory/lane0_stage109.bin": "cf8357510e5d52970241550af8d99a59752ca966eaf49c0afef1922ce25d589f",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/fullsize_fixtures/memory/lane0_stage111.bin": "d1dd0794a25d3e7982ced1908dcf8ef6ed80a53452f242313b8a2f0baf96d1ca",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/fullsize_fixtures/memory/lane0_stage117.bin": "d6a94a1c24620f7a64a88bb7f578d12e1d5f61090adb445afbb80407519881c0",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/fullsize_fixtures/memory/lane0_stage134.bin": "2365169c20f46e9104c06ff1f403b0202956c30bb12857c7768559387b09aa21",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/fullsize_fixtures/memory/lane0_stage156.bin": "bc607d3698d6fd6dc5bc67ae25e8f67aafa141249fe0f9f18547e09ff0f795bf",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/fullsize_fixtures/memory/lane0_stage38.bin": "69e05b24d150f8001a867e59a27c71d4d42671f5f25e7596f4501c75cb09c908",
+    "/mnt/data/wzr/13p/ov7670/sixteen_camera/build/experiments/csc_r1/g1_20261020_01/fullsize_fixtures/memory/lane0_stage62.bin": "0c647b3bd4c014e043b429b7ce06510e05386ad29c2466f0606b971ce4281b2c"
+  }
+}

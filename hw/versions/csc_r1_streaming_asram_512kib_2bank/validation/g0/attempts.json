@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "attempts": [
+    {
+      "directory": "baseline_asram",
+      "status": "DRIVER_GENERATION_FAILED",
+      "reason": "Parent test_asram.py inserts over-indented Python; no simulation executed",
+      "log": "baseline_asram.log"
+    },
+    {
+      "directory": "baseline_layers",
+      "status": "INTERRUPTED_NOT_ACCEPTED",
+      "exit_code": 130,
+      "memory_latency": 7,
+      "reason": "Functional workload rerun with supported latency=1 to reduce simulation cost; no performance comparison",
+      "log": "baseline_layers.log"
+    },
+    {
+      "directory": "baseline_layers_latency1",
+      "status": "ACCEPTED_COMPACT_FUNCTIONAL_AND_TRACE",
+      "memory_latency": 1,
+      "purpose": "Compact functional comparison and lifecycle trace only"
+    }
+  ]
+}

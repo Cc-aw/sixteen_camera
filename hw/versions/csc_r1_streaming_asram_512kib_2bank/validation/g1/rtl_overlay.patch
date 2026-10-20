@@ -1,0 +1,483 @@
+--- /dev/null
++++ b/gen-collateral/CscR1InputResidency.sv
+@@ -0,0 +1,140 @@
++// Experimental C1a: two physical-half descriptors, no data SRAM or remapping.
++// The integration supplies an exact, unhashed input-generator key. A miss
++// executes the original generator. A hit executes its existing null-operand
++// completion lifecycle, without creating a DMA tag or synthetic DMA credit.
++// Its original load configuration command still follows the normal RS path.
++module CscR1InputResidency #(
++    parameter integer KEY_WIDTH = 232
++)(
++    input wire clock, reset, enabled, clear, fault, core_idle, quiescent,
++    input wire passthrough,
++    input wire req_valid, engine_ready, req_supported, req_preserves, req_half,
++    input wire [KEY_WIDTH-1:0] req_key,
++    input wire [14:0] req_rows,
++    input wire [39:0] req_source,
++    input wire [40:0] req_source_end,
++    input wire generator_idle, generator_half,
++    input wire [7:0] write_valid, write_input,
++    input wire [111:0] write_rows,
++    input wire source_write,
++    input wire [39:0] source_write_address,
++    input wire [6:0] source_write_bytes,
++    output wire req_ready, hit, wait_for_commit,
++    output wire accepted, skipped,
++    output wire completion,
++    output wire [1:0] resident_valid,
++    output wire [1:0] resident_building,
++    output wire [63:0] resident_owner,
++    output reg [31:0] engine_owner
++);
++    reg [1:0] valid, building, generated;
++    reg [KEY_WIDTH-1:0] keys [0:1];
++    reg [14:0] rows [0:1];
++    reg [39:0] sources [0:1];
++    reg [40:0] source_ends [0:1];
++    reg [31:0] owners [0:1];
++    reg [31:0] next_owner;
++    reg quarantined, faulted, previous_enabled;
++    reg skip_pending, skip_half;
++    wire [40:0] write_end = {1'b0, source_write_address} + {34'd0, source_write_bytes};
++    reg [1:0] invalidated;
++    always @* begin
++        invalidated = 0;
++        for (integer s = 0; s < 2; s = s + 1) begin
++            if (source_write && {1'b0, source_write_address} < source_ends[s] &&
++                    write_end > {1'b0, sources[s]}) invalidated[s] = 1;
++            for (integer w = 0; w < 8; w = w + 1) begin
++                if (write_valid[w] && write_rows[w*14+13] == (s != 0) &&
++                        {2'b0, write_rows[w*14+:13]} < rows[s] &&
++                        (valid[s] || !write_input[w])) invalidated[s] = 1;
++            end
++        end
++    end
++    wire usable = enabled && previous_enabled && !clear && !fault && !faulted &&
++                  !passthrough && !quarantined;
++    wire matching = usable && req_supported && (valid[req_half] || building[req_half]) &&
++                    keys[req_half] == req_key && rows[req_half] == req_rows &&
++                    sources[req_half] == req_source && source_ends[req_half] == req_source_end &&
++                    !invalidated[req_half];
++    assign wait_for_commit = matching && (!valid[req_half] || !quiescent);
++    assign req_ready = engine_ready && !wait_for_commit;
++    assign hit = matching && valid[req_half] && quiescent;
++    assign accepted = req_valid && req_ready;
++    assign skipped = accepted && hit;
++    assign completion = skip_pending && generator_idle && generator_half == skip_half;
++    assign resident_valid = valid;
++    assign resident_building = building;
++    assign resident_owner = {owners[1], owners[0]};
++    always @(posedge clock) begin
++        if (reset) begin
++            valid <= 0;
++            building <= 0;
++            generated <= 0;
++            quarantined <= 0;
++            faulted <= 0;
++            previous_enabled <= 0;
++            skip_pending <= 0;
++            skip_half <= 0;
++            next_owner <= 1;
++            engine_owner <= 0;
++            owners[0] <= 0;
++            owners[1] <= 0;
++        end else begin
++            previous_enabled <= enabled;
++            if (core_idle && quiescent) quarantined <= 0;
++            if (completion) skip_pending <= 0;
++            if (skipped) begin
++                skip_pending <= 1;
++                skip_half <= req_half;
++            end
++            if (accepted) begin
++                engine_owner <= next_owner;
++                if (next_owner != 32'hffffffff) next_owner <= next_owner + 1;
++                else faulted <= 1; // Never reuse an in-flight writer generation.
++            end
++            for (integer s = 0; s < 2; s = s + 1) begin
++                if (building[s] && generator_idle && generator_half == (s != 0))
++                    generated[s] <= 1;
++                if (building[s] && generated[s] && quiescent) begin
++                    valid[s] <= 1;
++                    building[s] <= 0;
++                end
++                // A real new tile replaces this half even if unsupported.
++                // Native null operands preserve the original resident bytes.
++                if (accepted && !hit && !req_preserves && req_half == (s != 0)) begin
++                    valid[s] <= 0;
++                    building[s] <= usable && req_supported;
++                    generated[s] <= 0;
++                    keys[s] <= req_key;
++                    rows[s] <= req_rows;
++                    sources[s] <= req_source;
++                    source_ends[s] <= req_source_end;
++                    owners[s] <= next_owner;
++                end
++                // Wins over promotion and request acceptance in this cycle.
++                if (invalidated[s]) begin
++                    valid[s] <= 0;
++                    building[s] <= 0;
++                    generated[s] <= 0;
++                end
++            end
++            if (passthrough || clear || !enabled || enabled != previous_enabled || fault || faulted) begin
++                valid <= 0;
++                building <= 0;
++                generated <= 0;
++                quarantined <= passthrough || fault || faulted || !(core_idle && quiescent);
++                // Clear boundaries are issued only at a drain. Do not cancel
++                // the generator's real completion: this is an observation token.
++            end
++            if (fault) faulted <= 1;
++        end
++    end
++`ifndef SYNTHESIS
++    always @(posedge clock) if (!reset) begin
++        assert (!(skipped && (!quiescent || !req_supported || invalidated[req_half])))
++            else $fatal(1, "CSC skip before physical completion or during invalidation");
++        assert (!(skipped && skip_pending && !completion))
++            else $fatal(1, "CSC replacement completion overwritten");
++    end
++`endif
++endmodule
+--- a/gen-collateral/Gemmini.sv
++++ b/gen-collateral/Gemmini.sv
+@@ -61,7 +61,10 @@
+     `define INIT_RANDOM_PROLOG_
+   `endif // RANDOMIZE
+ `endif // not def INIT_RANDOM_PROLOG_
+-module Gemmini(	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:114:7]
++module Gemmini(
++  input csc_enabled,
++  input csc_clear,
++	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:114:7]
+   input          clock,	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:114:7]
+   input          reset,	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:114:7]
+   input          auto_spad_id_out_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+@@ -2026,7 +2029,9 @@
+       `FIRRTL_AFTER_INITIAL	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:114:7]
+     `endif // FIRRTL_AFTER_INITIAL
+   `endif // ENABLE_INITIAL_REG_
+-  Scratchpad spad (	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:53:24]
++  Scratchpad spad (
++    .csc_write_valid(csc_write_valid), .csc_write_ex(csc_write_ex),
++    .csc_write_rows(csc_write_rows), .csc_write_tags(csc_write_tags), .csc_bank_pending(csc_bank_pending),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:53:24]
+     .clock                                         (clock),
+     .reset                                         (reset),
+     .auto_id_out_a_ready                           (auto_spad_id_out_a_ready),
+@@ -3747,7 +3752,96 @@
+     .io_deq_bits_from_matmul_fsm    (_raw_cmd_q_io_deq_bits_from_matmul_fsm),
+     .io_deq_bits_from_conv_fsm      (_raw_cmd_q_io_deq_bits_from_conv_fsm)
+   );	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:264:25]
+-  LoopConv mod (	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:2119:21]
++
++  wire [7:0] csc_write_valid, csc_write_ex, csc_write_input;
++  wire [63:0] csc_write_tags;
++  wire [111:0] csc_write_rows;
++  wire csc_bank_pending, csc_row_input;
++  reg [1:0] csc_previous_mode;
++  always @(posedge clock) csc_previous_mode <= reset ? 2'd0 : io_dma_load_mode;
++  wire csc_input_command;
++  wire [31:0] csc_engine_owner;
++  wire [63:0] csc_resident_owner;
++  // Only ownership metadata is buffered. Commands/data/credits retain C0 paths.
++  reg [31:0] csc_owner_fifo [0:31];
++  reg [4:0] csc_owner_head, csc_owner_tail;
++  reg [5:0] csc_owner_count;
++  wire csc_ld_issue = _reservation_station_io_issue_ld_valid && _load_controller_io_cmd_ready;
++  wire csc_is_load = _reservation_station_io_issue_ld_cmd_cmd_inst_funct == 2 ||
++    _reservation_station_io_issue_ld_cmd_cmd_inst_funct == 1 ||
++    _reservation_station_io_issue_ld_cmd_cmd_inst_funct == 14;
++  wire csc_owner_pop = csc_ld_issue && _reservation_station_io_issue_ld_cmd_from_conv_fsm &&
++    _reservation_station_io_issue_ld_cmd_cmd_inst_funct == 2;
++  reg [31:0] csc_load_fifo [0:31];
++  reg [4:0] csc_load_head, csc_load_tail;
++  reg [5:0] csc_load_count;
++  wire csc_load_push = csc_ld_issue && csc_is_load;
++  wire csc_load_pop = _load_controller_io_dma_req_valid && _spad_io_dma_read_req_ready &&
++    _load_controller_io_dma_req_bits_cmd_first;
++  reg [31:0] csc_tag_owner [0:1];
++  always @(posedge clock) begin
++    if (reset) begin
++      csc_owner_head <= 0; csc_owner_tail <= 0; csc_owner_count <= 0;
++      csc_load_head <= 0; csc_load_tail <= 0; csc_load_count <= 0;
++      csc_tag_owner[0] <= 0; csc_tag_owner[1] <= 0;
++    end else begin
++      case ({csc_input_command,csc_owner_pop})
++        2'b10: csc_owner_count <= csc_owner_count + 1;
++        2'b01: csc_owner_count <= csc_owner_count - 1;
++        default: ;
++      endcase
++      if (csc_input_command) begin
++        csc_owner_fifo[csc_owner_tail] <= csc_engine_owner;
++        csc_owner_tail <= csc_owner_tail + 1;
++      end
++      if (csc_owner_pop) csc_owner_head <= csc_owner_head + 1;
++      case ({csc_load_push,csc_load_pop})
++        2'b10: csc_load_count <= csc_load_count + 1;
++        2'b01: csc_load_count <= csc_load_count - 1;
++        default: ;
++      endcase
++      if (csc_load_push) begin
++        csc_load_fifo[csc_load_tail] <= csc_owner_pop ? csc_owner_fifo[csc_owner_head] : 0;
++        csc_load_tail <= csc_load_tail + 1;
++      end
++      if (csc_load_pop) begin
++        csc_tag_owner[_load_controller_io_dma_req_bits_cmd_id[0]] <= csc_load_fifo[csc_load_head];
++        csc_load_head <= csc_load_head + 1;
++      end
++    end
++  end
++  for (genvar csc_b = 0; csc_b < 8; csc_b = csc_b + 1) begin
++    wire [31:0] owner = (csc_load_pop &&
++        _load_controller_io_dma_req_bits_cmd_id == csc_write_tags[csc_b*8+:8]) ?
++       csc_load_fifo[csc_load_head] : csc_tag_owner[csc_write_tags[csc_b*8]];
++    assign csc_write_input[csc_b] = !csc_write_ex[csc_b] && owner != 0 &&
++      owner == (csc_write_rows[csc_b*14+13] ? csc_resident_owner[63:32] : csc_resident_owner[31:0]);
++  end
++`ifndef SYNTHESIS
++  always @(posedge clock) if (!reset) begin
++    assert (!csc_owner_pop || csc_owner_count != 0) else $fatal(1,"CSC input owner underflow");
++    assert (!csc_input_command || csc_owner_count < 32 || csc_owner_pop) else $fatal(1,"CSC input owner overflow");
++    assert (!csc_load_pop || csc_load_count != 0) else $fatal(1,"CSC load owner underflow");
++    assert (!csc_load_push || csc_load_count < 32 || csc_load_pop) else $fatal(1,"CSC load owner overflow");
++    assert (!csc_load_pop || _load_controller_io_dma_req_bits_cmd_id < 2) else $fatal(1,"CSC unexpected DMA tag");
++    for (integer cb=0; cb<8; cb=cb+1)
++      assert (!csc_write_valid[cb] || csc_write_ex[cb] || csc_write_tags[cb*8+:8] < 2)
++        else $fatal(1,"CSC unexpected write tag");
++  end
++`endif
++
++  LoopConv mod (
++    .csc_enabled(csc_enabled), .csc_clear(csc_clear || csc_previous_mode != io_dma_load_mode),
++    .csc_fault(io_interrupt || (auto_spad_id_out_d_valid && auto_spad_id_out_d_ready &&
++      (auto_spad_id_out_d_bits_denied || auto_spad_id_out_d_bits_corrupt))),
++    .csc_core_idle(!busyReg),
++    .csc_quiescent(!_spad_io_busy && !_load_controller_io_busy && !_store_controller_io_busy && !csc_bank_pending),
++    .csc_write_valid(csc_write_valid), .csc_write_input(csc_write_input), .csc_write_rows(csc_write_rows),
++    .csc_input_command(csc_input_command), .csc_engine_owner(csc_engine_owner), .csc_resident_owner(csc_resident_owner),
++    .csc_source_write(auto_spad_id_out_a_valid && auto_spad_id_out_a_ready && auto_spad_id_out_a_bits_opcode <= 1),
++    .csc_source_write_address({7'd0,auto_spad_id_out_a_bits_address}),
++    .csc_source_write_bytes(7'd1 << auto_spad_id_out_a_bits_size),
++	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:2119:21]
+     .clock                          (clock),
+     .reset                          (reset),
+     .io_in_ready                    (_mod_io_in_ready),
+@@ -4081,7 +4175,8 @@
+     .io_deq_bits_from_matmul_fsm    (_unrolled_cmd_q_io_deq_bits_from_matmul_fsm),
+     .io_deq_bits_from_conv_fsm      (_unrolled_cmd_q_io_deq_bits_from_conv_fsm)
+   );	// @[src/main/scala/chisel3/util/Decoupled.scala:362:21]
+-  LoadController load_controller (	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:328:57]
++  LoadController load_controller (
++    .csc_row_input(csc_row_input),	// @[generators/gemmini/src/main/scala/gemmini/Controller.scala:328:57]
+     .clock                                   (clock),
+     .reset                                   (reset),
+     .io_cmd_ready                            (_load_controller_io_cmd_ready),
+--- a/gen-collateral/LoadController.sv
++++ b/gen-collateral/LoadController.sv
+@@ -61,7 +61,9 @@
+     `define INIT_RANDOM_PROLOG_
+   `endif // RANDOMIZE
+ `endif // not def INIT_RANDOM_PROLOG_
+-module LoadController(	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:13:7]
++module LoadController(
++  output csc_row_input,
++	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:13:7]
+   input         clock,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:13:7]
+   input         reset,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:13:7]
+   output        io_cmd_ready,	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:18:14]
+@@ -474,5 +476,6 @@
+   assign io_counter_event_signal_8 = io_counter_event_signal_8_0;	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:13:7, :103:19]
+   assign io_counter_event_signal_9 = io_counter_event_signal_9_0;	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:13:7, :104:20]
+   assign io_counter_event_signal_10 = io_dma_req_valid_0 & ~io_dma_req_ready;	// @[generators/gemmini/src/main/scala/gemmini/LoadController.scala:13:7, :102:116, :103:49, :209:{91,94}]
++  assign csc_row_input = _cmd_q_io_deq_bits_cmd_inst_funct == 7'd2;
+ endmodule
+ 
+--- a/gen-collateral/LoopConv.sv
++++ b/gen-collateral/LoopConv.sv
+@@ -61,7 +61,17 @@
+     `define INIT_RANDOM_PROLOG_
+   `endif // RANDOMIZE
+ `endif // not def INIT_RANDOM_PROLOG_
+-module LoopConv(	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:1633:7]
++module LoopConv(
++  input csc_enabled, csc_clear, csc_fault, csc_core_idle, csc_quiescent,
++  input [7:0] csc_write_valid, csc_write_input,
++  input [111:0] csc_write_rows,
++  input csc_source_write,
++  input [39:0] csc_source_write_address,
++  input [6:0] csc_source_write_bytes,
++  output csc_input_command,
++  output [31:0] csc_engine_owner,
++  output [63:0] csc_resident_owner,
++	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:1633:7]
+   input         clock,	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:1633:7]
+   input         reset,	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:1633:7]
+   output        io_in_ready,	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:1648:14]
+@@ -1074,11 +1084,71 @@
+     .io_wait_for_prev_loop                       (ex_is_waiting_for_loads & _ex_io_ldd_completed_T),	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:1760:{65,103}, :1764:{60,82}]
+     .io_loop_id                                  (_ld_bias_io_loop_id)
+   );	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:1704:23]
+-  LoopConvLdInput ld_input (	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:1705:24]
++  wire [15:0] csc_outer_bounds_batch_size = loop_requesting_ld_input_id ? loops_1_outer_bounds_batch_size : loops_0_outer_bounds_batch_size;
++  wire [15:0] csc_outer_bounds_in_row_dim = loop_requesting_ld_input_id ? loops_1_outer_bounds_in_row_dim : loops_0_outer_bounds_in_row_dim;
++  wire [15:0] csc_outer_bounds_in_col_dim = loop_requesting_ld_input_id ? loops_1_outer_bounds_in_col_dim : loops_0_outer_bounds_in_col_dim;
++  wire [15:0] csc_outer_bounds_in_stride = loop_requesting_ld_input_id ? loops_1_outer_bounds_in_stride : loops_0_outer_bounds_in_stride;
++  wire [15:0] csc_inner_bounds_batches = loop_requesting_ld_input_id ? loops_1_inner_bounds_batches : loops_0_inner_bounds_batches;
++  wire [15:0] csc_inner_bounds_lpad = loop_requesting_ld_input_id ? loops_1_inner_bounds_lpad : loops_0_inner_bounds_lpad;
++  wire [15:0] csc_inner_bounds_rpad = loop_requesting_ld_input_id ? loops_1_inner_bounds_rpad : loops_0_inner_bounds_rpad;
++  wire [15:0] csc_inner_bounds_upad = loop_requesting_ld_input_id ? loops_1_inner_bounds_upad : loops_0_inner_bounds_upad;
++  wire [15:0] csc_inner_bounds_dpad = loop_requesting_ld_input_id ? loops_1_inner_bounds_dpad : loops_0_inner_bounds_dpad;
++  wire [15:0] csc_derived_params_irows = loop_requesting_ld_input_id ? loops_1_cached_derived_params_irows : loops_0_cached_derived_params_irows;
++  wire [15:0] csc_derived_params_icols = loop_requesting_ld_input_id ? loops_1_cached_derived_params_icols : loops_0_cached_derived_params_icols;
++  wire [15:0] csc_derived_params_irows_unpadded = loop_requesting_ld_input_id ? loops_1_cached_derived_params_irows_unpadded : loops_0_cached_derived_params_irows_unpadded;
++  wire [15:0] csc_derived_params_icols_unpadded = loop_requesting_ld_input_id ? loops_1_cached_derived_params_icols_unpadded : loops_0_cached_derived_params_icols_unpadded;
++  wire [15:0] csc_derived_params_ichs = loop_requesting_ld_input_id ? loops_1_cached_derived_params_ichs : loops_0_cached_derived_params_ichs;
++  wire [15:0] csc_derived_params_input_spad_stride = loop_requesting_ld_input_id ? loops_1_cached_derived_params_input_spad_stride : loops_0_cached_derived_params_input_spad_stride;
++  wire [13:0] csc_addr_start = {_GEN_0 == 2'h0 ? loop_requesting_ld_input_id : _GEN_0[0] - 1'h1, 13'h0};
++  wire [39:0] csc_dram_addr = loop_requesting_ld_input_id ? loops_1_input_dram_addr : loops_0_input_dram_addr;
++  wire  csc_downsample = loop_requesting_ld_input_id ? loops_1_downsample : loops_0_downsample;
++  wire [15:0] csc_max_pixels_per_row = loop_requesting_ld_input_id ? loops_1_max_pixels_per_row : loops_0_max_pixels_per_row;
++  wire  csc_input_dilated = loop_requesting_ld_input_id ? loops_1_input_dilated : loops_0_input_dilated;
++  wire  csc_trans_input_3120 = loop_requesting_ld_input_id ? loops_1_trans_input_3120 : loops_0_trans_input_3120;
++  wire  csc_loop_id = loop_requesting_ld_input_id;
++  wire csc_engine_ready, csc_hit, csc_wait, csc_accepted, csc_skipped, csc_completion;
++  wire [1:0] csc_resident_valid, csc_resident_building;
++  assign csc_input_command = _ld_input_io_cmd_valid && _arb_io_in_4_ready && _ld_input_io_cmd_bits_inst_funct == 7'd2;
++  wire [231:0] csc_key = {csc_outer_bounds_in_col_dim, csc_outer_bounds_in_stride, csc_inner_bounds_lpad, csc_inner_bounds_rpad, csc_inner_bounds_upad, csc_inner_bounds_dpad, csc_derived_params_irows, csc_derived_params_icols, csc_derived_params_irows_unpadded, csc_derived_params_icols_unpadded, csc_derived_params_ichs, csc_derived_params_input_spad_stride, csc_dram_addr};
++  wire [63:0] csc_row_count = (({48'd0,csc_derived_params_ichs} + 31) >> 5) * {48'd0,csc_derived_params_input_spad_stride};
++  wire [63:0] csc_source_span = (({48'd0,csc_derived_params_irows_unpadded} - 1) * {48'd0,csc_outer_bounds_in_col_dim} + {48'd0,csc_derived_params_icols_unpadded} - 1) * {48'd0,csc_outer_bounds_in_stride} + {48'd0,csc_derived_params_ichs};
++  wire [63:0] csc_source_end_full = {24'd0,csc_dram_addr} + csc_source_span;
++  wire csc_supported = !csc_downsample && !csc_input_dilated && !csc_trans_input_3120 &&
++    csc_max_pixels_per_row == 1 && csc_inner_bounds_batches == 1 && csc_dram_addr != 0 &&
++    csc_derived_params_irows_unpadded != 0 && csc_derived_params_icols_unpadded != 0 &&
++    csc_derived_params_ichs != 0 && csc_outer_bounds_in_stride >= csc_derived_params_ichs &&
++    {48'd0,csc_derived_params_input_spad_stride} == {48'd0,csc_derived_params_irows} * {48'd0,csc_derived_params_icols} &&
++    {48'd0,csc_derived_params_irows} == {48'd0,csc_derived_params_irows_unpadded} + {48'd0,csc_inner_bounds_upad} + {48'd0,csc_inner_bounds_dpad} &&
++    {48'd0,csc_derived_params_icols} == {48'd0,csc_derived_params_icols_unpadded} + {48'd0,csc_inner_bounds_lpad} + {48'd0,csc_inner_bounds_rpad} &&
++    csc_row_count > 0 && csc_row_count <= 8192 && csc_source_span < 64'h100000000 &&
++    csc_source_end_full <= 64'h200000000;
++  CscR1InputResidency csc_residency (
++    .clock(clock), .reset(reset), .enabled(csc_enabled), .clear(csc_clear), .fault(csc_fault),
++    .core_idle(csc_core_idle),
++    .quiescent(csc_quiescent && ld_utilization == 0 && st_utilization == 0 &&
++      _ld_weights_io_idle && _ld_bias_io_idle && _st_io_idle &&
++      !ld_weights_io_req_valid && !ld_bias_io_req_valid && !st_io_req_valid),
++    .passthrough(io_out_valid && io_out_ready && !io_out_bits_from_conv_fsm &&
++      io_out_bits_cmd_inst_funct != 0 && io_out_bits_cmd_inst_funct != 26),
++    .req_valid(ld_input_io_req_valid), .engine_ready(csc_engine_ready),
++    .req_supported(csc_supported), .req_preserves(csc_dram_addr == 0),
++    .req_half(csc_addr_start[13]), .req_key(csc_key),
++    .req_rows(csc_row_count[14:0]), .req_source(csc_dram_addr), .req_source_end(csc_source_end_full[40:0]),
++    .generator_idle(_ld_input_io_idle), .generator_half(ld_input.req_addr_start[13]),
++    .write_valid(csc_write_valid), .write_input(csc_write_input), .write_rows(csc_write_rows),
++    .source_write(csc_source_write), .source_write_address(csc_source_write_address),
++    .source_write_bytes(csc_source_write_bytes),
++    .req_ready(_ld_input_io_req_ready), .hit(csc_hit), .wait_for_commit(csc_wait),
++    .accepted(csc_accepted), .skipped(csc_skipped), .completion(csc_completion),
++    .resident_valid(csc_resident_valid), .resident_building(csc_resident_building),
++    .resident_owner(csc_resident_owner), .engine_owner(csc_engine_owner)
++  );
++  LoopConvLdInput ld_input (
++    .csc_skip(csc_hit),	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:1705:24]
+     .clock                                        (clock),
+     .reset                                        (reset),
+-    .io_req_ready                                 (_ld_input_io_req_ready),
+-    .io_req_valid                                 (ld_input_io_req_valid),	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:1928:71]
++    .io_req_ready                                 (csc_engine_ready),
++    .io_req_valid                                 (ld_input_io_req_valid && !csc_wait),	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:1928:71]
+     .io_req_bits_outer_bounds_batch_size          (loop_requesting_ld_input_id ? loops_1_outer_bounds_batch_size : loops_0_outer_bounds_batch_size),	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:1663:18, :1915:40, :1917:37]
+     .io_req_bits_outer_bounds_in_row_dim          (loop_requesting_ld_input_id ? loops_1_outer_bounds_in_row_dim : loops_0_outer_bounds_in_row_dim),	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:1663:18, :1915:40, :1917:37]
+     .io_req_bits_outer_bounds_in_col_dim          (loop_requesting_ld_input_id ? loops_1_outer_bounds_in_col_dim : loops_0_outer_bounds_in_col_dim),	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:1663:18, :1915:40, :1917:37]
+--- a/gen-collateral/LoopConvLdInput.sv
++++ b/gen-collateral/LoopConvLdInput.sv
+@@ -43,7 +43,9 @@
+     `define INIT_RANDOM_PROLOG_
+   `endif // RANDOMIZE
+ `endif // not def INIT_RANDOM_PROLOG_
+-module LoopConvLdInput(	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:415:7]
++module LoopConvLdInput(
++  input csc_skip,
++	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:415:7]
+   input         clock,	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:415:7]
+   input         reset,	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:415:7]
+   output        io_req_ready,	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:421:14]
+@@ -212,7 +214,12 @@
+   wire [18:0] _spatial_p_io_in_bits_spad_col_T = $signed($signed({{3{icol[15]}}, icol} + {2'h0, _state_T_7 >> _GEN_0}) >>> _GEN_19);	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:444:{37,59}, :454:17, :459:26, :519:35, :520:34]
+   wire        _io_idle_T = state == 2'h0;	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:437:22, :561:25]
+   wire        io_req_ready_0 = _io_idle_T & ~_spatial_p_io_busy & ~_linear_p_io_busy & ~_offset_p_io_busy & ~_byte_p_io_busy & ~_command_p_io_busy;	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:485:25, :504:25, :505:24, :506:24, :507:22, :561:{25,34,37,56,59,77}, :562:{5,23,26,42,45}]
+-  wire        spatial_p_io_in_valid = (|state) & ~io_wait_for_prev_loop & (|req_dram_addr);	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:437:22, :439:16, :567:{34,43,46,69,87}]
++  reg csc_skip_reg;
++  always @(posedge clock) begin
++    if (reset) csc_skip_reg <= 0;
++    else if (io_req_ready_0 && io_req_valid) csc_skip_reg <= csc_skip;
++  end
++  wire        spatial_p_io_in_valid = (!csc_skip_reg || state == 2'h1) & (|state) & ~io_wait_for_prev_loop & (|req_dram_addr);	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:437:22, :439:16, :567:{34,43,46,69,87}]
+   wire        _GEN_21 = _command_p_io_out_bits_cmd_inst_funct == 7'h2;	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:485:25, :556:23, :579:46]
+   wire [19:0] _mvin_cmd_rs2_num_rows_T = $signed($signed(_command_p_io_out_bits_I) >>> req_downsample);	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:439:16, :485:25, :584:35]
+   wire [18:0] _state_T_10 = 19'h0 - {2'h0, _state_T_7 >> _GEN_0};	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:444:{37,59}, :460:23, :530:82, :613:98]
+@@ -247,7 +254,7 @@
+     else if (_GEN_23)	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:591:22]
+       state <= 2'h0;	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:437:22]
+     else if (_GEN_24)	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35]
+-      state <= spatial_p_io_in_bits_is_config ? 2'h2 : {~(next_b == 18'h0 & next_irow == 19'h0 - {2'h0, _state_T_1 >> _GEN_0} & next_icol == {{2{_state_T_10[18]}}, _state_T_10} & ~(|next_ich)), 1'h0};	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:437:22, :444:{37,59}, :460:23, :509:28, :530:82, :594:29, :595:13, :602:18, :613:{13,19,27,35,48,55,78,91,98,121}, src/main/scala/chisel3/util/Mux.scala:126:16]
++      state <= spatial_p_io_in_bits_is_config ? (csc_skip_reg ? 2'h0 : 2'h2) : {~(next_b == 18'h0 & next_irow == 19'h0 - {2'h0, _state_T_1 >> _GEN_0} & next_icol == {{2{_state_T_10[18]}}, _state_T_10} & ~(|next_ich)), 1'h0};	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:437:22, :444:{37,59}, :460:23, :509:28, :530:82, :594:29, :595:13, :602:18, :613:{13,19,27,35,48,55,78,91,98,121}, src/main/scala/chisel3/util/Mux.scala:126:16]
+     if (_GEN_26) begin	// @[src/main/scala/chisel3/util/Decoupled.scala:51:35]
+       req_outer_bounds_batch_size <= io_req_bits_outer_bounds_batch_size;	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:439:16]
+       req_outer_bounds_in_row_dim <= io_req_bits_outer_bounds_in_row_dim;	// @[generators/gemmini/src/main/scala/gemmini/LoopConv.scala:439:16]
+--- a/gen-collateral/Scratchpad.sv
++++ b/gen-collateral/Scratchpad.sv
+@@ -62,7 +62,12 @@
+   `endif // RANDOMIZE
+ `endif // not def INIT_RANDOM_PROLOG_
+ (* keep_hierarchy = "yes", USER_SLR_ASSIGNMENT = "SLR0" *)
+-module Scratchpad(	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:245:9]
++module Scratchpad(
++  output [7:0] csc_write_valid, csc_write_ex,
++  output [63:0] csc_write_tags,
++  output [111:0] csc_write_rows,
++  output csc_bank_pending,
++	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:245:9]
+   input          clock,	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:245:9]
+   input          reset,	// @[generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:245:9]
+   input          auto_id_out_a_ready,	// @[generators/diplomacy/diplomacy/src/diplomacy/lazymodule/LazyModuleImp.scala:107:25]
+@@ -17932,5 +17937,38 @@
+   assign io_counter_external_values_31 = value_18;	// @[generators/gemmini/src/main/scala/gemmini/CounterFile.scala:168:24, generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:245:9]
+   assign io_counter_external_values_32 = value_19;	// @[generators/gemmini/src/main/scala/gemmini/CounterFile.scala:168:24, generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:245:9]
+   assign io_counter_external_values_34 = value_6;	// @[generators/gemmini/src/main/scala/gemmini/CounterFile.scala:168:24, generators/gemmini/src/main/scala/gemmini/Scratchpad.scala:245:9]
++  assign csc_write_valid[0] = pending.io_enq_valid && pending.io_enq_ready;
++  assign csc_write_ex[0] = pending.io_enq_bits_ex;
++  assign csc_write_rows[0+:14] = {3'd0, pending.io_enq_bits_addr};
++  assign csc_write_tags[0+:8] = selected == 2 ? _zeroWriteBuffer_io_deq_bits_tag_cmd_id : _mvinWriteBuffer_io_deq_bits_tag_cmd_id;
++  assign csc_write_valid[1] = pending_1.io_enq_valid && pending_1.io_enq_ready;
++  assign csc_write_ex[1] = pending_1.io_enq_bits_ex;
++  assign csc_write_rows[14+:14] = {3'd1, pending_1.io_enq_bits_addr};
++  assign csc_write_tags[8+:8] = selected_1 == 2 ? _zeroWriteBuffer_io_deq_bits_tag_cmd_id : _mvinWriteBuffer_io_deq_bits_tag_cmd_id;
++  assign csc_write_valid[2] = pending_2.io_enq_valid && pending_2.io_enq_ready;
++  assign csc_write_ex[2] = pending_2.io_enq_bits_ex;
++  assign csc_write_rows[28+:14] = {3'd2, pending_2.io_enq_bits_addr};
++  assign csc_write_tags[16+:8] = selected_2 == 2 ? _zeroWriteBuffer_io_deq_bits_tag_cmd_id : _mvinWriteBuffer_io_deq_bits_tag_cmd_id;
++  assign csc_write_valid[3] = pending_3.io_enq_valid && pending_3.io_enq_ready;
++  assign csc_write_ex[3] = pending_3.io_enq_bits_ex;
++  assign csc_write_rows[42+:14] = {3'd3, pending_3.io_enq_bits_addr};
++  assign csc_write_tags[24+:8] = selected_3 == 2 ? _zeroWriteBuffer_io_deq_bits_tag_cmd_id : _mvinWriteBuffer_io_deq_bits_tag_cmd_id;
++  assign csc_write_valid[4] = pending_4.io_enq_valid && pending_4.io_enq_ready;
++  assign csc_write_ex[4] = pending_4.io_enq_bits_ex;
++  assign csc_write_rows[56+:14] = {3'd4, pending_4.io_enq_bits_addr};
++  assign csc_write_tags[32+:8] = selected_4 == 2 ? _zeroWriteBuffer_io_deq_bits_tag_cmd_id : _mvinWriteBuffer_io_deq_bits_tag_cmd_id;
++  assign csc_write_valid[5] = pending_5.io_enq_valid && pending_5.io_enq_ready;
++  assign csc_write_ex[5] = pending_5.io_enq_bits_ex;
++  assign csc_write_rows[70+:14] = {3'd5, pending_5.io_enq_bits_addr};
++  assign csc_write_tags[40+:8] = selected_5 == 2 ? _zeroWriteBuffer_io_deq_bits_tag_cmd_id : _mvinWriteBuffer_io_deq_bits_tag_cmd_id;
++  assign csc_write_valid[6] = pending_6.io_enq_valid && pending_6.io_enq_ready;
++  assign csc_write_ex[6] = pending_6.io_enq_bits_ex;
++  assign csc_write_rows[84+:14] = {3'd6, pending_6.io_enq_bits_addr};
++  assign csc_write_tags[48+:8] = selected_6 == 2 ? _zeroWriteBuffer_io_deq_bits_tag_cmd_id : _mvinWriteBuffer_io_deq_bits_tag_cmd_id;
++  assign csc_write_valid[7] = pending_7.io_enq_valid && pending_7.io_enq_ready;
++  assign csc_write_ex[7] = pending_7.io_enq_bits_ex;
++  assign csc_write_rows[98+:14] = {3'd7, pending_7.io_enq_bits_addr};
++  assign csc_write_tags[56+:8] = selected_7 == 2 ? _zeroWriteBuffer_io_deq_bits_tag_cmd_id : _mvinWriteBuffer_io_deq_bits_tag_cmd_id;
++  assign csc_bank_pending = pending.io_deq_valid | pending_1.io_deq_valid | pending_2.io_deq_valid | pending_3.io_deq_valid | pending_4.io_deq_valid | pending_5.io_deq_valid | pending_6.io_deq_valid | pending_7.io_deq_valid;
+ endmodule
+ 
