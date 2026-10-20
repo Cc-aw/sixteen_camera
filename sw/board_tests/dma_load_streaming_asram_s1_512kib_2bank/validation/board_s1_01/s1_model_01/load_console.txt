@@ -1,0 +1,18 @@
+[1/4] 使用已有固件。
+[2/4] 启动 OpenOCD（请先确保本工程 bitstream 已下载）...
+[3/4] 下载并启动固件: /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/build/yolov5_asram_model.elf
+0x00000000820012f2 in memory_pad_input (src=0xffffffffffffffff "", pad=0x0, h=13, w=10, c=268566528) at /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/build/yolo_generated/memory_kernels_runtime.inc:31
+31	static void memory_pad_input(const elem_t *src,elem_t *pad,int h,int w,int c) {
+JTAG tap: riscv.cpu tap/device found: 0x04b51093 (mfg: 0x049 (Xilinx), part: 0x4b51, ver: 0x0)
+[riscv.cpu.0] Register fp is dirty!
+[riscv.cpu.0] Discarding values of dirty registers.
+Loading section .text, size 0xbc70 lma 0x82000000
+Loading section .rodata, size 0x629f00 lma 0x8200bc80
+Loading section .data, size 0x4 lma 0x82635b80
+Start address 0x0000000082000000, load size 6511476
+Transfer rate: 368 KB/sec, 16038 bytes/write.
+[4/4] 固件已启动，OpenOCD 已退出。
+串口: 115200 8N1；日志: /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/logs/s1_model_01/model.openocd.log
+ASRAM_AUDIT=PASS board_accessed=0
+ASRAM_AUDIT=PASS board_accessed=0
+YOLO_ASRAM_AUDIT=PASS board_accessed=0

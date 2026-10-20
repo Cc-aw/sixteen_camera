@@ -21,3 +21,5 @@ TensorIngress 和私有生成入口。该目录从硬件提交 `d7cbd61` 提取�
 `source/shell` 内保留的原始说明/脚本用于来源追溯；正式入口只有根 `make soc`。
 验收使用生成器的 `validate_workspace_sources`、当前 RTL 结构检查、TensorIngress/L2、
 MemoryParallelV3 和 timing repair 回归；最终整机时序及板测另行验收。
+
+独立外部导入版本见 [version/](version/README.md)，不改变上述正式生成导出。

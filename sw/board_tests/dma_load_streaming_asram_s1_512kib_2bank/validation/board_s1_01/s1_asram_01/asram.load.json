@@ -1,0 +1,17 @@
+{
+  "test": "asram",
+  "build_id": "4b67bf304612f0f954e1294b390cb7ee8bd56d2c2a151d17e813fdf731214c30",
+  "elf_sha256": "3b35ec19b5643d97c0b54e1165fcfb108a492e556ad18a1f494800f96d2c16ab",
+  "hardware_build_id": "e037701c8d7cfc59",
+  "bitstream_receipt": {
+    "schema": 1,
+    "file": "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/bitstream/top_wrapper.bit",
+    "sha256": "cb907a77e0c0bf97f5074208956884517d349485003a8d6613ca61b9f7e93a01",
+    "hardware_build_id": "e037701c8d7cfc59",
+    "software_build_id": "4b67bf304612f0f954e1294b390cb7ee8bd56d2c2a151d17e813fdf731214c30",
+    "run": "s1_bit_01",
+    "programmed_utc": "2026-10-20T01:57:04.790261+00:00",
+    "identity": "Host programming receipt; firmware checks hardware build ID on startup"
+  },
+  "loaded_utc": "2026-10-20T01:57:18.904016+00:00"
+}

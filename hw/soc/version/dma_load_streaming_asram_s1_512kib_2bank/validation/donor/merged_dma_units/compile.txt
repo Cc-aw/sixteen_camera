@@ -1,0 +1,24 @@
+/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/Arithmetic.scala:54: warning: Implicit definition should have explicit type (inferred gemmini.ArithmeticOps[chisel3.UInt]) [quickfixable]
+    override implicit def cast(self: UInt) = new ArithmeticOps(self) {
+                          ^
+/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/Arithmetic.scala:91: warning: Implicit definition should have explicit type (inferred gemmini.ArithmeticOps[chisel3.SInt]) [quickfixable]
+    override implicit def cast(self: SInt) = new ArithmeticOps(self) {
+                          ^
+/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/Arithmetic.scala:531: warning: Implicit definition should have explicit type (inferred gemmini.ArithmeticOps[gemmini.DummySInt]) [quickfixable]
+    override implicit def cast(self: DummySInt) = new ArithmeticOps(self) {
+                          ^
+/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/Controller.scala:196: warning: Implicit definition should have explicit type (inferred freechips.rocketchip.tilelink.TLEdgeOut) [quickfixable]
+  implicit val edge = outer.spad.id_node.edges.out.head
+               ^
+/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/VectorScalarMultiplier.scala:194: warning: unreachable code
+            case b: Bool => 1.U(1.W)
+                               ^
+warning: 7 deprecations
+warning: 5 deprecations (since 2.13.0)
+warning: 1 deprecation (since CDE 0.1)
+warning: 2 deprecations (since Chisel 6.7.0)
+warning: 11 deprecations (since FireSim 1.14)
+warning: 75 deprecations (since rocketchip 2.0.0)
+warning: 101 deprecations in total; re-run with -deprecation for details
+warning: 5 feature warnings; re-run with -feature for details
+13 warnings

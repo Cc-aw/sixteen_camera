@@ -1,0 +1,13 @@
+{
+  "status": "MERGED_GEMMINI_ASRAM_NUMERICAL_PASS",
+  "build_id": "e037701c8d7cfc59",
+  "records": 72,
+  "modes": [
+    2
+  ],
+  "lanes": 3,
+  "vendor_primitive_simulated": true,
+  "cpu_rvv_executed": false,
+  "full_model_executed": false,
+  "log_sha256": "df2346d432a69b768dd41f97d7be178f1e73df71f55c5f31126d6cb1712a292e"
+}

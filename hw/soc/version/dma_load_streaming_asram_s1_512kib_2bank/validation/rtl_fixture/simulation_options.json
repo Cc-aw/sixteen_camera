@@ -1,0 +1,8 @@
+{
+  "register_initialization": [
+    "-d",
+    "RANDOMIZE_REG_INIT"
+  ],
+  "rationale": "Generated RRArbiter has an intentionally unreset lastGrant",
+  "runtime_modes": "all"
+}

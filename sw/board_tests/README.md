@@ -26,3 +26,7 @@ OpenOCD、GDB 等工具路径通过各目录的 `config.local.mk` 配置。
 [推理移植说明](activation_sram_512kib_2bank/YOLO.md)。
 
 `dma_load_streaming_asram_512kib_2bank/`：DMA Stream A1 + ASRAM 合并候选的独立 SRAM 诊断、YOLO DDR/local 对照和原始字节诊断软件；[使用说明](dma_load_streaming_asram_512kib_2bank/README.md)。当前只做 RTL 仿真与离线软件验证。
+
+`dma_load_streaming_asram_s1_512kib_2bank/`：绑定 S1 实际比特流 `e037701c8d7cfc59`，
+独立源码、模型和下载流程，YOLO 默认 102 次推理。见
+[S1 使用说明](dma_load_streaming_asram_s1_512kib_2bank/README.md)。

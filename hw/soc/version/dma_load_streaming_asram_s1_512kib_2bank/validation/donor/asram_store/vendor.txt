@@ -1,0 +1,1 @@
+ASRAM_STORE_PASS boundaries=36 single_byte_masks=1152 words=73728 ports=2 latency=2

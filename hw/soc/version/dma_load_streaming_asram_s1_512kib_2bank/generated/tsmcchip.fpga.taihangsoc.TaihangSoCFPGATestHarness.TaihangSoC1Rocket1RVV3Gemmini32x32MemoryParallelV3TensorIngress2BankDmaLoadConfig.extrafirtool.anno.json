@@ -1,0 +1,14 @@
+[
+	{
+		"class":"sifive.enterprise.firrtl.MarkDUTAnnotation",
+		"target":"~TaihangSoCFPGATestHarness|ChipTop"
+	},
+	{
+		"class": "sifive.enterprise.firrtl.TestHarnessHierarchyAnnotation",
+		"filename": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/model_module_hierarchy.json"
+	},
+	{
+		"class": "sifive.enterprise.firrtl.ModuleHierarchyAnnotation",
+		"filename": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/top_module_hierarchy.json"
+	}
+]

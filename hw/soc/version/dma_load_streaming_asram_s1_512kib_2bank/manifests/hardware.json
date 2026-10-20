@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "package_variant": "dma_load_streaming_asram_s1_512kib_2bank",
+  "hardware_variant": "s5_dma_streaming_asram_merged_s1",
+  "artifact_origin": "IMPORTED_EXISTING_BITSTREAM",
+  "hardware_build_id": "e037701c8d7cfc59",
+  "part": "xcvu13p-fhga2104-2-i",
+  "clock_hz": 100000000,
+  "bitstream": "bitstream/top_wrapper.bit",
+  "bitstream_bytes": 113318492,
+  "bitstream_sha256": "cb907a77e0c0bf97f5074208956884517d349485003a8d6613ca61b9f7e93a01",
+  "generation_context": "generated/GENERATION_CONTEXT.json",
+  "generation_context_sha256": "bba9b4e94554e76d98238696aa91278e93f83015c6e0b4ffe904a3b7f142cc19",
+  "parameter_headers": {
+    "custom0": "gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom0_xcvu13p.h",
+    "custom1": "gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom1_xcvu13p.h",
+    "custom2": "gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom2_xcvu13p.h"
+  },
+  "dma_mode_ids": [
+    2
+  ],
+  "dma_fixed_mode": 2,
+  "dma_capability_word": "0x00010004",
+  "command_fifo_depth": 8,
+  "command_get_bytes": 32,
+  "l2_banks": 2,
+  "l2_capacity_kib": 512,
+  "asram_bases": [
+    536870912,
+    541065216,
+    545259520
+  ],
+  "physical_bytes_per_bank": 2359296,
+  "logical_arena_bytes": 2217600,
+  "control_base": 549453824,
+  "routed_wns_ns": -3.068,
+  "routed_whs_ns": 0.001,
+  "uram_total": 588,
+  "asram_uram": 216,
+  "head_uram": 192,
+  "board_validation": "NOT_RUN_THIS_IMPORT"
+}

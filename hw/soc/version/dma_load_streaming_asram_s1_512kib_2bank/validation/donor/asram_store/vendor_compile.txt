@@ -1,0 +1,10 @@
+/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/unisims/URAM288_BASE.v:1945: warning: choosing typ expression.
+/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/unisims/URAM288_BASE.v:1945: warning: choosing typ expression.
+/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/unisims/URAM288_BASE.v:1946: warning: choosing typ expression.
+/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/unisims/URAM288_BASE.v:1946: warning: choosing typ expression.
+/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/unisims/URAM288_BASE.v:1947: warning: choosing typ expression.
+/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/unisims/URAM288_BASE.v:1947: warning: choosing typ expression.
+/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/unisims/URAM288_BASE.v:1948: warning: choosing typ expression.
+/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/unisims/URAM288_BASE.v:1948: warning: choosing typ expression.
+/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/unisims/URAM288_BASE.v:1949: warning: choosing typ expression.
+/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/unisims/URAM288_BASE.v:1949: warning: choosing typ expression.

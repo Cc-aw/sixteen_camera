@@ -1,0 +1,758 @@
+{
+  "schema": 1,
+  "package_variant": "dma_load_streaming_asram_s1_512kib_2bank",
+  "donor": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank",
+  "hardware_build_id": "e037701c8d7cfc59",
+  "scope": "Independent source/model snapshot; installed tools and immutable hardware artifacts are external audited dependencies",
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "3a687d31cd017e9c55df0a53e7026bd7f13e2ab2feb8d9f78efae02cf5586673",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/.gitignore",
+      "original_sha256": "3a687d31cd017e9c55df0a53e7026bd7f13e2ab2feb8d9f78efae02cf5586673",
+      "adapted": false
+    },
+    {
+      "path": "Makefile",
+      "sha256": "14b510e04c4a50f0577a8c8cb6a66d68a29e883af1ca473f77dc7f629779f213",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/Makefile",
+      "original_sha256": "366452a45778f8b90e0e87e6195985e7d03fe593fbe6c6a550b8f7e230c07ab8",
+      "adapted": true
+    },
+    {
+      "path": "README.md",
+      "sha256": "2e06b26d13ca21d38aaac3d1260a1802f891796aecb3093ac46a2d2624b06939",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/README.md",
+      "original_sha256": "02fed69a1c57ad5269d0d33f310a0815e92cbb3187cd3b59daa8c7080af31de3",
+      "adapted": true
+    },
+    {
+      "path": "YOLO.md",
+      "sha256": "d90a54113060db6aaf0bf20386e1df37e990e03dcd25000108ae168862030369",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/YOLO.md",
+      "original_sha256": "80a8d50eb01d59447c82ef0e8edb7213da149a8fd2c487eb9307a55069efedf2",
+      "adapted": true
+    },
+    {
+      "path": "config.example.mk",
+      "sha256": "30e8d26f3f58ff40810c1127e8f8ac0614bdccc25cb2092cd2c004ff9731d250",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/config.example.mk",
+      "original_sha256": "30e8d26f3f58ff40810c1127e8f8ac0614bdccc25cb2092cd2c004ff9731d250",
+      "adapted": false
+    },
+    {
+      "path": "hardware/gemmini_params_custom0.h",
+      "sha256": "93f0e0ca32bd441af82e523137af4357fd9c5f7093dc4adadd0df21686ed4314",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/hardware/gemmini_params_custom0.h",
+      "original_sha256": "93f0e0ca32bd441af82e523137af4357fd9c5f7093dc4adadd0df21686ed4314",
+      "adapted": false
+    },
+    {
+      "path": "hardware/target.json",
+      "sha256": "ee814391334d6de9d8fa897aff0bf3c54a1e3a48eaba8dc9fa76eb3bbe074343",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/hardware/target.json",
+      "original_sha256": "96891aa62df14c84b1f29d0c9910f6155d45b9f3da43c28d7f8fc4029b17c289",
+      "adapted": true
+    },
+    {
+      "path": "include/activation_memory.h",
+      "sha256": "8d7166023536ae6c10d703a8db24c5bd3b70073ac6c83098e43732cf95296777",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/include/activation_memory.h",
+      "original_sha256": "8d7166023536ae6c10d703a8db24c5bd3b70073ac6c83098e43732cf95296777",
+      "adapted": false
+    },
+    {
+      "path": "include/activation_sram_map.h",
+      "sha256": "94fe233d63619e44d7551193c434e3e4603c09b83d31fc5bd0e0ab6c2b4ae8f2",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/include/activation_sram_map.h",
+      "original_sha256": "94fe233d63619e44d7551193c434e3e4603c09b83d31fc5bd0e0ab6c2b4ae8f2",
+      "adapted": false
+    },
+    {
+      "path": "include/config.h",
+      "sha256": "7b6bc9d1f7553fa3353a7feedf492a955d87ad0b117e53e2f1e7c9748fccab10",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/include/config.h",
+      "original_sha256": "7b6bc9d1f7553fa3353a7feedf492a955d87ad0b117e53e2f1e7c9748fccab10",
+      "adapted": false
+    },
+    {
+      "path": "include/dma_load_suite.h",
+      "sha256": "bafbae295377612d3da4571540b4c01701ce8b2ff038454bef8ae377884879de",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/include/dma_load_suite.h",
+      "original_sha256": "bafbae295377612d3da4571540b4c01701ce8b2ff038454bef8ae377884879de",
+      "adapted": false
+    },
+    {
+      "path": "include/gemmini_frontend.h",
+      "sha256": "4ee7dd311a8fe31242541f28aaee4445ac25d4ce84f7e5bdb4501b297e7130b7",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/include/gemmini_frontend.h",
+      "original_sha256": "4ee7dd311a8fe31242541f28aaee4445ac25d4ce84f7e5bdb4501b297e7130b7",
+      "adapted": false
+    },
+    {
+      "path": "include/mmio.h",
+      "sha256": "e11d2e6535152f351e519cdcc04a83f48313610e7ff1b84fcbe10e07e96ead61",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/include/mmio.h",
+      "original_sha256": "e11d2e6535152f351e519cdcc04a83f48313610e7ff1b84fcbe10e07e96ead61",
+      "adapted": false
+    },
+    {
+      "path": "include/platform.h",
+      "sha256": "85e7f2762ebd636ece9c92f4eadec1d758e051f14a5afd3b2ca016433685683f",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/include/platform.h",
+      "original_sha256": "85e7f2762ebd636ece9c92f4eadec1d758e051f14a5afd3b2ca016433685683f",
+      "adapted": false
+    },
+    {
+      "path": "include/ppu_run_sequence.h",
+      "sha256": "9416010df77277444b2497b7fadffe76fbb193aa35c941df9c91c2812a995aac",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/include/ppu_run_sequence.h",
+      "original_sha256": "9416010df77277444b2497b7fadffe76fbb193aa35c941df9c91c2812a995aac",
+      "adapted": false
+    },
+    {
+      "path": "include/suite.h",
+      "sha256": "3bd65b4f12322a40fc0ebe9f45bb34db67d3fd374f1268ce3ebc9c6afcaaa200",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/include/suite.h",
+      "original_sha256": "3bd65b4f12322a40fc0ebe9f45bb34db67d3fd374f1268ce3ebc9c6afcaaa200",
+      "adapted": false
+    },
+    {
+      "path": "include/yolo_arena.h",
+      "sha256": "3fea2f4b4fb9047e063bd427f046db52bcb7d97bb8ff039363e7e9c87b64acf7",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/include/yolo_arena.h",
+      "original_sha256": "3fea2f4b4fb9047e063bd427f046db52bcb7d97bb8ff039363e7e9c87b64acf7",
+      "adapted": false
+    },
+    {
+      "path": "model/ai/backend/ai_model_abi.h",
+      "sha256": "9e454e60353734a5e22cbdb98456195739df1aaa3fdfb0cc8f83333b346c6aca",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/ai/backend/ai_model_abi.h",
+      "original_sha256": "9e454e60353734a5e22cbdb98456195739df1aaa3fdfb0cc8f83333b346c6aca",
+      "adapted": false
+    },
+    {
+      "path": "model/ai/postprocess/ai_ppu_publication.c",
+      "sha256": "604d358da90d12c8e7b3ada16f89f6e12d2874c8a4e0d6fae1a048fcb918db66",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/ai/postprocess/ai_ppu_publication.c",
+      "original_sha256": "604d358da90d12c8e7b3ada16f89f6e12d2874c8a4e0d6fae1a048fcb918db66",
+      "adapted": false
+    },
+    {
+      "path": "model/ai/postprocess/ai_ppu_publication.h",
+      "sha256": "ca33461843a782d2d76a24003462c0bbf77d79042d79b56ab753f60eb3ee7dca",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/ai/postprocess/ai_ppu_publication.h",
+      "original_sha256": "ca33461843a782d2d76a24003462c0bbf77d79042d79b56ab753f60eb3ee7dca",
+      "adapted": false
+    },
+    {
+      "path": "model/ai/postprocess/ai_ppu_queue.c",
+      "sha256": "183d0abcab9306a17e469e2adf6d6fec358f9b70f630a1847e6f8d354c35449e",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/ai/postprocess/ai_ppu_queue.c",
+      "original_sha256": "183d0abcab9306a17e469e2adf6d6fec358f9b70f630a1847e6f8d354c35449e",
+      "adapted": false
+    },
+    {
+      "path": "model/ai/postprocess/ai_ppu_queue.h",
+      "sha256": "44890ae6fea460681fb59b979e0df5e87a1c74fd7cd0448f3e3359ea22324c18",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/ai/postprocess/ai_ppu_queue.h",
+      "original_sha256": "44890ae6fea460681fb59b979e0df5e87a1c74fd7cd0448f3e3359ea22324c18",
+      "adapted": false
+    },
+    {
+      "path": "model/ai/runtime/ai_head_slot_queue.c",
+      "sha256": "6a709b1d07315a8c1d881560f0050c043e6597f5d682ab87853cd9a6f61751db",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/ai/runtime/ai_head_slot_queue.c",
+      "original_sha256": "6a709b1d07315a8c1d881560f0050c043e6597f5d682ab87853cd9a6f61751db",
+      "adapted": false
+    },
+    {
+      "path": "model/ai/runtime/ai_head_slot_queue.h",
+      "sha256": "1e4fba6c1d95dff67895c543f06b855f8f36e4e304802d9fff9867886d82ccac",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/ai/runtime/ai_head_slot_queue.h",
+      "original_sha256": "1e4fba6c1d95dff67895c543f06b855f8f36e4e304802d9fff9867886d82ccac",
+      "adapted": false
+    },
+    {
+      "path": "model/capacity_manifest.json",
+      "sha256": "df416c919ef2428366fdf6b6239ffbbf44e72ec23856fa6c84cf279838a8144c",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/capacity_manifest.json",
+      "original_sha256": "df416c919ef2428366fdf6b6239ffbbf44e72ec23856fa6c84cf279838a8144c",
+      "adapted": false
+    },
+    {
+      "path": "model/first_layer_s2d.json",
+      "sha256": "c17586d67243c073d7495ff049a8435cfdba0c6bc20d35430321fcf3430a5c51",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/first_layer_s2d.json",
+      "original_sha256": "c17586d67243c073d7495ff049a8435cfdba0c6bc20d35430321fcf3430a5c51",
+      "adapted": false
+    },
+    {
+      "path": "model/first_layer_s2d_data.inc",
+      "sha256": "cb35b9fbd0446bce2b34ba33eb5d8385375fe472fc79c7a98c891c10297e59bb",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/first_layer_s2d_data.inc",
+      "original_sha256": "cb35b9fbd0446bce2b34ba33eb5d8385375fe472fc79c7a98c891c10297e59bb",
+      "adapted": false
+    },
+    {
+      "path": "model/fixed_conv_packets.inc",
+      "sha256": "748605c83ffac3468b11b0fb0d8926a62ef9ab4902757bec3a883f2817b43f7b",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/fixed_conv_packets.inc",
+      "original_sha256": "748605c83ffac3468b11b0fb0d8926a62ef9ab4902757bec3a883f2817b43f7b",
+      "adapted": false
+    },
+    {
+      "path": "model/fixed_plans.json",
+      "sha256": "f5e859051dd9e095dfa0dcce770b1eec2f738c9d9be99b3cc72cf25d39a1381d",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/fixed_plans.json",
+      "original_sha256": "f5e859051dd9e095dfa0dcce770b1eec2f738c9d9be99b3cc72cf25d39a1381d",
+      "adapted": false
+    },
+    {
+      "path": "model/fixed_plans_guard.inc",
+      "sha256": "51aa9a55926e8ec497ad4e72a9dee999a957ef256847d4dd416e465c4dcdfaff",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/fixed_plans_guard.inc",
+      "original_sha256": "51aa9a55926e8ec497ad4e72a9dee999a957ef256847d4dd416e465c4dcdfaff",
+      "adapted": false
+    },
+    {
+      "path": "model/include/accumulator.h",
+      "sha256": "3a0dfd584a097225470be0a6f3661dc85630cc365f3a5efad1d81275dbed9447",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/accumulator.h",
+      "original_sha256": "3a0dfd584a097225470be0a6f3661dc85630cc365f3a5efad1d81275dbed9447",
+      "adapted": false
+    },
+    {
+      "path": "model/include/character.h",
+      "sha256": "b92a6787b85e38d0887df6d7a8b93f0b119551890cb47ae048ad9bc0bc1f96b8",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/character.h",
+      "original_sha256": "b92a6787b85e38d0887df6d7a8b93f0b119551890cb47ae048ad9bc0bc1f96b8",
+      "adapted": false
+    },
+    {
+      "path": "model/include/gemmini.h",
+      "sha256": "d514389e0ea365dddea315f83636afb2a2506794f881986e4095e399ccfa895e",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/gemmini.h",
+      "original_sha256": "d514389e0ea365dddea315f83636afb2a2506794f881986e4095e399ccfa895e",
+      "adapted": false
+    },
+    {
+      "path": "model/include/gemmini_counter.h",
+      "sha256": "5826242287784b9a383d45fdcb6791f8a1651d9d320a1a5f011585a9885b5669",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/gemmini_counter.h",
+      "original_sha256": "5826242287784b9a383d45fdcb6791f8a1651d9d320a1a5f011585a9885b5669",
+      "adapted": false
+    },
+    {
+      "path": "model/include/gemmini_float16.h",
+      "sha256": "758c0644c78d8c92a5334b680bfde458823c71e9a1df127474664cc25e2cfaaa",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/gemmini_float16.h",
+      "original_sha256": "758c0644c78d8c92a5334b680bfde458823c71e9a1df127474664cc25e2cfaaa",
+      "adapted": false
+    },
+    {
+      "path": "model/include/gemmini_merged_pool.h",
+      "sha256": "d27e9c59ae1de68acdd1fb6c00c238920e6697ce4be4c7450f330f1714cd740d",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/gemmini_merged_pool.h",
+      "original_sha256": "d27e9c59ae1de68acdd1fb6c00c238920e6697ce4be4c7450f330f1714cd740d",
+      "adapted": false
+    },
+    {
+      "path": "model/include/gemmini_nn.h",
+      "sha256": "881078997fd9abbd6bec8cac2451830ffadd458c504cf417ebac0785e394a30f",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/gemmini_nn.h",
+      "original_sha256": "881078997fd9abbd6bec8cac2451830ffadd458c504cf417ebac0785e394a30f",
+      "adapted": false
+    },
+    {
+      "path": "model/include/gemmini_params.h",
+      "sha256": "5c95c13aec125b0671a5165cf0daa05dfaea2308710e19195005ca9e69e80077",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/gemmini_params.h",
+      "original_sha256": "5c95c13aec125b0671a5165cf0daa05dfaea2308710e19195005ca9e69e80077",
+      "adapted": false
+    },
+    {
+      "path": "model/include/gemmini_testutils.h",
+      "sha256": "ec58aa5ef24a6fc066fa7410d35b77516c2af0c137f6f037e028140e8912ea62",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/gemmini_testutils.h",
+      "original_sha256": "ec58aa5ef24a6fc066fa7410d35b77516c2af0c137f6f037e028140e8912ea62",
+      "adapted": false
+    },
+    {
+      "path": "model/include/translator.h",
+      "sha256": "42383d22d34be62e03772710740ecc385a706746ee11a1898e77e26776237857",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/translator.h",
+      "original_sha256": "42383d22d34be62e03772710740ecc385a706746ee11a1898e77e26776237857",
+      "adapted": false
+    },
+    {
+      "path": "model/include/yolov5nu_silu_lut_rvv.h",
+      "sha256": "a7538206eafb6aa089b9271c02d54a2c92468418a3c38f607950af93de91b7ec",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/yolov5nu_silu_lut_rvv.h",
+      "original_sha256": "a7538206eafb6aa089b9271c02d54a2c92468418a3c38f607950af93de91b7ec",
+      "adapted": false
+    },
+    {
+      "path": "model/include/yolov5nu_silu_opencv_rvv.h",
+      "sha256": "074ed3d7b0d77051d6254ec0eb8fba67cb4ce9d6f495a3098d48b9799eb5b252",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/yolov5nu_silu_opencv_rvv.h",
+      "original_sha256": "074ed3d7b0d77051d6254ec0eb8fba67cb4ce9d6f495a3098d48b9799eb5b252",
+      "adapted": false
+    },
+    {
+      "path": "model/include/yolov5nu_stage3_rvv.h",
+      "sha256": "574eafe8a0531d6027ac6a56b0489713e3b5183505bdab944e225e87822d1369",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/yolov5nu_stage3_rvv.h",
+      "original_sha256": "574eafe8a0531d6027ac6a56b0489713e3b5183505bdab944e225e87822d1369",
+      "adapted": false
+    },
+    {
+      "path": "model/include/yolov5nu_stage4_rvv.h",
+      "sha256": "c35588dff4d69c8f59391627aa4c23d81129ea315b060314ce1a707b9dcb0bbe",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/include/yolov5nu_stage4_rvv.h",
+      "original_sha256": "c35588dff4d69c8f59391627aa4c23d81129ea315b060314ce1a707b9dcb0bbe",
+      "adapted": false
+    },
+    {
+      "path": "model/inputs.c",
+      "sha256": "9e7157758f307d06ee5f005fd4d95b3ae7393f2b0a573836a8f2902408f8f70e",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/inputs.c",
+      "original_sha256": "9e7157758f307d06ee5f005fd4d95b3ae7393f2b0a573836a8f2902408f8f70e",
+      "adapted": false
+    },
+    {
+      "path": "model/inputs.h",
+      "sha256": "f156642dfd23d1f4d097cb9aeb5126dce451280c183855913b5d9aec8326bb23",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/inputs.h",
+      "original_sha256": "f156642dfd23d1f4d097cb9aeb5126dce451280c183855913b5d9aec8326bb23",
+      "adapted": false
+    },
+    {
+      "path": "model/inputs_manifest.json",
+      "sha256": "3629422447f62b118c630c6fa64d2a3e73a455e0d4153079b38a341438c141a4",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/inputs_manifest.json",
+      "original_sha256": "3629422447f62b118c630c6fa64d2a3e73a455e0d4153079b38a341438c141a4",
+      "adapted": false
+    },
+    {
+      "path": "model/memory_kernels.h",
+      "sha256": "7acdbf04df0a227d8cb12396792ba0a0a6b482b511edcfef4e3fa00fed2197b0",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/memory_kernels.h",
+      "original_sha256": "7acdbf04df0a227d8cb12396792ba0a0a6b482b511edcfef4e3fa00fed2197b0",
+      "adapted": false
+    },
+    {
+      "path": "model/memory_kernels.json",
+      "sha256": "2ada47fc1c3b605dcad78f2812930d26cbdc83fa1af093cb5e5af09dd7af06fc",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/memory_kernels.json",
+      "original_sha256": "2ada47fc1c3b605dcad78f2812930d26cbdc83fa1af093cb5e5af09dd7af06fc",
+      "adapted": false
+    },
+    {
+      "path": "model/memory_kernels_runtime.inc",
+      "sha256": "d5578150378c57665ed9ca34b67b7c40153e4ae2086f1bd13d599c3a92d211a9",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/memory_kernels_runtime.inc",
+      "original_sha256": "d5578150378c57665ed9ca34b67b7c40153e4ae2086f1bd13d599c3a92d211a9",
+      "adapted": false
+    },
+    {
+      "path": "model/memory_schedule_manifest.json",
+      "sha256": "014465b99cca8e73d4576e2539e8c1106bca706ffd60352b339b841eb9ac250c",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/memory_schedule_manifest.json",
+      "original_sha256": "014465b99cca8e73d4576e2539e8c1106bca706ffd60352b339b841eb9ac250c",
+      "adapted": false
+    },
+    {
+      "path": "model/memory_schedule_plan.h",
+      "sha256": "3ccfc3d6e72475d02439ecd9fae023d7755908a421eda573d46b232e55661cd6",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/memory_schedule_plan.h",
+      "original_sha256": "3ccfc3d6e72475d02439ecd9fae023d7755908a421eda573d46b232e55661cd6",
+      "adapted": false
+    },
+    {
+      "path": "model/packet_dispatch_runtime.inc",
+      "sha256": "7d77577d4336eab967d7e4074552cb22b0c0b1263b6842c0d02630f4c1e1fca7",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/packet_dispatch_runtime.inc",
+      "original_sha256": "7d77577d4336eab967d7e4074552cb22b0c0b1263b6842c0d02630f4c1e1fca7",
+      "adapted": false
+    },
+    {
+      "path": "model/parallel_model.inc",
+      "sha256": "f0845dfee780b66b21a198806ddf797b8ec51d69afe61832a641569abb98a6cf",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/parallel_model.inc",
+      "original_sha256": "f0845dfee780b66b21a198806ddf797b8ec51d69afe61832a641569abb98a6cf",
+      "adapted": false
+    },
+    {
+      "path": "model/platform/platform.h",
+      "sha256": "38bc1284da57a482a6a6250d3f567b8826e91b8489026bbcf97cd89bd9358708",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/platform/platform.h",
+      "original_sha256": "38bc1284da57a482a6a6250d3f567b8826e91b8489026bbcf97cd89bd9358708",
+      "adapted": false
+    },
+    {
+      "path": "model/prepared_packets.inc",
+      "sha256": "2b09a611022a12979207fc8543e1e2b40a9a0c47858bbed5ea6fba201203534c",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/prepared_packets.inc",
+      "original_sha256": "2b09a611022a12979207fc8543e1e2b40a9a0c47858bbed5ea6fba201203534c",
+      "adapted": false
+    },
+    {
+      "path": "model/rocc-software/src/riscv_test_rocc.h",
+      "sha256": "c7f53ca7c6c8b2db79b9a79b8cf56234381c45f96f441b21f4ce53689a322f29",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/rocc-software/src/riscv_test_rocc.h",
+      "original_sha256": "c7f53ca7c6c8b2db79b9a79b8cf56234381c45f96f441b21f4ce53689a322f29",
+      "adapted": false
+    },
+    {
+      "path": "model/rocc-software/src/xcustom.h",
+      "sha256": "9582eb00cee774e4680fde6408a0d607bba85196a0a4fd803f7b7ddd801aad69",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/rocc-software/src/xcustom.h",
+      "original_sha256": "9582eb00cee774e4680fde6408a0d607bba85196a0a4fd803f7b7ddd801aad69",
+      "adapted": false
+    },
+    {
+      "path": "model/software_batch_packets.inc",
+      "sha256": "8e3c9e1287f970aed586f5d2abb93bf02e1325ee7f7108bc4e442e0c4bfc1d38",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/software_batch_packets.inc",
+      "original_sha256": "8e3c9e1287f970aed586f5d2abb93bf02e1325ee7f7108bc4e442e0c4bfc1d38",
+      "adapted": false
+    },
+    {
+      "path": "model/sources.lock.json",
+      "sha256": "eb48e84bb041691292d4a8bdc919ea4d49f1619be1913d968f565b06b12db108",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/sources.lock.json",
+      "original_sha256": "eb48e84bb041691292d4a8bdc919ea4d49f1619be1913d968f565b06b12db108",
+      "adapted": false
+    },
+    {
+      "path": "model/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h",
+      "sha256": "19d6ad52c6ccf0c392076f98de7d859d7d47c47d82589feac27f7e5b9a534b7f",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/yolov5nu-stage8f-dual-consumer-spad-reuse-img640x480-image025-profile_params.h",
+      "original_sha256": "19d6ad52c6ccf0c392076f98de7d859d7d47c47d82589feac27f7e5b9a534b7f",
+      "adapted": false
+    },
+    {
+      "path": "model/yolov5nu_dim16_dual.h",
+      "sha256": "42f96b49c2bd7f343eb9d8929e0405be3045feb8cb86d264dd165b6095188499",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/yolov5nu_dim16_dual.h",
+      "original_sha256": "42f96b49c2bd7f343eb9d8929e0405be3045feb8cb86d264dd165b6095188499",
+      "adapted": false
+    },
+    {
+      "path": "model/yolov5nu_head_layout.h",
+      "sha256": "81637629d95308360bbffc1c70926b39667b8464b51fbc9bd58c1551cf72974d",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/model/yolov5nu_head_layout.h",
+      "original_sha256": "81637629d95308360bbffc1c70926b39667b8464b51fbc9bd58c1551cf72974d",
+      "adapted": false
+    },
+    {
+      "path": "program/digilent_ipc_compat.c",
+      "sha256": "ee3eb200cfa370ff4d8ad623614843c6fddc2f15229d3f1c5fd0af72af1b6882",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/program/digilent_ipc_compat.c",
+      "original_sha256": "ee3eb200cfa370ff4d8ad623614843c6fddc2f15229d3f1c5fd0af72af1b6882",
+      "adapted": false
+    },
+    {
+      "path": "program/download_bitstream.sh",
+      "sha256": "963bcd56e1bd74ac8ec26edca5d889e0975aea01f91222d483f45bf0513c2ca7",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/program/download_bitstream.sh",
+      "original_sha256": "963bcd56e1bd74ac8ec26edca5d889e0975aea01f91222d483f45bf0513c2ca7",
+      "adapted": false
+    },
+    {
+      "path": "program/openocd/load-hdmi-tx.gdb",
+      "sha256": "13279f1f1349bc6a139b17420d502367aeda156e5883db330def9821e2e7cf8e",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/program/openocd/load-hdmi-tx.gdb",
+      "original_sha256": "13279f1f1349bc6a139b17420d502367aeda156e5883db330def9821e2e7cf8e",
+      "adapted": false
+    },
+    {
+      "path": "program/openocd/openocd-bscan.cfg",
+      "sha256": "cf21c4ba4fcd96df11fa800e280d429273c1a74f71f3d41fe977130a04d729e9",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/program/openocd/openocd-bscan.cfg",
+      "original_sha256": "cf21c4ba4fcd96df11fa800e280d429273c1a74f71f3d41fe977130a04d729e9",
+      "adapted": false
+    },
+    {
+      "path": "program/program_bitstream.tcl",
+      "sha256": "69b2589b9166baecbe32d83739daf62c3a8c6c9df5c39fc8e5fc80aca539f0ff",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/program/program_bitstream.tcl",
+      "original_sha256": "69b2589b9166baecbe32d83739daf62c3a8c6c9df5c39fc8e5fc80aca539f0ff",
+      "adapted": false
+    },
+    {
+      "path": "program/run_firmware.sh",
+      "sha256": "c3a3bdca6349844f524051a8058d78540d62931712481178c93c59850fdcc0a4",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/program/run_firmware.sh",
+      "original_sha256": "3bb7d28a502f713a2aa05d8a36be33d4b137ea385ab3c57baf1ed7e3ad806bbc",
+      "adapted": true
+    },
+    {
+      "path": "program/vivado_program.py",
+      "sha256": "6b7e346d5800fc82953096255f290c58d719ed367d90b3ce5b7e9ac5a78cee75",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/program/vivado_program.py",
+      "original_sha256": "6b7e346d5800fc82953096255f290c58d719ed367d90b3ce5b7e9ac5a78cee75",
+      "adapted": false
+    },
+    {
+      "path": "scripts/analyze.py",
+      "sha256": "605b061a406bd304f95bd4336e16ee06c30964402df6f1a9fa1bebda833a71f9",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/scripts/analyze.py",
+      "original_sha256": "2363958208fa9127f3e07cc3485f9be52bbaad137603a179fae677e4c250c335",
+      "adapted": true
+    },
+    {
+      "path": "scripts/analyze_yolo.py",
+      "sha256": "672ceceb7ac670a6927d74793f63df7e76f17dd07cb902918f27bd0cebb3a852",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/scripts/analyze_yolo.py",
+      "original_sha256": "672ceceb7ac670a6927d74793f63df7e76f17dd07cb902918f27bd0cebb3a852",
+      "adapted": false
+    },
+    {
+      "path": "scripts/build.py",
+      "sha256": "677343dad3356207c20929f9b6c78f48f9e4209d7ce4b6421a08092974653ff8",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/scripts/build.py",
+      "original_sha256": "ba09ac5e9294ca349f63412100eb1e95b0707008f358400be41f2fa610580359",
+      "adapted": true
+    },
+    {
+      "path": "scripts/build_yolo.py",
+      "sha256": "6367b418bde2c174eee18723260f3d0d8809b5cd48556fdb9c3d2acbb27ea697",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/scripts/build_yolo.py",
+      "original_sha256": "6367b418bde2c174eee18723260f3d0d8809b5cd48556fdb9c3d2acbb27ea697",
+      "adapted": false
+    },
+    {
+      "path": "scripts/check_hole_rtl.py",
+      "sha256": "264645ecf870f318a1f8b9570443b938cf79343f5049173b9d91d119d91085b7",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/scripts/check_hole_rtl.py",
+      "original_sha256": "264645ecf870f318a1f8b9570443b938cf79343f5049173b9d91d119d91085b7",
+      "adapted": false
+    },
+    {
+      "path": "scripts/prepare_sim_inputs.py",
+      "sha256": "e51a27a70f47d1ae526ca534a74509c0946405a884cba0a1ac1e911a80602d47",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/scripts/prepare_sim_inputs.py",
+      "original_sha256": "e51a27a70f47d1ae526ca534a74509c0946405a884cba0a1ac1e911a80602d47",
+      "adapted": false
+    },
+    {
+      "path": "scripts/prepare_yolo.py",
+      "sha256": "f3b6c21d7b75f52d41830a2f8416d6372dcd0921ce0ab635d7d8cb9b67b8f9d2",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/scripts/prepare_yolo.py",
+      "original_sha256": "f3b6c21d7b75f52d41830a2f8416d6372dcd0921ce0ab635d7d8cb9b67b8f9d2",
+      "adapted": false
+    },
+    {
+      "path": "scripts/program.py",
+      "sha256": "a725a4d592043c16593f4b5e56489d4f8105bc6f3ddf3e35ef75c7ae35ca5bfd",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/scripts/program.py",
+      "original_sha256": "a725a4d592043c16593f4b5e56489d4f8105bc6f3ddf3e35ef75c7ae35ca5bfd",
+      "adapted": false
+    },
+    {
+      "path": "scripts/run_board.py",
+      "sha256": "aaea3896421b7157d9b414b7b9fcf50c8a932590dd09d20e4a818287621f18a1",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/scripts/run_board.py",
+      "original_sha256": "22d8c0ba72cc748db320ae75998a47eb78f59a53103be1903f6d8727fa6c79da",
+      "adapted": true
+    },
+    {
+      "path": "scripts/yolo_inventory.py",
+      "sha256": "54fc23609d373d30f6706fba893e4c7079a506e766ebec1e7d1248c07314e402",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/scripts/yolo_inventory.py",
+      "original_sha256": "54fc23609d373d30f6706fba893e4c7079a506e766ebec1e7d1248c07314e402",
+      "adapted": false
+    },
+    {
+      "path": "src/activation_memory.c",
+      "sha256": "7fb2dd422dcdd1146c3053a3e1382b4da60738b30c7d29a7b48d16d927c00216",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/activation_memory.c",
+      "original_sha256": "7fb2dd422dcdd1146c3053a3e1382b4da60738b30c7d29a7b48d16d927c00216",
+      "adapted": false
+    },
+    {
+      "path": "src/boundary_diag.inc",
+      "sha256": "043fa80ec91281b144579760791980b1fc3f945d0fb400525244fd6f5ccaf60a",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/boundary_diag.inc",
+      "original_sha256": "043fa80ec91281b144579760791980b1fc3f945d0fb400525244fd6f5ccaf60a",
+      "adapted": false
+    },
+    {
+      "path": "src/device.c",
+      "sha256": "ef6bf078b5930288198e705c0ff2b05c9bea4a71f5268cedabe17d3f2c7a98c8",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/device.c",
+      "original_sha256": "ef6bf078b5930288198e705c0ff2b05c9bea4a71f5268cedabe17d3f2c7a98c8",
+      "adapted": false
+    },
+    {
+      "path": "src/link.ld",
+      "sha256": "890dad5ac21eef2b8158513818155c00ab278163052d03f3126f683f80b7ba0a",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/link.ld",
+      "original_sha256": "890dad5ac21eef2b8158513818155c00ab278163052d03f3126f683f80b7ba0a",
+      "adapted": false
+    },
+    {
+      "path": "src/main.c",
+      "sha256": "ff62833c76b20494090c6b1f8a0c1a0935a8b52b0858a666d2a17f323b16ceee",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/main.c",
+      "original_sha256": "ff62833c76b20494090c6b1f8a0c1a0935a8b52b0858a666d2a17f323b16ceee",
+      "adapted": false
+    },
+    {
+      "path": "src/memory_diag.inc",
+      "sha256": "620122991c4be6945cf9ec516d6ad5611731f5d3a7bef1f3a3cecfbf4d45203c",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/memory_diag.inc",
+      "original_sha256": "620122991c4be6945cf9ec516d6ad5611731f5d3a7bef1f3a3cecfbf4d45203c",
+      "adapted": false
+    },
+    {
+      "path": "src/ppu.inc",
+      "sha256": "1f615165da3f0f71621b79dc9056c339c5326578b81c0456818d69bfdcc47306",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/ppu.inc",
+      "original_sha256": "1f615165da3f0f71621b79dc9056c339c5326578b81c0456818d69bfdcc47306",
+      "adapted": false
+    },
+    {
+      "path": "src/probe.S",
+      "sha256": "cb4b89f08801ec713f3970abb70c2c8b821ba597dcaca780c98e0a83708c2dae",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/probe.S",
+      "original_sha256": "cb4b89f08801ec713f3970abb70c2c8b821ba597dcaca780c98e0a83708c2dae",
+      "adapted": false
+    },
+    {
+      "path": "src/reference.c",
+      "sha256": "7beba7f145b6b449b0ef81117ad7812bfc07b989707b7b4aadcfee3f7ba1ad23",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/reference.c",
+      "original_sha256": "7beba7f145b6b449b0ef81117ad7812bfc07b989707b7b4aadcfee3f7ba1ad23",
+      "adapted": false
+    },
+    {
+      "path": "src/rvv.S",
+      "sha256": "412984eda41f81f4ca8abb59d9d45506b1442ef8194d49ad52a7f3f0df7da086",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/rvv.S",
+      "original_sha256": "412984eda41f81f4ca8abb59d9d45506b1442ef8194d49ad52a7f3f0df7da086",
+      "adapted": false
+    },
+    {
+      "path": "src/start.S",
+      "sha256": "0dde7e9220389d81d891ca11137337139abcfa6ef3fb6a78b53bf1edf7e43ef3",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/start.S",
+      "original_sha256": "0dde7e9220389d81d891ca11137337139abcfa6ef3fb6a78b53bf1edf7e43ef3",
+      "adapted": false
+    },
+    {
+      "path": "src/trap.S",
+      "sha256": "eecfa5b0d51088786ed9e663f5d34bb01645904907362ef4cf1992688cc50a7c",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/trap.S",
+      "original_sha256": "eecfa5b0d51088786ed9e663f5d34bb01645904907362ef4cf1992688cc50a7c",
+      "adapted": false
+    },
+    {
+      "path": "src/yolo_arena.inc",
+      "sha256": "976e7f12c753230bb69c0da461b572db4181a4676b9f971142457643b70135ca",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/yolo_arena.inc",
+      "original_sha256": "976e7f12c753230bb69c0da461b572db4181a4676b9f971142457643b70135ca",
+      "adapted": false
+    },
+    {
+      "path": "src/yolo_boundary.c",
+      "sha256": "5b345dbe1659482367039d11222aa391a0b3480333b737736c596633baf8eab1",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/yolo_boundary.c",
+      "original_sha256": "5b345dbe1659482367039d11222aa391a0b3480333b737736c596633baf8eab1",
+      "adapted": false
+    },
+    {
+      "path": "src/yolo_irq.c",
+      "sha256": "aad4fd9d3cf60aa0bac0ed65c4c405b5d60e3dee64799f2ed4546ec25797cf66",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/yolo_irq.c",
+      "original_sha256": "aad4fd9d3cf60aa0bac0ed65c4c405b5d60e3dee64799f2ed4546ec25797cf66",
+      "adapted": false
+    },
+    {
+      "path": "src/yolo_link.ld",
+      "sha256": "a2ca9ead40c0fa9175c6fe113f89de4ffa4b7a29896917e7a97f9457be90fe83",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/yolo_link.ld",
+      "original_sha256": "a2ca9ead40c0fa9175c6fe113f89de4ffa4b7a29896917e7a97f9457be90fe83",
+      "adapted": false
+    },
+    {
+      "path": "src/yolo_start.S",
+      "sha256": "0dde7e9220389d81d891ca11137337139abcfa6ef3fb6a78b53bf1edf7e43ef3",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/yolo_start.S",
+      "original_sha256": "0dde7e9220389d81d891ca11137337139abcfa6ef3fb6a78b53bf1edf7e43ef3",
+      "adapted": false
+    },
+    {
+      "path": "src/yolo_support.c",
+      "sha256": "56343f3cf17d39466a454207252be5d7c94fb2953ac18c903ae63f773ad22390",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/yolo_support.c",
+      "original_sha256": "56343f3cf17d39466a454207252be5d7c94fb2953ac18c903ae63f773ad22390",
+      "adapted": false
+    },
+    {
+      "path": "src/yolov5_asram_main.c",
+      "sha256": "327df55a40afb9646b7f7fb25933b7f0efc04afb03f94e9ca6b452d81a3bcaad",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/src/yolov5_asram_main.c",
+      "original_sha256": "327df55a40afb9646b7f7fb25933b7f0efc04afb03f94e9ca6b452d81a3bcaad",
+      "adapted": false
+    },
+    {
+      "path": "tests/fake_device.c",
+      "sha256": "ce7013e8bb4266d790331dfe831e94869842fdd67ba23286536d1c739e4007fa",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/tests/fake_device.c",
+      "original_sha256": "ce7013e8bb4266d790331dfe831e94869842fdd67ba23286536d1c739e4007fa",
+      "adapted": false
+    },
+    {
+      "path": "tests/tb_hole_port.sv",
+      "sha256": "21947dcd28b03dc4e8bc809f4b922aa5c431b8b9b915944e833a5ed6cebd738d",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/tests/tb_hole_port.sv",
+      "original_sha256": "21947dcd28b03dc4e8bc809f4b922aa5c431b8b9b915944e833a5ed6cebd738d",
+      "adapted": false
+    },
+    {
+      "path": "tests/test_board_cleanup.py",
+      "sha256": "932e2d7d7fca1ef656c0123615dfa730a006ed7071471a413d52fb484c902022",
+      "source": "Local S1 migration",
+      "original_sha256": null,
+      "adapted": true
+    },
+    {
+      "path": "tests/test_programming.py",
+      "sha256": "cc94f5d1398d6a7a0e9dc181ea636e1eebaff3dc9430076802f167f8d9fcc11f",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/tests/test_programming.py",
+      "original_sha256": "981bc8df86b7bd4a18caf92cf644cea170a191774c33bd8a02df57a06147e790",
+      "adapted": true
+    },
+    {
+      "path": "tests/test_suite.py",
+      "sha256": "c4f3c37b1216436ea4eb6b01a09167ab1e7e29b1a82caee2794e85b27ee76330",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/tests/test_suite.py",
+      "original_sha256": "c4f3c37b1216436ea4eb6b01a09167ab1e7e29b1a82caee2794e85b27ee76330",
+      "adapted": false
+    },
+    {
+      "path": "tests/test_yolo_arena.py",
+      "sha256": "47c40a6b7661d25deffbf9237cf8517b7aa581cc10dfe27d5db484aa315942be",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/tests/test_yolo_arena.py",
+      "original_sha256": "47c40a6b7661d25deffbf9237cf8517b7aa581cc10dfe27d5db484aa315942be",
+      "adapted": false
+    },
+    {
+      "path": "tests/test_yolo_raw.py",
+      "sha256": "441d010a95522c250244bec9940f82d044d8d56356e176e72f8d8cfc592f2596",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/tests/test_yolo_raw.py",
+      "original_sha256": "441d010a95522c250244bec9940f82d044d8d56356e176e72f8d8cfc592f2596",
+      "adapted": false
+    },
+    {
+      "path": "tests/test_yolo_sequence.py",
+      "sha256": "f60d0bf9f7abe6397f9e297a9a28b183fd324bd5fed215c1e69c8a57806c3d7a",
+      "source": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/sw/board_tests/dma_load_streaming_asram_512kib_2bank/tests/test_yolo_sequence.py",
+      "original_sha256": "f60d0bf9f7abe6397f9e297a9a28b183fd324bd5fed215c1e69c8a57806c3d7a",
+      "adapted": false
+    }
+  ]
+}

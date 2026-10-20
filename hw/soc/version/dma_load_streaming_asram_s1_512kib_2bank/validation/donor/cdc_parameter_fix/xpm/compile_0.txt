@@ -1,0 +1,11 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/rtl/interfaces/axi4_if.sv" into library work
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/rtl/bus/cdc_payload_fifo.sv" into library work
+INFO: [VRFC 10-311] analyzing module cdc_payload_fifo
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/rtl/bus/axi4_ui_write_cdc.sv" into library work
+INFO: [VRFC 10-311] analyzing module axi4_ui_write_cdc
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/rtl/memory/tensor_coherent_write_cdc.sv" into library work
+INFO: [VRFC 10-311] analyzing module tensor_coherent_write_cdc
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/tests/merged_dma/tb_tensor_coherent_write_cdc.sv" into library work
+INFO: [VRFC 10-311] analyzing module tb_tensor_coherent_write_cdc
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/glbl.v" into library work
+INFO: [VRFC 10-311] analyzing module glbl

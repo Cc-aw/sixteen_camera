@@ -1,0 +1,97 @@
+{
+  "peripheral" : {
+    "displayName" : "tensor-ingress.At0x2012000",
+    "baseAddress" : "0x2012000",
+    "regfields" : [ {
+      "unnamedRegField0_0" : {
+        "byteOffset" : "0x0",
+        "bitOffset" : 0,
+        "bitWidth" : 32
+      }
+    }, {
+      "unnamedRegField8_0" : {
+        "byteOffset" : "0x8",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField20_0" : {
+        "byteOffset" : "0x20",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField28_0" : {
+        "byteOffset" : "0x28",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField30_0" : {
+        "byteOffset" : "0x30",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField38_0" : {
+        "byteOffset" : "0x38",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField40_0" : {
+        "byteOffset" : "0x40",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField48_0" : {
+        "byteOffset" : "0x48",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField50_0" : {
+        "byteOffset" : "0x50",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField58_0" : {
+        "byteOffset" : "0x58",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField60_0" : {
+        "byteOffset" : "0x60",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField68_0" : {
+        "byteOffset" : "0x68",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField70_0" : {
+        "byteOffset" : "0x70",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField78_0" : {
+        "byteOffset" : "0x78",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField80_0" : {
+        "byteOffset" : "0x80",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    } ]
+  }
+}

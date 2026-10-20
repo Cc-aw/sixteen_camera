@@ -1,0 +1,5 @@
+/build/
+/config.local.mk
+# Frozen upstream resource vectors are source inputs, including ROM hex/bin.
+!/source/chipyard/**
+**/__pycache__/

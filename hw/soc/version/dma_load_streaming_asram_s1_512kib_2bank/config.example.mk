@@ -1,0 +1,4 @@
+VIVADO_BIN ?= vivado
+JAVA_HOME ?=
+SBT_LAUNCH ?=
+RISCV ?=

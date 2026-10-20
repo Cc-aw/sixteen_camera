@@ -1,0 +1,85 @@
+`timescale 1ns/1ps
+
+// Video-domain tensor ingress boundary.  This block is a passive observer of
+// transfers accepted by the frame-store writer; it therefore cannot add
+// backpressure to the live video path.
+module tensor_ingress_subsystem #(
+    parameter integer CHANNELS = 16,
+    parameter integer FRAME_WIDTH = 640,
+    parameter integer FRAME_HEIGHT = 480
+) (
+    input  wire                     clk,
+    input  wire                     resetn,
+    input  wire [CHANNELS*48-1:0]   tap_data,
+    input  wire [CHANNELS-1:0]      tap_accept,
+    input  wire [CHANNELS-1:0]      tap_sof,
+    input  wire [CHANNELS-1:0]      tap_eol,
+    input  wire [CHANNELS-1:0]      tap_eof,
+    input  wire [CHANNELS*32-1:0]   tap_frame_id,
+    input  wire [CHANNELS-1:0]      tap_error,
+    input  wire                     production_enable,
+    input  wire [CHANNELS-1:0]      admission_enable_mask,
+    input  wire [4:0]               admission_limit,
+    input  wire                     release_pulse,
+    input  wire [31:0]              release_mask,
+    output wire [31:0]              ready_mask,
+    output wire [31:0]              writing_mask,
+    output wire [31:0]              error_mask,
+    output wire [32*32-1:0]         slot_frame_ids,
+    output wire [32*64-1:0]         slot_timestamps,
+    output wire [32*32-1:0]         slot_versions,
+    output wire [32*8-1:0]          slot_error_codes,
+    output wire [32*32-1:0]         slot_byte_counts,
+    output wire [CHANNELS*32-1:0]   no_slot_counts,
+    output wire [CHANNELS*32-1:0]   missed_frame_counts,
+    output wire [CHANNELS*32-1:0]   admission_skip_counts,
+    output wire [CHANNELS*32-1:0]   overflow_counts,
+    output wire [15:0]              perf_outstanding_current,
+    output wire [15:0]              perf_outstanding_max,
+    output wire [31:0]              perf_source_starvation,
+    output wire [31:0]              perf_aw_stall_cycles,
+    output wire [31:0]              perf_w_stall_cycles,
+    output wire [31:0]              perf_w_transfer_cycles,
+    output wire [31:0]              perf_b_wait_cycles,
+    output wire [31:0]              perf_bursts_issued,
+    output wire [31:0]              perf_bursts_completed,
+    output wire [31:0]              perf_response_errors,
+    axi4_if.master                  m_axi
+);
+    yolov5nu_multi_channel_tensor_dma #(
+        .CHANNELS(CHANNELS),
+        .FRAME_WIDTH(FRAME_WIDTH),
+        .FRAME_HEIGHT(FRAME_HEIGHT)
+    ) u_tensor_dma (
+        .clk(clk), .resetn(resetn),
+        .production_enable(production_enable),
+        .admission_enable_mask(admission_enable_mask),
+        .admission_limit(admission_limit),
+        .release_pulse(release_pulse), .release_mask(release_mask),
+        .tap_data(tap_data), .tap_accept(tap_accept),
+        .tap_sof(tap_sof), .tap_eol(tap_eol), .tap_eof(tap_eof),
+        .tap_frame_id(tap_frame_id), .tap_error(tap_error),
+        .ready_mask(ready_mask), .writing_mask(writing_mask),
+        .error_mask(error_mask), .slot_frame_ids(slot_frame_ids),
+        .slot_timestamps(slot_timestamps), .slot_versions(slot_versions),
+        .slot_error_codes(slot_error_codes),
+        .slot_byte_counts(slot_byte_counts),
+        .no_slot_counts(no_slot_counts),
+        .missed_frame_counts(missed_frame_counts),
+        .admission_skip_counts(admission_skip_counts),
+        .overflow_counts(overflow_counts),
+        .perf_outstanding_current(perf_outstanding_current),
+        .perf_outstanding_max(perf_outstanding_max),
+        .perf_source_starvation(perf_source_starvation),
+        .perf_aw_stall_cycles(perf_aw_stall_cycles),
+        .perf_w_stall_cycles(perf_w_stall_cycles),
+        .perf_w_transfer_cycles(perf_w_transfer_cycles),
+        .perf_b_wait_cycles(perf_b_wait_cycles),
+        .perf_bursts_issued(perf_bursts_issued),
+        .perf_bursts_completed(perf_bursts_completed),
+        .perf_response_errors(perf_response_errors),
+        .perf_channel_index(4'd0), .perf_channel_fifo_level(),
+        .perf_channel_fifo_peak(), .perf_channel_wait_max(),
+        .perf_channel_bursts(), .m_axi(m_axi)
+    );
+endmodule

@@ -1,0 +1,2 @@
+warning: 1 deprecation; re-run with -deprecation for details
+1 warning

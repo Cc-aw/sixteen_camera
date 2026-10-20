@@ -1,0 +1,7 @@
+make: 进入目录“/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank”
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/scripts/build.py check
+ASRAM_AUDIT=PASS board_accessed=0
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/scripts/build_yolo.py check
+ASRAM_AUDIT=PASS board_accessed=0
+YOLO_ASRAM_AUDIT=PASS board_accessed=0
+make: 离开目录“/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank”

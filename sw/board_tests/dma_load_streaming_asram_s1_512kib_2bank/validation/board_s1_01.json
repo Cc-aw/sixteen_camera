@@ -1,0 +1,416 @@
+{
+  "schema": 1,
+  "status": "USER_BOARD_PASS",
+  "analyzed_utc": "2026-10-20T02:05:29.116956+00:00",
+  "hardware_build_id": "e037701c8d7cfc59",
+  "bitstream_sha256": "cb907a77e0c0bf97f5074208956884517d349485003a8d6613ca61b9f7e93a01",
+  "inputs": [
+    {
+      "source": "sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/logs/s1_model_01/model.log",
+      "archive": "validation/board_s1_01/s1_model_01/model.txt",
+      "sha256": "d2314e921ec2d3bbe3eb5720da28d75181cdaf9658a1a95e12905d194a51f5ec"
+    },
+    {
+      "source": "sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/logs/s1_model_01/model.summary.json",
+      "archive": "validation/board_s1_01/s1_model_01/model.summary.json",
+      "sha256": "569925eb055daf2233a642001103167699172c3c3adebf4d89142cde186bb83e"
+    },
+    {
+      "source": "sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/logs/s1_model_01/model.manifest.json",
+      "archive": "validation/board_s1_01/s1_model_01/model.manifest.json",
+      "sha256": "c9aa29ad8fa541a07ad6acc898379eb2521c45596df2c82d7ef7d2e43101a692"
+    },
+    {
+      "source": "sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/logs/s1_model_01/model.load.json",
+      "archive": "validation/board_s1_01/s1_model_01/model.load.json",
+      "sha256": "c818f07999a3385b9681081b8ad9ce11d7f370872a657d7c1e5fa2ed87f4e7d0"
+    },
+    {
+      "source": "sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/logs/s1_model_01/load_console.txt",
+      "archive": "validation/board_s1_01/s1_model_01/load_console.txt",
+      "sha256": "7cf9ec8307be9dfef16b97f132027361bba48b1da1c5ea15661bda9530b9c234"
+    },
+    {
+      "source": "sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/logs/s1_asram_01/asram.log",
+      "archive": "validation/board_s1_01/s1_asram_01/asram.txt",
+      "sha256": "8e6a7155e69caaa72fd9b8dbeb8b2525f0d963fca36b335b4e49e54e4d4fa02b"
+    },
+    {
+      "source": "sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/logs/s1_asram_01/asram.summary.json",
+      "archive": "validation/board_s1_01/s1_asram_01/asram.summary.json",
+      "sha256": "3b129fe57b33a58af9e6648f869767c972a21c3b968d28494cef036bc6ee3a8a"
+    },
+    {
+      "source": "sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/logs/s1_asram_01/asram.manifest.json",
+      "archive": "validation/board_s1_01/s1_asram_01/asram.manifest.json",
+      "sha256": "219dc74bec19dd88afac84c850e120e7f9e0d01f3db1a6adbb3c008f4cf8a8ac"
+    },
+    {
+      "source": "sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/logs/s1_asram_01/asram.load.json",
+      "archive": "validation/board_s1_01/s1_asram_01/asram.load.json",
+      "sha256": "c8d06040b8ad7c8c2adaa0d12ee9a6d7cc09bda44b6b749324846c1f29bcfc57"
+    },
+    {
+      "source": "sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/logs/s1_asram_01/load_console.txt",
+      "archive": "validation/board_s1_01/s1_asram_01/load_console.txt",
+      "sha256": "83877922d7bb67ada3e6a7f9e928b45a3f324160e003b82bc9c535e0aa41d9b2"
+    },
+    {
+      "source": "sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/logs/s1_bit_01/bitstream.json",
+      "archive": "validation/board_s1_01/s1_bit_01/bitstream.json",
+      "sha256": "4971eef9d975a16cd025cb553eda85fb7e4cc6ef3c96894431ee2e69a2e11aba"
+    }
+  ],
+  "asram_test": {
+    "status": "BOARD_PASS",
+    "memory_cases": 15,
+    "dma_cases": 108,
+    "parallel_cases": 1,
+    "denied_hole_probes": 12,
+    "unexpected_traps": 0
+  },
+  "model_test": {
+    "status": "BOARD_PASS",
+    "ppu_runs": 102,
+    "measured_windows": 6,
+    "warmup_windows": 7,
+    "measured_inferences": 72,
+    "reference_and_warmup_inferences": 30,
+    "ppu_count_and_all_40_result_words_match": true,
+    "guards_pass": true,
+    "dma_modes": [
+      2
+    ],
+    "sppf_asram": 0,
+    "clock_hz": 100000000,
+    "raw_head_pad_byte_diagnostic": "NOT_RUN",
+    "independent_accuracy": "NOT_PROVEN"
+  },
+  "same_bitstream_comparison": [
+    {
+      "round": "0",
+      "mode": "2",
+      "executor": "0",
+      "ddr_cycles": "96500077",
+      "local_cycles": "94007072",
+      "gain_x1000": "1026"
+    },
+    {
+      "round": "0",
+      "mode": "2",
+      "executor": "1",
+      "ddr_cycles": "93553343",
+      "local_cycles": "91084968",
+      "gain_x1000": "1027"
+    },
+    {
+      "round": "0",
+      "mode": "2",
+      "executor": "2",
+      "ddr_cycles": "36948080",
+      "local_cycles": "30918596",
+      "gain_x1000": "1195"
+    }
+  ],
+  "measurements": [
+    {
+      "storage": "ddr_arena",
+      "executor": 0,
+      "frames": 12,
+      "cycles": 96500077,
+      "amortized_ms_per_frame": 80.41673083333333,
+      "throughput_fps": 12.435223238215654,
+      "mean_frame_latency_ms": 80.41469166666667,
+      "min_frame_latency_ms": 80.34188,
+      "max_frame_latency_ms": 80.47444,
+      "frames_by_lane": {
+        "0": 12
+      },
+      "host_fraction_percent": 0.5146358587879676,
+      "parent_rounds": 3,
+      "parent_median_cycles": 98018178,
+      "parent_min_cycles": 97999357,
+      "parent_max_cycles": 98018756,
+      "parent_median_ms_per_frame": 81.681815,
+      "parent_time_reduction_percent": 1.548795367324618,
+      "parent_throughput_gain_percent": 1.5731604027632073
+    },
+    {
+      "storage": "ddr_arena",
+      "executor": 1,
+      "frames": 12,
+      "cycles": 93553343,
+      "amortized_ms_per_frame": 77.96111916666666,
+      "throughput_fps": 12.826906677188436,
+      "mean_frame_latency_ms": 77.95943583333333,
+      "min_frame_latency_ms": 77.91883,
+      "max_frame_latency_ms": 78.02239,
+      "frames_by_lane": {
+        "0": 12
+      },
+      "host_fraction_percent": 0.5214810976877651,
+      "parent_rounds": 3,
+      "parent_median_cycles": 95096435,
+      "parent_min_cycles": 95082608,
+      "parent_max_cycles": 95106181,
+      "parent_median_ms_per_frame": 79.24702916666666,
+      "parent_time_reduction_percent": 1.6226601975142363,
+      "parent_throughput_gain_percent": 1.649424756526341
+    },
+    {
+      "storage": "ddr_arena",
+      "executor": 2,
+      "frames": 12,
+      "cycles": 36948080,
+      "amortized_ms_per_frame": 30.790066666666664,
+      "throughput_fps": 32.4780069762759,
+      "mean_frame_latency_ms": 92.30206833333334,
+      "min_frame_latency_ms": 91.85096,
+      "max_frame_latency_ms": 93.09155,
+      "frames_by_lane": {
+        "0": 4,
+        "1": 4,
+        "2": 4
+      },
+      "host_fraction_percent": 1.7750340477773134,
+      "parent_rounds": 3,
+      "parent_median_cycles": 37444270,
+      "parent_min_cycles": 37376751,
+      "parent_max_cycles": 37462367,
+      "parent_median_ms_per_frame": 31.203558333333334,
+      "parent_time_reduction_percent": 1.3251426720296555,
+      "parent_throughput_gain_percent": 1.3429385234631885
+    },
+    {
+      "storage": "local_arena",
+      "executor": 0,
+      "frames": 12,
+      "cycles": 94007072,
+      "amortized_ms_per_frame": 78.33922666666668,
+      "throughput_fps": 12.764997084474667,
+      "mean_frame_latency_ms": 78.33718166666667,
+      "min_frame_latency_ms": 78.32621,
+      "max_frame_latency_ms": 78.36357,
+      "frames_by_lane": {
+        "0": 12
+      },
+      "host_fraction_percent": 0.5064119005855219,
+      "parent_rounds": 3,
+      "parent_median_cycles": 95335795,
+      "parent_min_cycles": 95334181,
+      "parent_max_cycles": 95338666,
+      "parent_median_ms_per_frame": 79.44649583333333,
+      "parent_time_reduction_percent": 1.393729396183252,
+      "parent_throughput_gain_percent": 1.4134287684228752
+    },
+    {
+      "storage": "local_arena",
+      "executor": 1,
+      "frames": 12,
+      "cycles": 91084968,
+      "amortized_ms_per_frame": 75.90414,
+      "throughput_fps": 13.174511956791816,
+      "mean_frame_latency_ms": 75.9024375,
+      "min_frame_latency_ms": 75.88935,
+      "max_frame_latency_ms": 75.92565,
+      "frames_by_lane": {
+        "0": 12
+      },
+      "host_fraction_percent": 0.5115289714983486,
+      "parent_rounds": 3,
+      "parent_median_cycles": 92386630,
+      "parent_min_cycles": 92384647,
+      "parent_max_cycles": 92389270,
+      "parent_median_ms_per_frame": 76.98885833333334,
+      "parent_time_reduction_percent": 1.4089289759784518,
+      "parent_throughput_gain_percent": 1.4290634652251333
+    },
+    {
+      "storage": "local_arena",
+      "executor": 2,
+      "frames": 12,
+      "cycles": 30918596,
+      "amortized_ms_per_frame": 25.765496666666667,
+      "throughput_fps": 38.811594161649516,
+      "mean_frame_latency_ms": 77.22986583333333,
+      "min_frame_latency_ms": 76.97138,
+      "max_frame_latency_ms": 77.68503,
+      "frames_by_lane": {
+        "0": 4,
+        "1": 4,
+        "2": 4
+      },
+      "host_fraction_percent": 1.7131955150874252,
+      "parent_rounds": 3,
+      "parent_median_cycles": 31350175,
+      "parent_min_cycles": 31346331,
+      "parent_max_cycles": 31354841,
+      "parent_median_ms_per_frame": 26.125145833333335,
+      "parent_time_reduction_percent": 1.3766398433182614,
+      "parent_throughput_gain_percent": 1.3958557497242063
+    }
+  ],
+  "parallel_scaling": {
+    "ddr_arena": {
+      "speedup_over_frontend_serial": 2.5320217721732767,
+      "efficiency_percent": 84.40072573910923
+    },
+    "local_arena": {
+      "speedup_over_frontend_serial": 2.9459606768690274,
+      "efficiency_percent": 98.19868922896758
+    }
+  },
+  "parent_comparison": {
+    "hardware_build_id": "e684b3d0484a9424",
+    "source": "sw/board_tests/dma_load_streaming_asram_512kib_2bank/validation/sppf_board/before",
+    "model_files_identical": 46,
+    "normalized_plan_hash": "12979502469084184013",
+    "dma_mode": 2,
+    "sppf_asram": 0,
+    "new_rounds": 1,
+    "parent_rounds": 3,
+    "note": "Whole-version comparison to parent ASRAM bitstream. S1 combines DMA streaming, L2 and board changes plus single-mode software adaptation; not an isolated L2 or streaming A/B."
+  },
+  "counter_comparison": [
+    {
+      "storage": "ddr_arena",
+      "executor": 0,
+      "lane": 0,
+      "unchanged_counter_ids": [
+        8,
+        9,
+        11,
+        18,
+        19,
+        20,
+        21,
+        22,
+        32,
+        33
+      ],
+      "fetch_wait_cycles": 12419139,
+      "parent_median_fetch_wait_cycles": 12800533,
+      "fetch_wait_reduction_percent": 2.9795165560684067,
+      "output_stall_cycles": 0,
+      "faults": 0
+    },
+    {
+      "storage": "ddr_arena",
+      "executor": 1,
+      "lane": 0,
+      "unchanged_counter_ids": [
+        8,
+        9,
+        11,
+        18,
+        19,
+        20,
+        21,
+        22,
+        32,
+        33
+      ],
+      "fetch_wait_cycles": 12408394,
+      "parent_median_fetch_wait_cycles": 12789631,
+      "fetch_wait_reduction_percent": 2.9808287666782562,
+      "output_stall_cycles": 0,
+      "faults": 0
+    },
+    {
+      "storage": "ddr_arena",
+      "executor": 2,
+      "lane": 0,
+      "unchanged_counter_ids": [
+        8,
+        9,
+        11,
+        18,
+        19,
+        20,
+        21,
+        22,
+        32,
+        33
+      ],
+      "fetch_wait_cycles": 4974504,
+      "parent_median_fetch_wait_cycles": 5103233,
+      "fetch_wait_reduction_percent": 2.522498972710041,
+      "output_stall_cycles": 0,
+      "faults": 0
+    },
+    {
+      "storage": "local_arena",
+      "executor": 0,
+      "lane": 0,
+      "unchanged_counter_ids": [
+        8,
+        9,
+        11,
+        18,
+        19,
+        20,
+        21,
+        22,
+        32,
+        33
+      ],
+      "fetch_wait_cycles": 10315038,
+      "parent_median_fetch_wait_cycles": 10754661,
+      "fetch_wait_reduction_percent": 4.087743909361718,
+      "output_stall_cycles": 0,
+      "faults": 0
+    },
+    {
+      "storage": "local_arena",
+      "executor": 1,
+      "lane": 0,
+      "unchanged_counter_ids": [
+        8,
+        9,
+        11,
+        18,
+        19,
+        20,
+        21,
+        22,
+        32,
+        33
+      ],
+      "fetch_wait_cycles": 10303214,
+      "parent_median_fetch_wait_cycles": 10735483,
+      "fetch_wait_reduction_percent": 4.0265444973458635,
+      "output_stall_cycles": 0,
+      "faults": 0
+    },
+    {
+      "storage": "local_arena",
+      "executor": 2,
+      "lane": 0,
+      "unchanged_counter_ids": [
+        8,
+        9,
+        11,
+        18,
+        19,
+        20,
+        21,
+        22,
+        32,
+        33
+      ],
+      "fetch_wait_cycles": 3560997,
+      "parent_median_fetch_wait_cycles": 3702119,
+      "fetch_wait_reduction_percent": 3.811925008353323,
+      "output_stall_cycles": 0,
+      "faults": 0
+    }
+  ],
+  "interpretation": [
+    "ASRAM improves concurrent throughput by 19.50% versus DDR on S1, with 2.946x scaling over one frontend worker.",
+    "S1 improves local parallel throughput by 1.396% versus the parent median; time per frame decreases by 1.377%.",
+    "Logical rows/bytes, TL Gets, SPAD writes and read bytes are unchanged. Fetch-wait counter decreases by about 2.5-4.1%.",
+    "HOST service is 1.71% of local-parallel batch wall cycles. Existing counters do not separate per-layer compute occupancy or streaming early-release cycles.",
+    "Parallel amortized time is a throughput metric; actual mean local-parallel frame latency is 77.23 ms."
+  ],
+  "board_accessed_by_agent": false
+}

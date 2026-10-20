@@ -1,0 +1,55 @@
+
+****** Vivado v2023.2 (64-bit)
+  **** SW Build 4029153 on Fri Oct 13 20:13:54 MDT 2023
+  **** IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+  **** SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+
+CRITICAL WARNING: [Common 17-741] No write access right to the local Tcl store at '/home/wzr/.Xilinx/Vivado/2023.2/XilinxTclStore'. XilinxTclStore is reverted to the installation area. If you want to use local Tcl Store, please change the access right and relaunch Vivado.
+source project_01_finish.tcl
+# set root {/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank}
+# open_project {/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/build/project_01/s1.xpr}
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/mnt/data/Vivado/Vivado/2023.2/data/ip'.
+WARNING: [filemgmt 56-443] The ECC Algorithm string is empty. Setting the Memory Map to default ECC value to ECC_NONE.
+WARNING: [filemgmt 56-443] The ECC Algorithm string is empty. Setting the Memory Map to default ECC value to ECC_NONE.
+open_project: Time (s): cpu = 00:00:06 ; elapsed = 00:00:23 . Memory (MB): peak = 1410.387 ; gain = 101.234 ; free physical = 1372 ; free virtual = 54674
+# set synth_run [get_runs synth_1]
+# set impl_run [get_runs impl_1]
+# set_property STRATEGY Flow_PerfOptimized_high $synth_run
+# set_property STEPS.SYNTH_DESIGN.ARGS.DIRECTIVE PerformanceOptimized $synth_run
+# set_property STEPS.SYNTH_DESIGN.ARGS.SHREG_MIN_SIZE 5 $synth_run
+# set_property STEPS.SYNTH_DESIGN.ARGS.RESOURCE_SHARING off $synth_run
+# set_property STEPS.SYNTH_DESIGN.ARGS.GLOBAL_RETIMING on $synth_run
+# set_property STRATEGY Performance_SpreadSLLs $impl_run
+# set_property STEPS.OPT_DESIGN.ARGS.DIRECTIVE ExploreWithRemap $impl_run
+# set_property STEPS.PLACE_DESIGN.ARGS.DIRECTIVE SSI_SpreadLogic_high $impl_run
+# set_property STEPS.PHYS_OPT_DESIGN.IS_ENABLED 1 $impl_run
+# set_property STEPS.PHYS_OPT_DESIGN.ARGS.DIRECTIVE AggressiveExplore $impl_run
+# set_property STEPS.ROUTE_DESIGN.ARGS.DIRECTIVE AlternateCLBRouting $impl_run
+# set_property -dict [list {STEPS.ROUTE_DESIGN.ARGS.MORE OPTIONS} {-tns_cleanup}] $impl_run
+# set_property STEPS.POST_ROUTE_PHYS_OPT_DESIGN.IS_ENABLED 1 $impl_run
+# set_property STEPS.POST_ROUTE_PHYS_OPT_DESIGN.ARGS.DIRECTIVE AggressiveExplore $impl_run
+# set hooks [file join $root board scripts npu3x32_100mhz]
+# foreach {run property name} {
+#     synth_1 STEPS.SYNTH_DESIGN.TCL.PRE init_s5.tcl
+#     impl_1 STEPS.INIT_DESIGN.TCL.PRE init_s5.tcl
+#     impl_1 STEPS.OPT_DESIGN.TCL.PRE memory_s4_pre_opt.tcl
+#     impl_1 STEPS.PLACE_DESIGN.TCL.PRE placement_merge_s1.tcl
+#     impl_1 STEPS.PHYS_OPT_DESIGN.TCL.PRE replicate_s5_critical_controls.tcl
+#     impl_1 STEPS.POST_ROUTE_PHYS_OPT_DESIGN.TCL.POST postroute_s5.tcl
+# } {
+#     set file [file join $hooks $name]
+#     if {![file isfile $file]} {error "Missing local hook $file"}
+#     add_files -fileset utils_1 -norecurse $file
+#     set_property $property $file [get_runs $run]
+# }
+WARNING: [filemgmt 56-12] File '/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/board/scripts/npu3x32_100mhz/init_s5.tcl' cannot be added to the project because it already exists in the project, skipping this file
+# puts "S1_PROJECT_RECONSTRUCTED=PASS NO_RUNS_LAUNCHED=1"
+S1_PROJECT_RECONSTRUCTED=PASS NO_RUNS_LAUNCHED=1
+# close_project
+INFO: [Common 17-206] Exiting Vivado at Tue Oct 20 09:52:04 2026...

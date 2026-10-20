@@ -1,0 +1,381 @@
+Vivado Simulator v2023.2
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: /mnt/data/Vivado/Vivado/2023.2/bin/unwrapped/lnx64.o/xelab tb_real_cluster -L unisims_ver --relax --mt 4 -s real32 
+Using 4 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+Completed static elaboration
+Starting simulation data flow analysis
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/FrontendWrappers.sv" Line 1. Module GemminiFrontendCluster doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/CommandFrontendCluster.sv" Line 46. Module CommandFrontendCluster doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/CommandFrontendEngine.sv" Line 64. Module CommandFrontendEngine doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/CommandFrontendEngine.sv" Line 64. Module CommandFrontendEngine doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/CommandFrontendEngine.sv" Line 64. Module CommandFrontendEngine doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/MemoryLane.sv" Line 2. Module MemoryLane_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/TestAsramBank.sv" Line 1. Module TestAsramBank_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ActivationSramTL.sv" Line 64. Module ActivationSramTL doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ActivationSramPort.sv" Line 64. Module ActivationSramPort doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue64_TLBundleA_a30d256s6k1z3u.sv" Line 59. Module Queue64_TLBundleA_a30d256s6k1z3u doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_64x334.sv" Line 3. Module ram_64x334 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue8_TLBundleD_a30d256s6k1z3u.sv" Line 59. Module Queue8_TLBundleD_a30d256s6k1z3u doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_8x273.sv" Line 3. Module ram_8x273 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ActivationSramPort.sv" Line 64. Module ActivationSramPort doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue64_TLBundleA_a30d256s6k1z3u.sv" Line 59. Module Queue64_TLBundleA_a30d256s6k1z3u doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_64x334.sv" Line 3. Module ram_64x334 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue8_TLBundleD_a30d256s6k1z3u.sv" Line 59. Module Queue8_TLBundleD_a30d256s6k1z3u doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_8x273.sv" Line 3. Module ram_8x273 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/activation_sram_store.sv" Line 6. Module activation_sram_store_default doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/CommandFrontendMemoryMux.sv" Line 64. Module CommandFrontendMemoryMux doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/TestGemmini.sv" Line 1. Module TestGemmini doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Gemmini.sv" Line 64. Module Gemmini doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Scratchpad.sv" Line 64. Module Scratchpad doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/TLXbar_i2_o1_a33d256s6k7z4u.sv" Line 64. Module TLXbar_i2_o1_a33d256s6k7z4u doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/StreamReader.sv" Line 46. Module StreamReader doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/StreamReaderCore.sv" Line 46. Module StreamReaderCore doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Arbiter2_TLBundleAWithInfo.sv" Line 2. Module Arbiter2_TLBundleAWithInfo doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue1_TLBundleAWithInfo.sv" Line 46. Module Queue1_TLBundleAWithInfo doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue1_TLBundleAWithInfo.sv" Line 46. Module Queue1_TLBundleAWithInfo doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/XactTracker.sv" Line 64. Module XactTracker doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BeatMerger.sv" Line 46. Module BeatMerger doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue.sv" Line 20. Module BankedShallowQueue doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_20_2.sv" Line 59. Module ShallowQueueRamSlice_20_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x20.sv" Line 3. Module ram_2x20 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_1.sv" Line 20. Module BankedShallowQueue_1 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" Line 59. Module ShallowQueueRamSlice_64_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" Line 3. Module ram_2x64 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_56_2.sv" Line 59. Module ShallowQueueRamSlice_56_2 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x56.sv" Line 3. Module ram_2x56 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/StreamWriter.sv" Line 64. Module StreamWriter doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/DmaWriteDataAlign.sv" Line 2. Module DmaWriteDataAlign doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Arbiter3_TLBundleAWithInfo.sv" Line 2. Module Arbiter3_TLBundleAWithInfo doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue1_TLBundleAWithInfo_3.sv" Line 46. Module Queue1_TLBundleAWithInfo_3 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue1_TLBundleAWithInfo_3.sv" Line 46. Module Queue1_TLBundleAWithInfo_3 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/TLBuffer_a33d256s5k7z4u.sv" Line 2. Module TLBuffer_a33d256s5k7z4u doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue2_TLBundleA_a33d256s5k7z4u.sv" Line 59. Module Queue2_TLBundleA_a33d256s5k7z4u doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x337.sv" Line 3. Module ram_2x337 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue2_TLBundleD_a33d256s5k7z4u.sv" Line 59. Module Queue2_TLBundleD_a33d256s5k7z4u doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x270.sv" Line 3. Module ram_2x270 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/TLBuffer_a33d256s5k7z4u.sv" Line 2. Module TLBuffer_a33d256s5k7z4u doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue2_TLBundleA_a33d256s5k7z4u.sv" Line 59. Module Queue2_TLBundleA_a33d256s5k7z4u doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x337.sv" Line 3. Module ram_2x337 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue2_TLBundleD_a33d256s5k7z4u.sv" Line 59. Module Queue2_TLBundleD_a33d256s5k7z4u doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x270.sv" Line 3. Module ram_2x270 doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/TLBuffer_a33d256s6k7z4u.sv" Line 2. Module TLBuffer_a33d256s6k7z4u doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue2_TLBundleA_a33d256s6k7z4u.sv" Line 59. Module Queue2_TLBundleA_a33d256s6k7z4u doesn't have a timescale but at least one module in design has a timescale.
+INFO: [Common 17-14] Message 'XSIM 43-4099' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module work.glbl
+Compiling module work.CommandFrontendEngine
+Compiling module work.CommandFrontendCluster
+Compiling module work.GemminiFrontendCluster
+Compiling module work.ram_64x334
+Compiling module work.Queue64_TLBundleA_a30d256s6k1z3u
+Compiling module work.ram_8x273
+Compiling module work.Queue8_TLBundleD_a30d256s6k1z3u
+Compiling module work.ActivationSramPort
+Compiling module unisims_ver.URAM288_BASE(BWE_MODE_A="PARITY_...
+Compiling module work.activation_sram_store_default
+Compiling module work.ActivationSramTL
+Compiling module work.TestAsramBank_default
+Compiling module work.CommandFrontendMemoryMux
+Compiling module work.TLXbar_i2_o1_a33d256s6k7z4u
+Compiling module work.Arbiter2_TLBundleAWithInfo
+Compiling module work.Queue1_TLBundleAWithInfo
+Compiling module work.StreamReaderCore
+Compiling module work.XactTracker
+Compiling module work.BeatMerger
+Compiling module work.ram_2x64
+Compiling module work.ShallowQueueRamSlice_64_2
+Compiling module work.ram_2x20
+Compiling module work.ShallowQueueRamSlice_20_2
+Compiling module work.BankedShallowQueue
+Compiling module work.ram_2x56
+Compiling module work.ShallowQueueRamSlice_56_2
+Compiling module work.BankedShallowQueue_1
+Compiling module work.StreamReader
+Compiling module work.DmaWriteDataAlign
+Compiling module work.Arbiter3_TLBundleAWithInfo
+Compiling module work.Queue1_TLBundleAWithInfo_3
+Compiling module work.StreamWriter
+Compiling module work.ram_2x337
+Compiling module work.Queue2_TLBundleA_a33d256s5k7z4u
+Compiling module work.ram_2x270
+Compiling module work.Queue2_TLBundleD_a33d256s5k7z4u
+Compiling module work.TLBuffer_a33d256s5k7z4u
+Compiling module work.ram_2x338
+Compiling module work.Queue2_TLBundleA_a33d256s6k7z4u
+Compiling module work.ram_2x280
+Compiling module work.Queue2_TLBundleD_a33d256s6k7z4u
+Compiling module work.TLBuffer_a33d256s6k7z4u
+Compiling module work.ram_2x367
+Compiling module work.Queue2_ScratchpadMemWriteRequest
+Compiling module work.ram_6x367
+Compiling module work.Queue6_ScratchpadMemWriteRequest
+Compiling module work.ram_5x190
+Compiling module work.Queue5_ScratchpadMemWriteRequest
+Compiling module work.ram_5x242
+Compiling module work.Queue5_ScratchpadMemReadRequest
+Compiling module work.DmaLoadReadPlanner
+Compiling module work.split_memory_0_ext
+Compiling module work.memory_0_ext
+Compiling module work.memory_0
+Compiling module work.memory_1
+Compiling module work.memory_2
+Compiling module work.memory_3
+Compiling module work.memory_4
+Compiling module work.memory_5
+Compiling module work.memory_6
+Compiling module work.memory_7
+Compiling module work.memory_8
+Compiling module work.memory_9
+Compiling module work.memory_10
+Compiling module work.memory_11
+Compiling module work.memory_12
+Compiling module work.memory_13
+Compiling module work.memory_14
+Compiling module work.memory_15
+Compiling module work.memory_16
+Compiling module work.memory_17
+Compiling module work.memory_18
+Compiling module work.memory_19
+Compiling module work.memory_20
+Compiling module work.memory_21
+Compiling module work.memory_22
+Compiling module work.memory_23
+Compiling module work.memory_24
+Compiling module work.memory_25
+Compiling module work.memory_26
+Compiling module work.memory_27
+Compiling module work.memory_28
+Compiling module work.memory_29
+Compiling module work.memory_30
+Compiling module work.memory_31
+Compiling module work.DmaLoadGroup
+Compiling module work.ZeroWriter
+Compiling module work.PixelRepeater
+Compiling module work.ram_2x57
+Compiling module work.ShallowQueueRamSlice_57_2
+Compiling module work.BankedShallowQueue_3
+Compiling module work.RRArbiter
+Compiling module work.RoundAnyRawFNToRecFN_ie4_is8_oe5...
+Compiling module work.INToRecFN_i8_e5_s11
+Compiling module work.MulFullRawFN
+Compiling module work.MulRawFN
+Compiling module work.RoundAnyRawFNToRecFN_ie5_is13_oe...
+Compiling module work.RoundRawFNToRecFN_e5_s11
+Compiling module work.RecFNToIN_e5_s11_i8
+Compiling module work.ScalePipe
+Compiling module work.VectorScalarMultiplier
+Compiling module work.ram_2x33
+Compiling module work.ShallowQueueRamSlice_33_2
+Compiling module work.BankedShallowQueue_4
+Compiling module work.Pipeline
+Compiling module work.VectorScalarMultiplier_1
+Compiling module work.ram_2x18
+Compiling module work.ShallowQueueRamSlice_18_2
+Compiling module work.BankedShallowQueue_5
+Compiling module work.ram_2x9
+Compiling module work.ShallowQueueRamSlice_9_2
+Compiling module work.BankedShallowQueue_6
+Compiling module work.PixelRepeater_1
+Compiling module work.BankedShallowQueue_7
+Compiling module work.DmaLoadRowAssembler
+Compiling module work.Queue1_ScratchpadReadResp
+Compiling module work.split_mem_ext
+Compiling module work.mem_ext
+Compiling module work.mem
+Compiling module work.ScratchpadBank
+Compiling module work.Queue1_ScratchpadReadReq
+Compiling module work.ram_4x64
+Compiling module work.ShallowQueueRamSlice_64_4
+Compiling module work.ram_4x1
+Compiling module work.ShallowQueueRamSlice_1_4
+Compiling module work.BankedShallowQueue_9
+Compiling module work.ram_2x46
+Compiling module work.ShallowQueueRamSlice_46_2
+Compiling module work.BankedShallowQueue_25
+Compiling module work.OrderedBankWrites
+Compiling module work.ram_2x32
+Compiling module work.ShallowQueueRamSlice_32_2
+Compiling module work.BankedShallowQueue_33
+Compiling module unisims_ver.RAMB36E2(CLOCK_DOMAINS="COMMON",...
+Compiling module work.SiluLutBramMulti_default
+Compiling module work.RRArbiter_4
+Compiling module work.RoundAnyRawFNToRecFN_ie6_is32_oe...
+Compiling module work.INToRecFN_i32_e5_s11
+Compiling module work.RecFNToIN_e5_s11_i32
+Compiling module work.AccScalePipe
+Compiling module work.RRArbiter_6
+Compiling module work.AccScalePipe_2
+Compiling module work.RRArbiter_8
+Compiling module work.AccScalePipe_4
+Compiling module work.RRArbiter_12
+Compiling module work.AccScalePipe_8
+Compiling module work.RRArbiter_20
+Compiling module work.AccScalePipe_16
+Compiling module work.RRArbiter_36
+Compiling module work.RRArbiter_38
+Compiling module work.RRArbiter_40
+Compiling module work.RRArbiter_44
+Compiling module work.RRArbiter_52
+Compiling module work.AccumulatorScale
+Compiling module work.ram_2x54
+Compiling module work.ShallowQueueRamSlice_54_2
+Compiling module work.BankedShallowQueue_34
+Compiling module work.ram_2x3
+Compiling module work.ShallowQueueRamSlice_3_2
+Compiling module work.BankedShallowQueue_35
+Compiling module work.mem_0_ext
+Compiling module work.mem_0
+Compiling module work.TwoPortSyncMem
+Compiling module work.GemminiLocalSelect_default
+Compiling module work.ram_2x22
+Compiling module work.ShallowQueueRamSlice_22_2
+Compiling module work.BankedShallowQueue_36
+Compiling module work.AccumulatorMem
+Compiling module work.LocalAccAdder
+Compiling module work.Queue1_AccumulatorReadReq
+Compiling module work.ram_2x12
+Compiling module work.ShallowQueueRamSlice_12_2
+Compiling module work.BankedShallowQueue_40
+Compiling module work.OrderedBankWrites_8
+Compiling module work.Scratchpad
+Compiling module work.CounterFile
+Compiling module work.CounterController
+Compiling module work.plusarg_reader(FORMAT="gemmini_t...
+Compiling module work.ReservationStation
+Compiling module work.ram_2x275
+Compiling module work.Queue2_GemminiCmd
+Compiling module work.LoopConvDerivedParamsPipe
+Compiling module work.Pipeline_1
+Compiling module work.Pipeline_2
+Compiling module work.LoopConvLdBias
+Compiling module work.Pipeline_5
+Compiling module work.Pipeline_6
+Compiling module work.LoopConvLdInput
+Compiling module work.Pipeline_10
+Compiling module work.Pipeline_11
+Compiling module work.LoopConvLdWeight
+Compiling module work.Pipeline_15
+Compiling module work.Pipeline_16
+Compiling module work.Pipeline_17
+Compiling module work.LoopConvExecute
+Compiling module work.Pipeline_18
+Compiling module work.Pipeline_19
+Compiling module work.LoopConvSt
+Compiling module work.Arbiter5_RoCCCommand
+Compiling module work.LoopConv
+Compiling module work.LoopMatmulLdA
+Compiling module work.LoopMatmulLdB
+Compiling module work.LoopMatmulLdD
+Compiling module work.LoopMatmulExecute
+Compiling module work.LoopMatmulStC
+Compiling module work.LoopMatmulStCSpad
+Compiling module work.WeightedArbiter
+Compiling module work.LoopMatmul
+Compiling module work.ram_16x247
+Compiling module work.Queue16_GemminiCmd
+Compiling module work.DMACommandTracker
+Compiling module work.LoadController
+Compiling module work.ram_8x247
+Compiling module work.Queue8_GemminiCmd
+Compiling module work.DMACommandTracker_1
+Compiling module work.StoreController
+Compiling module work.MultiHeadedQueue
+Compiling module work.TransposePreloadUnroller
+Compiling module work.RegisteredCommandWindow
+Compiling module work.ShallowQueueSlice
+Compiling module work.ShallowQueueSlice_1
+Compiling module work.BankedShallowQueue_44
+Compiling module work.PipelinedDualMac
+Compiling module work.Tile
+Compiling module work.GemminiTimingMac(OUTPUT_WIDTH=24...
+Compiling module work.PipelinedDualMac_4
+Compiling module work.Tile_1
+Compiling module work.Mesh
+Compiling module work.TagQueue
+Compiling module work.ram_11x10
+Compiling module work.Queue11_TagWithIdAndTotalRows
+Compiling module work.MeshWithDelays
+Compiling module work.TagQueue_1
+Compiling module work.split_memories_0_ext
+Compiling module work.memories_0_ext
+Compiling module work.memories_0
+Compiling module work.memories_1
+Compiling module work.memories_2
+Compiling module work.memories_3
+Compiling module work.memories_4
+Compiling module work.memories_5
+Compiling module work.memories_6
+Compiling module work.memories_7
+Compiling module work.ram_2x59
+Compiling module work.ShallowQueueRamSlice_59_2
+Compiling module work.BankedShallowQueue_45
+Compiling module work.TimingResultQueue
+Compiling module work.ram_2x48
+Compiling module work.ShallowQueueRamSlice_48_2
+Compiling module work.BankedShallowQueue_46
+Compiling module work.ExecuteController
+Compiling module work.Queue5_im2colRowSignals
+Compiling module work.Im2Col
+Compiling module work.Arbiter2_ScratchpadReadReq
+Compiling module work.Arbiter3_UInt7
+Compiling module work.Gemmini
+Compiling module work.TestGemmini
+Compiling module work.MemoryLane_default
+Compiling module work.ActivationSramPort_2
+Compiling module work.ActivationSramTL_1
+Compiling module work.TestAsramBank(ID=1)
+Compiling module work.MemoryLane(ID=1)
+Compiling module work.ActivationSramPort_4
+Compiling module work.ActivationSramTL_2
+Compiling module work.TestAsramBank(ID=2)
+Compiling module work.MemoryLane(ID=2)
+Compiling module work.tb_real_cluster
+Built simulation snapshot real32

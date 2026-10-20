@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "validated_utc": "2026-10-20T01:48:02.350386+00:00",
+  "hardware_build_id": "e037701c8d7cfc59",
+  "bitstream_sha256": "cb907a77e0c0bf97f5074208956884517d349485003a8d6613ca61b9f7e93a01",
+  "commands": [
+    "make test preflight"
+  ],
+  "elf_audits": "PASS: ASRAM + YOLO model + YOLO diagnostic",
+  "unit_tests": 22,
+  "unit_tests_status": "PASS",
+  "planner_inventory": "PASS: 18 tables, 10870 commands/frame; DDR/local/native normalized plans and stages equal",
+  "yolo_rounds": 1,
+  "yolo_sppf_asram": 0,
+  "default_inferences_per_model_or_diagnostic_suite": 102,
+  "initial_reference_inferences": 12,
+  "windows": 6,
+  "warmup_per_window": 3,
+  "measured_per_window": 12,
+  "dma_mode_ids": [
+    2
+  ],
+  "board_accessed": false,
+  "board_validation": "USER_BOARD_PASS",
+  "full_model_hardware_execution": "USER_BOARD_PASS",
+  "performance_result": "LOCAL_PARALLEL_38.8116_FPS",
+  "software_build_id": "4b67bf304612f0f954e1294b390cb7ee8bd56d2c2a151d17e813fdf731214c30",
+  "yolo_build_id": "4b67bf304612f0f954e1294b390cb7ee8bd56d2c2a151d17e813fdf731214c30",
+  "synthetic_logs": "Only host test fixtures; never board evidence",
+  "manual_commands": [
+    "make program-bitstream RUN=s1_bit_01",
+    "make board-run TEST=asram RUN=s1_asram_01",
+    "make board-run TEST=model RUN=s1_model_01"
+  ],
+  "board_evidence": "validation/board_s1_01.json",
+  "board_accessed_by_agent": false,
+  "board_executed_by": "USER",
+  "board_analysis_utc": "2026-10-20T02:05:29.116956+00:00",
+  "raw_head_pad_byte_diagnostic": "NOT_RUN"
+}

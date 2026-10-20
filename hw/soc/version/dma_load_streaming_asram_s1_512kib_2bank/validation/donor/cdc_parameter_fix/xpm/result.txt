@@ -1,0 +1,22 @@
+
+(isim-gdb)
+=elaboration-done,precision="-12",dp_address="135886357032976",dp_size="465532"
+(isim-gdb)
+^running
+(isim-gdb)
+-1*stopped,reason="run-complete",now="0",dp_address="135886255934032",dp_size="465532"
+(isim-gdb)
+^running
+(isim-gdb)
+@"Info: [XPM_MEMORY 20-1] MEMORY_PRIMITIVE (0) instructs Vivado Synthesis to choose the memory primitive type. Depending on their values, other XPM_MEMORY parameters may preclude the choice of certain memory primitive types. Review XPM_MEMORY documentation and parameter values to understand any limitations, or set MEMORY_PRIMITIVE to a different value. tb_tensor_coherent_write_cdc.dut.u_cdc.u_aw.u_fifo.\\gnuram_async_fifo.xpm_fifo_base_inst .\\gen_sdpram.xpm_memory_base_inst .config_drc\nTime: 1 ps  Iteration: 0  Process: /tb_tensor_coherent_write_cdc/dut/u_cdc/u_aw/u_fifo/gnuram_async_fifo.xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/Initial302_31  Scope: tb_tensor_coherent_write_cdc.dut.u_cdc.u_aw.u_fifo.\\gnuram_async_fifo.xpm_fifo_base_inst .\\gen_sdpram.xpm_memory_base_inst .config_drc  File: /mnt/data/Vivado/Vivado/2023.2/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv Line: 506\n"
+(isim-gdb)
+@"Info: [XPM_MEMORY 20-1] MEMORY_PRIMITIVE (0) instructs Vivado Synthesis to choose the memory primitive type. Depending on their values, other XPM_MEMORY parameters may preclude the choice of certain memory primitive types. Review XPM_MEMORY documentation and parameter values to understand any limitations, or set MEMORY_PRIMITIVE to a different value. tb_tensor_coherent_write_cdc.dut.u_cdc.u_w.u_fifo.\\gnuram_async_fifo.xpm_fifo_base_inst .\\gen_sdpram.xpm_memory_base_inst .config_drc\nTime: 1 ps  Iteration: 0  Process: /tb_tensor_coherent_write_cdc/dut/u_cdc/u_w/u_fifo/gnuram_async_fifo.xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/Initial302_138  Scope: tb_tensor_coherent_write_cdc.dut.u_cdc.u_w.u_fifo.\\gnuram_async_fifo.xpm_fifo_base_inst .\\gen_sdpram.xpm_memory_base_inst .config_drc  File: /mnt/data/Vivado/Vivado/2023.2/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv Line: 506\n"
+(isim-gdb)
+@"Info: [XPM_MEMORY 20-1] MEMORY_PRIMITIVE (0) instructs Vivado Synthesis to choose the memory primitive type. Depending on their values, other XPM_MEMORY parameters may preclude the choice of certain memory primitive types. Review XPM_MEMORY documentation and parameter values to understand any limitations, or set MEMORY_PRIMITIVE to a different value. tb_tensor_coherent_write_cdc.dut.u_cdc.u_b.u_fifo.\\gnuram_async_fifo.xpm_fifo_base_inst .\\gen_sdpram.xpm_memory_base_inst .config_drc\nTime: 1 ps  Iteration: 0  Process: /tb_tensor_coherent_write_cdc/dut/u_cdc/u_b/u_fifo/gnuram_async_fifo.xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/Initial302_245  Scope: tb_tensor_coherent_write_cdc.dut.u_cdc.u_b.u_fifo.\\gnuram_async_fifo.xpm_fifo_base_inst .\\gen_sdpram.xpm_memory_base_inst .config_drc  File: /mnt/data/Vivado/Vivado/2023.2/data/ip/xpm/xpm_memory/hdl/xpm_memory.sv Line: 506\n"
+(isim-gdb)
+@"TENSOR_COHERENT_CDC_PASS writes=48 address_id_mapping=checked backpressure=checked\n"
+(isim-gdb)
+-1*stopped,reason="finish",frame={linefile="8589934711"},now="3983000",scope="14"
+(isim-gdb)
+-1^exit
+(isim-gdb)

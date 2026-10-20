@@ -1,0 +1,182 @@
+{
+  "status": "BOARD_PASS",
+  "build": {
+    "schema": "1",
+    "hardware": "1",
+    "hardware_id": "e037701c8d7cfc59",
+    "package": "4b67bf304612f0f954e1294b390cb7ee8bd56d2c2a151d17e813fdf731214c30",
+    "rounds": "1",
+    "diagnostic": "0",
+    "frames": "12",
+    "warmup_frames": "3",
+    "modes": "1",
+    "profiles": "2",
+    "executors": "3",
+    "clock_hz": "100000000",
+    "layout": "original",
+    "ppu_runs": "monotonic"
+  },
+  "ppu_runs": 102,
+  "measured_records": 6,
+  "warmup_records": 7,
+  "comparison": "DDR legacy direct PPU count and all 40 result words",
+  "raw_head_bytes": 0,
+  "performance": "MEASURED_SAME_BITSTREAM",
+  "independent_accuracy": "NOT_PROVEN",
+  "summaries": [
+    {
+      "round": "0",
+      "mode": "2",
+      "executor": "0",
+      "ddr_cycles": "96500077",
+      "local_cycles": "94007072",
+      "gain_x1000": "1026"
+    },
+    {
+      "round": "0",
+      "mode": "2",
+      "executor": "1",
+      "ddr_cycles": "93553343",
+      "local_cycles": "91084968",
+      "gain_x1000": "1027"
+    },
+    {
+      "round": "0",
+      "mode": "2",
+      "executor": "2",
+      "ddr_cycles": "36948080",
+      "local_cycles": "30918596",
+      "gain_x1000": "1195"
+    }
+  ],
+  "workspaces": [
+    {
+      "storage": "ddr_arena",
+      "round": "0",
+      "sppf_local": "0",
+      "pad_bytes": "47872",
+      "intermediate_bytes": "38400",
+      "local_end": "2304000"
+    },
+    {
+      "storage": "ddr_arena",
+      "round": "0",
+      "sppf_local": "0",
+      "pad_bytes": "47872",
+      "intermediate_bytes": "38400",
+      "local_end": "2304000"
+    },
+    {
+      "storage": "local_arena",
+      "round": "0",
+      "sppf_local": "0",
+      "pad_bytes": "47872",
+      "intermediate_bytes": "38400",
+      "local_end": "2304000"
+    }
+  ],
+  "measurements": [
+    {
+      "sequence": "3",
+      "round": "0",
+      "storage": "ddr_arena",
+      "mode": "2",
+      "executor": "0",
+      "warmup": "0",
+      "frames": "12",
+      "cycles": "96500077",
+      "run_first": "16",
+      "run_last": "27",
+      "ppu_bit_exact": "1",
+      "guards": "1",
+      "pad_cycles": "453991",
+      "host_cycles": "496624",
+      "head_publish_cycles": "37009"
+    },
+    {
+      "sequence": "5",
+      "round": "0",
+      "storage": "ddr_arena",
+      "mode": "2",
+      "executor": "1",
+      "warmup": "0",
+      "frames": "12",
+      "cycles": "93553343",
+      "run_first": "31",
+      "run_last": "42",
+      "ppu_bit_exact": "1",
+      "guards": "1",
+      "pad_cycles": "453935",
+      "host_cycles": "487863",
+      "head_publish_cycles": "29849"
+    },
+    {
+      "sequence": "7",
+      "round": "0",
+      "storage": "ddr_arena",
+      "mode": "2",
+      "executor": "2",
+      "warmup": "0",
+      "frames": "12",
+      "cycles": "36948080",
+      "run_first": "46",
+      "run_last": "57",
+      "ppu_bit_exact": "1",
+      "guards": "1",
+      "pad_cycles": "608588",
+      "host_cycles": "655841",
+      "head_publish_cycles": "42366"
+    },
+    {
+      "sequence": "9",
+      "round": "0",
+      "storage": "local_arena",
+      "mode": "2",
+      "executor": "0",
+      "warmup": "0",
+      "frames": "12",
+      "cycles": "94007072",
+      "run_first": "61",
+      "run_last": "72",
+      "ppu_bit_exact": "1",
+      "guards": "1",
+      "pad_cycles": "435925",
+      "host_cycles": "476063",
+      "head_publish_cycles": "34658"
+    },
+    {
+      "sequence": "11",
+      "round": "0",
+      "storage": "local_arena",
+      "mode": "2",
+      "executor": "1",
+      "warmup": "0",
+      "frames": "12",
+      "cycles": "91084968",
+      "run_first": "76",
+      "run_last": "87",
+      "ppu_bit_exact": "1",
+      "guards": "1",
+      "pad_cycles": "433800",
+      "host_cycles": "465926",
+      "head_publish_cycles": "28067"
+    },
+    {
+      "sequence": "13",
+      "round": "0",
+      "storage": "local_arena",
+      "mode": "2",
+      "executor": "2",
+      "warmup": "0",
+      "frames": "12",
+      "cycles": "30918596",
+      "run_first": "91",
+      "run_last": "102",
+      "ppu_bit_exact": "1",
+      "guards": "1",
+      "pad_cycles": "495570",
+      "host_cycles": "529696",
+      "head_publish_cycles": "29790"
+    }
+  ]
+}

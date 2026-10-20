@@ -1,0 +1,3 @@
+ASRAM_REAL_TL_BEHAVIORAL_STORE_PASS cases=589 seed=171016 bank=0 cpu_rvv_executed=0
+ASRAM_REAL_TL_BEHAVIORAL_STORE_PASS cases=589 seed=171016 bank=1 cpu_rvv_executed=0
+ASRAM_REAL_TL_BEHAVIORAL_STORE_PASS cases=589 seed=171016 bank=2 cpu_rvv_executed=0

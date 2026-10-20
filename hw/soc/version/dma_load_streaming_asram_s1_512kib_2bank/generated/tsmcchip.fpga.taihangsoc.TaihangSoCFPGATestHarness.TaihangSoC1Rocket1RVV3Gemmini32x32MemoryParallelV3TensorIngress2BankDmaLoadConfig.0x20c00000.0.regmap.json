@@ -1,0 +1,835 @@
+{
+  "peripheral" : {
+    "displayName" : "activation-sram-control.At0x20c00000",
+    "baseAddress" : "0x20c00000",
+    "regfields" : [ {
+      "unnamedRegField0_0" : {
+        "byteOffset" : "0x0",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField8_0" : {
+        "byteOffset" : "0x8",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField10_0" : {
+        "byteOffset" : "0x10",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField18_0" : {
+        "byteOffset" : "0x18",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField20_0" : {
+        "byteOffset" : "0x20",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField28_0" : {
+        "byteOffset" : "0x28",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField30_0" : {
+        "byteOffset" : "0x30",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField38_0" : {
+        "byteOffset" : "0x38",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField40_0" : {
+        "byteOffset" : "0x40",
+        "bitOffset" : 0,
+        "bitWidth" : 2
+      }
+    }, {
+      "unnamedRegField48_0" : {
+        "byteOffset" : "0x48",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField50_0" : {
+        "byteOffset" : "0x50",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField58_0" : {
+        "byteOffset" : "0x58",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField60_0" : {
+        "byteOffset" : "0x60",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField68_0" : {
+        "byteOffset" : "0x68",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField70_0" : {
+        "byteOffset" : "0x70",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField78_0" : {
+        "byteOffset" : "0x78",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField80_0" : {
+        "byteOffset" : "0x80",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField88_0" : {
+        "byteOffset" : "0x88",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField100_0" : {
+        "byteOffset" : "0x100",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField108_0" : {
+        "byteOffset" : "0x108",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField110_0" : {
+        "byteOffset" : "0x110",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField118_0" : {
+        "byteOffset" : "0x118",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField120_0" : {
+        "byteOffset" : "0x120",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField128_0" : {
+        "byteOffset" : "0x128",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField130_0" : {
+        "byteOffset" : "0x130",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField138_0" : {
+        "byteOffset" : "0x138",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField140_0" : {
+        "byteOffset" : "0x140",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField148_0" : {
+        "byteOffset" : "0x148",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField150_0" : {
+        "byteOffset" : "0x150",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField158_0" : {
+        "byteOffset" : "0x158",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField160_0" : {
+        "byteOffset" : "0x160",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField168_0" : {
+        "byteOffset" : "0x168",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField170_0" : {
+        "byteOffset" : "0x170",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField178_0" : {
+        "byteOffset" : "0x178",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField180_0" : {
+        "byteOffset" : "0x180",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField188_0" : {
+        "byteOffset" : "0x188",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField190_0" : {
+        "byteOffset" : "0x190",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField198_0" : {
+        "byteOffset" : "0x198",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField200_0" : {
+        "byteOffset" : "0x200",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField208_0" : {
+        "byteOffset" : "0x208",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField210_0" : {
+        "byteOffset" : "0x210",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField218_0" : {
+        "byteOffset" : "0x218",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField220_0" : {
+        "byteOffset" : "0x220",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField228_0" : {
+        "byteOffset" : "0x228",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField230_0" : {
+        "byteOffset" : "0x230",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField238_0" : {
+        "byteOffset" : "0x238",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField240_0" : {
+        "byteOffset" : "0x240",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField248_0" : {
+        "byteOffset" : "0x248",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField250_0" : {
+        "byteOffset" : "0x250",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField258_0" : {
+        "byteOffset" : "0x258",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField260_0" : {
+        "byteOffset" : "0x260",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField268_0" : {
+        "byteOffset" : "0x268",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField270_0" : {
+        "byteOffset" : "0x270",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField278_0" : {
+        "byteOffset" : "0x278",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField280_0" : {
+        "byteOffset" : "0x280",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField288_0" : {
+        "byteOffset" : "0x288",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField290_0" : {
+        "byteOffset" : "0x290",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField298_0" : {
+        "byteOffset" : "0x298",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField500_0" : {
+        "byteOffset" : "0x500",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField508_0" : {
+        "byteOffset" : "0x508",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField510_0" : {
+        "byteOffset" : "0x510",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField518_0" : {
+        "byteOffset" : "0x518",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField520_0" : {
+        "byteOffset" : "0x520",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField528_0" : {
+        "byteOffset" : "0x528",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField530_0" : {
+        "byteOffset" : "0x530",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField538_0" : {
+        "byteOffset" : "0x538",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField540_0" : {
+        "byteOffset" : "0x540",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField548_0" : {
+        "byteOffset" : "0x548",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField550_0" : {
+        "byteOffset" : "0x550",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField558_0" : {
+        "byteOffset" : "0x558",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField560_0" : {
+        "byteOffset" : "0x560",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField568_0" : {
+        "byteOffset" : "0x568",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField570_0" : {
+        "byteOffset" : "0x570",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField578_0" : {
+        "byteOffset" : "0x578",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField580_0" : {
+        "byteOffset" : "0x580",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField588_0" : {
+        "byteOffset" : "0x588",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField590_0" : {
+        "byteOffset" : "0x590",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField598_0" : {
+        "byteOffset" : "0x598",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField600_0" : {
+        "byteOffset" : "0x600",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField608_0" : {
+        "byteOffset" : "0x608",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField610_0" : {
+        "byteOffset" : "0x610",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField618_0" : {
+        "byteOffset" : "0x618",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField620_0" : {
+        "byteOffset" : "0x620",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField628_0" : {
+        "byteOffset" : "0x628",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField630_0" : {
+        "byteOffset" : "0x630",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField638_0" : {
+        "byteOffset" : "0x638",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField640_0" : {
+        "byteOffset" : "0x640",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField648_0" : {
+        "byteOffset" : "0x648",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField650_0" : {
+        "byteOffset" : "0x650",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField658_0" : {
+        "byteOffset" : "0x658",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField660_0" : {
+        "byteOffset" : "0x660",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField668_0" : {
+        "byteOffset" : "0x668",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField670_0" : {
+        "byteOffset" : "0x670",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField678_0" : {
+        "byteOffset" : "0x678",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField680_0" : {
+        "byteOffset" : "0x680",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField688_0" : {
+        "byteOffset" : "0x688",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField690_0" : {
+        "byteOffset" : "0x690",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField698_0" : {
+        "byteOffset" : "0x698",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField900_0" : {
+        "byteOffset" : "0x900",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField908_0" : {
+        "byteOffset" : "0x908",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField910_0" : {
+        "byteOffset" : "0x910",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField918_0" : {
+        "byteOffset" : "0x918",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField920_0" : {
+        "byteOffset" : "0x920",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField928_0" : {
+        "byteOffset" : "0x928",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField930_0" : {
+        "byteOffset" : "0x930",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField938_0" : {
+        "byteOffset" : "0x938",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField940_0" : {
+        "byteOffset" : "0x940",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField948_0" : {
+        "byteOffset" : "0x948",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField950_0" : {
+        "byteOffset" : "0x950",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField958_0" : {
+        "byteOffset" : "0x958",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField960_0" : {
+        "byteOffset" : "0x960",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField968_0" : {
+        "byteOffset" : "0x968",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField970_0" : {
+        "byteOffset" : "0x970",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField978_0" : {
+        "byteOffset" : "0x978",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField980_0" : {
+        "byteOffset" : "0x980",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField988_0" : {
+        "byteOffset" : "0x988",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField990_0" : {
+        "byteOffset" : "0x990",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegField998_0" : {
+        "byteOffset" : "0x998",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda00_0" : {
+        "byteOffset" : "0xa00",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda08_0" : {
+        "byteOffset" : "0xa08",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda10_0" : {
+        "byteOffset" : "0xa10",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda18_0" : {
+        "byteOffset" : "0xa18",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda20_0" : {
+        "byteOffset" : "0xa20",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda28_0" : {
+        "byteOffset" : "0xa28",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda30_0" : {
+        "byteOffset" : "0xa30",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda38_0" : {
+        "byteOffset" : "0xa38",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda40_0" : {
+        "byteOffset" : "0xa40",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda48_0" : {
+        "byteOffset" : "0xa48",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda50_0" : {
+        "byteOffset" : "0xa50",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda58_0" : {
+        "byteOffset" : "0xa58",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda60_0" : {
+        "byteOffset" : "0xa60",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda68_0" : {
+        "byteOffset" : "0xa68",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda70_0" : {
+        "byteOffset" : "0xa70",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda78_0" : {
+        "byteOffset" : "0xa78",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda80_0" : {
+        "byteOffset" : "0xa80",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda88_0" : {
+        "byteOffset" : "0xa88",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda90_0" : {
+        "byteOffset" : "0xa90",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    }, {
+      "unnamedRegFielda98_0" : {
+        "byteOffset" : "0xa98",
+        "bitOffset" : 0,
+        "bitWidth" : 64
+      }
+    } ]
+  }
+}

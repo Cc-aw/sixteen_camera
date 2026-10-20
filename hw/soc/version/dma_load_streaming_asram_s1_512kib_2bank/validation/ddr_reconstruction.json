@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "status": "NORMALIZED_DDR_RTL_MATCH",
+  "normalization": "Remove line comments and Verilog attributes, strip whitespace on each nonempty line",
+  "local_path": "hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/build/project_01/s1.gen/sources_1/bd/design_1/synth/design_1.v",
+  "donor_path": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/prj/sixteen_camera.gen/sources_1/bd/design_1/synth/design_1.v",
+  "local_sha256": "f779e99edb8ea863847c6616505ad2564bdc4d6189e75433f447fcf4a016e38b",
+  "donor_sha256": "dcaf3f514450b616a5fc79ee0266a95b511567d2c4ac92b543123a4ae6a279b9",
+  "normalized_sha256": "227a59b4d226613e3cbbd2a0edcbbe12c50b0aa155cc1e35946e4a29ae287d0b",
+  "normalized_lines": 3638,
+  "note": "Functional RTL text comparison; not a new synthesis, PnR or board result"
+}

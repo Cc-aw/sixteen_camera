@@ -1,0 +1,6 @@
+make: 进入目录“/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank”
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/scripts/lock.py
+S1_LOCAL_SOURCE_LOCK files=10836
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/scripts/audit.py
+S1_IMPORT_AUDIT_PASS hardware_id=e037701c8d7cfc59 scala=2287 generated=849 bitstream_sha256=cb907a77e0c0bf97f5074208956884517d349485003a8d6613ca61b9f7e93a01 board_validation=NOT_RUN_THIS_IMPORT
+make: 离开目录“/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank”

@@ -1,0 +1,383 @@
+{
+  "schema": 1,
+  "excluded": [
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/401.bzip2.gz",
+      "sha256": "43f526246e0a337b886be7ca9782048ca720f6910cda6ca2755b04390806c5ce",
+      "bytes": 4385950,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/403.gcc.gz",
+      "sha256": "10080ad70772016ccd20ad42e9136b9416820f1bdc763d79729906645a8d6152",
+      "bytes": 209583,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/429.mcf.gz",
+      "sha256": "833b2be578cf5c64db98c6fb3adf66e2dce6e7001dee62b7169253041f8011c1",
+      "bytes": 72790184,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/433.milc.gz",
+      "sha256": "506bef2662a60ece5dd2b0b922752c1368a99c001d69cf42bd9f5d43b4865d40",
+      "bytes": 15577361,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/434.zeusmp.gz",
+      "sha256": "6a6208335e07ef6c842492df073e0f1e4f5f9321ceeb090dd376bc1539a74ac7",
+      "bytes": 11918926,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/435.gromacs.gz",
+      "sha256": "5e377bb43555138e36a5249cfb7cf6207df113ebf43aeeacb49aabb502d75269",
+      "bytes": 1025405,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/436.cactusADM.gz",
+      "sha256": "0150b6e5383ae9e0a050650e394f75258489bb99bf818b565250e6303de75fb4",
+      "bytes": 4589341,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/437.leslie3d.gz",
+      "sha256": "077f142f8c0f58634b3f5ddfebcf236b5d796404aaaa585903d48e7cd8888564",
+      "bytes": 15595568,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/444.namd.gz",
+      "sha256": "9da4fa4239b3676fd0500dc8399dfdcc9b3d57311d9c5ff2872d458dbb0182a3",
+      "bytes": 100194,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/445.gobmk.gz",
+      "sha256": "7e127f645b369d520f890ac95366869a911d7b21b403b9804199e9639c2fceaf",
+      "bytes": 812537,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/447.dealII.gz",
+      "sha256": "f67ad7046463684bef017e92c2f1b9b44b7a6e9dea1920eb9dcc82121d7857fd",
+      "bytes": 138073,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/450.soplex.gz",
+      "sha256": "d19ce8e572c701809007c27c085361873e896154d986ed9529d31aab967b87e0",
+      "bytes": 29353709,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/456.hmmer.gz",
+      "sha256": "031a8a94317d61a5ce4bd8217fc7a038c9c71943d2d51e5c78cee418393e4301",
+      "bytes": 3870060,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/458.sjeng.gz",
+      "sha256": "9c7fa39314c6529e9dea4fbb432060b447404cd7c866d3ea09cffe1fc21df07d",
+      "bytes": 685090,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/459.GemsFDTD.gz",
+      "sha256": "26f35c7bdef7d04760170c956064638c6e9a119224c272a3be611cf0dfc6eb86",
+      "bytes": 23233869,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/462.libquantum.gz",
+      "sha256": "6c890077b671299e87ecc0fcd512c5057396a3ee6bfde3733f961d44c2831d20",
+      "bytes": 17878610,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/464.h264ref.gz",
+      "sha256": "30d19dab58614ef9dc9ad6ad4c261250c7959f4cc5469a85ae15bd7b9a731a61",
+      "bytes": 1322314,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/470.lbm.gz",
+      "sha256": "d2a7f5a475d86e775ef43228c3c87e32a56d484f5dbcec64b6ccd325a8331bb7",
+      "bytes": 32210147,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/471.omnetpp.gz",
+      "sha256": "a6355f0ecb2458a0d8c51f8b8ad832be6fff0a5edb56181ad08f45aa6087f860",
+      "bytes": 14773101,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/473.astar.gz",
+      "sha256": "6245d232bc17f03cdf511a8b0db70c330cdf64dc2bb9c16fb44a9d26bb73eb08",
+      "bytes": 7635289,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/481.wrf.gz",
+      "sha256": "bbebc064d1db2d3d701c88121acd197b5d5007340fc887ffe2c644b62bad4169",
+      "bytes": 169681,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/482.sphinx3.gz",
+      "sha256": "c4e8b53e3b9f2f4bf2214ae5636d9e69394052a6ec7143d8eef7fb10ce0261bc",
+      "bytes": 10712877,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/third_party/ramulator/cputraces/483.xalancbmk.gz",
+      "sha256": "6636beabd32e9bf6602b9e868a636d22088b2e8afae1af23d0101d4234fb08ac",
+      "bytes": 15355835,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/tests/opencl/nearn/cane4_0.db",
+      "sha256": "ab2843d14581a9655484680a01cf8573182e89bb805ab8d0845760425a99de67",
+      "bytes": 523859,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/tests/opencl/nearn/cane4_1.db",
+      "sha256": "c18e97284b8481ec036fa14d7ee6791fc918504f1b99589fa273ff13d79f702b",
+      "bytes": 523859,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/tests/opencl/nearn/cane4_2.db",
+      "sha256": "3562b6d6d99006dfe4d011cfd1e9f3573f356ba6040a6a104d5f0b8cb5596daa",
+      "bytes": 523859,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/tests/opencl/nearn/cane4_3.db",
+      "sha256": "000e9dbc0d8c44aab4052f7f64558d4518dc261bd748c941fbcae969adb9e545",
+      "bytes": 523859,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/NanGate_15nm_OCL.db",
+      "sha256": "893f0d24d878726d5bc9e9b6f244ae2c67e9512bbc86fe3bdf71ecaef5e211ff",
+      "bytes": 802816,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/2d_hardmacro_db/rf2_128x128_wm1_ff_0p99v_0p99v_125c.db",
+      "sha256": "09f7b8b96017989fe378bbc6911fed00b0b1ff9c6b7e71eb2478f8183a84b610",
+      "bytes": 448512,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/2d_hardmacro_db/rf2_128x128_wm1_ss_0p81v_0p81v_m40c.db",
+      "sha256": "8f030bbcd9a3baf46ebdda1bc5435d772990c6fb511bb218f4a50b57184b65c5",
+      "bytes": 448512,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/2d_hardmacro_db/rf2_128x128_wm1_tt_0p90v_0p90v_25c.db",
+      "sha256": "6042cf4066662b3d044ee6a96d367e971e80ab881e22819a1d5609e53002c389",
+      "bytes": 448512,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/2d_hardmacro_db/rf2_256x128_wm1_ff_0p99v_0p99v_125c.db",
+      "sha256": "91a1c04685203377bfa06376c58534245ee9c45359510cb8888314f8f997a0c5",
+      "bytes": 448768,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/2d_hardmacro_db/rf2_256x128_wm1_ss_0p81v_0p81v_m40c.db",
+      "sha256": "447fc7cdb462f8fd15b8e36dae9a13dd2f9754e8b5a0a382d21a03e052a9630b",
+      "bytes": 448768,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/2d_hardmacro_db/rf2_256x128_wm1_tt_0p90v_0p90v_25c.db",
+      "sha256": "593e98eac6ab338690c0dcfa07f70d7c24e73626f8e1cb204acb535878346217",
+      "bytes": 450560,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/2d_hardmacro_db/rf2_256x19_wm0_ff_0p99v_0p99v_125c.db",
+      "sha256": "01873d007180374a11b06e327015eacd7014cb7b2dcea0840934ae7bd0f3db08",
+      "bytes": 130560,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/2d_hardmacro_db/rf2_256x19_wm0_ss_0p81v_0p81v_m40c.db",
+      "sha256": "a1607406f8aaf68c15598c0d0cd683768a833500beb306cb27777a130a8120a9",
+      "bytes": 130560,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/2d_hardmacro_db/rf2_256x19_wm0_tt_0p90v_0p90v_25c.db",
+      "sha256": "a52ffb169bf1fa7bcc30d2685eda0ae864d48c5d70eb96d79aa93dcb967fdb19",
+      "bytes": 130560,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/2d_hardmacro_db/rf2_32x128_wm1_ff_0p99v_0p99v_125c.db",
+      "sha256": "f62eaa40f66c6d9a728e30d39315ba2a81a650ad0190c136ab45b3d6f9cfdf7a",
+      "bytes": 448000,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/2d_hardmacro_db/rf2_32x128_wm1_ss_0p81v_0p81v_m40c.db",
+      "sha256": "e2c04585927059026cba051c359f07552a3ec7b82a908c96c3ee005b5e2507d4",
+      "bytes": 448000,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/2d_hardmacro_db/rf2_32x128_wm1_tt_0p90v_0p90v_25c.db",
+      "sha256": "4c3a1c4e0aa0a77fc2c9089b71b582eb7a7cbcc3714578ec9196f6172e344d70",
+      "bytes": 448000,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_128x128_wm1/rf2_128x128_wm1_ff_0p99v_0p99v_125c.db",
+      "sha256": "09f7b8b96017989fe378bbc6911fed00b0b1ff9c6b7e71eb2478f8183a84b610",
+      "bytes": 448512,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_128x128_wm1/rf2_128x128_wm1_ss_0p81v_0p81v_m40c.db",
+      "sha256": "8f030bbcd9a3baf46ebdda1bc5435d772990c6fb511bb218f4a50b57184b65c5",
+      "bytes": 448512,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_128x128_wm1/rf2_128x128_wm1_tt_0p90v_0p90v_25c.db",
+      "sha256": "6042cf4066662b3d044ee6a96d367e971e80ab881e22819a1d5609e53002c389",
+      "bytes": 448512,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_256x128_wm1/rf2_256x128_wm1_ff_0p99v_0p99v_125c.db",
+      "sha256": "91a1c04685203377bfa06376c58534245ee9c45359510cb8888314f8f997a0c5",
+      "bytes": 448768,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_256x128_wm1/rf2_256x128_wm1_ss_0p81v_0p81v_m40c.db",
+      "sha256": "447fc7cdb462f8fd15b8e36dae9a13dd2f9754e8b5a0a382d21a03e052a9630b",
+      "bytes": 448768,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_256x128_wm1/rf2_256x128_wm1_tt_0p90v_0p90v_25c.db",
+      "sha256": "593e98eac6ab338690c0dcfa07f70d7c24e73626f8e1cb204acb535878346217",
+      "bytes": 450560,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_256x19_wm0/rf2_256x19_wm0_ff_0p99v_0p99v_125c.db",
+      "sha256": "01873d007180374a11b06e327015eacd7014cb7b2dcea0840934ae7bd0f3db08",
+      "bytes": 130560,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_256x19_wm0/rf2_256x19_wm0_ss_0p81v_0p81v_m40c.db",
+      "sha256": "a1607406f8aaf68c15598c0d0cd683768a833500beb306cb27777a130a8120a9",
+      "bytes": 130560,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_256x19_wm0/rf2_256x19_wm0_tt_0p90v_0p90v_25c.db",
+      "sha256": "a52ffb169bf1fa7bcc30d2685eda0ae864d48c5d70eb96d79aa93dcb967fdb19",
+      "bytes": 130560,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_32x128_wm1/rf2_32x128_wm1_ff_0p99v_0p99v_125c.db",
+      "sha256": "f62eaa40f66c6d9a728e30d39315ba2a81a650ad0190c136ab45b3d6f9cfdf7a",
+      "bytes": 448000,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_32x128_wm1/rf2_32x128_wm1_ss_0p81v_0p81v_m40c.db",
+      "sha256": "e2c04585927059026cba051c359f07552a3ec7b82a908c96c3ee005b5e2507d4",
+      "bytes": 448000,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpm/rf2_32x128_wm1/rf2_32x128_wm1_tt_0p90v_0p90v_25c.db",
+      "sha256": "4c3a1c4e0aa0a77fc2c9089b71b582eb7a7cbcc3714578ec9196f6172e344d70",
+      "bytes": 448000,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpc/rf2_32x128_wm1/rf2_32x128_wm1_ff_0p99v_0p99v_m40c.lib_sh5p1cm",
+      "sha256": "777f06c7766f4c7ac510d23e7ccf4dfb0d19c1bc34dcb69af36d44a8f830e2c9",
+      "bytes": 4666136,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpc/rf2_32x128_wm1/vsim/work/_lib1_0.qpg",
+      "sha256": "e977a22ea49728709c382ca0f92039e2057c89774950c09b3abf20670e7182c3",
+      "bytes": 3596288,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpc/rf2_32x128_wm1/vsim/work/@_opt/_lib1_0.qpg",
+      "sha256": "478f7f5ea9142948ccf33b6d1afe80129db47bfb4ab8c89a50be19602b14836d",
+      "bytes": 65536,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpc/rf2_32x128_wm1/vsim/work/@_opt/_lib2_0.qpg",
+      "sha256": "529001935e1337d6c4a50b834388ed0f1c55c58f70cded73cfc3284eb621ce3a",
+      "bytes": 1908736,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpc/rf2_32x128_wm1/vsim/work/@_opt/_lib3_0.qpg",
+      "sha256": "67314215519933bca657fc1323f6b5042736d53ea6a3589be326ccbb0a47e7bf",
+      "bytes": 1671168,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpc/rf2_32x128_wm1/vsim/work/@_opt/_lib4_0.qpg",
+      "sha256": "b47969b4cfa857ec4b46182f7401c614d9c75e04e77a5282210d943b599bbd07",
+      "bytes": 7495680,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/radiance/src/main/resources/vsrc/vortex/hw/syn/synopsys/models/memory/cln28hpc/rf2_32x128_wm1/vsim/work/@_opt/_lib5_0.qpg",
+      "sha256": "de676bae28a480011d3d012db14bef539324e62a841a9627863c689bea168af3",
+      "bytes": 24576,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/constellation/src/main/resources/csrc/netrace/testraces/example.tra.bz2",
+      "sha256": "ce24f24311e3fac9ccff0705e50900d13dfd3d2d929b8019bcf7dc3a1b79cf67",
+      "bytes": 1733,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/constellation/src/main/resources/csrc/netrace/testraces/lngrex.tra.bz2",
+      "sha256": "c0b6c27a7182afa81dd32223800cd9d90bc713268e4d574d45e880e41944bb20",
+      "bytes": 695149,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/constellation/src/main/resources/csrc/netrace/testraces/multiregion.tra.bz2",
+      "sha256": "f61c42f3003e6e3e78c51244dbfe9639b401f3024384a1d4029a22c6c4a7ee4d",
+      "bytes": 180260,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    },
+    {
+      "path": "source/chipyard/generators/constellation/src/main/resources/csrc/netrace/testraces/shrtex.tra.bz2",
+      "sha256": "91980a6fc510fb66fbc2b86402511baf06661d222e018a65138feb05917175b6",
+      "bytes": 253,
+      "reason": "Unused third-party simulator traces / ASIC compiled library, outside S1 FPGA elaboration"
+    }
+  ]
+}

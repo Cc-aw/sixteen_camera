@@ -1,0 +1,541 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/AccScalePipe.sv" into library work
+INFO: [VRFC 10-311] analyzing module AccScalePipe
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/AccScalePipe_16.sv" into library work
+INFO: [VRFC 10-311] analyzing module AccScalePipe_16
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/AccScalePipe_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module AccScalePipe_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/AccScalePipe_4.sv" into library work
+INFO: [VRFC 10-311] analyzing module AccScalePipe_4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/AccScalePipe_8.sv" into library work
+INFO: [VRFC 10-311] analyzing module AccScalePipe_8
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/AccumulatorMem.sv" into library work
+INFO: [VRFC 10-311] analyzing module AccumulatorMem
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/AccumulatorScale.sv" into library work
+INFO: [VRFC 10-311] analyzing module AccumulatorScale
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ActivationSramPort.sv" into library work
+INFO: [VRFC 10-311] analyzing module ActivationSramPort
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ActivationSramPort_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ActivationSramPort_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ActivationSramPort_4.sv" into library work
+INFO: [VRFC 10-311] analyzing module ActivationSramPort_4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ActivationSramTL.sv" into library work
+INFO: [VRFC 10-311] analyzing module ActivationSramTL
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ActivationSramTL_1.sv" into library work
+INFO: [VRFC 10-311] analyzing module ActivationSramTL_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ActivationSramTL_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ActivationSramTL_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Arbiter2_ScratchpadReadReq.sv" into library work
+INFO: [VRFC 10-311] analyzing module Arbiter2_ScratchpadReadReq
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Arbiter2_TLBundleAWithInfo.sv" into library work
+INFO: [VRFC 10-311] analyzing module Arbiter2_TLBundleAWithInfo
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Arbiter3_TLBundleAWithInfo.sv" into library work
+INFO: [VRFC 10-311] analyzing module Arbiter3_TLBundleAWithInfo
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Arbiter3_UInt7.sv" into library work
+INFO: [VRFC 10-311] analyzing module Arbiter3_UInt7
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Arbiter5_RoCCCommand.sv" into library work
+INFO: [VRFC 10-311] analyzing module Arbiter5_RoCCCommand
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_1.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_25.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_25
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_3.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_3
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_33.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_33
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_34.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_34
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_35.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_35
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_36.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_36
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_4.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_40.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_40
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_44.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_44
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_45.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_45
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_46.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_46
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_5.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_5
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_6.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_6
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_7.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_7
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BankedShallowQueue_9.sv" into library work
+INFO: [VRFC 10-311] analyzing module BankedShallowQueue_9
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/BeatMerger.sv" into library work
+INFO: [VRFC 10-311] analyzing module BeatMerger
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/CommandFrontendCluster.sv" into library work
+INFO: [VRFC 10-311] analyzing module CommandFrontendCluster
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/CommandFrontendEngine.sv" into library work
+INFO: [VRFC 10-311] analyzing module CommandFrontendEngine
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/CommandFrontendMemoryMux.sv" into library work
+INFO: [VRFC 10-311] analyzing module CommandFrontendMemoryMux
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/CounterController.sv" into library work
+INFO: [VRFC 10-311] analyzing module CounterController
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/CounterFile.sv" into library work
+INFO: [VRFC 10-311] analyzing module CounterFile
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/DMACommandTracker.sv" into library work
+INFO: [VRFC 10-311] analyzing module DMACommandTracker
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/DMACommandTracker_1.sv" into library work
+INFO: [VRFC 10-311] analyzing module DMACommandTracker_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/DmaLoadGroup.sv" into library work
+INFO: [VRFC 10-311] analyzing module DmaLoadGroup
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/DmaLoadReadPlanner.sv" into library work
+INFO: [VRFC 10-311] analyzing module DmaLoadReadPlanner
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/DmaLoadRowAssembler.sv" into library work
+INFO: [VRFC 10-311] analyzing module DmaLoadRowAssembler
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/DmaWriteDataAlign.sv" into library work
+INFO: [VRFC 10-311] analyzing module DmaWriteDataAlign
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ExecuteController.sv" into library work
+INFO: [VRFC 10-311] analyzing module ExecuteController
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Gemmini.sv" into library work
+INFO: [VRFC 10-311] analyzing module Gemmini
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/GemminiLocalSelect.sv" into library work
+INFO: [VRFC 10-311] analyzing module GemminiLocalSelect
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/GemminiTimingMac.sv" into library work
+INFO: [VRFC 10-311] analyzing module GemminiTimingMac
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/INToRecFN_i32_e5_s11.sv" into library work
+INFO: [VRFC 10-311] analyzing module INToRecFN_i32_e5_s11
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/INToRecFN_i8_e5_s11.sv" into library work
+INFO: [VRFC 10-311] analyzing module INToRecFN_i8_e5_s11
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Im2Col.sv" into library work
+INFO: [VRFC 10-311] analyzing module Im2Col
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LoadController.sv" into library work
+INFO: [VRFC 10-311] analyzing module LoadController
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LocalAccAdder.sv" into library work
+INFO: [VRFC 10-311] analyzing module LocalAccAdder
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LoopConv.sv" into library work
+INFO: [VRFC 10-311] analyzing module LoopConv
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LoopConvDerivedParamsPipe.sv" into library work
+INFO: [VRFC 10-311] analyzing module LoopConvDerivedParamsPipe
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LoopConvExecute.sv" into library work
+INFO: [VRFC 10-311] analyzing module LoopConvExecute
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LoopConvLdBias.sv" into library work
+INFO: [VRFC 10-311] analyzing module LoopConvLdBias
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LoopConvLdInput.sv" into library work
+INFO: [VRFC 10-311] analyzing module LoopConvLdInput
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LoopConvLdWeight.sv" into library work
+INFO: [VRFC 10-311] analyzing module LoopConvLdWeight
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LoopConvSt.sv" into library work
+INFO: [VRFC 10-311] analyzing module LoopConvSt
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LoopMatmul.sv" into library work
+INFO: [VRFC 10-311] analyzing module LoopMatmul
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LoopMatmulExecute.sv" into library work
+INFO: [VRFC 10-311] analyzing module LoopMatmulExecute
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LoopMatmulLdA.sv" into library work
+INFO: [VRFC 10-311] analyzing module LoopMatmulLdA
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LoopMatmulLdB.sv" into library work
+INFO: [VRFC 10-311] analyzing module LoopMatmulLdB
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LoopMatmulLdD.sv" into library work
+INFO: [VRFC 10-311] analyzing module LoopMatmulLdD
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LoopMatmulStC.sv" into library work
+INFO: [VRFC 10-311] analyzing module LoopMatmulStC
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/LoopMatmulStCSpad.sv" into library work
+INFO: [VRFC 10-311] analyzing module LoopMatmulStCSpad
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Mesh.sv" into library work
+INFO: [VRFC 10-311] analyzing module Mesh
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/MeshWithDelays.sv" into library work
+INFO: [VRFC 10-311] analyzing module MeshWithDelays
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/MulFullRawFN.sv" into library work
+INFO: [VRFC 10-311] analyzing module MulFullRawFN
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/MulRawFN.sv" into library work
+INFO: [VRFC 10-311] analyzing module MulRawFN
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/MultiHeadedQueue.sv" into library work
+INFO: [VRFC 10-311] analyzing module MultiHeadedQueue
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/OrderedBankWrites.sv" into library work
+INFO: [VRFC 10-311] analyzing module OrderedBankWrites
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/OrderedBankWrites_8.sv" into library work
+INFO: [VRFC 10-311] analyzing module OrderedBankWrites_8
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Pipeline.sv" into library work
+INFO: [VRFC 10-311] analyzing module Pipeline
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Pipeline_1.sv" into library work
+INFO: [VRFC 10-311] analyzing module Pipeline_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Pipeline_10.sv" into library work
+INFO: [VRFC 10-311] analyzing module Pipeline_10
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Pipeline_11.sv" into library work
+INFO: [VRFC 10-311] analyzing module Pipeline_11
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Pipeline_15.sv" into library work
+INFO: [VRFC 10-311] analyzing module Pipeline_15
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Pipeline_16.sv" into library work
+INFO: [VRFC 10-311] analyzing module Pipeline_16
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Pipeline_17.sv" into library work
+INFO: [VRFC 10-311] analyzing module Pipeline_17
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Pipeline_18.sv" into library work
+INFO: [VRFC 10-311] analyzing module Pipeline_18
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Pipeline_19.sv" into library work
+INFO: [VRFC 10-311] analyzing module Pipeline_19
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Pipeline_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module Pipeline_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Pipeline_5.sv" into library work
+INFO: [VRFC 10-311] analyzing module Pipeline_5
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Pipeline_6.sv" into library work
+INFO: [VRFC 10-311] analyzing module Pipeline_6
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/PipelinedDualMac.sv" into library work
+INFO: [VRFC 10-311] analyzing module PipelinedDualMac
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/PipelinedDualMac_4.sv" into library work
+INFO: [VRFC 10-311] analyzing module PipelinedDualMac_4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/PixelRepeater.sv" into library work
+INFO: [VRFC 10-311] analyzing module PixelRepeater
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/PixelRepeater_1.sv" into library work
+INFO: [VRFC 10-311] analyzing module PixelRepeater_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue11_TagWithIdAndTotalRows.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue11_TagWithIdAndTotalRows
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue16_GemminiCmd.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue16_GemminiCmd
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue1_AccumulatorReadReq.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue1_AccumulatorReadReq
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue1_ScratchpadReadReq.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue1_ScratchpadReadReq
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue1_ScratchpadReadResp.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue1_ScratchpadReadResp
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue1_TLBundleAWithInfo.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue1_TLBundleAWithInfo
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue1_TLBundleAWithInfo_3.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue1_TLBundleAWithInfo_3
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue2_GemminiCmd.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue2_GemminiCmd
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue2_ScratchpadMemWriteRequest.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue2_ScratchpadMemWriteRequest
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue2_TLBundleA_a33d256s5k7z4u.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue2_TLBundleA_a33d256s5k7z4u
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue2_TLBundleA_a33d256s6k7z4u.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue2_TLBundleA_a33d256s6k7z4u
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue2_TLBundleD_a33d256s5k7z4u.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue2_TLBundleD_a33d256s5k7z4u
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue2_TLBundleD_a33d256s6k7z4u.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue2_TLBundleD_a33d256s6k7z4u
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue5_ScratchpadMemReadRequest.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue5_ScratchpadMemReadRequest
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue5_ScratchpadMemWriteRequest.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue5_ScratchpadMemWriteRequest
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue5_im2colRowSignals.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue5_im2colRowSignals
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue64_TLBundleA_a30d256s6k1z3u.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue64_TLBundleA_a30d256s6k1z3u
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue6_ScratchpadMemWriteRequest.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue6_ScratchpadMemWriteRequest
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue8_GemminiCmd.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue8_GemminiCmd
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Queue8_TLBundleD_a30d256s6k1z3u.sv" into library work
+INFO: [VRFC 10-311] analyzing module Queue8_TLBundleD_a30d256s6k1z3u
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RRArbiter.sv" into library work
+INFO: [VRFC 10-311] analyzing module RRArbiter
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RRArbiter_12.sv" into library work
+INFO: [VRFC 10-311] analyzing module RRArbiter_12
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RRArbiter_20.sv" into library work
+INFO: [VRFC 10-311] analyzing module RRArbiter_20
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RRArbiter_36.sv" into library work
+INFO: [VRFC 10-311] analyzing module RRArbiter_36
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RRArbiter_38.sv" into library work
+INFO: [VRFC 10-311] analyzing module RRArbiter_38
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RRArbiter_4.sv" into library work
+INFO: [VRFC 10-311] analyzing module RRArbiter_4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RRArbiter_40.sv" into library work
+INFO: [VRFC 10-311] analyzing module RRArbiter_40
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RRArbiter_44.sv" into library work
+INFO: [VRFC 10-311] analyzing module RRArbiter_44
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RRArbiter_52.sv" into library work
+INFO: [VRFC 10-311] analyzing module RRArbiter_52
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RRArbiter_6.sv" into library work
+INFO: [VRFC 10-311] analyzing module RRArbiter_6
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RRArbiter_8.sv" into library work
+INFO: [VRFC 10-311] analyzing module RRArbiter_8
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RecFNToIN_e5_s11_i32.sv" into library work
+INFO: [VRFC 10-311] analyzing module RecFNToIN_e5_s11_i32
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RecFNToIN_e5_s11_i8.sv" into library work
+INFO: [VRFC 10-311] analyzing module RecFNToIN_e5_s11_i8
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RegisteredCommandWindow.sv" into library work
+INFO: [VRFC 10-311] analyzing module RegisteredCommandWindow
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ReservationStation.sv" into library work
+INFO: [VRFC 10-311] analyzing module ReservationStation
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RoundAnyRawFNToRecFN_ie4_is8_oe5_os11.sv" into library work
+INFO: [VRFC 10-311] analyzing module RoundAnyRawFNToRecFN_ie4_is8_oe5_os11
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RoundAnyRawFNToRecFN_ie5_is13_oe5_os11.sv" into library work
+INFO: [VRFC 10-311] analyzing module RoundAnyRawFNToRecFN_ie5_is13_oe5_os11
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RoundAnyRawFNToRecFN_ie6_is32_oe5_os11.sv" into library work
+INFO: [VRFC 10-311] analyzing module RoundAnyRawFNToRecFN_ie6_is32_oe5_os11
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/RoundRawFNToRecFN_e5_s11.sv" into library work
+INFO: [VRFC 10-311] analyzing module RoundRawFNToRecFN_e5_s11
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ScalePipe.sv" into library work
+INFO: [VRFC 10-311] analyzing module ScalePipe
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Scratchpad.sv" into library work
+INFO: [VRFC 10-311] analyzing module Scratchpad
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ScratchpadBank.sv" into library work
+INFO: [VRFC 10-311] analyzing module ScratchpadBank
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_12_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_12_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_18_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_18_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_1_4.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_1_4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_20_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_20_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_22_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_22_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_32_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_32_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_33_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_33_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_3_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_3_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_46_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_46_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_48_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_48_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_54_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_54_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_56_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_56_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_57_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_57_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_59_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_59_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_64_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_64_4.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_64_4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueRamSlice_9_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueRamSlice_9_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueSlice.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueSlice
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ShallowQueueSlice_1.sv" into library work
+INFO: [VRFC 10-311] analyzing module ShallowQueueSlice_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/SiluLutBramMulti.sv" into library work
+INFO: [VRFC 10-311] analyzing module SiluLutBramMulti
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/StoreController.sv" into library work
+INFO: [VRFC 10-311] analyzing module StoreController
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/StreamReader.sv" into library work
+INFO: [VRFC 10-311] analyzing module StreamReader
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/StreamReaderCore.sv" into library work
+INFO: [VRFC 10-311] analyzing module StreamReaderCore
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/StreamWriter.sv" into library work
+INFO: [VRFC 10-311] analyzing module StreamWriter
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/TLBuffer_a33d256s5k7z4u.sv" into library work
+INFO: [VRFC 10-311] analyzing module TLBuffer_a33d256s5k7z4u
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/TLBuffer_a33d256s6k7z4u.sv" into library work
+INFO: [VRFC 10-311] analyzing module TLBuffer_a33d256s6k7z4u
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/TLXbar_i2_o1_a33d256s6k7z4u.sv" into library work
+INFO: [VRFC 10-311] analyzing module TLXbar_i2_o1_a33d256s6k7z4u
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/TagQueue.sv" into library work
+INFO: [VRFC 10-311] analyzing module TagQueue
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/TagQueue_1.sv" into library work
+INFO: [VRFC 10-311] analyzing module TagQueue_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Tile.sv" into library work
+INFO: [VRFC 10-311] analyzing module Tile
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/Tile_1.sv" into library work
+INFO: [VRFC 10-311] analyzing module Tile_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/TimingResultQueue.sv" into library work
+INFO: [VRFC 10-311] analyzing module TimingResultQueue
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/TransposePreloadUnroller.sv" into library work
+INFO: [VRFC 10-311] analyzing module TransposePreloadUnroller
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/TwoPortSyncMem.sv" into library work
+INFO: [VRFC 10-311] analyzing module TwoPortSyncMem
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/VectorScalarMultiplier.sv" into library work
+INFO: [VRFC 10-311] analyzing module VectorScalarMultiplier
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/VectorScalarMultiplier_1.sv" into library work
+INFO: [VRFC 10-311] analyzing module VectorScalarMultiplier_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/WeightedArbiter.sv" into library work
+INFO: [VRFC 10-311] analyzing module WeightedArbiter
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/XactTracker.sv" into library work
+INFO: [VRFC 10-311] analyzing module XactTracker
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ZeroWriter.sv" into library work
+INFO: [VRFC 10-311] analyzing module ZeroWriter
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/activation_sram_store.sv" into library work
+INFO: [VRFC 10-311] analyzing module activation_sram_store
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/mem.sv" into library work
+INFO: [VRFC 10-311] analyzing module mem
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/mem_0.sv" into library work
+INFO: [VRFC 10-311] analyzing module mem_0
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memories_0.sv" into library work
+INFO: [VRFC 10-311] analyzing module memories_0
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memories_1.sv" into library work
+INFO: [VRFC 10-311] analyzing module memories_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memories_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module memories_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memories_3.sv" into library work
+INFO: [VRFC 10-311] analyzing module memories_3
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memories_4.sv" into library work
+INFO: [VRFC 10-311] analyzing module memories_4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memories_5.sv" into library work
+INFO: [VRFC 10-311] analyzing module memories_5
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memories_6.sv" into library work
+INFO: [VRFC 10-311] analyzing module memories_6
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memories_7.sv" into library work
+INFO: [VRFC 10-311] analyzing module memories_7
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_0.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_0
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_1.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_10.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_10
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_11.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_11
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_12.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_12
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_13.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_13
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_14.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_14
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_15.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_15
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_16.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_16
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_17.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_17
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_18.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_18
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_19.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_19
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_2.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_2
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_20.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_20
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_21.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_21
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_22.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_22
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_23.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_23
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_24.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_24
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_25.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_25
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_26.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_26
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_27.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_27
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_28.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_28
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_29.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_29
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_3.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_3
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_30.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_30
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_31.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_31
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_4.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_4
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_5.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_5
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_6.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_6
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_7.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_7
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_8.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_8
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/memory_9.sv" into library work
+INFO: [VRFC 10-311] analyzing module memory_9
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/plusarg_reader.v" into library work
+INFO: [VRFC 10-311] analyzing module plusarg_reader
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_11x10.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_11x10
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_16x247.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_16x247
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x12.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x12
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x18.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x18
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x20.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x20
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x22.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x22
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x270.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x270
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x275.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x275
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x280.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x280
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x3.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x3
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x32.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x32
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x33.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x33
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x337.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x337
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x338.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x338
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x367.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x367
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x46.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x46
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x48.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x48
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x54.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x54
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x56.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x56
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x57.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x57
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x59.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x59
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x64.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x64
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_2x9.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_2x9
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_4x1.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_4x1
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_4x64.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_4x64
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_5x190.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_5x190
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_5x242.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_5x242
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_64x334.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_64x334
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_6x367.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_6x367
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_8x247.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_8x247
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/ram_8x273.sv" into library work
+INFO: [VRFC 10-311] analyzing module ram_8x273
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/generated/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig/gen-collateral/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig.top.mems.v" into library work
+INFO: [VRFC 10-311] analyzing module cc_dir_ext
+INFO: [VRFC 10-311] analyzing module cc_banks_0_ext
+INFO: [VRFC 10-311] analyzing module rockettile_dcache_data_arrays_0_ext
+INFO: [VRFC 10-311] analyzing module rockettile_dcache_tag_array_ext
+INFO: [VRFC 10-311] analyzing module memory_0_ext
+INFO: [VRFC 10-311] analyzing module mem_ext
+INFO: [VRFC 10-311] analyzing module mem_0_ext
+INFO: [VRFC 10-311] analyzing module memories_0_ext
+INFO: [VRFC 10-311] analyzing module rockettile_icache_tag_array_ext
+INFO: [VRFC 10-311] analyzing module rockettile_icache_data_arrays_0_ext
+INFO: [VRFC 10-311] analyzing module mem_1_ext
+INFO: [VRFC 10-311] analyzing module split_cc_dir_ext
+INFO: [VRFC 10-311] analyzing module split_cc_banks_0_ext
+INFO: [VRFC 10-311] analyzing module split_rockettile_dcache_data_arrays_0_ext
+INFO: [VRFC 10-311] analyzing module split_rockettile_dcache_tag_array_ext
+INFO: [VRFC 10-311] analyzing module split_memory_0_ext
+INFO: [VRFC 10-311] analyzing module split_mem_ext
+INFO: [VRFC 10-311] analyzing module split_mem_0_ext
+INFO: [VRFC 10-311] analyzing module split_memories_0_ext
+INFO: [VRFC 10-311] analyzing module split_rockettile_icache_tag_array_ext
+INFO: [VRFC 10-311] analyzing module split_rockettile_icache_data_arrays_0_ext
+INFO: [VRFC 10-311] analyzing module split_mem_1_ext
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/FrontendWrappers.sv" into library work
+INFO: [VRFC 10-311] analyzing module GemminiFrontendCluster
+INFO: [VRFC 10-311] analyzing module GemminiFrontendMemoryMux
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/TestGemmini.sv" into library work
+INFO: [VRFC 10-311] analyzing module TestGemmini
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/MemoryLane.sv" into library work
+INFO: [VRFC 10-311] analyzing module MemoryLane
+WARNING: [VRFC 10-3380] identifier 'inject_fault' is used before its declaration [/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/MemoryLane.sv:83]
+WARNING: [VRFC 10-3380] identifier 'inject_fault' is used before its declaration [/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/MemoryLane.sv:84]
+WARNING: [VRFC 10-3380] identifier 'input_rows' is used before its declaration [/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/MemoryLane.sv:127]
+WARNING: [VRFC 10-3380] identifier 'output_rows' is used before its declaration [/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/MemoryLane.sv:133]
+WARNING: [VRFC 10-3380] identifier 'stream_active' is used before its declaration [/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/MemoryLane.sv:287]
+WARNING: [VRFC 10-3380] identifier 'stream_early_rows' is used before its declaration [/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/MemoryLane.sv:346]
+WARNING: [VRFC 10-3380] identifier 'stream_early_rows' is used before its declaration [/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/MemoryLane.sv:347]
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/tb_real_cluster.sv" into library work
+INFO: [VRFC 10-311] analyzing module tb_real_cluster
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/sunys/sixteen_camera_3x32_100mhz_dma_streaming_asram_512kib_2bank_s1_2026-10-19/validation/merged_gemmini_asram/simulation/TestAsramBank.sv" into library work
+INFO: [VRFC 10-311] analyzing module TestAsramBank
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/glbl.v" into library work
+INFO: [VRFC 10-311] analyzing module glbl

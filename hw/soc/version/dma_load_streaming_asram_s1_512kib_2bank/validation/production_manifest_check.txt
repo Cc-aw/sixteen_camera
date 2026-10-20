@@ -1,0 +1,3 @@
+PRODUCTION_MANIFEST=PASS rtl=126 ip=10 xdc=6 soc=tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig
+CURRENT_PRODUCT=PASS triple32_v3_tensor frontend=3 workers=3 dim=32 credit=4
+FIRMWARE_COMPATIBILITY=pending_frontend_port

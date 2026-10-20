@@ -1,0 +1,18 @@
+{
+  "status": "TENSOR_COHERENT_XPM_CDC_PASS",
+  "writes": 48,
+  "related_clocks_by_channel": {
+    "AW": 0,
+    "W": 0,
+    "B": 0
+  },
+  "actual_vendor_xpm_model": true,
+  "sources": {
+    "rtl/interfaces/axi4_if.sv": "1688ade49aa039b5de240b1182b74ab2a4172bea7d57c325728b6d0612863fce",
+    "rtl/bus/cdc_payload_fifo.sv": "86bc672d4b89b9c035cd019a227acd7fa37c94359f4da4795495fb38486f5488",
+    "rtl/bus/axi4_ui_write_cdc.sv": "97d08eaaf33a1792407a19b7a0890510c704543d6c87ca4e507f7efdf8bb4d89",
+    "rtl/memory/tensor_coherent_write_cdc.sv": "999799765f84a243e47d182877295e5d1d5b18832e786ed87e7fb217db050261",
+    "tests/merged_dma/tb_tensor_coherent_write_cdc.sv": "a13b4f1d3288ec036dd547f4245bf507094f5e4e2ab0826d826da1d1e0742cbb",
+    "/mnt/data/Vivado/Vivado/2023.2/data/verilog/src/glbl.v": "6270251cf35e1fce3119fc79f8fb968912f7983027e43cf030409ba68f048936"
+  }
+}
