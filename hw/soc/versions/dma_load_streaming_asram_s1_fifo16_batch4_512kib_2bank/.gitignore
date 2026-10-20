@@ -1,0 +1,9 @@
+/build/
+/config.local.mk
+/generated/*.fir
+/generated/*.anno.json
+/generated/*.graphml
+/generated/*.f
+/generated/.mfc_lowering_options
+!/source/chipyard/**
+**/__pycache__/

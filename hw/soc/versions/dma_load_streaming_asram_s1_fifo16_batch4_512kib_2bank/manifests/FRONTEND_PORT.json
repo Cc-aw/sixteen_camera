@@ -1,0 +1,17 @@
+{
+  "CommandFrontend.scala": {
+    "baseline_sha256": "28e8254a2d93b4e8114184a833473a33ccfd103308cf09ff316622dcd599b5aa",
+    "ported_sha256": "7dbefe449feaddaef55c629a6a6fde74e5d09d1d9cda07967b4081fcbdefe30f",
+    "donor_sha256": "702a9fbf9cdacf54356fe86e8092d5fca91fd3ceb89c11da4d443005983cdbe5"
+  },
+  "CommandFrontendMemory.scala": {
+    "baseline_sha256": "260913b607b28479a52a99ff4ccfe775de24cad7edead89fa3b46daf2eeb77a9",
+    "ported_sha256": "7e18afe3e94020394aa3eef85264ff8218f0ca07983d4f82b5e88f43a06b1324",
+    "donor_sha256": "7e18afe3e94020394aa3eef85264ff8218f0ca07983d4f82b5e88f43a06b1324"
+  },
+  "CommandFrontendAttach.scala": {
+    "baseline_sha256": "bc23b40f2cc83a708e93731e21ef48c305be496a7cddcb803cd2ba5735a198bb",
+    "ported_sha256": "2bea4e0ddee4f1ad6c621a4fdcdfdf5e75e0860a0426ae850f93b74f2598b726",
+    "donor_sha256": "d0b7e8c3b4cf52e822a300e0df54f5140348a83b99bb6e02691db1ca1fed9fe5"
+  }
+}

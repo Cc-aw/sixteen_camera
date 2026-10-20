@@ -1,0 +1,294 @@
+--- baseline/source/chipyard/generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontend.scala
++++ batch4/source/chipyard/generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontend.scala
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: Apache-2.0
+ // Native Chisel port of the board-tested AtestRuntimev5 engine and cluster.
+-// Canonical editable source. scripts/sync_sources.py installs into Chipyard.
++// Canonical source for this independent S1 FIFO16/fetch4 hardware version.
+ package freechips.rocketchip.tile.commandfrontend
+ 
+ import chisel3._
+@@ -27,15 +27,19 @@
+   val cursor = Output(UInt(32.W)); val completed_cursor = Output(UInt(32.W))
+   val host_tag = Output(UInt(64.W)); val state_out = Output(UInt(4.W)); val fifo_level = Output(UInt(32.W))
+   val mem_req_valid = Output(Bool()); val mem_req_ready = Input(Bool())
+-  val mem_req_address = Output(UInt(32.W)); val mem_resp_valid = Input(Bool())
++  val mem_req_address = Output(UInt(32.W)); val mem_req_size = Output(UInt(3.W))
++  val mem_resp_valid = Input(Bool()); val mem_resp_last = Input(Bool())
+   val mem_resp_ready = Output(Bool()); val mem_resp_data = Input(UInt(256.W)); val mem_resp_error = Input(Bool())
+   val cmd_valid = Output(Bool()); val cmd_ready = Input(Bool()); val cmd_funct = Output(UInt(7.W))
+   val cmd_rs1 = Output(UInt(64.W)); val cmd_rs2 = Output(UInt(64.W))
+   val gemmini_busy = Input(Bool()); val gemmini_fault = Input(Bool())
+ }
+ 
+-class CommandFrontendEngine(val fifoDepth: Int = 8, val quietCycles: Int = 4,
+-                            val allowTargetExtensions: Boolean = false, val allowActivationSram: Boolean = false) extends Module {
++class CommandFrontendEngine(val fifoDepth: Int = 16, val quietCycles: Int = 4,
++                            val allowTargetExtensions: Boolean = false,
++                            val allowActivationSram: Boolean = false,
++                            val fetchEntries: Int = 4) extends Module {
++  require(Set(1, 2, 4).contains(fetchEntries) && fifoDepth >= fetchEntries)
+   require(fifoDepth >= 2 && quietCycles >= 2)
+   val io = IO(new CommandFrontendEngineIO)
+   val idle = 0.U(4.W); val run = 1.U(4.W); val drain = 2.U(4.W)
+@@ -49,6 +53,16 @@
+   val used = RegInit(0.U(log2Ceil(fifoDepth+1).W))
+   val quiet = RegInit(0.U(log2Ceil(quietCycles+1).W))
+   val awaiting = RegInit(false.B); val reqValid = RegInit(false.B); val reqAddress = RegInit(0.U(32.W))
++  val reqSize = RegInit(5.U(3.W)); val responseLeft = RegInit(0.U(3.W))
++  val requestEntries = (1.U(3.W) << (reqSize - 5.U))(2,0)
++  val nextAddress = (base + (fetchIndex << 5))(31,0)
++  val remaining = count - fetchIndex
++  // Preserve the 32-byte table ABI: short/alignment prologue and tail fetches
++  // never read beyond the descriptor. Reserve the ENTIRE batch in the FIFO.
++  val nextSize = if (fetchEntries == 1) 5.U(3.W) else
++    Mux((fetchEntries == 4).B && !nextAddress(6,0).orR && remaining >= 4.U, 7.U,
++      Mux(!nextAddress(5,0).orR && remaining >= 2.U, 6.U, 5.U))
++  val nextEntries = (1.U(3.W) << (nextSize - 5.U))(2,0)
+   val cmdValid = RegInit(false.B); val functReg = RegInit(0.U(7.W))
+   val rs1Reg = RegInit(0.U(64.W)); val rs2Reg = RegInit(0.U(64.W))
+   val error = RegInit(0.U(8.W)); val tag = RegInit(0.U(64.W))
+@@ -69,11 +83,13 @@
+   val take = state === run && used =/= 0.U && !cmdValid && !bad
+   val reqFire = reqValid && io.mem_req_ready
+   val respFire = io.mem_resp_valid && io.mem_resp_ready
+-  val push = respFire && !io.mem_resp_error && state =/= faultDrain
++  val expectedLeft = Mux(awaiting, responseLeft, requestEntries)
++  val responseBad = io.mem_resp_error || (io.mem_resp_last =/= (expectedLeft === 1.U))
++  val push = respFire && !responseBad && state =/= faultDrain
+   val cmdFire = cmdValid && io.cmd_ready
+   val timeoutHit = (state === run || state === drain) && timeout =/= 0.U && elapsed >= timeout
+   val formatError = state === run && used =/= 0.U && !cmdValid && bad
+-  val transportError = respFire && io.mem_resp_error
++  val transportError = respFire && responseBad
+   val activeError = (state === run || state === drain || state === host) &&
+     (transportError || formatError || timeoutHit || io.gemmini_fault)
+   val drained = !io.gemmini_busy && !cmdValid && quiet === quietCycles.U
+@@ -89,18 +105,26 @@
+   io.error_code := error; io.fetched := fetched; io.issued := issued
+   io.cursor := cursor; io.completed_cursor := completed; io.host_tag := tag
+   io.state_out := state; io.fifo_level := used
+-  io.mem_req_valid := reqValid; io.mem_req_address := reqAddress
++  io.mem_req_valid := reqValid; io.mem_req_address := reqAddress; io.mem_req_size := reqSize
+   io.mem_resp_ready := awaiting || reqFire
+   io.cmd_valid := cmdValid; io.cmd_funct := functReg; io.cmd_rs1 := rs1Reg; io.cmd_rs2 := rs2Reg
+ 
+-  when(reqFire) { reqValid := false.B; awaiting := true.B; fetchIndex := fetchIndex + 1.U }
+-  when(respFire) { awaiting := false.B; when(!io.mem_resp_error) { fetched := fetched + 1.U } }
++  when(reqFire) {
++    reqValid := false.B; awaiting := true.B; fetchIndex := fetchIndex + requestEntries
++    responseLeft := requestEntries
++  }
++  when(respFire) {
++    awaiting := !io.mem_resp_last
++    responseLeft := Mux(io.mem_resp_last, 0.U, expectedLeft - 1.U)
++    when(!responseBad) { fetched := fetched + 1.U }
++  }
+   when(cmdFire) { cmdValid := false.B; issued := issued + 1.U }
+   when(io.gemmini_busy || cmdValid) { quiet := 0.U }
+     .elsewhen(quiet < quietCycles.U) { quiet := quiet + 1.U }
+   when((state === run || state === drain) && elapsed =/= "hffffffff".U) { elapsed := elapsed + 1.U }
+-  when(state === run && !activeError && !reqValid && !awaiting && fetchIndex < count && used < fifoDepth.U) {
+-    reqAddress := base + (fetchIndex << 5); reqValid := true.B
++  when(state === run && !activeError && !reqValid && !awaiting && fetchIndex < count &&
++       used +& nextEntries <= fifoDepth.U) {
++    reqAddress := nextAddress; reqSize := nextSize; reqValid := true.B
+   }
+   when(push) { fifo(wr) := io.mem_resp_data; wr := Mux(wr === (fifoDepth-1).U, 0.U, wr+1.U) }
+   when(take && !activeError) {
+@@ -135,9 +159,13 @@
+     base := io.table_base; count := io.table_count; frame := io.frame_base; timeout := io.timeout_cycles
+     elapsed := 0.U; fetchIndex := 0.U; fetched := 0.U; issued := 0.U; cursor := 0.U; completed := 0.U
+     rd := 0.U; wr := 0.U; used := 0.U; quiet := 0.U; tag := 0.U
++    responseLeft := 0.U
+   }
+   assert(used <= fifoDepth.U, "frontend FIFO overflow")
+   assert(!(reqValid && awaiting), "multiple frontend reads outstanding")
++  when(awaiting && state =/= faultDrain) {
++    assert(used +& responseLeft <= fifoDepth.U, "frontend batch reservation overflow")
++  }
+   when(io.done) { assert(!io.gemmini_busy && !cmdValid && !reqValid && !awaiting, "premature frontend completion") }
+ }
+ 
+@@ -157,12 +185,14 @@
+   val gemmini_cmd_funct = Output(UInt(21.W)); val gemmini_cmd_rs1 = Output(UInt(192.W)); val gemmini_cmd_rs2 = Output(UInt(192.W))
+   val gemmini_busy = Input(UInt(3.W)); val gemmini_fault = Input(UInt(3.W))
+   val mem_req_valid = Output(UInt(3.W)); val mem_req_ready = Input(UInt(3.W)); val mem_req_address = Output(UInt(96.W))
++  val mem_req_size = Output(UInt(9.W)); val mem_resp_last = Input(UInt(3.W))
+   val mem_resp_valid = Input(UInt(3.W)); val mem_resp_ready = Output(UInt(3.W))
+   val mem_resp_data = Input(UInt(768.W)); val mem_resp_error = Input(UInt(3.W))
+ }
+ 
+ class CommandFrontendCluster(val allowTargetExtensions: Boolean = false,
+-                             val dmaLoadBuildId: BigInt = 0, allowActivationSram: Boolean = false) extends Module {
++                             val dmaLoadBuildId: BigInt = 0, allowActivationSram: Boolean = false,
++                             val fifoDepth: Int = 16, val fetchEntries: Int = 4) extends Module {
+   val io = IO(new CommandFrontendClusterIO)
+   val cycle = RegInit(0.U(64.W)); cycle := cycle + 1.U
+   val armed = RegInit(VecInit(Seq.fill(3)(false.B)))
+@@ -172,7 +202,8 @@
+   val dmaModeSupported = VecInit((0 until 3).map(g => io.control_rs1 === 2.U &&
+     io.dma_load_capabilities(g)(2)))
+   val irqEnable = RegInit(VecInit(Seq.fill(3)(false.B)))
+-  val engines = Seq.fill(3)(Module(new CommandFrontendEngine(allowTargetExtensions = allowTargetExtensions, allowActivationSram = allowActivationSram)))
++  val engines = Seq.fill(3)(Module(new CommandFrontendEngine(fifoDepth = fifoDepth, fetchEntries = fetchEntries,
++    allowTargetExtensions = allowTargetExtensions, allowActivationSram = allowActivationSram)))
+   val available = Wire(Vec(3, Bool())); val owner = Wire(Vec(3, Bool()))
+   val launch = Wire(Vec(3, Bool())); val armPulse = Wire(Vec(3, Bool())); val cancel = Wire(Vec(3, Bool()))
+   val complete = VecInit(engines.map(_.io.done)).asUInt
+@@ -273,11 +304,13 @@
+     e.resume := select && op === 4.U && io.control_rs2 === 0.U; e.resume_tag := io.control_rs1; e.acknowledge := acknowledge
+     e.mem_req_ready := io.mem_req_ready(g); e.mem_resp_valid := io.mem_resp_valid(g)
+     e.mem_resp_data := io.mem_resp_data(g*256+255,g*256); e.mem_resp_error := io.mem_resp_error(g)
++    e.mem_resp_last := io.mem_resp_last(g)
+     e.gemmini_busy := io.gemmini_busy(g); e.gemmini_fault := io.gemmini_fault(g)
+   }
+   io.stream_owner := owner.asUInt; io.legacy_ready := legacyReady.asUInt; io.gemmini_cmd_valid := cmdValid.asUInt
+   io.gemmini_cmd_funct := cmdFunct.asUInt; io.gemmini_cmd_rs1 := cmdRs1.asUInt; io.gemmini_cmd_rs2 := cmdRs2.asUInt
+   io.mem_req_valid := VecInit(engines.map(_.io.mem_req_valid)).asUInt
+   io.mem_req_address := VecInit(engines.map(_.io.mem_req_address)).asUInt
++  io.mem_req_size := VecInit(engines.map(_.io.mem_req_size)).asUInt
+   io.mem_resp_ready := VecInit(engines.map(_.io.mem_resp_ready)).asUInt
+ }
+--- baseline/source/chipyard/generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendMemory.scala
++++ batch4/source/chipyard/generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendMemory.scala
+@@ -9,6 +9,7 @@
+ 
+ class CommandFrontendMemoryIO(val addrBits: Int, val sizeBits: Int, val sinkBits: Int, val sourceBits: Int) extends Bundle {
+   val f_req_valid = Input(Bool()); val f_req_ready = Output(Bool()); val f_req_address = Input(UInt(32.W))
++  val f_req_size = Input(UInt(3.W)); val f_resp_last = Output(Bool())
+   val f_resp_valid = Output(Bool()); val f_resp_ready = Input(Bool())
+   val f_resp_data = Output(UInt(256.W)); val f_resp_error = Output(Bool())
+   val g_a_valid = Input(Bool()); val g_a_ready = Output(Bool())
+@@ -32,6 +33,8 @@
+ /** Lease source31 only while unused by the DMA; never silently reserve it away.
+   * Full-width target addresses pass through untouched. Only fetch ABI is 32-bit.
+   * Lock A across stalls/multibeat writes; release ID only at the final D beat.
++  * A logical 128-byte fetch is split into two legal 64-byte cache requests.
++  * No new DMA source IDs, cache geometry or software descriptor ABI are needed.
+   */
+ class CommandFrontendMemoryMux(addrBits: Int = 32, sizeBits: Int = 4, sinkBits: Int = 5, sourceBits: Int = 5) extends Module {
+   require(addrBits >= 32 && sizeBits >= 3 && sizeBits <= 4 && sinkBits > 0)
+@@ -40,23 +43,32 @@
+   val locked = RegInit(false.B); val selectedF = RegInit(false.B); val preferF = RegInit(true.B)
+   val aLeft = RegInit(0.U(11.W)); val dLeft = RegInit(0.U(11.W))
+   val idBusy = RegInit(false.B); val idFrontend = RegInit(false.B)
+-  val eligibleF = io.f_req_valid && !idBusy
++  val batchActive = RegInit(false.B); val batchAddress = RegInit(0.U(32.W))
++  val batchLeft = RegInit(0.U(3.W)); val fragmentSize = RegInit(5.U(3.W))
++  val fragmentFailed = RegInit(false.B)
++  val requestEntries = (1.U(3.W) << (io.f_req_size - 5.U))(2,0)
++  val fetchLeft = Mux(batchActive, batchLeft, requestEntries)
++  val fetchSize = Mux(fetchLeft >= 2.U, 6.U(3.W), 5.U(3.W))
++  val fetchValid = batchActive || io.f_req_valid
++  val eligibleF = fetchValid && !idBusy
+   val eligibleG = io.g_a_valid && (io.g_a_source =/= 31.U || !idBusy || aLeft =/= 0.U)
+   val chooseF = Mux(locked, selectedF, eligibleF && (!eligibleG || preferF))
+-  io.a_valid := Mux(locked, Mux(chooseF, io.f_req_valid, io.g_a_valid), eligibleF || eligibleG)
++  io.a_valid := Mux(locked, Mux(chooseF, fetchValid, io.g_a_valid), eligibleF || eligibleG)
+   io.a_opcode := Mux(chooseF, 4.U, io.g_a_opcode); io.a_param := Mux(chooseF, 0.U, io.g_a_param)
+-  io.a_size := Mux(chooseF, 5.U, io.g_a_size); io.a_source := Mux(chooseF, 31.U, io.g_a_source)
+-  io.a_address := Mux(chooseF, io.f_req_address, io.g_a_address)
++  io.a_size := Mux(chooseF, fetchSize, io.g_a_size); io.a_source := Mux(chooseF, 31.U, io.g_a_source)
++  io.a_address := Mux(chooseF, Mux(batchActive, batchAddress, io.f_req_address), io.g_a_address)
+   io.a_mask := Mux(chooseF, "hffffffff".U, io.g_a_mask); io.a_data := Mux(chooseF, 0.U, io.g_a_data)
+   io.a_corrupt := !chooseF && io.g_a_corrupt
+-  io.f_req_ready := io.a_ready && io.a_valid && chooseF
++  io.f_req_ready := io.a_ready && io.a_valid && chooseF && !batchActive
+   io.g_a_ready := io.a_ready && io.a_valid && !chooseF
+   val aFire = io.a_valid && io.a_ready
+   val firstA = aLeft === 0.U
+   val allocate = aFire && firstA && io.a_source === 31.U
+   val responseF = io.d_source === 31.U && Mux(idBusy, idFrontend, allocate && chooseF)
+   io.f_resp_valid := io.d_valid && responseF; io.f_resp_data := io.d_data
+-  io.f_resp_error := io.d_denied || io.d_corrupt || io.d_opcode =/= 1.U || io.d_size =/= 5.U
++  val expectedSize = Mux(idBusy, fragmentSize, fetchSize)
++  val responseError = io.d_denied || io.d_corrupt || io.d_opcode =/= 1.U || io.d_size =/= expectedSize
++  io.f_resp_error := responseError || fragmentFailed
+   io.g_d_valid := io.d_valid && !responseF
+   io.g_d_opcode := io.d_opcode; io.g_d_param := io.d_param; io.g_d_size := io.d_size
+   io.g_d_source := io.d_source; io.g_d_sink := io.d_sink; io.g_d_denied := io.d_denied
+@@ -66,6 +78,10 @@
+   def extra(size: UInt): UInt = Mux(size > 5.U, ((1.U(11.W) << (size-5.U))-1.U)(10,0), 0.U)
+   val initA = Mux(io.a_opcode <= 1.U, extra(io.a_size), 0.U)
+   val initD = Mux(io.d_opcode === 1.U, extra(io.d_size), 0.U)
++  val physicalLast = (dLeft === 0.U && initD === 0.U) || dLeft === 1.U
++  val fragmentEntries = Mux(expectedSize === 6.U, 2.U(3.W), 1.U(3.W))
++  val logicalLast = fetchLeft === fragmentEntries || responseError || fragmentFailed
++  io.f_resp_last := physicalLast && logicalLast
+   when(io.a_valid && !io.a_ready) { locked := true.B; selectedF := chooseF }
+   when(aFire) {
+     aLeft := Mux(firstA, initA, aLeft-1.U)
+@@ -73,9 +89,29 @@
+     selectedF := chooseF; preferF := !chooseF
+   }
+   when(allocate) { idBusy := true.B; idFrontend := chooseF }
++  when(aFire && chooseF) {
++    batchActive := true.B; fragmentSize := fetchSize; fragmentFailed := false.B
++    when(!batchActive) { batchAddress := io.f_req_address; batchLeft := requestEntries }
++  }
+   when(dFire) {
+     dLeft := Mux(dLeft === 0.U, initD, dLeft-1.U)
+     when((dLeft === 0.U && initD === 0.U) || dLeft === 1.U) { idBusy := false.B }
++    when(responseF) {
++      when(responseError) { fragmentFailed := true.B }
++      when(physicalLast) {
++        fragmentFailed := false.B
++        when(logicalLast) { batchActive := false.B; batchLeft := 0.U }
++          .otherwise {
++            batchLeft := fetchLeft - fragmentEntries
++            batchAddress := Mux(batchActive, batchAddress, io.f_req_address) + (fragmentEntries << 5)
++          }
++      }
++    }
++  }
++  when(io.f_req_valid && io.f_req_ready) {
++    assert(io.f_req_size >= 5.U && io.f_req_size <= 7.U, "invalid command batch size")
++    assert((io.f_req_address & ((1.U(32.W) << io.f_req_size) - 1.U)) === 0.U,
++      "unaligned command batch")
+   }
+   assert(!(allocate && idBusy), "source31 reused before final response")
+   assert(!(dFire && !idBusy && !allocate), "source31 response without owner")
+@@ -83,6 +119,7 @@
+ 
+ class CommandFetchPort extends Bundle {
+   val req_valid = Input(Bool()); val req_ready = Output(Bool()); val req_address = Input(UInt(32.W))
++  val req_size = Input(UInt(3.W)); val resp_last = Output(Bool())
+   val resp_valid = Output(Bool()); val resp_ready = Input(Bool())
+   val resp_data = Output(UInt(256.W)); val resp_error = Output(Bool())
+ }
+@@ -96,12 +133,16 @@
+     require(node.in.size == 1 && node.out.size == 1, "frontend requires one dedicated DMA port")
+     val (in, edgeIn) = node.in.head; val (out, edgeOut) = node.out.head
+     require(edgeOut.bundle.dataBits == 256 && edgeOut.bundle.sourceBits >= 5)
++    val commandManagers = edgeOut.manager.managers.filter(_.address.exists(_.contains(BigInt("80000000", 16))))
++    require(commandManagers.nonEmpty && commandManagers.forall(_.supportsGet.contains(64)),
++      "command batch fetch requires 64-byte reads at the DDR table address")
+     require(edgeOut.client.masters.exists(_.sourceId.contains(31)) && !edgeOut.client.anySupportProbe,
+       "source31 lease requires a non-caching DMA with existing source31")
+     val mux = Module(new CommandFrontendMemoryMux(edgeOut.bundle.addressBits, edgeOut.bundle.sizeBits,
+       edgeOut.bundle.sinkBits, edgeOut.bundle.sourceBits))
+     val m = mux.io
+     m.f_req_valid := fetch.req_valid; fetch.req_ready := m.f_req_ready; m.f_req_address := fetch.req_address
++    m.f_req_size := fetch.req_size; fetch.resp_last := m.f_resp_last
+     fetch.resp_valid := m.f_resp_valid; m.f_resp_ready := fetch.resp_ready
+     fetch.resp_data := m.f_resp_data; fetch.resp_error := m.f_resp_error
+     m.g_a_valid := in.a.valid; in.a.ready := m.g_a_ready
+--- baseline/source/chipyard/generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala
++++ batch4/source/chipyard/generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala
+@@ -30,6 +30,7 @@
+     f.mem_resp_valid := VecInit(memory.map(_.module.fetch.resp_valid)).asUInt
+     f.mem_resp_data := pack(memory.map(_.module.fetch.resp_data))
+     f.mem_resp_error := VecInit(memory.map(_.module.fetch.resp_error)).asUInt
++    f.mem_resp_last := VecInit(memory.map(_.module.fetch.resp_last)).asUInt
+     for (i <- 0 until 3) {
+       val g = roccs(i).module.io
+       g.dma_load_mode := f.dma_load_mode(i)
+@@ -52,6 +53,7 @@
+       g.loopconv_ingress_debug := 0.U
+       val m = memory(i).module.fetch
+       m.req_valid := f.mem_req_valid(i); m.req_address := f.mem_req_address(32*i+31,32*i)
++      m.req_size := f.mem_req_size(3*i+2,3*i)
+       m.resp_ready := f.mem_resp_ready(i)
+     }
+   }

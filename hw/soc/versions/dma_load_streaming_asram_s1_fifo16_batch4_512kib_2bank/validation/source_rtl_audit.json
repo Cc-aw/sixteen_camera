@@ -1,0 +1,13 @@
+{
+  "status": "BATCH4_SOURCE_RTL_AUDIT_PASS",
+  "hardware_build_id": "2cc60e0254046f84",
+  "changed_scala": [
+    "generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontend.scala",
+    "generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala",
+    "generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendMemory.scala"
+  ],
+  "generated_files": 849,
+  "math_abi_headers": "BYTE_IDENTICAL_TO_S1",
+  "bitstream": null,
+  "board_validation": "NOT_RUN"
+}

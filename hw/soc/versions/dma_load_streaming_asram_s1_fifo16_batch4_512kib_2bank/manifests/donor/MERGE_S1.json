@@ -1,0 +1,202 @@
+{
+  "schema": 1,
+  "variant": "merged_s1_2026-10-19",
+  "timing_base": "/mnt/data/sunys/sixteen_camera_3x32_100mhz_memory_parallel_v3_maxpool_timing_s5_2026-10-19",
+  "functional_source": "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_512kib_2bank",
+  "authoritative_sources": "soc_shell/chipyard_build",
+  "retained_s5_l2": {
+    "generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/ListBuffer.scala": "07d2dccd7c32066b676276904cbb5314b744e65ffd92b40cf1fb7fd64a02d749",
+    "generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHR.scala": "aa1d75bdcbfd28f670a4ad9ac405dcfec47d496d6f3b849ba332d721034785fb",
+    "generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala": "f4b82fbcb84d91c3c8f6ec1006928d2a0879c88c7269a2beb2795258d7aeaf89",
+    "generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/MSHRArbitration.scala": "9f01edb6a33db28376d11b96ff7d47fb15800aff7795ecf49e3d24e8fa5c1564"
+  },
+  "overlays": [
+    {
+      "path": "soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/ActivationSramDmaAddress.scala",
+      "before_s5": null,
+      "feature_sha256": "ff967fd6c62b00624beaeec8633d804dde706fe3941608eeaaa64cc4ee631d97",
+      "feature_source": "soc_shell/npu100_video/src/main/scala/gemmini/ActivationSramDmaAddress.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/Controller.scala",
+      "before_s5": "46036def202b12a6844897ed9faf0cd79484ecdd0c650afe915417a17a07b750",
+      "feature_sha256": "618372e02e3c573c8ad1a4531a5cdf2646c29a6f2270c40627dfcd5b86b6375d",
+      "feature_source": "soc_shell/npu100_video/src/main/scala/gemmini/Controller.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/CounterFile.scala",
+      "before_s5": "daa937f95ed94c0c085c64bb3d24ee71d3dcd251f839f1654468093690d72192",
+      "feature_sha256": "ebf80663a885f5ccb1db2638aa42ee610e335b6cf1565471ed3c937ca0ce0b25",
+      "feature_source": "soc_shell/npu100_video/src/main/scala/gemmini/CounterFile.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/DMA.scala",
+      "before_s5": "b2b13421f17be3219b2b9b0c67ffa1740ecce4aa82f578af759241c74a575a1e",
+      "feature_sha256": "cd3f3c87286af6bcd251e801d982d18de5de3c76820e636f63f1cfff2c49fcb3",
+      "feature_source": "soc_shell/npu100_video/src/main/scala/gemmini/DMA.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/DmaLoadGroup.scala",
+      "before_s5": null,
+      "feature_sha256": "b9153cf94af2e27dfb7bec967a284e7842fe5bb7d651c5434cee2c1b83292b62",
+      "feature_source": "soc_shell/npu100_video/src/main/scala/gemmini/DmaLoadGroup.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/DmaLoadReadPlanner.scala",
+      "before_s5": null,
+      "feature_sha256": "f61f658f0c5ee2d02103e87567de72063f03ff6a17d35c399133f2e66e8d8419",
+      "feature_source": "soc_shell/npu100_video/src/main/scala/gemmini/DmaLoadReadPlanner.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/DmaLoadRowAssembler.scala",
+      "before_s5": null,
+      "feature_sha256": "e0a3304a64349eb3f73fe5b5a3254149244a8ecaeb2fd78c20ce2636f28c8bca",
+      "feature_source": "soc_shell/npu100_video/src/main/scala/gemmini/DmaLoadRowAssembler.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/GemminiConfigs.scala",
+      "before_s5": "1df388c8fe0b4ee3afe74d8205a4382a39665221c2235fb7960d704366a12bff",
+      "feature_sha256": "f8a7ddd95ca45561629c90b54773ac8c23e05e58c85cefa75f57af59c175479f",
+      "feature_source": "soc_shell/npu100_video/src/main/scala/gemmini/GemminiConfigs.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/LoadController.scala",
+      "before_s5": "30dd6b7b1f94ac3313e055562f10a83d04a129e13b9ec0321f11cb2452743bf9",
+      "feature_sha256": "2287dbb249ec8759e7d2e6a93c5867f043621617058f64ea71fe28c9718a7539",
+      "feature_source": "soc_shell/npu100_video/src/main/scala/gemmini/LoadController.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/LocalAddr.scala",
+      "before_s5": "cb1d7de3d0f04c77f79044fb53c560409743962cd82d2a86b8ae95898231ac61",
+      "feature_sha256": "0b28d9514b6ff0245ca8c6090414c7138c76fafd50166567a78ac7732d7258ca",
+      "feature_source": "soc_shell/npu100_video/src/main/scala/gemmini/LocalAddr.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/Scratchpad.scala",
+      "before_s5": "64ba7b664fe1b392c81bd3c7edf744afc071a56893bdd09d88d7796fa97aac63",
+      "feature_sha256": "a7b239ee4cdeada4a87eb922f0e164e87ca92c2770ebd37ed9457891f4baca17",
+      "feature_source": "soc_shell/npu100_video/src/main/scala/gemmini/Scratchpad.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/TimingClosure.scala",
+      "before_s5": "61d1e8b4fa23a21f7ce6575180482dd6dbd74c00fdf53a4c5bf443df11d28324",
+      "feature_sha256": "83d78f20e4a11bbb9a53e929ebb341d290801a772dc732554077276a47ab9e4a",
+      "feature_source": "soc_shell/npu100_video/src/main/scala/gemmini/TimingClosure.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/gemmini/src/main/scala/gemmini/XactTracker.scala",
+      "before_s5": "0e2152821780b0b6d91e33ecd06edcdd62eb7f30806aca880a3b2fc923b67803",
+      "feature_sha256": "e56e1cfe617ece5df5d56e35449d3ff58acb5fe94d907c1d747b10f56fd63780",
+      "feature_source": "soc_shell/npu100_video/src/main/scala/gemmini/XactTracker.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala",
+      "before_s5": "f8bfcdb5ab5f472e2ba15ee98ebf7e8e55191375553b8f8c2b1efcd34397ec45",
+      "feature_sha256": "2229035f0cb35722956c4841cb7e13d9b64253b908c8fc6407424d88e139857e",
+      "feature_source": "soc_shell/npu100_video/fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala",
+      "before_s5": "54ea64d09a5042cc750fee0459e0217c5f93a2c471b2f927fbf6056a2593a33c",
+      "feature_sha256": "e119e0101185c1291dc4cfa1afb21348d01f3dcf0f67f3e3e52aceb4a5289e8e",
+      "feature_source": "soc_shell/memory_parallel_v3/chipyard/generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/InclusiveCache.scala",
+      "before_s5": "ba3a03b4efde92e5b64c104990f5bd79f9c453326b3b6ccc101dc77843e71ac3",
+      "feature_sha256": "56ff4748e55a1bb96b267019db11e9524c9c6e9efb9ccac869ef550225f7fc98",
+      "feature_source": "soc_shell/memory_parallel_v3/chipyard/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/InclusiveCache.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/MemoryParallelV3.scala",
+      "before_s5": "71f3872b30aebb48935e256bea85eaf89c184a40613d5b50fef4abbbd44b1f98",
+      "feature_sha256": "7af3eec4e801034570486a3babb96b2fd42797702bb51cdbdbd25de2c288014e",
+      "feature_source": "soc_shell/memory_parallel_v3/scala/MemoryParallelV3.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/MemoryParallelV3TensorIngress.scala",
+      "before_s5": null,
+      "feature_sha256": "392bd0f0036f2fd22d9f7d7a7d61e18ee1b2f938e139021c89b43932e45d6ef5",
+      "feature_source": "soc_shell/memory_parallel_v3/scala/MemoryParallelV3TensorIngress.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala",
+      "before_s5": "2229035f0cb35722956c4841cb7e13d9b64253b908c8fc6407424d88e139857e",
+      "feature_sha256": "e2b4bc7ddf9b7c87a93b3fb5b2b7fef52c731cfaa9f5b0fc955f1359b5b18de1",
+      "feature_source": "command_frontend/integration/fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala",
+      "before_s5": "ebf9f00f37588593760e919855a01fd476dc3a45ef638ee7d4cd1cee7f1ab830",
+      "feature_sha256": "67b6d8b328dd09216209d94064a7781357c4a95e4a5e923261cb3d86cec9d832",
+      "feature_source": "command_frontend/integration/generators/rocket-chip/src/main/scala/tile/LazyRoCC.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/rocket-chip/src/main/scala/tile/RocketTile.scala",
+      "before_s5": "cc272105320c6852f41396dc16dedb39c0bd2d96ec66ccf26c8dde7c8d6ca4e1",
+      "feature_sha256": "af0bddf4769918496740c3d260356f6adb5eeb9b79f13267c9f9a2cc1a39e354",
+      "feature_source": "command_frontend/integration/generators/rocket-chip/src/main/scala/tile/RocketTile.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontend.scala",
+      "before_s5": "702a9fbf9cdacf54356fe86e8092d5fca91fd3ceb89c11da4d443005983cdbe5",
+      "feature_sha256": "8a10880c0f075d8438f567fd9184e654cf5bbd2999a50010cbab78847fa6f1cf",
+      "feature_source": "command_frontend/scala/CommandFrontend.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendAttach.scala",
+      "before_s5": "d0b7e8c3b4cf52e822a300e0df54f5140348a83b99bb6e02691db1ca1fed9fe5",
+      "feature_sha256": "bc23b40f2cc83a708e93731e21ef48c305be496a7cddcb803cd2ba5735a198bb",
+      "feature_source": "command_frontend/scala/CommandFrontendAttach.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/fpga/src/main/scala/taihang_soc/CommandFrontendConfig.scala",
+      "before_s5": "48540ab079ab23da66dab1e9c02ed32d563b13147def0d793d887254a58e2479",
+      "feature_sha256": "b421b4391e6186c1f1c66bf76a976bb74ede29a7ae232289791959bf87ddffc8",
+      "feature_source": "command_frontend/scala/CommandFrontendConfig.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontendMemory.scala",
+      "before_s5": "7e18afe3e94020394aa3eef85264ff8218f0ca07983d4f82b5e88f43a06b1324",
+      "feature_sha256": "260913b607b28479a52a99ff4ccfe775de24cad7edead89fa3b46daf2eeb77a9",
+      "feature_source": "command_frontend/scala/CommandFrontendMemory.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/rocket-chip/src/main/scala/tile/commandfrontend/ActivationSramControl.scala",
+      "before_s5": null,
+      "feature_sha256": "894f0799888cd9f947d424291ac457b06ad539d879b728f5fe084aa71fb6e18e",
+      "feature_source": "activation_sram/scala/ActivationSramControl.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/rocket-chip/src/main/scala/tile/commandfrontend/ActivationSramEvidence.scala",
+      "before_s5": null,
+      "feature_sha256": "0c02b9cf63fe7f01d33bf790f7b171bed72b21cce62f6ddb2b6c74d8ceea8fd9",
+      "feature_source": "activation_sram/scala/ActivationSramEvidence.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/rocket-chip/src/main/scala/tile/commandfrontend/ActivationSramMap.scala",
+      "before_s5": null,
+      "feature_sha256": "02bdf43623a86836bdb47a21aa7649c244f6d9a04bf831d0d14f17eb3d1bf838",
+      "feature_source": "activation_sram/scala/ActivationSramMap.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/rocket-chip/src/main/scala/tile/commandfrontend/ActivationSramTL.scala",
+      "before_s5": null,
+      "feature_sha256": "6a74a1f77c9da8c7f1e7486259a185cf659b5b48de695f55fce37c5dac7ac5a9",
+      "feature_source": "activation_sram/scala/ActivationSramTL.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/fpga/src/main/scala/taihang_soc/TensorIngress.scala",
+      "before_s5": "83af3822abdcef6573733e02fc882ae6ec94439a74c2e4db12da9a90ce89b4f6",
+      "feature_sha256": "b560b74daf475f69de23b1ebf7f229d34f2434f28cb38dde78a8739d663c40ce",
+      "feature_source": "tensor_ingress/TensorIngress.scala"
+    },
+    {
+      "path": "soc_shell/chipyard_build/generators/rocket-chip/src/main/resources/vsrc/activation_sram_store.sv",
+      "before_s5": null,
+      "feature_sha256": "313ccebd20594f7c1a416535639642ba5c48ce81e52e351c14bac22e861f0e85",
+      "feature_source": "activation_sram/resources/activation_sram_store.sv"
+    }
+  ],
+  "donor_validation": "historical evidence only; not merged-project validation"
+}

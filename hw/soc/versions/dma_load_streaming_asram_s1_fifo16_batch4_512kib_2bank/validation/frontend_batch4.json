@@ -1,0 +1,13 @@
+{
+  "status": "S1_BATCH4_FRONTEND_PASS",
+  "hardware_build_id": "2cc60e0254046f84",
+  "production_rtl": true,
+  "simulations": {
+    "batch": {
+      "status": "PASS",
+      "log_sha256": "2a26eab3e72b15b4271c7a03940c13fe3213f079efb46679aceb63c18bb211ba"
+    }
+  },
+  "board_validation": "NOT_RUN",
+  "summary": "BATCH4_PASS,cases=155,fifo=16,peak=16,batch=4,physical_max_bytes=64,alignment_tail=1,host_drain=1,errors=1,timeout_drain=1,dma_contention=1,order=correct"
+}

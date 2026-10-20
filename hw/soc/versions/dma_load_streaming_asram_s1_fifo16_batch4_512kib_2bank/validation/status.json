@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "hardware_build_id": "2cc60e0254046f84",
+  "updated_at_utc": "2026-10-20T10:35:03.028841+00:00",
+  "scala_changes": 3,
+  "full_source_generation": "PASS",
+  "configuration_check": "PASS",
+  "batch4": {
+    "status": "PASS",
+    "cases": 155,
+    "fifo_peak": 16,
+    "physical_max_get_bytes": 64
+  },
+  "s1_numerical": {
+    "status": "INCOMPLETE_STOPPED_FOR_REQUESTED_COMMIT",
+    "completed_lane_cases": 48,
+    "total_lane_cases": 72,
+    "errors_seen": false,
+    "log_sha256": "eaef6fe2f3ba10809cfd2f4ee5ff6c3fb93b34d084373629e0130e775c6e7a37",
+    "whole_suite_pass": false
+  },
+  "real_compute": "NOT_RUN",
+  "project_inputs": "PASS",
+  "whole_design_pnr": "NOT_RUN",
+  "bitstream": "NOT_GENERATED",
+  "board_validation": "NOT_RUN",
+  "default_product_check": "PASS e037701c8d7cfc59"
+}
