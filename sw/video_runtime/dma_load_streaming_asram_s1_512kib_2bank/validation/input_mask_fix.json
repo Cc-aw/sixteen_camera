@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "status": "OFFLINE_PASS_BOARD_RETEST_PENDING",
+  "observed_board_run": "s1_video_01",
+  "observed_completed": 8,
+  "observed_published": 8,
+  "observed_errors": 0,
+  "cause": "Single pre-SOF capture credit reserved for an absent HDMI input included by the unconditional 0xffff admission mask",
+  "fix": [
+    "Use completed-video-frame activity to select allowed live inputs",
+    "Drain existing owners before reconfiguring admission on input changes",
+    "Expire old overlays after three seconds without a new result and without an inflight stream job"
+  ],
+  "software_build_id": "a6f6b07d36dc05e298028ece80810102301c8857a9072f27858b540865d7d239",
+  "elf_sha256": "b3f78e9587cb94431f6c14e7b7c73ac840246a1927e8997c97b31322780a50c8",
+  "elf_load_ends": [
+    "0x83e896c0"
+  ],
+  "hardware_build_id": "e037701c8d7cfc59",
+  "hardware_changed": false,
+  "new_software_board_tested": false,
+  "host_scenarios": 8,
+  "python_tests": 16,
+  "frozen_s1_rtl_masked_frames": 47,
+  "rtl_frame_shape": "32x2; 16 channels; only channels 0..7 have video; one capture credit"
+}

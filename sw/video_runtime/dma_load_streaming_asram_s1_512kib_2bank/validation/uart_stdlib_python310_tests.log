@@ -1,0 +1,25 @@
+test_completion (test_board_log.BoardLogTests) ... ok
+test_errors (test_board_log.BoardLogTests) ... ok
+test_fault (test_board_log.BoardLogTests) ... ok
+test_held_head (test_board_log.BoardLogTests) ... ok
+test_incomplete (test_board_log.BoardLogTests) ... ok
+test_missing_guards (test_board_log.BoardLogTests) ... ok
+test_no_streams (test_board_log.BoardLogTests) ... ok
+test_too_few (test_board_log.BoardLogTests) ... ok
+test_server_survives_client_startup_and_is_cleaned_on_exit (test_program_server.PrivateServerTests) ... JTAG_SERVER=127.0.0.1:43567 private=1
+JTAG_SERVER_LOG=/tmp/tmpnldm3p5j/hw_server.log
+JTAG_SERVER=127.0.0.1:43567 private=1
+JTAG_SERVER_LOG=/tmp/tmpnldm3p5j/hw_server.log
+JTAG_DOWNLOAD=FAIL log=/tmp/tmpnldm3p5j/program.log server_log=/tmp/tmpnldm3p5j/hw_server.log server_exit_code=None
+ok
+test_busy_port_is_closed_without_reconfiguring (test_uart.UartTests) ... ok
+test_flush_failure_restores_and_closes (test_uart.UartTests) ... ok
+test_partial_writes_and_timeout (test_uart.UartTests) ... ok
+test_pty_capture_commands_and_restore (test_uart.UartTests) ... ok
+test_raw_configuration_and_restore (test_uart.UartTests) ... ok
+test_read_timeout_and_disconnect (test_uart.UartTests) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.035s
+
+OK

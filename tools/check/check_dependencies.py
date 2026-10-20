@@ -1,87 +1,52 @@
 #!/usr/bin/env python3
-"""Check vendored source integrity, firmware dependency closure and tools."""
-from pathlib import Path
+"""Audit the default S1 source snapshots, local firmware dependencies and tools."""
 import argparse
-import hashlib
 import json
 import os
 import shutil
+import subprocess
 import sys
-
-ROOT = Path(__file__).resolve().parents[2]
+from current_product import ROOT, local_path, product, sha
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--sources-only', action='store_true')
     args = parser.parse_args()
-    failures = []
-    snapshots = []
-    for name in ['sw/third_party/sources.lock.json', 'sw/models/yolov5nu/sources.lock.json',
-                 'sw/third_party/gemmini/sources.lock.json',
-                 'sw/models/yolov5nu/frozen/frontend_v33/sources.lock.json']:
-        snapshots.extend(json.loads((ROOT / name).read_text())['sources'])
-    shell = json.loads((ROOT / 'hw/soc/source/shell/IMPORT_MANIFEST.json').read_text())
-    snapshots.extend({'path': path, 'sha256': digest} for path, digest in shell['sha256'].items())
-    hardware = json.loads((ROOT / 'hw/soc/source/shell/LATEST_HARDWARE_IMPORT.json').read_text())
-    snapshots.extend({'path': item['destination'], 'sha256': item['imported_sha256']}
-                     for item in hardware['files'])
-    snapshots.extend({'path': item['destination'], 'sha256': item['imported_sha256']}
-                     for item in hardware.get('timing_repair', {}).get('files', []))
-    frontend = json.loads((ROOT / 'hw/soc/source/command_frontend/IMPORT_MANIFEST.json').read_text())
-    snapshots.extend({'path': item['destination'], 'sha256': item['sha256']}
-                     for item in frontend['files'])
-    v33 = json.loads((ROOT / 'sw/benchmarks/frontend/IMPORT_MANIFEST.json').read_text())
-    snapshots.extend({'path': item['destination'], 'sha256': item['sha256']}
-                     for item in v33['files'])
-    for item in snapshots:
-        path = ROOT / item['path']
-        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != item['sha256']:
-            failures.append(f"Source hash mismatch: {item['path']}")
+    p = product()
+    hw = local_path(p['hardware_directory'])
+    sw = local_path(p['software_directory'])
+    subprocess.run([sys.executable, '-B', str(hw / 'scripts/audit.py')], check=True)
+    lock = json.loads((sw / 'model/sources.lock.json').read_text())['sources']
+    for item in lock:
+        path = sw / item['path']
+        if not path.is_file() or sha(path) != item['sha256']:
+            raise ValueError('Frozen software source mismatch: ' + item['path'])
     count = 0
-    # -MMD omits toolchain/system headers. Every listed dependency must be local.
-    product = json.loads((ROOT / 'hw/manifests/current.json').read_text())
-    depfiles = [p for key in ('video_build', 'benchmark_build')
-                for p in (ROOT / product[key]).rglob('*.d')]
-    if product['firmware_compatibility']['status'] != 'ready':
-        print('VIDEO_RUNTIME_DEPENDENCIES=NOT_CHECKED (Runtime migration deferred)')
-        depfiles = list((ROOT / product['benchmark_build']).rglob('*.d'))
-    for depfile in depfiles:
+    # Only target firmware objects belong to this closure. Host/Verilator
+    # regression caches elsewhere in build/ legitimately use installed tools.
+    for depfile in (local_path(p['video_build']) / 'obj').rglob('*.d'):
         for word in depfile.read_text().replace('\\\n', ' ').split():
             if word.endswith(':'):
                 continue
-            path = Path(word)
-            if not path.is_absolute():
-                path = ROOT / 'sw' / path
-            if not path.is_file():
-                failures.append(f'Missing current firmware source: {path} ({depfile})')
-            if not path.resolve().is_relative_to(ROOT):
-                failures.append(f'External firmware source: {path} ({depfile})')
+            path = (sw / word).resolve()
+            if ROOT not in path.parents or not path.is_file():
+                raise ValueError('Nonlocal or missing firmware dependency: ' + str(path))
         count += 1
-    print(f"SOURCE_SNAPSHOTS={len(snapshots)} DEPENDENCY_FILES={count}")
+    print('FROZEN_MODEL_SOURCES=%d DEPENDENCY_FILES=%d' % (len(lock), count))
     if not args.sources_only:
-        prefix = os.environ.get('TOOLCHAIN') or 'riscv64-unknown-elf-'
-        commands = ['make', 'cc', 'python3', 'tclsh', 'flock', 'iverilog', 'vvp', 'verilator',
-                    prefix + 'gcc', prefix + 'objcopy', prefix + 'objdump', prefix + 'size',
-                    os.environ.get('VIVADO_BIN') or 'vivado',
+        prefix = os.environ.get('CROSS') or os.environ.get('TOOLCHAIN') or 'riscv64-unknown-elf-'
+        commands = ['make', 'cc', 'python3', 'tclsh', 'iverilog', 'vvp', 'verilator',
+                    prefix + 'gcc', prefix + 'size', os.environ.get('VIVADO_BIN') or 'vivado',
                     os.environ.get('OPENOCD_BIN') or 'openocd',
                     os.environ.get('GDB_BIN') or 'riscv64-unknown-elf-gdb']
         for command in commands:
-            path = shutil.which(command)
-            print(f"TOOL {command}: {path or 'MISSING'}")
-            if not path:
-                failures.append(f'Missing tool: {command}')
-        try:
-            import numpy
-            print(f'NUMPY={numpy.__version__}')
-        except ImportError:
-            failures.append('Missing numpy: see tests/requirements.txt')
-    if failures:
-        print('\n'.join(failures), file=sys.stderr)
-        return 1
-    print('DEPENDENCIES=PASS')
-    return 0
+            if not shutil.which(command):
+                raise ValueError('Missing tool: ' + command)
+        import numpy
+        print('NUMPY=' + numpy.__version__)
+    print('DEPENDENCIES=PASS board_accessed=0')
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    main()

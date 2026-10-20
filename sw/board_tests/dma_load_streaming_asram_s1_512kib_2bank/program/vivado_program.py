@@ -62,7 +62,10 @@ def program(vivado, bitstream, tcl, log):
     print('JTAG_SERVER=' + client_env['HW_SERVER_URL'] + ' private=1', flush=True)
     print('JTAG_SERVER_LOG=' + str(server_log), flush=True)
     with server_log.open('w') as output:
-        server = subprocess.Popen([str(hw_server), f'-stcp:127.0.0.1:{port}', '-p0', '-I180'],
+        # Vivado can take several minutes to load on a memory-constrained
+        # host. An idle timeout starts before Vivado connects and can kill the
+        # private server during startup. Its lifetime is owned by finally.
+        server = subprocess.Popen([str(hw_server), f'-stcp:127.0.0.1:{port}', '-p0'],
                                   env=server_env, stdout=output, stderr=subprocess.STDOUT,
                                   start_new_session=True)
         try:
@@ -80,7 +83,8 @@ def program(vivado, bitstream, tcl, log):
             result = subprocess.run([executable, '-mode', 'batch', '-log', str(log), '-source', str(tcl)],
                                     env=client_env, cwd=log.parent)
             if result.returncode:
-                print('JTAG_DOWNLOAD=FAIL log=' + str(log) + ' server_log=' + str(server_log), file=sys.stderr)
+                print('JTAG_DOWNLOAD=FAIL log=' + str(log) + ' server_log=' + str(server_log) +
+                      ' server_exit_code=' + str(server.poll()), file=sys.stderr)
             return result.returncode
         finally:
             stop(server)

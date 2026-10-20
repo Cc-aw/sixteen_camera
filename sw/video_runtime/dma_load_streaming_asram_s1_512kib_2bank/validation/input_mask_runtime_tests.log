@@ -1,0 +1,63 @@
+In file included from /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank/tests/test_live.c:7:
+/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank/tests/../src/yolo_boundary.c: In function ‘append’:
+/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank/tests/../src/yolo_boundary.c:69:13: note: the ABI for passing parameters with 32-byte alignment has changed in GCC 4.6
+   69 | static void append(GfCommand c) {
+      |             ^~~~~~
+test_completion (test_board_log.BoardLogTests.test_completion) ... ok
+test_errors (test_board_log.BoardLogTests.test_errors) ... ok
+test_fault (test_board_log.BoardLogTests.test_fault) ... ok
+test_held_head (test_board_log.BoardLogTests.test_held_head) ... ok
+test_incomplete (test_board_log.BoardLogTests.test_incomplete) ... ok
+test_missing_guards (test_board_log.BoardLogTests.test_missing_guards) ... ok
+test_no_streams (test_board_log.BoardLogTests.test_no_streams) ... ok
+test_too_few (test_board_log.BoardLogTests.test_too_few) ... ok
+test_live_mask_and_requested_mask (test_input_monitor.InputMonitorTests.test_live_mask_and_requested_mask) ... INPUT_MONITOR_PASS absent_hdmi=1 expiry=1 reconnect=1 counter_wrap=1 requested_mask=1
+INPUT_MONITOR_PASS absent_hdmi=1 expiry=1 reconnect=1 counter_wrap=1 requested_mask=1
+ok
+test_server_survives_client_startup_and_is_cleaned_on_exit (test_program_server.PrivateServerTests.test_server_survives_client_startup_and_is_cleaned_on_exit) ... JTAG_SERVER=127.0.0.1:43567 private=1
+JTAG_SERVER_LOG=/tmp/tmpr70a2oxj/hw_server.log
+JTAG_SERVER=127.0.0.1:43567 private=1
+JTAG_SERVER_LOG=/tmp/tmpr70a2oxj/hw_server.log
+JTAG_DOWNLOAD=FAIL log=/tmp/tmpr70a2oxj/program.log server_log=/tmp/tmpr70a2oxj/hw_server.log server_exit_code=None
+ok
+test_busy_port_is_closed_without_reconfiguring (test_uart.UartTests.test_busy_port_is_closed_without_reconfiguring) ... ok
+test_flush_failure_restores_and_closes (test_uart.UartTests.test_flush_failure_restores_and_closes) ... ok
+test_partial_writes_and_timeout (test_uart.UartTests.test_partial_writes_and_timeout) ... ok
+test_pty_capture_commands_and_restore (test_uart.UartTests.test_pty_capture_commands_and_restore) ... ok
+test_raw_configuration_and_restore (test_uart.UartTests.test_raw_configuration_and_restore) ... ok
+test_read_timeout_and_disconnect (test_uart.UartTests.test_read_timeout_and_disconnect) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 7.567s
+
+OK
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+LIVE_INPUT_PATCH_PASS tables=6 tensor_slots=32 native_math_preserved=1
+LIVE_RUNTIME_PASS streams=16 workers=3 head_backpressure=1 compute_release_before_ppu=1 stop_drain_restart=1 hardware_executed=0
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+LIVE_INPUT_PATCH_PASS tables=6 tensor_slots=32 native_math_preserved=1
+S1RT,FAULT,reason=9,ownership=retained
+LIVE_BAD_PPU_IDENTITY_PASS head_retained=1
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+LIVE_INPUT_PATCH_PASS tables=6 tensor_slots=32 native_math_preserved=1
+S1RT,FAULT,reason=9,ownership=retained
+LIVE_BAD_PPU_IDENTITY_PASS head_retained=1
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+LIVE_INPUT_PATCH_PASS tables=6 tensor_slots=32 native_math_preserved=1
+S1RT,FAULT,reason=9,ownership=retained
+LIVE_BAD_PPU_IDENTITY_PASS head_retained=1
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+LIVE_INPUT_PATCH_PASS tables=6 tensor_slots=32 native_math_preserved=1
+S1RT,FAULT,reason=14,ownership=retained
+LIVE_FRONTEND_FAULT_PASS tensor_and_head_retained=1
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+LIVE_INPUT_PATCH_PASS tables=6 tensor_slots=32 native_math_preserved=1
+S1RT,FAULT,reason=20,ownership=retained
+LIVE_FRONTEND_FAULT_PASS tensor_and_head_retained=1
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+LIVE_INPUT_PATCH_PASS tables=6 tensor_slots=32 native_math_preserved=1
+S1RT,FAULT,reason=21,ownership=retained
+LIVE_PPU_TIMEOUT_PASS head_retained=1
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+LIVE_INPUT_PATCH_PASS tables=6 tensor_slots=32 native_math_preserved=1
+LIVE_INPUT_MASK_PASS repeated_local_frames=24 missing_hdmi_excluded=1 hotplug_drain=1 ttl_clear=1 manual_stop=1

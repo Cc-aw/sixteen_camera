@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "status": "OFFLINE_PASS",
+  "fix": "replace pyserial dependency with standard-library POSIX UART",
+  "python_versions": [
+    "3.10",
+    "3.13"
+  ],
+  "python_tests_per_version": 15,
+  "pty_tested": true,
+  "elf_unchanged": true,
+  "elf_sha256": "3ffcd5a56ccf5eed2b2c0dfe28815202dd46433ac2c54655c360e4ed9fc2dd18",
+  "software_build_id": "f03c23e34d53ec600344a9db525a88a2932f7539f34b68f015d50a3d32c3f403",
+  "board_accessed": false
+}

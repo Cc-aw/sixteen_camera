@@ -1,0 +1,59 @@
+{
+  "schema": 2,
+  "stages": [
+    {
+      "stage": 75,
+      "kind": "maxpool",
+      "height": 15,
+      "width": 20,
+      "channels": 128
+    },
+    {
+      "stage": 76,
+      "kind": "maxpool",
+      "height": 15,
+      "width": 20,
+      "channels": 128
+    },
+    {
+      "stage": 77,
+      "kind": "maxpool",
+      "height": 15,
+      "width": 20,
+      "channels": 128
+    },
+    {
+      "stage": 83,
+      "kind": "resize",
+      "height": 15,
+      "width": 20,
+      "channels": 128
+    },
+    {
+      "stage": 97,
+      "kind": "resize",
+      "height": 30,
+      "width": 40,
+      "channels": 64
+    }
+  ],
+  "expected_per_worker": {
+    "pool_calls": 3,
+    "resize_calls": 2,
+    "mvin": 1944,
+    "mvout": 624,
+    "waits": 34
+  },
+  "extra_batch_waits": 102,
+  "completion": "original scoped ingress/retirement/DMA wait; Resize dirty before each non-yielding phase",
+  "source": "colleague pool-resize-round2 / dim32-ddr-batch",
+  "source_elf_sha256": "2ba8f44b59e6e8c394fda2e615f6b70b6cf603de80ddb0713783e91e6870af5b",
+  "resize_batch": 1,
+  "resize_rows": 0,
+  "resize_source": "colleague yolo_gemmini_resize2_ddr_multir (not in supplied round2 ELF)",
+  "resize_batches_per_channel": [
+    15,
+    12
+  ],
+  "resize_phase_waits": 10
+}

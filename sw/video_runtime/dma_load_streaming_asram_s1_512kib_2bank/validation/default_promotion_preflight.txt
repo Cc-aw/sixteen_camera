@@ -1,0 +1,14 @@
+make -C /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank preflight
+make[1]: 进入目录“/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank”
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank/scripts/build.py check
+S1RT_BUILD_CHECK=PASS board_accessed=0
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank/scripts/program.py preflight
+[1/4] 使用已有固件。
+DOWNLOAD_SW_CHECK=PASS
+ELF=/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank/build/s1_video_runtime.elf
+DOWNLOAD_BITSTREAM_CHECK=PASS
+VIVADO=/mnt/data/Vivado/Vivado/2023.2/bin/vivado
+BITSTREAM=/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/bitstream/top_wrapper.bit
+TCL=/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank/program/program_bitstream.tcl
+S1RT_PREFLIGHT=PASS board_accessed=0
+make[1]: 离开目录“/mnt/data/wzr/13p/ov7670/sixteen_camera/sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank”

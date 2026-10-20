@@ -1,0 +1,8 @@
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/tools/check/check_current_product.py
+CURRENT_PRODUCT=PASS dma_load_streaming_asram_s1_512kib_2bank hardware_id=e037701c8d7cfc59
+FIRMWARE_COMPATIBILITY=ready l2=512KiB/2bank dma=2 streaming=1 asram=1
+tclsh /mnt/data/wzr/13p/ov7670/sixteen_camera/tools/check/check_production_manifest.tcl
+PRODUCTION_MANIFEST=PASS rtl=123 ip=10 xdc=6 soc=tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/tests/default_s1/run.py
+S1_PROJECT_INPUTS_LOCAL files=965
+DEFAULT_S1_REGRESSION=PASS selection_mismatches=4 board_rtl=123 ip=10 xdc=6 download_routes=4 build_sequences=5 source_lock_pruning=PASS board_accessed=0

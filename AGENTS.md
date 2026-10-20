@@ -4,9 +4,9 @@
 
 This repository provides a sixteen-channel video and AI platform for the Xilinx VU13P, integrating OV7670/HDMI capture, DDR, tensor production, Gemmini, and display overlays.
 
-- `hw/rtl/`: handwritten RTL; `hw/soc/source/`: current SoC sources; `hw/soc/`: the sole generated SoC export and its provenance.
+- `hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/`: default S1 source, generated SoC, board RTL/IP/constraints and provenance; selected by `hw/manifests/current.json`.
 - `hw/constraints/`, `hw/ip/`, `hw/vivado/`, `hw/manifests/`: board constraints, IP reconstruction Tcl, project scripts, and production source lists.
-- `sw/src/`: bare-metal firmware; `sw/models/yolov5nu/`: model runtime and parameters; `sw/third_party/`: validated dependency snapshots.
+- `sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank/`: default independent bare-metal video runtime, model and BSP. `sw/models/` and `sw/third_party/` remain historical benchmark inputs.
 - `tests/host/`: C tests; `tests/rtl/benches/`: subsystem testbenches; `tests/data/`: reference vectors.
 - `tools/`: build, programming, generation, and validation scripts; `docs/`: architecture, integration, and validation records.
 - `build/`: ignored build and simulation outputs.
@@ -18,13 +18,14 @@ Run commands from the repository root:
 - `make help`: list supported workflows.
 - `make check`: validate production manifests; `make check-deps`: also check tools and source dependencies.
 - `make project`: reconstruct the Vivado project from Tcl.
-- `make firmware`: requires firmware compatibility with the current hardware ABI; blocked while the hardware frontend port awaits software adaptation.
-- `make benchmark`: build standalone V33 frontend formal/diagnostic firmware; `make test-v33` verifies plans, scheduling, PPU lifecycle, logs, and ELFs without adapting the realtime Runtime.
-- `make test-frontend SOC_WORKSPACE=<rebuilt-workspace>`: test the autonomous command frontend, DMA arbitration, and three real DIM32 Gemminis.
-- `make elaborate`: check RTL elaboration; `make bitstream`: synthesize and implement hardware.
-- `make test-software`: run all host software and native model tests.
-- `make test-video test-tensor test-ppu`: run subsystem RTL regressions.
-- `make test-cache`: test the current generated L2 controller; `make test-video-pipeline` checks the registered video timing boundaries.
+- `make firmware`: build the default S1 live-video ELF; `make -C sw` selects the same package.
+- `make program-bitstream`: program its SHA-locked bitstream; `make board-live` loads firmware and captures continuous inference. Board actions require the user's instruction.
+- `make board-run`: about 100 total inferences; use a new `RUN` and `PORT=/dev/ttyACM0`.
+- `make preflight`: check ELF, tools and bitstream offline.
+- `make benchmark`: build the independent S1 fixed-image benchmark.
+- `make elaborate`, `make synth`, `make bitstream`: build S1 hardware in its private build directory; never overwrite the imported bitstream or gate bitgen on negative timing.
+- `make test`: run current software/HAL/tool tests and native S1 capture RTL. `make test-rtl RTL_RUN=<new>` runs native three-Gemmini/ASRAM numerical cases.
+- `make test-software`: run current software tests; older directed test scripts and documents are historical references.
 
 Use Vivado 2023.2, an RV64GCV/LP64D toolchain, Icarus Verilog, Verilator, and Python 3.10+. Install regression dependencies with `python3 -m pip install -r tests/requirements.txt`.
 

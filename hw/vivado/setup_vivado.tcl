@@ -1,3 +1,8 @@
+# The default project must use S1's IP/BD/constraints and implementation hooks.
+if {(![info exists ::env(ASRAM_CANDIDATE_CONTEXT)] || $::env(ASRAM_CANDIDATE_CONTEXT) eq "") &&
+    (![info exists ::env(DMA_LOAD_CANDIDATE_CONTEXT)] || $::env(DMA_LOAD_CANDIDATE_CONTEXT) eq "")} {
+    error "For the selected S1 default, reconstruct with make project (or source hw/vivado/create_project.tcl). This merge helper is for explicit historical candidate contexts."
+}
 # One-step registration of the repository sources in the currently open
 # Vivado project.  The project name and location are intentionally irrelevant:
 # all repository paths are resolved relative to this script.

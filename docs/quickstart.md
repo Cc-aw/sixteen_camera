@@ -1,56 +1,39 @@
-# 快速开始
+# S1 默认版本快速开始
 
-当前硬件已启用三路自主命令前端。独立 V33 基准使用 `make benchmark`、`make test-v33` 和 `make program-benchmark PROGRAM_ARGS=--check`，详见 [V33 操作说明](../sw/benchmarks/frontend/README.md)。下文实时视频的构建/烧写步骤需等 Runtime 适配后使用；根入口继续拒绝旧 ABI。硬件前端测试见 [验收记录](validation/command-frontend.md)。
+当前硬件/固件身份见 [current.json](../hw/manifests/current.json)。
+在 `tools/config/tools.local.mk` 配置 TOOLCHAIN（或 CROSS）、VIVADO_BIN、OPENOCD_BIN、GDB_BIN，
+必要时配置 GDB_PYTHONHOME、BOARD_JTAG_SERIAL；工具版本和路径示例见 `tools/config/tools.example.mk`。
+使用 Vivado 2023.2、RV64GCV/LP64D 工具链、Python 3.10+、Verilator 和 Icarus Verilog。
 
-## 环境与来源
+仓库根目录：
 
-需要 Vivado 2023.2、RV64GCV/LP64D bare-metal 工具链、Icarus、Verilator、Python 3.10+，以及 Host C/C++ 编译器。
-RV64 行为回归还需要 RISC-V Linux 静态编译器和 `qemu-riscv64`；缺失时必须单列 SKIP。
-SoC 生成需要匹配的参考 Chipyard 和其 Java/SBT/firtool 环境；当前 shell、有效覆盖和冻结依赖来自 `hw/soc/source/`。
-
-参考 `tools/config/tools.example.mk` 新建本机的 `tools.local.mk`，保留已有设置；不要将个人路径提交到源码。
-配置 `TOOLCHAIN`、`VIVADO_BIN`、`SOC_REFERENCE`，下载时另设 OpenOCD/GDB/JTAG 选项。
-
-```bash
-python3 -m pip install -r tests/requirements.txt
+```sh
+make help
+make check
 make check-deps
-```
-
-## 生成与离线构建
-
-```bash
-make soc SOC_REFERENCE=/path/to/chipyard SOC_WORKSPACE=/tmp/current-chipyard
-make project
-make elaborate
 make firmware
-make benchmark
-make check-v26-firmware
-make test-software
-make test-rtl SOC_WORKSPACE=/tmp/current-chipyard
+make preflight
+make program-bitstream RUN=s1_bit_01
+make board-live RUN=s1_live_02 PORT=/dev/ttyACM0
 ```
 
-`SOC_WORKSPACE` 必须是新的独立目录。生成器复制参考源码后安装仓库冻结覆盖，正常运行 SBT/Chisel/firtool，再按既有策略处理 RAM 和导出；不会修改参考源码。
-`make soc ... SOC_GENERATE_ARGS=--resume` 仅用于已准备且通过源码一致性检查的工作区。
-生成导出保留长 Config 目录，准确位置见 `hw/manifests/current.json`。
-两个软件入口各自编译适合运行模式的对象，共享模型/生成实现；fixed plans 和 packets 应一致。
+`preflight` 不连接板卡。比特流必须位于当前硬件包的 bitstream/top_wrapper.bit，SHA 与当前清单一致。
+`board-live` 连续推理、UART 留档，Ctrl-C 安全停止并排空。约 100 帧合计验收使用：
 
-## 实现与下载
-
-```bash
-make bitstream
-make program-bitstream BITSTREAM_FILE=/path/to/current.bit
-make program PROGRAM_ARGS=--no-build
+```sh
+make board-run RUN=s1_sample_01 PORT=/dev/ttyACM0
 ```
 
-只有匹配的当前 bitstream 才能用于当前 ELF。视频 ELF 为 `build/firmware/video/video.elf`，对应 JSON 记录硬件生成记录、参数、模型来源锁和 ELF 哈希。
-串口 115200 8N1；`h/v/s` 检查命令、视频和状态，`i` 启用/排空推理，并验证重启、资源回收与 overlay。
+每次使用新的 RUN。日志和下载记录在当前软件包 logs/RUN/ 下。
+串口单字符：s 停止、a 启动、t 汇总、v 通道统计、b 采样约 100 帧。
+缺失输入通过视频完整帧计数动态剔除；只接本地 OV7670 时实际 mask=0xff。
 
-三图基准使用独立 ELF：
+离线验证：`make test` 运行固件构建、8 个 Runtime 场景、工具/HAL 单元测试及冻结 S1 采集 RTL；
+`make test-rtl RTL_RUN=rtl_acceptance_02` 在新输出目录运行三路原生 Gemmini/ASRAM 数值仿真。
+固定图片基准使用 `make benchmark`，独立入口见 `sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank/`。
 
-```bash
-ELF_FILE="$PWD/build/firmware/benchmark/benchmark.elf" make program PROGRAM_ARGS=--no-build
-```
-
-依次发送 `M`（Pool/Resize 及 guard）、`t`（数值）、`a`（性能），保存 UART、bitstream/ELF/参数/计划哈希；要求数值零 mismatch。
-下载前仅检查工具和 ELF 可执行 `make program PROGRAM_ARGS=--check`，不会连接开发板。
-验证范围和待完成项目见 [current.md](validation/current.md)；不要把开发工程旧成绩视为当前板测。
+根目录 `make project / elaborate / synth / bitstream` 重建并运行 S1 Vivado 工程，
+默认目录在 S1 包 build/production/；可使用 PROJECT_OUTPUT 选择该包 build/ 内的新目录。
+`make soc SOC_WORKSPACE=<新目录> SOC_OUTPUT=<新目录>` 重新生成 SoC；两者均须位于 S1 包 build/ 下。
+生成的新硬件/比特流保留在 build/，不会自动覆盖已验证产物或更改软件绑定。
+导入实现 WNS −3.068 ns，未新增 write_bitstream 前的时序检查。

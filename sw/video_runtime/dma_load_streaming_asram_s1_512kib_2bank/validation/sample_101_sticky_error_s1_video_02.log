@@ -1,0 +1,238 @@
+ads=0,fault=0
+S1RT,STATS,state=0,enabled=0,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=0,enabled=0,complets=0,fault=0
+S1RT,STATS,state=0,enabled=0,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=0,enabled=0,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=0,enabled=0,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=0,enabled=0,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=0,enabled=0,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=0,enabled=0,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=0,enabled=0,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=0,enabled=0,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=0,enabled=0,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+
+S1RT,BOOT,hardware_id=e037701c8d7cfc59,live_input=1
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+[video] framebuffer: sixteen 360x270 RGB565 four-buffer pools; 4x4 mosaic selected
+[video] 8T49N241 lock retry
+[video] 8T49N241 Q2/Q3 locked at 148.5 MHz
+[video] framebuffer: sixteen 360x270 RGB565 four-buffer pools; 4x4 mosaic selected
+[video] initialized; TX sink present, waiting for OV7670 frame
+OV7670 CH1 RTL status=0x76DAC0AA DONE
+OV7670 CH1 RGB565 640x480 parallel stream started
+OV7670 CH2 RTL status=0x76DAC0AA DONE
+OV7670 CH2 RGB565 640x480 parallel stream started
+OV7670 CH3 RTL status=0x76DAC0AA DONE
+OV7670 CH3 RGB565 640x480 parallel stream started
+OV7670 CH4 RTL status=0x76DAC0AA DONE
+OV7670 CH4 RGB565 640x480 parallel stream started
+OV7670 CH5 RTL status=0x76DAC0AA DONE
+OV7670 CH5 RGB565 640x480 parallel stream started
+OV7670 CH6 RTL status=0x76DAC0AA DONE
+OV7670 CH6 RGB565 640x480 parallel stream started
+OV7670 CH7 RTL status=0x76DAC0AA DONE
+OV7670 CH7 RGB565 640x480 parallel stream started
+OV7670 CH8 RTL status=0x76DAC0AA DONE
+OV7670 CH8 RGB565 640x480 parallel stream started
+S1RT,VIDEO_INIT,all_devices_ready=1
+S1RT,READY,continuous=1,commands=b_sample100,s_stop,a_start,t_stats,v_streams
+[video] VPHY TX initializing
+[video] AXIS bridge underflow count=1
+S1RT,INPUT_MASK,mask=255
+[video] AXIS bridge underflow count=2
+[video] VPHY TX ready
+[video] stream up: 1920x1080p60 RGB, 2 pixels/clock
+[video] OV7670 frame received; HDMI stream start requested
+S1RT,SAMPLE_BEGIN,initial=0,target=100
+S1RT,STATS,state=1,enabled=1,completed=16,published=16,capture_mask=255,admission_mask=255,hw_control=1,hw_admission=255,errors=0,last_error_magnitude=0,ready=24,writing=32,held_tensor=24,active=3,heads=5,fault=0
+S1RT,STATS,state=1,enabled=1,completed=36,published=36,capture_mask=255,admission_mask=255,hw_control=1,hw_admission=255,errors=0,last_error_magnitude=0,ready=4,writing=8,held_tensor=4,active=1,heads=1,fault=0
+S1RT,STATS,state=1,enabled=1,completed=54,published=54,capture_mask=255,admission_mask=255,hw_control=1,hw_admission=255,errors=0,last_error_magnitude=0,ready=192,writing=2,held_tensor=192,active=3,heads=10,fault=0
+S1RT,STATS,state=1,enabled=1,completed=74,published=74,capture_mask=255,admission_mask=255,hw_control=1,hw_admission=255,errors=0,last_error_magnitude=0,ready=32,writing=64,held_tensor=32,active=1,heads=2,fault=0
+S1RT,STATS,state=1,enabled=1,completed=93,published=93,capture_mask=255,admission_mask=255,hw_control=1,hw_admission=255,errors=0,last_error_magnitude=0,ready=8,writing=16,held_tensor=8,active=2,heads=4,fault=0
+S1RT,SAMPLE_DRAIN
+S1RT,STATS,state=2,enabled=0,completed=100,published=100,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=7,last_error_magnitude=50,ready=8,writing=0,held_tensor=8,active=1,heads=1,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=17,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=27,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=37,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=47,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=57,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=67,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=77,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=87,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=97,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=107,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=117,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=127,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=137,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=147,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=157,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=167,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=177,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=187,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=197,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=207,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=217,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=227,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=237,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=247,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=257,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=267,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=277,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=287,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=297,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=307,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=317,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=327,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=337,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=347,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=357,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=367,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=377,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=387,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=397,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=407,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=417,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=427,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=437,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=447,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=457,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=467,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=477,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=487,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=497,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=507,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=517,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=527,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=537,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=547,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=557,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=567,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=254,admission_mask=255,hw_control=0,hw_admission=255,errors=577,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=587,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=597,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=254,admission_mask=255,hw_control=0,hw_admission=255,errors=607,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=617,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=627,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=637,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=647,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=657,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=667,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=677,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=687,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=697,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=707,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=254,admission_mask=255,hw_control=0,hw_admission=255,errors=717,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=727,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=737,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=747,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=757,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=767,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=777,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=787,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=797,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=807,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=817,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=827,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=837,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=847,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=857,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=867,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=877,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=887,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=897,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=907,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=917,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=927,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=937,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=947,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=957,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=967,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=977,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=987,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=997,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1007,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1017,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1027,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1037,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1047,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1057,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1067,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1077,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1087,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1097,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1107,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=254,admission_mask=255,hw_control=0,hw_admission=255,errors=1117,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1127,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1137,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1147,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1157,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1167,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1177,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1187,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1197,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1207,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1217,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1227,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1237,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1247,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1257,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1267,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1277,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1287,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1297,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1307,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1317,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1327,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1337,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1347,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1357,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=254,admission_mask=255,hw_control=0,hw_admission=255,errors=1367,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1377,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1387,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1397,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1407,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1417,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1427,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1437,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=254,admission_mask=255,hw_control=0,hw_admission=255,errors=1447,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1457,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=254,admission_mask=255,hw_control=0,hw_admission=255,errors=1467,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1477,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1487,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1497,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=254,admission_mask=255,hw_control=0,hw_admission=255,errors=1507,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1517,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1527,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=254,admission_mask=255,hw_control=0,hw_admission=255,errors=1537,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1547,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1557,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1567,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1577,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1587,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1597,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1607,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1617,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1627,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1637,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1647,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1657,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1667,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STOP_REQUEST
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1672,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STREAM,stream=0,dispatched=0,completed=0,capture_frames=17683,frame=0,version=0,detections=0
+S1RT,STREAM,stream=1,dispatched=15,completed=15,capture_frames=36791,frame=31701,version=16,detections=0
+S1RT,STREAM,stream=2,dispatched=15,completed=15,capture_frames=36791,frame=31703,version=16,detections=0
+S1RT,STREAM,stream=3,dispatched=15,completed=15,capture_frames=36791,frame=31704,version=16,detections=0
+S1RT,STREAM,stream=4,dispatched=14,completed=14,capture_frames=36791,frame=31695,version=15,detections=0
+S1RT,STREAM,stream=5,dispatched=14,completed=14,capture_frames=36789,frame=31697,version=15,detections=0
+S1RT,STREAM,stream=6,dispatched=14,completed=14,capture_frames=36794,frame=31700,version=15,detections=0
+S1RT,STREAM,stream=7,dispatched=14,completed=14,capture_frames=36794,frame=31701,version=15,detections=0
+S1RT,STREAM,stream=8,dispatched=0,completed=0,capture_frames=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=9,dispatched=0,completed=0,capture_frames=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=10,dispatched=0,completed=0,capture_frames=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=11,dispatched=0,completed=0,capture_frames=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=12,dispatched=0,completed=0,capture_frames=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=13,dispatched=0,completed=0,capture_frames=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=14,dispatched=0,completed=0,capture_frames=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=15,dispatched=0,completed=0,capture_frames=0,frame=0,version=0,detections=0
+S1RT,STATS,state=2,enabled=0,completed=101,published=101,capture_mask=255,admission_mask=255,hw_control=0,hw_admission=255,errors=1676,last_error_magnitude=50,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0

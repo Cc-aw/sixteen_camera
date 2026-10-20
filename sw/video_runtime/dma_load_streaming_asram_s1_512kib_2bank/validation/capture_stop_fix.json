@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "status": "OFFLINE_PASS_BOARD_RETEST_PENDING",
+  "old_board_run": "s1_video_02",
+  "old_board_result": {
+    "inference_completed": 101,
+    "results_published": 101,
+    "running_errors": 0,
+    "stop_requested_by": "100-frame sample command",
+    "drain": "FAILED: frozen S1 cancellation ERROR reasserted after release"
+  },
+  "fix": [
+    "fill both Tensor slots before disabling capture",
+    "preserve enable and report failure on quiesce timeout",
+    "add board-live without an automatic frame stop"
+  ],
+  "software_build_id": "2f9169326e967c1dcd938fb13f5a71575aab702160dcfbc55666ec3c8a52c058",
+  "elf_sha256": "79e9d0477fe8f35c9a350bd64dca50dd8446baa64e6a0b54757d3198fa153753",
+  "hardware_build_id": "e037701c8d7cfc59",
+  "hardware_changed": false,
+  "host_scenarios": 8,
+  "python_tests": 19,
+  "rtl_capture_stop": "PASS",
+  "rtl_sticky_cancel_reproduction": "PASS",
+  "new_software_board_tested": false,
+  "recovery": "Reload existing S1 bitstream once to clear the prior sticky cancellation state",
+  "followup_board_validation": "USER_CONFIRMED_PASS",
+  "followup_evidence": "board_s1_live_01.json"
+}

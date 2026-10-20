@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
-"""Validate the sole production identity against generated and evaluated inputs."""
+"""Validate the selected S1 hardware and live-video firmware ABI, offline."""
 import argparse
 import json
 import os
-from pathlib import Path
 import re
-import subprocess
 import sys
+from current_product import ROOT, local_path, product, sha
 
-ROOT = Path(__file__).resolve().parents[2]
-MANIFEST = ROOT / "hw/manifests/current.json"
-sys.path.insert(0, str(ROOT / "tools/soc"))
-from l2_geometry import L2Geometry
+NAME = 'dma_load_streaming_asram_s1_512kib_2bank'
+HW_ID = 'e037701c8d7cfc59'
+BIT_SHA = 'cb907a77e0c0bf97f5074208956884517d349485003a8d6613ca61b9f7e93a01'
 
 
 def require(condition, message):
@@ -19,151 +17,85 @@ def require(condition, message):
         raise ValueError(message)
 
 
-def macro(text, name):
-    match = re.search(r"^#define\s+" + re.escape(name) + r"\s+(0[xX][0-9a-fA-F]+|[0-9]+)[uUlL]*\b", text, re.M)
-    require(match is not None, "Missing macro: " + name)
-    return int(match[1], 16 if match[1].lower().startswith("0x") else 10)
-
-
-def validate(product, root=ROOT, evaluate=True):
-    expected = {"schema": 1, "hardware_alias": "triple32_v3_tensor", "worker_count": 3,
-                "gemmini_dim": 32, "clock_hz": 100000000, "model": "yolov5nu",
-                "runtime_profile": "v26", "credit_limit": 4,
-                "opcodes": ["custom2", "custom1", "custom0"]}
-    expected.update(video_build="build/firmware/video", video_elf="build/firmware/video/video.elf",
-                    benchmark_build="build/firmware/frontend",
-                    benchmark_elf="build/firmware/frontend/yolov5_three_way_12.elf")
+def validate(p):
+    expected = dict(schema=2, hardware_alias=NAME, hardware_build_id=HW_ID,
+                    hardware_directory='hw/soc/version/' + NAME,
+                    software_directory='sw/video_runtime/' + NAME,
+                    worker_count=3, gemmini_dim=32, clock_hz=100000000,
+                    runtime_profile='s1_live_video', bitstream_sha256=BIT_SHA,
+                    bitstream_bytes=113318492)
     for key, value in expected.items():
-        require(product.get(key) == value, f"Production identity mismatch: {key}")
-    config = "TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig"
-    require(product["scala_config"] == config, "Scala Config mismatch")
-    require(product["soc_config"] == "tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness." + config,
-            "SoC Config mismatch")
-    for name in ("SOC_VARIANT", "SOC_CONFIG"):
-        wanted = product["hardware_alias" if name == "SOC_VARIANT" else "soc_config"]
-        require(os.environ.get(name, "") in ("", wanted), f"Unsupported {name}")
-    for key in ("soc_directory", "collateral_directory", "model_rules", "model_source",
-                "generator", "frozen_input", "generation_context", "soc_sources", "tensor_ingress_source",
-                "soc_generator", "reference_manifest"):
-        path = root / product[key]
-        # Vivado's Tcl exec may select its bundled Python, older than the
-        # project's code-generation interpreter. Keep this bridge compatible.
-        require(not Path(product[key]).is_absolute() and root.resolve() in path.resolve().parents,
-                "Nonlocal product path: " + key)
-        require(path.exists(), "Missing product input: " + str(path))
-    require(product["collateral_directory"] == product["soc_directory"] + "/gen-collateral",
-            "Collateral mapping mismatch")
-    require(product["generation_context"] == product["soc_directory"] + "/GENERATION_CONTEXT.json",
-            "Generation context mapping mismatch")
-    context = json.loads((root / product["generation_context"]).read_text())
-    require(context["config"] == product["soc_config"], "Generation identity mismatch")
-    metadata = list((root / product["soc_directory"]).glob("*.l2.json"))
-    require(len(metadata) == 1, "Missing generated L2 geometry")
-    geometry = L2Geometry.from_metadata(metadata[0])
-    expected_l2 = geometry.describe()
-    require("l2" in product, "Missing L2 product geometry")
-    for key in ("banks", "capacity_bytes", "ways", "sets_per_bank", "line_bytes", "bank_mask", "statistics_abi"):
-        require(product["l2"].get(key) == expected_l2[key], "L2 geometry mismatch: " + key)
-    require(context.get("l2_banks", geometry.banks) == geometry.banks, "Generation L2 bank count mismatch")
-    for lock in product["source_locks"]:
-        require((root / lock).is_file(), "Missing source lock: " + lock)
-    require(len(product["parameter_headers"]) == 3, "Expected three parameter headers")
-    for opcode, path in zip(product["opcodes"], product["parameter_headers"]):
-        wanted = (product["collateral_directory"] + "/include/"
-                  "gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_" + opcode + "_xcvu13p.h")
-        require(path == wanted, "Worker parameter mapping mismatch: " + opcode)
-        text = (root / path).read_text()
-        require(macro(text, "DIM") == product["gemmini_dim"], "DIM mismatch: " + path)
-        require(macro(text, "GEMMINI_LOOPCONV_SAFE_MAX") == product["credit_limit"],
-                "SAFE_MAX mismatch: " + path)
-        require(macro(text, "XCUSTOM_ACC") == int(opcode[-1]), "RoCC opcode mismatch: " + path)
-    csr_sets = [(0x7c2, 0x7c4, 0x7c6, 0x7c7), (0x7c3, 0x7c5, 0x7c8, 0x7c9),
-                (0x7ca, 0x7cb, 0x7cc, 0x7cd)]
-    for path, values in zip(product["parameter_headers"], csr_sets):
-        text = (root / path).read_text()
-        for name, value in zip(("GEMMINI_BUSY_CSR", "GEMMINI_LOOPCONV_STATUS_CSR",
-                                "GEMMINI_LOOPCONV_ACCEPTED_CSR", "GEMMINI_LOOPCONV_RETIRED_CSR"), values):
-            require(macro(text, name) == value, "Worker CSR mismatch: " + path + " " + name)
-    platform = (root / "sw/src/platform/platform.h").read_text()
-    clock_match = re.search(r"#define SOC_CLOCK_HZ UINT64_C\((\d+)\)", platform)
-    require(clock_match is not None and int(clock_match[1]) == product["clock_hz"], "Platform clock mismatch")
-    for module in ("Gemmini", "Gemmini_1", "Gemmini_2"):
-        rtl = (root / product["collateral_directory"] / (module + ".sv")).read_text()
-        require("loopConvOutstandingCount < 4'h4" in rtl and
-                "io_loopconv_request_queue_count" not in rtl and
-                "io_loopconv_assembler_partial" not in rtl,
-                "Hardware credit/admission mismatch: " + module)
-    clock = (root / "sw/src/board/xparameters.h").read_text()
-    require(macro(clock, "XPAR_CPU_CORE_CLOCK_FREQ_HZ") == product["clock_hz"], "CPU clock mismatch")
-    frontend = product["command_frontend"]
-    require(frontend["enabled"] and frontend["control_opcode"] == "custom3" and
-            frontend["worker_lanes"] == [2, 1, 0], "Frontend ABI mapping mismatch")
-    benchmark = product["frontend_benchmark"]
-    require(benchmark["version"] == 33 and benchmark["status"] == "ready" and
-            benchmark["frames_per_mode"] == 12 and benchmark["runtime_adapted"] is False,
-            "Standalone V33 benchmark identity mismatch")
-    for key in ("source", "rules", "generator", "source_lock", "import_manifest"):
-        path = root / benchmark[key]
-        require(not Path(benchmark[key]).is_absolute() and root.resolve() in path.resolve().parents
-                and path.exists(), "Invalid V33 source: " + key)
-    tile = (root / product["collateral_directory"] / "RocketTile.sv").read_text()
-    require("CommandFrontendCluster" in tile and "CommandFrontendTL" in tile,
-            "Frontend missing from generated SoC")
-    if evaluate and product["firmware_compatibility"]["status"] == "ready":
-        for entry in (root / "sw", root / "sw/benchmarks/triple_infer"):
-            output = subprocess.check_output(
-                ["make", "--no-print-directory", "-s", "-C", str(entry), "print-current-config"],
-                text=True)
-            actual = dict(line.split("=", 1) for line in output.splitlines() if "=" in line)
-            for key, value in {"WORKERS": "3", "DIM": "32", "CREDIT": "4", "DIAGNOSTIC": "0",
-                               "PARAMS": str(root / product["parameter_headers"][0]),
-                               "MODEL": str(root / product["model_source"]),
-                               "GENERATOR": str(root / product["generator"]),
-                               "FROZEN": str(root / product["frozen_input"])}.items():
-                require(actual.get(key) == value, f"{entry}: evaluated {key} mismatch")
-            flags = actual["FLAGS"].split()
-            definitions = dict(flag[2:].split("=", 1) for flag in flags if flag.startswith("-D") and "=" in flag)
-            for flag in ("-DYOLO32_CONTEXT_FULL=0", "-DYOLO32_FIXED_PLANS=1", "-DYOLO32_FIXED_PACKETS=1",
-                         "-DYOLO32_PREPARED_PACKETS=1", "-DYOLO32_WAIT_REUSE=1", "-DYOLO32_MEMORY_OPS=1",
-                         "-DYOLO32_SOFTWARE_BATCH=0", "-DYOLO32_CREDIT_LIMIT=4",
-                         "-DYOLO32_SUBMIT_BURST=1", "-DYOLO32_QUANTUM_US=200", "-DYOLO32_SCHED_ADAPTIVE=0",
-                         "-DYOLO32_RESIZE_BATCH=1", "-DYOLO32_RESIZE_ROWS=0", "-DYOLO32_CREDIT_QUERY=1",
-                         "-DYOLO32_PACKET_DISPATCH=1", "-DYOLO32_DIAGNOSTIC_BUILD=0",
-                         "-DYOLOV5NU_GEMMINI_DIM=32", "-DYOLOV5NU_DIM16_WORKER_COUNT=3U"):
-                name, value = flag[2:].split("=", 1)
-                require(definitions.get(name) == value, f"{entry}: production flag mismatch: {name}")
+        require(p[key] == value, 'Production identity mismatch: ' + key)
+    for selector, wanted in [('SOC_VARIANT', NAME), ('SOC_CONFIG', p['soc_config'])]:
+        require(os.environ.get(selector, '') in ('', wanted), 'Unsupported ' + selector)
+    hw = local_path(p['hardware_directory'])
+    sw = local_path(p['software_directory'])
+    require(p['soc_directory'] == p['hardware_directory'] + '/generated', 'SoC directory mismatch')
+    require(p['collateral_directory'] == p['soc_directory'] + '/gen-collateral', 'Collateral mismatch')
+    require(p['generation_context'] == p['soc_directory'] + '/GENERATION_CONTEXT.json', 'Context path mismatch')
+    require(p['bitstream'] == p['hardware_directory'] + '/bitstream/top_wrapper.bit', 'Bitstream path mismatch')
+    require(p['video_build'] == p['software_directory'] + '/build', 'Software build mismatch')
+    require(p['video_elf'] == p['video_build'] + '/s1_video_runtime.elf', 'ELF mismatch')
+    context_path = local_path(p['generation_context'])
+    context = json.loads(context_path.read_text())
+    h = json.loads((hw / 'manifests/hardware.json').read_text())
+    require(sha(context_path) == p['generation_context_sha256'] == h['generation_context_sha256'], 'Context hash mismatch')
+    require(context['config'] == p['soc_config'], 'Generated SoC config mismatch')
+    require(context['dma_load_build_id'] == h['hardware_build_id'] == HW_ID, 'Hardware build ID mismatch')
+    require(h['bitstream_sha256'] == BIT_SHA and h['bitstream_bytes'] == p['bitstream_bytes'], 'Bitstream identity mismatch')
+    require(context['dma_load_fixed_mode'] == p['dma']['fixed_mode'] == 2 and
+            context['dma_load_mode_ids'] == [2] and
+            context['dma_load_capability_word'] == p['dma']['capability_word'] == '0x00010004' and
+            context['dma_load_streaming_enable'] and context['activation_sram_enabled'], 'DMA/ASRAM ABI mismatch')
+    require(p['l2'] == dict(banks=2, capacity_bytes=524288, ways=8, sets_per_bank=512, line_bytes=64), 'L2 identity mismatch')
+    metadata = list((hw / 'generated').glob('*.l2.json'))
+    require(len(metadata) == 1, 'Expected one L2 geometry')
+    banks = json.loads(metadata[0].read_text())['banks']
+    require(len(banks) == 2 and all(b['ways'] == 8 and len(b['setBits']) == 9 and b['blockBytes'] == 64 for b in banks), 'Generated L2 geometry mismatch')
+    require(p['asram'] == dict(bases=[0x20000000, 0x20400000, 0x20800000],
+                              physical_bytes_per_bank=2359296, control_base=0x20c00000), 'ASRAM map mismatch')
+    require(p['command_frontend'] == dict(fifo_depth=8, get_bytes=32), 'Frontend dimensions mismatch')
+    require(p['firmware_compatibility'] == dict(status='ready', control_opcode='custom3',
+            worker_opcodes=['custom0', 'custom1', 'custom2'], irq=13), 'Firmware ABI mismatch')
+    lock = json.loads((hw / 'manifests/LOCAL_FILES.json').read_text())['files']
+    for lane in range(3):
+        name = 'generated/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom%d_xcvu13p.h' % lane
+        require(sha(hw / name) == lock[name], 'Generated parameter header mismatch')
+    require((sw / 'hardware/gemmini_params_custom0.h').read_bytes() ==
+            (hw / 'generated/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom0_xcvu13p.h').read_bytes(), 'Software parameter snapshot mismatch')
+    # The package independently checks its full source/flags/ELF identity before downloading.
+    sys.path.insert(0, str(sw / 'scripts'))
+    import build
+    require(build.HW_ID == HW_ID and build.BIT_SHA == BIT_SHA and build.BIT == local_path(p['bitstream']), 'Software hardware binding mismatch')
+    for relative in ['Makefile', 'sources.mk', 'src/main.c', 'src/live_backend.inc',
+                     'runtime/drivers/tensor/ai_tensor_device.c', 'tests/run.py']:
+        require((sw / relative).is_file(), 'Missing firmware source: ' + relative)
+    retired = ROOT / 'hw/soc' / ('tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.'
+              'TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig')
+    require(not retired.exists() and not (ROOT / 'sw/src/main.c').exists(), 'Retired default remains')
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--tcl", action="store_true", help="Emit validated identity fields as a Tcl list")
-    parser.add_argument("--firmware", action="store_true", help="Require software adapted to the current hardware ABI")
-    parser.add_argument("--benchmark", action="store_true", help="Require the standalone V33 benchmark")
+    parser.add_argument('--tcl', action='store_true')
+    parser.add_argument('--firmware', action='store_true')
+    parser.add_argument('--benchmark', action='store_true')
     args = parser.parse_args()
     try:
-        product = json.loads(MANIFEST.read_text())
-        if args.firmware:
-            require(product["firmware_compatibility"]["status"] == "ready",
-                    "Hardware frontend uses custom0/1/2; custom3 is control. "
-                    "Realtime v26 Runtime adaptation is deferred; use make benchmark for standalone V33.")
-        if args.benchmark:
-            require(product["frontend_benchmark"]["status"] == "ready", "V33 benchmark is not ready")
+        p = product()
+        validate(p)
         if args.tcl:
-            validate(product, evaluate=False)
-            # These values are list elements, never executable Tcl text.
-            for key in ("hardware_alias", "soc_config", "collateral_directory"):
-                require(re.fullmatch(r"[A-Za-z0-9_./-]+", product[key]), "Invalid Tcl field: " + key)
-            print(" ".join(f"{key} {product[key]}" for key in
-                           ("hardware_alias", "soc_config", "collateral_directory")))
+            keys = ('hardware_alias', 'soc_config', 'collateral_directory')
+            require(all(re.fullmatch(r'[A-Za-z0-9_./-]+', p[k]) for k in keys), 'Invalid Tcl field')
+            print(' '.join(k + ' ' + p[k] for k in keys))
         else:
-            validate(product)
-            print("CURRENT_PRODUCT=PASS triple32_v3_tensor frontend=3 workers=3 dim=32 credit=4")
-            print("FIRMWARE_COMPATIBILITY=" + product["firmware_compatibility"]["status"])
-    except (ValueError, KeyError, OSError, subprocess.CalledProcessError) as error:
-        print(f"CURRENT_PRODUCT=FAIL {error}", file=sys.stderr)
+            print('CURRENT_PRODUCT=PASS ' + NAME + ' hardware_id=' + HW_ID)
+            print('FIRMWARE_COMPATIBILITY=ready l2=512KiB/2bank dma=2 streaming=1 asram=1')
+    except (ValueError, KeyError, OSError) as error:
+        print('CURRENT_PRODUCT=FAIL ' + str(error), file=sys.stderr)
         return 1
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     sys.exit(main())

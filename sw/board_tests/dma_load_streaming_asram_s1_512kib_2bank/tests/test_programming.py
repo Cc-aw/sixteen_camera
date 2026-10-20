@@ -145,6 +145,8 @@ class Programming(unittest.TestCase):
                 self.assertEqual(result, status)
                 self.assertTrue(start.call_args.kwargs['env']['LD_PRELOAD'].startswith(str(compat)))
                 self.assertTrue(start.call_args.kwargs['start_new_session'])
+                self.assertFalse(any(arg.startswith('-I') for arg in start.call_args.args[0]),
+                                 'Server must survive slow Vivado startup; finally owns cleanup')
                 self.assertEqual(run.call_args.kwargs['env']['HW_SERVER_URL'], '127.0.0.1:43567')
                 self.assertEqual(run.call_args.kwargs['env'].get('LD_PRELOAD'), os.environ.get('LD_PRELOAD'))
                 self.assertEqual(kill_group.call_args_list,

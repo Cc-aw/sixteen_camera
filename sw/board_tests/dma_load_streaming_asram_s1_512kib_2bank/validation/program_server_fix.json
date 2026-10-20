@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "status": "OFFLINE_PASS",
+  "scope": "private hw_server startup lifetime and owned process cleanup",
+  "fix": "removed -I180; finally retains ownership of cleanup",
+  "python_tests": 9,
+  "software_build_id": "39b4933d4013f83e238d4caeed2487cc643774f537f6a49aee2bf6e75d2d9fa3",
+  "elf_sha256": "48277406eca229908f0ef6a38ec5e4129e83687159d939019be33b2f21531c2b",
+  "board_accessed": false,
+  "board_download_retried": false
+}

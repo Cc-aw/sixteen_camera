@@ -1,3 +1,13 @@
+# Default reconstruction uses the immutable S1 package. Private experiments
+# retain the legacy integration helper below for their explicit contexts.
+if {(![info exists ::env(ASRAM_CANDIDATE_CONTEXT)] || $::env(ASRAM_CANDIDATE_CONTEXT) eq "") &&
+    (![info exists ::env(DMA_LOAD_CANDIDATE_CONTEXT)] || $::env(DMA_LOAD_CANDIDATE_CONTEXT) eq "")} {
+    set repo [file dirname [file dirname [file dirname [file normalize [info script]]]]]
+    set s1 [file join $repo hw soc version dma_load_streaming_asram_s1_512kib_2bank]
+    if {[llength $argv] == 0} {set argv [list [file join $s1 build production]]}
+    source [file join $s1 scripts create_project.tcl]
+    return
+}
 # Rebuild/open the integration example. Vivado controls IP/BD output paths.
 # VIVADO_PROJECT optionally selects any local .xpr path, including outside build/.
 set repo_dir [file dirname [file dirname [file dirname [file normalize [info script]]]]]

@@ -1,0 +1,27 @@
+{
+  "reason": "Remove uncompiled old v26 application/backend and duplicate implementations from the promoted package; build source/dependency closure retained.",
+  "removed": [
+    "runtime/main.c",
+    "runtime/app/app.c",
+    "runtime/app/command.c",
+    "runtime/app/mode_manager.c",
+    "runtime/board/board_boot.c",
+    "runtime/diagnostics/ai_postprocess_diag.c",
+    "runtime/diagnostics/ai_yolov5nu_selftest.c",
+    "runtime/diagnostics/board_bandwidth.c",
+    "runtime/diagnostics/runtime_diagnostics.c",
+    "runtime/diagnostics/tensor_production.c",
+    "runtime/platform/startup.S",
+    "runtime/drivers/ppu/ai_ppu_device_publication.c",
+    "runtime/drivers/ppu/ai_ppu_device_queue.c",
+    "runtime/ai/backend/ai_model_backend_yolov5nu.c",
+    "runtime/ai/postprocess/ai_ppu_publication.c",
+    "runtime/ai/postprocess/ai_ppu_queue.c",
+    "runtime/ai/runtime/ai_batch_runtime_stream.c",
+    "runtime/ai/runtime/ai_head_slot_queue.c",
+    "runtime/ai/runtime/services/rt_postprocess_service.c",
+    "runtime/ai/backend/adapters/rt_backend_compat.c",
+    "runtime/ai/backend/adapters/legacy/rt_backend_legacy.c",
+    "runtime/ai/backend/adapters/v17a/rt_backend_v17a.c"
+  ]
+}

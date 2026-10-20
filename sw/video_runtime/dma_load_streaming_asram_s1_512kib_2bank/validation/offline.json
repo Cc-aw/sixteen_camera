@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "status": "OFFLINE_PASS",
+  "board_validation": "NOT_RUN",
+  "date": "2026-10-20",
+  "hardware_build_id": "e037701c8d7cfc59",
+  "bitstream_sha256": "cb907a77e0c0bf97f5074208956884517d349485003a8d6613ca61b9f7e93a01",
+  "software_build_id": "18f0f4f93a4b3b9807726f5fb041043042fc816e413ca62e47c02a5c071449d2",
+  "elf_sha256": "3ffcd5a56ccf5eed2b2c0dfe28815202dd46433ac2c54655c360e4ed9fc2dd18",
+  "elf": "build/s1_video_runtime.elf",
+  "elf_entry": "0x82000000",
+  "elf_load_end": "0x83e89140",
+  "link_region_end": "0x88000000",
+  "host_tests": {
+    "status": "PASS",
+    "scenarios": 7,
+    "log_tests": 8,
+    "rtl_executed": false,
+    "board_tested": false
+  },
+  "verification": [
+    "RV64GCV/LP64D build",
+    "192 live input plan rebinding checks (6 templates x 32 tensor slots), with full native command comparison",
+    "actual video Runtime + S1 backend device-mock scenarios",
+    "UART result parser failure/incomplete cases",
+    "bitstream/ELF programming preflight without board access"
+  ],
+  "commands": [
+    "make all",
+    "make test",
+    "make preflight"
+  ]
+}

@@ -1,0 +1,37 @@
+test_completion (test_board_log.BoardLogTests.test_completion) ... ok
+test_errors (test_board_log.BoardLogTests.test_errors) ... ok
+test_fault (test_board_log.BoardLogTests.test_fault) ... ok
+test_held_head (test_board_log.BoardLogTests.test_held_head) ... ok
+test_incomplete (test_board_log.BoardLogTests.test_incomplete) ... ok
+test_missing_guards (test_board_log.BoardLogTests.test_missing_guards) ... ok
+test_no_streams (test_board_log.BoardLogTests.test_no_streams) ... ok
+test_too_few (test_board_log.BoardLogTests.test_too_few) ... ok
+Ran 8 tests in 0.001s
+OK
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+LIVE_INPUT_PATCH_PASS tables=6 tensor_slots=32 native_math_preserved=1
+LIVE_RUNTIME_PASS streams=16 workers=3 head_backpressure=1 compute_release_before_ppu=1 stop_drain_restart=1 hardware_executed=0
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+LIVE_INPUT_PATCH_PASS tables=6 tensor_slots=32 native_math_preserved=1
+S1RT,FAULT,reason=9,ownership=retained
+LIVE_BAD_PPU_IDENTITY_PASS head_retained=1
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+LIVE_INPUT_PATCH_PASS tables=6 tensor_slots=32 native_math_preserved=1
+S1RT,FAULT,reason=9,ownership=retained
+LIVE_BAD_PPU_IDENTITY_PASS head_retained=1
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+LIVE_INPUT_PATCH_PASS tables=6 tensor_slots=32 native_math_preserved=1
+S1RT,FAULT,reason=9,ownership=retained
+LIVE_BAD_PPU_IDENTITY_PASS head_retained=1
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+LIVE_INPUT_PATCH_PASS tables=6 tensor_slots=32 native_math_preserved=1
+S1RT,FAULT,reason=14,ownership=retained
+LIVE_FRONTEND_FAULT_PASS tensor_and_head_retained=1
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+LIVE_INPUT_PATCH_PASS tables=6 tensor_slots=32 native_math_preserved=1
+S1RT,FAULT,reason=20,ownership=retained
+LIVE_FRONTEND_FAULT_PASS tensor_and_head_retained=1
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+LIVE_INPUT_PATCH_PASS tables=6 tensor_slots=32 native_math_preserved=1
+S1RT,FAULT,reason=21,ownership=retained
+LIVE_PPU_TIMEOUT_PASS head_retained=1

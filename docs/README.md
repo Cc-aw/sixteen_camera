@@ -1,5 +1,8 @@
 # 当前系统文档
 
+默认为已上板验证的 S1 DMA streaming + ASRAM 实时视频版本。构建以快速开始与当前清单为准；
+旧 v26/V33 架构文档保留为历史参考。
+
 - [快速开始](quickstart.md)：依赖、SoC 生成、Vivado、固件、基准、下载和测试顺序。
 - [硬件架构](architecture/hardware.md)：十六路视频、TensorIngress、三 Gemmini32、L2/DDR、Head/PPU 和显示。
 - [软件架构](architecture/software.md)：应用、Runtime、backend、模型与资源生命周期。

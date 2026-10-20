@@ -1,0 +1,32 @@
+{
+  "status": "USER_CONFIRMED_PASS",
+  "run": "s1_live_01",
+  "user_report": "功能正常",
+  "hardware_build_id": "e037701c8d7cfc59",
+  "software_elf_sha256": "79e9d0477fe8f35c9a350bd64dca50dd8446baa64e6a0b54757d3198fa153753",
+  "log_snapshot": "board_s1_live_01.txt",
+  "log_sha256": "84ec18bae15fdc9e659cc420cbb3857e320291b9753ca3d8dff8f612b8944a60",
+  "statistics_samples": 849,
+  "last_statistics": {
+    "state": 1,
+    "enabled": 1,
+    "completed": 16950,
+    "published": 16950,
+    "capture_mask": 255,
+    "admission_mask": 255,
+    "hw_control": 1,
+    "hw_admission": 255,
+    "errors": 0,
+    "last_error_magnitude": 0,
+    "error_slots": 8,
+    "ready": 3,
+    "writing": 4,
+    "held_tensor": 3,
+    "active": 3,
+    "heads": 9,
+    "fault": 0
+  },
+  "max_software_errors": 0,
+  "max_runtime_fault": 0,
+  "scope": "Continuous live inference and visible overlays confirmed by user; log snapshot without board access. Hardware error_slots is a mask, separate from software errors/fault. Stop and timing closure not claimed."
+}

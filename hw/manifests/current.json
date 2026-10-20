@@ -1,84 +1,60 @@
 {
-  "schema": 1,
-  "hardware_alias": "triple32_v3_tensor",
-  "scala_config": "TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig",
-  "soc_config": "tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig",
-  "soc_directory": "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig",
-  "collateral_directory": "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/gen-collateral",
+  "schema": 2,
+  "hardware_alias": "dma_load_streaming_asram_s1_512kib_2bank",
+  "hardware_directory": "hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank",
+  "software_directory": "sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank",
+  "soc_config": "tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig",
+  "soc_directory": "hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/generated",
+  "collateral_directory": "hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/generated/gen-collateral",
+  "generation_context": "hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/generated/GENERATION_CONTEXT.json",
+  "generation_context_sha256": "bba9b4e94554e76d98238696aa91278e93f83015c6e0b4ffe904a3b7f142cc19",
+  "hardware_build_id": "e037701c8d7cfc59",
+  "bitstream": "hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/bitstream/top_wrapper.bit",
+  "bitstream_sha256": "cb907a77e0c0bf97f5074208956884517d349485003a8d6613ca61b9f7e93a01",
+  "bitstream_bytes": 113318492,
   "worker_count": 3,
   "gemmini_dim": 32,
   "clock_hz": 100000000,
+  "runtime_profile": "s1_live_video",
   "model": "yolov5nu",
-  "runtime_profile": "v26",
-  "credit_limit": 4,
-  "opcodes": [
-    "custom2",
-    "custom1",
-    "custom0"
-  ],
-  "parameter_headers": [
-    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom2_xcvu13p.h",
-    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom1_xcvu13p.h",
-    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/gen-collateral/include/gemmini_params_32x32_ws_dual_int8_dsp_inference_ram_custom0_xcvu13p.h"
-  ],
-  "model_rules": "sw/models/yolov5nu/model.mk",
-  "model_source": "sw/models/yolov5nu/src/model.c",
-  "generator": "sw/models/yolov5nu/codegen/generate_parallel.py",
-  "frozen_input": "sw/models/yolov5nu/frozen/native/yolov5nu_dim16_dual.c",
-  "source_locks": [
-    "sw/models/yolov5nu/sources.lock.json",
-    "sw/third_party/gemmini/sources.lock.json"
-  ],
-  "generation_context": "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/GENERATION_CONTEXT.json",
-  "soc_sources": "hw/soc/source/shell",
-  "tensor_ingress_source": "hw/soc/source/tensor_ingress/TensorIngress.scala",
-  "soc_generator": "tools/soc/build_triple32_v3_tensor.py",
-  "reference_manifest": "hw/soc/source/shell/REFERENCE_MANIFEST.json",
-  "video_build": "build/firmware/video",
-  "video_elf": "build/firmware/video/video.elf",
-  "benchmark_build": "build/firmware/frontend",
-  "benchmark_elf": "build/firmware/frontend/yolov5_three_way_12.elf",
-  "command_frontend": {
-    "enabled": true,
-    "control_opcode": "custom3",
-    "control_abi": 2,
-    "record_bytes": 32,
-    "fifo_depth": 8,
-    "worker_lanes": [
-      2,
-      1,
-      0
-    ],
-    "source": "hw/soc/source/command_frontend",
-    "import_manifest": "hw/soc/source/command_frontend/IMPORT_MANIFEST.json"
-  },
+  "video_build": "sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank/build",
+  "video_elf": "sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank/build/s1_video_runtime.elf",
+  "benchmark_directory": "sw/board_tests/dma_load_streaming_asram_s1_512kib_2bank",
   "firmware_compatibility": {
-    "status": "pending_frontend_port",
-    "reason": "Realtime v26 Runtime still uses the previous custom3/custom2/custom1 ABI; standalone V33 benchmark is ready."
-  },
-  "frontend_benchmark": {
-    "version": 33,
     "status": "ready",
-    "source": "sw/benchmarks/frontend/src/main.c",
-    "rules": "sw/benchmarks/frontend/Makefile",
-    "generator": "sw/benchmarks/frontend/scripts/prepare.py",
-    "source_lock": "sw/models/yolov5nu/frozen/frontend_v33/sources.lock.json",
-    "import_manifest": "sw/benchmarks/frontend/IMPORT_MANIFEST.json",
-    "frames_per_mode": 12,
-    "diagnostic_elf": "build/firmware/frontend/yolov5_frontend_diag_12.elf",
-    "runtime_adapted": false
+    "control_opcode": "custom3",
+    "worker_opcodes": [
+      "custom0",
+      "custom1",
+      "custom2"
+    ],
+    "irq": 13
   },
-  "l2_secondary_entries": 34,
-  "head_read_decouple": false,
-  "l2_implementation": "s1_combinational",
+  "command_frontend": {
+    "fifo_depth": 8,
+    "get_bytes": 32
+  },
+  "dma": {
+    "fixed_mode": 2,
+    "capability_word": "0x00010004",
+    "streaming": "row_ready_v1"
+  },
   "l2": {
-    "banks": 4,
-    "capacity_bytes": 1048576,
+    "banks": 2,
+    "capacity_bytes": 524288,
     "ways": 8,
     "sets_per_bank": 512,
-    "line_bytes": 64,
-    "bank_mask": 12288,
-    "statistics_abi": "1.2",
-    "fallback_banks": 2
-  }
+    "line_bytes": 64
+  },
+  "asram": {
+    "bases": [
+      536870912,
+      541065216,
+      545259520
+    ],
+    "physical_bytes_per_bank": 2359296,
+    "control_base": 549453824
+  },
+  "board_validation": "USER_CONFIRMED_PASS",
+  "validation": "docs/validation/default-s1.json"
 }

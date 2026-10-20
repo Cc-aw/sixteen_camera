@@ -1,26 +1,30 @@
-# 当前软件架构
+# 当前 S1 软件架构
 
-实时入口由 `sw/src/main.c` 驱动 video → Runtime → app 主循环。应用使用 `ai/runtime/rt.h` Facade，串口和模式互斥位于 `app/`；固定三图 `M/t/a` 位于独立 benchmark。
+默认软件包 `sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank/` 自带模型、BSP 和运行工具。
+`src/main.c` 初始化视频及 Runtime，循环调用 video_service_poll、rt_poll 和 UART 服务。
+根目录 `make firmware` 与 `make -C sw` 均选择本包，旧 v26 默认入口已删除。
+
+以下路径均相对本包：
 
 | 层 | 位置 | 责任 |
 | --- | --- | --- |
-| 应用 | `sw/src/app/` | 启动、事件循环、串口、模式管理 |
-| Core | `sw/src/ai/runtime/core/` | Pipeline、生命周期、状态和统计 |
-| Resources | `sw/src/ai/runtime/resources/` | job/Tensor/activation/Head 租约与回收 |
-| Scheduler | `sw/src/ai/runtime/scheduler/` | 帧选择、EDF、worker 派发 |
-| Services | `sw/src/ai/runtime/services/` | Tensor、结果、PPU、overlay 服务 |
-| Backend | `sw/src/ai/backend/` | 通用 job/event 与当前模型接合 |
-| Model | `sw/models/yolov5nu/src/` | v26 图、三 worker 提交/等待/退休协作 |
-| HAL | `sw/src/drivers/` | Tensor/PPU/overlay 设备协议 |
+| 应用 | `src/main.c` | 连续运行、约 100 帧采样、串口、统计 |
+| Core / Resources | `runtime/ai/runtime/` | Pipeline、job/Tensor/activation/Head 租约与状态 |
+| Scheduler / Services | `runtime/ai/runtime/scheduler/`、`services/` | 16 路 latest-frame 调度、派发、结果及 overlay 生命周期 |
+| Backend | `src/live_backend.inc` | S1 前端、IRQ13、三核执行、双 Head、PPU 结果身份 |
+| Model | `model/`、`scripts/prepare_yolo.py` | 冻结算术、命令规划和生成 |
+| HAL | `runtime/drivers/` | Tensor、完整帧计数和 overlay 协议 |
+| BSP | `bsp/` | 板级时钟、IIC 与 AMD 视频驱动 |
 
-`model.mk` 同时服务实时固件和三图基准；共同使用 codegen、frozen/native、assets 和唯一 Gemmini ABI。
-实时编译设置 `YOLO32_LIVE=1`；正式版保持 credit=4、submit burst=1、quantum=200 µs、light FP/VCSR context、fixed/prepared packets、wait reuse 和硬件 Pool/Resize。
-当前适配器名称中的 V17A 是 ABI family，实际交付为 v26。冻结 native 的 dim16 名称也不决定当前 DIM，参数由配对构建显式锁定。
+软件每 100 ms 观察实际完整视频帧，候选输入最近 1 秒内有活动才接纳。
+每帧从真实 Tensor 槽执行，六张运行命令表仅修补输入地址，保留原模型运算。
+12 个 HOST 边界、DONE 计数和 ACK 完成后才释放计算资源；PPU 可继续持有独立 Head 槽。
+结果通过 stream/frame/version、job 和 generation 验证后交给 Runtime，硬件负责绘制检测框。
 
-Tensor、activation、Head 各自拥有租约；compute completion 不代表 PPU 已释放 Head。
-Head 局部完成后发布，整图完成后入队；job/frame/version、publication generation、receipt 共同约束结果身份及安全回收。
-异常可能保留资源，drain/restart 不能在缺少设备完成证明时强制释放。
-单 worker 活跃、入口拒绝、延迟退休和长期空闲仍需有界返回视频循环；现有稀疏/故障回归保留。
+停止时保留 READY Tensor，先让每路两槽填满、写响应排空，再关闭生产者并回收，
+避免冻结硬件的中途取消错误。超时保留无法证明安全释放的资源并报告故障。
+无新结果超过 3 秒且该通道没有在途任务时清除旧框。
 
-测试入口为 `make test-software`；协议细节见 [Tensor/PPU](../interfaces/tensor-ppu.md) 和 [Gemmini ABI](../interfaces/gemmini-abi.md)。
-R0 版本回绕 characterization 的已知正确性缺口见 [当前验收](../validation/current.md)。
+默认连续推理。`board-live` 持续运行并捕获串口，Ctrl-C 请求排空；
+`board-run` 自动发送 b，约 100 帧合计后停止。UART 使用 Python 标准库。
+ELF/flags/源清单与匹配比特流 SHA 在下载前校验，离线与板测证据分开保存。

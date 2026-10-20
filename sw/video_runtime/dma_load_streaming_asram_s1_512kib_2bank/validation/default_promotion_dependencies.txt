@@ -1,0 +1,10 @@
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/tools/check/check_current_product.py
+CURRENT_PRODUCT=PASS dma_load_streaming_asram_s1_512kib_2bank hardware_id=e037701c8d7cfc59
+FIRMWARE_COMPATIBILITY=ready l2=512KiB/2bank dma=2 streaming=1 asram=1
+tclsh /mnt/data/wzr/13p/ov7670/sixteen_camera/tools/check/check_production_manifest.tcl
+PRODUCTION_MANIFEST=PASS rtl=123 ip=10 xdc=6 soc=tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig
+python3 -B /mnt/data/wzr/13p/ov7670/sixteen_camera/tools/check/check_dependencies.py
+S1_IMPORT_AUDIT_PASS hardware_id=e037701c8d7cfc59 scala=2287 generated=849 bitstream_sha256=cb907a77e0c0bf97f5074208956884517d349485003a8d6613ca61b9f7e93a01 board_validation=NOT_RUN_THIS_IMPORT
+FROZEN_MODEL_SOURCES=43 DEPENDENCY_FILES=74
+NUMPY=2.5.1
+DEPENDENCIES=PASS board_accessed=0

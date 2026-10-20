@@ -1,25 +1,9 @@
-# 三 Gemmini32 SoC
+# 当前 SoC
 
-已生成并板测的 **L2 1 MiB / 4 bank** 版本另存于
-[hw/versions/l2_1m_4bank](../versions/l2_1m_4bank/README.md)，包括独立 shell、配置、命令前端、
-TensorIngress 和私有生成入口。该目录从硬件提交 `d7cbd61` 提取，便于与对应软件测试目录一起复盘；
-下述 `source/` 是公共工作目录，可能包含后续功能修改。
+正式 SoC 为 [DMA streaming + ASRAM S1](version/dma_load_streaming_asram_s1_512kib_2bank/README.md)，
+源、生成导出、板级工程、约束、IP 和已验证比特流保存在这个版本目录。
+[hw/manifests/current.json](../manifests/current.json) 为默认身份入口。
 
-- `source/shell/`：当前 Scala/Chisel shell、MemoryParallelV3 覆盖、冻结 Rocket/Chipyard/L2 依赖和来源记录。
-- `source/tensor_ingress/TensorIngress.scala`：当前 TensorIngress 生成源码。
-- `source/command_frontend/`：三路自主命令前端 Scala、RoCC 接入覆盖和供体来源记录。
-- `tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/`：唯一生成导出，包含 `gen-collateral/include/` 参数头和 `GENERATION_CONTEXT.json`。
-
-本轮保留导出的长目录和内部相对布局；[交付清单](../manifests/current.json)提供唯一映射。
-完整 Scala Config 类名与导出目录保留。前端移植将 Gemmini opcode 改为 custom0/1/2，custom3 为控制；SAFE_MAX、计算参数和板级约束保持原规格。现有软件尚未适配。
-
-生成入口仍为 [tools/soc/build_triple32_v3_tensor.py](../../tools/soc/build_triple32_v3_tensor.py)。
-从仓库根执行 `make soc SOC_REFERENCE=<参考 Chipyard> SOC_WORKSPACE=<新工作区>`，在独立 Chipyard 副本中正常编译和生成，
-随后执行 RAM 处理、结构检查和导出。共享的参考工具链通过本机路径配置；
-参与当前覆盖的源码以仓库内冻结版本为准，参考工程的源文件不被修改。
-
-`source/shell` 内保留的原始说明/脚本用于来源追溯；正式入口只有根 `make soc`。
-验收使用生成器的 `validate_workspace_sources`、当前 RTL 结构检查、TensorIngress/L2、
-MemoryParallelV3 和 timing repair 回归；最终整机时序及板测另行验收。
-
-独立外部导入版本见 [version/](version/README.md)，不改变上述正式生成导出。
+旧的 1 MiB / 4 bank 默认 SoC 导出和生成源码已删除，Git 历史保留原版本。
+重新生成：根目录 `make soc SOC_WORKSPACE=<S1 build/下的新目录> SOC_OUTPUT=<新输出>`。
+重新构建不覆盖导入的生成 RTL 和比特流。

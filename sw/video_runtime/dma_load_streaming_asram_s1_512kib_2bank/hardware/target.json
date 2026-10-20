@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "hardware_build_id": "e037701c8d7cfc59",
+  "bitstream": "hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/bitstream/top_wrapper.bit",
+  "bitstream_sha256": "cb907a77e0c0bf97f5074208956884517d349485003a8d6613ca61b9f7e93a01",
+  "generation_context_sha256": "bba9b4e94554e76d98238696aa91278e93f83015c6e0b4ffe904a3b7f142cc19",
+  "clock_hz": 100000000,
+  "dma_modes": [
+    "read_assembled"
+  ],
+  "asram_bases": [
+    536870912,
+    541065216,
+    545259520
+  ],
+  "physical_bytes_per_bank": 2359296,
+  "logical_arena_bytes": 2217600,
+  "control_base": 549453824,
+  "routed_wns_ns": -3.068,
+  "routed_whs_ns": 0.001,
+  "board_validation": "NOT_RUN_THIS_PACKAGE",
+  "generation_context": "hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/generated/GENERATION_CONTEXT.json",
+  "artifact_state": "IMPORTED_BITSTREAM",
+  "dma_load_streaming_enable": true,
+  "dma_load_pipeline_version": "row_ready_v1",
+  "hardware_config": "tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngress2BankDmaLoadConfig",
+  "hardware_variant": "s5_dma_streaming_asram_merged_s1",
+  "dma_mode_ids": [
+    2
+  ],
+  "dma_fixed_mode": 2,
+  "dma_capability_word": "0x00010004",
+  "package_variant": "dma_load_streaming_asram_s1_512kib_2bank",
+  "hardware_manifest": "hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/manifests/hardware.json",
+  "hardware_manifest_sha256": "dfcaf8204df50694bb158bdcf4b092b239c831918f58d67c540ba1167b81b11a"
+}

@@ -1,16 +1,16 @@
 # 工具入口
 
-| 目录 | 用途 |
-| --- | --- |
-| `build/` | 当前视频固件和 Vivado 实现包装 |
-| `soc/` | 独立 Chipyard 工作区准备、生成与导出；硬件源码在 `hw/soc/source/` |
-| `program/` | bitstream / ELF 下载及本机 JTAG 配置 |
-| `check/` | 当前身份、来源、依赖、ELF、工程和综合检查 |
-| `generate/` | 跨子系统 LUT 与参考向量生成 |
-| `analyze/yolov5nu/` | 当前三图 UART、credit、Pool/PPU 与性能分析 |
-| `timing/` | 时序/实现报告分析 |
-| `config/` | example 与忽略的本机覆盖 |
+默认版本由 `hw/manifests/current.json` 选择。根目录 `make help` 列出当前入口。
 
-根目录 `make help` 提供常用入口，`make help-tests` 列出定向回归。
-个人工具路径和 `SOC_REFERENCE` 只放在本机配置；原 donor/source 路径用于追溯，不作为生产输入。
-SoC 生成保持正常 SBT/Chisel/firtool 与既有 RAM/实现策略；本地产物统一放入忽略的 `build/`。
+| 入口 | 用途 |
+| --- | --- |
+| `check/check_current_product.py` | S1 硬件、固件、DMA/ASRAM/L2 ABI 配对检查 |
+| `check/check_dependencies.py` | S1 冻结源码、生成 RTL、比特流及本地固件依赖审计 |
+| `build/build_s1.py`、`build_s1.tcl` | S1 工程重建、elaboration、综合与 bitgen |
+| `program/` | 默认 S1 bitstream / ELF 下载包装，实际实现由视频软件包提供 |
+| S1 硬件包 `scripts/generate.py` | 独立 Scala 工作区生成，不覆盖导入产物 |
+| S1 软件包 `scripts/` | 模型准备、ELF 身份、串口、日志和板测 |
+| `config/` | 工具配置示例及忽略的本机覆盖 |
+
+其他 `soc/`、综合诊断、分析和时序工具保留为显式历史实验入口；不再选择旧默认 SoC/固件。
+原 donor/source 路径只用于追溯。生成文件放在对应包私有 build/，大型产物不提交。

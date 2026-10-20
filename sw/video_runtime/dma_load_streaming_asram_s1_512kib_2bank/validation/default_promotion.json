@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "default": "dma_load_streaming_asram_s1_512kib_2bank",
+  "hardware_build_id": "e037701c8d7cfc59",
+  "bitstream_sha256": "cb907a77e0c0bf97f5074208956884517d349485003a8d6613ca61b9f7e93a01",
+  "software_build_id": "41f35bf5be0b36e87e1e91fda68dd9ac6ed678e6d5ef7d04e48e523f46611647",
+  "elf_sha256": "79e9d0477fe8f35c9a350bd64dca50dd8446baa64e6a0b54757d3198fa153753",
+  "identical_to_user_board_elf": true,
+  "board": {
+    "status": "USER_CONFIRMED_PASS",
+    "evidence": "sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank/validation/board_s1_live_01.json",
+    "completed": 16950,
+    "published": 16950,
+    "software_errors": 0,
+    "runtime_fault": 0,
+    "capture_mask": "0xff",
+    "scope": "Continuous live inference; visible overlays confirmed by user. No board operation during default promotion."
+  },
+  "removed": [
+    "hw/soc/source/",
+    "hw/soc/tsmcchip.fpga.taihangsoc.TaihangSoCFPGATestHarness.TaihangSoC1Rocket1RVV3Gemmini32x32MemoryParallelV3TensorIngressConfig/",
+    "sw/src/",
+    "sw/linker_ai_video.ld",
+    "tools/soc/build_triple32_v3_tensor.py",
+    "tools/build/build_triple32_v3_tensor_video_yolov5nu.py"
+  ],
+  "preserved": "S1 canonical package paths, imported bitstream, independent experiments, historical shared board/model/BSP inputs. Old default is recoverable from Git history.",
+  "project_reconstruction_fix": {
+    "problem": "Original parser omitted three files appended on lappend RTL_SOURCES line",
+    "fix": "Select all whitespace-delimited rtl/ entries; compare generated project to the evaluated frozen Tcl list",
+    "board_rtl": 123,
+    "ip_configs": 10,
+    "xdc": 6,
+    "hardware_logic_changed": false,
+    "project_source_files": 965
+  },
+  "checks": {
+    "default_selection": "PASS (4 mismatches rejected, 4 download routes, 5 mocked Tcl build sequences, source-lock pruning/symlink rejection)",
+    "firmware": "PASS",
+    "software": {
+      "status": "PASS",
+      "runtime_scenarios": 8,
+      "tool_hal_tests": 19
+    },
+    "capture_rtl": "PASS (47 frames, absent-input reproduction, safe capture stop, sticky cancellation reproduction)",
+    "program_server_benchmark": "PASS (9 mocked tests)",
+    "preflight": "PASS board_accessed=0",
+    "dependencies": {
+      "status": "PASS",
+      "effective_scala_files": 2287,
+      "generated_files": 849,
+      "locked_inputs": 10836,
+      "frozen_model_sources": 43,
+      "firmware_dependency_files": 74,
+      "board_accessed": false
+    },
+    "fresh_vivado_synthesis": "NOT_RUN",
+    "native_three_gemmini_numerical": "Previously PASS (72 cases); not repeated for selection/parser-only change",
+    "staged_software_bytes": "PASS (279 package files identical to working-tree bytes)"
+  },
+  "timing": {
+    "imported_wns_ns": -3.068,
+    "new_bitgen_timing_gate": false
+  },
+  "source_audit_fix": "Prune ignored build/validation/bitstream/.Xil before traversal; hash independent files with 16 bounded reader threads. Source lock scope, effective Scala and generated RTL checks are unchanged.",
+  "dependency_scope": "Only build/obj firmware .d files are checked; stale host/Verilator regression caches use installed tools and are excluded."
+}

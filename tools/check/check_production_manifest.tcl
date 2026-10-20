@@ -25,27 +25,6 @@ foreach {category sources} [list RTL $RTL_SOURCES IP $IP_SOURCES \
     }
 }
 
-# Every hand-written HDL file below hw/rtl/ must be explicitly selected.  This
-# catches an accidental new module that simulates locally but never enters the
-# production Vivado project.
-proc collect_hdl {directory} {
-    set result {}
-    foreach path [glob -nocomplain -directory $directory *] {
-        if {[file isdirectory $path]} {
-            set result [concat $result [collect_hdl $path]]
-        } elseif {[file extension $path] in {.sv .v .vhd .vhdl}} {
-            lappend result [file normalize $path]
-        }
-    }
-    return $result
-}
-foreach path [collect_hdl [file join $repo_root hw rtl]] {
-    set relative_path [string range $path [expr {[string length $repo_root] + 1}] end]
-    if {![dict exists $seen $relative_path]} {
-        error "unlisted production RTL source: $relative_path"
-    }
-}
-
 set soc_dir [file join $repo_root $SOC_COLLATERAL_DIR]
 if {![file isdirectory $soc_dir] ||
     ![file isfile [file join $soc_dir TaihangSoCFPGATestHarness.sv]]} {

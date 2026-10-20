@@ -1,0 +1,15 @@
+{
+  "status": "OFFLINE_PASS",
+  "description": {
+    "problem": "Original parser omitted three files appended on lappend RTL_SOURCES line",
+    "fix": "Select all whitespace-delimited rtl/ entries; compare generated project to the evaluated frozen Tcl list",
+    "board_rtl": 123,
+    "ip_configs": 10,
+    "xdc": 6,
+    "hardware_logic_changed": false,
+    "project_source_files": 965
+  },
+  "evidence": "../../../../../tests/default_s1/run.py",
+  "imported_hardware_unchanged": true,
+  "source_audit_fix": "Prune ignored build/validation/bitstream/.Xil before traversal; hash independent files with 16 bounded reader threads. Source lock scope, effective Scala and generated RTL checks are unchanged."
+}

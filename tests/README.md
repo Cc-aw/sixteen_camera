@@ -1,20 +1,16 @@
 # 当前验证集合
 
-`make test-v33` 验证当前独立 V33 前端软件：本地建表/原生 oracle、实际调度函数的假设备回归、原生PPU生命周期、10项日志契约和两份ELF；不包含实时 Runtime 适配或 V34。
+默认 S1 实时视频版本的入口：
 
-实时 Runtime 尚未适配，以下 v26 模型/固件测试保留为迁移前基线，不能作为新 ABI 的软件验收。
-`make test-frontend SOC_WORKSPACE=<已完整生成的工作区>` 覆盖引擎/cluster/mux 逐周期对照、33 位地址/64 source 仲裁和三路实际 DIM32/FP16 计算。
-`test-frontend-memory`、`test-frontend-compute` 可独立使用当前生成 RTL；只有逐周期对照需要重建工作区内的 Scala assembly。
+- `make test-default`：拒绝错配硬件/ELF、对照完整 Tcl 清单验证 123 个板级 RTL、10 个 IP、6 个 XDC，以及四个下载/运行入口。
+- `make test`：上述默认入口检查、固件构建、8 个 Runtime/backend 场景、19 个工具/HAL 测试及冻结 S1 采集 RTL。
+- `make test-software`：固件构建及 Runtime/backend、工具/HAL 测试。
+- `make test-input-rtl`：缺失输入许可停滞复现、47 帧连续生产、安全停止和旧取消错误复现。
+- `make test-rtl RTL_RUN=<新名称>`：S1 原生三路 Gemmini/ASRAM 的 72 个数值用例，日志写入新的私有输出目录。
 
-`make test-software` 聚合 `tests/model/yolov5nu/` 原生模型回归和全部 `tests/host/run_*_test.sh`，
-覆盖应用、Facade、Backend、设备 HAL、ownership、scheduler、fault、timeout、drain/restart 和稀疏 worker。
-原 R0–R5 冻结事件、版本/回收轨迹和单/双活跃 worker 场景继续保留。
+当前用例位于 `tests/default_s1/` 和 `sw/video_runtime/dma_load_streaming_asram_s1_512kib_2bank/tests/`。
+`tests/host/`、其他旧定向 runner 和旧模型测试是历史基线；其原默认源码已删除，
+不再由默认聚合入口调用，也不作为 S1 验收。恢复旧基线应从 Git 历史获取对应整套版本。
+数据、LUT 和历史轨迹继续保留供独立实验参考。
 
-`make test-rtl SOC_WORKSPACE=<已生成当前 SoC 的工作区>` 包含视频、整帧时序、Tensor DMA/Ingress、真实双 bank L2、MemoryParallelV3、PPU 和当前 cache controller。
-指定工作区后会先正常导出独立 TensorIngress protocol core；工作区来源检查拒绝陈旧覆盖。
-定向入口见 `make help-tests`。`test-v3-timing-repair` 另需当前生成工作区及 Vivado，覆盖 refill/reload 和 DDR slice 关键边界。
-
-`data/` 保留 golden、LUT、image025/036/142、128 图整数 corpus 和冻结轨迹；`requirements.txt` 声明 NumPy 等依赖。
-原生 RV64/QEMU 测试需要 RISC-V Linux 静态编译器；缺工具产生的 SKIP 必须分别记录。
-板端 `M/t/a` 使用当前三图基准和匹配 bitstream，离线 PASS 不代替板测或最终时序。
-验收身份、命令和证据见 [current.md](../docs/validation/current.md)。
+离线通过与开发板验证分开记录，见 [当前验证](../docs/validation/current.md)。

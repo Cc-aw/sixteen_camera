@@ -1,8 +1,0 @@
-{
-  "generators/rocket-chip/src/main/scala/subsystem/BankedCoherenceParams.scala": "b2dbd1c41faef344200a1f5e49930284ec5ba442c3bb0faea0d92511a49299da",
-  "generators/rocket-chip/src/main/scala/subsystem/BusTopology.scala": "1e723523e5fe23fc5eaa9b9f8523d520abe6fd1f7c35a9ac5bfaa9b9208ccfb2",
-  "generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Configs.scala": "6779d1b9050a05d77c02e20afbddf44490671a2d1906d5cd313b47cba70c96c8",
-  "generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/InclusiveCache.scala": "e014f7f99d9931f6a4b5e515790dad5621be42ffc510c467008aa79b85c34878",
-  "generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/Scheduler.scala": "8828f6baeab5d27288f8a04c9b2464b84651c5316aa674f781ffa64829710dd1",
-  "generators/rocket-chip/src/main/scala/subsystem/MemoryParallelPerf.scala": null
-}

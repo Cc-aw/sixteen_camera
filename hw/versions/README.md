@@ -10,4 +10,5 @@
 | [dma_load_streaming_512kib_2bank/](dma_load_streaming_512kib_2bank/README.md) | DMA/SPAD 微基准及新候选诊断 ELF | A1 按行就绪流式重放；功能仿真、综合、首层及整网四模式板测通过，已生成验证比特流；时序未收敛；见[验证记录](dma_load_streaming_512kib_2bank/validation/README.md) |
 | [dma_load_streaming_asram_512kib_2bank/](dma_load_streaming_asram_512kib_2bank/README.md) | [dma_load_streaming_asram_512kib_2bank](../../sw/board_tests/dma_load_streaming_asram_512kib_2bank/README.md) | DMA Stream A1 与三路私有 ASRAM 合并版；三路功能仿真和离线软件验证通过，未构建 bitstream；实际结果见[验证状态](dma_load_streaming_asram_512kib_2bank/validation/status.json) |
 
-`hw/soc/` 仍保留仓库唯一的正式生成 SoC 导出；功能目录中的生成操作输出到私有工作区。
+默认为 `hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/`，见 `hw/manifests/current.json`。
+其他功能目录仍作为独立实验保留；生成操作输出到私有工作区。

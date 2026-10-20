@@ -19,7 +19,9 @@ def main():
     out.mkdir(parents=True,exist_ok=True)
     lines=[]
     text=(ROOT/'manifests/donor/rtl_manifest.tcl').read_text()
-    files=[ROOT/'board'/name for name in re.findall(r'^\s*(rtl/[^\s}]+)',text,re.M)]
+    # Include entries appended on the same line as `lappend RTL_SOURCES`.
+    # The three memory-performance modules are required by the DDR subsystem.
+    files=[ROOT/'board'/name for name in re.findall(r'(?<!\S)(rtl/[^\s}]+)',text)]
     files += [f for f in (ROOT/'generated/gen-collateral').rglob('*') if f.suffix in ('.v','.sv','.vh','.svh','.vhd','.vhdl','.mem','.mif')]
     for f in files:
         if not f.is_file():raise ValueError('Missing project input: '+str(f))

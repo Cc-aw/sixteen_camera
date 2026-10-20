@@ -1,17 +1,17 @@
 # 当前硬件
 
-唯一交付为 `triple32_v3_tensor`：1 Rocket、1 RVV、3 × Gemmini32，100 MHz，
-保留十六路视频采集、TensorIngress、双 bank L2、DDR、Head/PPU 与显示叠加。
-交付身份及实际生成目录见 [current.json](manifests/current.json)。
+默认版本是 [S1 DMA streaming + ASRAM](soc/version/dma_load_streaming_asram_s1_512kib_2bank/README.md)。
+1 Rocket、1 RVV、3 × DIM32 Gemmini，100 MHz，L2 512 KiB / 2 bank，三路私有 ASRAM 各 2.25 MiB。
+DMA 固定模式 2（read_assembled），row_ready_v1 流式回放；前端 FIFO 8、Get 32 B、IRQ13。
 
-当前 SoC 已接入三路自主命令前端，保留 TensorIngress/MemoryParallelV3/MaxPool。custom3 为控制，Gemmini 使用 custom0/1/2。[V33 独立基准](../sw/benchmarks/frontend/README.md)已移植，实时 Runtime 尚未适配。实现与重新生成说明见 [命令前端](../docs/architecture/command-frontend.md)，硬件测试见 [验收记录](../docs/validation/command-frontend.md)。
+[当前清单](manifests/current.json) 唯一选择其生成 RTL、源快照、板级 RTL/IP/XDC、比特流和视频固件。
+S1 的现有目录作为正式源目录，根目录 `make project / elaborate / synth / bitstream / soc` 调用该包。
+旧默认的 `soc/source/` 及生成导出已删除，历史源码可由 Git 恢复。
 
-- `rtl/`：手写板级集成；入口 `rtl/top_wrapper.sv`，生产闭包由 `manifests/rtl_manifest.tcl` 列出。
-- [soc/](soc/README.md)：SoC 生成源码、冻结依赖和唯一导出。
-- `constraints/`：板级及 CDC/实现约束；保持既有层级和时序策略。
-- `ip/`、`vivado/`：Vivado 2023.2 IP、BD 和工程重建 Tcl。
-- `manifests/`：RTL/IP/XDC/SoC 生产清单及硬件/模型配对契约。
+比特流 ID `e037701c8d7cfc59`，SHA256 `cb907a77e0c0bf97f5074208956884517d349485003a8d6613ca61b9f7e93a01`。
+已导入的 bit 位于 S1 包的 `bitstream/top_wrapper.bit`，按仓库规则不提交大型产物。
+用户已验证实时视频识别，详见 [当前验证](../docs/validation/current.md)。导入 WNS −3.068 ns，不添加负时序 bitgen 门禁。
 
-根目录执行 `make check`、`make soc SOC_REFERENCE=<参考 Chipyard> SOC_WORKSPACE=<新工作区>`、`make project`、
-`make elaborate` 和 `make bitstream`。定向回归见 `make help-tests`。
-离线仿真与整机实现/板测分开记录于 [实施验收](../docs/validation/single-version-refactor.md)。
+`rtl/`、`constraints/`、`ip/`、Vivado 旧集成 helper 仅供显式历史实验复用；
+默认工程直接读取 S1 包的 `board/`，不会混入这些旧板级文件。
+独立功能包保留在 `versions/`，默认清单不随其私有候选而切换。

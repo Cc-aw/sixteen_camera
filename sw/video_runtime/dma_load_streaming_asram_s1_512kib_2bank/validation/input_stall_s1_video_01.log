@@ -1,0 +1,254 @@
+86912 count=7
+DIAG_STAGE id=9 name=SUITE_DONE
+44134123 peak=36G_STAGE id=6 name=FORWARD_ENTER
+DIAG_STAGE id=7 name=FORWARD_RETURN
+GEMCC_PROFILE sites=943 empty_cycles=11031 empty_calls=1000
+IMAGE_DONE id=25 cycles=80337024 capture=44153161 peak=3686912 count=10
+IMAGE_BEGIN index=1 id=36
+DIAG_STAGE id=6 name=FORW86912 count=7
+DIAG_STAGE id=9 name=SUITE_DONE
+
+S1RT,BOOT,hardware_id=e037701c8d7cfc59,live_input=1
+S1RT,BACKEND_READY,hardware_id=e037701c8d7cfc59,workers=3,heads=6,dma_mode=2,asram=1,sppf_asram=0,entries=10870,hosts=12
+[video] framebuffer: sixteen 360x270 RGB565 four-buffer pools; 4x4 mosaic selected
+[video] 8T49N241 lock retry
+[video] 8T49N241 Q2/Q3 locked at 148.5 MHz
+[video] framebuffer: sixteen 360x270 RGB565 four-buffer pools; 4x4 mosaic selected
+[video] initialized; TX sink present, waiting for OV7670 frame
+OV7670 CH1 RTL status=0x76DAC0AA DONE
+OV7670 CH1 RGB565 640x480 parallel stream started
+OV7670 CH2 RTL status=0x76DAC0AA DONE
+OV7670 CH2 RGB565 640x480 parallel stream started
+OV7670 CH3 RTL status=0x76DAC0AA DONE
+OV7670 CH3 RGB565 640x480 parallel stream started
+OV7670 CH4 RTL status=0x76DAC0AA DONE
+OV7670 CH4 RGB565 640x480 parallel stream started
+OV7670 CH5 RTL status=0x76DAC0AA DONE
+OV7670 CH5 RGB565 640x480 parallel stream started
+OV7670 CH6 RTL status=0x76DAC0AA DONE
+OV7670 CH6 RGB565 640x480 parallel stream started
+OV7670 CH7 RTL status=0x76DAC0AA DONE
+OV7670 CH7 RGB565 640x480 parallel stream started
+OV7670 CH8 RTL status=0x76DAC0AA DONE
+OV7670 CH8 RGB565 640x480 parallel stream started
+S1RT,VIDEO_INIT,all_devices_ready=1
+S1RT,READY,continuous=1,commands=b_sample100,s_stop,a_start,t_stats,v_streams
+[video] VPHY TX initializing
+[video] AXIS bridge underflow count=1
+[video] AXIS bridge underflow count=2
+S1RT,SAMPLE_BEGIN,initial=0,target=100
+[video] VPHY TX ready
+[video] stream up: 1920x1080p60 RGB, 2 pixels/clock
+[video] OV7670 frame received; HDMI stream start requested
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STATS,state=1,enabled=1,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STOP_REQUEST
+S1RT,GUARDS_PASS,asram=1,scratch=original
+S1RT,IDLE,ownership_released=1
+S1RT,STATS,state=0,enabled=0,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STREAM,stream=0,dispatched=1,completed=1,frame=1,version=1,detections=0
+S1RT,STREAM,stream=1,dispatched=1,completed=1,frame=2,version=1,detections=0
+S1RT,STREAM,stream=2,dispatched=1,completed=1,frame=4,version=1,detections=0
+S1RT,STREAM,stream=3,dispatched=1,completed=1,frame=5,version=1,detections=0
+S1RT,STREAM,stream=4,dispatched=1,completed=1,frame=7,version=1,detections=0
+S1RT,STREAM,stream=5,dispatched=1,completed=1,frame=9,version=1,detections=0
+S1RT,STREAM,stream=6,dispatched=1,completed=1,frame=10,version=1,detections=0
+S1RT,STREAM,stream=7,dispatched=1,completed=1,frame=11,version=1,detections=0
+S1RT,STREAM,stream=8,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=9,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=10,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=11,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=12,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=13,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=14,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=15,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STATS,state=0,enabled=0,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
+S1RT,STREAM,stream=0,dispatched=1,completed=1,frame=1,version=1,detections=0
+S1RT,STREAM,stream=1,dispatched=1,completed=1,frame=2,version=1,detections=0
+S1RT,STREAM,stream=2,dispatched=1,completed=1,frame=4,version=1,detections=0
+S1RT,STREAM,stream=3,dispatched=1,completed=1,frame=5,version=1,detections=0
+S1RT,STREAM,stream=4,dispatched=1,completed=1,frame=7,version=1,detections=0
+S1RT,STREAM,stream=5,dispatched=1,completed=1,frame=9,version=1,detections=0
+S1RT,STREAM,stream=6,dispatched=1,completed=1,frame=10,version=1,detections=0
+S1RT,STREAM,stream=7,dispatched=1,completed=1,frame=11,version=1,detections=0
+S1RT,STREAM,stream=8,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=9,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=10,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=11,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=12,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=13,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=14,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STREAM,stream=15,dispatched=0,completed=0,frame=0,version=0,detections=0
+S1RT,STATS,state=0,enabled=0,completed=8,published=8,errors=0,last_error_magnitude=0,ready=0,writing=0,held_tensor=0,active=0,heads=0,fault=0
