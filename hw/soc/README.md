@@ -8,5 +8,5 @@
 重新生成：根目录 `make soc SOC_WORKSPACE=<S1 build/下的新目录> SOC_OUTPUT=<新输出>`。
 重新构建不覆盖导入的生成 RTL 和比特流。
 
-独立开发候选位于 [versions/](versions/README.md)，包括基于当前 S1 的
-[FIFO16 / 四条批量取表版本](versions/dma_load_streaming_asram_s1_fifo16_batch4_512kib_2bank/README.md)。
+独立开发候选位于 [hw/versions/](../versions/README.md)，包括基于当前 S1 的
+[FIFO16 / 四条批量取表版本](../versions/dma_load_streaming_asram_s1_fifo16_batch4_512kib_2bank/README.md)。
