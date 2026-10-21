@@ -3,7 +3,7 @@
   "scope": "SOURCE_LAYOUT_ONLY",
   "baseline_sources_unchanged": true,
   "restored_file_count": 9710,
-  "source_recipe_sha256": "3bfe69ff61fd4c616e87e4b42dac5c5c81db09308a280cff4d2efab75566a22e",
+  "source_recipe_sha256": "05fe5f907ae9b32f0e2ca79af6c282f0c8026869093d20e801bccf5156063ce2",
   "current_recipe_manifest_sha256": "d6ee5bf196335ce63e5723da46fed8669370da27811350acd458a1f30b3cb857",
   "artifacts": {
     "c02d34ed7c5037bbe15d28e6396ae58247365eca864c471e109344708cd6aa27": {
@@ -9934,7 +9934,7 @@
       "recipe_changes": {
         "Makefile": {
           "before": "5c470894389ae01c3ad4055c0a3919507387aace823eea3ba6df6d1fb2b966a9",
-          "after": "66849dce1727a48e77030636566ec698699625b01faa12a8cdb0fd3bac94bfb0"
+          "after": "f67cc3ed2e72775b0654fa984efe7d51c5a6cd0c20d71bb91ba1c2a3a99cf112"
         },
         "manifests/SOURCE_OVERLAY.json": {
           "before": null,
@@ -9950,7 +9950,7 @@
         },
         "scripts/common.py": {
           "before": "fd4121add5ddb86f692d4d210340c53427fc6fb63d1932b27a543b7fee18b42f",
-          "after": "6eb99d59d6c68e00e41a47031105eba6444a981f8f048f16daca3713ede72179"
+          "after": "c8f27a2b3abe4063be27aa8319ef29194032b5c4b339aebb49977302c27457a1"
         },
         "scripts/generate.py": {
           "before": "3ddd6ba8adcc3c533555eac43e126809039b334e57ba903c04cb6a23f460a9f4",
@@ -9958,7 +9958,7 @@
         },
         "tools/build/source_overlay.py": {
           "before": null,
-          "after": "3f7233490bffc79d0b83a2f60389cbb98aad22a0eec26c7afcbc63db661d600c"
+          "after": "f4cfd3d8c087c83645cef77a92c686a30d306a3356089c0479cb9cfac69c914e"
         }
       }
     }

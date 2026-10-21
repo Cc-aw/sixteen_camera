@@ -193,7 +193,11 @@ def baseline_inventory(version, base):
 
 def prepare(version, repo=None, chain=()):
     version = Path(version).resolve()
-    repo = Path(repo).resolve() if repo is not None else version.parents[3]
+    if repo is None:
+        repo = next((parent for parent in version.parents if (parent / '.git').exists()), None)
+        if repo is None:
+            raise ValueError('Cannot locate the source repository')
+    repo = Path(repo).resolve()
     if version in chain:
         raise ValueError('Cyclic source recipe dependency')
     if not version.is_relative_to(repo):

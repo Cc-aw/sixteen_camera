@@ -4,7 +4,7 @@
   "updated_at_utc": "2026-10-21T08:46:12.142310+00:00",
   "hardware_build_id": "2cc60e0254046f84",
   "source_files_verified": 9710,
-  "source_recipe_sha256": "3bfe69ff61fd4c616e87e4b42dac5c5c81db09308a280cff4d2efab75566a22e",
+  "source_recipe_sha256": "05fe5f907ae9b32f0e2ca79af6c282f0c8026869093d20e801bccf5156063ce2",
   "source_tree_sha256": "ca56680e3e6a006ef6438de9fb1624000af0df5101e47c8d4e7e864baee5b0ef",
   "changes": {
     "generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontend.scala": {
@@ -20,12 +20,17 @@
       "after": "7e18afe3e94020394aa3eef85264ff8218f0ca07983d4f82b5e88f43a06b1324"
     }
   },
-  "original_source_archive": "hw/soc/versions/dma_load_streaming_asram_s1_fifo16_batch4_512kib_2bank/build/source_overlay/3bfe69ff61fd4c616e87e4b42dac5c5c81db09308a280cff4d2efab75566a22e/chipyard",
+  "original_source_archive": "hw/versions/dma_load_streaming_asram_s1_fifo16_batch4_512kib_2bank/build/source_overlay/05fe5f907ae9b32f0e2ca79af6c282f0c8026869093d20e801bccf5156063ce2/chipyard",
   "old_generation_context_sha256": "c02d34ed7c5037bbe15d28e6396ae58247365eca864c471e109344708cd6aa27",
-  "new_generation_identity": "22e15e2cb9d9ad64",
+  "new_generation_identity": "67e3ca5c745597ec",
   "old_artifact_identity_preserved": true,
   "rtl_regenerated": false,
   "bitstream_rebuilt": false,
   "board_accessed": false,
-  "numerical_board_status": "UNCHANGED; source layout is not a numerical fix"
+  "numerical_board_status": "UNCHANGED; source layout is not a numerical fix",
+  "directory_relocation": {
+    "previous": "hw/soc/versions/dma_load_streaming_asram_s1_fifo16_batch4_512kib_2bank",
+    "current": "hw/versions/dma_load_streaming_asram_s1_fifo16_batch4_512kib_2bank",
+    "generation_context_unchanged": true
+  }
 }

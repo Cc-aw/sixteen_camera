@@ -57,3 +57,6 @@ usage_statistics_webtalk.*
 *~
 *.swp
 .DS_Store
+
+# Local compatibility alias for pre-relocation FIFO16 Vivado/SBT caches
+/hw/soc/versions/dma_load_streaming_asram_s1_fifo16_batch4_512kib_2bank

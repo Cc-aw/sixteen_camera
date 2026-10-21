@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "previous_directory": "hw/soc/versions/dma_load_streaming_asram_s1_fifo16_batch4_512kib_2bank",
+  "current_directory": "hw/versions/dma_load_streaming_asram_s1_fifo16_batch4_512kib_2bank",
+  "checks": [
+    {
+      "name": "0_make",
+      "status": "PASS",
+      "log": "build/fifo16_location_0_make.log"
+    },
+    {
+      "name": "0_workspace",
+      "status": "PASS",
+      "log": "build/fifo16_location_0_workspace.log"
+    },
+    {
+      "name": "0_project_inputs",
+      "status": "PASS",
+      "log": "build/fifo16_location_0_project_inputs.log"
+    },
+    {
+      "name": "product_check",
+      "status": "PASS",
+      "log": "build/fifo16_location_product_check.log"
+    }
+  ],
+  "unit_tests": 13,
+  "unit_test_log": "build/fifo16_location_unit_tests.log",
+  "hardware_build_id": "2cc60e0254046f84",
+  "generation_context_unchanged": true,
+  "rtl_regenerated": false,
+  "bitstream_rebuilt": false,
+  "firmware_rebuilt": false,
+  "board_accessed": false,
+  "legacy_alias": "IGNORED_LOCAL_COMPATIBILITY_ONLY",
+  "updated_at_utc": "2026-10-21T09:47:01.496396+00:00"
+}

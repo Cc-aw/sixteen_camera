@@ -9,7 +9,7 @@ import sys
 from functools import lru_cache
 
 ROOT = Path(__file__).resolve().parents[1]
-REPO = ROOT.parents[3]
+REPO = ROOT.parents[2]
 sys.path.insert(0, str(REPO / 'tools/build'))
 from source_overlay import prepare as prepare_sources, verify_recorded_artifact
 

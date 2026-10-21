@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 .DEFAULT_GOAL := help
 FEATURE := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
-REPO := $(abspath $(FEATURE)/../../../..)
+REPO := $(abspath $(FEATURE)/../../..)
 include $(FEATURE)/config.example.mk
 -include $(REPO)/tools/config/tools.local.mk
 export VIVADO_BIN VERILATOR JAVA_HOME SBT_LAUNCH RISCV

@@ -27,7 +27,7 @@ class SourceOverlay(unittest.TestCase):
         self.git('-c', 'user.name=Fixture', '-c', 'user.email=fixture@example.invalid', 'commit', '-qm', 'baseline')
         self.commit = self.git('rev-parse', 'HEAD')
         self.files = overlay.tree_hashes(self.base)
-        self.version = self.repo / 'hw/soc/versions/fifo16'
+        self.version = self.repo / 'hw/versions/fifo16'
         self.version.mkdir(parents=True)
         base = dict(kind='git', commit=self.commit, directory='baseline',
                     tree=self.git('rev-parse', self.commit + ':baseline'), files_sha256=self.files)
@@ -68,6 +68,20 @@ class SourceOverlay(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'patch/overlay changed'):
             overlay.prepare(self.version, self.repo)
 
+    def test_default_repository_root_accepts_hw_versions_layout(self):
+        result = overlay.prepare(self.version)
+        self.assertEqual((result.root / 'Main.scala').read_text(), 'val depth = 16\n')
+        self.assertTrue(result.root.is_relative_to(self.version / 'build'))
+
+    def test_relocation_preserves_effective_sources_and_cache_identity(self):
+        prepared = overlay.prepare(self.version)
+        destination = self.repo / 'hw/versions/relocated_fifo16'
+        self.version.rename(destination)
+        relocated = overlay.prepare(destination)
+        self.assertEqual(relocated.files, prepared.files)
+        self.assertEqual(relocated.recipe_sha256, prepared.recipe_sha256)
+        self.assertEqual((relocated.root / 'Main.scala').read_text(), 'val depth = 16\n')
+
     def test_changed_index_does_not_replace_the_pinned_commit(self):
         (self.base / 'Main.scala').write_text('val depth = 99\n')
         self.git('add', 'baseline/Main.scala')
@@ -101,7 +115,7 @@ class SourceOverlay(unittest.TestCase):
 
     def test_second_layer_and_new_source_have_complete_inventory(self):
         parent = overlay.prepare(self.version, self.repo)
-        team = self.repo / 'hw/soc/version/team'
+        team = self.repo / 'hw/versions/team'
         team.mkdir(parents=True)
         base = dict(kind='version', directory=str(self.version.relative_to(self.repo)),
                     manifest_sha256=overlay.sha(self.version / 'manifests/SOURCE_OVERLAY.json'))
