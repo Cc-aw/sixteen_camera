@@ -5,5 +5,4 @@
 /generated/*.graphml
 /generated/*.f
 /generated/.mfc_lowering_options
-!/source/chipyard/**
 **/__pycache__/

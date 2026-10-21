@@ -1,7 +1,7 @@
 # S1 FIFO16 / 四条批量取表
 
-以本仓库 `hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank` 的完整源码为基线，
-建立独立版本。基线硬件 ID 为 `e037701c8d7cfc59`。
+以本仓库 `hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank` 在固定 Git 提交中的
+源码为基线，通过补丁建立独立版本。基线硬件 ID 为 `e037701c8d7cfc59`。
 仅移植 2026-10-16 前端交接版的 FIFO16 和批量取表；生成和测试不依赖交接项目目录。
 
 每路命令 FIFO 为 16 条，每条 32B；每批最多四条（128B）。32B 对齐的表首过渡、
@@ -9,7 +9,7 @@
 每个 Get 返回两个 256-bit beat。每路仍只有一个逻辑批次在途，并在发送前预留整批 FIFO 空位。
 source31 在每个物理事务完成后释放，原 DMA 的全部 64 个 source 和 33-bit 地址保留。
 
-仅三个生产 Scala 文件发生变化：
+仅三个生产 Scala 文件发生变化，以下是恢复后工作区中的逻辑路径：
 
 - `source/chipyard/generators/rocket-chip/src/main/scala/tile/commandfrontend/CommandFrontend.scala`
 - 同目录的 `CommandFrontendMemory.scala`
@@ -19,6 +19,29 @@ source31 在每个物理事务完成后释放，原 DMA 的全部 64 个 source 
 TensorIngress、L2 优化、Gemmini 计算及板级 RTL/IP/XDC 均保留。
 `manifests/BASELINE.json` 和 `FRONTEND_PORT.json` 记录来源和哈希；
 `frontend_port.patch` 是相对当前 S1 的最小源码差异。
+
+## 补丁重建
+
+重建工具需要 Git、GNU patch 和 Python 3.10+。
+
+版本目录以 `manifests/SOURCE_OVERLAY.json`、`patches/source.patch` 为实际重建输入，
+不再保存完整 `source/chipyard/` 副本。清单锁定基线 Git commit/tree、完整基线文件哈希、
+补丁哈希、修改前后文件哈希和恢复后的完整源码树哈希。
+
+```sh
+make prepare-sources
+make test-source-overlay
+make prepare-workspace WORKSPACE="$PWD/build/prepare_01"
+```
+
+`prepare-sources` 只读导出已提交的基线，应用补丁并逐文件验证，结果位于忽略的
+`build/source_overlay/`。未提交的公共基线修改不会混入；缓存被修改时拒绝复用。
+SBT 使用另外的私有工作区，不在源码缓存或公共基线上写构建状态。
+
+现有 `generated/` 和历史生成上下文保留原 ID。`manifests/SOURCE_LAYOUT_MIGRATION.json`
+记录旧工件与当前恢复源码的对应关系，仅允许登记过的构建脚本/补丁组织变化，
+不允许 RTL 源码或板级输入漂移。以后重新生成时，完整有效源码、补丁和构建参数
+共同参与新身份计算，不能将旧工件改标为新的生成结果。
 
 ## 生成和验证
 

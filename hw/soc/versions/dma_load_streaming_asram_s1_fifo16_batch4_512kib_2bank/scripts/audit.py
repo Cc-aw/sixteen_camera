@@ -3,13 +3,13 @@
 import json
 import re
 
-from common import ROOT, baseline, hashes, identity, scala_hashes, sha
+from common import ROOT, baseline, source_root, audit_identity, hashes, identity, scala_hashes, sha
 
 
 def main():
     frozen = baseline()
     original = frozen['baseline_context']
-    source = ROOT / 'source/chipyard'
+    source = source_root()
     sources = scala_hashes(source)
     changed = sorted(name for name in sources
                      if sources[name] != original['effective_scala'].get(name))
@@ -18,7 +18,7 @@ def main():
     if sha(context_path) != hardware['generation_context_sha256']:
         raise ValueError('Generation context changed')
     context = json.loads(context_path.read_text())
-    digest = identity(sources)
+    digest = audit_identity(context_path, sources)
     if (context['effective_scala'] != sources or context['source_identity_sha256'] != digest or
             context['dma_load_build_id'] != hardware['hardware_build_id'] or
             context['dma_load_build_id'] != digest[:16] or context['build_method'] != 'FULL_SOURCE_SBT'):
@@ -51,7 +51,8 @@ def main():
                   changed_scala=changed,
                   generated_files=len(actual_rtl), math_abi_headers='BYTE_IDENTICAL_TO_S1',
                   bitstream=hardware['bitstream'],
-                  board_validation='NOT_RUN')
+                  board_validation='NOT_RETESTED_SOURCE_LAYOUT_ONLY',
+                  audit_scope='RECONSTRUCTED_SOURCE_AND_EXISTING_RTL')
     (ROOT / 'validation').mkdir(exist_ok=True)
     (ROOT / 'validation/source_rtl_audit.json').write_text(json.dumps(report, indent=2) + '\n')
     print(report['status'] + ' hardware_id=' + hardware['hardware_build_id'])

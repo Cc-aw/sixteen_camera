@@ -13,6 +13,7 @@ PROJECT_OUTPUT ?= $(FEATURE)/build/project
 .PHONY: help check prepare-workspace soc test-frontend test-rtl project elaborate synth bitstream
 help:
 	@printf '%s\n' 'Independent S1 FIFO16 / fetch4 hardware; production default is unchanged.' \
+	  'make prepare-sources: reconstruct the pinned baseline and this version patches in build/' \
 	  'make soc: full-source SBT/Chisel generation into a NEW OUTPUT' \
 	  'make check: check generated FIFO16/fetch4 configuration and S1 ABI headers' \
 	  'make test-frontend: generated batch4 protocol regression' \
@@ -35,3 +36,9 @@ project:
 elaborate synth bitstream:
 	@test -f "$(PROJECT_OUTPUT)/s1.xpr" || $(MAKE) -C $(FEATURE) project PROJECT_OUTPUT="$(PROJECT_OUTPUT)"
 	cd "$(PROJECT_OUTPUT)" && S1_BUILD_PROJECT="$(PROJECT_OUTPUT)/s1.xpr" S1_HARDWARE_DIRECTORY="$(FEATURE)" S1_BUILD_STAGE="$@" S1_BUILD_JOBS="$(JOBS)" $(VIVADO_BIN) -mode batch -nojournal -log "$@.vivado.log" -source $(FEATURE)/scripts/build.tcl
+
+.PHONY: prepare-sources test-source-overlay
+prepare-sources:
+	python3 -B $(REPO)/tools/build/source_overlay.py --version "$(FEATURE)"
+test-source-overlay:
+	python3 -B -m unittest discover -s $(REPO)/tests/host -p test_source_overlay.py -v

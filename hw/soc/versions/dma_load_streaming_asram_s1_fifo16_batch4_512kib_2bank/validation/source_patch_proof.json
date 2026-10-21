@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "source_files": 9710,
+  "modified_files": 3,
+  "new_files": 0,
+  "proof": "All changed preimages patched with fuzz=0; unchanged files pinned; complete target SHA256 inventory matched",
+  "effective_tree_sha256": "ca56680e3e6a006ef6438de9fb1624000af0df5101e47c8d4e7e864baee5b0ef",
+  "recipe_sha256": "3bfe69ff61fd4c616e87e4b42dac5c5c81db09308a280cff4d2efab75566a22e"
+}

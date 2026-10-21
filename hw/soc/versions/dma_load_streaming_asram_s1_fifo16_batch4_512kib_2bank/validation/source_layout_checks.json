@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "0_audit",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "build/source_layout_0_audit.log"
+    },
+    {
+      "name": "0_prepare",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "build/source_layout_0_prepare.log"
+    },
+    {
+      "name": "product_check",
+      "status": "PASS",
+      "returncode": 0,
+      "log": "build/source_layout_product_check.log"
+    }
+  ],
+  "unit_tests": 11,
+  "unit_test_log": "build/source_layout_tests_verified.log",
+  "workspace_scala_scan": "new directory included; target pruned; FIFO16 passed",
+  "source_layout_only": true,
+  "rtl_regenerated": false,
+  "bitstream_rebuilt": false,
+  "board_accessed": false,
+  "updated_at_utc": "2026-10-21T09:28:24.520705+00:00",
+  "scope": "FIFO16_SOURCE_LAYOUT_ONLY"
+}

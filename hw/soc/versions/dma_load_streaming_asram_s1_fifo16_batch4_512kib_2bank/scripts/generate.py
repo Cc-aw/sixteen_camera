@@ -9,7 +9,7 @@ import shutil
 import subprocess
 import tempfile
 
-from common import ROOT, baseline, copy_tree, hashes, identity, new_output, scala_hashes, sha
+from common import ROOT, baseline, source_root, prepared_sources, build_inputs, copy_tree, hashes, identity, new_output, scala_hashes, sha
 
 
 def main():
@@ -23,11 +23,15 @@ def main():
     if ROOT / 'build' not in workspace.parents or (workspace.exists() and not args.resume):
         raise ValueError('Use a new workspace below this version build/')
     output = None if args.prepare_only else new_output(args.output or ROOT / 'generated')
-    sources = scala_hashes(ROOT / 'source/chipyard')
+    if workspace == source_root() or source_root() in workspace.parents:
+        raise ValueError('Source reconstruction cache cannot be used as a mutable generation workspace')
+    sources = scala_hashes(source_root())
+    complete_inputs = build_inputs()
+    source_inputs = {name.removeprefix('source/chipyard/'): value for name, value in complete_inputs.items() if name.startswith('source/chipyard/')}
     if not workspace.exists():
-        copy_tree(ROOT / 'source/chipyard', workspace)
-    if (scala_hashes(workspace) != sources or
-            sha(workspace / 'build.sbt') != sha(ROOT / 'source/chipyard/build.sbt')):
+        copy_tree(source_root(), workspace)
+    if (hashes(workspace, source_inputs) != source_inputs or scala_hashes(workspace) != sources or
+            sha(workspace / 'build.sbt') != sha(source_root() / 'build.sbt')):
         raise ValueError('Prepared source hashes differ')
     # The frozen source snapshot omits Git administration. SBT uses .git only
     # as an initialization marker when discovering the included generators.
@@ -68,7 +72,7 @@ def main():
     config = original['config'].rsplit('.', 1)[1]
     # Supply the complete prerequisite lists once; repeated find -L over this
     # network-mounted snapshot is much slower than SBT's actual compilation.
-    inventory = [name.removeprefix('source/chipyard/') for name in baseline()['baseline_files']
+    inventory = [name.removeprefix('source/chipyard/') for name in complete_inputs
                  if name.startswith('source/chipyard/')]
     prerequisites = []
     for suffix, variables in ((('.scala',), ('CHIPYARD_SCALA_SOURCES', 'TAPEOUT_SCALA_SOURCES')),
@@ -106,11 +110,13 @@ def main():
             raise ValueError('Mathematical Gemmini ABI changed: ' + name)
         shutil.copyfile(header, include / name)
     shutil.copyfile(ROOT / 'tests/abi/activation_sram_map.h', include / 'activation_sram_map.h')
-    if scala_hashes(workspace) != sources:
+    if hashes(workspace, source_inputs) != source_inputs or build_inputs() != complete_inputs:
         raise ValueError('Scala changed during generation')
     context = dict(original, hardware_variant=ROOT.name, effective_scala=sources,
                    source_workspace=str(workspace), source_identity_sha256=digest,
+                   build_inputs_sha256=complete_inputs,
                    dma_load_build_id=digest[:16], build_method='FULL_SOURCE_SBT',
+                   source_recipe_sha256=prepared_sources().recipe_sha256,
                    generated_at_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
                    command_fifo_depth=16, command_fetch_entries=4, command_logical_max_get_bytes=128,
                    command_physical_max_get_bytes=64, raw_rtl_sha256=raw,

@@ -9,5 +9,6 @@
   "generated_files": 849,
   "math_abi_headers": "BYTE_IDENTICAL_TO_S1",
   "bitstream": null,
-  "board_validation": "NOT_RUN"
+  "board_validation": "NOT_RETESTED_SOURCE_LAYOUT_ONLY",
+  "audit_scope": "RECONSTRUCTED_SOURCE_AND_EXISTING_RTL"
 }
