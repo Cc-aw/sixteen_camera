@@ -1,0 +1,252 @@
+`timescale 1ns/1ps
+
+module control_soc_subsystem (
+    output wire [2:0] memory_perf_command,
+    output wire memory_perf_request,
+    input wire memory_perf_acknowledge, memory_perf_available,
+    output wire [8:0] memory_perf_index,
+    input wire [63:0] memory_perf_data,
+    input  wire sys_rstn,
+    input  wire clk_25m,
+    input  wire clk_100m_p,
+    input  wire clk_100m_n,
+    inout  wire si5338_scl1,
+    inout  wire si5338_sda1,
+    inout  wire si5338_scl2,
+    inout  wire si5338_sda2,
+    output wire uart_txd,
+    input  wire uart_rxd,
+    input  wire ddr_init_done,
+    input  wire [7:0] video_interrupts,
+    output wire ref_clk_100m,
+    output wire soc_resetn_out,
+    axi4_if.master mem_axi,
+    axi4_if.master mmio_axi,
+    axi4_if.slave  fbus_axi,
+    axi4_if.slave  tensor_axi
+);
+    wire clk_100m_ibuf;
+    wire ref_clk_100m_int;
+    wire soc_clk;
+    (* ASYNC_REG = "TRUE" *) reg [1:0] ddr_calib_sync;
+    wire soc_resetn;
+    wire [28:0] taihang_mmio_awaddr;
+    wire [28:0] taihang_mmio_araddr;
+
+    si5338top u_si5338top (
+        .clk_25m(clk_25m),
+        .sys_rstn(sys_rstn),
+        .si5338_scl1(si5338_scl1),
+        .si5338_sda1(si5338_sda1),
+        .si5338_scl2(si5338_scl2),
+        .si5338_sda2(si5338_sda2)
+    );
+
+    IBUFDS u_clk_100m_ibufds (
+        .I(clk_100m_p),
+        .IB(clk_100m_n),
+        .O(clk_100m_ibuf)
+    );
+
+    BUFG u_ref_clk_100m_bufg (
+        .I(clk_100m_ibuf),
+        .O(ref_clk_100m_int)
+    );
+
+    // Keep the Rocket and AXI control domain at the board 100 MHz clock.
+    assign soc_clk = ref_clk_100m_int;
+
+    always @(posedge soc_clk or negedge sys_rstn) begin
+        if (!sys_rstn)
+            ddr_calib_sync <= 2'b00;
+        else
+            ddr_calib_sync <= {ddr_calib_sync[0], ddr_init_done};
+    end
+
+    assign soc_resetn = sys_rstn && ddr_calib_sync[1];
+    assign ref_clk_100m = ref_clk_100m_int;
+    assign soc_resetn_out = soc_resetn;
+    assign mem_axi.aclk = soc_clk;
+    assign mem_axi.aresetn = soc_resetn;
+    assign mmio_axi.aclk = soc_clk;
+    assign mmio_axi.aresetn = soc_resetn;
+    // Taihang exposes its external MMIO aperture at 0x1004_0000 with a
+    // 29-bit address bus.  Zero-extension preserves that CPU-visible address
+    // for video_mmio_fabric's existing Taihang compatibility alias.
+    assign mmio_axi.awaddr = {2'b00, taihang_mmio_awaddr};
+    assign mmio_axi.araddr = {2'b00, taihang_mmio_araddr};
+    assign tensor_axi.arready = 1'b0;
+    assign tensor_axi.rid = '0;
+    assign tensor_axi.rdata = '0;
+    assign tensor_axi.rresp = '0;
+    assign tensor_axi.rlast = 1'b0;
+    assign tensor_axi.rvalid = 1'b0;
+`ifndef SOC_TENSOR_INGRESS
+    assign tensor_axi.awready = 1'b0;
+    assign tensor_axi.wready = 1'b0;
+    assign tensor_axi.bid = '0;
+    assign tensor_axi.bresp = '0;
+    assign tensor_axi.bvalid = 1'b0;
+`endif
+
+`ifndef SOC_MEMORY_PARALLEL_V3
+    assign memory_perf_command = '0;
+    assign memory_perf_request = 1'b0;
+    assign memory_perf_index = '0;
+`endif
+    TaihangSoCFPGATestHarness u_rocket (
+`ifdef SOC_MEMORY_PARALLEL_V3
+        .memory_perf_command(memory_perf_command), .memory_perf_request(memory_perf_request),
+        .memory_perf_acknowledge(memory_perf_acknowledge), .memory_perf_available(memory_perf_available),
+        .memory_perf_index(memory_perf_index), .memory_perf_data(memory_perf_data),
+`endif
+        .clock(soc_clk),
+        .reset(~soc_resetn),
+        .uart_txd(uart_txd),
+        .uart_rxd(uart_rxd),
+
+`ifdef SOC_TENSOR_INGRESS
+        .axi4_tensor_aw_ready(tensor_axi.awready),
+        .axi4_tensor_aw_valid(tensor_axi.awvalid),
+        .axi4_tensor_aw_bits_id(tensor_axi.awid),
+        .axi4_tensor_aw_bits_addr(tensor_axi.awaddr),
+        .axi4_tensor_aw_bits_len(tensor_axi.awlen),
+        .axi4_tensor_aw_bits_size(tensor_axi.awsize),
+        .axi4_tensor_aw_bits_burst(tensor_axi.awburst),
+        .axi4_tensor_aw_bits_lock(tensor_axi.awlock),
+        .axi4_tensor_aw_bits_cache(tensor_axi.awcache),
+        .axi4_tensor_aw_bits_prot(tensor_axi.awprot),
+        .axi4_tensor_aw_bits_qos(tensor_axi.awqos),
+        .axi4_tensor_w_ready(tensor_axi.wready),
+        .axi4_tensor_w_valid(tensor_axi.wvalid),
+        .axi4_tensor_w_bits_data(tensor_axi.wdata),
+        .axi4_tensor_w_bits_strb(tensor_axi.wstrb),
+        .axi4_tensor_w_bits_last(tensor_axi.wlast),
+        .axi4_tensor_b_ready(tensor_axi.bready),
+        .axi4_tensor_b_valid(tensor_axi.bvalid),
+        .axi4_tensor_b_bits_id(tensor_axi.bid),
+        .axi4_tensor_b_bits_resp(tensor_axi.bresp),
+`endif
+
+        // Coherent tensor writeback from the video preprocessor and tensor
+        // readback by the postprocessor share the independent FBus channels.
+        .axi4_fbus_aw_ready(fbus_axi.awready),
+        .axi4_fbus_aw_valid(fbus_axi.awvalid),
+        .axi4_fbus_aw_bits_id(fbus_axi.awid),
+        .axi4_fbus_aw_bits_addr(fbus_axi.awaddr),
+        .axi4_fbus_aw_bits_len(fbus_axi.awlen),
+        .axi4_fbus_aw_bits_size(fbus_axi.awsize),
+        .axi4_fbus_aw_bits_burst(fbus_axi.awburst),
+        .axi4_fbus_aw_bits_lock(fbus_axi.awlock),
+        .axi4_fbus_aw_bits_cache(fbus_axi.awcache),
+        .axi4_fbus_aw_bits_prot(fbus_axi.awprot),
+        .axi4_fbus_aw_bits_qos(fbus_axi.awqos),
+        .axi4_fbus_w_ready(fbus_axi.wready),
+        .axi4_fbus_w_valid(fbus_axi.wvalid),
+        .axi4_fbus_w_bits_data(fbus_axi.wdata),
+        .axi4_fbus_w_bits_strb(fbus_axi.wstrb),
+        .axi4_fbus_w_bits_last(fbus_axi.wlast),
+        .axi4_fbus_b_ready(fbus_axi.bready),
+        .axi4_fbus_b_valid(fbus_axi.bvalid),
+        .axi4_fbus_b_bits_id(fbus_axi.bid),
+        .axi4_fbus_b_bits_resp(fbus_axi.bresp),
+        .axi4_fbus_ar_ready(fbus_axi.arready),
+        .axi4_fbus_ar_valid(fbus_axi.arvalid),
+        .axi4_fbus_ar_bits_id(fbus_axi.arid),
+        .axi4_fbus_ar_bits_addr(fbus_axi.araddr),
+        .axi4_fbus_ar_bits_len(fbus_axi.arlen),
+        .axi4_fbus_ar_bits_size(fbus_axi.arsize),
+        .axi4_fbus_ar_bits_burst(fbus_axi.arburst),
+        .axi4_fbus_ar_bits_lock(fbus_axi.arlock),
+        .axi4_fbus_ar_bits_cache(fbus_axi.arcache),
+        .axi4_fbus_ar_bits_prot(fbus_axi.arprot),
+        .axi4_fbus_ar_bits_qos(fbus_axi.arqos),
+        .axi4_fbus_r_ready(fbus_axi.rready),
+        .axi4_fbus_r_valid(fbus_axi.rvalid),
+        .axi4_fbus_r_bits_id(fbus_axi.rid),
+        .axi4_fbus_r_bits_data(fbus_axi.rdata),
+        .axi4_fbus_r_bits_resp(fbus_axi.rresp),
+        .axi4_fbus_r_bits_last(fbus_axi.rlast),
+
+        .axi4_mem_aw_ready(mem_axi.awready),
+        .axi4_mem_aw_valid(mem_axi.awvalid),
+        .axi4_mem_aw_bits_id(mem_axi.awid),
+        .axi4_mem_aw_bits_addr(mem_axi.awaddr),
+        .axi4_mem_aw_bits_len(mem_axi.awlen),
+        .axi4_mem_aw_bits_size(mem_axi.awsize),
+        .axi4_mem_aw_bits_burst(mem_axi.awburst),
+        .axi4_mem_aw_bits_lock(mem_axi.awlock),
+        .axi4_mem_aw_bits_cache(mem_axi.awcache),
+        .axi4_mem_aw_bits_prot(mem_axi.awprot),
+        .axi4_mem_aw_bits_qos(mem_axi.awqos),
+        .axi4_mem_w_ready(mem_axi.wready),
+        .axi4_mem_w_valid(mem_axi.wvalid),
+        .axi4_mem_w_bits_data(mem_axi.wdata),
+        .axi4_mem_w_bits_strb(mem_axi.wstrb),
+        .axi4_mem_w_bits_last(mem_axi.wlast),
+        .axi4_mem_b_ready(mem_axi.bready),
+        .axi4_mem_b_valid(mem_axi.bvalid),
+        .axi4_mem_b_bits_id(mem_axi.bid),
+        .axi4_mem_b_bits_resp(mem_axi.bresp),
+        .axi4_mem_ar_ready(mem_axi.arready),
+        .axi4_mem_ar_valid(mem_axi.arvalid),
+        .axi4_mem_ar_bits_id(mem_axi.arid),
+        .axi4_mem_ar_bits_addr(mem_axi.araddr),
+        .axi4_mem_ar_bits_len(mem_axi.arlen),
+        .axi4_mem_ar_bits_size(mem_axi.arsize),
+        .axi4_mem_ar_bits_burst(mem_axi.arburst),
+        .axi4_mem_ar_bits_lock(mem_axi.arlock),
+        .axi4_mem_ar_bits_cache(mem_axi.arcache),
+        .axi4_mem_ar_bits_prot(mem_axi.arprot),
+        .axi4_mem_ar_bits_qos(mem_axi.arqos),
+        .axi4_mem_r_ready(mem_axi.rready),
+        .axi4_mem_r_valid(mem_axi.rvalid),
+        .axi4_mem_r_bits_id(mem_axi.rid),
+        .axi4_mem_r_bits_data(mem_axi.rdata),
+        .axi4_mem_r_bits_resp(mem_axi.rresp),
+        .axi4_mem_r_bits_last(mem_axi.rlast),
+
+        .axi4_mmio_aw_ready(mmio_axi.awready),
+        .axi4_mmio_aw_valid(mmio_axi.awvalid),
+        .axi4_mmio_aw_bits_id(mmio_axi.awid),
+        .axi4_mmio_aw_bits_addr(taihang_mmio_awaddr),
+        .axi4_mmio_aw_bits_len(mmio_axi.awlen),
+        .axi4_mmio_aw_bits_size(mmio_axi.awsize),
+        .axi4_mmio_aw_bits_burst(mmio_axi.awburst),
+        .axi4_mmio_aw_bits_lock(mmio_axi.awlock),
+        .axi4_mmio_aw_bits_cache(mmio_axi.awcache),
+        .axi4_mmio_aw_bits_prot(mmio_axi.awprot),
+        .axi4_mmio_aw_bits_qos(mmio_axi.awqos),
+        .axi4_mmio_w_ready(mmio_axi.wready),
+        .axi4_mmio_w_valid(mmio_axi.wvalid),
+        .axi4_mmio_w_bits_data(mmio_axi.wdata),
+        .axi4_mmio_w_bits_strb(mmio_axi.wstrb),
+        .axi4_mmio_w_bits_last(mmio_axi.wlast),
+        .axi4_mmio_b_ready(mmio_axi.bready),
+        .axi4_mmio_b_valid(mmio_axi.bvalid),
+        .axi4_mmio_b_bits_id(mmio_axi.bid),
+        .axi4_mmio_b_bits_resp(mmio_axi.bresp),
+        .axi4_mmio_ar_ready(mmio_axi.arready),
+        .axi4_mmio_ar_valid(mmio_axi.arvalid),
+        .axi4_mmio_ar_bits_id(mmio_axi.arid),
+        .axi4_mmio_ar_bits_addr(taihang_mmio_araddr),
+        .axi4_mmio_ar_bits_len(mmio_axi.arlen),
+        .axi4_mmio_ar_bits_size(mmio_axi.arsize),
+        .axi4_mmio_ar_bits_burst(mmio_axi.arburst),
+        .axi4_mmio_ar_bits_lock(mmio_axi.arlock),
+        .axi4_mmio_ar_bits_cache(mmio_axi.arcache),
+        .axi4_mmio_ar_bits_prot(mmio_axi.arprot),
+        .axi4_mmio_ar_bits_qos(mmio_axi.arqos),
+        .axi4_mmio_r_ready(mmio_axi.rready),
+        .axi4_mmio_r_valid(mmio_axi.rvalid),
+        .axi4_mmio_r_bits_id(mmio_axi.rid),
+        .axi4_mmio_r_bits_data(mmio_axi.rdata),
+        .axi4_mmio_r_bits_resp(mmio_axi.rresp),
+        .axi4_mmio_r_bits_last(mmio_axi.rlast)
+    );
+
+    // This Taihang configuration has no external interrupt pins.  Video
+    // service remains polling-based; retain the port so the board-level video
+    // hierarchy and diagnostics do not need a structural special case.
+    wire unused_video_interrupts = &{1'b0, video_interrupts};
+endmodule

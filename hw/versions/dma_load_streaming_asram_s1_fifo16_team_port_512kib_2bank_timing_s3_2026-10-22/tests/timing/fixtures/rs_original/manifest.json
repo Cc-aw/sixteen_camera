@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "purpose": "Simulation-only original Team ReservationStation reference; compressed to avoid a large generated RTL payload.",
+  "hardware_build_id": "9722998518ca181f",
+  "generation_context_sha256": "5a1e1f7d87f42f595c5b2d5293b6ab36935b0847915ef501f96a5fdb8a1f7b5e",
+  "files": {
+    "ReservationStation.sv": {
+      "file": "ReservationStation.sv.gz",
+      "sha256": "2fd3dba8d46020f060620781cd0e17b6c86ec3d5e1f3fb537bb68a52ed6b8c7f",
+      "bytes": 4713092,
+      "compressed_sha256": "7dd6378c571b20753cefa442dc3857ee0d2d6fa7c5682407c7748922bd36aea2"
+    },
+    "plusarg_reader.v": {
+      "file": "plusarg_reader.v.gz",
+      "sha256": "08de6a683d07eb22091e793d97fdcfa74b14ec35cac33ad0e2efce0a8e0337bc",
+      "bytes": 595,
+      "compressed_sha256": "a3f3deb4ddcf9a49873cb06184f48a3fac0dd061d963321eb689821a8c40913e"
+    }
+  }
+}

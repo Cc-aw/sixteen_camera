@@ -1,0 +1,385 @@
+--- a/fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala
++++ b/fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala
+@@ -73,6 +73,8 @@
+     acc_latency = 4,
+     result_buffer_rows = 512,
+     silu_only = true,
++    mvin_skip_invalid_lanes = sys.env.getOrElse("S1_MVIN_SKIP", "0") == "1",
++    mvin_direct_a32 = sys.env.getOrElse("S1_DIRECT_A", "0") == "1",
+     mvin_scale_args = GemminiConfigs.defaultConfig.mvin_scale_args.map(
+       _.copy(multiplicand_t = gemmini.Float(5, 11))),
+     acc_scale_args = GemminiConfigs.defaultConfig.acc_scale_args.map(
+--- a/generators/gemmini/src/main/scala/gemmini/DMA.scala
++++ b/generators/gemmini/src/main/scala/gemmini/DMA.scala
+@@ -32,6 +32,8 @@
+   val group = Bool()
+   val group_id = UInt(1.W)
+   val group_offset = UInt(11.W)
++  val dual = Bool()
++  val lane_high = Bool()
+ 
+ }
+ 
+@@ -57,6 +59,8 @@
+   val group_last = Bool()
+   val group_zeros = Bool()
+   val group_bytes = UInt(16.W)
++  val dual = Bool()
++  val lane_high = Bool()
+ 
+ }
+ 
+@@ -194,6 +198,8 @@
+     responseQueue.io.enq.bits.accumulate := beatPacker.io.out.bits.accumulate
+     responseQueue.io.enq.bits.has_acc_bitwidth := beatPacker.io.out.bits.has_acc_bitwidth
+     responseQueue.io.enq.bits.scale := RegEnable(xactTracker.io.peek.entry.scale, beatPacker.io.req.fire)
++    responseQueue.io.enq.bits.dual := RegEnable(xactTracker.io.peek.entry.dual, beatPacker.io.req.fire)
++    responseQueue.io.enq.bits.lane_high := RegEnable(xactTracker.io.peek.entry.lane_high, beatPacker.io.req.fire)
+     responseQueue.io.enq.bits.repeats := RegEnable(xactTracker.io.peek.entry.repeats, beatPacker.io.req.fire)
+     responseQueue.io.enq.bits.pixel_repeats := RegEnable(xactTracker.io.peek.entry.pixel_repeats, beatPacker.io.req.fire)
+     responseQueue.io.enq.bits.len := RegEnable(xactTracker.io.peek.entry.len, beatPacker.io.req.fire)
+@@ -425,6 +431,8 @@
+     io.reserve.entry.group := req.group
+     io.reserve.entry.group_id := req.group_id
+     io.reserve.entry.group_offset := req.group_offset + bytesRequested
++    io.reserve.entry.dual := req.dual
++    io.reserve.entry.lane_high := req.lane_high
+ 
+     io.reserve.entry.addr := req.spaddr + req.block_stride *
+       Mux(req.has_acc_bitwidth,
+--- a/generators/gemmini/src/main/scala/gemmini/DmaLoadGroup.scala
++++ b/generators/gemmini/src/main/scala/gemmini/DmaLoadGroup.scala
+@@ -59,7 +59,7 @@
+   val continuous = first.cmd_stride_bytes === first.cols
+   val readMerge = continuous && first.cmd_rows > 1.U
+   // Fixed read_assembled policy; mode input is retained only for source ABI.
+-  io.eligible := !first.laddr.is_acc_addr && !first.laddr.accumulate &&
++  io.eligible := !first.dual && !first.lane_high && !first.laddr.is_acc_addr && !first.laddr.accumulate &&
+     !first.has_acc_bitwidth && first.repeats === 0.U && first.cols =/= 0.U && first.cols < 32.U &&
+     first.cmd_rows =/= 0.U && first.cmd_rows <= 32.U && first.pixel_repeats =/= 0.U &&
+     first.pixel_repeats <= dma_load_max_pixel_repeats.U && first.pixel_repeats * first.cols <= 32.U &&
+@@ -68,6 +68,7 @@
+   io.in.ready := !faultNow && Mux(collecting, true.B, state(tail) === free)
+   io.accepted := io.in.fire && first.cmd_first
+   when(io.in.fire) {
++    assert(!first.dual && !first.lane_high, "DirectA32 must bypass Group collection")
+     when(!collecting) {
+       assert(first.cmd_first && first.row_index === 0.U && io.eligible)
+       descriptor(tail) := first
+--- a/generators/gemmini/src/main/scala/gemmini/DmaLoadRowAssembler.scala
++++ b/generators/gemmini/src/main/scala/gemmini/DmaLoadRowAssembler.scala
+@@ -62,6 +62,8 @@
+     in.tag.group_last && in.pixel_repeats === 1.U)
+   when(advance) { window := newWindow; mask := newMask }
+   when(io.in.fire) {
++    assert(!in.tag.dual && !in.tag.lane_high,
++      "DirectA32 must bypass the ordinary Group row assembler")
+     assert(in.pixel_repeats =/= 0.U && in.pixel_repeats * in.len <= columns.U)
+     cols := in.len
+     floor := lower
+--- a/generators/gemmini/src/main/scala/gemmini/GemminiConfigs.scala
++++ b/generators/gemmini/src/main/scala/gemmini/GemminiConfigs.scala
+@@ -96,6 +96,8 @@
+                                                                              mvin_scale_args: Option[ScaleArguments[T, U]] = None,
+                                                                              mvin_scale_acc_args: Option[ScaleArguments[T, U]] = None,
+                                                                              mvin_scale_shared: Boolean = false,
++                                                                             mvin_skip_invalid_lanes: Boolean = false,
++                                                                             mvin_direct_a32: Boolean = false,
+                                                                              acc_scale_args: Option[ScaleArguments[T, V]] = None,
+ 
+                                                                              acc_read_full_width: Boolean = true,
+@@ -274,6 +276,10 @@
+   //==========================================================================
+   val BLOCK_ROWS = tileRows * meshRows
+   val BLOCK_COLS = tileColumns * meshColumns
++  require(!mvin_direct_a32 || (BLOCK_ROWS == 32 && BLOCK_COLS == 32 &&
++    inputType.getWidth == 8 && accType.getWidth == 32 && aligned_to == 1 &&
++    mvin_scale_t_bits == 16 && !use_tlb),
++    "S1 DirectA32 requires physical DIM32 INT8, FP16 scales and byte masks")
+   require(!dma_load_runtime_enable || (!dma_read_coalescing && !use_tlb &&
+     inputType.getWidth == 8 && accType.getWidth == 32 && aligned_to == 1 &&
+     BLOCK_ROWS == 32 && BLOCK_COLS == 32 && dma_buswidth == 256 &&
+--- a/generators/gemmini/src/main/scala/gemmini/LoadController.scala
++++ b/generators/gemmini/src/main/scala/gemmini/LoadController.scala
+@@ -37,6 +37,10 @@
+   val shrinks = Reg(Vec(load_states, Bool())) // Shrink inputs to accumulator
+   val block_strides = Reg(Vec(load_states, UInt(block_stride_bits.W))) // Spad stride during block move-ins
+   val pixel_repeats = Reg(Vec(load_states, UInt(pixel_repeats_bits.W)))
++  val dual_sources = RegInit(VecInit(Seq.fill(load_states)(false.B)))
++  val source_deltas = Reg(Vec(load_states, UInt(33.W)))
++  val source_scales = Reg(Vec(load_states, UInt(mvin_scale_t_bits.W)))
++  val second_source = RegInit(false.B)
+   val block_rows = meshRows * tileRows
+   val block_cols = meshColumns * tileColumns
+   val row_counter = RegInit(0.U(log2Ceil(block_rows).W))
+@@ -70,6 +74,9 @@
+   val shrink = shrinks(state_id)
+   val block_stride = block_strides(state_id)
+   val pixel_repeat = pixel_repeats(state_id)
++  val dual_source = mvin_direct_a32.B && dual_sources(state_id)
++  val dual_config = mvin_direct_a32.B &&
++    cmd.bits.cmd.rs1(1, 0) === CONFIG_LOAD && cmd.bits.cmd.rs1(7)
+ 
+   val all_zeros = vaddr === 0.U
+ 
+@@ -101,19 +108,29 @@
+   // DMA IO wiring
+   io.dma.req.valid := (control_state === waiting_for_command && cmd.valid && DoLoad && cmd_tracker.io.alloc.ready) ||
+     control_state === waiting_for_dma_req_ready ||
+-    (control_state === sending_rows && row_counter =/= 0.U)
++    (control_state === sending_rows && (row_counter =/= 0.U || second_source))
+   io.dma.req.bits.vaddr := vaddr + row_counter * stride
++  if (mvin_direct_a32) {
++    require(coreMaxAddrBits >= 33)
++    // Delta is defined in the 33-bit physical DMA address space, including
++    // negative differences. Discard carry in that space before widening.
++    val dual_address = vaddr(32, 0) + row_counter * stride(32, 0) +
++      Mux(second_source, source_deltas(state_id), 0.U)
++    when(dual_source) { io.dma.req.bits.vaddr := dual_address(32, 0) }
++  }
+   io.dma.req.bits.laddr := localaddr_plus_row_counter
+-  io.dma.req.bits.cols := cols
++  io.dma.req.bits.cols := Mux(dual_source, 16.U, cols)
+   io.dma.req.bits.repeats := Mux(stride === 0.U && !all_zeros, rows - 1.U, 0.U)
+   io.dma.req.bits.block_stride := block_stride
+-  io.dma.req.bits.scale := scale
++  io.dma.req.bits.scale := Mux(dual_source && second_source, source_scales(state_id), scale)
++  io.dma.req.bits.dual := dual_source
++  io.dma.req.bits.lane_high := dual_source && second_source
+   io.dma.req.bits.has_acc_bitwidth := localaddr_plus_row_counter.is_acc_addr && !shrink
+   io.dma.req.bits.all_zeros := all_zeros
+   io.dma.req.bits.status := mstatus
+   io.dma.req.bits.pixel_repeats := pixel_repeat
+-  io.dma.req.bits.cmd_first := row_counter === 0.U
+-  io.dma.req.bits.cmd_last := row_counter === actual_rows_read - 1.U
++  io.dma.req.bits.cmd_first := row_counter === 0.U && !second_source
++  io.dma.req.bits.cmd_last := row_counter === actual_rows_read - 1.U && (!dual_source || second_source)
+   io.dma.req.bits.cmd_rows := actual_rows_read
+   io.dma.req.bits.row_index := row_counter
+   io.dma.req.bits.cmd_stride_bytes := stride
+@@ -158,7 +175,16 @@
+ 
+   // Row counter
+   when (io.dma.req.fire) {
+-    row_counter := wrappingAdd(row_counter, 1.U, actual_rows_read)
++    when(!dual_source || second_source) {
++      row_counter := wrappingAdd(row_counter, 1.U, actual_rows_read)
++    }
++    second_source := dual_source && !second_source
++    when(dual_source) {
++      assert(cols === 32.U && rows > 0.U && rows <= 32.U && stride >= 16.U &&
++        !localaddr.is_acc_addr && !all_zeros && pixel_repeat === 1.U,
++        "DirectA32 supports nonzero 16+16 INT8 SPAD rows with a common stride")
++      assert(io.dma.req.bits.vaddr =/= 0.U, "DirectA32 source must not alias zero-fill")
++    }
+ 
+     assert(block_stride >= rows)
+   }
+@@ -168,11 +194,21 @@
+     is (waiting_for_command) {
+       when (cmd.valid) {
+         when(DoConfig) {
+-          stride := config_stride
+-          scale := config_scale
+-          shrink := config_shrink
+-          block_stride := config_block_stride
+-          pixel_repeat := Mux(config_pixel_repeats === 0.U, 1.U, config_pixel_repeats) // TODO this default value was just added to maintain backwards compatibility. we should deprecate and remove it later
++          assert(config_state_id < load_states.U, "Invalid CONFIG_LD state")
++          when(dual_config) {
++            // Private descriptor updates neither ordinary LD state nor the
++            // RS shadow geometry. The second scale is S1's 16-bit FP16 value.
++            dual_sources(state_id) := cmd.bits.cmd.rs1(2)
++            source_deltas(state_id) := config_stride(32, 0)
++            source_scales(state_id) := config_scale
++          }.otherwise {
++            stride := config_stride
++            scale := config_scale
++            shrink := config_shrink
++            block_stride := config_block_stride
++            pixel_repeat := Mux(config_pixel_repeats === 0.U, 1.U, config_pixel_repeats) // Backwards-compatible ordinary CONFIG_LD.
++            dual_sources(state_id) := false.B
++          }
+           cmd.ready := true.B
+         }
+ 
+@@ -189,7 +225,8 @@
+     }
+ 
+     is (sending_rows) {
+-      val last_row = row_counter === 0.U || (row_counter === actual_rows_read-1.U && io.dma.req.fire)
++      val last_row = (row_counter === 0.U && !second_source) ||
++        (row_counter === actual_rows_read-1.U && io.dma.req.fire && (!dual_source || second_source))
+ 
+       when (last_row) {
+         control_state := waiting_for_command
+--- a/generators/gemmini/src/main/scala/gemmini/LoopConv.scala
++++ b/generators/gemmini/src/main/scala/gemmini/LoopConv.scala
+@@ -315,6 +315,7 @@
+   config_cmd_rs1.state_id := 2.U
+   config_cmd_rs1.shrink := 0.U
+   config_cmd_rs1._unused := 1.U
++  config_cmd_rs1._spacer0 := 0.U // Clear DirectA marker/placement reserved bits.
+   config_cmd.rs1 := config_cmd_rs1.asUInt
+ 
+   config_cmd.rs2 := 0.U
+@@ -547,6 +548,7 @@
+   config_cmd_rs1.state_id := 0.U
+   config_cmd_rs1.shrink := 0.U
+   config_cmd_rs1._unused := 1.U
++  config_cmd_rs1._spacer0 := 0.U // Clear DirectA marker/placement reserved bits.
+   config_cmd.rs1 := config_cmd_rs1.asUInt
+ 
+   config_cmd.rs2 := dram_stride << req.downsample
+@@ -788,6 +790,7 @@
+   config_cmd_rs1.state_id := 1.U
+   config_cmd_rs1.shrink := 0.U
+   config_cmd_rs1._unused := 1.U
++  config_cmd_rs1._spacer0 := 0.U // Clear DirectA marker/placement reserved bits.
+   config_cmd.rs1 := config_cmd_rs1.asUInt
+ 
+   config_cmd.rs2 := addresses.config_stride
+--- a/generators/gemmini/src/main/scala/gemmini/ReservationStation.scala
++++ b/generators/gemmini/src/main/scala/gemmini/ReservationStation.scala
+@@ -421,7 +421,9 @@
+         when (!set_only_strides) {
+           a_transpose := new_entry.cmd.cmd.rs1(8) // TODO magic numbers
+         }
+-      }.elsewhen(new_entry.is_config && new_entry.q === ldqu) {
++      }.elsewhen(new_entry.is_config && new_entry.q === ldqu &&
++        !(config.mvin_direct_a32.B && new_entry.cmd.cmd.rs1(1, 0) === CONFIG_LOAD &&
++          new_entry.cmd.cmd.rs1(7))) {
+         val id = new_entry.cmd.cmd.rs1(4,3) // TODO magic numbers
+         val block_stride = new_entry.cmd.cmd.rs1(31, 16) // TODO magic numbers
+         val repeat_pixels = maxOf(new_entry.cmd.cmd.rs1(8 + pixel_repeats_bits - 1, 8), 1.U) // TODO we use a default value of pixel repeats here, for backwards compatibility. However, we should deprecate and remove this default value eventually
+--- a/generators/gemmini/src/main/scala/gemmini/Scratchpad.scala
++++ b/generators/gemmini/src/main/scala/gemmini/Scratchpad.scala
+@@ -28,6 +28,8 @@
+   val cmd_rows = UInt(6.W)
+   val row_index = UInt(5.W)
+   val cmd_stride_bytes = UInt(coreMaxAddrBits.W)
++  val dual = Bool()
++  val lane_high = Bool()
+ 
+ }
+ 
+@@ -479,6 +481,8 @@
+     reader.module.io.req.bits.group := false.B
+     reader.module.io.req.bits.group_id := 0.U
+     reader.module.io.req.bits.group_offset := 0.U
++    reader.module.io.req.bits.dual := read_issue_q.io.deq.bits.dual
++    reader.module.io.req.bits.lane_high := read_issue_q.io.deq.bits.lane_high
+     group.foreach { g =>
+       when(g.io.request.valid) {
+         reader.module.io.req.bits := g.io.request.bits
+@@ -526,6 +530,16 @@
+     mvin_scale_in.bits.pixel_repeats := logicalRead.bits.pixel_repeats
+     mvin_scale_in.bits.last := logicalRead.bits.last
+     mvin_scale_in.bits.tag := logicalRead.bits
++    mvin_scale_in.bits.lane_valid.foreach(_ := true.B)
++    if (config.mvin_skip_invalid_lanes && inputType.getWidth == 8 && aligned_to == 1) {
++      for (lane <- 0 until block_cols) {
++        // Both Reader and Group describe validity with this logical byte mask.
++        // A valid zero byte is still valid; Group zero padding retains its
++        // existing explicit bypass below, including NaN/Inf scale behavior.
++        mvin_scale_in.bits.lane_valid(lane) :=
++          logicalRead.bits.has_acc_bitwidth || logicalRead.bits.mask(lane)
++      }
++    }
+ 
+     val mvin_scale_pixel_repeater = Module(new PixelRepeater(inputType, local_addr_t, block_cols, aligned_to, mvin_scale_out.bits.tag.cloneType, passthrough = !has_first_layer_optimizations))
+     // Capture payload and metadata before the wide bank-write arbitration.
+@@ -533,9 +547,24 @@
+       config.scratchpad_dma_buffer_entries, pipe = false, flow = false))
+     mvinWriteBuffer.io.enq <> mvin_scale_pixel_repeater.io.resp
+     val mvin_scale_write_out = mvinWriteBuffer.io.deq
++    val placedData = WireInit(mvin_scale_out.bits.out)
++    val placedMask = WireInit(VecInit(mvin_scale_out.bits.tag.mask.take(mvin_scale_pixel_repeater.io.req.bits.mask.size)))
++    if (config.mvin_direct_a32) {
++      val placement = Module(new S1MvinLanePlace)
++      placement.io.data := mvin_scale_out.bits.out.asUInt
++      placement.io.mask := VecInit(mvin_scale_out.bits.tag.mask.take(block_cols)).asUInt
++      placement.io.high := mvin_scale_out.bits.tag.dual && mvin_scale_out.bits.tag.lane_high
++      placedData := placement.io.out_data.asTypeOf(placedData)
++      placedMask := placement.io.out_mask.asTypeOf(placedMask)
++      when(mvin_scale_out.fire && mvin_scale_out.bits.tag.dual) {
++        assert(!mvin_scale_out.bits.tag.grouped && !mvin_scale_out.bits.tag.assembled &&
++          !mvin_scale_out.bits.tag.is_acc && mvin_scale_out.bits.tag.pixel_repeats === 1.U,
++          "DirectA32 fragments must retain ordinary Reader placement ownership")
++      }
++    }
+     mvin_scale_pixel_repeater.io.req.valid := mvin_scale_out.valid
+-    mvin_scale_pixel_repeater.io.req.bits.in := mvin_scale_out.bits.out
+-    mvin_scale_pixel_repeater.io.req.bits.mask := mvin_scale_out.bits.tag.mask take mvin_scale_pixel_repeater.io.req.bits.mask.size
++    mvin_scale_pixel_repeater.io.req.bits.in := placedData
++    mvin_scale_pixel_repeater.io.req.bits.mask := placedMask
+     mvin_scale_pixel_repeater.io.req.bits.laddr := mvin_scale_out.bits.tag.addr.asTypeOf(local_addr_t) + mvin_scale_out.bits.row
+     mvin_scale_pixel_repeater.io.req.bits.len := mvin_scale_out.bits.tag.len
+     mvin_scale_pixel_repeater.io.req.bits.pixel_repeats := mvin_scale_out.bits.tag.pixel_repeats
+@@ -549,8 +578,8 @@
+     group.foreach { _ =>
+       val postScale = Wire(Decoupled(chiselTypeOf(mvin_scale_pixel_repeater.io.req.bits)))
+       postScale.valid := mvin_scale_out.valid
+-      postScale.bits.in := mvin_scale_out.bits.out
+-      postScale.bits.mask := VecInit(mvin_scale_out.bits.tag.mask.take(block_cols))
++      postScale.bits.in := placedData
++      postScale.bits.mask := placedMask
+       postScale.bits.laddr := mvin_scale_out.bits.tag.addr.asTypeOf(local_addr_t) + mvin_scale_out.bits.row
+       postScale.bits.len := mvin_scale_out.bits.tag.len
+       postScale.bits.pixel_repeats := mvin_scale_out.bits.tag.pixel_repeats
+@@ -597,6 +626,7 @@
+       mvin_scale_acc_in.bits.pixel_repeats := 1.U
+       mvin_scale_acc_in.bits.last := logicalRead.bits.last
+       mvin_scale_acc_in.bits.tag := logicalRead.bits
++      mvin_scale_acc_in.bits.lane_valid.foreach(_ := true.B)
+ 
+       mvin_scale_acc_out.ready := false.B
+     }
+--- a/generators/gemmini/src/main/scala/gemmini/VectorScalarMultiplier.scala
++++ b/generators/gemmini/src/main/scala/gemmini/VectorScalarMultiplier.scala
+@@ -13,6 +13,7 @@
+   val pixel_repeats: UInt = UInt(8.W) // TODO magic number
+   val last: Bool = Bool()
+   val tag: Tag = tag_t.cloneType
++  val lane_valid = Vec(block_cols, Bool())
+ 
+ }
+ 
+@@ -152,7 +153,9 @@
+     pipe.io.in.bits.row := in.bits.repeats
+     pipe.io.in.bits.out := (mvin_scale_args match {
+       case Some(ScaleArguments(mvin_scale_func, _, multiplicand_t, _, _, _)) =>
+-        in.bits.in.map(x => mvin_scale_func(x, in.bits.scale.asTypeOf(multiplicand_t)))
++        VecInit(in.bits.in.zipWithIndex.map { case (x, lane) =>
++          Mux(in.bits.lane_valid(lane), mvin_scale_func(x, in.bits.scale.asTypeOf(multiplicand_t)), x)
++        })
+       case None => in.bits.in
+     })
+   } else {
+@@ -193,8 +196,14 @@
+             case f: Float => Arithmetic.FloatArithmetic.cast(f).identity
+             case b: Bool => 1.U(1.W)
+           })
+-          fired_masks(i).foreach(_ := in.bits.scale.asUInt === identity.asUInt || always_identity.B)
+-          completed_masks(i).foreach(_ := in.bits.scale.asUInt === identity.asUInt || always_identity.B)
++          for (lane <- 0 until width) {
++            // Preserve identity bypass and FP16 ScalePipe arithmetic. Masked
++            // lanes carry their input unchanged and never enter a scale unit.
++            val bypass = in.bits.scale.asUInt === identity.asUInt ||
++              always_identity.B || !in.bits.lane_valid(lane)
++            fired_masks(i)(lane) := bypass
++            completed_masks(i)(lane) := bypass
++          }
+         }
+       }
+       tail_oh := (tail_oh << 1) | tail_oh(nEntries-1)
+--- a/generators/gemmini/src/main/scala/gemmini/XactTracker.scala
++++ b/generators/gemmini/src/main/scala/gemmini/XactTracker.scala
+@@ -25,6 +25,8 @@
+   val group = Bool()
+   val group_id = UInt(1.W)
+   val group_offset = UInt(11.W)
++  val dual = Bool()
++  val lane_high = Bool()
+ 
+ }
+ 

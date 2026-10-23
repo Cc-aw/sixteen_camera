@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "variant": "dma_load_streaming_asram_s1_fifo16_team_port_512kib_2bank_timing_s3_2026-10-22",
+  "hardware_build_id": "853cfcbbfc1644c9",
+  "parent_hardware_build_id": "9722998518ca181f",
+  "generated_output": "build/timing_generated_final",
+  "generation_context_sha256": "3f7096124b17c72b2ae0b4c2f5d06582180c7d28649b466071dad93912c74761",
+  "source_recipe": "manifests/SOURCE_OVERLAY.json",
+  "vivado_project": "build/timing_project_01/s3.xpr",
+  "clock_hz": 100000000,
+  "source_generation": "FULL_SOURCE_SBT",
+  "offline_validation": "PASS",
+  "validation": "validation/status.json",
+  "synthesis": "NOT_RUN",
+  "whole_design_pnr": "NOT_RUN",
+  "bitstream": null,
+  "target_wns_ns": 0,
+  "timing_closed": false,
+  "wns_ns": null,
+  "tns_ns": null,
+  "board_validation": "NOT_RUN_FOR_LOCAL_REBUILD",
+  "external_reference_hardware_id": "545a937878f2f3b6"
+}

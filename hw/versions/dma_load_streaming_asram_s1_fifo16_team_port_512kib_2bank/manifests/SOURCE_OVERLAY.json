@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "base": {
+    "kind": "version",
+    "directory": "hw/versions/dma_load_streaming_asram_s1_fifo16_batch4_512kib_2bank",
+    "manifest_sha256": "d6ee5bf196335ce63e5723da46fed8669370da27811350acd458a1f30b3cb857"
+  },
+  "patches": [
+    {
+      "file": "patches/source.patch",
+      "sha256": "f3da36712556f4c06c7a88592c5b253dae6ec3418382ddc62e918f68eb03befd"
+    }
+  ],
+  "overlay": {
+    "generators/gemmini/src/main/scala/gemmini/S1MvinLanePlace.scala": {
+      "file": "overlay/generators/gemmini/src/main/scala/gemmini/S1MvinLanePlace.scala",
+      "sha256": "2da464fc3558b29f8ea5f6093e6e446ef601eca1b819a0a3081cea6ab3ef49cc"
+    }
+  },
+  "changes": {
+    "fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala": {
+      "before": "e2b4bc7ddf9b7c87a93b3fb5b2b7fef52c731cfaa9f5b0fc955f1359b5b18de1",
+      "after": "bf4c900173cd9ce123b369aac8d02eb85cd59ded253e025a3b06179156d6615e"
+    },
+    "generators/gemmini/src/main/scala/gemmini/DMA.scala": {
+      "before": "cd3f3c87286af6bcd251e801d982d18de5de3c76820e636f63f1cfff2c49fcb3",
+      "after": "8a7eeda9e0438b1b05b8a44db1180321763b7cadf7c17fa8b0a6aaa0b2220ed9"
+    },
+    "generators/gemmini/src/main/scala/gemmini/DmaLoadGroup.scala": {
+      "before": "414ee85066921bab4836e304c996ad5dfd26a959c314ccbb879e89211fd1acb1",
+      "after": "e320eda51d6e64bb62bf88f6b53169a80e49cd237bf96bbeb5709dd124b56bb8"
+    },
+    "generators/gemmini/src/main/scala/gemmini/DmaLoadRowAssembler.scala": {
+      "before": "e0a3304a64349eb3f73fe5b5a3254149244a8ecaeb2fd78c20ce2636f28c8bca",
+      "after": "5a68490c88775e3a957fb192ebbc687609b331699ce14b860e19c2bac8ec699e"
+    },
+    "generators/gemmini/src/main/scala/gemmini/GemminiConfigs.scala": {
+      "before": "f8a7ddd95ca45561629c90b54773ac8c23e05e58c85cefa75f57af59c175479f",
+      "after": "55cdf746467dc7ce1f4ab28035c40ad4cd13001f6aed0cd256169265b3293f4e"
+    },
+    "generators/gemmini/src/main/scala/gemmini/LoadController.scala": {
+      "before": "2287dbb249ec8759e7d2e6a93c5867f043621617058f64ea71fe28c9718a7539",
+      "after": "3edb6406fb0fb4dbee8da8c9ff4c581d1d122582c368190d39992ecfe19a9258"
+    },
+    "generators/gemmini/src/main/scala/gemmini/LoopConv.scala": {
+      "before": "7963deba45a4d08d024905e76063a5a5801ef048e0b0637da86cbe1736152663",
+      "after": "4d99175fafccaa58394d1f7847e3e76633b48f824b17d97dfcad96e584e4a088"
+    },
+    "generators/gemmini/src/main/scala/gemmini/ReservationStation.scala": {
+      "before": "0645e93e798f7ea4051841e70cb7240dfeabb621e309755f6e8293265708cc62",
+      "after": "855b10998f628c6f0be48b31de631548ff4d06ba75377e2c9edf8e8c5ce79317"
+    },
+    "generators/gemmini/src/main/scala/gemmini/S1MvinLanePlace.scala": {
+      "before": null,
+      "after": "2da464fc3558b29f8ea5f6093e6e446ef601eca1b819a0a3081cea6ab3ef49cc"
+    },
+    "generators/gemmini/src/main/scala/gemmini/Scratchpad.scala": {
+      "before": "a7b239ee4cdeada4a87eb922f0e164e87ca92c2770ebd37ed9457891f4baca17",
+      "after": "bad0a6ccb2d26244c52c07746268dfe11129b9cc3e07cf20f4a5792ff70ffb80"
+    },
+    "generators/gemmini/src/main/scala/gemmini/VectorScalarMultiplier.scala": {
+      "before": "756fc12d64993676704ce75e4d5d99f7011ee72afe9558fc91f981a8ecd53945",
+      "after": "c7413c1bc051ae40cf0e2c1039ab604f429448785c0e111a55f607c1e8be8473"
+    },
+    "generators/gemmini/src/main/scala/gemmini/XactTracker.scala": {
+      "before": "e56e1cfe617ece5df5d56e35449d3ff58acb5fe94d907c1d747b10f56fd63780",
+      "after": "1abfd116c7ee11c83b7671105804759cf26b5a6ae866a7b2fe558d70a79543c4"
+    }
+  },
+  "effective_tree_sha256": "bdaff3cdb9d2f754c2f2032f6adc23af68ab620dca5c3b4aa189323e0f73926f"
+}

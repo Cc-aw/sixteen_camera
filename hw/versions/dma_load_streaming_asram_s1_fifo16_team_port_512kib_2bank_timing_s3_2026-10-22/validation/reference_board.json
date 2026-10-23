@@ -1,0 +1,54 @@
+{
+  "scope": "USER_RUN_EXTERNAL_S3_BITSTREAM; NOT_LOCAL_REBUILD_VALIDATION",
+  "hardware_build_id": "545a937878f2f3b6",
+  "bitstream_sha256": "5e55894e42476dc8853123ca6d3da8a6d16db54f869b6cb0bf3408b4ff2db24c",
+  "timing": {
+    "wns_ns": -0.236,
+    "tns_ns": -186.235,
+    "timing_closed": false
+  },
+  "checks": {
+    "s3_asram_01": {
+      "status": "BOARD_PASS",
+      "summary": "sw/board_tests/s1_fifo16_team_port/logs/s3_asram_01/asram.summary.json",
+      "summary_sha256": "c8f38d68f2890a232c37b358cdab28331cedfec1c91798e4ec4b721d1cd042da",
+      "manifest_sha256": "643aa519504a6a95089f50ad94d3e1a638df1d417cd2e8198feae12bfeffbfeb",
+      "ppu_runs": null,
+      "raw_head_bytes": null,
+      "mismatched_frames": null,
+      "direct_a_model2": false
+    },
+    "s3_model_01": {
+      "status": "BOARD_PASS",
+      "summary": "sw/board_tests/s1_fifo16_team_port/logs/s3_model_01/model.summary.json",
+      "summary_sha256": "e3dd18af9b4da1e7867ff2a1273f45283796abba3b33a6d40dfbbc661b145fe7",
+      "manifest_sha256": "cc0fc50fd669bd7651bb67cb8f85016f8b385041a47c788e685c5afae97aaa96",
+      "ppu_runs": 102,
+      "raw_head_bytes": 0,
+      "mismatched_frames": 0,
+      "direct_a_model2": false
+    },
+    "s3_direct_diag_01": {
+      "status": "BOARD_PASS",
+      "summary": "sw/board_tests/s1_fifo16_team_port/logs/s3_direct_diag_01/diagnostic.summary.json",
+      "summary_sha256": "a47e467abe724786552ca11f330ba284779f342643925b24ce1a86101dd4ec1e",
+      "manifest_sha256": "8dc70b4cc3ab0fbeeb7226a0a9af780689d5c7e4228da6fca05283be28328191",
+      "ppu_runs": 102,
+      "raw_head_bytes": 907200,
+      "mismatched_frames": 0,
+      "direct_a_model2": true
+    },
+    "s3_direct_model_01": {
+      "status": "BOARD_PASS",
+      "summary": "sw/board_tests/s1_fifo16_team_port/logs/s3_direct_model_01/model.summary.json",
+      "summary_sha256": "a4430db3cfcbfd7600dea4e182e254ee586ee68d0c649d2789c04dc2a21b03ef",
+      "manifest_sha256": "8dc70b4cc3ab0fbeeb7226a0a9af780689d5c7e4228da6fca05283be28328191",
+      "ppu_runs": 102,
+      "raw_head_bytes": 0,
+      "mismatched_frames": 0,
+      "direct_a_model2": true
+    }
+  },
+  "board_accessed_by_agent": false,
+  "independent_cpu_accuracy": "NOT_PROVEN"
+}

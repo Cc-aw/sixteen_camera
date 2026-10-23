@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "base": {
+    "kind": "version",
+    "directory": "hw/versions/dma_load_streaming_asram_s1_fifo16_team_port_512kib_2bank",
+    "manifest_sha256": "1ac3e6674a702d91e3030c2bd0dfb48e5b7f3f4ba592a664e5a7b4229c6f04da"
+  },
+  "patches": [
+    {
+      "file": "patches/timing_s3.patch",
+      "sha256": "76facb704838530020a7fef9a6404d84d9abb7093a35919a71c61cf0db5cfb8e"
+    }
+  ],
+  "overlay": {
+    "generators/gemmini/src/main/scala/gemmini/DmaLoadIngress.scala": {
+      "file": "overlay/generators/gemmini/src/main/scala/gemmini/DmaLoadIngress.scala",
+      "sha256": "1f2da04094d2ed5645e8a868464232e17db165fbfea10614a7933f4b7f0d1656"
+    }
+  },
+  "changes": {
+    "generators/gemmini/src/main/scala/gemmini/Controller.scala": {
+      "before": "d3bbbffe67f6806686bb0e7ddef80af2bf70f103c855a07fc408ebe3ca488fe3",
+      "after": "1024db734aa33dd703b3839eb164c0d590e43904fe88d35dab6e8625754f8b98"
+    },
+    "generators/gemmini/src/main/scala/gemmini/DMA.scala": {
+      "before": "8a7eeda9e0438b1b05b8a44db1180321763b7cadf7c17fa8b0a6aaa0b2220ed9",
+      "after": "34be245fb9b7314254db4723fe6226c6b54af949fc8758625a261a3ebe448da2"
+    },
+    "generators/gemmini/src/main/scala/gemmini/DmaLoadGroup.scala": {
+      "before": "e320eda51d6e64bb62bf88f6b53169a80e49cd237bf96bbeb5709dd124b56bb8",
+      "after": "b6f7df521505dbe2e7bcbe76e638a3daa2b5806096c8a8e2ad4b0ced8c92f3df"
+    },
+    "generators/gemmini/src/main/scala/gemmini/DmaLoadIngress.scala": {
+      "before": null,
+      "after": "1f2da04094d2ed5645e8a868464232e17db165fbfea10614a7933f4b7f0d1656"
+    },
+    "generators/gemmini/src/main/scala/gemmini/ReservationStation.scala": {
+      "before": "855b10998f628c6f0be48b31de631548ff4d06ba75377e2c9edf8e8c5ce79317",
+      "after": "44ed39acbf654d3b493fc694e54e152d4ab12b52d3d05c18ba6d9da0a9a98a47"
+    },
+    "generators/gemmini/src/main/scala/gemmini/Scratchpad.scala": {
+      "before": "bad0a6ccb2d26244c52c07746268dfe11129b9cc3e07cf20f4a5792ff70ffb80",
+      "after": "e87bf09f5271f12bbe881c7b7c9fbeb077b4d30b675868556896e59b8e5045f9"
+    },
+    "generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceC.scala": {
+      "before": "2d78c7e0de46b81d769b5bde21fdfed21d347994e9a99294848b57fdf9476547",
+      "after": "0229752bc49a16f326c59d8dbfcb1a156a4f94c4b4ee95d3b7b56aab3c0bdaf9"
+    },
+    "generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala": {
+      "before": "bf9be5fdf99a95bc7f268447cdca668b92e2c5adac8106cedaaae776e6cb856d",
+      "after": "d1f9d464767ec4c8ebf6f0ff069d412e9febdc368a0441e4b9b25c6a616a51af"
+    }
+  },
+  "effective_tree_sha256": "7ba9a7003062e7ff5a74477b6e1f458046b1671cb5407fb8ab5372238afec74b"
+}

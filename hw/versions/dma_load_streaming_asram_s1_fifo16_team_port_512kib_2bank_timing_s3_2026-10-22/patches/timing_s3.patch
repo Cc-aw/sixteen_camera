@@ -1,0 +1,658 @@
+--- a/generators/gemmini/src/main/scala/gemmini/Controller.scala
++++ b/generators/gemmini/src/main/scala/gemmini/Controller.scala
+@@ -262,7 +262,8 @@
+     clock_en_reg := io.cmd.bits.rs1(0)
+   }
+ 
+-  val raw_cmd_q = Module(new Queue(new GemminiCmd(reservation_station_entries), entries = 2))
++  val raw_cmd_q = Module(new BankedShallowQueue(new GemminiCmd(reservation_station_entries),
++    entries = 2, bankBits = 32, registerPayload = true))
+   raw_cmd_q.io.enq.valid := io.cmd.valid
+   io.cmd.ready := raw_cmd_q.io.enq.ready
+   raw_cmd_q.io.enq.bits.cmd := io.cmd.bits
+@@ -294,7 +295,12 @@
+     new ComputeRs(mvin_rows_bits, mvin_cols_bits, local_addr_t), new ComputeRs(mvin_rows_bits, mvin_cols_bits, local_addr_t),
+     new MvoutSpadRs1(32, local_addr_t), new MvoutRs2(mvout_rows_bits, mvout_cols_bits, local_addr_t)) }
+ 
+-  val unrolled_cmd = Queue(loop_cmd)
++  // Keep the original two-entry capacity and non-flow/non-pipe handshake,
++  // but do not launch RS address arithmetic from a distributed-RAM pointer.
++  val unrolled_cmd_q = Module(new BankedShallowQueue(chiselTypeOf(loop_cmd.bits),
++    entries = 2, bankBits = 32, registerPayload = true))
++  unrolled_cmd_q.io.enq <> loop_cmd
++  val unrolled_cmd = unrolled_cmd_q.io.deq
+   unrolled_cmd.ready := false.B
+   counters.io.event_io.connectEventSignal(CounterEvent.LOOP_MATMUL_ACTIVE_CYCLES, loop_matmul_unroller_busy)
+ 
+--- a/generators/gemmini/src/main/scala/gemmini/DMA.scala
++++ b/generators/gemmini/src/main/scala/gemmini/DMA.scala
+@@ -144,7 +144,7 @@
+       val beatOffset = RegInit(0.U(7.W))
+       val fault = RegInit(false.B)
+       val returns = Module(new BankedShallowQueue(new DmaLoadFragment, 2,
+-        pipe = false, flow = false))
++        pipe = false, flow = false, bankBits = 32, registerPayload = true))
+       io.group_resp <> returns.io.deq
+       val isGroup = active || (xactTracker.io.peek.valid && entry.group)
+       val unknown = !active && !xactTracker.io.peek.valid
+@@ -174,8 +174,11 @@
+       }
+       when(beat.fire && (unknown || beat.bits.denied || beat.bits.corrupt ||
+         (active && beat.bits.xactid =/= source))) { fault := true.B }
+-      io.fault := fault || (beat.fire && (unknown || beat.bits.denied || beat.bits.corrupt ||
+-        (active && beat.bits.xactid =/= source)))
++      // Publish the sticky fault from a register. The offending Group beat
++      // still carries its error bit and is rejected locally; do not put the
++      // live D-channel decode on every downstream bank's enable/ready cone.
++      // Global fault observation is one cycle later, never a successful DONE.
++      io.fault := fault
+       groupReturnOccupancy := returns.io.count
+     }
+ 
+--- a/generators/gemmini/src/main/scala/gemmini/DmaLoadGroup.scala
++++ b/generators/gemmini/src/main/scala/gemmini/DmaLoadGroup.scala
+@@ -32,6 +32,10 @@
+   val free :: collect :: fetch :: emit :: retire :: Nil = Enum(5)
+   val state = RegInit(VecInit(Seq.fill(2)(free)))
+   val descriptor = Reg(Vec(2, chiselTypeOf(io.in.bits)))
++  // A context's byte count is immutable until retirement. Compute alongside
++  // descriptor acceptance, rather than placing a multiplier before the
++  // fragment bounds/fault checks and every replay memory clock-enable.
++  val total = Reg(Vec(2, UInt(11.W)))
+   val rows = Reg(Vec(2, UInt(6.W)))
+   val issued = Reg(Vec(2, UInt(11.W)))
+   val received = Reg(Vec(2, UInt(11.W)))
+@@ -48,22 +52,10 @@
+   val collecting = RegInit(false.B)
+   val fault = RegInit(false.B)
+   val first = io.in.bits
+-  val endAddress = first.vaddr +& (first.cmd_rows - 1.U) * first.cmd_stride_bytes +& first.cols
+-  val endLocal = first.laddr.full_sp_addr() +& first.cmd_rows - 1.U
+-  val half = local.spRows / 2
+-  val sameHalf = endLocal < local.spRows.U &&
+-    ((first.laddr.full_sp_addr() < half.U) === (endLocal < half.U))
+   val allowLocal = p(freechips.rocketchip.tile.commandfrontend.ActivationSramKey)
+-  val normalMemory = (first.vaddr >= "h80000000".U && endAddress <= "h100000000".U) ||
+-    (allowLocal.B && ActivationSramDmaAddress.localRange(first.vaddr, endAddress))
+   val continuous = first.cmd_stride_bytes === first.cols
+-  val readMerge = continuous && first.cmd_rows > 1.U
+   // Fixed read_assembled policy; mode input is retained only for source ABI.
+-  io.eligible := !first.dual && !first.lane_high && !first.laddr.is_acc_addr && !first.laddr.accumulate &&
+-    !first.has_acc_bitwidth && first.repeats === 0.U && first.cols =/= 0.U && first.cols < 32.U &&
+-    first.cmd_rows =/= 0.U && first.cmd_rows <= 32.U && first.pixel_repeats =/= 0.U &&
+-    first.pixel_repeats <= dma_load_max_pixel_repeats.U && first.pixel_repeats * first.cols <= 32.U &&
+-    sameHalf && (first.all_zeros || (normalMemory && (readMerge || first.pixel_repeats > 1.U)))
++  io.eligible := DmaLoadEligibility(config, first, (first.cmd_rows - 1.U) * first.cmd_stride_bytes)
+   // tail cannot advance until the complete command has been collected.
+   io.in.ready := !faultNow && Mux(collecting, true.B, state(tail) === free)
+   io.accepted := io.in.fire && first.cmd_first
+@@ -72,6 +64,7 @@
+     when(!collecting) {
+       assert(first.cmd_first && first.row_index === 0.U && io.eligible)
+       descriptor(tail) := first
++      total(tail) := first.cols * first.cmd_rows
+       validBytes(tail) := VecInit(Seq.fill(32)(0.U(32.W)))
+       replayed(tail) := 0.U
+       inflight(tail) := 0.U
+@@ -100,8 +93,6 @@
+     when(first.cmd_last) { tail := ~tail }
+   }
+ 
+-  val total = Wire(Vec(2, UInt(11.W)))
+-  for(g <- 0 until 2) { total(g) := descriptor(g).cols * descriptor(g).cmd_rows }
+   val wants = VecInit((0 until 2).map(g => (state(g) === fetch || state(g) === emit || state(g) === retire) &&
+     !descriptor(g).all_zeros && issued(g) < total(g)))
+   val preferred = RegInit(0.U(1.W))
+@@ -147,16 +138,24 @@
+   io.fragment.ready := true.B // capacity was reserved at command acceptance
+   val returnOwnerValid = state(f.group_id) =/= free && state(f.group_id) =/= collect
+   val returnWord = f.offset(9, 5)
+-  val returnMask = (((1.U(33.W) << f.bytes) - 1.U)(31, 0).pad(64) << f.offset(4, 0))(63, 0)
++  // A thermometer mask is exactly the low 32 bits of (1 << n) - 1,
++  // including n=0 and malformed n>32, without a wide subtract/carry chain.
++  def byteOnes(n: UInt): UInt = VecInit((0 until 32).map(i => i.U < n)).asUInt
++  val returnMask = (byteOnes(f.bytes).pad(64) << f.offset(4, 0))(63, 0)
+   val returnHave = Cat(Mux(returnWord === 31.U, 0.U(32.W),
+     validBytes(f.group_id)(returnWord + 1.U)), validBytes(f.group_id)(returnWord))
+   val duplicate = (returnHave & returnMask).orR
+   val badFragment = io.fragment.valid && (f.error || !returnOwnerValid ||
+     f.bytes > 32.U || f.offset +& f.bytes > total(f.group_id) || duplicate ||
+     (f.transaction_last && inflight(f.group_id) === 0.U))
+-  faultNow := fault || io.readerFault || badFragment
+-  when(faultNow) { fault := true.B }
+-  val acceptData = io.fragment.fire && !badFragment && !fault
++  // Bad fragments are never committed. Broadcast only sticky registered
++  // fault state: previously a live duplicate-mask lookup propagated through
++  // every replay/legacy arbitration and back to RAM clock enables.
++  // Already valid data may advance in the detection cycle. Terminal credits
++  // are explicitly inhibited below, so a fault cannot be reported as DONE.
++  faultNow := fault || io.readerFault
++  when(faultNow || badFragment) { fault := true.B }
++  val acceptData = io.fragment.fire && !badFragment && !faultNow
+   when(acceptData) {
+     received(f.group_id) := received(f.group_id) + f.bytes
+     assert(received(f.group_id) +& f.bytes <= total(f.group_id))
+@@ -204,7 +203,7 @@
+   // Only the low 32 mask bits are observable. Saturate before shifting so
+   // the 16-bit descriptor cannot infer a 65,568-bit intermediate barrel.
+   val maskCols = Mux(current.cols > 32.U, 32.U(6.W), current.cols(5, 0))
+-  val need = (((1.U(33.W) << maskCols) - 1.U)(31, 0).pad(64) << bytePointer(4, 0))(63, 0)
++  val need = (byteOnes(maskCols).pad(64) << bytePointer(4, 0))(63, 0)
+   val have = Cat(Mux(readWord === 31.U, 0.U(32.W), validBytes(head)(readWord + 1.U)),
+     validBytes(head)(readWord))
+   val rowReady = current.all_zeros || (have & need) === need
+@@ -221,7 +220,7 @@
+     bank.read(Cat(head, word(4, 0)), enabled)
+   }.reverse)
+   val rotated = (Cat(readData, readData) >> (savedOffset << 3))(255, 0)
+-  val logicalMask = ((1.U(33.W) << maskCols) - 1.U)(31, 0)
++  val logicalMask = byteOnes(maskCols)
+   pending := canRead
+   when(canRead) {
+     saved := 0.U.asTypeOf(saved)
+@@ -246,12 +245,16 @@
+   assert(!pending || output.io.enq.ready)
+ 
+   for(g <- 0 until 2) {
+-    io.terminalReady(g) := !faultNow && state(g) === retire &&
++    // Never retire during ANY incoming fragment. This is conservatively
++    // stronger than !badFragment, and prevents an error/DONE race without
++    // routing duplicate-mask and bounds checks into SPAD/execution ready.
++    // Nonterminal credits retain the original badFragment guard below.
++    io.terminalReady(g) := !faultNow && !io.fragment.valid && state(g) === retire &&
+       (descriptor(g).all_zeros || (issued(g) === total(g) && received(g) === total(g) && inflight(g) === 0.U)) &&
+       replayed(g) === descriptor(g).cmd_rows && !pending && !output.io.deq.valid &&
+       !(held && heldSelection === g.U)
+   }
+-  when(io.completed.valid) {
++  when(io.completed.valid && !faultNow && !badFragment) {
+     val g = io.completed.bits.group_id
+     val next = credited(g) +& io.completed.bits.bytes
+     assert(g === head && state(g) =/= free && next <= total(g))
+--- a/generators/gemmini/src/main/scala/gemmini/ReservationStation.scala
++++ b/generators/gemmini/src/main/scala/gemmini/ReservationStation.scala
+@@ -120,6 +120,28 @@
+     val allocated_at = UInt(instructions_allocated.getWidth.W)
+   }
+ 
++  // Freeze address ranges before comparing against the live dependency table.
++  // Configuration is advanced on input acceptance, in program order; an already
++  // buffered command must never be re-decoded using a later stride/config.
++  // Dependency bits themselves are NOT buffered: entries can issue/complete
++  // while this queue is stalled, so hazards must use the live table at dequeue.
++  class AllocMetadata extends Bundle {
++    val cmd = cmd_t.cloneType
++    val q = q_t.cloneType
++    val is_config = Bool()
++    val opa = UDValid(new OpT)
++    val opa_is_dst = Bool()
++    val opb = UDValid(new OpT)
++    val operand_count = UInt(2.W)
++  }
++  val alloc_metadata = Module(new BankedShallowQueue(new AllocMetadata,
++    entries = 2, bankBits = 32, registerPayload = true))
++  alloc_metadata.io.enq.valid := io.alloc.valid
++  alloc_metadata.io.enq.bits := DontCare
++  io.alloc.ready := alloc_metadata.io.enq.ready
++  val alloc = alloc_metadata.io.deq
++  alloc.ready := false.B
++
+   assert(isPow2(reservation_station_entries_ld))
+   assert(isPow2(reservation_station_entries_ex))
+   assert(isPow2(reservation_station_entries_st))
+@@ -142,7 +164,7 @@
+ 
+   val utilization = PopCount(entries.map(e => e.valid)) // TODO it may be cheaper to count the utilization in a register, rather than performing a PopCount
+   val solitary_preload = RegInit(false.B) // This checks whether or not the reservation station received a "preload" instruction, but hasn't yet received the following "compute" instruction
+-  io.busy := !empty && !(utilization === 1.U && solitary_preload)
++  io.busy := alloc.valid || (!empty && !(utilization === 1.U && solitary_preload))
+   
+   // Tell the conv and matmul FSMs if any of their issued instructions completed
+   val conv_ld_issue_completed = WireInit(false.B)
+@@ -178,6 +200,8 @@
+   val pooling_is_enabled = RegInit(false.B)
+   val ld_pixel_repeats = RegInit(0.U.asTypeOf(Vec(load_states, UInt(pixel_repeats_bits.W)))) // This is the ld_pixel_repeat MINUS ONE
+ 
++  val decoded_entry = Wire(new Entry)
++  decoded_entry := DontCare
+   val new_entry = Wire(new Entry)
+   new_entry := DontCare
+ 
+@@ -188,9 +212,8 @@
+   val new_entry_oh = new_allocs_oh_ld ++ new_allocs_oh_ex ++ new_allocs_oh_st
+   new_entry_oh.foreach(_ := false.B)
+ 
+-  val alloc_fire = io.alloc.fire
+-
+-  io.alloc.ready := false.B
++  val alloc_fire = alloc.fire
++
+   when (io.alloc.valid) {
+     val spAddrBits = 32
+     val cmd = io.alloc.bits.cmd
+@@ -199,10 +222,10 @@
+     val is_silu_lut = config.has_silu_lut.B && funct === CONFIG_SILU_LUT
+     val config_cmd_type = cmd.rs1(1,0) // TODO magic numbers
+ 
+-    new_entry.issued := false.B
+-    new_entry.cmd := io.alloc.bits
+-
+-    new_entry.is_config := funct === CONFIG_CMD || is_silu_lut
++    decoded_entry.issued := false.B
++    decoded_entry.cmd := io.alloc.bits
++
++    decoded_entry.is_config := funct === CONFIG_CMD || is_silu_lut
+ 
+     val op1 = Wire(UDValid(new OpT))
+     op1.valid := false.B
+@@ -215,13 +238,13 @@
+     dst.bits := DontCare
+     assert(!(op1.valid && op2.valid && dst.valid))
+ 
+-    new_entry.opa_is_dst := dst.valid
++    decoded_entry.opa_is_dst := dst.valid
+     when (dst.valid) {
+-      new_entry.opa := dst
+-      new_entry.opb := Mux(op1.valid, op1, op2)
++      decoded_entry.opa := dst
++      decoded_entry.opb := Mux(op1.valid, op1, op2)
+     } .otherwise {
+-      new_entry.opa := Mux(op1.valid, op1, op2)
+-      new_entry.opb := op2
++      decoded_entry.opa := Mux(op1.valid, op1, op2)
++      decoded_entry.opb := op2
+     }
+ 
+     op1.valid := funct === PRELOAD_CMD || funct_is_compute
+@@ -289,8 +312,8 @@
+       assert(!pooling_is_enabled, "cannot pool while moving between internal memories")
+       assert(!dst.bits.start.is_acc_addr, "cannot move to accumulator memory")
+     }.otherwise {
+-      val id = MuxCase(0.U, Seq((new_entry.cmd.cmd.inst.funct === LOAD2_CMD) -> 1.U,
+-        (new_entry.cmd.cmd.inst.funct === LOAD3_CMD) -> 2.U))
++      val id = MuxCase(0.U, Seq((decoded_entry.cmd.cmd.inst.funct === LOAD2_CMD) -> 1.U,
++        (decoded_entry.cmd.cmd.inst.funct === LOAD3_CMD) -> 2.U))
+       val block_stride = ld_block_strides(id)
+       val pixel_repeats = ld_pixel_repeats(id)
+ 
+@@ -322,7 +345,7 @@
+       (funct === CONFIG_CMD && (config_cmd_type === CONFIG_STORE || config_cmd_type === CONFIG_NORM))
+     val is_norm = funct === CONFIG_CMD && config_cmd_type === CONFIG_NORM // normalization commands are a subset of store commands, so they still go in the store queue
+ 
+-    new_entry.q := Mux1H(Seq(
++    decoded_entry.q := Mux1H(Seq(
+       is_load -> ldqu,
+       is_store -> stqu,
+       is_ex -> exqu
+@@ -330,6 +353,40 @@
+ 
+     assert(is_load || is_store || is_ex)
+ 
++    alloc_metadata.io.enq.bits.cmd := decoded_entry.cmd
++    alloc_metadata.io.enq.bits.q := decoded_entry.q
++    alloc_metadata.io.enq.bits.is_config := decoded_entry.is_config
++    alloc_metadata.io.enq.bits.opa := decoded_entry.opa
++    alloc_metadata.io.enq.bits.opa_is_dst := decoded_entry.opa_is_dst
++    alloc_metadata.io.enq.bits.opb := decoded_entry.opb
++    alloc_metadata.io.enq.bits.operand_count := PopCount(Seq(dst.valid, op1.valid, op2.valid))
++
++    when (io.alloc.fire) {
++      when (decoded_entry.is_config && decoded_entry.q === exqu) {
++        a_stride := cmd.rs1(31, 16)
++        c_stride := cmd.rs2(63, 48)
++        when (!cmd.rs1(7)) { a_transpose := cmd.rs1(8) }
++      }.elsewhen(decoded_entry.is_config && decoded_entry.q === ldqu &&
++        !(config.mvin_direct_a32.B && cmd.rs1(1, 0) === CONFIG_LOAD && cmd.rs1(7))) {
++        val id = cmd.rs1(4,3)
++        ld_block_strides(id) := cmd.rs1(31, 16)
++        ld_pixel_repeats(id) := maxOf(cmd.rs1(8 + pixel_repeats_bits - 1, 8), 1.U) - 1.U
++      }.elsewhen(funct === CONFIG_CMD && decoded_entry.is_config && decoded_entry.q === stqu && !is_norm) {
++        pooling_is_enabled := cmd.rs1(6, 5) =/= 0.U
++      }
++    }
++  }
++
++  when (alloc.valid) {
++    new_entry.cmd := alloc.bits.cmd
++    new_entry.q := alloc.bits.q
++    new_entry.is_config := alloc.bits.is_config
++    new_entry.opa := alloc.bits.opa
++    new_entry.opa_is_dst := alloc.bits.opa_is_dst
++    new_entry.opb := alloc.bits.opb
++    new_entry.issued := false.B
++    val is_load = new_entry.q === ldqu
++    val is_ex = new_entry.q === exqu
+     val not_config = !new_entry.is_config
+     when (is_load) {
+       // war/waw (after ex) | war/waw (after st)
+@@ -395,8 +452,8 @@
+       (stqu, entries_st, new_allocs_oh_st, reservation_station_entries_st))
+       .foreach { case (q, entries_type, new_allocs_type, entries_count) =>
+         when (new_entry.q === q) {
+-          val is_full = PopCount(Seq(dst.valid, op1.valid, op2.valid)) > 1.U
+-          val is_full2 = PopCount(Seq(dst.valid, op1.valid, op2.valid)) === 2.U
++          val is_full = alloc.bits.operand_count > 1.U
++          val is_full2 = alloc.bits.operand_count === 2.U
+           when (q === ldqu) { assert(!is_full) }
+           when (q === stqu && new_entry.cmd.cmd.inst.funct =/= STORE_SPAD_CMD) { assert(!is_full) }
+           when (q === stqu && new_entry.cmd.cmd.inst.funct === STORE_SPAD_CMD) { assert(is_full2) }
+@@ -405,7 +462,7 @@
+           val alloc_id = MuxCase((entries_count - 1).U, entries_type.zipWithIndex.map { case (e, i) => !e.valid -> i.U })
+ 
+           when (!entries_type(alloc_id).valid) {
+-            io.alloc.ready := true.B
++            alloc.ready := true.B
+             entries_type(alloc_id).valid := true.B
+             entries_type(alloc_id).bits := new_entry
+             new_allocs_type(alloc_id) := true.B
+@@ -413,28 +470,11 @@
+         }
+       }
+ 
+-    when (io.alloc.fire) {
+-      when (new_entry.is_config && new_entry.q === exqu) {
+-        a_stride := new_entry.cmd.cmd.rs1(31, 16) // TODO magic numbers // TODO this needs to be kept in sync with ExecuteController.scala
+-        c_stride := new_entry.cmd.cmd.rs2(63, 48) // TODO magic numbers // TODO this needs to be kept in sync with ExecuteController.scala
+-        val set_only_strides = new_entry.cmd.cmd.rs1(7) // TODO magic numbers
+-        when (!set_only_strides) {
+-          a_transpose := new_entry.cmd.cmd.rs1(8) // TODO magic numbers
+-        }
+-      }.elsewhen(new_entry.is_config && new_entry.q === ldqu &&
+-        !(config.mvin_direct_a32.B && new_entry.cmd.cmd.rs1(1, 0) === CONFIG_LOAD &&
+-          new_entry.cmd.cmd.rs1(7))) {
+-        val id = new_entry.cmd.cmd.rs1(4,3) // TODO magic numbers
+-        val block_stride = new_entry.cmd.cmd.rs1(31, 16) // TODO magic numbers
+-        val repeat_pixels = maxOf(new_entry.cmd.cmd.rs1(8 + pixel_repeats_bits - 1, 8), 1.U) // TODO we use a default value of pixel repeats here, for backwards compatibility. However, we should deprecate and remove this default value eventually
+-        ld_block_strides(id) := block_stride
+-        ld_pixel_repeats(id) := repeat_pixels - 1.U
+-      }.elsewhen(funct === CONFIG_CMD && new_entry.is_config && new_entry.q === stqu && !is_norm) {
+-        val pool_stride = new_entry.cmd.cmd.rs1(6, 5) // TODO magic numbers
+-        pooling_is_enabled := pool_stride =/= 0.U
+-      }.elsewhen(funct === PRELOAD_CMD) {
++    when (alloc.fire) {
++      val funct = new_entry.cmd.cmd.inst.funct
++      when (funct === PRELOAD_CMD) {
+         solitary_preload := true.B
+-      }.elsewhen(funct_is_compute) {
++      }.elsewhen(funct === COMPUTE_AND_STAY_CMD || funct === COMPUTE_AND_FLIP_CMD) {
+         solitary_preload := false.B
+       }
+     }
+--- a/generators/gemmini/src/main/scala/gemmini/Scratchpad.scala
++++ b/generators/gemmini/src/main/scala/gemmini/Scratchpad.scala
+@@ -398,8 +398,19 @@
+       io.dma.write.resp.valid := true.B
+     }
+ 
++    val dmaRead = Wire(Decoupled(chiselTypeOf(io.dma.read.req.bits)))
++    val ingress = if (dma_load_runtime_enable) Some(Module(new DmaLoadIngress(config))) else None
++    ingress match {
++      case Some(stage) =>
++        stage.io.in <> io.dma.read.req
++        stage.io.fault := io.dma_load_fault
++        dmaRead.valid := stage.io.out.valid
++        dmaRead.bits := stage.io.out.bits.request
++        stage.io.out.ready := dmaRead.ready
++      case None => dmaRead <> io.dma.read.req
++    }
+     val legacyRead = Wire(Decoupled(chiselTypeOf(io.dma.read.req.bits)))
+-    legacyRead <> io.dma.read.req
++    legacyRead <> dmaRead
+     val group = if (dma_load_runtime_enable) Some(Module(new DmaLoadGroup(config))) else None
+     val legacyBytes = RegInit(0.U(24.W))
+     val optimizedPath = RegInit(false.B)
+@@ -410,18 +421,18 @@
+     group.foreach { g =>
+       g.io.readerFault := reader.module.io.fault
+       g.io.mode := io.dma_load_mode
+-      g.io.in.bits := io.dma.read.req.bits
+-      val chooseGroup = Mux(insideCommand, optimizedPath, g.io.eligible)
++      g.io.in.bits := dmaRead.bits
++      val chooseGroup = Mux(insideCommand, optimizedPath, ingress.get.io.out.bits.eligible)
+       val switchPath = !insideCommand && chooseGroup =/= optimizedPath
+       val switchReady = !switchPath || (!groupBusy && legacyBytes === 0.U && !bankWritesPending)
+-      pathSwitchWait := io.dma.read.req.valid && !switchReady
+-      legacyRead.valid := io.dma.read.req.valid && !chooseGroup && switchReady && !io.dma_load_fault
+-      g.io.in.valid := io.dma.read.req.valid && chooseGroup && switchReady && !io.dma_load_fault
+-      io.dma.read.req.ready := switchReady && !io.dma_load_fault &&
++      pathSwitchWait := dmaRead.valid && !switchReady
++      legacyRead.valid := dmaRead.valid && !chooseGroup && switchReady && !io.dma_load_fault
++      g.io.in.valid := dmaRead.valid && chooseGroup && switchReady && !io.dma_load_fault
++      dmaRead.ready := switchReady && !io.dma_load_fault &&
+         Mux(chooseGroup, g.io.in.ready, legacyRead.ready)
+-      when(io.dma.read.req.fire) {
++      when(dmaRead.fire) {
+         optimizedPath := chooseGroup
+-        insideCommand := !io.dma.read.req.bits.cmd_last
++        insideCommand := !dmaRead.bits.cmd_last
+       }
+       g.io.fragment <> reader.module.io.group_resp
+     }
+@@ -492,14 +503,21 @@
+       g.io.request.ready := reader.module.io.req.ready
+     }
+ 
+-    val logicalRead = Wire(Decoupled(chiselTypeOf(reader.module.io.resp.bits)))
+-    logicalRead <> reader.module.io.resp
++    val logicalSource = Wire(Decoupled(chiselTypeOf(reader.module.io.resp.bits)))
++    logicalSource <> reader.module.io.resp
+     group.foreach { g =>
+-      logicalRead.valid := reader.module.io.resp.valid || g.io.replay.valid
+-      logicalRead.bits := Mux(g.io.replay.valid, g.io.replay.bits, reader.module.io.resp.bits)
+-      reader.module.io.resp.ready := logicalRead.ready && !g.io.replay.valid
+-      g.io.replay.ready := logicalRead.ready
+-    }
++      logicalSource.valid := reader.module.io.resp.valid || g.io.replay.valid
++      logicalSource.bits := Mux(g.io.replay.valid, g.io.replay.bits, reader.module.io.resp.bits)
++      reader.module.io.resp.ready := logicalSource.ready && !g.io.replay.valid
++      g.io.replay.ready := logicalSource.ready
++    }
++    // Isolate selected row metadata from scale/repeat/assembler ready logic.
++    val replayBuffer = if (dma_load_runtime_enable)
++      Some(Module(new DmaLoadReplayBuffer[Nothing](chiselTypeOf(reader.module.io.resp.bits)))) else None
++    val logicalRead = replayBuffer.map { buffer =>
++      buffer.io.enq <> logicalSource
++      buffer.io.deq
++    }.getOrElse(logicalSource)
+ 
+     val (mvin_scale_in, mvin_scale_out) = VectorScalarMultiplier(
+       config.mvin_scale_args,
+@@ -687,6 +705,8 @@
+ 
+     io.busy := writer.module.io.busy || spad_writer.map(_.module.io.busy).getOrElse(false.B) || reader.module.io.busy ||
+       write_issue_q.io.deq.valid || write_norm_q.io.deq.valid || write_scale_q.io.deq.valid || write_dispatch_q.valid ||
++      ingress.map(_.io.busy).getOrElse(false.B) ||
++      replayBuffer.map(_.io.busy).getOrElse(false.B) ||
+       (dma_load_runtime_enable.B && (groupBusy || legacyBytes =/= 0.U || bankWritesPending || io.dma_load_fault))
+ 
+     val spad_mems = {
+@@ -1100,8 +1120,8 @@
+     io.counter.collect(writer.module.io.counter)
+     group.foreach { g =>
+       io.counter.collect(g.io.counter)
+-      val req = io.dma.read.req.bits
+-      val first = io.dma.read.req.fire && req.cmd_first
++      val req = dmaRead.bits
++      val first = dmaRead.fire && req.cmd_first
+       val bypass = first && !g.io.accepted
+       val reason = MuxCase(CounterExternal.LOAD_BYPASS_OTHER.U, Seq(
+         (io.dma_load_mode === 0.U) -> CounterExternal.LOAD_BYPASS_DISABLED.U,
+@@ -1117,15 +1137,15 @@
+           CounterExternal.LOAD_BYPASS_ADDRESS, CounterExternal.LOAD_BYPASS_OTHER, CounterExternal.LOAD_BYPASS_DISABLED)) {
+         DmaLoadCount(io.counter, id, (bypass && reason === id.U).asUInt)
+       }
+-      DmaLoadCount(io.counter, CounterExternal.LOAD_LOGICAL_ROWS, (io.dma.read.req.fire && !req.all_zeros).asUInt)
+-      DmaLoadCount(io.counter, CounterExternal.LOAD_ZERO_ROWS, (io.dma.read.req.fire && req.all_zeros).asUInt)
+-      DmaLoadCount(io.counter, CounterExternal.LOAD_LOGICAL_BYTES, Mux(io.dma.read.req.fire,
++      DmaLoadCount(io.counter, CounterExternal.LOAD_LOGICAL_ROWS, (dmaRead.fire && !req.all_zeros).asUInt)
++      DmaLoadCount(io.counter, CounterExternal.LOAD_ZERO_ROWS, (dmaRead.fire && req.all_zeros).asUInt)
++      DmaLoadCount(io.counter, CounterExternal.LOAD_LOGICAL_BYTES, Mux(dmaRead.fire,
+         req.cols * Mux(req.has_acc_bitwidth, 4.U, 1.U), 0.U))
+       DmaLoadCount(io.counter, CounterExternal.LOAD_OPTIMIZED_GROUPS, g.io.accepted.asUInt)
+       val floor = Mux(req.laddr.full_sp_addr() < (local_addr_t.spRows/2).U, 0.U, (local_addr_t.spRows/2).U)
+       val available = req.laddr.full_sp_addr() - floor +& 1.U
+       val updates = Mux(req.pixel_repeats < available, req.pixel_repeats, available)
+-      DmaLoadCount(io.counter, CounterExternal.LOAD_REFERENCE_UPDATES, Mux(io.dma.read.req.fire,
++      DmaLoadCount(io.counter, CounterExternal.LOAD_REFERENCE_UPDATES, Mux(dmaRead.fire,
+         Mux(req.laddr.is_acc_addr, 1.U, updates) * ((req.cols +& 31.U) >> 5) * (req.repeats +& 1.U), 0.U))
+       DmaLoadCount(io.counter, CounterExternal.LOAD_ASSEMBLED_TOKENS,
+         (mvin_scale_write_out.fire && mvin_scale_write_out.bits.tag.assembled).asUInt)
+--- a/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceC.scala
++++ b/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceC.scala
+@@ -66,16 +66,26 @@
+   val busy = RegInit(false.B)
+   val beat = RegInit(0.U(params.outerBeatBits.W))
+   val last = if (params.cache.blockBytes == params.outer.manager.beatBytes) true.B else (beat === ~(0.U(params.outerBeatBits.W)))
+-  val req  = Mux(!busy, io.req.bits, RegEnable(io.req.bits, !busy && io.req.valid))
+-  val want_data = busy || (io.req.valid && room && io.req.bits.dirty)
++  val heldReq = RegEnable(io.req.bits, !busy && io.req.valid)
++  val req = Mux(!busy, io.req.bits, heldReq)
++  val start_dirty = !busy && io.req.valid && room && io.req.bits.dirty
++  val want_data = busy
+ 
+   io.req.ready := !busy && room
+ 
+-  io.evict_req.set := req.set
+-  io.evict_req.way := req.way
++  // Hazard lookup must have a structural register boundary, even though its
++  // result is ignored in the acceptance/noop cycle. Using the req bypass here
++  // would retain a timed combinational path from the current MSHR request.
++  io.evict_req.set := heldReq.set
++  io.evict_req.way := heldReq.way
+ 
+-  io.bs_adr.valid := (beat.orR || io.evict_safe) && want_data
+-  io.bs_adr.bits.noop := false.B
++  // Register a new dirty request before the evict-safe lookup. During that
++  // acceptance cycle reserve the same BankedStore subbanks with a noop: a
++  // concurrent refill must not overwrite the victim before its first read.
++  // No RAM read or C response is generated for this reservation. Starting
++  // next cycle the original hazard/beat protocol is used unchanged.
++  io.bs_adr.valid := start_dirty || ((beat.orR || io.evict_safe) && want_data)
++  io.bs_adr.bits.noop := start_dirty
+   io.bs_adr.bits.way  := req.way
+   io.bs_adr.bits.set  := req.set
+   io.bs_adr.bits.beat := beat
+@@ -84,8 +94,8 @@
+   params.ccover(io.req.valid && io.req.bits.dirty && room && !io.evict_safe, "SOURCEC_HAZARD", "Prevented Eviction data hazard with backpressure")
+   params.ccover(io.bs_adr.valid && !io.bs_adr.ready, "SOURCEC_SRAM_STALL", "Data SRAM busy")
+ 
+-  when (io.req.valid && room && io.req.bits.dirty) { busy := true.B }
+-  when (io.bs_adr.fire) {
++  when (start_dirty) { busy := true.B }
++  when (io.bs_adr.fire && !start_dirty) {
+     beat := beat + 1.U
+     when (last) {
+       busy := false.B
+@@ -93,7 +103,7 @@
+     }
+   }
+ 
+-  val s2_latch = Mux(want_data, io.bs_adr.fire, io.req.fire)
++  val s2_latch = Mux(want_data, io.bs_adr.fire, io.req.fire && !io.req.bits.dirty)
+   val s2_valid = RegNext(s2_latch)
+   val s2_req = RegEnable(req, s2_latch)
+   val s2_beat = RegEnable(beat, s2_latch)
+--- a/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala
++++ b/generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala
+@@ -84,16 +84,22 @@
+   val busy = RegInit(false.B)
+   val s1_block_r = RegInit(false.B)
+   val s1_counter = RegInit(0.U(params.innerBeatBits.W))
+-  val s1_req_reg = RegEnable(io.req.bits, !busy && io.req.valid)
+-  val s1_req = Mux(!busy, io.req.bits, s1_req_reg)
++  // Keep scheduler selection out of BankedStore's SRAM address/mask path.
++  // A registered head plus a skid entry accepts one request per cycle while
++  // the pipeline is draining. Input ready depends only on skid occupancy,
++  // never on SRAM arbitration or downstream D-channel backpressure.
++  val s1_req_reg = Reg(new SourceDRequest(params))
++  val pending_req = Reg(new SourceDRequest(params))
++  val pending_valid = RegInit(false.B)
++  val s1_req = s1_req_reg
+   val s1_x_bypass = Wire(UInt((beatBytes/writeBytes).W)) // might go from high=>low during stall
+-  val s1_latch_bypass = RegNext(!(busy || io.req.valid) || s2_ready)
++  val s1_latch_bypass = RegNext(!busy || s2_ready)
+   val s1_bypass = Mux(s1_latch_bypass, s1_x_bypass, RegEnable(s1_x_bypass, s1_latch_bypass))
+   val s1_mask = MaskGen(s1_req.offset, s1_req.size, beatBytes, writeBytes) & ~s1_bypass
+   val s1_grant = (s1_req.opcode === AcquireBlock && s1_req.param === BtoT) || s1_req.opcode === AcquirePerm
+   val s1_need_r = s1_mask.orR && s1_req.prio(0) && s1_req.opcode =/= Hint && !s1_grant &&
+                   (s1_req.opcode =/= PutFullData || s1_req.size < log2Ceil(writeBytes).U )
+-  val s1_valid_r = (busy || io.req.valid) && s1_need_r && !s1_block_r
++  val s1_valid_r = busy && s1_need_r && !s1_block_r
+   val s1_need_pb = Mux(s1_req.prio(0), !s1_req.opcode(2), s1_req.opcode(0)) // hasData
+   val s1_single = Mux(s1_req.prio(0), s1_req.opcode === Hint || s1_grant, s1_req.opcode === Release)
+   val s1_retires = !s1_single // retire all operations with data in s3 for bypass (saves energy)
+@@ -105,7 +111,7 @@
+ 
+   params.ccover(s1_block_r, "SOURCED_1_SRAM_HOLD", "SRAM read-out successful, but stalled by stage 2")
+   params.ccover(!s1_latch_bypass, "SOURCED_1_BYPASS_HOLD", "Bypass match successful, but stalled by stage 2")
+-  params.ccover((busy || io.req.valid) && !s1_need_r, "SOURCED_1_NO_MODIFY", "Transaction servicable without SRAM")
++  params.ccover(busy && !s1_need_r, "SOURCED_1_NO_MODIFY", "Transaction servicable without SRAM")
+ 
+   io.bs_radr.valid     := s1_valid_r
+   io.bs_radr.bits.noop := false.B
+@@ -125,20 +131,38 @@
+   params.ccover(!queue.io.enq.ready, "SOURCED_1_QUEUE_FULL", "Filled SRAM skidpad queue completely")
+ 
+   when (io.bs_radr.fire) { s1_block_r := true.B }
+-  when (io.req.valid) { busy := true.B }
++  val s1_done = s1_valid && s2_ready && s1_last
++  when (io.req.fire) {
++    when (!busy || s1_done) {
++      s1_req_reg := io.req.bits
++      busy := true.B
++    } .otherwise {
++      pending_req := io.req.bits
++      pending_valid := true.B
++    }
++  }
+   when (s1_valid && s2_ready) {
+     s1_counter := s1_counter + 1.U
+     s1_block_r := false.B
+     when (s1_last) {
+       s1_counter := 0.U
+       busy := false.B
++      when (pending_valid) {
++        s1_req_reg := pending_req
++        pending_valid := false.B
++        busy := true.B
++      } .elsewhen (io.req.fire) {
++        s1_req_reg := io.req.bits
++        busy := true.B
++      }
+     }
+   }
+ 
+   params.ccover(s1_valid && !s2_ready, "SOURCED_1_STALL", "Stage 1 pipeline blocked")
+ 
+-  io.req.ready := !busy
+-  s1_valid := (busy || io.req.valid) && (!s1_valid_r || io.bs_radr.ready)
++  io.req.ready := !pending_valid
++  s1_valid := busy && (!s1_valid_r || io.bs_radr.ready)
++  assert (!pending_valid || busy, "SourceD skid entry without active head")
+ 
+   ////////////////////////////////////// STAGE 2 //////////////////////////////////////
+   // Fetch the request data
+@@ -368,11 +392,13 @@
+   // However, SourceD is special. We allow it to run ahead after the MSHR and scheduler have
+   // released control of a set+way. This is necessary to allow single cycle occupancy for
+   // hits. Thus, we need to be careful about data hazards between SourceD and the other ports
+-  // of the BankedStore. We can at least compare to registers 's1_req_reg', because the first
+-  // cycle of SourceD falls within the occupancy of the MSHR's plan.
++  // of the BankedStore. The acceptance cycle is protected by the MSHR's plan.
++  // After acceptance, both the registered head AND the skid entry reserve
++  // their set+way until they advance into the existing s2-s4 hazard checks.
+ 
+   // Must ReleaseData=> be interlocked? RaW hazard
+   io.evict_safe :=
++    (!pending_valid || io.evict_req.way =/= pending_req.way || io.evict_req.set =/= pending_req.set) &&
+     (!busy    || io.evict_req.way =/= s1_req_reg.way || io.evict_req.set =/= s1_req_reg.set) &&
+     (!s2_full || io.evict_req.way =/= s2_req.way     || io.evict_req.set =/= s2_req.set) &&
+     (!s3_full || io.evict_req.way =/= s3_req.way     || io.evict_req.set =/= s3_req.set) &&
+@@ -380,6 +406,7 @@
+ 
+   // Must =>GrantData be interlocked? WaR hazard
+   io.grant_safe :=
++    (!pending_valid || io.grant_req.way =/= pending_req.way || io.grant_req.set =/= pending_req.set) &&
+     (!busy    || io.grant_req.way =/= s1_req_reg.way || io.grant_req.set =/= s1_req_reg.set) &&
+     (!s2_full || io.grant_req.way =/= s2_req.way     || io.grant_req.set =/= s2_req.set) &&
+     (!s3_full || io.grant_req.way =/= s3_req.way     || io.grant_req.set =/= s3_req.set) &&

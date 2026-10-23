@@ -1,0 +1,10 @@
+{
+  "source": "/home/zw/0918/npu-zw-100-timing/fpga/vivado/xcvu13p-gemmini-64x64-packed-inference-ram-multi-silu-wide-uram-slr-demo",
+  "sha256_before_video_adaptation": {
+    "impl_reports_0912.tcl": "d3dc8e58fca8156e0e154ba3d8a19b4ff02193d12a37401b3168023645624ccf",
+    "impl_reports_0918.tcl": "6f1aa77ebdb49f75157689472c77020dbc3cf5859339bef3346726f89f46b350",
+    "synth_0918.tcl": "da9c9368bb80ba62a3ee038219f1a0651de71e08322ded7de6b75322928398c9",
+    "implementation_0918.tcl": "b7019781a9488be12a800eb3bd7df98ea43d710397df3f987c393703a0ee7e48"
+  },
+  "reference_final_metrics": "0.005 0.000 0.009 0.000"
+}

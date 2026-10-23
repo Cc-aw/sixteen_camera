@@ -1,0 +1,180 @@
+{
+  "schema": 1,
+  "status": "S3_TIMING_PORT_OFFLINE_PASS",
+  "validated_utc": "2026-10-23T04:41:22.888928+00:00",
+  "hardware_build_id": "853cfcbbfc1644c9",
+  "parent_hardware_build_id": "9722998518ca181f",
+  "source_recipe_sha256": "f936c3532364e95afdc3ab8546a676bfb1c496af9197c91bacd8825fdf51f614",
+  "source_manifest_sha256": "d6a5e7dfadff22be27293f0fa05db74d96c745b4aa3660f2e9c0bcb4377cb5ef",
+  "generation_context_sha256": "3f7096124b17c72b2ae0b4c2f5d06582180c7d28649b466071dad93912c74761",
+  "generated_output": "build/timing_generated_final",
+  "vivado_project": "build/timing_project_01/s3.xpr",
+  "rtl_equivalence": "859 FILES BYTE_IDENTICAL_TO_EXTERNAL_S3_EXCEPT_THREE_BUILD_ID_LITERALS",
+  "checks": {
+    "source_equivalence": {
+      "status": "PASS",
+      "evidence": "validation/source_port.json",
+      "sha256": "d86d89d9c9a5a578cbf4f9e0d775cf631987a7bf449a234f4831751d34e86894"
+    },
+    "source_rtl": {
+      "status": "PASS",
+      "evidence": "validation/source_rtl_audit.json",
+      "sha256": "8d6e91a65c800fbaf6d65ee6199182e2480909e05e1a237c83ee80bdaea0a85b"
+    },
+    "frontend": {
+      "status": "PASS",
+      "evidence": "build/s3_acceptance_frontend/evidence.json",
+      "sha256": "7077d7726136075d5d2393c8c8b78ba748b23097c0dbf2b541b7f79e1c995bb8"
+    },
+    "dma_numeric": {
+      "status": "PASS",
+      "evidence": "build/s3_acceptance/evidence.json",
+      "sha256": "d16509304c1373f3c2cef2d6c500cab2fccf4024c97476f52653fbb715e84f4f"
+    },
+    "compute": {
+      "status": "PASS",
+      "evidence": "build/s3_acceptance/compute/evidence.json",
+      "sha256": "18a031eb3014df7a6d9db9c51a8efb69266b18708cc5b5ac42717f3c8d181f59"
+    },
+    "fault": {
+      "status": "PASS",
+      "evidence": "build/s2_fault_fixed_abi/simulation/evidence.json",
+      "sha256": "a362c6a92a1b56f35a3c4e3aacfaeb983a65e9b6f21653b538affe700a14423a"
+    },
+    "l2_sourcec": {
+      "status": "PASS",
+      "evidence": "build/s2_sourcec_bankedstore/evidence.json",
+      "sha256": "4fc580846a987e5591247e71011f354eefa1bf902c112b9d47a04b5b84cfc403"
+    },
+    "l2_sourced": {
+      "status": "PASS",
+      "evidence": "build/s3_sourced_bankedstore/evidence.json",
+      "sha256": "cac1b1938bd667a3e5a9f8b160e3ed95d2bed3a22fbdea8f303bcc3285f2956f"
+    },
+    "rs_reference": {
+      "status": "PASS",
+      "evidence": "build/commit_rs_verification/evidence.json",
+      "sha256": "6b4d5db9b55dd6d533562944beaff2a7a80cf54e296857befc5539c36b49c3a5",
+      "fixture_manifest_sha256": "8700c592ed6616e196dbcda078a85b64fbeb076987cd2241ce5ca7028204842b",
+      "runner_sha256": "a7fd6b035c4e439ebe03379473fd7310bc14d1893364052c96314d1d535cdb28"
+    },
+    "hdmi": {
+      "status": "PASS",
+      "evidence": "build/s3_hdmi/evidence.json",
+      "sha256": "c953b72a2122eed2b739491d8b2f5c51c1d04daa825432dd22d9eb1e9fcf49c8"
+    },
+    "tensor_cdc": {
+      "status": "PASS",
+      "evidence": "build/timing_s1_tensor_xpm/evidence.json",
+      "sha256": "7945271970a28e5ac1c39abb88204a4976bc3bb5881622abfa3b25a961c797d5"
+    },
+    "project_closure": {
+      "status": "PASS",
+      "evidence": "build/project_closure/evidence.json",
+      "sha256": "1520e1d9c36566508e0bd88234c31cc14419a8340af8364317ed776514f8a3ce"
+    },
+    "ingress_group_streaming": {
+      "status": "PASS",
+      "log": {
+        "path": "build/offline_logs/ingress.log",
+        "sha256": "2c4b3e530280fa4e0f19513a3dddd859d0621d91ee2074d3552461d35eae0aa2"
+      },
+      "random_ingress_requests": 2400,
+      "planner_cases": 3520,
+      "assembler_cases": 2975
+    },
+    "source_overlay": {
+      "status": "PASS",
+      "tests": 13,
+      "log": {
+        "path": "build/offline_logs/overlay_tests.log",
+        "sha256": "e64095801002c9b2e19670909913c74d3097d3cbecef5f6e4cfea8efcfc50beb"
+      }
+    },
+    "project_strategy": {
+      "status": "PASS",
+      "evidence": "validation/project_strategy.txt",
+      "sha256": "e28962bd44fab42aaead4633b99e3cfde698b803183aeb90da9e663dfa04d13e",
+      "audit_script_sha256": "756d3ae8589883604321cb536ab8d8136fd1a1a2db1976d761fa08d2f848b11d"
+    }
+  },
+  "logs": {
+    "generation": {
+      "path": "build/offline_logs/generation.log",
+      "sha256": "14856c0b7e7f009b40f1d0a3ea23267d728f5fac57f1371af4aa3256aca7bd17"
+    },
+    "source_audit": {
+      "path": "build/offline_logs/source_audit.log",
+      "sha256": "b8c72f318600b9be5b7eb6539799a273b3ebaf2ec9b6d5cec78c70c7f071e5ce"
+    },
+    "rtl_equivalence": {
+      "path": "build/offline_logs/rtl_equivalence.log",
+      "sha256": "2491566d7a4d717c7fd244630453131551a70f7544addbcdb43531a85ad9831c"
+    },
+    "frontend": {
+      "path": "build/offline_logs/frontend.log",
+      "sha256": "b6b8522fb122990a9416c42012d11724c1b5ccceec1bd8e8afd65e44617bac53"
+    },
+    "numeric": {
+      "path": "build/offline_logs/numeric.log",
+      "sha256": "f5f28da234ba7fa25aa6454e38a9a7beb22af7fc2c98e2f1d1d4c83ab7fc5399"
+    },
+    "fault": {
+      "path": "build/offline_logs/fault.log",
+      "sha256": "37256637baebbdcecd2b4fa82aec7ed364295d309f7ecff96405dee20d4303b4"
+    },
+    "ingress": {
+      "path": "build/offline_logs/ingress.log",
+      "sha256": "2c4b3e530280fa4e0f19513a3dddd859d0621d91ee2074d3552461d35eae0aa2"
+    },
+    "sourcec": {
+      "path": "build/offline_logs/sourcec.log",
+      "sha256": "48a6af9557cf71d4b0e000f726c01a0a21e77ad120aebd019f3876ac7241a0ca"
+    },
+    "sourced": {
+      "path": "build/offline_logs/sourced.log",
+      "sha256": "18b34dcd5212074a4b974fc7aef1be1e749191eb521bd89f9994dd85d0260295"
+    },
+    "rs": {
+      "path": "build/offline_logs/rs.log",
+      "sha256": "a734e96b4079a1ca06fca7e47ec9a335dc74d1d6def4bd72e5f94e53505fcfb6"
+    },
+    "hdmi": {
+      "path": "build/offline_logs/hdmi.log",
+      "sha256": "97f75bd5e6fcd55e86f54ebf3b95c047fef1d7615deb4d900ecfae3ca4533abf"
+    },
+    "tensor": {
+      "path": "build/offline_logs/tensor.log",
+      "sha256": "bd53700ced6b7ff945c70b47f896b970c69eb08a6ee2c5ff43666c70e757ad4a"
+    },
+    "overlay_tests": {
+      "path": "build/offline_logs/overlay_tests.log",
+      "sha256": "e64095801002c9b2e19670909913c74d3097d3cbecef5f6e4cfea8efcfc50beb"
+    },
+    "project_closure": {
+      "path": "build/offline_logs/project_closure.log",
+      "sha256": "219f76609034e1900ffe9bc0ae6abb49a3722f35d603c8355968c9c1d6aa7451"
+    },
+    "project": {
+      "path": "build/offline_logs/project.log",
+      "sha256": "5235672e991c8bc8d76a1aa10f2b0eaee4bc1f0b60009bbaebd7d9b6b9b1c9f7"
+    },
+    "project_strategy": {
+      "path": "build/offline_logs/project_strategy.log",
+      "sha256": "49944e604e4a53f1daa366a56e188549bab1542c87d77b89659c65995109ae99"
+    },
+    "final_check": {
+      "path": "build/offline_logs/final_check.log",
+      "sha256": "0897adabd73e7157fd5c3f9c3f65971863eef826715b40edeea67c2cd3cf099f"
+    }
+  },
+  "synthesis": "NOT_RUN",
+  "whole_design_pnr": "NOT_RUN",
+  "bitstream": "NOT_GENERATED",
+  "timing_closed": false,
+  "wns_ns": null,
+  "board_accessed": false,
+  "board_validation": "NOT_RUN_FOR_LOCAL_REBUILD",
+  "external_reference": "validation/reference_board.json",
+  "audit_only_recipe_update": "manifests/SOURCE_LAYOUT_MIGRATION.json"
+}

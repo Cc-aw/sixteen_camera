@@ -1,0 +1,32 @@
+{
+  "status": "TEAM_PORT_SOURCE_RTL_AUDIT_PASS",
+  "hardware_build_id": "853cfcbbfc1644c9",
+  "generated_output": "/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_s1_fifo16_team_port_512kib_2bank_timing_s3_2026-10-22/build/timing_generated_final",
+  "build_parameters": {
+    "S1_MVIN_SKIP": "1",
+    "S1_DIRECT_A": "1"
+  },
+  "changed_scala": [
+    "fpga/src/main/scala/xcvu13p_gemmini_32x32_packed_inference_ram/Configs.scala",
+    "generators/gemmini/src/main/scala/gemmini/Controller.scala",
+    "generators/gemmini/src/main/scala/gemmini/DMA.scala",
+    "generators/gemmini/src/main/scala/gemmini/DmaLoadGroup.scala",
+    "generators/gemmini/src/main/scala/gemmini/DmaLoadIngress.scala",
+    "generators/gemmini/src/main/scala/gemmini/DmaLoadRowAssembler.scala",
+    "generators/gemmini/src/main/scala/gemmini/GemminiConfigs.scala",
+    "generators/gemmini/src/main/scala/gemmini/LoadController.scala",
+    "generators/gemmini/src/main/scala/gemmini/LoopConv.scala",
+    "generators/gemmini/src/main/scala/gemmini/ReservationStation.scala",
+    "generators/gemmini/src/main/scala/gemmini/S1MvinLanePlace.scala",
+    "generators/gemmini/src/main/scala/gemmini/Scratchpad.scala",
+    "generators/gemmini/src/main/scala/gemmini/VectorScalarMultiplier.scala",
+    "generators/gemmini/src/main/scala/gemmini/XactTracker.scala",
+    "generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceC.scala",
+    "generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala"
+  ],
+  "generated_files": 859,
+  "math_abi_headers": "BYTE_IDENTICAL_TO_S1",
+  "bitstream": null,
+  "board_validation": "NOT_RUN",
+  "audit_scope": "LOCAL_RECONSTRUCTED_SOURCE_AND_GENERATED_RTL"
+}

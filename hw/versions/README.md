@@ -10,6 +10,7 @@
 | [dma_load_streaming_512kib_2bank/](dma_load_streaming_512kib_2bank/README.md) | DMA/SPAD 微基准及新候选诊断 ELF | A1 按行就绪流式重放；功能仿真、综合、首层及整网四模式板测通过，已生成验证比特流；时序未收敛；见[验证记录](dma_load_streaming_512kib_2bank/validation/README.md) |
 | [dma_load_streaming_asram_512kib_2bank/](dma_load_streaming_asram_512kib_2bank/README.md) | [dma_load_streaming_asram_512kib_2bank](../../sw/board_tests/dma_load_streaming_asram_512kib_2bank/README.md) | DMA Stream A1 与三路私有 ASRAM 合并版；三路功能仿真和离线软件验证通过，未构建 bitstream；实际结果见[验证状态](dma_load_streaming_asram_512kib_2bank/validation/status.json) |
 | [dma_load_streaming_asram_s1_fifo16_batch4_512kib_2bank/](dma_load_streaming_asram_s1_fifo16_batch4_512kib_2bank/README.md) | 原 S1 ABI；独立硬件验证入口 | FIFO16 / batch4 补丁版，固定 S1 基线和三文件补丁，源码在私有 build 工作区重建 |
+| [dma_load_streaming_asram_s1_fifo16_team_port_512kib_2bank_timing_s3_2026-10-22/](dma_load_streaming_asram_s1_fifo16_team_port_512kib_2bank_timing_s3_2026-10-22/README.md) | 沿用 Team 数学 ABI，重新生成后需绑定新硬件 ID | S3 时序优化补丁版：DMA/RS 流水线、L2 缓冲、板级局部性与独立 Vivado 策略 |
 
 默认为 `hw/soc/version/dma_load_streaming_asram_s1_512kib_2bank/`，见 `hw/manifests/current.json`。
 其他功能目录仍作为独立实验保留；生成操作输出到私有工作区。

@@ -1,0 +1,6 @@
+STATUS=S3_PROJECT_STRATEGY_PASS
+PROJECT=/mnt/data/wzr/13p/ov7670/sixteen_camera/hw/versions/dma_load_streaming_asram_s1_fifo16_team_port_512kib_2bank_timing_s3_2026-10-22/build/timing_project_01/s3.xpr
+FILES=1604
+SYNTH_STATUS=Not started
+IMPL_STATUS=Not started
+RUNS_LAUNCHED_BY_AUDIT=0

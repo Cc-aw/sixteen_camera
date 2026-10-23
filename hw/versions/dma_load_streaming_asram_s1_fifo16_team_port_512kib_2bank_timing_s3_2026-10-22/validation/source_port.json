@@ -1,0 +1,26 @@
+{
+  "status": "S3_PORT_SOURCE_AUDIT_PASS",
+  "source_files": 9712,
+  "changed_scala": [
+    "generators/gemmini/src/main/scala/gemmini/Controller.scala",
+    "generators/gemmini/src/main/scala/gemmini/DMA.scala",
+    "generators/gemmini/src/main/scala/gemmini/DmaLoadGroup.scala",
+    "generators/gemmini/src/main/scala/gemmini/DmaLoadIngress.scala",
+    "generators/gemmini/src/main/scala/gemmini/ReservationStation.scala",
+    "generators/gemmini/src/main/scala/gemmini/Scratchpad.scala",
+    "generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceC.scala",
+    "generators/rocket-chip-inclusive-cache/design/craft/inclusivecache/src/SourceD.scala"
+  ],
+  "board_files": 200,
+  "source_tree_sha256": "7ba9a7003062e7ff5a74477b6e1f458046b1671cb5407fb8ab5372238afec74b",
+  "generated": {
+    "hardware_build_id": "853cfcbbfc1644c9",
+    "files": 859,
+    "id_normalized_files": [
+      "CommandFrontendCluster.sv"
+    ],
+    "status": "BYTE_IDENTICAL_EXCEPT_BUILD_ID"
+  },
+  "board_validation": "NOT_RUN_FOR_LOCAL_REBUILD",
+  "board_accessed": false
+}
